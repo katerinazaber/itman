@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<title>Маркетинг · PR и контент</title>
+<link rel="stylesheet" href="_shared.css"/>
+<style>
+  body { width: 1440px; }
+  .seg {
+    display: inline-flex;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .seg button {
+    border: 0; background: transparent;
+    padding: 7px 14px; font: inherit; font-weight: 600;
+    color: var(--muted); cursor: pointer;
+  }
+  .seg button.on { background: var(--accent); color: #fff; }
+  table.metrics th, table.metrics td { font-size: 12px; }
+  table.metrics td.num, table.metrics th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  table.metrics tr.current { background: #eef5ff; }
+  table.metrics tr.current td { font-weight: 600; }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .field label {
+    display: block;
+    color: var(--muted);
+    font-size: 11px;
+    margin-bottom: 3px;
+  }
+  .field input, .field select {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 7px 9px;
+    font: inherit;
+    background: #fff;
+  }
+  .links a { color: var(--accent); text-decoration: none; margin-right: 6px; font-size: 11px; }
+  .report-box {
+    background: #f7f9fc;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .report-box h4 { margin: 0 0 8px; font-size: 13px; }
+  .report-box ul { margin: 0; padding-left: 18px; }
+  .delta-up { color: var(--ok); font-weight: 600; }
+  .delta-down { color: var(--bad); font-weight: 600; }
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="logo">ИТМен</div>
+  <div class="nav-item">Дашборд пайплайна</div>
+  <div class="nav-item">Сделки</div>
+  <div class="nav-item">Канбан</div>
+  <div class="nav-item">Календарь</div>
+  <div class="nav-item">Отчёты</div>
+  <div class="nav-item active">Маркетинг</div>
+  <div class="nav-item">Модель скоринга</div>
+  <div class="nav-item">Профиль</div>
+</aside>
+<div class="main">
+  <div class="top">
+    <div class="h1">Маркетинг</div>
+    <div class="tabs">
+      <a class="tab" href="leads-by-source.html">Лиды по источникам</a>
+      <a class="tab" href="cohort.html">Когортный анализ</a>
+      <a class="tab" href="site.html">Сайт</a>
+      <a class="tab" href="product-and-ta.html">Продукт и ЦА</a>
+      <a class="tab active" href="pr-content.html">PR и контент</a>
+      <a class="tab" href="merch.html">Мерч</a>
+      <a class="tab" href="contractors-payments.html">Подрядчики и оплаты</a>
+    </div>
+  </div>
+  <div class="content">
+    <div class="toolbar">
+      <div>
+        <div style="font-weight:700">PR и контент · продукт ИТМен</div>
+        <div class="muted" style="font-size:12px;margin-top:4px">Квартальные медиа-метрики + реестр материалов (как в Sheet)</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div class="seg">
+          <button class="on" type="button">Q3 2026</button>
+          <button type="button">Q2 2026</button>
+          <button type="button">Год</button>
+        </div>
+        <button class="btn">+ Материал</button>
+      </div>
+    </div>
+
+    <div class="note">Медиа-цифры вносятся <b>раз в квартал</b> (из сводки СКАН / агентства). Реестр контента ведётся постоянно — из него короткий отчёт «опубликовано» и связка с лидами канала PR.</div>
+
+    <!-- ===== QUARTERLY PR METRICS ===== -->
+    <div class="card" style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:12px;flex-wrap:wrap">
+        <h3 style="margin:0">Медиа-метрики ИТМен · поквартально</h3>
+        <button class="btn ghost" type="button">Внести / править квартал</button>
+      </div>
+      <table class="metrics">
+        <thead>
+          <tr>
+            <th>Квартал</th>
+            <th class="num">Кол-во сообщений</th>
+            <th class="num">Медиа Индекс</th>
+            <th class="num">Позитив</th>
+            <th class="num">Глав. роль</th>
+            <th class="num">Перепечатки</th>
+            <th class="num">Охваты</th>
+            <th class="num">Δ охватов</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Q4 2025</td>
+            <td class="num">310</td>
+            <td class="num">980,2</td>
+            <td class="num">88</td>
+            <td class="num">160</td>
+            <td class="num">240</td>
+            <td class="num">11 200 000</td>
+            <td class="num muted">—</td>
+          </tr>
+          <tr>
+            <td>Q1 2026</td>
+            <td class="num">402</td>
+            <td class="num">1 210,5</td>
+            <td class="num">112</td>
+            <td class="num">198</td>
+            <td class="num">310</td>
+            <td class="num">14 450 000</td>
+            <td class="num"><span class="delta-up">↑ +29%</span></td>
+          </tr>
+          <tr class="current">
+            <td>Q2 2026</td>
+            <td class="num">483</td>
+            <td class="num">1 553,7</td>
+            <td class="num">139</td>
+            <td class="num">253</td>
+            <td class="num">395</td>
+            <td class="num">17 105 573</td>
+            <td class="num"><span class="delta-up">↑ +18%</span></td>
+          </tr>
+          <tr>
+            <td>Q3 2026</td>
+            <td class="num muted">—</td>
+            <td class="num muted">—</td>
+            <td class="num muted">—</td>
+            <td class="num muted">—</td>
+            <td class="num muted">—</td>
+            <td class="num muted">—</td>
+            <td class="num muted">в работе</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="foot">Источник строки Q2: сводка «Инферит · Q2 2026», направление ИТМен. Ежемесячно не дробим — шум и разный лаг публикаций.</div>
+    </div>
+
+    <div class="grid" style="grid-template-columns: 1.55fr 1fr; gap:12px; margin-bottom:12px">
+      <!-- REGISTRY -->
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <h3 style="margin:0">Реестр контента</h3>
+          <span class="muted" style="font-size:12px">Q3 · июль · фильтр по статусу</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Кв.</th>
+              <th>Месяц</th>
+              <th>Тип</th>
+              <th>Название</th>
+              <th>Статус</th>
+              <th>Площадка</th>
+              <th>Текст</th>
+              <th>Ссылки</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Q3</td><td>июль</td><td>пресс-релиз</td><td>ИТМен 7.2 для СМИ</td>
+              <td><span class="badge yellow">в работе</span></td>
+              <td>СМИ</td>
+              <td><a href="#">Docs</a></td>
+              <td class="links"><a>computerra</a></td>
+            </tr>
+            <tr>
+              <td>Q3</td><td>июль</td><td>статья</td><td>ИТМен 7.2</td>
+              <td><span class="badge yellow">в работе</span></td>
+              <td>Хабр</td>
+              <td><a href="#">Docs</a></td>
+              <td class="links"><a>rbc</a><a>cnews</a></td>
+            </tr>
+            <tr>
+              <td>Q2</td><td>июнь</td><td>статья</td><td>ITSM без хаоса</td>
+              <td><span class="badge green">опубликован</span></td>
+              <td>Хабр</td>
+              <td><a href="#">Docs</a></td>
+              <td class="links"><a>habr.com/…</a></td>
+            </tr>
+            <tr>
+              <td>Q2</td><td>май</td><td>пресс-релиз</td><td>Партнёрство Softline</td>
+              <td><span class="badge green">опубликован</span></td>
+              <td>СМИ</td>
+              <td><a href="#">Docs</a></td>
+              <td class="links"><a>cnews</a><a>tadviser</a></td>
+            </tr>
+            <tr>
+              <td>Q2</td><td>апрель</td><td>новость</td><td>ИТМен на конференции</td>
+              <td><span class="badge green">опубликован</span></td>
+              <td>СМИ</td>
+              <td><a href="#">Docs</a></td>
+              <td class="links"><a>vc.ru</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="foot">Статусы: идея → в работе → на согласовании → опубликован → архив. Несколько URL на один материал — ок (перепечатки).</div>
+      </div>
+
+      <!-- ADD + SHORT REPORT -->
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="card">
+          <h3>Добавить материал</h3>
+          <div class="form-grid">
+            <div class="field"><label>Квартал</label><select><option>Q3</option><option>Q2</option></select></div>
+            <div class="field"><label>Месяц</label><select><option>июль</option><option>июнь</option></select></div>
+            <div class="field"><label>Тип</label><select><option>статья</option><option>пресс-релиз</option><option>новость</option></select></div>
+            <div class="field"><label>Площадка</label><select><option>СМИ</option><option>Хабр</option></select></div>
+            <div class="field" style="grid-column:1/-1"><label>Название</label><input value="ИТМен 7.2"/></div>
+            <div class="field" style="grid-column:1/-1"><label>Ссылка на текст (Docs)</label><input placeholder="https://docs.google.com/…"/></div>
+            <div class="field" style="grid-column:1/-1"><label>Ссылки публикаций</label><input placeholder="url1, url2…"/></div>
+            <div class="field"><label>Продукт</label><select><option>ИТМен</option></select></div>
+            <div class="field"><label>Статус</label><select><option>в работе</option><option>опубликован</option></select></div>
+          </div>
+          <div style="margin-top:10px;text-align:right"><button class="btn">Сохранить</button></div>
+        </div>
+
+        <div class="card">
+          <h3>Короткий отчёт · Q2 2026</h3>
+          <div class="report-box">
+            <h4>Опубликованные материалы</h4>
+            <ul>
+              <li><b>3</b> материала со статусом «опубликован»</li>
+              <li>Площадки: Хабр, СМИ (CNews, TAdviser, vc.ru)</li>
+              <li>Типы: 1 статья · 1 пресс-релиз · 1 новость</li>
+            </ul>
+            <h4 style="margin-top:12px">Связка с лидами</h4>
+            <ul>
+              <li>Лиды с канала PR / контент за Q2: <b>6</b> (из CRM, UTM / источник)</li>
+              <li>Пайп от этих лидов: <b>4,8 млн ₽</b></li>
+            </ul>
+            <div class="foot" style="margin-top:8px">Отчёт собирается из реестра (статус = опубликован) + сделок с источником PR/контент.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WINS FOR CASES - light link to product-ta -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <h3 style="margin:0">Wins → кейсы <span class="muted" style="font-weight:500;font-size:12px">из раздела Продукт и ЦА</span></h3>
+        <a class="btn ghost" href="product-and-ta.html" style="text-decoration:none">Открыть полный список</a>
+      </div>
+      <table>
+        <thead><tr><th>Сделка</th><th>Клиент</th><th>Отрасль</th><th>Продукт</th><th>Статус контента</th></tr></thead>
+        <tbody>
+          <tr><td>D-187</td><td>Газпром Нефть</td><td>Нефть и газ</td><td>ИТМен</td><td><span class="badge blue">кандидат</span></td></tr>
+          <tr><td>D-1498</td><td>Лента</td><td>Ритейл</td><td>КлаудМастер</td><td><span class="badge yellow">согласование</span></td></tr>
+          <tr><td>D-041</td><td>ЦЗН Тверской обл.</td><td>Гос</td><td>ИТМен</td><td><span class="badge gray">идея</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>

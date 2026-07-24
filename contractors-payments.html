@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<title>Маркетинг · Реестр подрядчиков и оплат</title>
+<link rel="stylesheet" href="_shared.css"/>
+<style>
+  body { width: 1440px; }
+  .seg {
+    display: inline-flex;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .seg button {
+    border: 0; background: transparent;
+    padding: 7px 14px; font: inherit; font-weight: 600;
+    color: var(--muted); cursor: pointer;
+  }
+  .seg button.on { background: var(--accent); color: #fff; }
+  .field label {
+    display: block;
+    color: var(--muted);
+    font-size: 11px;
+    margin-bottom: 3px;
+  }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 7px 9px;
+    font: inherit;
+    background: #fff;
+  }
+  .budget-bar {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr 1fr;
+    gap: 0;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .budget-bar .cell {
+    padding: 14px 18px;
+    border-right: 1px solid var(--line);
+  }
+  .budget-bar .cell:last-child { border-right: 0; }
+  .budget-bar .label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .budget-bar .value {
+    font-size: 22px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .budget-bar input.budget-input {
+    font-size: 22px;
+    font-weight: 700;
+    border: 1px solid #f0d9a8;
+    background: #fffbeb;
+    border-radius: 8px;
+    padding: 4px 8px;
+    width: 100%;
+    max-width: 180px;
+    font-variant-numeric: tabular-nums;
+  }
+  .budget-bar .ok { color: var(--ok); }
+  .budget-bar .bad { color: var(--bad); }
+  .budget-bar .sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  table.pay td.num, table.pay th.num,
+  table.vendors td.num, table.vendors th.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  table.pay tr.hold { background: #fff1f0; }
+  table.pay tr.sep td {
+    background: #e8f1ff;
+    font-weight: 700;
+    color: #2a4a7a;
+    padding: 8px 10px;
+  }
+  .panel { display: none; }
+  .panel.on { display: block; }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1.4fr 0.7fr 1.2fr 0.7fr 0.5fr;
+    gap: 8px;
+    align-items: end;
+    margin-bottom: 10px;
+  }
+  .form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    align-items: end;
+  }
+  .hint { color: var(--muted); font-size: 12px; margin: 0 0 10px; }
+  .status-hold { color: var(--bad); font-size: 11px; }
+  .inn { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="logo">ИТМен</div>
+  <div class="nav-item">Дашборд пайплайна</div>
+  <div class="nav-item">Сделки</div>
+  <div class="nav-item">Канбан</div>
+  <div class="nav-item">Календарь</div>
+  <div class="nav-item">Отчёты</div>
+  <div class="nav-item active">Маркетинг</div>
+  <div class="nav-item">Модель скоринга</div>
+  <div class="nav-item">Профиль</div>
+</aside>
+<div class="main">
+  <div class="top">
+    <div class="h1">Маркетинг</div>
+    <div class="tabs">
+      <a class="tab" href="leads-by-source.html">Лиды по источникам</a>
+      <a class="tab" href="cohort.html">Когортный анализ</a>
+      <a class="tab" href="site.html">Сайт</a>
+      <a class="tab" href="product-and-ta.html">Продукт и ЦА</a>
+      <a class="tab" href="pr-content.html">PR и контент</a>
+      <a class="tab" href="merch.html">Мерч</a>
+      <a class="tab active" href="contractors-payments.html">Подрядчики и оплаты</a>
+    </div>
+  </div>
+  <div class="content">
+    <div class="toolbar">
+      <div>
+        <div style="font-weight:700">Реестр подрядчиков и оплат</div>
+        <div class="muted" style="font-size:12px;margin-top:4px">Для финансов: юрлица + счета по кварталам · бюджет минус затраты</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div class="seg" id="q-seg">
+          <button type="button" data-q="Q2" class="on">Q2 2026</button>
+          <button type="button" data-q="Q1">Q1 2026</button>
+          <button type="button" data-q="all">Год</button>
+        </div>
+        <div class="seg" id="view-seg">
+          <button type="button" data-view="payments" class="on">Оплаты</button>
+          <button type="button" data-view="vendors">Подрядчики</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="budget-bar" id="budget-bar">
+      <div class="cell">
+        <div class="label">Бюджет · <span id="budget-q-label">Q2</span></div>
+        <input class="budget-input" id="budget-input" type="number" min="0" step="1000" value="2500000"/>
+        <div class="sub">задаётся вручную на квартал</div>
+      </div>
+      <div class="cell">
+        <div class="label">Затраты</div>
+        <div class="value" id="spent-value">—</div>
+        <div class="sub" id="spent-sub">сумма счетов в реестре</div>
+      </div>
+      <div class="cell">
+        <div class="label">Остаток бюджета</div>
+        <div class="value" id="remain-value">—</div>
+        <div class="sub" id="remain-sub">бюджет − затраты</div>
+      </div>
+      <div class="cell">
+        <div class="label">Счетов в периоде</div>
+        <div class="value" id="count-value">—</div>
+        <div class="sub" id="hold-sub"></div>
+      </div>
+    </div>
+
+    <div class="panel on" id="panel-payments">
+      <div class="card" style="margin-bottom:12px">
+        <h3>Добавить счёт на оплату</h3>
+        <form id="pay-form">
+          <div class="form-row">
+            <div class="field">
+              <label>Подрядчик</label>
+              <select id="pay-vendor" required></select>
+            </div>
+            <div class="field">
+              <label>Сумма, ₽</label>
+              <input type="number" id="pay-amount" min="1" step="0.01" required placeholder="0"/>
+            </div>
+            <div class="field">
+              <label>Счёт</label>
+              <input type="text" id="pay-invoice" required placeholder="Счёт №… от …"/>
+            </div>
+            <div class="field">
+              <label>Отправлено</label>
+              <input type="date" id="pay-sent" required/>
+            </div>
+            <div class="field">
+              <label>Квартал</label>
+              <select id="pay-q">
+                <option value="Q2">Q2</option>
+                <option value="Q1">Q1</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="field">
+              <label>Комментарий · на какие работы</label>
+              <input type="text" id="pay-comment" required placeholder="SEO-работы, пополнение Директа…"/>
+            </div>
+            <button type="submit" class="btn">Добавить в реестр</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Реестр оплат</h3>
+        <p class="hint">Красным — оплата на паузе. Затраты пересчитываются автоматически.</p>
+        <table class="pay" id="pay-table">
+          <thead>
+            <tr>
+              <th>Подрядчик</th>
+              <th class="num">Сумма</th>
+              <th>Счёт</th>
+              <th>Отправлено</th>
+              <th>Квартал</th>
+              <th>Комментарии</th>
+              <th>Статус</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel" id="panel-vendors">
+      <div class="card" style="margin-bottom:12px">
+        <h3>Добавить подрядчика</h3>
+        <form id="vendor-form">
+          <div class="form-row" style="grid-template-columns:1.4fr 0.8fr 1.2fr auto">
+            <div class="field">
+              <label>Юрлицо / ИП</label>
+              <input type="text" id="v-name" required placeholder="ООО «…» / ИП …"/>
+            </div>
+            <div class="field">
+              <label>ИНН</label>
+              <input type="text" id="v-inn" placeholder="опционально"/>
+            </div>
+            <div class="field">
+              <label>Что делает</label>
+              <input type="text" id="v-what" required placeholder="SEO, мерч, дизайн…"/>
+            </div>
+            <button type="submit" class="btn">Добавить</button>
+          </div>
+        </form>
+      </div>
+      <div class="card">
+        <h3>Реестр подрядчиков</h3>
+        <p class="hint">Юрлица, с которыми уже работали — история для финансов и повторных оплат.</p>
+        <table class="vendors" id="vendor-table">
+          <thead>
+            <tr>
+              <th>Подрядчик</th>
+              <th>ИНН</th>
+              <th>Что делает</th>
+              <th class="num">Оплат</th>
+              <th class="num">Сумма за год</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const budgets = { Q1: 2200000, Q2: 2500000, all: 4700000 };
+  let currentQ = "Q2";
+  let view = "payments";
+
+  const vendors = [
+    { name: "ООО «Ливингстон бюро»", inn: "7751363995", what: "чат-бот" },
+    { name: "ООО «Вертикаль»", inn: "7724887703", what: "нанесение на худи, шопперы" },
+    { name: "ИТ сервис-менеджмент форум", inn: "7710590540", what: "ассоциация ITSMF России" },
+    { name: "ИП Шилов Ярослав Павлович", inn: "723000903881", what: "Дизайн" },
+    { name: "ООО «КАРРОТ КВЕСТ»", inn: "5906128591", what: "Кэрот квест" },
+    { name: "ИП Третьяк Петр Николаевич", inn: "166021882901", what: "Контекстная реклама" },
+    { name: "ИП Архипов Иван Сергеевич", inn: "772479781354", what: "Фотограф, монтаж стенда" },
+    { name: "ООО «Яндекс»", inn: "7736207543", what: "Яндекс Директ" },
+    { name: "ИП Лазарев Роман Ильич", inn: "770371023270", what: "Мерч" },
+    { name: "ООО «ЕДИЗ»", inn: "1831207119", what: "Дизайнеры сторонние" },
+    { name: "ООО «СЕЙЛБОТ»", inn: "5834128222", what: "Сервис для чат-ботов" },
+    { name: "ИП Андриишин Глеб Андреевич", inn: "560604012402", what: "SEO-подрядчики" },
+    { name: "ООО «КЕЙВ КИДС»", inn: "", what: "худи закупка" },
+    { name: "ИП Кузьмин Евгений Владимирович", inn: "", what: "Пакеты" },
+    { name: "ООО «АйХолдинг»", inn: "7724856550", what: "IXBT" },
+    { name: "ООО «ПИН-ГРУПП»", inn: "7729756503", what: "Посевы" },
+    { name: "ООО «Артур Хант Груп»", inn: "7734427543", what: "ивент ИТ в страховании" },
+    { name: "ООО «МДМПРИНТ»", inn: "", what: "печать визиток, листовок" },
+    { name: "ИП Богородский Андрей Дмитриевич", inn: "772831797167", what: "бармен, стаканчики" },
+    { name: "ООО «АВТОФЛОТ-СТОЛИЦА»", inn: "7719425252", what: "грузовичкофф" },
+    { name: "ООО «КОНФЕРОС»", inn: "9715410114", what: "конференции Tadviser" },
+    { name: "ООО «ИНФЕРИТ»", inn: "5050155270", what: "Инферит Техника" },
+    { name: "ООО «АЛЬБАТО»", inn: "7731399880", what: "интеграция сайта с CRM" },
+    { name: "ООО «Людвиг»", inn: "720720132", what: "Типография" },
+    { name: "ООО «ТаймПэд Лтд»", inn: "7726703662", what: "Таймпэд" }
+  ];
+
+  let payments = [
+    { vendor: "ИП Андриишин Глеб Андреевич", amount: 85000, invoice: "Счёт №65 от 26.06.2026", sent: "2026-06-29", q: "Q2", comment: "SEO-работы", status: "hold", statusNote: "оплата остановлена" },
+    { vendor: "ООО «Яндекс»", amount: 150000, invoice: "Договор-счёт №Б3847052 от 17.06.2026", sent: "2026-06-20", q: "Q2", comment: "Пополнение кабинета в Директе", status: "hold", statusNote: "оплата остановлена" },
+    { vendor: "ООО «Яндекс»", amount: 100000, invoice: "Договор-счёт №Б3832101 от 03.06.2026", sent: "2026-06-05", q: "Q2", comment: "Пополнение кабинета в Директе", status: "hold", statusNote: "оплата остановлена" },
+    { vendor: "ООО «ТаймПэд Лтд»", amount: 312905.4, invoice: "Счёт №TP-441 от 12.06.2026", sent: "2026-06-14", q: "Q2", comment: "Билеты / участие · мероприятие", status: "ok" },
+    { vendor: "ИП Шилов Ярослав Павлович", amount: 72000, invoice: "Счёт №18 от 10.06.2026", sent: "2026-06-11", q: "Q2", comment: "Дизайн и вёрстка лендинга", status: "ok" },
+    { vendor: "ООО «АЛЬБАТО»", amount: 24900, invoice: "Счёт №A-9021 от 02.06.2026", sent: "2026-06-03", q: "Q2", comment: "Подписка Albato · интеграция сайта с CRM", status: "ok" },
+    { vendor: "ООО «Людвиг»", amount: 1575, invoice: "Счёт №1120 от 28.05.2026", sent: "2026-05-29", q: "Q2", comment: "Визитки 100 шт.", status: "ok" },
+    { vendor: "ООО «МДМПРИНТ»", amount: 8400, invoice: "Счёт №77 от 22.05.2026", sent: "2026-05-23", q: "Q2", comment: "Печать бейджей для бизнес-ужина", status: "ok" },
+    { vendor: "ООО «ИНФЕРИТ»", amount: 189000, invoice: "Счёт №INF-331 от 15.05.2026", sent: "2026-05-16", q: "Q2", comment: "Док-станции 10 шт, подарок клиенту", status: "ok" },
+    { vendor: "ООО «ПИН-ГРУПП»", amount: 45000, invoice: "Счёт №PG-55 от 08.05.2026", sent: "2026-05-09", q: "Q2", comment: "Посевы", status: "ok" },
+    { vendor: "ИП Андриишин Глеб Андреевич", amount: 85000, invoice: "Счёт №58 от 24.04.2026", sent: "2026-04-25", q: "Q2", comment: "SEO-работы", status: "ok" },
+    { vendor: "ООО «Яндекс»", amount: 120000, invoice: "Договор-счёт №Б3799001 от 10.04.2026", sent: "2026-04-11", q: "Q2", comment: "Пополнение кабинета в Директе", status: "ok" },
+    { vendor: "ИТ сервис-менеджмент форум", amount: 95000, invoice: "Счёт №ITSM-12 от 05.04.2026", sent: "2026-04-07", q: "Q2", comment: "Членство / участие ITSMF", status: "ok" },
+    { vendor: "ИП Андриишин Глеб Андреевич", amount: 80000, invoice: "Счёт №41 от 20.02.2026", sent: "2026-02-21", q: "Q1", comment: "SEO-работы", status: "ok" },
+    { vendor: "ООО «Яндекс»", amount: 100000, invoice: "Договор-счёт №Б3711002 от 12.02.2026", sent: "2026-02-13", q: "Q1", comment: "Пополнение кабинета в Директе", status: "ok" },
+    { vendor: "ИП Шилов Ярослав Павлович", amount: 64000, invoice: "Счёт №09 от 28.01.2026", sent: "2026-01-29", q: "Q1", comment: "Дизайн материалов", status: "ok" },
+    { vendor: "ООО «АйХолдинг»", amount: 180000, invoice: "Счёт №IX-03 от 15.01.2026", sent: "2026-01-16", q: "Q1", comment: "IXBT · размещение", status: "ok" },
+    { vendor: "ООО «КОНФЕРОС»", amount: 210000, invoice: "Счёт №TD-77 от 10.01.2026", sent: "2026-01-12", q: "Q1", comment: "Конференция Tadviser", status: "ok" }
+  ];
+
+  const money = (n) => n.toLocaleString("ru-RU", { maximumFractionDigits: 2 }) + " ₽";
+  const moneyShort = (n) => n.toLocaleString("ru-RU", { maximumFractionDigits: 2 });
+  const fmtDate = (iso) => {
+    const [y, m, d] = iso.split("-");
+    return `${Number(d)}.${Number(m)}.${y.slice(2)}`;
+  };
+
+  function filteredPayments() {
+    if (currentQ === "all") return [...payments];
+    return payments.filter((p) => p.q === currentQ);
+  }
+
+  function renderBudget() {
+    const list = filteredPayments();
+    const spent = list.reduce((s, p) => s + p.amount, 0);
+    const budget = budgets[currentQ] ?? budgets.Q2;
+    const remain = budget - spent;
+    const holds = list.filter((p) => p.status === "hold").length;
+
+    document.getElementById("budget-q-label").textContent = currentQ === "all" ? "год" : currentQ;
+    const input = document.getElementById("budget-input");
+    if (document.activeElement !== input) input.value = budget;
+
+    document.getElementById("spent-value").textContent = money(spent);
+    document.getElementById("spent-sub").textContent =
+      currentQ === "all" ? "все счета за год" : `счета ${currentQ}`;
+
+    const remainEl = document.getElementById("remain-value");
+    remainEl.textContent = money(remain);
+    remainEl.className = "value " + (remain >= 0 ? "ok" : "bad");
+    document.getElementById("remain-sub").textContent =
+      remain >= 0 ? "бюджет − затраты" : "перерасход";
+
+    document.getElementById("count-value").textContent = list.length;
+    document.getElementById("hold-sub").textContent = holds
+      ? `на паузе: ${holds}`
+      : "без пауз";
+  }
+
+  function renderPayments() {
+    const tbody = document.querySelector("#pay-table tbody");
+    let list = filteredPayments().sort((a, b) => b.sent.localeCompare(a.sent));
+
+    if (currentQ === "all") {
+      const q2 = list.filter((p) => p.q === "Q2");
+      const q1 = list.filter((p) => p.q === "Q1");
+      const rows = [];
+      rows.push(`<tr class="sep"><td colspan="7">Q2 2026 · ${money(q2.reduce((s, p) => s + p.amount, 0))}</td></tr>`);
+      q2.forEach((p) => rows.push(payRow(p)));
+      rows.push(`<tr class="sep"><td colspan="7">Q1 2026 · ${money(q1.reduce((s, p) => s + p.amount, 0))}</td></tr>`);
+      q1.forEach((p) => rows.push(payRow(p)));
+      tbody.innerHTML = rows.join("");
+    } else {
+      tbody.innerHTML = list.map(payRow).join("");
+    }
+  }
+
+  function payRow(p) {
+    return `<tr class="${p.status === "hold" ? "hold" : ""}">
+      <td>${p.vendor}</td>
+      <td class="num">${moneyShort(p.amount)}</td>
+      <td>${p.invoice}</td>
+      <td>${fmtDate(p.sent)}</td>
+      <td>${p.q}</td>
+      <td>${p.comment}</td>
+      <td>${p.status === "hold" ? `<span class="status-hold">${p.statusNote || "на паузе"}</span>` : "—"}</td>
+    </tr>`;
+  }
+
+  function renderVendors() {
+    const yearPay = payments;
+    const tbody = document.querySelector("#vendor-table tbody");
+    tbody.innerHTML = vendors.map((v) => {
+      const own = yearPay.filter((p) => p.vendor === v.name);
+      const sum = own.reduce((s, p) => s + p.amount, 0);
+      return `<tr>
+        <td>${v.name}</td>
+        <td class="inn">${v.inn || "—"}</td>
+        <td>${v.what}</td>
+        <td class="num">${own.length || "—"}</td>
+        <td class="num">${own.length ? moneyShort(sum) : "—"}</td>
+      </tr>`;
+    }).join("");
+
+    const sel = document.getElementById("pay-vendor");
+    const prev = sel.value;
+    sel.innerHTML = vendors.map((v) => `<option value="${v.name}">${v.name}</option>`).join("");
+    if (prev && vendors.some((v) => v.name === prev)) sel.value = prev;
+  }
+
+  function renderAll() {
+    renderBudget();
+    renderPayments();
+    renderVendors();
+  }
+
+  document.getElementById("budget-input").addEventListener("change", (e) => {
+    const val = parseFloat(e.target.value) || 0;
+    budgets[currentQ] = val;
+    if (currentQ !== "all") {
+      budgets.all = (budgets.Q1 || 0) + (budgets.Q2 || 0);
+    }
+    renderBudget();
+  });
+
+  document.getElementById("q-seg").addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-q]");
+    if (!btn) return;
+    currentQ = btn.dataset.q;
+    document.querySelectorAll("#q-seg button").forEach((b) => b.classList.toggle("on", b === btn));
+    document.getElementById("pay-q").value = currentQ === "all" ? "Q2" : currentQ;
+    renderAll();
+  });
+
+  document.getElementById("view-seg").addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-view]");
+    if (!btn) return;
+    view = btn.dataset.view;
+    document.querySelectorAll("#view-seg button").forEach((b) => b.classList.toggle("on", b === btn));
+    document.getElementById("panel-payments").classList.toggle("on", view === "payments");
+    document.getElementById("panel-vendors").classList.toggle("on", view === "vendors");
+  });
+
+  document.getElementById("pay-sent").value = "2026-07-24";
+
+  document.getElementById("pay-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    payments.unshift({
+      vendor: document.getElementById("pay-vendor").value,
+      amount: parseFloat(document.getElementById("pay-amount").value),
+      invoice: document.getElementById("pay-invoice").value.trim(),
+      sent: document.getElementById("pay-sent").value,
+      q: document.getElementById("pay-q").value,
+      comment: document.getElementById("pay-comment").value.trim(),
+      status: "ok"
+    });
+    document.getElementById("pay-amount").value = "";
+    document.getElementById("pay-invoice").value = "";
+    document.getElementById("pay-comment").value = "";
+    renderAll();
+  });
+
+  document.getElementById("vendor-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    vendors.push({
+      name: document.getElementById("v-name").value.trim(),
+      inn: document.getElementById("v-inn").value.trim(),
+      what: document.getElementById("v-what").value.trim()
+    });
+    document.getElementById("v-name").value = "";
+    document.getElementById("v-inn").value = "";
+    document.getElementById("v-what").value = "";
+    renderVendors();
+  });
+
+  renderAll();
+})();
+</script>
+</body>
+</html>

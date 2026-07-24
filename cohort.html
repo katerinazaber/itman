@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<title>Маркетинг · Когортный анализ</title>
+<link rel="stylesheet" href="_shared.css"/>
+<style>
+  body { width: 1480px; }
+  .scroll-x { overflow-x: auto; }
+  table.cohort { min-width: 980px; border-collapse: separate; border-spacing: 0; font-size: 12px; width: 100%; }
+  table.cohort th, table.cohort td {
+    border-bottom: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    padding: 0;
+    vertical-align: top;
+  }
+  table.cohort th {
+    background: #f0f4fa;
+    color: var(--muted);
+    font-weight: 650;
+    text-align: center;
+    padding: 8px 6px;
+    white-space: nowrap;
+  }
+  table.cohort th.corner {
+    text-align: left;
+    position: sticky; left: 0; z-index: 2;
+    background: #e8eef8;
+    min-width: 120px;
+    padding: 8px 10px;
+  }
+  table.cohort td.cohort-name {
+    position: sticky; left: 0; z-index: 1;
+    background: #fff;
+    font-weight: 700;
+    padding: 10px;
+    min-width: 120px;
+  }
+  .cell { padding: 8px 8px 6px; min-width: 100px; text-align: right; }
+  .cell.empty { background: #fafbfc; color: #d0d5dd; text-align: center; padding-top: 20px; }
+  .cell .pipe { font-weight: 700; font-size: 12px; }
+  .cell .acc { color: var(--muted); font-size: 11px; margin-top: 2px; }
+  .cell .delta { font-size: 11px; font-weight: 700; margin-top: 4px; }
+  .delta.up { color: var(--ok); }
+  .delta.down { color: var(--bad); }
+  .delta.flat { color: var(--muted); font-weight: 500; }
+
+  .channel-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .channel-card.open { border-color: #b7c9ef; box-shadow: 0 0 0 1px rgba(47,111,237,0.15); }
+  .channel-head {
+    display: grid;
+    grid-template-columns: 200px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .channel-head:hover { background: #f7f9fc; }
+  .channel-card.open .channel-head { background: #f5f8ff; border-bottom: 1px solid var(--line); }
+  .ch-name { font-size: 16px; font-weight: 700; }
+  .ch-sub { color: var(--muted); font-size: 12px; margin-top: 2px; }
+  .ch-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(100px, 1fr));
+    gap: 10px;
+  }
+  .ch-m .l { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+  .ch-m .v { font-size: 15px; font-weight: 700; }
+  .ch-m .s { font-size: 11px; margin-top: 2px; }
+  .ch-m .s.up { color: var(--ok); font-weight: 600; }
+  .ch-m .s.down { color: var(--bad); font-weight: 600; }
+  .chev {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: #eef3ff;
+    color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    transition: transform .15s ease;
+  }
+  .channel-card.open .chev { transform: rotate(180deg); }
+  .channel-body {
+    display: none;
+    padding: 14px 16px 16px;
+    background: #fcfdff;
+  }
+  .channel-card.open .channel-body { display: block; }
+  .body-grid {
+    display: grid;
+    grid-template-columns: 1.65fr 1fr;
+    gap: 12px;
+    align-items: start;
+  }
+  .churn-list { list-style: none; margin: 0; padding: 0; }
+  .churn-list li {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 12px;
+  }
+  .churn-list li:last-child { border-bottom: 0; }
+  .reason { font-weight: 600; }
+  .reason-sub { color: var(--muted); font-size: 11px; margin-top: 2px; }
+  .month-step { display: flex; gap: 6px; align-items: stretch; margin: 8px 0 12px; }
+  .month-step .step {
+    flex: 1; background: #fff; border: 1px solid var(--line);
+    border-radius: 8px; padding: 8px 10px; font-size: 12px;
+  }
+  .month-step .step .m { color: var(--muted); font-size: 11px; margin-bottom: 4px; }
+  .month-step .arrow { display: flex; align-items: center; color: var(--muted); font-weight: 700; }
+  .mini-note { font-size: 11px; color: var(--muted); margin-top: 8px; }
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="logo">ИТМен</div>
+  <div class="nav-item">Дашборд пайплайна</div>
+  <div class="nav-item">Сделки</div>
+  <div class="nav-item">Канбан</div>
+  <div class="nav-item">Календарь</div>
+  <div class="nav-item">Отчёты</div>
+  <div class="nav-item active">Маркетинг</div>
+  <div class="nav-item">Модель скоринга</div>
+  <div class="nav-item">Профиль</div>
+</aside>
+<div class="main">
+  <div class="top">
+    <div class="h1">Маркетинг</div>
+    <div class="tabs">
+      <a class="tab" href="leads-by-source.html">Лиды по источникам</a>
+      <a class="tab active" href="cohort.html">Когортный анализ</a>
+      <a class="tab" href="site.html">Сайт</a>
+      <a class="tab" href="product-and-ta.html">Продукт и ЦА</a>
+      <a class="tab" href="pr-content.html">PR и контент</a>
+      <a class="tab" href="merch.html">Мерч</a>
+      <a class="tab" href="contractors-payments.html">Подрядчики и оплаты</a>
+    </div>
+  </div>
+  <div class="content">
+    <div class="toolbar">
+      <div>
+        <div style="font-weight:700">Когортный анализ · все каналы</div>
+        <div class="muted" style="font-size:12px;margin-top:4px">Когорта = месяц входа SQL. Кликни карточку канала — откроется матрица жизни, Δ пайпа и отвалы.</div>
+      </div>
+      <div class="period">Жизнь: сен 2025 — фев 2026</div>
+    </div>
+
+    <div class="note">Свернуто — сводка по каналу. Раскрыто — полная когорта этого канала: пайп, аккаунты, ↑/↓ %, список отвалов и причины.</div>
+
+    <!-- ===== САЙТ (open by default - example) ===== -->
+    <div class="channel-card open" data-channel="site">
+      <div class="channel-head" onclick="toggleCard(this)">
+        <div>
+          <div class="ch-name">Сайт формы (MQL) → SQL</div>
+          <div class="ch-sub">Как твоя ручная таблица · пример сен→окт→ноя</div>
+        </div>
+        <div class="ch-metrics">
+          <div class="ch-m"><div class="l">Активные акк.</div><div class="v">31</div><div class="s">в живых когортах</div></div>
+          <div class="ch-m"><div class="l">Пайп сейчас</div><div class="v">28,6 млн</div><div class="s down">↓ к янв.</div></div>
+          <div class="ch-m"><div class="l">Посл. когорта</div><div class="v">дек · 7</div><div class="s">SQL на входе</div></div>
+          <div class="ch-m"><div class="l">Отвалы</div><div class="v">12</div><div class="s down">за период</div></div>
+        </div>
+        <div class="chev">▾</div>
+      </div>
+      <div class="channel-body">
+        <div class="body-grid">
+          <div>
+            <h3 style="margin:0 0 8px">Матрица когорт · сайт</h3>
+            <div class="scroll-x">
+              <table class="cohort">
+                <thead>
+                  <tr>
+                    <th class="corner">Когорта</th>
+                    <th>сен 25</th><th>окт 25</th><th>ноя 25</th><th>дек 25</th><th>янв 26</th><th>фев 26</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="cohort-name">сен 2025<br><span class="muted" style="font-weight:500;font-size:11px">вход 10 SQL</span></td>
+                    <td><div class="cell"><div class="pipe">10,0 млн</div><div class="acc">10 акк.</div><div class="delta flat">старт</div></div></td>
+                    <td><div class="cell"><div class="pipe">20,0 млн</div><div class="acc">10 акк.</div><div class="delta up">↑ +100%</div></div></td>
+                    <td><div class="cell"><div class="pipe">5,0 млн</div><div class="acc">7 акк.</div><div class="delta down">↓ −75%</div></div></td>
+                    <td><div class="cell"><div class="pipe">4,2 млн</div><div class="acc">6 акк.</div><div class="delta down">↓ −16%</div></div></td>
+                    <td><div class="cell"><div class="pipe">4,2 млн</div><div class="acc">6 акк.</div><div class="delta flat">→ 0%</div></div></td>
+                    <td><div class="cell"><div class="pipe">3,1 млн</div><div class="acc">5 акк.</div><div class="delta down">↓ −26%</div></div></td>
+                  </tr>
+                  <tr>
+                    <td class="cohort-name">окт 2025<br><span class="muted" style="font-weight:500;font-size:11px">вход 8 SQL</span></td>
+                    <td><div class="cell empty">—</div></td>
+                    <td><div class="cell"><div class="pipe">6,4 млн</div><div class="acc">8 акк.</div><div class="delta flat">старт</div></div></td>
+                    <td><div class="cell"><div class="pipe">7,1 млн</div><div class="acc">8 акк.</div><div class="delta up">↑ +11%</div></div></td>
+                    <td><div class="cell"><div class="pipe">5,0 млн</div><div class="acc">6 акк.</div><div class="delta down">↓ −30%</div></div></td>
+                    <td><div class="cell"><div class="pipe">5,5 млн</div><div class="acc">6 акк.</div><div class="delta up">↑ +10%</div></div></td>
+                    <td><div class="cell"><div class="pipe">5,5 млн</div><div class="acc">5 акк.</div><div class="delta flat">пайп →</div></div></td>
+                  </tr>
+                  <tr>
+                    <td class="cohort-name">ноя 2025<br><span class="muted" style="font-weight:500;font-size:11px">вход 12 SQL</span></td>
+                    <td><div class="cell empty">—</div></td>
+                    <td><div class="cell empty">—</div></td>
+                    <td><div class="cell"><div class="pipe">14,2 млн</div><div class="acc">12 акк.</div><div class="delta flat">старт</div></div></td>
+                    <td><div class="cell"><div class="pipe">18,0 млн</div><div class="acc">11 акк.</div><div class="delta up">↑ +27%</div></div></td>
+                    <td><div class="cell"><div class="pipe">16,4 млн</div><div class="acc">10 акк.</div><div class="delta down">↓ −9%</div></div></td>
+                    <td><div class="cell"><div class="pipe">12,0 млн</div><div class="acc">8 акк.</div><div class="delta down">↓ −27%</div></div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="mini-note">↑ зелёный = пайп вырос к пред. месяцу жизни · ↓ красный = упал · акк. = SQL-карточки</div>
+          </div>
+          <div>
+            <h3 style="margin:0 0 8px">Когорта сен 2025 · отвалы</h3>
+            <div class="month-step">
+              <div class="step"><div class="m">сен</div><strong>10</strong> · 10 млн</div>
+              <div class="arrow">→</div>
+              <div class="step"><div class="m">окт</div><strong>10</strong> · 20 млн<br><span class="delta up">↑ +100%</span></div>
+              <div class="arrow">→</div>
+              <div class="step"><div class="m">ноя</div><strong>7</strong> · 5 млн<br><span class="delta down">↓ −75%</span></div>
+            </div>
+            <ul class="churn-list">
+              <li><div><div class="reason">Фирм дизайн</div><div class="reason-sub">ноя · закрыто, не реализовано</div></div><div style="color:var(--bad);font-weight:700">−1,2 млн</div></li>
+              <li><div><div class="reason">ТМК Групп</div><div class="reason-sub">ноя · пауза → отказ</div></div><div style="color:var(--bad);font-weight:700">−2,4 млн</div></li>
+              <li><div><div class="reason">Ворд Класс</div><div class="reason-sub">дек · пилот</div></div><div style="color:var(--bad);font-weight:700">−0,8 млн</div></li>
+            </ul>
+            <table style="margin-top:10px">
+              <thead><tr><th>Причина</th><th class="num">Акк.</th></tr></thead>
+              <tbody>
+                <tr><td>Не реализовано</td><td class="num">1</td></tr>
+                <tr><td>Пауза → отказ</td><td class="num">1</td></tr>
+                <tr><td>Провал пилота</td><td class="num">1</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ИВЕНТЫ -->
+    <div class="channel-card" data-channel="events">
+      <div class="channel-head" onclick="toggleCard(this)">
+        <div>
+          <div class="ch-name">Ивенты</div>
+          <div class="ch-sub">Длинный цикл · крупный пайп на лид</div>
+        </div>
+        <div class="ch-metrics">
+          <div class="ch-m"><div class="l">Активные акк.</div><div class="v">18</div></div>
+          <div class="ch-m"><div class="l">Пайп сейчас</div><div class="v">41,2 млн</div><div class="s up">↑ +8%</div></div>
+          <div class="ch-m"><div class="l">Посл. когорта</div><div class="v">янв · 4</div></div>
+          <div class="ch-m"><div class="l">Отвалы</div><div class="v">5</div></div>
+        </div>
+        <div class="chev">▾</div>
+      </div>
+      <div class="channel-body">
+        <div class="body-grid">
+          <div>
+            <h3 style="margin:0 0 8px">Матрица когорт · ивенты</h3>
+            <div class="scroll-x">
+              <table class="cohort">
+                <thead><tr><th class="corner">Когорта</th><th>ноя 25</th><th>дек 25</th><th>янв 26</th><th>фев 26</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td class="cohort-name">ноя 2025<br><span class="muted" style="font-weight:500;font-size:11px">вход 6 SQL</span></td>
+                    <td><div class="cell"><div class="pipe">18,0 млн</div><div class="acc">6 акк.</div><div class="delta flat">старт</div></div></td>
+                    <td><div class="cell"><div class="pipe">22,4 млн</div><div class="acc">6 акк.</div><div class="delta up">↑ +24%</div></div></td>
+                    <td><div class="cell"><div class="pipe">19,0 млн</div><div class="acc">5 акк.</div><div class="delta down">↓ −15%</div></div></td>
+                    <td><div class="cell"><div class="pipe">19,0 млн</div><div class="acc">5 акк.</div><div class="delta flat">→ 0%</div></div></td>
+                  </tr>
+                  <tr>
+                    <td class="cohort-name">янв 2026<br><span class="muted" style="font-weight:500;font-size:11px">вход 4 SQL</span></td>
+                    <td><div class="cell empty">—</div></td>
+                    <td><div class="cell empty">—</div></td>
+                    <td><div class="cell"><div class="pipe">12,5 млн</div><div class="acc">4 акк.</div><div class="delta flat">старт</div></div></td>
+                    <td><div class="cell"><div class="pipe">15,0 млн</div><div class="acc">4 акк.</div><div class="delta up">↑ +20%</div></div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h3 style="margin:0 0 8px">Отвалы · ивенты</h3>
+            <ul class="churn-list">
+              <li><div><div class="reason">Компания А</div><div class="reason-sub">янв · нет бюджета</div></div><div style="color:var(--bad);font-weight:700">−3,4 млн</div></li>
+              <li><div><div class="reason">Компания Б</div><div class="reason-sub">дек · выбрали конкурента</div></div><div style="color:var(--bad);font-weight:700">−2,1 млн</div></li>
+            </ul>
+            <table style="margin-top:10px">
+              <thead><tr><th>Причина</th><th class="num">Акк.</th></tr></thead>
+              <tbody>
+                <tr><td>Нет бюджета</td><td class="num">2</td></tr>
+                <tr><td>Выбрали конкурента</td><td class="num">2</td></tr>
+                <tr><td>Провал пилота</td><td class="num">1</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOFTLINE -->
+    <div class="channel-card" data-channel="softline">
+      <div class="channel-head" onclick="toggleCard(this)">
+        <div>
+          <div class="ch-name">Softline</div>
+          <div class="ch-sub">АМы · отдельно от «Партнёры»</div>
+        </div>
+        <div class="ch-metrics">
+          <div class="ch-m"><div class="l">Активные акк.</div><div class="v">42</div></div>
+          <div class="ch-m"><div class="l">Пайп сейчас</div><div class="v">58,0 млн</div><div class="s up">↑ +4%</div></div>
+          <div class="ch-m"><div class="l">Посл. когорта</div><div class="v">фев · 9</div></div>
+          <div class="ch-m"><div class="l">Отвалы</div><div class="v">8</div></div>
+        </div>
+        <div class="chev">▾</div>
+      </div>
+      <div class="channel-body">
+        <div class="body-grid">
+          <div>
+            <h3 style="margin:0 0 8px">Матрица когорт · Softline</h3>
+            <div class="scroll-x">
+              <table class="cohort">
+                <thead><tr><th class="corner">Когорта</th><th>дек 25</th><th>янв 26</th><th>фев 26</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td class="cohort-name">дек 2025<br><span class="muted" style="font-weight:500;font-size:11px">вход 11 SQL</span></td>
+                    <td><div class="cell"><div class="pipe">22,0 млн</div><div class="acc">11 акк.</div><div class="delta flat">старт</div></div></td>
+                    <td><div class="cell"><div class="pipe">24,5 млн</div><div class="acc">10 акк.</div><div class="delta up">↑ +11%</div></div></td>
+                    <td><div class="cell"><div class="pipe">21,0 млн</div><div class="acc">9 акк.</div><div class="delta down">↓ −14%</div></div></td>
+                  </tr>
+                  <tr>
+                    <td class="cohort-name">фев 2026<br><span class="muted" style="font-weight:500;font-size:11px">вход 9 SQL</span></td>
+                    <td><div class="cell empty">—</div></td>
+                    <td><div class="cell empty">—</div></td>
+                    <td><div class="cell"><div class="pipe">18,4 млн</div><div class="acc">9 акк.</div><div class="delta flat">старт</div></div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h3 style="margin:0 0 8px">Отвалы · Softline</h3>
+            <ul class="churn-list">
+              <li><div><div class="reason">Клиент СЛ-01</div><div class="reason-sub">янв · ушёл к Naumen</div></div><div style="color:var(--bad);font-weight:700">−2,8 млн</div></li>
+              <li><div><div class="reason">Клиент СЛ-02</div><div class="reason-sub">фев · нет ЛПР</div></div><div style="color:var(--bad);font-weight:700">−1,5 млн</div></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ИНФЕРИТ -->
+    <div class="channel-card" data-channel="inferit">
+      <div class="channel-head" onclick="toggleCard(this)">
+        <div>
+          <div class="ch-name">Инферит</div>
+          <div class="ch-sub">+ Инферит Техника в раскрытии</div>
+        </div>
+        <div class="ch-metrics">
+          <div class="ch-m"><div class="l">Активные акк.</div><div class="v">11</div></div>
+          <div class="ch-m"><div class="l">Пайп сейчас</div><div class="v">9,4 млн</div></div>
+          <div class="ch-m"><div class="l">Посл. когорта</div><div class="v">янв · 3</div></div>
+          <div class="ch-m"><div class="l">Отвалы</div><div class="v">2</div></div>
+        </div>
+        <div class="chev">▾</div>
+      </div>
+      <div class="channel-body">
+        <div class="body-grid">
+          <div>
+            <h3 style="margin:0 0 8px">Матрица · Инферит</h3>
+            <div class="scroll-x">
+              <table class="cohort">
+                <thead><tr><th class="corner">Когорта</th><th>дек 25</th><th>янв 26</th><th>фев 26</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td class="cohort-name">дек 2025 · 4 SQL</td>
+                    <td><div class="cell"><div class="pipe">4,1 млн</div><div class="acc">4 акк.</div><div class="delta flat">старт</div></div></td>
+                    <td><div class="cell"><div class="pipe">3,6 млн</div><div class="acc">3 акк.</div><div class="delta down">↓ −12%</div></div></td>
+                    <td><div class="cell"><div class="pipe">3,6 млн</div><div class="acc">3 акк.</div><div class="delta flat">→ 0%</div></div></td>
+                  </tr>
+                  <tr>
+                    <td class="cohort-name">янв 2026 · 3 SQL</td>
+                    <td><div class="cell empty">—</div></td>
+                    <td><div class="cell"><div class="pipe">2,8 млн</div><div class="acc">3 акк.</div><div class="delta flat">старт</div></div></td>
+                    <td><div class="cell"><div class="pipe">3,2 млн</div><div class="acc">3 акк.</div><div class="delta up">↑ +14%</div></div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h3 style="margin:0 0 8px">Отвалы</h3>
+            <ul class="churn-list">
+              <li><div><div class="reason">Аккаунт INF-3</div><div class="reason-sub">янв · решение не подошло</div></div><div style="color:var(--bad);font-weight:700">−0,5 млн</div></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ПАРТНЁРЫ -->
+    <div class="channel-card" data-channel="partners">
+      <div class="channel-head" onclick="toggleCard(this)">
+        <div>
+          <div class="ch-name">Партнёрский канал</div>
+          <div class="ch-sub">Без Softline / Инферит</div>
+        </div>
+        <div class="ch-metrics">
+          <div class="ch-m"><div class="l">Активные акк.</div><div class="v">56</div></div>
+          <div class="ch-m"><div class="l">Пайп сейчас</div><div class="v">72,0 млн</div><div class="s up">↑ +6%</div></div>
+          <div class="ch-m"><div class="l">Посл. когорта</div><div class="v">фев · 12</div></div>
+          <div class="ch-m"><div class="l">Отвалы</div><div class="v">9</div></div>
+        </div>
+        <div class="chev">▾</div>
+      </div>
+      <div class="channel-body">
+        <div class="body-grid">
+          <div>
+            <h3 style="margin:0 0 8px">Матрица · партнёры</h3>
+            <div class="scroll-x">
+              <table class="cohort">
+                <thead><tr><th class="corner">Когорта</th><th>дек 25</th><th>янв 26</th><th>фев 26</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td class="cohort-name">дек 2025 · 14 SQL</td>
+                    <td><div class="cell"><div class="pipe">28,0 млн</div><div class="acc">14 акк.</div><div class="delta flat">старт</div></div></td>
+                    <td><div class="cell"><div class="pipe">31,0 млн</div><div class="acc">13 акк.</div><div class="delta up">↑ +11%</div></div></td>
+                    <td><div class="cell"><div class="pipe">27,5 млн</div><div class="acc">12 акк.</div><div class="delta down">↓ −11%</div></div></td>
+                  </tr>
+                  <tr>
+                    <td class="cohort-name">фев 2026 · 12 SQL</td>
+                    <td><div class="cell empty">—</div></td>
+                    <td><div class="cell empty">—</div></td>
+                    <td><div class="cell"><div class="pipe">22,0 млн</div><div class="acc">12 акк.</div><div class="delta flat">старт</div></div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h3 style="margin:0 0 8px">Отвалы · партнёры</h3>
+            <table>
+              <thead><tr><th>Причина</th><th class="num">Акк.</th><th class="num">Пайп</th></tr></thead>
+              <tbody>
+                <tr><td>Выбрали конкурента</td><td class="num">4</td><td class="num">6,2 млн</td></tr>
+                <tr><td>Нет бюджета</td><td class="num">3</td><td class="num">2,8 млн</td></tr>
+                <tr><td>Пауза → отказ</td><td class="num">2</td><td class="num">1,9 млн</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ВЕБИНАРЫ -->
+    <div class="channel-card" data-channel="webinar">
+      <div class="channel-head" onclick="toggleCard(this)">
+        <div>
+          <div class="ch-name">Вебинары</div>
+          <div class="ch-sub">Всплески после эфиров</div>
+        </div>
+        <div class="ch-metrics">
+          <div class="ch-m"><div class="l">Активные акк.</div><div class="v">14</div></div>
+          <div class="ch-m"><div class="l">Пайп сейчас</div><div class="v">8,8 млн</div></div>
+          <div class="ch-m"><div class="l">Посл. когорта</div><div class="v">янв · 7</div></div>
+          <div class="ch-m"><div class="l">Отвалы</div><div class="v">6</div></div>
+        </div>
+        <div class="chev">▾</div>
+      </div>
+      <div class="channel-body">
+        <div class="body-grid">
+          <div>
+            <h3 style="margin:0 0 8px">Матрица · вебинары</h3>
+            <div class="scroll-x">
+              <table class="cohort">
+                <thead><tr><th class="corner">Когорта</th><th>дек 25</th><th>янв 26</th><th>фев 26</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td class="cohort-name">дек 2025 · 5 SQL</td>
+                    <td><div class="cell"><div class="pipe">3,2 млн</div><div class="acc">5 акк.</div><div class="delta flat">старт</div></div></td>
+                    <td><div class="cell"><div class="pipe">2,4 млн</div><div class="acc">3 акк.</div><div class="delta down">↓ −25%</div></div></td>
+                    <td><div class="cell"><div class="pipe">2,0 млн</div><div class="acc">3 акк.</div><div class="delta down">↓ −17%</div></div></td>
+                  </tr>
+                  <tr>
+                    <td class="cohort-name">янв 2026 · 7 SQL</td>
+                    <td><div class="cell empty">—</div></td>
+                    <td><div class="cell"><div class="pipe">5,1 млн</div><div class="acc">7 акк.</div><div class="delta flat">старт</div></div></td>
+                    <td><div class="cell"><div class="pipe">4,4 млн</div><div class="acc">5 акк.</div><div class="delta down">↓ −14%</div></div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h3 style="margin:0 0 8px">Отвалы</h3>
+            <ul class="churn-list">
+              <li><div><div class="reason">Лид после эфира #12</div><div class="reason-sub">фев · не целевой</div></div><div style="color:var(--bad);font-weight:700">−0,6 млн</div></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- РАССЫЛКА -->
+    <div class="channel-card" data-channel="email">
+      <div class="channel-head" onclick="toggleCard(this)">
+        <div>
+          <div class="ch-name">Email-рассылки</div>
+          <div class="ch-sub">Небольшой объём · следим за отвалом</div>
+        </div>
+        <div class="ch-metrics">
+          <div class="ch-m"><div class="l">Активные акк.</div><div class="v">7</div></div>
+          <div class="ch-m"><div class="l">Пайп сейчас</div><div class="v">2,1 млн</div></div>
+          <div class="ch-m"><div class="l">Посл. когорта</div><div class="v">янв · 4</div></div>
+          <div class="ch-m"><div class="l">Отвалы</div><div class="v">3</div></div>
+        </div>
+        <div class="chev">▾</div>
+      </div>
+      <div class="channel-body">
+        <div class="body-grid">
+          <div>
+            <h3 style="margin:0 0 8px">Матрица · рассылка</h3>
+            <div class="scroll-x">
+              <table class="cohort">
+                <thead><tr><th class="corner">Когорта</th><th>дек 25</th><th>янв 26</th><th>фев 26</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td class="cohort-name">дек 2025 · 3 SQL</td>
+                    <td><div class="cell"><div class="pipe">0,9 млн</div><div class="acc">3 акк.</div><div class="delta flat">старт</div></div></td>
+                    <td><div class="cell"><div class="pipe">0,6 млн</div><div class="acc">2 акк.</div><div class="delta down">↓ −33%</div></div></td>
+                    <td><div class="cell"><div class="pipe">0,4 млн</div><div class="acc">1 акк.</div><div class="delta down">↓ −33%</div></div></td>
+                  </tr>
+                  <tr>
+                    <td class="cohort-name">янв 2026 · 4 SQL</td>
+                    <td><div class="cell empty">—</div></td>
+                    <td><div class="cell"><div class="pipe">1,5 млн</div><div class="acc">4 акк.</div><div class="delta flat">старт</div></div></td>
+                    <td><div class="cell"><div class="pipe">1,7 млн</div><div class="acc">4 акк.</div><div class="delta up">↑ +13%</div></div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h3 style="margin:0 0 8px">Отвалы</h3>
+            <table>
+              <thead><tr><th>Причина</th><th class="num">Акк.</th></tr></thead>
+              <tbody>
+                <tr><td>Не подошло решение</td><td class="num">2</td></tr>
+                <tr><td>Нет контакта / ЛПР</td><td class="num">1</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ХОЛОДНЫЕ -->
+    <div class="channel-card" data-channel="cold">
+      <div class="channel-head" onclick="toggleCard(this)">
+        <div>
+          <div class="ch-name">Холодные продажи</div>
+          <div class="ch-sub">Много штук · мелкий пайп на акк.</div>
+        </div>
+        <div class="ch-metrics">
+          <div class="ch-m"><div class="l">Активные акк.</div><div class="v">22</div></div>
+          <div class="ch-m"><div class="l">Пайп сейчас</div><div class="v">6,2 млн</div><div class="s down">↓ −18%</div></div>
+          <div class="ch-m"><div class="l">Посл. когорта</div><div class="v">фев · 6</div></div>
+          <div class="ch-m"><div class="l">Отвалы</div><div class="v">14</div></div>
+        </div>
+        <div class="chev">▾</div>
+      </div>
+      <div class="channel-body">
+        <div class="body-grid">
+          <div>
+            <h3 style="margin:0 0 8px">Матрица · холодные</h3>
+            <div class="scroll-x">
+              <table class="cohort">
+                <thead><tr><th class="corner">Когорта</th><th>дек 25</th><th>янв 26</th><th>фев 26</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td class="cohort-name">дек 2025 · 10 SQL</td>
+                    <td><div class="cell"><div class="pipe">3,0 млн</div><div class="acc">10 акк.</div><div class="delta flat">старт</div></div></td>
+                    <td><div class="cell"><div class="pipe">2,2 млн</div><div class="acc">6 акк.</div><div class="delta down">↓ −27%</div></div></td>
+                    <td><div class="cell"><div class="pipe">1,5 млн</div><div class="acc">4 акк.</div><div class="delta down">↓ −32%</div></div></td>
+                  </tr>
+                  <tr>
+                    <td class="cohort-name">фев 2026 · 6 SQL</td>
+                    <td><div class="cell empty">—</div></td>
+                    <td><div class="cell empty">—</div></td>
+                    <td><div class="cell"><div class="pipe">1,8 млн</div><div class="acc">6 акк.</div><div class="delta flat">старт</div></div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h3 style="margin:0 0 8px">Отвалы · сводка</h3>
+            <table>
+              <thead><tr><th>Причина</th><th class="num">Акк.</th></tr></thead>
+              <tbody>
+                <tr><td>Нет ЛПР / контакта</td><td class="num">6</td></tr>
+                <tr><td>Нет бюджета</td><td class="num">4</td></tr>
+                <tr><td>Не целевой</td><td class="num">4</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script>
+  function toggleCard(head) {
+    var card = head.parentElement;
+    var wasOpen = card.classList.contains('open');
+    document.querySelectorAll('.channel-card.open').forEach(function (c) {
+      c.classList.remove('open');
+    });
+    if (!wasOpen) card.classList.add('open');
+  }
+</script>
+</body>
+</html>

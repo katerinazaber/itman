@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<title>Маркетинг · Продукт и ЦА</title>
+<link rel="stylesheet" href="_shared.css"/>
+<style>
+  body { width: 1440px; }
+  .section-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 18px 0 10px;
+  }
+  .section-title:first-of-type { margin-top: 4px; }
+  .ind-row {
+    display: grid;
+    grid-template-columns: 130px 1fr 160px;
+    gap: 8px;
+    align-items: center;
+    margin: 5px 0;
+    font-size: 12px;
+  }
+  .ind-row .name { color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ind-row .meta { text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .ind-row .meta b { color: var(--text); font-weight: 600; }
+  .win-tag { color: var(--ok); font-weight: 600; margin-left: 4px; }
+  .funnel-row {
+    display: grid;
+    grid-template-columns: 150px 1fr 150px;
+    gap: 8px;
+    align-items: center;
+    margin: 4px 0;
+    font-size: 12px;
+  }
+  .funnel-row.mkt .bar-fill { background: #5b8def; }
+  .tag-mkt {
+    display: inline-block;
+    font-size: 10px;
+    background: var(--chip);
+    color: var(--accent);
+    border-radius: 4px;
+    padding: 1px 5px;
+    margin-left: 4px;
+    font-weight: 600;
+  }
+  .size-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .size-cell {
+    background: #f7f9fc;
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .size-cell .sz { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+  .size-cell .vals { font-size: 12px; color: var(--muted); }
+  .size-cell .vals b { color: var(--text); }
+  table.compact td, table.compact th { padding: 6px 6px; font-size: 12px; }
+  .card h3 .hint {
+    font-weight: 500;
+    color: var(--muted);
+    font-size: 11px;
+    margin-left: 6px;
+  }
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="logo">ИТМен</div>
+  <div class="nav-item">Дашборд пайплайна</div>
+  <div class="nav-item">Сделки</div>
+  <div class="nav-item">Канбан</div>
+  <div class="nav-item">Календарь</div>
+  <div class="nav-item">Отчёты</div>
+  <div class="nav-item active">Маркетинг</div>
+  <div class="nav-item">Модель скоринга</div>
+  <div class="nav-item">Профиль</div>
+</aside>
+<div class="main">
+  <div class="top">
+    <div class="h1">Маркетинг</div>
+    <div class="tabs">
+      <a class="tab" href="leads-by-source.html">Лиды по источникам</a>
+      <a class="tab" href="cohort.html">Когортный анализ</a>
+      <a class="tab" href="site.html">Сайт</a>
+      <a class="tab active" href="product-and-ta.html">Продукт и ЦА</a>
+      <a class="tab" href="pr-content.html">PR и контент</a>
+      <a class="tab" href="merch.html">Мерч</a>
+      <a class="tab" href="contractors-payments.html">Подрядчики и оплаты</a>
+    </div>
+  </div>
+  <div class="content">
+    <div class="toolbar">
+      <div class="period">Продукт · ЦА · win/loss · партнёры</div>
+      <button class="btn ghost">Фильтр периода</button>
+    </div>
+
+    <div class="note">Всё про продукт и целевую аудиторию в одном месте. Сверху — микс и ICP; ниже — запрос / as-is / конкуренты; отказ и скоринг; крупность и ЛПР; воронка, партнёры, кейсы.</div>
+
+    <!-- ===== ПРОДУКТ ===== -->
+    <div class="section-title">Продукт</div>
+    <div class="grid" style="grid-template-columns: 1fr 1.2fr 1fr; gap:12px; margin-bottom:4px">
+      <div class="card">
+        <h3>Продуктовый микс</h3>
+        <table class="compact">
+          <thead><tr><th>Продукт</th><th class="num">Сделок</th><th class="num">Сумма</th><th class="num">Wins</th><th class="num">Win%</th></tr></thead>
+          <tbody>
+            <tr><td>ИТМен</td><td class="num">692</td><td class="num">757,9 млн</td><td class="num">87</td><td class="num">13%</td></tr>
+            <tr><td>Призма</td><td class="num">19</td><td class="num">253,1 млн</td><td class="num">0</td><td class="num">0%</td></tr>
+            <tr><td>КлаудМастер</td><td class="num">96</td><td class="num">66,8 млн</td><td class="num">27</td><td class="num">28%</td></tr>
+            <tr><td>(не указан)</td><td class="num">29</td><td class="num">0,3 млн</td><td class="num">0</td><td class="num">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3>С каким запросом пришли <span class="hint">what they seek</span></h3>
+        <table class="compact">
+          <thead><tr><th>Запрос</th><th class="num">Сделок</th><th class="num">Сумма</th><th class="num">Wins</th><th class="num">Win%</th></tr></thead>
+          <tbody>
+            <tr><td>discovery</td><td class="num">119</td><td class="num">571,7 млн</td><td class="num">1</td><td class="num">1%</td></tr>
+            <tr><td>itsm</td><td class="num">22</td><td class="num">116,1 млн</td><td class="num">0</td><td class="num">0%</td></tr>
+            <tr><td>itam</td><td class="num">16</td><td class="num">59,6 млн</td><td class="num">0</td><td class="num">0%</td></tr>
+            <tr><td>cmdb</td><td class="num">8</td><td class="num">24,2 млн</td><td class="num">0</td><td class="num">0%</td></tr>
+            <tr><td>service_desk</td><td class="num">4</td><td class="num">8,8 млн</td><td class="num">0</td><td class="num">0%</td></tr>
+            <tr><td>sam</td><td class="num">4</td><td class="num">6,9 млн</td><td class="num">0</td><td class="num">0%</td></tr>
+            <tr><td>monitoring</td><td class="num">3</td><td class="num">2,1 млн</td><td class="num">0</td><td class="num">0%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Категории скоринга</h3>
+        <table class="compact">
+          <thead><tr><th>Категория</th><th class="num">Сделок</th><th class="num">Сумма</th><th class="num">Wins</th><th class="num">Win%</th></tr></thead>
+          <tbody>
+            <tr><td>Отказ</td><td class="num">765</td><td class="num">565,8 млн</td><td class="num">113</td><td class="num">15%</td></tr>
+            <tr><td>Наблюдение</td><td class="num">34</td><td class="num">233,9 млн</td><td class="num">0</td><td class="num">0%</td></tr>
+            <tr><td>Тёплая</td><td class="num">15</td><td class="num">27,7 млн</td><td class="num">1</td><td class="num">7%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== ЦА / ICP ===== -->
+    <div class="section-title">ЦА · отрасли и крупность</div>
+    <div class="grid" style="grid-template-columns: 1.3fr 1fr 1fr; gap:12px; margin-bottom:4px">
+      <div class="card">
+        <h3>Отрасли (ICP) <span class="hint">заполнено ~38%</span></h3>
+        <div class="ind-row"><div class="name">Банки</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><div class="meta">18 · <b>256 млн</b></div></div>
+        <div class="ind-row"><div class="name">Производство</div><div class="bar-track"><div class="bar-fill" style="width:47%"></div></div><div class="meta">31 · <b>121 млн</b></div></div>
+        <div class="ind-row"><div class="name">Нефть и газ</div><div class="bar-track"><div class="bar-fill" style="width:33%"></div></div><div class="meta">12 · <b>84 млн</b> <span class="win-tag">win 8%</span></div></div>
+        <div class="ind-row"><div class="name">Финансы</div><div class="bar-track"><div class="bar-fill" style="width:32%"></div></div><div class="meta">15 · <b>83 млн</b></div></div>
+        <div class="ind-row"><div class="name">IT</div><div class="bar-track"><div class="bar-fill" style="width:19%"></div></div><div class="meta">39 · <b>48 млн</b> <span class="win-tag">win 33%</span></div></div>
+        <div class="ind-row"><div class="name">Ритейл</div><div class="bar-track"><div class="bar-fill" style="width:17%"></div></div><div class="meta">19 · <b>42 млн</b> <span class="win-tag">win 32%</span></div></div>
+        <div class="ind-row"><div class="name">Транспорт</div><div class="bar-track"><div class="bar-fill" style="width:14%"></div></div><div class="meta">16 · <b>36 млн</b> <span class="win-tag">win 13%</span></div></div>
+        <div class="ind-row"><div class="name">Гос. предприятие</div><div class="bar-track"><div class="bar-fill" style="width:14%"></div></div><div class="meta">29 · <b>35 млн</b></div></div>
+        <div class="ind-row"><div class="name">Не определена</div><div class="bar-track"><div class="bar-fill" style="width:5%;background:#c9ced8"></div></div><div class="meta">55 · <b>12 млн</b></div></div>
+        <div class="foot">Полный список — скролл / «показать все»</div>
+      </div>
+
+      <div class="card">
+        <h3>Крупность клиента <span class="hint">конечные точки · новое</span></h3>
+        <p class="muted" style="margin:0 0 10px;font-size:12px">Бакеты по числу endpoints. Связь с отраслью — таблица ниже.</p>
+        <table class="compact">
+          <thead><tr><th>Endpoints</th><th class="num">Сделок</th><th class="num">Пайп</th><th class="num">Win%</th></tr></thead>
+          <tbody>
+            <tr><td>&lt; 500</td><td class="num">48</td><td class="num">22 млн</td><td class="num">22%</td></tr>
+            <tr><td>500–2 000</td><td class="num">61</td><td class="num">78 млн</td><td class="num">18%</td></tr>
+            <tr><td>2 000–10 000</td><td class="num">34</td><td class="num">145 млн</td><td class="num">14%</td></tr>
+            <tr><td>&gt; 10 000</td><td class="num">19</td><td class="num">210 млн</td><td class="num">9%</td></tr>
+            <tr><td>(не указано)</td><td class="num">652</td><td class="num">—</td><td class="num">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>Отрасль × крупность <span class="hint">новое</span></h3>
+        <p class="muted" style="margin:0 0 8px;font-size:12px">Где живёт спрос: отрасль и размер клиента вместе.</p>
+        <div class="size-grid">
+          <div class="size-cell">
+            <div class="sz">Банки · 2k–10k</div>
+            <div class="vals"><b>8</b> сделок · <b>94 млн</b></div>
+          </div>
+          <div class="size-cell">
+            <div class="sz">Производство · &gt;10k</div>
+            <div class="vals"><b>6</b> сделок · <b>71 млн</b></div>
+          </div>
+          <div class="size-cell">
+            <div class="sz">Ритейл · 500–2k</div>
+            <div class="vals"><b>11</b> сделок · <b>28 млн</b> · win 36%</div>
+          </div>
+          <div class="size-cell">
+            <div class="sz">IT · &lt;500</div>
+            <div class="vals"><b>14</b> сделок · <b>9 млн</b> · win 41%</div>
+          </div>
+        </div>
+        <div class="foot" style="margin-top:10px">Топ-комбинации по пайпу. Drill-down → список сделок.</div>
+      </div>
+    </div>
+
+    <!-- ===== ЛПР + отказ + конкурентное окружение ===== -->
+    <div class="section-title">ЛПР · отказ · конкурентное окружение</div>
+    <div class="grid" style="grid-template-columns: 1fr 1fr 1fr 1fr; gap:12px; margin-bottom:4px">
+      <div class="card">
+        <h3>Должность (ЛПР) <span class="hint">новое</span></h3>
+        <table class="compact">
+          <thead><tr><th>Должность</th><th class="num">Сделок</th><th class="num">Пайп</th><th class="num">Win%</th></tr></thead>
+          <tbody>
+            <tr><td>CIO / IT-директор</td><td class="num">42</td><td class="num">186 млн</td><td class="num">19%</td></tr>
+            <tr><td>Рук. ИТ-службы</td><td class="num">38</td><td class="num">74 млн</td><td class="num">16%</td></tr>
+            <tr><td>Рук. Service Desk</td><td class="num">21</td><td class="num">31 млн</td><td class="num">24%</td></tr>
+            <tr><td>CISO</td><td class="num">9</td><td class="num">28 млн</td><td class="num">11%</td></tr>
+            <tr><td>Закупки / CPO</td><td class="num">7</td><td class="num">15 млн</td><td class="num">0%</td></tr>
+            <tr><td>(не указано)</td><td class="num">697</td><td class="num">—</td><td class="num">—</td></tr>
+          </tbody>
+        </table>
+        <div class="foot">Справочник должностей + свободный ввод с нормализацией.</div>
+      </div>
+      <div class="card">
+        <h3>Причины отказа</h3>
+        <table class="compact">
+          <thead><tr><th>Причина</th><th class="num">Сделок</th><th class="num">Сумма</th></tr></thead>
+          <tbody>
+            <tr><td>Другое</td><td class="num">7</td><td class="num">182,7 млн</td></tr>
+            <tr><td>Выбрали конкурента</td><td class="num">2</td><td class="num">10,9 млн</td></tr>
+            <tr><td>Нет бюджета</td><td class="num">4</td><td class="num">4,1 млн</td></tr>
+            <tr><td>Не подошло решение</td><td class="num">4</td><td class="num">1,7 млн</td></tr>
+            <tr><td>Нет ЛПР / контакта</td><td class="num">1</td><td class="num">0</td></tr>
+            <tr><td>Провал пилота</td><td class="num">1</td><td class="num">0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Конкуренты</h3>
+        <table class="compact">
+          <thead><tr><th>Конкурент</th><th class="num">Сделок</th><th class="num">Сумма</th></tr></thead>
+          <tbody>
+            <tr><td>INITI / SOLO</td><td class="num">1</td><td class="num">18,6 млн</td></tr>
+            <tr><td>U-Connect</td><td class="num">1</td><td class="num">12,9 млн</td></tr>
+            <tr><td>Naumen / Inventory</td><td class="num">1</td><td class="num">12,9 млн</td></tr>
+            <tr><td>BPM Soft</td><td class="num">1</td><td class="num">4,8 млн</td></tr>
+            <tr><td>Colibri-ARM</td><td class="num">1</td><td class="num">4,5 млн</td></tr>
+            <tr><td>Jira SM</td><td class="num">2</td><td class="num">1,4 млн</td></tr>
+            <tr><td>Excel</td><td class="num">1</td><td class="num">0,4 млн</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Какие решения используют сейчас <span class="hint">as-is</span></h3>
+        <table class="compact">
+          <thead><tr><th>As-is</th><th class="num">Сделок</th><th class="num">Сумма</th></tr></thead>
+          <tbody>
+            <tr><td>Excel</td><td class="num">9</td><td class="num">44,5 млн</td></tr>
+            <tr><td>1C / ERP</td><td class="num">3</td><td class="num">42,4 млн</td></tr>
+            <tr><td>Flexera</td><td class="num">1</td><td class="num">40,6 млн</td></tr>
+            <tr><td>Naumen / SD</td><td class="num">3</td><td class="num">37,3 млн</td></tr>
+            <tr><td>Naumen / Inventory</td><td class="num">2</td><td class="num">25,9 млн</td></tr>
+            <tr><td>Jira SM</td><td class="num">2</td><td class="num">1,4 млн</td></tr>
+            <tr><td>GLPI</td><td class="num">2</td><td class="num">0,2 млн</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== ВОРОНКА + ПАРТНЁРЫ + КЕЙСЫ ===== -->
+    <div class="section-title">Воронка · партнёры · кейсы</div>
+    <div class="grid" style="grid-template-columns: 1.1fr 1fr 1.1fr; gap:12px">
+      <div class="card">
+        <h3>Воронка стадий <span class="hint">маркетинг подсвечен</span></h3>
+        <div class="funnel-row mkt"><div>LEADS<span class="tag-mkt">маркетинг</span></div><div class="bar-track"><div class="bar-fill" style="width:70%"></div></div><div class="meta" style="text-align:right">61 · 0 ₽</div></div>
+        <div class="funnel-row"><div>Интерес выявлен</div><div class="bar-track"><div class="bar-fill" style="width:28%"></div></div><div class="meta" style="text-align:right">22 · 36 млн</div></div>
+        <div class="funnel-row"><div>Встреча состоялась</div><div class="bar-track"><div class="bar-fill" style="width:18%"></div></div><div class="meta" style="text-align:right">11 · 30 млн</div></div>
+        <div class="funnel-row"><div>Взят в работу</div><div class="bar-track"><div class="bar-fill" style="width:55%"></div></div><div class="meta" style="text-align:right">62 · 64 млн</div></div>
+        <div class="funnel-row"><div>Предложение</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><div class="meta" style="text-align:right">43 · 392 млн</div></div>
+        <div class="funnel-row"><div>Пилот</div><div class="bar-track"><div class="bar-fill" style="width:35%"></div></div><div class="meta" style="text-align:right">17 · 94 млн</div></div>
+        <div class="funnel-row"><div>На паузе</div><div class="bar-track"><div class="bar-fill" style="width:48%"></div></div><div class="meta" style="text-align:right">78 · 72 млн</div></div>
+        <div class="funnel-row"><div>Отказ</div><div class="bar-track"><div class="bar-fill" style="width:30%;background:#c4453a"></div></div><div class="meta" style="text-align:right">33 · 41 млн</div></div>
+        <div class="funnel-row"><div>Успешно реализовано</div><div class="bar-track"><div class="bar-fill" style="width:22%;background:#1a9f6a"></div></div><div class="meta" style="text-align:right">27 · 4,2 млн · win</div></div>
+        <div class="foot">Дубли стадий (разный регистр) — почистить в справочнике CRM.</div>
+      </div>
+
+      <div class="card">
+        <h3>Топ партнёров</h3>
+        <table class="compact">
+          <thead><tr><th>Партнёр</th><th class="num">Сделок</th><th class="num">Сумма</th><th class="num">Win%</th></tr></thead>
+          <tbody>
+            <tr><td>Softline</td><td class="num">53</td><td class="num">363 млн</td><td class="num">2%</td></tr>
+            <tr><td>Naumen</td><td class="num">6</td><td class="num">48 млн</td><td class="num">0%</td></tr>
+            <tr><td>Нет партнёра</td><td class="num">82</td><td class="num">115 млн</td><td class="num">0%</td></tr>
+            <tr><td>Коммерция</td><td class="num">32</td><td class="num">3 млн</td><td class="num">0%</td></tr>
+            <tr><td>K2</td><td class="num">12</td><td class="num">28 млн</td><td class="num">8%</td></tr>
+            <tr><td>Инферит Техника</td><td class="num">8</td><td class="num">12 млн</td><td class="num">12%</td></tr>
+          </tbody>
+        </table>
+        <div class="foot">ID вместо имён («30», «10») — нормализовать справочник.</div>
+      </div>
+
+      <div class="card">
+        <h3>Готовые к кейсам <span class="hint">wins для PR</span></h3>
+        <table class="compact">
+          <thead><tr><th>Сделка</th><th>Клиент</th><th>Отрасль</th><th>Продукт</th></tr></thead>
+          <tbody>
+            <tr><td>D-187</td><td>Газпром Нефть</td><td>Нефть и газ</td><td>ИТМен</td></tr>
+            <tr><td>D-1498</td><td>Лента</td><td>Ритейл</td><td>КлаудМастер</td></tr>
+            <tr><td>D-1502</td><td>Фаберлик</td><td>Ритейл</td><td>КлаудМастер</td></tr>
+            <tr><td>D-041</td><td>ЦЗН Тверской обл.</td><td>Гос</td><td>ИТМен</td></tr>
+            <tr><td>D-1479</td><td>Рокет Дата</td><td>IT</td><td>КлаудМастер</td></tr>
+            <tr><td>D-1503</td><td>Юрент МТС</td><td>Транспорт</td><td>КлаудМастер</td></tr>
+          </tbody>
+        </table>
+        <div class="foot">Связь с вкладкой PR: статус кейса (кандидат → опубликован).</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

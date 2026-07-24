@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<title>Маркетинг · Сайт</title>
+<link rel="stylesheet" href="_shared.css"/>
+<style>
+  body { width: 1440px; }
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+  .chart-card h3 {
+    margin: 0 0 4px;
+    font-size: 13px;
+    font-weight: 650;
+  }
+  .chart-card .delta {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .chart-card .delta.up { color: var(--ok); }
+  .chart-card .delta.down { color: var(--bad); }
+  .chart-wrap {
+    height: 140px;
+    position: relative;
+  }
+  .chart-wrap svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .axis-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .point-tip {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .quality-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .quality-row .q {
+    background: #f7f9fc;
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .quality-row .q .ql {
+    color: var(--muted);
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+  .quality-row .q .qv {
+    font-size: 18px;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="logo">ИТМен</div>
+  <div class="nav-item">Дашборд пайплайна</div>
+  <div class="nav-item">Сделки</div>
+  <div class="nav-item">Канбан</div>
+  <div class="nav-item">Календарь</div>
+  <div class="nav-item">Отчёты</div>
+  <div class="nav-item active">Маркетинг</div>
+  <div class="nav-item">Модель скоринга</div>
+  <div class="nav-item">Профиль</div>
+</aside>
+<div class="main">
+  <div class="top">
+    <div class="h1">Маркетинг</div>
+    <div class="tabs">
+      <a class="tab" href="leads-by-source.html">Лиды по источникам</a>
+      <a class="tab" href="cohort.html">Когортный анализ</a>
+      <a class="tab active" href="site.html">Сайт</a>
+      <a class="tab" href="product-and-ta.html">Продукт и ЦА</a>
+      <a class="tab" href="pr-content.html">PR и контент</a>
+      <a class="tab" href="merch.html">Мерч</a>
+      <a class="tab" href="contractors-payments.html">Подрядчики и оплаты</a>
+    </div>
+  </div>
+  <div class="content">
+    <div class="toolbar">
+      <div class="period">Ноябрь 2025 — июнь 2026 · ручной ввод из Метрики</div>
+      <button class="btn">Редактировать месяц</button>
+    </div>
+    <div class="note">Трафик, SEO, % отказов и время на сайте вводятся вручную (пока без интеграции с Яндекс Метрикой). Лиды подтягиваются из CRM по каналу «Сайт».</div>
+
+    <!-- KPI текущего месяца — без изменений -->
+    <div class="kpis">
+      <div class="kpi"><div class="label">Трафик · июнь</div><div class="value">1 292</div><div class="sub down">↓ к маю</div></div>
+      <div class="kpi"><div class="label">SEO-трафик</div><div class="value">594</div><div class="sub">июнь</div></div>
+      <div class="kpi"><div class="label">Лиды с сайта</div><div class="value">11</div></div>
+      <div class="kpi"><div class="label">Конверсия</div><div class="value">0,85%</div><div class="sub up">как в дек.</div></div>
+      <div class="kpi"><div class="label">% отказов</div><div class="value">25,5%</div><div class="sub up">лучший месяц</div></div>
+      <div class="kpi"><div class="label">Время на сайте</div><div class="value">1:52</div></div>
+      <div class="kpi"><div class="label">SQL</div><div class="value">5</div><div class="sub">45% от заявок</div></div>
+      <div class="kpi"><div class="label">Повторные</div><div class="value">2</div></div>
+    </div>
+
+    <!-- Таблица + качество лидов (как раньше) -->
+    <div class="grid" style="grid-template-columns: 2fr 1fr; margin-bottom:12px">
+      <div class="card">
+        <h3>Конверсия сайта помесячно</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Месяц</th>
+              <th class="num">Трафик</th>
+              <th class="num">Лиды</th>
+              <th class="num">Конверсия</th>
+              <th class="num">SEO</th>
+              <th class="num">% отказов</th>
+              <th class="num">Время на сайте</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>ноя 2025</td><td class="num">2 538</td><td class="num">10</td><td class="num">0,39%</td><td class="num">301</td><td class="num">37,9%</td><td class="num">1 мин 37 сек</td></tr>
+            <tr><td>дек 2025</td><td class="num">2 232</td><td class="num">19</td><td class="num ok">0,85%</td><td class="num">731</td><td class="num">35,7%</td><td class="num">1 мин 37 сек</td></tr>
+            <tr><td>янв 2026</td><td class="num">1 936</td><td class="num">13</td><td class="num">0,67%</td><td class="num">395</td><td class="num">38,6%</td><td class="num">1 мин 8 сек</td></tr>
+            <tr><td>фев 2026</td><td class="num">9 320</td><td class="num">17</td><td class="num low">0,18%</td><td class="num">560</td><td class="num low">46,3%</td><td class="num">52 сек</td></tr>
+            <tr><td>мар 2026</td><td class="num">2 610</td><td class="num">19</td><td class="num">0,73%</td><td class="num">570</td><td class="num">38,9%</td><td class="num">54 сек</td></tr>
+            <tr><td>апр 2026</td><td class="num">3 895</td><td class="num">14</td><td class="num">0,36%</td><td class="num">571</td><td class="num">38,1%</td><td class="num">58 сек</td></tr>
+            <tr><td>май 2026</td><td class="num">3 276</td><td class="num">14</td><td class="num">0,43%</td><td class="num">464</td><td class="num">33,6%</td><td class="num">1 мин 17 сек</td></tr>
+            <tr style="background:#eef3ff"><td><b>июн 2026</b></td><td class="num"><b>1 292</b></td><td class="num"><b>11</b></td><td class="num ok"><b>0,85%</b></td><td class="num"><b>594</b></td><td class="num ok"><b>25,5%</b></td><td class="num"><b>1 мин 52 сек</b></td></tr>
+          </tbody>
+        </table>
+        <div class="foot">Источник цифр: вручную / Метрика · редактирование по клику на ячейку трафика / SEO / % отказов / времени на сайте</div>
+      </div>
+      <div class="card">
+        <h3>Качество лидов с сайта</h3>
+        <table>
+          <tr><td>Заявки</td><td class="num">11</td></tr>
+          <tr><td>SQL</td><td class="num">5</td></tr>
+          <tr><td>Конверсия в SQL</td><td class="num">45% (5/11)</td></tr>
+          <tr><td>Повторный лид</td><td class="num">2 (18%)</td></tr>
+        </table>
+        <div class="foot" style="margin-top:12px">За текущий месяц (июнь). Повторный = уже был в базе.</div>
+      </div>
+    </div>
+
+    <!-- Графики динамики — после таблицы -->
+    <div class="card" style="margin-bottom:12px;padding-bottom:14px">
+          <h3 style="margin-bottom:10px">Динамика показателей сайта · помесячно</h3>
+          <div class="charts-grid">
+
+            <!-- 1. Трафик -->
+            <div class="chart-card">
+              <h3>Трафик</h3>
+              <div class="delta down">июнь 1 292 · ↓ 61% к маю</div>
+              <div class="chart-wrap">
+                <svg viewBox="0 0 320 140" preserveAspectRatio="none">
+                  <line x1="28" y1="10" x2="28" y2="118" stroke="#e6ebf2" stroke-width="1"/>
+                  <line x1="28" y1="118" x2="310" y2="118" stroke="#e6ebf2" stroke-width="1"/>
+                  <line x1="28" y1="40" x2="310" y2="40" stroke="#eef2f7" stroke-width="1" stroke-dasharray="3 3"/>
+                  <line x1="28" y1="79" x2="310" y2="79" stroke="#eef2f7" stroke-width="1" stroke-dasharray="3 3"/>
+                  <text x="4" y="44" font-size="9" fill="#6b778c">9k</text>
+                  <text x="4" y="83" font-size="9" fill="#6b778c">4k</text>
+                  <text x="8" y="122" font-size="9" fill="#6b778c">0</text>
+                  <!-- bars: max 9320 -->
+                  <rect x="40" y="92" width="22" height="26" rx="3" fill="#c9d8f8"/>
+                  <rect x="74" y="95" width="22" height="23" rx="3" fill="#c9d8f8"/>
+                  <rect x="108" y="98" width="22" height="20" rx="3" fill="#c9d8f8"/>
+                  <rect x="142" y="18" width="22" height="100" rx="3" fill="#f0b4ae"/>
+                  <rect x="176" y="90" width="22" height="28" rx="3" fill="#c9d8f8"/>
+                  <rect x="210" y="76" width="22" height="42" rx="3" fill="#c9d8f8"/>
+                  <rect x="244" y="83" width="22" height="35" rx="3" fill="#c9d8f8"/>
+                  <rect x="278" y="104" width="22" height="14" rx="3" fill="#2f6fed"/>
+                </svg>
+              </div>
+              <div class="axis-labels"><span>ноя</span><span>дек</span><span>янв</span><span>фев</span><span>мар</span><span>апр</span><span>май</span><span>июн</span></div>
+              <div class="point-tip">Пик фев 9 320 — низкая CR</div>
+            </div>
+
+            <!-- 2. Лиды с сайта -->
+            <div class="chart-card">
+              <h3>Лиды с сайта</h3>
+              <div class="delta down">июнь 11 · ↓ 3 к маю</div>
+              <div class="chart-wrap">
+                <svg viewBox="0 0 320 140" preserveAspectRatio="none">
+                  <line x1="28" y1="10" x2="28" y2="118" stroke="#e6ebf2"/>
+                  <line x1="28" y1="118" x2="310" y2="118" stroke="#e6ebf2"/>
+                  <line x1="28" y1="28" x2="310" y2="28" stroke="#eef2f7" stroke-dasharray="3 3"/>
+                  <line x1="28" y1="73" x2="310" y2="73" stroke="#eef2f7" stroke-dasharray="3 3"/>
+                  <text x="6" y="32" font-size="9" fill="#6b778c">20</text>
+                  <text x="10" y="77" font-size="9" fill="#6b778c">10</text>
+                  <!-- line: 10,19,13,17,19,14,14,11  y = 118 - (v/20)*100 -->
+                  <polyline fill="none" stroke="#2f6fed" stroke-width="2.5" stroke-linejoin="round"
+                    points="51,68 85,23 119,53 153,33 187,23 221,48 255,48 289,63"/>
+                  <circle cx="51" cy="68" r="3.5" fill="#2f6fed"/>
+                  <circle cx="85" cy="23" r="3.5" fill="#2f6fed"/>
+                  <circle cx="119" cy="53" r="3.5" fill="#2f6fed"/>
+                  <circle cx="153" cy="33" r="3.5" fill="#2f6fed"/>
+                  <circle cx="187" cy="23" r="3.5" fill="#2f6fed"/>
+                  <circle cx="221" cy="48" r="3.5" fill="#2f6fed"/>
+                  <circle cx="255" cy="48" r="3.5" fill="#2f6fed"/>
+                  <circle cx="289" cy="63" r="4.5" fill="#2f6fed" stroke="#fff" stroke-width="2"/>
+                </svg>
+              </div>
+              <div class="axis-labels"><span>ноя</span><span>дек</span><span>янв</span><span>фев</span><span>мар</span><span>апр</span><span>май</span><span>июн</span></div>
+              <div class="point-tip">Макс. 19 · дек и мар</div>
+            </div>
+
+            <!-- 3. Конверсия сайта -->
+            <div class="chart-card">
+              <h3>Конверсия сайта</h3>
+              <div class="delta up">июнь 0,85% · как в дек.</div>
+              <div class="chart-wrap">
+                <svg viewBox="0 0 320 140" preserveAspectRatio="none">
+                  <line x1="28" y1="10" x2="28" y2="118" stroke="#e6ebf2"/>
+                  <line x1="28" y1="118" x2="310" y2="118" stroke="#e6ebf2"/>
+                  <line x1="28" y1="28" x2="310" y2="28" stroke="#eef2f7" stroke-dasharray="3 3"/>
+                  <line x1="28" y1="73" x2="310" y2="73" stroke="#eef2f7" stroke-dasharray="3 3"/>
+                  <text x="2" y="32" font-size="9" fill="#6b778c">0,9%</text>
+                  <text x="2" y="77" font-size="9" fill="#6b778c">0,4%</text>
+                  <!-- 0.39,0.85,0.67,0.18,0.73,0.36,0.43,0.85  max ~0.9 -->
+                  <polyline fill="none" stroke="#1a9f6a" stroke-width="2.5" stroke-linejoin="round"
+                    points="51,75 85,24 119,44 153,98 187,37 221,78 255,70 289,24"/>
+                  <circle cx="153" cy="98" r="4" fill="#c4453a"/>
+                  <circle cx="289" cy="24" r="4.5" fill="#1a9f6a" stroke="#fff" stroke-width="2"/>
+                </svg>
+              </div>
+              <div class="axis-labels"><span>ноя</span><span>дек</span><span>янв</span><span>фев</span><span>мар</span><span>апр</span><span>май</span><span>июн</span></div>
+              <div class="point-tip">Фев 0,18% — минимум</div>
+            </div>
+
+            <!-- 4. SEO-трафик -->
+            <div class="chart-card">
+              <h3>SEO-трафик</h3>
+              <div class="delta up">июнь 594 · ↑ к маю</div>
+              <div class="chart-wrap">
+                <svg viewBox="0 0 320 140" preserveAspectRatio="none">
+                  <line x1="28" y1="10" x2="28" y2="118" stroke="#e6ebf2"/>
+                  <line x1="28" y1="118" x2="310" y2="118" stroke="#e6ebf2"/>
+                  <line x1="28" y1="28" x2="310" y2="28" stroke="#eef2f7" stroke-dasharray="3 3"/>
+                  <line x1="28" y1="73" x2="310" y2="73" stroke="#eef2f7" stroke-dasharray="3 3"/>
+                  <text x="4" y="32" font-size="9" fill="#6b778c">800</text>
+                  <text x="4" y="77" font-size="9" fill="#6b778c">400</text>
+                  <!-- 301,731,395,560,570,571,464,594 -->
+                  <polyline fill="none" stroke="#2f6fed" stroke-width="2.5" stroke-linejoin="round"
+                    points="51,80 85,27 119,69 153,48 187,47 221,47 255,60 289,44"/>
+                  <circle cx="85" cy="27" r="3.5" fill="#2f6fed"/>
+                  <circle cx="289" cy="44" r="4.5" fill="#2f6fed" stroke="#fff" stroke-width="2"/>
+                </svg>
+              </div>
+              <div class="axis-labels"><span>ноя</span><span>дек</span><span>янв</span><span>фев</span><span>мар</span><span>апр</span><span>май</span><span>июн</span></div>
+              <div class="point-tip">Пик дек 731</div>
+            </div>
+
+            <!-- 5. % отказов -->
+            <div class="chart-card">
+              <h3>% отказов</h3>
+              <div class="delta up">июнь 25,5% · лучший месяц</div>
+              <div class="chart-wrap">
+                <svg viewBox="0 0 320 140" preserveAspectRatio="none">
+                  <line x1="28" y1="10" x2="28" y2="118" stroke="#e6ebf2"/>
+                  <line x1="28" y1="118" x2="310" y2="118" stroke="#e6ebf2"/>
+                  <line x1="28" y1="28" x2="310" y2="28" stroke="#eef2f7" stroke-dasharray="3 3"/>
+                  <line x1="28" y1="73" x2="310" y2="73" stroke="#eef2f7" stroke-dasharray="3 3"/>
+                  <text x="2" y="32" font-size="9" fill="#6b778c">50%</text>
+                  <text x="2" y="77" font-size="9" fill="#6b778c">35%</text>
+                  <!-- 37.9,35.7,38.6,46.3,38.9,38.1,33.6,25.5  scale 20-50 -->
+                  <polyline fill="none" stroke="#c9841a" stroke-width="2.5" stroke-linejoin="round"
+                    points="51,58 85,65 119,55 153,28 187,54 221,57 255,72 289,100"/>
+                  <circle cx="153" cy="28" r="4" fill="#c4453a"/>
+                  <circle cx="289" cy="100" r="4.5" fill="#1a9f6a" stroke="#fff" stroke-width="2"/>
+                </svg>
+              </div>
+              <div class="axis-labels"><span>ноя</span><span>дек</span><span>янв</span><span>фев</span><span>мар</span><span>апр</span><span>май</span><span>июн</span></div>
+              <div class="point-tip">Фев 46,3% — худший</div>
+            </div>
+
+            <!-- 6. Время на сайте -->
+            <div class="chart-card">
+              <h3>Время на сайте</h3>
+              <div class="delta up">июнь 1 мин 52 сек · ↑ к маю</div>
+              <div class="chart-wrap">
+                <svg viewBox="0 0 320 140" preserveAspectRatio="none">
+                  <line x1="36" y1="10" x2="36" y2="118" stroke="#e6ebf2"/>
+                  <line x1="36" y1="118" x2="310" y2="118" stroke="#e6ebf2"/>
+                  <line x1="36" y1="28" x2="310" y2="28" stroke="#eef2f7" stroke-dasharray="3 3"/>
+                  <line x1="36" y1="73" x2="310" y2="73" stroke="#eef2f7" stroke-dasharray="3 3"/>
+                  <text x="2" y="32" font-size="8" fill="#6b778c">2м</text>
+                  <text x="2" y="77" font-size="8" fill="#6b778c">1м</text>
+                  <text x="2" y="122" font-size="8" fill="#6b778c">0</text>
+                  <!-- seconds: 97,97,68,52,54,58,77,112  max 120 -->
+                  <polyline fill="none" stroke="#2f6fed" stroke-width="2.5" stroke-linejoin="round"
+                    points="55,37 89,37 123,61 157,75 191,73 225,70 259,54 293,25"/>
+                  <circle cx="157" cy="75" r="3.5" fill="#c4453a"/>
+                  <circle cx="293" cy="25" r="4.5" fill="#2f6fed" stroke="#fff" stroke-width="2"/>
+                </svg>
+              </div>
+              <div class="axis-labels"><span>ноя</span><span>дек</span><span>янв</span><span>фев</span><span>мар</span><span>апр</span><span>май</span><span>июн</span></div>
+              <div class="point-tip">ноя/дек: 1 мин 37 сек · фев: 52 сек · июн: 1 мин 52 сек</div>
+            </div>
+
+          </div>
+          <div class="foot" style="margin-top:12px">Данные за месяц редактируются кнопкой «Редактировать месяц». Лиды — из CRM, остальное — вручную из Метрики.</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<title>Маркетинг · Мерч</title>
+<link rel="stylesheet" href="_shared.css"/>
+<style>
+  body { width: 1440px; }
+  .layout {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 14px;
+    align-items: start;
+  }
+  .field label {
+    display: block;
+    color: var(--muted);
+    font-size: 11px;
+    margin-bottom: 3px;
+  }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 7px 9px;
+    font: inherit;
+    background: #fff;
+  }
+  .field textarea { resize: vertical; min-height: 56px; }
+  table.stock td.num, table.stock th.num,
+  table.journal td.num, table.journal th.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  table.stock tr.low td.qty { color: var(--bad); font-weight: 700; }
+  table.stock tr.low { background: #fff8f7; }
+  .take-grid {
+    display: grid;
+    grid-template-columns: 1fr 72px;
+    gap: 6px 8px;
+    align-items: center;
+    max-height: 280px;
+    overflow: auto;
+    padding: 4px 2px;
+  }
+  .take-grid .sku-name { font-size: 12px; }
+  .take-grid input[type="number"] {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 6px 8px;
+    font: inherit;
+    text-align: right;
+  }
+  .meta-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .journal .purpose { color: var(--muted); font-size: 11px; }
+  .journal .items { font-size: 12px; line-height: 1.4; }
+  .empty { color: var(--muted); padding: 16px 4px; }
+  .hint { color: var(--muted); font-size: 12px; margin: 0 0 10px; }
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="logo">ИТМен</div>
+  <div class="nav-item">Дашборд пайплайна</div>
+  <div class="nav-item">Сделки</div>
+  <div class="nav-item">Канбан</div>
+  <div class="nav-item">Календарь</div>
+  <div class="nav-item">Отчёты</div>
+  <div class="nav-item active">Маркетинг</div>
+  <div class="nav-item">Модель скоринга</div>
+  <div class="nav-item">Профиль</div>
+</aside>
+<div class="main">
+  <div class="top">
+    <div class="h1">Маркетинг</div>
+    <div class="tabs">
+      <a class="tab" href="leads-by-source.html">Лиды по источникам</a>
+      <a class="tab" href="cohort.html">Когортный анализ</a>
+      <a class="tab" href="site.html">Сайт</a>
+      <a class="tab" href="product-and-ta.html">Продукт и ЦА</a>
+      <a class="tab" href="pr-content.html">PR и контент</a>
+      <a class="tab active" href="merch.html">Мерч</a>
+      <a class="tab" href="contractors-payments.html">Подрядчики и оплаты</a>
+    </div>
+  </div>
+  <div class="content">
+    <div class="toolbar">
+      <div class="period">Склад раздатки · остатки</div>
+      <div>
+        <button type="button" class="btn ghost" id="btn-reset">Сбросить демо</button>
+        <button type="button" class="btn ghost" id="btn-adjust">Корректировка остатка</button>
+      </div>
+    </div>
+    <p class="hint">Порог «мало»: &lt; 20 шт. При списании остаток пересчитывается сразу, запись появляется в журнале.</p>
+
+    <div class="layout">
+      <div class="card">
+        <h3>Остатки на складе</h3>
+        <table class="stock" id="stock-table">
+          <thead>
+            <tr>
+              <th>Позиция</th>
+              <th class="num">Остаток</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>Взять мерч</h3>
+        <p class="hint">На мероприятие или встречу с клиентом — укажите количество по нужным позициям.</p>
+        <form id="take-form">
+          <div class="meta-row">
+            <div class="field">
+              <label>Дата</label>
+              <input type="date" id="take-date" required/>
+            </div>
+            <div class="field">
+              <label>Цель</label>
+              <select id="take-purpose">
+                <option value="мероприятие">Мероприятие</option>
+                <option value="встреча">Встреча с клиентом</option>
+                <option value="партнёрка">Партнёрка / раздача</option>
+                <option value="прочее">Прочее</option>
+              </select>
+            </div>
+          </div>
+          <div class="field" style="margin-bottom:10px">
+            <label>Куда / комментарий</label>
+            <input type="text" id="take-note" placeholder="Напр. конференция ITSM, встреча Softline" required/>
+          </div>
+          <div class="take-grid" id="take-grid"></div>
+          <div style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end">
+            <button type="submit" class="btn">Списать и обновить остатки</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <h3>Журнал списаний</h3>
+      <table class="journal" id="journal-table">
+        <thead>
+          <tr>
+            <th>Дата</th>
+            <th>Цель</th>
+            <th>Комментарий</th>
+            <th>Что взяли</th>
+            <th class="num">Всего шт.</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="empty" id="journal-empty" hidden>Пока нет списаний — остатки как на складе.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const LOW = 20;
+  const INITIAL = [
+    { id: "notebooks", name: "Блокноты с лого", qty: 101 },
+    { id: "pens", name: "Ручки с лого", qty: 100 },
+    { id: "coffer", name: "Коффер с маскотом", qty: 26 },
+    { id: "shopper-mascot", name: "Шоппер с маскотом", qty: 12 },
+    { id: "shopper-bear", name: "Шоппер со старым медведем", qty: 19 },
+    { id: "popsocket", name: "Попсокет", qty: 56 },
+    { id: "bags-red", name: "Пакеты красные", qty: 52 },
+    { id: "handouts", name: "Раздатка ИТМен", qty: 85 },
+    { id: "cups", name: "Стаканы ИТМен", qty: 675 },
+    { id: "flyers", name: "Листовки ITSM-лес", qty: 300 }
+  ];
+
+  let stock = INITIAL.map((x) => ({ ...x }));
+  let journal = [
+    {
+      date: "2026-07-10",
+      purpose: "мероприятие",
+      note: "Хакатон Инферит",
+      lines: [
+        { id: "shopper-mascot", name: "Шоппер с маскотом", qty: 8 },
+        { id: "pens", name: "Ручки с лого", qty: 40 },
+        { id: "handouts", name: "Раздатка ИТМен", qty: 50 }
+      ]
+    },
+    {
+      date: "2026-07-18",
+      purpose: "встреча",
+      note: "Встреча с клиентом · банк",
+      lines: [
+        { id: "notebooks", name: "Блокноты с лого", qty: 5 },
+        { id: "popsocket", name: "Попсокет", qty: 5 }
+      ]
+    }
+  ];
+
+  // Seed: demo journal already reflected in sheet numbers — keep sheet as source of truth.
+  // Journal is illustrative history; new takes subtract from current stock.
+
+  const fmt = (n) => n.toLocaleString("ru-RU");
+  const purposeLabel = {
+    "мероприятие": "Мероприятие",
+    "встреча": "Встреча",
+    "партнёрка": "Партнёрка",
+    "прочее": "Прочее"
+  };
+
+  function renderStock() {
+    const tbody = document.querySelector("#stock-table tbody");
+    tbody.innerHTML = stock.map((item) => {
+      const low = item.qty < LOW;
+      return `<tr class="${low ? "low" : ""}" data-id="${item.id}">
+        <td>${item.name}</td>
+        <td class="num qty">${fmt(item.qty)}</td>
+        <td>${low ? '<span class="badge red">мало</span>' : ""}</td>
+      </tr>`;
+    }).join("");
+  }
+
+  function renderTakeGrid() {
+    const grid = document.getElementById("take-grid");
+    grid.innerHTML = `<div class="sku-name" style="color:var(--muted);font-size:11px">Позиция</div>
+      <div style="color:var(--muted);font-size:11px;text-align:right">Взять</div>` +
+      stock.map((item) => `
+        <div class="sku-name">${item.name} <span style="color:var(--muted)">(остаток ${fmt(item.qty)})</span></div>
+        <input type="number" min="0" max="${item.qty}" value="0" data-id="${item.id}" />
+      `).join("");
+  }
+
+  function renderJournal() {
+    const tbody = document.querySelector("#journal-table tbody");
+    const empty = document.getElementById("journal-empty");
+    if (!journal.length) {
+      tbody.innerHTML = "";
+      empty.hidden = false;
+      return;
+    }
+    empty.hidden = true;
+    const sorted = [...journal].sort((a, b) => b.date.localeCompare(a.date));
+    tbody.innerHTML = sorted.map((row) => {
+      const total = row.lines.reduce((s, l) => s + l.qty, 0);
+      const items = row.lines.map((l) => `${l.name} × ${l.qty}`).join("<br/>");
+      return `<tr>
+        <td>${row.date}</td>
+        <td><span class="badge">${purposeLabel[row.purpose] || row.purpose}</span></td>
+        <td>${row.note}</td>
+        <td class="items">${items}</td>
+        <td class="num">${fmt(total)}</td>
+      </tr>`;
+    }).join("");
+  }
+
+  function renderAll() {
+    renderStock();
+    renderTakeGrid();
+    renderJournal();
+  }
+
+  document.getElementById("take-date").value = "2026-07-24";
+
+  document.getElementById("take-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const date = document.getElementById("take-date").value;
+    const purpose = document.getElementById("take-purpose").value;
+    const note = document.getElementById("take-note").value.trim();
+    const inputs = [...document.querySelectorAll("#take-grid input[data-id]")];
+    const lines = [];
+    for (const input of inputs) {
+      const qty = parseInt(input.value, 10) || 0;
+      if (qty <= 0) continue;
+      const item = stock.find((x) => x.id === input.dataset.id);
+      if (!item) continue;
+      if (qty > item.qty) {
+        alert(`Нельзя взять ${qty} шт. «${item.name}» — на складе только ${item.qty}.`);
+        return;
+      }
+      lines.push({ id: item.id, name: item.name, qty });
+    }
+    if (!lines.length) {
+      alert("Укажите количество хотя бы по одной позиции.");
+      return;
+    }
+    for (const line of lines) {
+      const item = stock.find((x) => x.id === line.id);
+      item.qty -= line.qty;
+    }
+    journal.push({ date, purpose, note, lines });
+    document.getElementById("take-note").value = "";
+    renderAll();
+  });
+
+  document.getElementById("btn-reset").addEventListener("click", () => {
+    stock = INITIAL.map((x) => ({ ...x }));
+    journal = [
+      {
+        date: "2026-07-10",
+        purpose: "мероприятие",
+        note: "Хакатон Инферит",
+        lines: [
+          { id: "shopper-mascot", name: "Шоппер с маскотом", qty: 8 },
+          { id: "pens", name: "Ручки с лого", qty: 40 },
+          { id: "handouts", name: "Раздатка ИТМен", qty: 50 }
+        ]
+      },
+      {
+        date: "2026-07-18",
+        purpose: "встреча",
+        note: "Встреча с клиентом · банк",
+        lines: [
+          { id: "notebooks", name: "Блокноты с лого", qty: 5 },
+          { id: "popsocket", name: "Попсокет", qty: 5 }
+        ]
+      }
+    ];
+    renderAll();
+  });
+
+  document.getElementById("btn-adjust").addEventListener("click", () => {
+    const name = prompt("Название позиции из списка (как в таблице):");
+    if (!name) return;
+    const item = stock.find((x) => x.name.toLowerCase() === name.trim().toLowerCase());
+    if (!item) {
+      alert("Позиция не найдена.");
+      return;
+    }
+    const raw = prompt(`Новый остаток для «${item.name}» (сейчас ${item.qty}):`, String(item.qty));
+    if (raw == null) return;
+    const qty = parseInt(raw, 10);
+    if (Number.isNaN(qty) || qty < 0) {
+      alert("Нужно целое число ≥ 0.");
+      return;
+    }
+    item.qty = qty;
+    renderAll();
+  });
+
+  renderAll();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<title>Маркетинг · Лиды по источникам</title>
+<link rel="stylesheet" href="_shared.css"/>
+<style>
+  body { width: 1440px; }
+  .seg {
+    display: inline-flex;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .seg button {
+    border: 0;
+    background: transparent;
+    padding: 7px 14px;
+    font: inherit;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .seg button.on {
+    background: var(--accent);
+    color: #fff;
+  }
+  .scroll-x {
+    overflow-x: auto;
+    margin: 0 -4px;
+    padding: 0 4px;
+  }
+  table.matrix { min-width: 980px; }
+  table.matrix th.wk, table.matrix td.wk {
+    text-align: right;
+    min-width: 68px;
+    font-variant-numeric: tabular-nums;
+  }
+  table.matrix th.sticky-src, table.matrix td.sticky-src {
+    position: sticky;
+    left: 0;
+    background: #fff;
+    z-index: 1;
+    min-width: 220px;
+    font-weight: 600;
+  }
+  table.matrix thead th.sticky-src { background: #f7f9fc; }
+  table.matrix tr.total td { background: #eef3ff; font-weight: 700; }
+  table.matrix tr.total td.sticky-src { background: #eef3ff; }
+  table.matrix tr.section td {
+    background: #f7f9fc;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 650;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding-top: 10px;
+    padding-bottom: 6px;
+  }
+  table.matrix tr.section td.sticky-src { background: #f7f9fc; font-weight: 650; }
+  table.matrix tr.sub td.sticky-src {
+    font-weight: 500;
+    padding-left: 18px;
+  }
+  table.matrix tr.meta td { color: var(--muted); font-weight: 500; }
+  table.matrix tr.meta td.sticky-src { font-weight: 500; }
+  table.matrix .pipe { font-weight: 600; }
+  .cost-input {
+    width: 110px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 5px 8px;
+    font: inherit;
+    text-align: right;
+    background: #fffbe8;
+  }
+  .cost-input.zero { background: #f7f9fc; color: var(--muted); }
+  .mode-hint { font-size: 12px; color: var(--muted); margin-left: 10px; }
+  .rank-list { margin: 0; padding: 0; list-style: none; }
+  .rank-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .rank-list li:last-child { border-bottom: 0; }
+  .rank-n {
+    width: 22px; height: 22px; border-radius: 6px;
+    background: var(--chip); color: var(--accent);
+    font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .rank-n.gold { background: #fff3cd; color: #8a6d12; }
+  .rank-name { flex: 1; font-weight: 600; }
+  .rank-val { font-variant-numeric: tabular-nums; font-weight: 700; }
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="logo">ИТМен</div>
+  <div class="nav-item">Дашборд пайплайна</div>
+  <div class="nav-item">Сделки</div>
+  <div class="nav-item">Канбан</div>
+  <div class="nav-item">Календарь</div>
+  <div class="nav-item">Отчёты</div>
+  <div class="nav-item active">Маркетинг</div>
+  <div class="nav-item">Модель скоринга</div>
+  <div class="nav-item">Профиль</div>
+</aside>
+<div class="main">
+  <div class="top">
+    <div class="h1">Маркетинг</div>
+    <div class="tabs">
+      <a class="tab active" href="leads-by-source.html">Лиды по источникам</a>
+      <a class="tab" href="cohort.html">Когортный анализ</a>
+      <a class="tab" href="site.html">Сайт</a>
+      <a class="tab" href="product-and-ta.html">Продукт и ЦА</a>
+      <a class="tab" href="pr-content.html">PR и контент</a>
+      <a class="tab" href="merch.html">Мерч</a>
+      <a class="tab" href="contractors-payments.html">Подрядчики и оплаты</a>
+    </div>
+  </div>
+  <div class="content">
+    <div class="toolbar">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div class="seg">
+          <button class="on" type="button">По неделям</button>
+          <button type="button">По месяцам</button>
+        </div>
+        <div class="period">Июль 2026 · 5 недель</div>
+        <span class="mode-hint">Оперативка — недели · сводка — месяцы</span>
+      </div>
+      <div>
+        <button class="btn ghost">Экспорт</button>
+        <button class="btn">+ Затраты / правки</button>
+      </div>
+    </div>
+
+    <div class="note">Сайт разбит как в вашей таблице: формы (MQL) → верифицированные → повторные. Softline и Инферит отдельно от «Партнёры». CPL = затраты ÷ лиды; при бюджете 0 = «—».</div>
+
+    <div class="kpis">
+      <div class="kpi"><div class="label">Лиды · все каналы</div><div class="value">80</div><div class="sub">июль</div></div>
+      <div class="kpi"><div class="label">Пайп · июль</div><div class="value">18,4 млн ₽</div></div>
+      <div class="kpi"><div class="label">CPL общий</div><div class="value">6 400 ₽</div><div class="sub">только по каналам с затратами</div></div>
+    </div>
+
+    <div class="card" style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:12px;flex-wrap:wrap">
+        <h3 style="margin:0">Лиды по источникам · июль 2026</h3>
+        <span class="muted" style="font-size:12px">Колонки = недели · «Общее» и «Пайп» = итог месяца</span>
+      </div>
+      <div class="scroll-x">
+        <table class="matrix">
+          <thead>
+            <tr>
+              <th class="sticky-src">Канал</th>
+              <th class="wk">1–5.07</th>
+              <th class="wk">6–12.07</th>
+              <th class="wk">13–19.07</th>
+              <th class="wk">20–26.07</th>
+              <th class="wk">27–31.07</th>
+              <th class="wk">Общее</th>
+              <th class="wk">Пайп, ₽</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="section"><td class="sticky-src" colspan="8">Сайт ИТМен</td></tr>
+            <tr class="meta">
+              <td class="sticky-src">Трафик (общий)</td>
+              <td class="wk">115</td><td class="wk">185</td><td class="wk">183</td><td class="wk">—</td><td class="wk">—</td>
+              <td class="wk"><b>483</b></td>
+              <td class="wk muted">—</td>
+            </tr>
+            <tr class="sub">
+              <td class="sticky-src">Сайт формы (MQL)</td>
+              <td class="wk">1</td><td class="wk">3</td><td class="wk">1</td><td class="wk">—</td><td class="wk">—</td>
+              <td class="wk"><b>5</b></td>
+              <td class="wk muted">—</td>
+            </tr>
+            <tr class="sub">
+              <td class="sticky-src">Верифицированные лиды с сайта</td>
+              <td class="wk">1</td><td class="wk">3</td><td class="wk">1</td><td class="wk">—</td><td class="wk">—</td>
+              <td class="wk"><b>5</b></td>
+              <td class="wk pipe">2 850 000</td>
+            </tr>
+            <tr class="sub meta">
+              <td class="sticky-src">Повторные лиды (уже были в воронке)</td>
+              <td class="wk">0</td><td class="wk">1</td><td class="wk">0</td><td class="wk">—</td><td class="wk">—</td>
+              <td class="wk"><b>1</b></td>
+              <td class="wk muted">—</td>
+            </tr>
+
+            <tr class="section"><td class="sticky-src" colspan="8">Другие источники</td></tr>
+            <tr>
+              <td class="sticky-src">Softline (АМы)</td>
+              <td class="wk">4</td><td class="wk">3</td><td class="wk">2</td><td class="wk">5</td><td class="wk">2</td>
+              <td class="wk"><b>16</b></td>
+              <td class="wk pipe">4 100 000</td>
+            </tr>
+            <tr>
+              <td class="sticky-src">Инферит</td>
+              <td class="wk">1</td><td class="wk">2</td><td class="wk">1</td><td class="wk">0</td><td class="wk">1</td>
+              <td class="wk"><b>5</b></td>
+              <td class="wk pipe">1 450 000</td>
+            </tr>
+            <tr>
+              <td class="sticky-src">Инферит Техника</td>
+              <td class="wk">0</td><td class="wk">1</td><td class="wk">0</td><td class="wk">0</td><td class="wk">0</td>
+              <td class="wk"><b>1</b></td>
+              <td class="wk pipe">320 000</td>
+            </tr>
+            <tr>
+              <td class="sticky-src">Ивенты</td>
+              <td class="wk">2</td><td class="wk">0</td><td class="wk">6</td><td class="wk">1</td><td class="wk">0</td>
+              <td class="wk"><b>9</b></td>
+              <td class="wk pipe">3 200 000</td>
+            </tr>
+            <tr>
+              <td class="sticky-src">Партнёрский канал</td>
+              <td class="wk">3</td><td class="wk">6</td><td class="wk">5</td><td class="wk">6</td><td class="wk">4</td>
+              <td class="wk"><b>24</b></td>
+              <td class="wk pipe">4 300 000</td>
+            </tr>
+            <tr>
+              <td class="sticky-src">Email-рассылки</td>
+              <td class="wk">1</td><td class="wk">0</td><td class="wk">2</td><td class="wk">1</td><td class="wk">0</td>
+              <td class="wk"><b>4</b></td>
+              <td class="wk pipe">420 000</td>
+            </tr>
+            <tr>
+              <td class="sticky-src">Вебинары</td>
+              <td class="wk">0</td><td class="wk">5</td><td class="wk">0</td><td class="wk">2</td><td class="wk">0</td>
+              <td class="wk"><b>7</b></td>
+              <td class="wk pipe">1 100 000</td>
+            </tr>
+            <tr>
+              <td class="sticky-src">Холодные продажи</td>
+              <td class="wk">2</td><td class="wk">3</td><td class="wk">2</td><td class="wk">2</td><td class="wk">1</td>
+              <td class="wk"><b>10</b></td>
+              <td class="wk pipe">980 000</td>
+            </tr>
+            <tr class="total">
+              <td class="sticky-src">ИТОГО (вериф. сайт + каналы)</td>
+              <td class="wk">14</td><td class="wk">23</td><td class="wk">19</td><td class="wk">17</td><td class="wk">8</td>
+              <td class="wk">81</td>
+              <td class="wk pipe">18 720 000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="foot">В ИТОГО не входят «Сайт формы (MQL)» и «повторные» отдельно (формы = MQL; в сумму каналов идёт верифицированный сайт). Трафик — не лиды.</div>
+    </div>
+
+    <div class="grid" style="grid-template-columns: 1.1fr 1fr 1fr; gap:12px; margin-bottom:12px">
+      <div class="card">
+        <h3>CPL по каналам · июль</h3>
+        <p class="muted" style="margin:0 0 10px;font-size:12px">Затраты вручную. CPL = затраты ÷ лиды. Бюджет 0 → «—».</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Источник</th>
+              <th class="num">Лиды</th>
+              <th class="num">Затраты, ₽</th>
+              <th class="num">CPL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Сайт формы (MQL)</td>
+              <td class="num">5</td>
+              <td class="num"><input class="cost-input" value="21 000"/></td>
+              <td class="num"><b>4 200 ₽</b></td>
+            </tr>
+            <tr>
+              <td>Ивенты</td>
+              <td class="num">9</td>
+              <td class="num"><input class="cost-input" value="180 000"/></td>
+              <td class="num"><b>20 000 ₽</b></td>
+            </tr>
+            <tr>
+              <td>Softline</td>
+              <td class="num">16</td>
+              <td class="num"><input class="cost-input zero" value="0"/></td>
+              <td class="num muted">—</td>
+            </tr>
+            <tr>
+              <td>Инферит</td>
+              <td class="num">5</td>
+              <td class="num"><input class="cost-input zero" value="0"/></td>
+              <td class="num muted">—</td>
+            </tr>
+            <tr>
+              <td>Email-рассылки</td>
+              <td class="num">4</td>
+              <td class="num"><input class="cost-input" value="12 000"/></td>
+              <td class="num"><b>3 000 ₽</b></td>
+            </tr>
+            <tr>
+              <td>Вебинары</td>
+              <td class="num">7</td>
+              <td class="num"><input class="cost-input" value="35 000"/></td>
+              <td class="num"><b>5 000 ₽</b></td>
+            </tr>
+            <tr>
+              <td>Партнёрский канал</td>
+              <td class="num">24</td>
+              <td class="num"><input class="cost-input" value="48 000"/></td>
+              <td class="num"><b>2 000 ₽</b></td>
+            </tr>
+            <tr>
+              <td>Холодные продажи</td>
+              <td class="num">10</td>
+              <td class="num"><input class="cost-input zero" value="0"/></td>
+              <td class="num muted">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>Рейтинг · больше всего лидов</h3>
+        <ul class="rank-list">
+          <li><span class="rank-n gold">1</span><span class="rank-name">Партнёрский канал</span><span class="rank-val">24</span></li>
+          <li><span class="rank-n">2</span><span class="rank-name">Softline</span><span class="rank-val">16</span></li>
+          <li><span class="rank-n">3</span><span class="rank-name">Холодные продажи</span><span class="rank-val">10</span></li>
+          <li><span class="rank-n">4</span><span class="rank-name">Ивенты</span><span class="rank-val">9</span></li>
+          <li><span class="rank-n">5</span><span class="rank-name">Вебинары</span><span class="rank-val">7</span></li>
+          <li><span class="rank-n">6</span><span class="rank-name">Сайт формы (MQL)</span><span class="rank-val">5</span></li>
+          <li><span class="rank-n">7</span><span class="rank-name">Инферит</span><span class="rank-val">5</span></li>
+          <li><span class="rank-n">8</span><span class="rank-name">Email-рассылки</span><span class="rank-val">4</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Рейтинг · самый большой пайп</h3>
+        <ul class="rank-list">
+          <li><span class="rank-n gold">1</span><span class="rank-name">Партнёрский канал</span><span class="rank-val">4,3 млн</span></li>
+          <li><span class="rank-n">2</span><span class="rank-name">Softline</span><span class="rank-val">4,1 млн</span></li>
+          <li><span class="rank-n">3</span><span class="rank-name">Ивенты</span><span class="rank-val">3,2 млн</span></li>
+          <li><span class="rank-n">4</span><span class="rank-name">Сайт формы (MQL)</span><span class="rank-val">2,85 млн</span></li>
+          <li><span class="rank-n">5</span><span class="rank-name">Инферит</span><span class="rank-val">1,45 млн</span></li>
+          <li><span class="rank-n">6</span><span class="rank-name">Вебинары</span><span class="rank-val">1,1 млн</span></li>
+          <li><span class="rank-n">7</span><span class="rank-name">Холодные продажи</span><span class="rank-val">0,98 млн</span></li>
+          <li><span class="rank-n">8</span><span class="rank-name">Email-рассылки</span><span class="rank-val">0,42 млн</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <h3 style="margin:0">Превью режима «По месяцам»</h3>
+        <span class="badge blue">сводка за период</span>
+      </div>
+      <p class="muted" style="margin:0 0 10px;font-size:12px">Вместо недель — месяцы.</p>
+      <div class="scroll-x">
+        <table class="matrix" style="min-width:720px">
+          <thead>
+            <tr>
+              <th class="sticky-src">Канал</th>
+              <th class="wk">май</th>
+              <th class="wk">июн</th>
+              <th class="wk">июл</th>
+              <th class="wk">Общее</th>
+              <th class="wk">Пайп, ₽</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="sticky-src">Сайт формы (MQL)</td>
+              <td class="wk">14</td><td class="wk">11</td><td class="wk">5</td>
+              <td class="wk"><b>30</b></td>
+              <td class="wk pipe">8 200 000</td>
+            </tr>
+            <tr>
+              <td class="sticky-src">Партнёрский канал</td>
+              <td class="wk">18</td><td class="wk">20</td><td class="wk">24</td>
+              <td class="wk"><b>62</b></td>
+              <td class="wk pipe">11 200 000</td>
+            </tr>
+            <tr class="total">
+              <td class="sticky-src">ИТОГО (все каналы)</td>
+              <td class="wk">68</td><td class="wk">61</td><td class="wk">81</td>
+              <td class="wk">210</td>
+              <td class="wk pipe">48 900 000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
