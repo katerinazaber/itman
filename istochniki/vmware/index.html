@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Инвентаризация VMware: учёт виртуальных машин | ИТМен</title>
+<meta name="description" content="ИТМен собирает данные о виртуальных машинах, хостах ESXi и ПО из VMware vSphere по API через vCenter — без агентов. Чистые данные для CMDB, ITSM и ITAM.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://itman.ru/istochniki/vmware">
+<meta property="og:title" content="Инвентаризация VMware: учёт виртуальных машин | ИТМен">
+<meta property="og:description" content="Безагентный сбор данных о ВМ, хостах ESXi и кластерах из VMware vSphere. Очищенные данные для CMDB, ITSM и ITAM.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{font-family:'Golos Text',system-ui,-apple-system,sans-serif;background:#fff;color:#15181C;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;}
+  ::selection{background:#DD0D29;color:#fff;}
+
+  .faq-panel{max-height:0;opacity:0;overflow:hidden;padding:0 30px;transition:max-height .4s ease,opacity .3s ease,padding .4s ease;}
+  .faq-panel.open{max-height:600px;opacity:1;padding:0 30px 26px;}
+  .faq-chev{display:inline-flex;color:#9AA1A9;transition:transform .3s ease,color .3s ease;}
+  .faq-chev.open{transform:rotate(180deg);color:#DD0D29;}
+
+  .nav-drop{position:relative;}
+  .nav-drop>a{cursor:pointer;}
+  .nav-menu{position:absolute;top:calc(100% + 14px);left:-20px;display:grid;grid-template-columns:repeat(3,minmax(180px,1fr));gap:8px 30px;
+    background:#fff;border:1px solid #ECEEF1;border-radius:16px;padding:24px 28px;box-shadow:0 24px 60px -24px rgba(20,23,26,0.25);
+    opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .2s ease,transform .2s ease,visibility .2s;z-index:60;}
+  .nav-drop:hover .nav-menu{opacity:1;visibility:visible;transform:translateY(0);}
+  .nav-menu::before{content:"";position:absolute;top:-14px;left:0;right:0;height:14px;}
+  .nav-col{display:flex;flex-direction:column;gap:4px;}
+  .nav-h{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.6px;color:#DD0D29;margin-bottom:6px;}
+  .nav-sub{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#9AA1A9;margin:10px 0 2px;}
+  .nav-menu a{font-size:14px;color:#2B2F35;text-decoration:none;padding:5px 0;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+  .nav-menu a:hover{color:#DD0D29;}
+  .nav-menu a.soon{color:#9AA1A9;}
+  .nav-menu a.soon span{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#9AA1A9;background:#F0F2F4;border-radius:5px;padding:2px 6px;}
+
+  input:focus,select:focus,textarea:focus{border-color:#DD0D29 !important;}
+
+  @media(max-width:900px){
+    .nav-menu{grid-template-columns:1fr;left:0;}
+  }
+</style>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"Чем инвентаризация VMware в ИТМен отличается от мониторинга?","acceptedAnswer":{"@type":"Answer","text":"ИТМен ведёт учёт и инвентаризацию — состав, конфигурацию, ПО и связи ВМ, а не мониторинг производительности и нагрузки в реальном времени."}},
+    {"@type":"Question","name":"Нужно ли ставить агентов на виртуальные машины?","acceptedAnswer":{"@type":"Answer","text":"Нет. Сбор безагентный — через подключение к vCenter по API."}},
+    {"@type":"Question","name":"Можно ли собирать данные с нескольких vCenter?","acceptedAnswer":{"@type":"Answer","text":"Да. Данные с разных vCenter и площадок сводятся в единую нормализованную базу."}},
+    {"@type":"Question","name":"Куда передаются данные о виртуальных машинах?","acceptedAnswer":{"@type":"Answer","text":"В CMDB, ITSM, ITAM и SAM — в очищенном и нормализованном виде, без дублей."}},
+    {"@type":"Question","name":"Инферит ИТМен — это CMDB?","acceptedAnswer":{"@type":"Answer","text":"Нет. ИТМен собирает и нормализует данные и наполняет ими CMDB / ITSM, а не заменяет их."}},
+    {"@type":"Question","name":"Поддерживаются ли другие гипервизоры, кроме VMware?","acceptedAnswer":{"@type":"Answer","text":"Да. Кроме VMware vSphere ИТМен собирает данные из SCVMM (Hyper-V), zVirt и RedVirt — виртуальная инфраструктура на разных платформах сводится в единую базу."}}
+  ]
+}
+</script>
+</head>
+<body>
+<div style="width:100%; overflow-x:hidden;">
+
+  <!-- ============ HEADER ============ -->
+  <header style="position:sticky; top:0; z-index:50; background:rgba(255,255,255,0.92); backdrop-filter:blur(12px); border-bottom:1px solid #ECEEF1;">
+    <div style="max-width:1240px; margin:0 auto; padding:14px 40px; display:flex; align-items:center; gap:34px;">
+      <a href="#" style="display:flex; align-items:center; gap:11px; text-decoration:none;">
+        <span style="display:flex; height:38px; border-radius:8px; overflow:hidden; border:1.6px solid #15181C;">
+          <span style="width:19px; background:#fff; position:relative; overflow:hidden; display:block;">
+            <span style="position:absolute; inset:0; background:#DD0D29; clip-path:polygon(100% 0,100% 100%,18% 100%);"></span>
+          </span>
+          <span style="width:27px; background:#DD0D29; color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800;">ИТ</span>
+        </span>
+        <span style="line-height:1;">
+          <span style="display:block; font-size:17px; font-weight:800; letter-spacing:0.4px; color:#15181C;">ИНФЕРИТ</span>
+          <span style="display:block; font-size:12.5px; font-weight:700; color:#DD0D29; margin-top:2px;">ИТМен</span>
+        </span>
+      </a>
+      <nav style="display:flex; align-items:center; gap:26px; font-size:14.5px; font-weight:500; color:#2B2F35; white-space:nowrap;">
+        <div class="nav-drop"><a href="#" style="text-decoration:none; display:flex; align-items:center; gap:5px;">Технологии <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9AA1A9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></a>
+          <div class="nav-menu">
+            <div class="nav-col">
+              <div class="nav-h">Источники данных</div>
+              <div class="nav-sub">Службы каталогов</div>
+              <a href="#">Active Directory</a>
+              <a href="#">FreeIPA и ALD Pro</a>
+              <a href="#" class="soon">Samba <span>скоро</span></a>
+              <div class="nav-sub">Гипервизоры</div>
+              <a href="#">VMware</a>
+              <a href="#" class="soon">SCVMM (Hyper-V) <span>скоро</span></a>
+              <a href="#" class="soon">zVirt <span>скоро</span></a>
+              <a href="#" class="soon">RedVirt <span>скоро</span></a>
+            </div>
+            <div class="nav-col">
+              <div class="nav-sub">Антивирусы</div>
+              <a href="#" class="soon">Kaspersky Security Center <span>скоро</span></a>
+              <div class="nav-sub">Системы управления</div>
+              <a href="#">Аналог SCCM</a>
+              <a href="#" class="soon">SolarWinds <span>скоро</span></a>
+            </div>
+            <div class="nav-col">
+              <div class="nav-h">Интеграции с ITSM / ITAM</div>
+              <a href="#">SimpleOne</a>
+              <a href="#" class="soon">Naumen <span>скоро</span></a>
+              <a href="#" class="soon">ITSMbox <span>скоро</span></a>
+            </div>
+          </div>
+        </div>
+        <a href="#" style="text-decoration:none; display:flex; align-items:center; gap:5px;">Готовые решения <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9AA1A9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></a>
+        <a href="#" style="text-decoration:none; display:flex; align-items:center; gap:5px;">Отрасли <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9AA1A9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></a>
+        <a href="#" style="text-decoration:none;">Кейсы</a>
+        <a href="#" style="text-decoration:none; display:flex; align-items:center; gap:5px;">О нас <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9AA1A9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></a>
+        <a href="#" style="text-decoration:none;">Поддержка</a>
+      </nav>
+      <div style="margin-left:auto; display:flex; align-items:center; gap:12px;">
+        <a href="tel:88007078553" style="width:44px; height:44px; border-radius:11px; background:#DD0D29; display:flex; align-items:center; justify-content:center; text-decoration:none;">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+        </a>
+        <a href="#demo" style="padding:0 22px; height:44px; display:flex; align-items:center; background:#15181C; color:#fff; border-radius:11px; font-size:14.5px; font-weight:600; text-decoration:none;">Получить демо</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section style="background:#fff;">
+    <div style="max-width:1240px; margin:0 auto; padding:46px 40px 80px;">
+      <div style="font-size:14px; color:#9AA1A9; display:flex; align-items:center; gap:9px; margin-bottom:42px;">
+        <a href="#" style="text-decoration:none; color:#9AA1A9;">Главная</a><span>›</span>
+        <a href="#" style="text-decoration:none; color:#9AA1A9;">Источники данных</a><span>›</span>
+        <span style="color:#5B6066;">Инвентаризация VMware</span>
+      </div>
+      <div style="display:grid; grid-template-columns:1.05fr 1fr; gap:60px; align-items:center;">
+        <div>
+          <h1 style="font-size:48px; line-height:1.08; font-weight:800; letter-spacing:-0.5px; margin:0 0 22px; color:#15181C;">Инвентаризация&nbsp;VMware: учёт виртуальных&nbsp;машин и&nbsp;хостов&nbsp;vSphere</h1>
+          <p style="font-size:18px; line-height:1.6; color:#565C64; margin:0 0 28px; max-width:560px;">Автоматический сбор данных о&nbsp;виртуальной инфраструктуре VMware&nbsp;vSphere: учёт виртуальных машин, хостов, ресурсов и&nbsp;установленного ПО. Очищенные и&nbsp;нормализованные данные — для CMDB, ITSM и&nbsp;ITAM.</p>
+          <ul style="list-style:none; padding:0; margin:0 0 34px; display:flex; flex-direction:column; gap:13px;">
+            <li style="display:flex; align-items:center; gap:12px; font-size:16px; color:#2B2F35;"><span style="flex:none; width:22px; height:22px; border-radius:50%; background:#FCE8EB; display:flex; align-items:center; justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Учёт ВМ, хостов ESXi, кластеров и установленного ПО</li>
+            <li style="display:flex; align-items:center; gap:12px; font-size:16px; color:#2B2F35;"><span style="flex:none; width:22px; height:22px; border-radius:50%; background:#FCE8EB; display:flex; align-items:center; justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Безагентный сбор по API через vCenter</li>
+            <li style="display:flex; align-items:center; gap:12px; font-size:16px; color:#2B2F35;"><span style="flex:none; width:22px; height:22px; border-radius:50%; background:#FCE8EB; display:flex; align-items:center; justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Нормализованные данные для CMDB, ITSM и ITAM</li>
+          </ul>
+          <div style="display:flex; gap:14px; flex-wrap:wrap;">
+            <a href="#demo" style="padding:0 28px; height:54px; display:flex; align-items:center; background:#DD0D29; color:#fff; border-radius:12px; font-size:16px; font-weight:700; text-decoration:none;">Получить демо</a>
+            <a href="#" style="padding:0 28px; height:54px; display:flex; align-items:center; background:#fff; color:#15181C; border:1.6px solid #D7DBE0; border-radius:12px; font-size:16px; font-weight:600; text-decoration:none;">Скачать презентацию</a>
+          </div>
+        </div>
+        <div style="position:relative;">
+          <div style="position:absolute; right:-40px; top:-30px; width:340px; height:340px; background:radial-gradient(circle,#F4F6F8 0%,rgba(244,246,248,0) 70%); border-radius:50%; z-index:0;"></div>
+          <div style="position:relative; z-index:1;">
+            <div style="width:100%; font-family:'Golos Text',system-ui,sans-serif; background:#0D1117; border:1px solid rgba(255,255,255,0.09); border-radius:14px; overflow:hidden; box-shadow:0 30px 70px -25px rgba(8,12,20,0.55); color:#C9D1D9;">
+
+  <!-- title bar -->
+  <div style="display:flex; align-items:center; gap:14px; padding:11px 16px; background:#161B22; border-bottom:1px solid rgba(255,255,255,0.07);">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <div style="width:22px; height:22px; border-radius:5px; background:#DD0D29; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800; color:#fff; letter-spacing:0.2px;">ИТ</div>
+      <span style="font-size:13px; font-weight:700; color:#EDF1F5; letter-spacing:0.3px;">ИНФЕРИТ <span style="color:#8B949E; font-weight:600;">ИТМен</span></span>
+    </div>
+    <div style="display:flex; gap:18px; margin-left:14px; font-size:11.5px; color:#8B949E;">
+      <span>Активы</span>
+      <span>Анализ данных</span>
+      <span style="color:#fff; position:relative;">Сбор данных<span style="position:absolute; left:0; right:0; bottom:-13px; height:2px; background:#2D6FE0; border-radius:2px;"></span></span>
+      <span>Администрирование</span>
+    </div>
+    <div style="margin-left:auto; display:flex; align-items:center; gap:10px;">
+      <span style="width:7px; height:7px; border-radius:50%; background:#2EA043; box-shadow:0 0 0 3px rgba(46,160,67,0.18);"></span>
+      <span style="font-size:11px; color:#8B949E;">vCenter подключён</span>
+    </div>
+  </div>
+
+  <!-- toolbar -->
+  <div style="display:flex; align-items:center; gap:10px; padding:13px 16px; border-bottom:1px solid rgba(255,255,255,0.06);">
+    <div style="display:flex; align-items:center; gap:7px; padding:6px 11px; background:rgba(45,111,224,0.12); border:1px solid rgba(45,111,224,0.35); border-radius:7px; font-size:11.5px; color:#9EC1FF; font-weight:600;">
+      <span style="width:6px; height:6px; border-radius:50%; background:#2D6FE0;"></span>Источник: VMware vCenter
+    </div>
+    <div style="flex:1; height:30px; background:#0F141A; border:1px solid rgba(255,255,255,0.08); border-radius:7px; display:flex; align-items:center; padding:0 11px; gap:8px; color:#5B6675; font-size:11.5px;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+      Поиск виртуальных машин
+    </div>
+    <div style="padding:7px 13px; background:#DD0D29; border-radius:7px; font-size:11.5px; font-weight:700; color:#fff;">Синхронизировать</div>
+  </div>
+
+  <!-- stat chips -->
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(255,255,255,0.06); border-bottom:1px solid rgba(255,255,255,0.06);">
+    <div style="background:#0D1117; padding:13px 16px;"><div style="font-size:19px; font-weight:800; color:#EDF1F5;">1 248</div><div style="font-size:10.5px; color:#7D8794; margin-top:2px;">Виртуальных машин</div></div>
+    <div style="background:#0D1117; padding:13px 16px;"><div style="font-size:19px; font-weight:800; color:#EDF1F5;">64</div><div style="font-size:10.5px; color:#7D8794; margin-top:2px;">Хостов ESXi</div></div>
+    <div style="background:#0D1117; padding:13px 16px;"><div style="font-size:19px; font-weight:800; color:#EDF1F5;">7</div><div style="font-size:10.5px; color:#7D8794; margin-top:2px;">Кластеров</div></div>
+    <div style="background:#0D1117; padding:13px 16px;"><div style="font-size:19px; font-weight:800; color:#EDF1F5;">3</div><div style="font-size:10.5px; color:#7D8794; margin-top:2px;">vCenter</div></div>
+  </div>
+
+  <!-- table -->
+  <div style="padding:4px 4px 8px;">
+    <div style="display:grid; grid-template-columns:1.9fr 1.4fr 1.5fr 0.7fr 0.8fr 1fr; padding:11px 14px; font-size:10px; text-transform:uppercase; letter-spacing:0.6px; color:#6B7480; font-weight:700;">
+      <span>Виртуальная машина</span><span>Хост ESXi</span><span>Гостевая ОС</span><span>vCPU</span><span>RAM</span><span>Статус</span>
+    </div>
+    <div style="display:grid; grid-template-columns:1.9fr 1.4fr 1.5fr 0.7fr 0.8fr 1fr; padding:11px 14px; font-size:11.5px; align-items:center; border-top:1px solid rgba(255,255,255,0.05);">
+      <span style="color:#E6EBF0; font-weight:600;">srv-app-01</span><span style="color:#9AA4AF;">esxi-node-03</span><span style="color:#9AA4AF;">Astra Linux 1.7</span><span style="color:#C9D1D9;">8</span><span style="color:#C9D1D9;">32 ГБ</span><span style="display:flex; align-items:center; gap:6px; color:#3FB950;"><span style="width:6px; height:6px; border-radius:50%; background:#3FB950;"></span>Активна</span>
+    </div>
+    <div style="display:grid; grid-template-columns:1.9fr 1.4fr 1.5fr 0.7fr 0.8fr 1fr; padding:11px 14px; font-size:11.5px; align-items:center; border-top:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.012);">
+      <span style="color:#E6EBF0; font-weight:600;">db-postgres-02</span><span style="color:#9AA4AF;">esxi-node-01</span><span style="color:#9AA4AF;">RED OS 7.3</span><span style="color:#C9D1D9;">16</span><span style="color:#C9D1D9;">64 ГБ</span><span style="display:flex; align-items:center; gap:6px; color:#3FB950;"><span style="width:6px; height:6px; border-radius:50%; background:#3FB950;"></span>Активна</span>
+    </div>
+    <div style="display:grid; grid-template-columns:1.9fr 1.4fr 1.5fr 0.7fr 0.8fr 1fr; padding:11px 14px; font-size:11.5px; align-items:center; border-top:1px solid rgba(255,255,255,0.05);">
+      <span style="color:#E6EBF0; font-weight:600;">win-term-14</span><span style="color:#9AA4AF;">esxi-node-07</span><span style="color:#9AA4AF;">Windows Server 2019</span><span style="color:#C9D1D9;">4</span><span style="color:#C9D1D9;">16 ГБ</span><span style="display:flex; align-items:center; gap:6px; color:#D29922;"><span style="width:6px; height:6px; border-radius:50%; background:#D29922;"></span>Обслуж.</span>
+    </div>
+    <div style="display:grid; grid-template-columns:1.9fr 1.4fr 1.5fr 0.7fr 0.8fr 1fr; padding:11px 14px; font-size:11.5px; align-items:center; border-top:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.012);">
+      <span style="color:#E6EBF0; font-weight:600;">k8s-worker-09</span><span style="color:#9AA4AF;">esxi-node-04</span><span style="color:#9AA4AF;">Ubuntu 22.04</span><span style="color:#C9D1D9;">12</span><span style="color:#C9D1D9;">48 ГБ</span><span style="display:flex; align-items:center; gap:6px; color:#3FB950;"><span style="width:6px; height:6px; border-radius:50%; background:#3FB950;"></span>Активна</span>
+    </div>
+    <div style="display:grid; grid-template-columns:1.9fr 1.4fr 1.5fr 0.7fr 0.8fr 1fr; padding:11px 14px; font-size:11.5px; align-items:center; border-top:1px solid rgba(255,255,255,0.05);">
+      <span style="color:#E6EBF0; font-weight:600;">mail-relay-03</span><span style="color:#9AA4AF;">esxi-node-02</span><span style="color:#9AA4AF;">ALT Linux 10</span><span style="color:#C9D1D9;">2</span><span style="color:#C9D1D9;">8 ГБ</span><span style="display:flex; align-items:center; gap:6px; color:#7D8794;"><span style="width:6px; height:6px; border-radius:50%; background:#7D8794;"></span>Остановл.</span>
+    </div>
+  </div>
+</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FACTBAR ============ -->
+  <section style="background:#fff;">
+    <div style="max-width:1240px; margin:0 auto; padding:0 40px 70px;">
+      <div style="display:grid; grid-template-columns:repeat(6,1fr); gap:16px;">
+        <div style="background:#fff; border:1px solid #ECEEF1; border-radius:16px; padding:26px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px; box-shadow:0 4px 22px -14px rgba(20,23,26,0.1);">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+          <span style="font-size:14px; font-weight:600; color:#2B2F35; line-height:1.35;">В реестре<br>российского ПО</span>
+        </div>
+        <div style="background:#fff; border:1px solid #ECEEF1; border-radius:16px; padding:26px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px; box-shadow:0 4px 22px -14px rgba(20,23,26,0.1);">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+          <span style="font-size:14px; font-weight:600; color:#2B2F35; line-height:1.35;">Применяется<br>с 2011 года</span>
+        </div>
+        <div style="background:#fff; border:1px solid #ECEEF1; border-radius:16px; padding:26px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px; box-shadow:0 4px 22px -14px rgba(20,23,26,0.1);">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <span style="font-size:14px; font-weight:600; color:#2B2F35; line-height:1.35;">Запуск<br>за 6 часов</span>
+        </div>
+        <div style="background:#fff; border:1px solid #ECEEF1; border-radius:16px; padding:26px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px; box-shadow:0 4px 22px -14px rgba(20,23,26,0.1);">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg>
+          <span style="font-size:14px; font-weight:600; color:#2B2F35; line-height:1.35;">Без агентов<br>на ВМ</span>
+        </div>
+        <div style="background:#fff; border:1px solid #ECEEF1; border-radius:16px; padding:26px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px; box-shadow:0 4px 22px -14px rgba(20,23,26,0.1);">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg>
+          <span style="font-size:14px; font-weight:600; color:#2B2F35; line-height:1.35;">Открытое API<br>для интеграции</span>
+        </div>
+        <div style="background:#fff; border:1px solid #ECEEF1; border-radius:16px; padding:26px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px; box-shadow:0 4px 22px -14px rgba(20,23,26,0.1);">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"></path></svg>
+          <span style="font-size:14px; font-weight:600; color:#2B2F35; line-height:1.35;">Бесплатная<br>техподдержка</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ВАМ ПОДОЙДЁТ ============ -->
+  <section style="background:#F5F7F8;">
+    <div style="max-width:1240px; margin:0 auto; padding:90px 40px;">
+      <h2 style="text-align:center; font-size:38px; font-weight:800; letter-spacing:-0.4px; margin:0 0 50px; color:#15181C;">Вам подойдёт решение, если:</h2>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+        <div style="background:#fff; border-radius:20px; padding:38px; box-shadow:0 6px 30px -18px rgba(20,23,26,0.16);">
+          <div style="width:58px; height:58px; border-radius:15px; background:#DD0D29; display:flex; align-items:center; justify-content:center; margin-bottom:22px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"></path><path d="M17 3h2a2 2 0 0 1 2 2v2"></path><path d="M21 17v2a2 2 0 0 1-2 2h-2"></path><path d="M7 21H5a2 2 0 0 1-2-2v-2"></path><path d="M7 12h10"></path></svg>
+          </div>
+          <p style="font-size:18px; line-height:1.5; font-weight:500; color:#2B2F35; margin:0;">Нужен актуальный учёт всех виртуальных машин в vSphere без ручной инвентаризации</p>
+        </div>
+        <div style="background:#fff; border-radius:20px; padding:38px; box-shadow:0 6px 30px -18px rgba(20,23,26,0.16);">
+          <div style="width:58px; height:58px; border-radius:15px; background:#DD0D29; display:flex; align-items:center; justify-content:center; margin-bottom:22px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"></rect><rect x="2" y="16" width="6" height="6" rx="1"></rect><rect x="9" y="2" width="6" height="6" rx="1"></rect><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"></path><path d="M12 12V8"></path></svg>
+          </div>
+          <p style="font-size:18px; line-height:1.5; font-weight:500; color:#2B2F35; margin:0;">Виртуальная инфраструктура распределена по нескольким vCenter и площадкам</p>
+        </div>
+        <div style="background:#fff; border-radius:20px; padding:38px; box-shadow:0 6px 30px -18px rgba(20,23,26,0.16);">
+          <div style="width:58px; height:58px; border-radius:15px; background:#DD0D29; display:flex; align-items:center; justify-content:center; margin-bottom:22px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5V19A9 3 0 0 0 21 19V5"></path><path d="M3 12A9 3 0 0 0 21 12"></path></svg>
+          </div>
+          <p style="font-size:18px; line-height:1.5; font-weight:500; color:#2B2F35; margin:0;">Данные о ВМ нужно передавать в CMDB / ITSM без дублей и расхождений</p>
+        </div>
+        <div style="background:#fff; border-radius:20px; padding:38px; box-shadow:0 6px 30px -18px rgba(20,23,26,0.16);">
+          <div style="width:58px; height:58px; border-radius:15px; background:#DD0D29; display:flex; align-items:center; justify-content:center; margin-bottom:22px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.84z"></path><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"></path><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"></path></svg>
+          </div>
+          <p style="font-size:18px; line-height:1.5; font-weight:500; color:#2B2F35; margin:0;">Важно видеть связь ВМ ↔ физические хосты ↔ установленное ПО</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ КАК ЭТО РАБОТАЕТ ============ -->
+  <section style="background:#fff;">
+    <div style="max-width:1240px; margin:0 auto; padding:90px 40px;">
+      <h2 style="text-align:center; font-size:38px; font-weight:800; letter-spacing:-0.4px; margin:0 0 14px; color:#15181C;">Как это работает</h2>
+      <p style="text-align:center; font-size:18px; line-height:1.6; color:#565C64; max-width:780px; margin:0 auto 56px;">ИТМен подключается к vCenter по API, собирает данные о виртуальных машинах и хостах, приводит их к единому формату и передаёт в целевые системы — без агентов на каждой ВМ.</p>
+      <div style="display:grid; grid-template-columns:1fr auto 1fr auto 1fr; align-items:stretch; gap:0;">
+        <!-- node 1 -->
+        <div style="background:#F5F7F8; border:1px solid #ECEEF1; border-radius:20px; padding:34px 30px; display:flex; flex-direction:column; gap:16px;">
+          <div style="width:54px; height:54px; border-radius:14px; background:#fff; border:1px solid #E6E9ED; display:flex; align-items:center; justify-content:center;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#15181C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="8" x="2" y="2" rx="2"></rect><rect width="20" height="8" x="2" y="14" rx="2"></rect><path d="M6 6h.01"></path><path d="M6 18h.01"></path></svg>
+          </div>
+          <div>
+            <div style="font-size:19px; font-weight:800; line-height:1.25; color:#15181C; margin-bottom:7px;">VMware vCenter / vSphere</div>
+            <div style="font-size:15px; color:#6B7178; line-height:1.5;">Источник данных. Безагентный сбор по API.</div>
+          </div>
+        </div>
+        <!-- arrow -->
+        <div style="display:flex; align-items:center; justify-content:center; padding:0 16px;">
+          <div style="width:40px; height:40px; border-radius:50%; background:#FCE8EB; display:flex; align-items:center; justify-content:center;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+          </div>
+        </div>
+        <!-- node 2 (accent) -->
+        <div style="background:#DD0D29; border-radius:20px; padding:34px 30px; display:flex; flex-direction:column; gap:16px; box-shadow:0 24px 50px -22px rgba(221,13,41,0.6);">
+          <div style="width:54px; height:54px; border-radius:14px; background:rgba(255,255,255,0.16); display:flex; align-items:center; justify-content:center;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
+          </div>
+          <div>
+            <div style="font-size:19px; font-weight:800; line-height:1.25; color:#fff; margin-bottom:7px;">Инферит ИТМен</div>
+            <div style="font-size:15px; color:rgba(255,255,255,0.85); line-height:1.5;">Нормализация и дедупликация данных.</div>
+          </div>
+        </div>
+        <!-- arrow -->
+        <div style="display:flex; align-items:center; justify-content:center; padding:0 16px;">
+          <div style="width:40px; height:40px; border-radius:50%; background:#FCE8EB; display:flex; align-items:center; justify-content:center;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+          </div>
+        </div>
+        <!-- node 3 -->
+        <div style="background:#F5F7F8; border:1px solid #ECEEF1; border-radius:20px; padding:34px 30px; display:flex; flex-direction:column; gap:16px;">
+          <div style="width:54px; height:54px; border-radius:14px; background:#fff; border:1px solid #E6E9ED; display:flex; align-items:center; justify-content:center;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#15181C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5V19A9 3 0 0 0 21 19V5"></path><path d="M3 12A9 3 0 0 0 21 12"></path></svg>
+          </div>
+          <div>
+            <div style="font-size:19px; font-weight:800; line-height:1.25; color:#15181C; margin-bottom:7px;">CMDB / ITSM / ITAM / SAM</div>
+            <div style="font-size:15px; color:#6B7178; line-height:1.5;">Наполнение целевых систем учёта.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ЧТО СОБИРАЕМ ============ -->
+  <section style="background:#F5F7F8;">
+    <div style="max-width:1240px; margin:0 auto; padding:90px 40px;">
+      <div style="display:grid; grid-template-columns:1fr 1.1fr; gap:64px; align-items:center;">
+        <div>
+          <h2 style="font-size:38px; font-weight:800; letter-spacing:-0.4px; margin:0 0 30px; color:#15181C; line-height:1.1;">Что собираем из VMware</h2>
+          <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:18px;">
+            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Перечень виртуальных машин: состояние, конфигурация (vCPU, RAM, диски)</li>
+            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Хосты ESXi и кластеры, распределение ВМ по хостам</li>
+            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Установленные ОС и ПО внутри гостевых систем</li>
+            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Сетевые параметры виртуальных машин</li>
+            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Связи ВМ ↔ хост ↔ кластер ↔ датацентр</li>
+            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Сбор с нескольких vCenter в единую базу</li>
+            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Безагентный сбор — без установки агентов на каждую ВМ</li>
+          </ul>
+        </div>
+        <div>
+          <div style="width:100%; font-family:'Golos Text',system-ui,sans-serif; background:#0D1117; border:1px solid rgba(255,255,255,0.09); border-radius:14px; overflow:hidden; box-shadow:0 30px 70px -25px rgba(8,12,20,0.55); color:#C9D1D9;">
+
+  <!-- title bar -->
+  <div style="display:flex; align-items:center; gap:14px; padding:11px 16px; background:#161B22; border-bottom:1px solid rgba(255,255,255,0.07);">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <div style="width:22px; height:22px; border-radius:5px; background:#DD0D29; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800; color:#fff; letter-spacing:0.2px;">ИТ</div>
+      <span style="font-size:13px; font-weight:700; color:#EDF1F5; letter-spacing:0.3px;">ИНФЕРИТ <span style="color:#8B949E; font-weight:600;">ИТМен</span></span>
+    </div>
+    <div style="display:flex; gap:18px; margin-left:14px; font-size:11.5px; color:#8B949E;">
+      <span>Активы</span>
+      <span>Анализ данных</span>
+      <span style="color:#fff; position:relative;">Сбор данных<span style="position:absolute; left:0; right:0; bottom:-13px; height:2px; background:#2D6FE0; border-radius:2px;"></span></span>
+      <span>Администрирование</span>
+    </div>
+    <div style="margin-left:auto; display:flex; align-items:center; gap:10px;">
+      <span style="width:7px; height:7px; border-radius:50%; background:#2EA043; box-shadow:0 0 0 3px rgba(46,160,67,0.18);"></span>
+      <span style="font-size:11px; color:#8B949E;">vCenter подключён</span>
+    </div>
+  </div>
+
+  <!-- toolbar -->
+  <div style="display:flex; align-items:center; gap:10px; padding:13px 16px; border-bottom:1px solid rgba(255,255,255,0.06);">
+    <div style="display:flex; align-items:center; gap:7px; padding:6px 11px; background:rgba(45,111,224,0.12); border:1px solid rgba(45,111,224,0.35); border-radius:7px; font-size:11.5px; color:#9EC1FF; font-weight:600;">
+      <span style="width:6px; height:6px; border-radius:50%; background:#2D6FE0;"></span>Источник: VMware vCenter
+    </div>
+    <div style="flex:1; height:30px; background:#0F141A; border:1px solid rgba(255,255,255,0.08); border-radius:7px; display:flex; align-items:center; padding:0 11px; gap:8px; color:#5B6675; font-size:11.5px;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+      Поиск виртуальных машин
+    </div>
+    <div style="padding:7px 13px; background:#DD0D29; border-radius:7px; font-size:11.5px; font-weight:700; color:#fff;">Синхронизировать</div>
+  </div>
+
+  <!-- stat chips -->
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(255,255,255,0.06); border-bottom:1px solid rgba(255,255,255,0.06);">
+    <div style="background:#0D1117; padding:13px 16px;"><div style="font-size:19px; font-weight:800; color:#EDF1F5;">1 248</div><div style="font-size:10.5px; color:#7D8794; margin-top:2px;">Виртуальных машин</div></div>
+    <div style="background:#0D1117; padding:13px 16px;"><div style="font-size:19px; font-weight:800; color:#EDF1F5;">64</div><div style="font-size:10.5px; color:#7D8794; margin-top:2px;">Хостов ESXi</div></div>
+    <div style="background:#0D1117; padding:13px 16px;"><div style="font-size:19px; font-weight:800; color:#EDF1F5;">7</div><div style="font-size:10.5px; color:#7D8794; margin-top:2px;">Кластеров</div></div>
+    <div style="background:#0D1117; padding:13px 16px;"><div style="font-size:19px; font-weight:800; color:#EDF1F5;">3</div><div style="font-size:10.5px; color:#7D8794; margin-top:2px;">vCenter</div></div>
+  </div>
+
+  <!-- table -->
+  <div style="padding:4px 4px 8px;">
+    <div style="display:grid; grid-template-columns:1.9fr 1.4fr 1.5fr 0.7fr 0.8fr 1fr; padding:11px 14px; font-size:10px; text-transform:uppercase; letter-spacing:0.6px; color:#6B7480; font-weight:700;">
+      <span>Виртуальная машина</span><span>Хост ESXi</span><span>Гостевая ОС</span><span>vCPU</span><span>RAM</span><span>Статус</span>
+    </div>
+    <div style="display:grid; grid-template-columns:1.9fr 1.4fr 1.5fr 0.7fr 0.8fr 1fr; padding:11px 14px; font-size:11.5px; align-items:center; border-top:1px solid rgba(255,255,255,0.05);">
+      <span style="color:#E6EBF0; font-weight:600;">srv-app-01</span><span style="color:#9AA4AF;">esxi-node-03</span><span style="color:#9AA4AF;">Astra Linux 1.7</span><span style="color:#C9D1D9;">8</span><span style="color:#C9D1D9;">32 ГБ</span><span style="display:flex; align-items:center; gap:6px; color:#3FB950;"><span style="width:6px; height:6px; border-radius:50%; background:#3FB950;"></span>Активна</span>
+    </div>
+    <div style="display:grid; grid-template-columns:1.9fr 1.4fr 1.5fr 0.7fr 0.8fr 1fr; padding:11px 14px; font-size:11.5px; align-items:center; border-top:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.012);">
+      <span style="color:#E6EBF0; font-weight:600;">db-postgres-02</span><span style="color:#9AA4AF;">esxi-node-01</span><span style="color:#9AA4AF;">RED OS 7.3</span><span style="color:#C9D1D9;">16</span><span style="color:#C9D1D9;">64 ГБ</span><span style="display:flex; align-items:center; gap:6px; color:#3FB950;"><span style="width:6px; height:6px; border-radius:50%; background:#3FB950;"></span>Активна</span>
+    </div>
+    <div style="display:grid; grid-template-columns:1.9fr 1.4fr 1.5fr 0.7fr 0.8fr 1fr; padding:11px 14px; font-size:11.5px; align-items:center; border-top:1px solid rgba(255,255,255,0.05);">
+      <span style="color:#E6EBF0; font-weight:600;">win-term-14</span><span style="color:#9AA4AF;">esxi-node-07</span><span style="color:#9AA4AF;">Windows Server 2019</span><span style="color:#C9D1D9;">4</span><span style="color:#C9D1D9;">16 ГБ</span><span style="display:flex; align-items:center; gap:6px; color:#D29922;"><span style="width:6px; height:6px; border-radius:50%; background:#D29922;"></span>Обслуж.</span>
+    </div>
+    <div style="display:grid; grid-template-columns:1.9fr 1.4fr 1.5fr 0.7fr 0.8fr 1fr; padding:11px 14px; font-size:11.5px; align-items:center; border-top:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.012);">
+      <span style="color:#E6EBF0; font-weight:600;">k8s-worker-09</span><span style="color:#9AA4AF;">esxi-node-04</span><span style="color:#9AA4AF;">Ubuntu 22.04</span><span style="color:#C9D1D9;">12</span><span style="color:#C9D1D9;">48 ГБ</span><span style="display:flex; align-items:center; gap:6px; color:#3FB950;"><span style="width:6px; height:6px; border-radius:50%; background:#3FB950;"></span>Активна</span>
+    </div>
+    <div style="display:grid; grid-template-columns:1.9fr 1.4fr 1.5fr 0.7fr 0.8fr 1fr; padding:11px 14px; font-size:11.5px; align-items:center; border-top:1px solid rgba(255,255,255,0.05);">
+      <span style="color:#E6EBF0; font-weight:600;">mail-relay-03</span><span style="color:#9AA4AF;">esxi-node-02</span><span style="color:#9AA4AF;">ALT Linux 10</span><span style="color:#C9D1D9;">2</span><span style="color:#C9D1D9;">8 ГБ</span><span style="display:flex; align-items:center; gap:6px; color:#7D8794;"><span style="width:6px; height:6px; border-radius:50%; background:#7D8794;"></span>Остановл.</span>
+    </div>
+  </div>
+</div>
+        </div>
+      </div>
+
+      <!-- 5a perelinkovka -->
+      <div style="margin-top:54px; background:#fff; border:1px solid #ECEEF1; border-left:4px solid #DD0D29; border-radius:18px; padding:32px 36px; display:flex; align-items:center; justify-content:space-between; gap:40px; flex-wrap:wrap; box-shadow:0 6px 30px -20px rgba(20,23,26,0.16);">
+        <div style="max-width:560px;">
+          <div style="font-size:20px; font-weight:800; color:#15181C; margin-bottom:8px;">Куда дальше идут данные</div>
+          <p style="font-size:16px; line-height:1.55; color:#565C64; margin:0;">Собранные данные ИТМен нормализует и передаёт в CMDB, ITSM, ITAM и SAM — без дублей и ручной сверки.</p>
+        </div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <a href="#" style="display:flex; align-items:center; gap:8px; padding:12px 18px; background:#F5F7F8; border:1px solid #E6E9ED; border-radius:11px; font-size:15px; font-weight:600; color:#15181C; text-decoration:none;"><span style="color:#DD0D29;">→</span> Поставка очищенных данных в CMDB</a>
+          <a href="#" style="display:flex; align-items:center; gap:8px; padding:12px 18px; background:#F5F7F8; border:1px solid #E6E9ED; border-radius:11px; font-size:15px; font-weight:600; color:#15181C; text-decoration:none;"><span style="color:#DD0D29;">→</span> Интеграция с SimpleOne</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ИБ (DARK) ============ -->
+  <section style="background:#0B0C0E; background-image:radial-gradient(circle at 20% 0%, rgba(221,13,41,0.10), transparent 45%), radial-gradient(circle at 85% 100%, rgba(45,111,224,0.08), transparent 50%);">
+    <div style="max-width:1240px; margin:0 auto; padding:90px 40px;">
+      <h2 style="text-align:center; font-size:38px; font-weight:800; letter-spacing:-0.4px; line-height:1.18; margin:0 0 56px; color:#fff;">Инферит ИТМен соответствует требованиям<br>информационной безопасности</h2>
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:22px;">
+        <div style="background:#16181C; border:1px solid rgba(255,255,255,0.07); border-radius:20px; padding:30px 28px;">
+          <div style="width:52px; height:52px; border-radius:14px; background:#DD0D29; display:flex; align-items:center; justify-content:center; margin-bottom:22px;">
+            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          </div>
+          <div style="font-size:18px; font-weight:700; color:#fff; margin-bottom:12px;">Сбор данных при ограничениях</div>
+          <p style="font-size:14.5px; line-height:1.55; color:#9AA1A9; margin:0;">Работает в условиях закрытых периметров, с соблюдением строгих политик заказчиков в области информационной безопасности.</p>
+        </div>
+        <div style="background:#16181C; border:1px solid rgba(255,255,255,0.07); border-radius:20px; padding:30px 28px;">
+          <div style="width:52px; height:52px; border-radius:14px; background:#DD0D29; display:flex; align-items:center; justify-content:center; margin-bottom:22px;">
+            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+          </div>
+          <div style="font-size:18px; font-weight:700; color:#fff; margin-bottom:12px;">Защита данных</div>
+          <p style="font-size:14.5px; line-height:1.55; color:#9AA1A9; margin:0;">Поддержка защищённых протоколов шифрования по ГОСТ для безопасной передачи данных.</p>
+        </div>
+        <div style="background:#16181C; border:1px solid rgba(255,255,255,0.07); border-radius:20px; padding:30px 28px;">
+          <div style="width:52px; height:52px; border-radius:14px; background:#DD0D29; display:flex; align-items:center; justify-content:center; margin-bottom:22px;">
+            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"></path><path d="m9 12 2 2 4-4"></path></svg>
+          </div>
+          <div style="font-size:18px; font-weight:700; color:#fff; margin-bottom:12px;">В реестре российского ПО</div>
+          <p style="font-size:14.5px; line-height:1.55; color:#9AA1A9; margin:0;">Зарегистрирован в реестре программ для ЭВМ (№2016662248), реестровая запись №12289 от 14.12.2021.</p>
+        </div>
+        <div style="background:#16181C; border:1px solid rgba(255,255,255,0.07); border-radius:20px; padding:30px 28px;">
+          <div style="width:52px; height:52px; border-radius:14px; background:#DD0D29; display:flex; align-items:center; justify-content:center; margin-bottom:22px;">
+            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          </div>
+          <div style="font-size:18px; font-weight:700; color:#fff; margin-bottom:12px;">Сделано в России</div>
+          <p style="font-size:14.5px; line-height:1.55; color:#9AA1A9; margin:0;">Решение без использования Open source: команда разработки, серверная архитектура и средства хранения и компиляции кода — в России.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section style="background:#fff;">
+    <div style="max-width:920px; margin:0 auto; padding:90px 40px;">
+      <h2 style="text-align:center; font-size:38px; font-weight:800; letter-spacing:-0.4px; margin:0 0 50px; color:#15181C;">Частые вопросы</h2>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+
+        <div style="border:1px solid #ECEEF1; border-radius:16px; overflow:hidden; background:#fff;">
+          <div onclick="faqToggle(this)" style="display:flex; align-items:center; justify-content:space-between; gap:24px; padding:24px 30px; cursor:pointer;">
+            <span style="font-size:18px; font-weight:700; color:#15181C; line-height:1.4;">Чем инвентаризация VMware в ИТМен отличается от мониторинга?</span>
+            <span class="faq-chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span>
+          </div>
+          <div class="faq-panel"><p style="font-size:16px; line-height:1.6; color:#565C64; margin:0;">ИТМен ведёт учёт и инвентаризацию — состав, конфигурацию, ПО и связи ВМ, — а не мониторинг производительности и нагрузки в реальном времени.</p></div>
+        </div>
+
+        <div style="border:1px solid #ECEEF1; border-radius:16px; overflow:hidden; background:#fff;">
+          <div onclick="faqToggle(this)" style="display:flex; align-items:center; justify-content:space-between; gap:24px; padding:24px 30px; cursor:pointer;">
+            <span style="font-size:18px; font-weight:700; color:#15181C; line-height:1.4;">Нужно ли ставить агентов на виртуальные машины?</span>
+            <span class="faq-chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span>
+          </div>
+          <div class="faq-panel"><p style="font-size:16px; line-height:1.6; color:#565C64; margin:0;">Нет. Сбор безагентный — через подключение к vCenter по API.</p></div>
+        </div>
+
+        <div style="border:1px solid #ECEEF1; border-radius:16px; overflow:hidden; background:#fff;">
+          <div onclick="faqToggle(this)" style="display:flex; align-items:center; justify-content:space-between; gap:24px; padding:24px 30px; cursor:pointer;">
+            <span style="font-size:18px; font-weight:700; color:#15181C; line-height:1.4;">Можно ли собирать данные с нескольких vCenter?</span>
+            <span class="faq-chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span>
+          </div>
+          <div class="faq-panel"><p style="font-size:16px; line-height:1.6; color:#565C64; margin:0;">Да. Данные с разных vCenter и площадок сводятся в единую нормализованную базу.</p></div>
+        </div>
+
+        <div style="border:1px solid #ECEEF1; border-radius:16px; overflow:hidden; background:#fff;">
+          <div onclick="faqToggle(this)" style="display:flex; align-items:center; justify-content:space-between; gap:24px; padding:24px 30px; cursor:pointer;">
+            <span style="font-size:18px; font-weight:700; color:#15181C; line-height:1.4;">Куда передаются данные о виртуальных машинах?</span>
+            <span class="faq-chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span>
+          </div>
+          <div class="faq-panel"><p style="font-size:16px; line-height:1.6; color:#565C64; margin:0;">В CMDB, ITSM, ITAM и SAM — в очищенном и нормализованном виде, без дублей.</p></div>
+        </div>
+
+        <div style="border:1px solid #ECEEF1; border-radius:16px; overflow:hidden; background:#fff;">
+          <div onclick="faqToggle(this)" style="display:flex; align-items:center; justify-content:space-between; gap:24px; padding:24px 30px; cursor:pointer;">
+            <span style="font-size:18px; font-weight:700; color:#15181C; line-height:1.4;">Инферит ИТМен — это CMDB?</span>
+            <span class="faq-chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span>
+          </div>
+          <div class="faq-panel"><p style="font-size:16px; line-height:1.6; color:#565C64; margin:0;">Нет. ИТМен собирает и нормализует данные и наполняет ими CMDB / ITSM, а не заменяет их.</p></div>
+        </div>
+
+        <div style="border:1px solid #ECEEF1; border-radius:16px; overflow:hidden; background:#fff;">
+          <div onclick="faqToggle(this)" style="display:flex; align-items:center; justify-content:space-between; gap:24px; padding:24px 30px; cursor:pointer;">
+            <span style="font-size:18px; font-weight:700; color:#15181C; line-height:1.4;">Поддерживаются ли другие гипервизоры, кроме VMware?</span>
+            <span class="faq-chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span>
+          </div>
+          <div class="faq-panel"><p style="font-size:16px; line-height:1.6; color:#565C64; margin:0;">Да. Кроме VMware vSphere ИТМен собирает данные из SCVMM (Hyper-V), zVirt и RedVirt — виртуальная инфраструктура на разных платформах сводится в единую базу.</p></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA + FORM (DARK) ============ -->
+  <section id="demo" style="background:#0B0C0E;">
+    <div style="max-width:1240px; margin:0 auto; padding:90px 40px;">
+      <div style="display:grid; grid-template-columns:1fr 1.05fr; gap:70px; align-items:start;">
+        <div>
+          <h2 style="font-size:40px; font-weight:800; letter-spacing:-0.5px; line-height:1.12; margin:0 0 24px; color:#fff;">Есть вопросы по продукту или хотите <span style="color:#DD0D29;">записаться на демо?</span></h2>
+          <p style="font-size:18px; line-height:1.6; color:#9AA1A9; margin:0 0 40px; max-width:480px;">Отправьте заявку! Ответим на вопросы и покажем возможности продукта с учётом ваших бизнес-задач и отраслевой специфики.</p>
+          <div style="display:flex; flex-direction:column; gap:18px; max-width:430px;">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div style="flex:none; width:46px; height:46px; border-radius:12px; background:#16181C; border:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg></div>
+              <div><div style="font-size:13px; color:#7D8794;">Отдел продаж</div><div style="font-size:17px; font-weight:700; color:#fff;">8 800 707 85 53</div></div>
+            </div>
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div style="flex:none; width:46px; height:46px; border-radius:12px; background:#16181C; border:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg></div>
+              <div><div style="font-size:13px; color:#7D8794;">Почта</div><div style="font-size:17px; font-weight:700; color:#fff;">info@itman.ru</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:#101216; border:1px solid rgba(255,255,255,0.07); border-radius:22px; padding:34px;">
+          <div style="display:flex; flex-direction:column; gap:14px;">
+            <input placeholder="Имя и Фамилия *" style="height:54px; background:#16181C; border:1px solid rgba(255,255,255,0.09); border-radius:12px; padding:0 18px; font-size:15px; font-family:inherit; color:#fff; outline:none;" style-focus="border-color:#DD0D29;">
+            <input placeholder="Номер телефона *" style="height:54px; background:#16181C; border:1px solid rgba(255,255,255,0.09); border-radius:12px; padding:0 18px; font-size:15px; font-family:inherit; color:#fff; outline:none;" style-focus="border-color:#DD0D29;">
+            <input placeholder="E-mail" style="height:54px; background:#16181C; border:1px solid rgba(255,255,255,0.09); border-radius:12px; padding:0 18px; font-size:15px; font-family:inherit; color:#fff; outline:none;" style-focus="border-color:#DD0D29;">
+            <select style="height:54px; background:#16181C; border:1px solid rgba(255,255,255,0.09); border-radius:12px; padding:0 14px; font-size:15px; font-family:inherit; color:#9AA1A9; outline:none; appearance:none;" style-focus="border-color:#DD0D29;">
+              <option>Размер инфраструктуры</option>
+              <option>до 50 ВМ</option>
+              <option>50–250 ВМ</option>
+              <option>250–1000 ВМ</option>
+              <option>более 1000 ВМ</option>
+            </select>
+            <textarea placeholder="Комментарий" rows="4" style="background:#16181C; border:1px solid rgba(255,255,255,0.09); border-radius:12px; padding:14px 18px; font-size:15px; font-family:inherit; color:#fff; outline:none; resize:none;" style-focus="border-color:#DD0D29;"></textarea>
+            <label style="display:flex; align-items:center; gap:11px; font-size:14px; color:#9AA1A9; cursor:pointer; margin-top:2px;">
+              <input type="checkbox" style="width:18px; height:18px; accent-color:#DD0D29;">
+              Я даю согласие на обработку <a href="#" style="color:#C9D1D9; text-decoration:underline;">персональных данных</a>
+            </label>
+            <button type="button" style="margin-top:6px; height:56px; background:#DD0D29; color:#fff; border:none; border-radius:12px; font-size:16px; font-weight:700; font-family:inherit; cursor:pointer;" style-hover="background:#c30b24;">Оставить заявку</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background:#16181C; color:#C9D1D9;">
+    <div style="max-width:1240px; margin:0 auto; padding:64px 40px 0;">
+      <div style="display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; padding-bottom:48px; border-bottom:1px solid rgba(255,255,255,0.07);">
+        <div>
+          <div style="display:flex; align-items:center; gap:11px; margin-bottom:24px;">
+            <span style="display:flex; height:38px; border-radius:8px; overflow:hidden; border:1.6px solid #fff;">
+              <span style="width:19px; background:#16181C; position:relative; overflow:hidden; display:block;"><span style="position:absolute; inset:0; background:#DD0D29; clip-path:polygon(100% 0,100% 100%,18% 100%);"></span></span>
+              <span style="width:27px; background:#DD0D29; color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800;">ИТ</span>
+            </span>
+            <span style="line-height:1;"><span style="display:block; font-size:17px; font-weight:800; letter-spacing:0.4px; color:#fff;">ИНФЕРИТ</span><span style="display:block; font-size:12.5px; font-weight:700; color:#fff; margin-top:2px;">ИТМен</span></span>
+          </div>
+          <div style="font-size:13.5px; line-height:1.5; color:#8B949E; margin-bottom:18px;">В реестре российского ПО:<br>№12289 от 14.12.2021</div>
+          <div style="font-size:13px; line-height:1.5; color:#6B7480; max-width:300px;">Маркетинговое название «Инферит ИТМен» соответствует itman discovery</div>
+        </div>
+        <div>
+          <div style="font-size:15px; font-weight:700; color:#fff; margin-bottom:20px;">Продукты и поддержка</div>
+          <div style="display:flex; flex-direction:column; gap:13px; font-size:14.5px; color:#9AA1A9;">
+            <a href="#" style="text-decoration:none; color:#9AA1A9;">Модули продукта</a>
+            <a href="#" style="text-decoration:none; color:#9AA1A9;">Инвентаризация</a>
+            <a href="#" style="text-decoration:none; color:#9AA1A9;">Поставка данных в CMDB</a>
+            <a href="#" style="text-decoration:none; color:#9AA1A9;">Техническая поддержка</a>
+            <a href="#" style="text-decoration:none; color:#9AA1A9;">Кейсы</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:15px; font-weight:700; color:#fff; margin-bottom:20px;">Полезная информация</div>
+          <div style="display:flex; flex-direction:column; gap:13px; font-size:14.5px; color:#9AA1A9;">
+            <a href="#" style="text-decoration:none; color:#9AA1A9;">Техническая документация</a>
+            <a href="#" style="text-decoration:none; color:#9AA1A9;">FAQ</a>
+            <a href="#" style="text-decoration:none; color:#9AA1A9;">Партнёрам</a>
+            <a href="#" style="text-decoration:none; color:#9AA1A9;">Техническая поддержка</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:15px; font-weight:700; color:#fff; margin-bottom:20px;">Документы и соглашения</div>
+          <div style="display:flex; flex-direction:column; gap:13px; font-size:14.5px; color:#9AA1A9;">
+            <a href="#" style="text-decoration:none; color:#9AA1A9;">Политика конфиденциальности</a>
+            <a href="#" style="text-decoration:none; color:#9AA1A9;">Согласие на обработку персональных данных</a>
+            <a href="#" style="text-decoration:none; color:#9AA1A9;">Условия использования сайта</a>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; padding:40px 0 48px;">
+        <div></div>
+        <div>
+          <div style="font-size:15px; font-weight:700; color:#fff; margin-bottom:16px;">Отдел продаж</div>
+          <div style="display:flex; flex-direction:column; gap:9px; font-size:14.5px; color:#9AA1A9;"><span>8 800 707 85 53</span><span>info@itman.ru</span></div>
+        </div>
+        <div>
+          <div style="font-size:15px; font-weight:700; color:#fff; margin-bottom:16px;">Техническая поддержка</div>
+          <div style="font-size:14.5px; color:#9AA1A9;">support@inferit.ru</div>
+        </div>
+        <div>
+          <div style="font-size:15px; font-weight:700; color:#fff; margin-bottom:16px;">Адрес</div>
+          <div style="font-size:14.5px; color:#9AA1A9; line-height:1.5;">Москва, 2-й Южнопортовый проезд, 20с4</div>
+        </div>
+      </div>
+
+      <p style="font-size:12.5px; line-height:1.6; color:#5E6770; margin:0 0 36px;">Информация, представленная на сайте, носит исключительно справочный и ознакомительный характер, не предназначена для личных, семейных, домашних и иных нужд, не связанных с осуществлением предпринимательской деятельности, и не ориентирована на потребителей по смыслу Федерального закона. Указанные цены и комплектации продуктов не являются окончательными и не могут служить основанием для коммерческих расчётов. Данные сведения не представляют собой публичную оферту по смыслу ст. 437 ГК РФ.</p>
+
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:24px; padding:26px 0; border-top:1px solid rgba(255,255,255,0.07); flex-wrap:wrap;">
+        <div style="display:flex; align-items:center; gap:22px;">
+          <span style="display:flex; align-items:center; gap:9px;"><svg width="34" height="20" viewBox="0 0 44 24" fill="none"><rect x="1" y="1" width="20" height="22" rx="4" stroke="#6B7480" stroke-width="1.6"></rect><path d="M23 12 L37 4 L37 20 Z" stroke="#6B7480" stroke-width="1.6" stroke-linejoin="round"></path></svg><span style="font-size:14px; font-weight:700; letter-spacing:0.6px; color:#9AA1A9;">ИНФЕРИТ</span></span>
+          <span style="font-size:13.5px; color:#6B7480;">© 2011–2026 ООО «НЦПР». Все права защищены.</span>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <a href="#" style="width:36px; height:36px; border-radius:9px; background:#22252A; display:flex; align-items:center; justify-content:center; text-decoration:none;"><svg width="17" height="17" viewBox="0 0 24 24" fill="#C9D1D9"><path d="M21.94 4.5 18.6 20c-.25 1.1-.9 1.38-1.83.86l-5.05-3.72-2.44 2.35c-.27.27-.5.5-1.02.5l.36-5.16 9.4-8.49c.4-.36-.09-.56-.63-.2L4.16 13.3l-5-1.57c-1.08-.34-1.1-1.08.23-1.6L20.54 2.9c.9-.34 1.69.2 1.4 1.6z"></path></svg></a>
+          <a href="#" style="width:36px; height:36px; border-radius:9px; background:#22252A; display:flex; align-items:center; justify-content:center; text-decoration:none; font-size:13px; font-weight:800; color:#C9D1D9;">VK</a>
+          <a href="#" style="width:36px; height:36px; border-radius:9px; background:#22252A; display:flex; align-items:center; justify-content:center; text-decoration:none; font-size:15px; font-weight:800; color:#C9D1D9;">h</a>
+          <a href="#" style="width:36px; height:36px; border-radius:9px; background:#22252A; display:flex; align-items:center; justify-content:center; text-decoration:none; font-size:13px; font-weight:800; color:#C9D1D9;">Я</a>
+          <a href="#" style="width:36px; height:36px; border-radius:9px; background:#22252A; display:flex; align-items:center; justify-content:center; text-decoration:none; font-size:13px; font-weight:800; color:#C9D1D9;">R</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+<script>
+  function faqToggle(header){
+    var panel = header.nextElementSibling;
+    var chev = header.querySelector('.faq-chev');
+    var open = panel.classList.toggle('open');
+    if(chev) chev.classList.toggle('open', open);
+  }
+</script>
+</body>
+</html>
