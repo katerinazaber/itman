@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Инвентаризация Active Directory: сбор данных об активах | ИТМен</title>
-<meta name="description" content="ИТМен подключается к Active Directory по LDAP, получает список компьютеров и пользователей домена, дополняет инвентаризацией узлов, находит устройства вне AD и передаёт данные в CMDB, ITSM и ITAM.">
+<meta name="description" content="ИТМен подключается к Active Directory по LDAP/LDAPS, синхронизирует OU и объекты домена, дополняет инвентаризацией узлов и передаёт очищенные данные в CMDB, ITSM и ITAM.">
 <meta name="robots" content="noindex,nofollow">
 <link rel="canonical" href="https://itman.ru/istochniki/active-directory">
 <meta property="og:title" content="Инвентаризация Active Directory: сбор данных об активах | ИТМен">
@@ -58,7 +58,9 @@
     {"@type":"Question","name":"Можно ли собирать данные из нескольких доменов?","acceptedAnswer":{"@type":"Answer","text":"Да. Данные из нескольких доменов и лесов сводятся в единую нормализованную базу."}},
     {"@type":"Question","name":"Видит ли ИТМен устройства вне домена?","acceptedAnswer":{"@type":"Answer","text":"Да. Дискаверинг находит и неучтённые устройства, которые не заведены в Active Directory."}},
     {"@type":"Question","name":"Инферит ИТМен — это CMDB?","acceptedAnswer":{"@type":"Answer","text":"Нет. ИТМен собирает и нормализует данные и наполняет ими CMDB / ITSM, а не заменяет их."}},
-    {"@type":"Question","name":"Работает ли сбор в закрытом контуре без выхода в интернет?","acceptedAnswer":{"@type":"Answer","text":"Да. ИТМен разворачивается внутри периметра и собирает данные из Active Directory без внешнего подключения, с передачей по защищённым каналам."}}
+    {"@type":"Question","name":"Работает ли сбор в закрытом контуре без выхода в интернет?","acceptedAnswer":{"@type":"Answer","text":"Да. ИТМен разворачивается внутри периметра и собирает данные из Active Directory без внешнего подключения, с передачей по защищённым каналам."}},
+    {"@type":"Question","name":"Можно ли синхронизировать не весь домен, а отдельные OU?","acceptedAnswer":{"@type":"Answer","text":"Да. Область синхронизации задаётся по организационным единицам — удобно для филиалов и пилотных контуров."}},
+    {"@type":"Question","name":"Поддерживается ли защищённое подключение к каталогу?","acceptedAnswer":{"@type":"Answer","text":"Да. Для работы с контроллером домена используется LDAP, при необходимости — защищённый канал LDAPS."}}
   ]
 }
 </script>
@@ -69,18 +71,21 @@
   <!-- ============ HEADER ============ -->
   <header style="position:sticky; top:0; z-index:50; background:rgba(255,255,255,0.92); backdrop-filter:blur(12px); border-bottom:1px solid #ECEEF1;">
     <div style="max-width:1240px; margin:0 auto; padding:14px 40px; display:flex; align-items:center; gap:34px;">
-      <a href="#" style="display:flex; align-items:center; gap:11px; text-decoration:none;">
-        <span style="display:flex; height:38px; border-radius:8px; overflow:hidden; border:1.6px solid #15181C;">
-          <span style="width:19px; background:#fff; position:relative; overflow:hidden; display:block;">
-            <span style="position:absolute; inset:0; background:#DD0D29; clip-path:polygon(100% 0,100% 100%,18% 100%);"></span>
+      <div style="display:flex; align-items:center; gap:18px;">
+        <a href="https://itman.ru" style="display:flex; align-items:center; gap:11px; text-decoration:none;">
+          <span style="display:flex; height:38px; border-radius:8px; overflow:hidden; border:1.6px solid #15181C;">
+            <span style="width:19px; background:#fff; position:relative; overflow:hidden; display:block;">
+              <span style="position:absolute; inset:0; background:#DD0D29; clip-path:polygon(100% 0,100% 100%,18% 100%);"></span>
+            </span>
+            <span style="width:27px; background:#DD0D29; color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800;">ИТ</span>
           </span>
-          <span style="width:27px; background:#DD0D29; color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800;">ИТ</span>
-        </span>
-        <span style="line-height:1;">
-          <span style="display:block; font-size:17px; font-weight:800; letter-spacing:0.4px; color:#15181C;">ИНФЕРИТ</span>
-          <span style="display:block; font-size:12.5px; font-weight:700; color:#DD0D29; margin-top:2px;">ИТМен</span>
-        </span>
-      </a>
+          <span style="line-height:1;">
+            <span style="display:block; font-size:17px; font-weight:800; letter-spacing:0.4px; color:#15181C;">ИНФЕРИТ</span>
+            <span style="display:block; font-size:12.5px; font-weight:700; color:#DD0D29; margin-top:2px;">ИТМен</span>
+          </span>
+        </a>
+        <img src="assets/softline.svg" alt="Softline" style="height:28px; width:auto; display:block;">
+      </div>
       <nav style="display:flex; align-items:center; gap:26px; font-size:14.5px; font-weight:500; color:#2B2F35; white-space:nowrap;">
         <div class="nav-drop"><a href="#" style="text-decoration:none; display:flex; align-items:center; gap:5px;">Технологии <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9AA1A9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></a>
           <div class="nav-menu">
@@ -113,7 +118,7 @@
         </div>
         <a href="#" style="text-decoration:none; display:flex; align-items:center; gap:5px;">Готовые решения <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9AA1A9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></a>
         <a href="#" style="text-decoration:none; display:flex; align-items:center; gap:5px;">Отрасли <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9AA1A9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></a>
-        <a href="#" style="text-decoration:none;">Кейсы</a>
+        <a href="#" style="text-decoration:none;">Проекты</a>
         <a href="#" style="text-decoration:none; display:flex; align-items:center; gap:5px;">О нас <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9AA1A9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></a>
         <a href="#" style="text-decoration:none;">Поддержка</a>
       </nav>
@@ -136,84 +141,22 @@
       </div>
       <div style="display:grid; grid-template-columns:1.05fr 1fr; gap:60px; align-items:center;">
         <div>
-          <h1 style="font-size:48px; line-height:1.08; font-weight:800; letter-spacing:-0.5px; margin:0 0 22px; color:#15181C;">Инвентаризация Active&nbsp;Directory: автоматический сбор данных об&nbsp;активах домена</h1>
-          <p style="font-size:18px; line-height:1.6; color:#565C64; margin:0 0 28px; max-width:560px;">Active&nbsp;Directory хранит каталог домена — компьютеры, пользователей, группы и&nbsp;OU. Для ITAM и&nbsp;CMDB этого мало: нет полной картины железа и&nbsp;ПО. Инферит ИТМен подключается к&nbsp;AD по&nbsp;LDAP, берёт состав домена, проводит инвентаризацию узлов и&nbsp;находит устройства вне&nbsp;каталога. Очищенные данные — в&nbsp;CMDB, ITSM, ITAM и&nbsp;SAM.</p>
-          <ul style="list-style:none; padding:0; margin:0 0 34px; display:flex; flex-direction:column; gap:13px;">
-            <li style="display:flex; align-items:center; gap:12px; font-size:16px; color:#2B2F35;"><span style="flex:none; width:22px; height:22px; border-radius:50%; background:#FCE8EB; display:flex; align-items:center; justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Список компьютеров и пользователей из домена по LDAP</li>
-            <li style="display:flex; align-items:center; gap:12px; font-size:16px; color:#2B2F35;"><span style="flex:none; width:22px; height:22px; border-radius:50%; background:#FCE8EB; display:flex; align-items:center; justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Инвентаризация узлов + обнаружение устройств вне AD</li>
-            <li style="display:flex; align-items:center; gap:12px; font-size:16px; color:#2B2F35;"><span style="flex:none; width:22px; height:22px; border-radius:50%; background:#FCE8EB; display:flex; align-items:center; justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Очищенные данные для CMDB, ITSM и ITAM</li>
+          <h1 style="font-size:48px; line-height:1.08; font-weight:800; letter-spacing:-0.5px; margin:0 0 16px; color:#15181C;">Инферит ИТМен. Сбор данных из Active&nbsp;Directory</h1>
+          <p style="font-size:18px; line-height:1.55; color:#565C64; margin:0 0 22px; max-width:560px;">Для системных администраторов, специалистов техподдержки, ИТ-инженеров</p>
+          <ul style="list-style:none; padding:0; margin:0 0 34px; display:flex; flex-direction:column; gap:12px;">
+            <li style="display:flex; align-items:flex-start; gap:12px; font-size:16px; line-height:1.45; color:#2B2F35;"><span style="flex:none; width:6px; height:6px; border-radius:50%; background:#15181C; margin-top:9px;"></span>Актуальный состав домена: компьютеры, пользователи, OU и группы по LDAP / LDAPS</li>
+            <li style="display:flex; align-items:flex-start; gap:12px; font-size:16px; line-height:1.45; color:#2B2F35;"><span style="flex:none; width:6px; height:6px; border-radius:50%; background:#15181C; margin-top:9px;"></span>Инвентаризация узлов поверх каталога — железо, ПО, сетевые параметры</li>
+            <li style="display:flex; align-items:flex-start; gap:12px; font-size:16px; line-height:1.45; color:#2B2F35;"><span style="flex:none; width:6px; height:6px; border-radius:50%; background:#15181C; margin-top:9px;"></span>Сверка с сетью: устройства вне AD и единый контур для CMDB / ITSM / ITAM</li>
+            <li style="display:flex; align-items:flex-start; gap:12px; font-size:16px; line-height:1.45; color:#2B2F35;"><span style="flex:none; width:6px; height:6px; border-radius:50%; background:#15181C; margin-top:9px;"></span>Российская альтернатива импортным системам инвентаризации</li>
           </ul>
           <div style="display:flex; gap:14px; flex-wrap:wrap;">
             <a href="#demo" style="padding:0 28px; height:54px; display:flex; align-items:center; background:#DD0D29; color:#fff; border-radius:12px; font-size:16px; font-weight:700; text-decoration:none;">Получить демо</a>
-            <a href="#" style="padding:0 28px; height:54px; display:flex; align-items:center; background:#fff; color:#15181C; border:1.6px solid #D7DBE0; border-radius:12px; font-size:16px; font-weight:600; text-decoration:none;">Скачать презентацию</a>
+            <a href="#" style="padding:0 28px; height:54px; display:flex; align-items:center; background:#fff; color:#15181C; border:1.6px solid #15181C; border-radius:12px; font-size:16px; font-weight:600; text-decoration:none;">Скачать презентацию</a>
           </div>
         </div>
         <div style="position:relative;">
-          <div style="position:absolute; right:-40px; top:-30px; width:340px; height:340px; background:radial-gradient(circle,#F4F6F8 0%,rgba(244,246,248,0) 70%); border-radius:50%; z-index:0;"></div>
-          <div style="position:relative; z-index:1;">
-            <div style="width:100%; font-family:'Golos Text',system-ui,sans-serif; background:#0D1117; border:1px solid rgba(255,255,255,0.09); border-radius:14px; overflow:hidden; box-shadow:0 30px 70px -25px rgba(8,12,20,0.55); color:#C9D1D9;">
-
-  <!-- title bar -->
-  <div style="display:flex; align-items:center; gap:14px; padding:11px 16px; background:#161B22; border-bottom:1px solid rgba(255,255,255,0.07);">
-    <div style="display:flex; align-items:center; gap:8px;">
-      <div style="width:22px; height:22px; border-radius:5px; background:#DD0D29; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800; color:#fff; letter-spacing:0.2px;">ИТ</div>
-      <span style="font-size:13px; font-weight:700; color:#EDF1F5; letter-spacing:0.3px;">ИНФЕРИТ <span style="color:#8B949E; font-weight:600;">ИТМен</span></span>
-    </div>
-    <div style="display:flex; gap:18px; margin-left:14px; font-size:11.5px; color:#8B949E;">
-      <span>Активы</span>
-      <span>Пользователи</span>
-      <span style="color:#fff; position:relative;">Сбор данных<span style="position:absolute; left:0; right:0; bottom:-13px; height:2px; background:#2D6FE0; border-radius:2px;"></span></span>
-      <span>Администрирование</span>
-    </div>
-    <div style="margin-left:auto; display:flex; align-items:center; gap:10px;">
-      <span style="width:7px; height:7px; border-radius:50%; background:#2EA043; box-shadow:0 0 0 3px rgba(46,160,67,0.18);"></span>
-      <span style="font-size:11px; color:#8B949E;">Домен синхронизирован</span>
-    </div>
-  </div>
-
-  <!-- toolbar -->
-  <div style="display:flex; align-items:center; gap:10px; padding:13px 16px; border-bottom:1px solid rgba(255,255,255,0.06);">
-    <div style="display:flex; align-items:center; gap:7px; padding:6px 11px; background:rgba(45,111,224,0.12); border:1px solid rgba(45,111,224,0.35); border-radius:7px; font-size:11.5px; color:#9EC1FF; font-weight:600;">
-      <span style="width:6px; height:6px; border-radius:50%; background:#2D6FE0;"></span>Источник: Active Directory (LDAP)
-    </div>
-    <div style="flex:1; height:30px; background:#0F141A; border:1px solid rgba(255,255,255,0.08); border-radius:7px; display:flex; align-items:center; padding:0 11px; gap:8px; color:#5B6675; font-size:11.5px;">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
-      Поиск компьютеров и пользователей
-    </div>
-    <div style="padding:7px 13px; background:#DD0D29; border-radius:7px; font-size:11.5px; font-weight:700; color:#fff;">Синхронизировать</div>
-  </div>
-
-  <!-- stat chips -->
-  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(255,255,255,0.06); border-bottom:1px solid rgba(255,255,255,0.06);">
-    <div style="background:#0D1117; padding:13px 16px;"><div style="font-size:19px; font-weight:800; color:#EDF1F5;">3 480</div><div style="font-size:10.5px; color:#7D8794; margin-top:2px;">Компьютеров в домене</div></div>
-    <div style="background:#0D1117; padding:13px 16px;"><div style="font-size:19px; font-weight:800; color:#EDF1F5;">5 120</div><div style="font-size:10.5px; color:#7D8794; margin-top:2px;">Пользователей</div></div>
-    <div style="background:#0D1117; padding:13px 16px;"><div style="font-size:19px; font-weight:800; color:#EDF1F5;">4</div><div style="font-size:10.5px; color:#7D8794; margin-top:2px;">Домена / леса</div></div>
-    <div style="background:#0D1117; padding:13px 16px;"><div style="font-size:19px; font-weight:800; color:#F0883E;">42</div><div style="font-size:10.5px; color:#7D8794; margin-top:2px;">Устройств вне AD</div></div>
-  </div>
-
-  <!-- table -->
-  <div style="padding:4px 4px 8px;">
-    <div style="display:grid; grid-template-columns:1.7fr 1.2fr 1.4fr 1fr 1.1fr 1.1fr; padding:11px 14px; font-size:10px; text-transform:uppercase; letter-spacing:0.6px; color:#6B7480; font-weight:700;">
-      <span>Имя узла</span><span>Пользователь</span><span>OU / Домен</span><span>Тип</span><span>Сбор</span><span>Статус</span>
-    </div>
-    <div style="display:grid; grid-template-columns:1.7fr 1.2fr 1.4fr 1fr 1.1fr 1.1fr; padding:11px 14px; font-size:11.5px; align-items:center; border-top:1px solid rgba(255,255,255,0.05);">
-      <span style="color:#E6EBF0; font-weight:600;">WS-FIN-204</span><span style="color:#9AA4AF;">a.smirnov</span><span style="color:#9AA4AF;">OU=Финансы</span><span style="color:#C9D1D9;">Рабочая ст.</span><span style="color:#9AA4AF;">LDAP + агент</span><span style="display:flex; align-items:center; gap:6px; color:#3FB950;"><span style="width:6px; height:6px; border-radius:50%; background:#3FB950;"></span>В домене</span>
-    </div>
-    <div style="display:grid; grid-template-columns:1.7fr 1.2fr 1.4fr 1fr 1.1fr 1.1fr; padding:11px 14px; font-size:11.5px; align-items:center; border-top:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.012);">
-      <span style="color:#E6EBF0; font-weight:600;">WS-HR-118</span><span style="color:#9AA4AF;">e.popova</span><span style="color:#9AA4AF;">OU=Кадры</span><span style="color:#C9D1D9;">Рабочая ст.</span><span style="color:#9AA4AF;">LDAP</span><span style="display:flex; align-items:center; gap:6px; color:#3FB950;"><span style="width:6px; height:6px; border-radius:50%; background:#3FB950;"></span>В домене</span>
-    </div>
-    <div style="display:grid; grid-template-columns:1.7fr 1.2fr 1.4fr 1fr 1.1fr 1.1fr; padding:11px 14px; font-size:11.5px; align-items:center; border-top:1px solid rgba(255,255,255,0.05);">
-      <span style="color:#E6EBF0; font-weight:600;">SRV-1C-02</span><span style="color:#5B6675;">—</span><span style="color:#9AA4AF;">OU=Серверы</span><span style="color:#C9D1D9;">Сервер</span><span style="color:#9AA4AF;">Агент</span><span style="display:flex; align-items:center; gap:6px; color:#3FB950;"><span style="width:6px; height:6px; border-radius:50%; background:#3FB950;"></span>В домене</span>
-    </div>
-    <div style="display:grid; grid-template-columns:1.7fr 1.2fr 1.4fr 1fr 1.1fr 1.1fr; padding:11px 14px; font-size:11.5px; align-items:center; border-top:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.012);">
-      <span style="color:#E6EBF0; font-weight:600;">NB-SALES-77</span><span style="color:#9AA4AF;">i.volkov</span><span style="color:#9AA4AF;">OU=Продажи</span><span style="color:#C9D1D9;">Ноутбук</span><span style="color:#9AA4AF;">LDAP</span><span style="display:flex; align-items:center; gap:6px; color:#3FB950;"><span style="width:6px; height:6px; border-radius:50%; background:#3FB950;"></span>В домене</span>
-    </div>
-    <div style="display:grid; grid-template-columns:1.7fr 1.2fr 1.4fr 1fr 1.1fr 1.1fr; padding:11px 14px; font-size:11.5px; align-items:center; border-top:1px solid rgba(255,255,255,0.05);">
-      <span style="color:#E6EBF0; font-weight:600;">host-10.0.4.51</span><span style="color:#5B6675;">—</span><span style="color:#5B6675;">— не в каталоге</span><span style="color:#C9D1D9;">Неизвестно</span><span style="color:#9AA4AF;">Скан сети</span><span style="display:flex; align-items:center; gap:6px; color:#F0883E;"><span style="width:6px; height:6px; border-radius:50%; background:#F0883E;"></span>Вне AD</span>
-    </div>
-  </div>
-</div>
-          </div>
+          <div style="position:absolute; right:-30px; top:10px; width:360px; height:360px; background:#E8EEF3; border-radius:42% 58% 55% 45% / 48% 42% 58% 52%; z-index:0;"></div>
+          <img src="assets/inventory-laptop.png" alt="Инферит ИТМен — интерфейс инвентаризации" style="position:relative; z-index:1; width:100%; max-width:620px; height:auto; display:block; margin-left:auto;">
         </div>
       </div>
     </div>
@@ -223,29 +166,29 @@
   <section style="background:#fff;">
     <div style="max-width:1240px; margin:0 auto; padding:0 40px 70px;">
       <div style="display:grid; grid-template-columns:repeat(6,1fr); gap:16px;">
-        <div style="background:#fff; border:1px solid #ECEEF1; border-radius:16px; padding:26px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px; box-shadow:0 4px 22px -14px rgba(20,23,26,0.1);">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+        <div style="background:#fff; border:1px solid #ECEEF1; border-radius:16px; padding:26px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px;">
+          <img src="assets/trust-registry.svg" alt="" style="height:42px; width:auto;">
           <span style="font-size:14px; font-weight:600; color:#2B2F35; line-height:1.35;">В реестре<br>российского ПО</span>
         </div>
-        <div style="background:#fff; border:1px solid #ECEEF1; border-radius:16px; padding:26px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px; box-shadow:0 4px 22px -14px rgba(20,23,26,0.1);">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
-          <span style="font-size:14px; font-weight:600; color:#2B2F35; line-height:1.35;">Применяется<br>с 2011 года</span>
+        <div style="background:#fff; border:1px solid #ECEEF1; border-radius:16px; padding:26px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px;">
+          <img src="assets/trust-2011.svg" alt="" style="height:42px; width:auto;">
+          <span style="font-size:14px; font-weight:600; color:#2B2F35; line-height:1.35;">Применяется в бизнесе<br>с 2011 года</span>
         </div>
-        <div style="background:#fff; border:1px solid #ECEEF1; border-radius:16px; padding:26px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px; box-shadow:0 4px 22px -14px rgba(20,23,26,0.1);">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        <div style="background:#fff; border:1px solid #ECEEF1; border-radius:16px; padding:26px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px;">
+          <img src="assets/trust-8h.svg" alt="" style="height:42px; width:auto;">
           <span style="font-size:14px; font-weight:600; color:#2B2F35; line-height:1.35;">Запуск<br>за 8 часов</span>
         </div>
-        <div style="background:#fff; border:1px solid #ECEEF1; border-radius:16px; padding:26px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px; box-shadow:0 4px 22px -14px rgba(20,23,26,0.1);">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg>
-          <span style="font-size:14px; font-weight:600; color:#2B2F35; line-height:1.35;">Агентный и<br>безагентный сбор</span>
+        <div style="background:#fff; border:1px solid #ECEEF1; border-radius:16px; padding:26px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px;">
+          <img src="assets/trust-scale.svg" alt="" style="height:42px; width:auto;">
+          <span style="font-size:14px; font-weight:600; color:#2B2F35; line-height:1.35;">Масштабируется<br>без затрат</span>
         </div>
-        <div style="background:#fff; border:1px solid #ECEEF1; border-radius:16px; padding:26px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px; box-shadow:0 4px 22px -14px rgba(20,23,26,0.1);">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg>
+        <div style="background:#fff; border:1px solid #ECEEF1; border-radius:16px; padding:26px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px;">
+          <img src="assets/trust-api.svg" alt="" style="height:42px; width:auto;">
           <span style="font-size:14px; font-weight:600; color:#2B2F35; line-height:1.35;">Открытое API<br>для интеграции</span>
         </div>
-        <div style="background:#fff; border:1px solid #ECEEF1; border-radius:16px; padding:26px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px; box-shadow:0 4px 22px -14px rgba(20,23,26,0.1);">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"></path></svg>
-          <span style="font-size:14px; font-weight:600; color:#2B2F35; line-height:1.35;">Бесплатная<br>техподдержка</span>
+        <div style="background:#fff; border:1px solid #ECEEF1; border-radius:16px; padding:26px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px;">
+          <img src="assets/trust-support.svg" alt="" style="height:42px; width:auto;">
+          <span style="font-size:14px; font-weight:600; color:#2B2F35; line-height:1.35;">Год бесплатной<br>техподдержки</span>
         </div>
       </div>
     </div>
@@ -297,7 +240,7 @@
           </div>
           <div>
             <div style="font-size:19px; font-weight:800; line-height:1.25; color:#15181C; margin-bottom:7px;">Active Directory (LDAP)</div>
-            <div style="font-size:15px; color:#6B7178; line-height:1.5;">Компьютеры, пользователи, OU, группы и связи учётных записей с устройствами.</div>
+            <div style="font-size:15px; color:#6B7178; line-height:1.5;">Подключение к контроллеру домена, выбор OU, LDAP/LDAPS, состав каталога и связи учёток с устройствами.</div>
           </div>
         </div>
         <!-- arrow -->
@@ -313,7 +256,7 @@
           </div>
           <div>
             <div style="font-size:19px; font-weight:800; line-height:1.25; color:#fff; margin-bottom:7px;">Инферит ИТМен</div>
-            <div style="font-size:15px; color:rgba(255,255,255,0.85); line-height:1.5;">Инвентаризация узлов, дискаверинг вне AD, нормализация и склейка дублей.</div>
+            <div style="font-size:15px; color:rgba(255,255,255,0.85); line-height:1.5;">Сначала карточки из каталога, затем полный сбор с узлов, сверка с сетью, нормализация.</div>
           </div>
         </div>
         <!-- arrow -->
@@ -336,21 +279,48 @@
     </div>
   </section>
 
-  <!-- ============ ЧТО СОБИРАЕМ ============ -->
+  <!-- ============ ПОДКЛЮЧЕНИЕ К ДОМЕНУ ============ -->
   <section style="background:#F5F7F8;">
+    <div style="max-width:1240px; margin:0 auto; padding:90px 40px;">
+      <h2 style="text-align:center; font-size:38px; font-weight:800; letter-spacing:-0.4px; margin:0 0 14px; color:#15181C;">Как подключаемся к домену</h2>
+      <p style="text-align:center; font-size:18px; line-height:1.6; color:#565C64; max-width:820px; margin:0 auto 48px;">ИТМен работает с Active&nbsp;Directory как с источником состава инфраструктуры: задаёте контроллер домена и&nbsp;область синхронизации, получаете актуальный список объектов и&nbsp;дополняете его инвентаризацией.</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+        <div style="background:#fff; border-radius:20px; padding:34px 32px; border:1px solid #ECEEF1;">
+          <div style="font-size:20px; font-weight:800; color:#15181C; margin-bottom:12px;">Область синхронизации</div>
+          <p style="font-size:16px; line-height:1.55; color:#565C64; margin:0;">Можно ограничить сбор выбранными организационными единицами (OU) и работать с одним или несколькими доменами — без выгрузки всего каталога «вслепую».</p>
+        </div>
+        <div style="background:#fff; border-radius:20px; padding:34px 32px; border:1px solid #ECEEF1;">
+          <div style="font-size:20px; font-weight:800; color:#15181C; margin-bottom:12px;">Защищённое подключение</div>
+          <p style="font-size:16px; line-height:1.55; color:#565C64; margin:0;">Подключение к каталогу по LDAP с возможностью защищённого канала (LDAPS). Дальнейшая передача данных в контуре заказчика — с учётом требований ИБ.</p>
+        </div>
+        <div style="background:#fff; border-radius:20px; padding:34px 32px; border:1px solid #ECEEF1;">
+          <div style="font-size:20px; font-weight:800; color:#15181C; margin-bottom:12px;">Карточка до полного сбора</div>
+          <p style="font-size:16px; line-height:1.55; color:#565C64; margin:0;">Компьютер из AD появляется в учёте сразу — с базовыми данными каталога. Полная инвентаризация узла дополняет карточку по мере доступности агента или безагентного опроса.</p>
+        </div>
+        <div style="background:#fff; border-radius:20px; padding:34px 32px; border:1px solid #ECEEF1;">
+          <div style="font-size:20px; font-weight:800; color:#15181C; margin-bottom:12px;">Сверка каталога и сети</div>
+          <p style="font-size:16px; line-height:1.55; color:#565C64; margin:0;">Отдельно видны объекты, которые есть в AD, но ещё не опрошены, и устройства в сети, которых нет в каталоге — удобная точка для наведения порядка в учёте.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ЧТО СОБИРАЕМ ============ -->
+  <section style="background:#fff;">
     <div style="max-width:1240px; margin:0 auto; padding:90px 40px;">
       <div style="display:grid; grid-template-columns:1fr 1.1fr; gap:64px; align-items:center;">
         <div>
-          <h2 style="font-size:38px; font-weight:800; letter-spacing:-0.4px; margin:0 0 18px; color:#15181C; line-height:1.1;">Что собираем через Active Directory</h2>
-          <p style="font-size:16px; line-height:1.55; color:#565C64; margin:0 0 28px;">Из&nbsp;AD по&nbsp;LDAP — каталожный слой. Поверх него — инвентаризация узлов и&nbsp;дискаверинг устройств вне&nbsp;домена.</p>
+          <h2 style="font-size:38px; font-weight:800; letter-spacing:-0.4px; margin:0 0 18px; color:#15181C; line-height:1.1;">Что собираем из Active Directory и с узлов</h2>
+          <p style="font-size:16px; line-height:1.55; color:#565C64; margin:0 0 28px;">Каталог даёт состав домена. Сбор с&nbsp;конечных точек дополняет его фактическими данными об&nbsp;оборудовании и&nbsp;ПО — без подмены AD и&nbsp;без роли CMDB.</p>
           <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:18px;">
-            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Список компьютеров и пользователей из домена (LDAP)</li>
-            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Структура OU, группы, связи пользователь ↔ устройство</li>
-            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Детальная инвентаризация оборудования и ПО на узлах домена</li>
-            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Обнаружение устройств вне AD — неучтённых и несанкционированных</li>
-            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Сбор из нескольких доменов и лесов в единую базу</li>
+            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Объекты компьютеров и пользователей, OU, группы, связь учётной записи с устройством</li>
+            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Атрибуты каталога, полезные для учёта: расположение, описание, базовая информация об ОС</li>
+            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Двухэтапная модель: сначала карточка из AD, затем полный сбор с узла</li>
+            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Конфигурация узла: процессор, память, диски, сетевые адаптеры (IP, MAC, DNS-имя)</li>
+            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Установленное ПО и версии — для ITAM / SAM и контроля лицензий</li>
+            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Сверка с сетью: узлы вне каталога и расхождения «заведено в AD / есть в инфраструктуре»</li>
+            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Несколько доменов и лесов в одной нормализованной базе</li>
             <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Агентный и безагентный сбор (WinRM, WMI, SSH, SNMP — по политике доступа)</li>
-            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Автоматическое определение и типизация устройств</li>
           </ul>
         </div>
         <div>
@@ -421,8 +391,8 @@
 
       <!-- 5a Аудит ИТ-активов -->
       <div style="margin-top:50px; max-width:880px;">
-        <div style="font-size:22px; font-weight:800; color:#15181C; margin-bottom:10px;">Аудит ИТ-активов в Active Directory</div>
-        <p style="font-size:17px; line-height:1.6; color:#565C64; margin:0;">ИТМен показывает расхождения между каталогом и&nbsp;фактом: что заведено в&nbsp;AD и&nbsp;что реально работает в&nbsp;сети. Учёт компьютеров в&nbsp;домене перестаёт зависеть от&nbsp;разовых выгрузок и&nbsp;остаётся пригодным для ITAM, лицензирования и&nbsp;наполнения CMDB. Это не&nbsp;аудит прав и&nbsp;настроек безопасности Active&nbsp;Directory.</p>
+        <div style="font-size:22px; font-weight:800; color:#15181C; margin-bottom:10px;">Порядок в активах домена — без подмены AD</div>
+        <p style="font-size:17px; line-height:1.6; color:#565C64; margin:0;">ИТМен помогает сверить каталог с&nbsp;реальностью инфраструктуры: что заведено в&nbsp;AD, что установлено на&nbsp;узлах и&nbsp;что обнаружено в&nbsp;сети вне домена. Это слой сбора и&nbsp;нормализации для ITAM и&nbsp;CMDB, а&nbsp;не аудит прав, GPO и&nbsp;политик безопасности Active&nbsp;Directory.</p>
       </div>
 
       <!-- 5б perelinkovka -->
@@ -450,7 +420,7 @@
             <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
           </div>
           <div style="font-size:18px; font-weight:700; color:#fff; margin-bottom:12px;">Сбор данных при ограничениях</div>
-          <p style="font-size:14.5px; line-height:1.55; color:#9AA1A9; margin:0;">Работает в условиях закрытых периметров, с соблюдением строгих политик заказчиков в области информационной безопасности.</p>
+          <p style="font-size:14.5px; line-height:1.55; color:#9AA1A9; margin:0;">Работает в закрытых периметрах: подключение к каталогу по защищённому каналу (в т.ч. LDAPS) и сбор без выхода инфраструктуры в интернет.</p>
         </div>
         <div style="background:#16181C; border:1px solid rgba(255,255,255,0.07); border-radius:20px; padding:30px 28px;">
           <div style="width:52px; height:52px; border-radius:14px; background:#DD0D29; display:flex; align-items:center; justify-content:center; margin-bottom:22px;">
@@ -521,6 +491,22 @@
             <span class="faq-chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span>
           </div>
           <div class="faq-panel"><p style="font-size:16px; line-height:1.6; color:#565C64; margin:0;">Нет. ИТМен собирает и нормализует данные и наполняет ими CMDB / ITSM, а не заменяет их.</p></div>
+        </div>
+
+        <div style="border:1px solid #ECEEF1; border-radius:16px; overflow:hidden; background:#fff;">
+          <div onclick="faqToggle(this)" style="display:flex; align-items:center; justify-content:space-between; gap:24px; padding:24px 30px; cursor:pointer;">
+            <span style="font-size:18px; font-weight:700; color:#15181C; line-height:1.4;">Можно ли синхронизировать не весь домен, а отдельные OU?</span>
+            <span class="faq-chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span>
+          </div>
+          <div class="faq-panel"><p style="font-size:16px; line-height:1.6; color:#565C64; margin:0;">Да. Область синхронизации задаётся по организационным единицам — удобно для филиалов и пилотных контуров.</p></div>
+        </div>
+
+        <div style="border:1px solid #ECEEF1; border-radius:16px; overflow:hidden; background:#fff;">
+          <div onclick="faqToggle(this)" style="display:flex; align-items:center; justify-content:space-between; gap:24px; padding:24px 30px; cursor:pointer;">
+            <span style="font-size:18px; font-weight:700; color:#15181C; line-height:1.4;">Поддерживается ли защищённое подключение к каталогу?</span>
+            <span class="faq-chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span>
+          </div>
+          <div class="faq-panel"><p style="font-size:16px; line-height:1.6; color:#565C64; margin:0;">Да. Для работы с контроллером домена используется LDAP, при необходимости — защищённый канал LDAPS.</p></div>
         </div>
 
         <div style="border:1px solid #ECEEF1; border-radius:16px; overflow:hidden; background:#fff;">
