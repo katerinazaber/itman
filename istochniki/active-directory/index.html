@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Инвентаризация Active Directory: сбор данных об активах | ИТМен</title>
-<meta name="description" content="ИТМен собирает данные об оборудовании, ПО и пользователях из Active Directory по LDAP, находит устройства вне домена и передаёт чистые данные в CMDB, ITSM и ITAM.">
-<meta name="robots" content="index,follow">
+<meta name="description" content="ИТМен подключается к Active Directory по LDAP, получает список компьютеров и пользователей домена, дополняет инвентаризацией узлов, находит устройства вне AD и передаёт данные в CMDB, ITSM и ITAM.">
+<meta name="robots" content="noindex,nofollow">
 <link rel="canonical" href="https://itman.ru/istochniki/active-directory">
 <meta property="og:title" content="Инвентаризация Active Directory: сбор данных об активах | ИТМен">
-<meta property="og:description" content="Сбор данных об оборудовании, ПО и пользователях из Active Directory. Очищенные данные для CMDB, ITSM и ITAM.">
+<meta property="og:description" content="Сбор данных из Active Directory по LDAP + инвентаризация узлов. Очищенные данные для CMDB, ITSM и ITAM.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -137,10 +137,10 @@
       <div style="display:grid; grid-template-columns:1.05fr 1fr; gap:60px; align-items:center;">
         <div>
           <h1 style="font-size:48px; line-height:1.08; font-weight:800; letter-spacing:-0.5px; margin:0 0 22px; color:#15181C;">Инвентаризация Active&nbsp;Directory: автоматический сбор данных об&nbsp;активах домена</h1>
-          <p style="font-size:18px; line-height:1.6; color:#565C64; margin:0 0 28px; max-width:560px;">Автоматический учёт оборудования, ПО и&nbsp;пользователей через Active&nbsp;Directory: список узлов из&nbsp;домена, детальная инвентаризация и&nbsp;обнаружение устройств вне&nbsp;AD. Очищенные данные — для CMDB, ITSM и&nbsp;ITAM.</p>
+          <p style="font-size:18px; line-height:1.6; color:#565C64; margin:0 0 28px; max-width:560px;">Active&nbsp;Directory хранит каталог домена — компьютеры, пользователей, группы и&nbsp;OU. Для ITAM и&nbsp;CMDB этого мало: нет полной картины железа и&nbsp;ПО. Инферит ИТМен подключается к&nbsp;AD по&nbsp;LDAP, берёт состав домена, проводит инвентаризацию узлов и&nbsp;находит устройства вне&nbsp;каталога. Очищенные данные — в&nbsp;CMDB, ITSM, ITAM и&nbsp;SAM.</p>
           <ul style="list-style:none; padding:0; margin:0 0 34px; display:flex; flex-direction:column; gap:13px;">
             <li style="display:flex; align-items:center; gap:12px; font-size:16px; color:#2B2F35;"><span style="flex:none; width:22px; height:22px; border-radius:50%; background:#FCE8EB; display:flex; align-items:center; justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Список компьютеров и пользователей из домена по LDAP</li>
-            <li style="display:flex; align-items:center; gap:12px; font-size:16px; color:#2B2F35;"><span style="flex:none; width:22px; height:22px; border-radius:50%; background:#FCE8EB; display:flex; align-items:center; justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Обнаружение устройств вне AD и детальная инвентаризация узлов</li>
+            <li style="display:flex; align-items:center; gap:12px; font-size:16px; color:#2B2F35;"><span style="flex:none; width:22px; height:22px; border-radius:50%; background:#FCE8EB; display:flex; align-items:center; justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Инвентаризация узлов + обнаружение устройств вне AD</li>
             <li style="display:flex; align-items:center; gap:12px; font-size:16px; color:#2B2F35;"><span style="flex:none; width:22px; height:22px; border-radius:50%; background:#FCE8EB; display:flex; align-items:center; justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Очищенные данные для CMDB, ITSM и ITAM</li>
           </ul>
           <div style="display:flex; gap:14px; flex-wrap:wrap;">
@@ -233,7 +233,7 @@
         </div>
         <div style="background:#fff; border:1px solid #ECEEF1; border-radius:16px; padding:26px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px; box-shadow:0 4px 22px -14px rgba(20,23,26,0.1);">
           <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-          <span style="font-size:14px; font-weight:600; color:#2B2F35; line-height:1.35;">Запуск<br>за 6 часов</span>
+          <span style="font-size:14px; font-weight:600; color:#2B2F35; line-height:1.35;">Запуск<br>за 8 часов</span>
         </div>
         <div style="background:#fff; border:1px solid #ECEEF1; border-radius:16px; padding:26px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px; box-shadow:0 4px 22px -14px rgba(20,23,26,0.1);">
           <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#DD0D29" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg>
@@ -288,7 +288,7 @@
   <section style="background:#fff;">
     <div style="max-width:1240px; margin:0 auto; padding:90px 40px;">
       <h2 style="text-align:center; font-size:38px; font-weight:800; letter-spacing:-0.4px; margin:0 0 14px; color:#15181C;">Как это работает</h2>
-      <p style="text-align:center; font-size:18px; line-height:1.6; color:#565C64; max-width:780px; margin:0 auto 56px;">ИТМен получает из Active Directory список компьютеров и пользователей по LDAP, проводит инвентаризацию узлов, находит устройства вне домена и передаёт нормализованные данные в целевые системы.</p>
+      <p style="text-align:center; font-size:18px; line-height:1.6; color:#565C64; max-width:820px; margin:0 auto 56px;">ИТМен использует Active&nbsp;Directory как источник состава домена, а&nbsp;не как единственный источник инвентарных атрибутов. Данные обогащаются сбором с&nbsp;конечных точек и&nbsp;сетевым дискаверингом, затем нормализуются и&nbsp;передаются в&nbsp;учётные системы.</p>
       <div style="display:grid; grid-template-columns:1fr auto 1fr auto 1fr; align-items:stretch; gap:0;">
         <!-- node 1 -->
         <div style="background:#F5F7F8; border:1px solid #ECEEF1; border-radius:20px; padding:34px 30px; display:flex; flex-direction:column; gap:16px;">
@@ -297,7 +297,7 @@
           </div>
           <div>
             <div style="font-size:19px; font-weight:800; line-height:1.25; color:#15181C; margin-bottom:7px;">Active Directory (LDAP)</div>
-            <div style="font-size:15px; color:#6B7178; line-height:1.5;">Список узлов и пользователей домена.</div>
+            <div style="font-size:15px; color:#6B7178; line-height:1.5;">Компьютеры, пользователи, OU, группы и связи учётных записей с устройствами.</div>
           </div>
         </div>
         <!-- arrow -->
@@ -313,7 +313,7 @@
           </div>
           <div>
             <div style="font-size:19px; font-weight:800; line-height:1.25; color:#fff; margin-bottom:7px;">Инферит ИТМен</div>
-            <div style="font-size:15px; color:rgba(255,255,255,0.85); line-height:1.5;">Дискаверинг, инвентаризация, нормализация.</div>
+            <div style="font-size:15px; color:rgba(255,255,255,0.85); line-height:1.5;">Инвентаризация узлов, дискаверинг вне AD, нормализация и склейка дублей.</div>
           </div>
         </div>
         <!-- arrow -->
@@ -329,7 +329,7 @@
           </div>
           <div>
             <div style="font-size:19px; font-weight:800; line-height:1.25; color:#15181C; margin-bottom:7px;">CMDB / ITSM / ITAM / SAM</div>
-            <div style="font-size:15px; color:#6B7178; line-height:1.5;">Наполнение целевых систем учёта.</div>
+            <div style="font-size:15px; color:#6B7178; line-height:1.5;">Наполнение целевых систем учёта очищенными данными.</div>
           </div>
         </div>
       </div>
@@ -341,14 +341,15 @@
     <div style="max-width:1240px; margin:0 auto; padding:90px 40px;">
       <div style="display:grid; grid-template-columns:1fr 1.1fr; gap:64px; align-items:center;">
         <div>
-          <h2 style="font-size:38px; font-weight:800; letter-spacing:-0.4px; margin:0 0 30px; color:#15181C; line-height:1.1;">Что собираем через Active Directory</h2>
+          <h2 style="font-size:38px; font-weight:800; letter-spacing:-0.4px; margin:0 0 18px; color:#15181C; line-height:1.1;">Что собираем через Active Directory</h2>
+          <p style="font-size:16px; line-height:1.55; color:#565C64; margin:0 0 28px;">Из&nbsp;AD по&nbsp;LDAP — каталожный слой. Поверх него — инвентаризация узлов и&nbsp;дискаверинг устройств вне&nbsp;домена.</p>
           <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:18px;">
-            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Список компьютеров и пользователей из домена (через LDAP)</li>
+            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Список компьютеров и пользователей из домена (LDAP)</li>
             <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Структура OU, группы, связи пользователь ↔ устройство</li>
-            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Детальная инвентаризация оборудования и ПО на узлах из домена</li>
+            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Детальная инвентаризация оборудования и ПО на узлах домена</li>
             <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Обнаружение устройств вне AD — неучтённых и несанкционированных</li>
             <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Сбор из нескольких доменов и лесов в единую базу</li>
-            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Агентный и безагентный сбор данных</li>
+            <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Агентный и безагентный сбор (WinRM, WMI, SSH, SNMP — по политике доступа)</li>
             <li style="display:flex; align-items:flex-start; gap:14px; font-size:17px; line-height:1.45; color:#2B2F35;"><span style="flex:none; margin-top:2px; width:24px; height:24px; border-radius:7px; background:#DD0D29; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Автоматическое определение и типизация устройств</li>
           </ul>
         </div>
@@ -421,7 +422,7 @@
       <!-- 5a Аудит ИТ-активов -->
       <div style="margin-top:50px; max-width:880px;">
         <div style="font-size:22px; font-weight:800; color:#15181C; margin-bottom:10px;">Аудит ИТ-активов в Active Directory</div>
-        <p style="font-size:17px; line-height:1.6; color:#565C64; margin:0;">ИТМен помогает навести порядок в ИТ-активах домена: показывает фактический состав оборудования и ПО на узлах AD и выявляет расхождения между тем, что заведено в каталоге, и тем, что реально работает в сети.</p>
+        <p style="font-size:17px; line-height:1.6; color:#565C64; margin:0;">ИТМен показывает расхождения между каталогом и&nbsp;фактом: что заведено в&nbsp;AD и&nbsp;что реально работает в&nbsp;сети. Учёт компьютеров в&nbsp;домене перестаёт зависеть от&nbsp;разовых выгрузок и&nbsp;остаётся пригодным для ITAM, лицензирования и&nbsp;наполнения CMDB. Это не&nbsp;аудит прав и&nbsp;настроек безопасности Active&nbsp;Directory.</p>
       </div>
 
       <!-- 5б perelinkovka -->
