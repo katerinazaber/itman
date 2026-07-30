@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>МояКарта — AI-разбор натальной карты за 1 минуту</title>
+  <meta name="description" content="Экспресс AI-инструмент: введи данные рождения, получи превью разбора. Полный отчёт — после оплаты." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-mesh" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true"></span>
+      МояКарта
+    </a>
+    <nav class="topnav">
+      <a href="#how">Как работает</a>
+      <a href="#demo">Попробовать</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">AI-инструмент · экспресс-разбор</p>
+        <h1>Персональный разбор<br />натальной карты <em>за 1 минуту</em></h1>
+        <p class="lede">
+          Введи дату, время и город рождения — модель посчитает карту и соберёт
+          короткий разбор. Полный отчёт открывается после оплаты.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#demo">Разобрать карту</a>
+          <span class="hero-note">Без регистрации · превью бесплатно</span>
+        </div>
+        <ul class="trust">
+          <li>Расчёт на устройстве</li>
+          <li>Astronomy Engine</li>
+          <li>Оплата только за полный PDF</li>
+        </ul>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="orbit-ring"></div>
+        <div class="orbit-ring orbit-ring--2"></div>
+        <svg class="hero-wheel" viewBox="0 0 320 320" fill="none">
+          <circle cx="160" cy="160" r="148" stroke="currentColor" stroke-opacity=".18" stroke-width="1" />
+          <circle cx="160" cy="160" r="112" stroke="currentColor" stroke-opacity=".28" stroke-width="1" />
+          <circle cx="160" cy="160" r="72" stroke="currentColor" stroke-opacity=".35" stroke-width="1.5" />
+          <g class="wheel-ticks" stroke="currentColor" stroke-opacity=".4">
+            <line x1="160" y1="12" x2="160" y2="28" />
+            <line x1="160" y1="292" x2="160" y2="308" />
+            <line x1="12" y1="160" x2="28" y2="160" />
+            <line x1="292" y1="160" x2="308" y2="160" />
+            <line x1="55" y1="55" x2="66" y2="66" />
+            <line x1="254" y1="254" x2="265" y2="265" />
+            <line x1="254" y1="55" x2="265" y2="66" transform="rotate(90 160 160)" />
+          </g>
+          <circle class="planet planet-sun" cx="232" cy="96" r="7" />
+          <circle class="planet planet-moon" cx="88" cy="198" r="5.5" />
+          <circle class="planet planet-asc" cx="198" cy="236" r="4.5" />
+          <path d="M160 160 L232 96" stroke="currentColor" stroke-opacity=".25" />
+          <path d="M160 160 L88 198" stroke="currentColor" stroke-opacity=".2" />
+          <circle cx="160" cy="160" r="6" fill="currentColor" />
+        </svg>
+      </div>
+    </section>
+
+    <section class="section how" id="how">
+      <h2>Три шага — как у экспресс-инструмента</h2>
+      <p class="section-sub">Сначала ценность. Потом оплата за глубину.</p>
+      <ol class="steps-overview">
+        <li><strong>1. Данные</strong><span>Дата, время, город рождения</span></li>
+        <li><strong>2. Превью</strong><span>Солнце · Луна · Асцендент + короткий AI-текст</span></li>
+        <li><strong>3. Полный отчёт</strong><span>PDF после оплаты — 790 ₽</span></li>
+      </ol>
+    </section>
+
+    <section class="section demo" id="demo">
+      <div class="panel step" id="step1">
+        <div class="step-head">
+          <span class="step-num">1</span>
+          <div>
+            <h2>Введи данные рождения</h2>
+            <p>Нужны для точного расчёта карты. Данные остаются в браузере.</p>
+          </div>
+        </div>
+
+        <form id="birth-form" class="birth-form" autocomplete="on">
+          <label>
+            Имя
+            <input id="name" name="name" type="text" placeholder="Как к тебе обращаться" required />
+          </label>
+          <div class="row-2">
+            <label>
+              Дата рождения
+              <input id="date" name="date" type="date" required value="1995-03-21" />
+            </label>
+            <label>
+              Время рождения
+              <input id="time" name="time" type="time" required value="14:30" />
+            </label>
+          </div>
+          <label>
+            Город рождения
+            <select id="city" name="city" required></select>
+          </label>
+          <label>
+            Фокус разбора
+            <select id="focus" name="focus">
+              <option value="self">Кто я / самопознание</option>
+              <option value="love">Отношения</option>
+              <option value="money">Деньги и реализация</option>
+              <option value="work">Работа и призвание</option>
+            </select>
+          </label>
+          <p class="hint">Не знаешь точное время? Оставь 12:00 — Асцендент будет приблизительным.</p>
+          <button type="submit" class="btn btn-primary btn-wide">Запустить AI-разбор</button>
+        </form>
+      </div>
+
+      <div class="panel step is-hidden" id="step2" hidden>
+        <div class="step-head">
+          <span class="step-num">2</span>
+          <div>
+            <h2>Превью готово</h2>
+            <p id="process-meta">Карта рассчитана · показан фрагмент отчёта</p>
+          </div>
+        </div>
+
+        <div class="preview-grid">
+          <div class="chart-card">
+            <div id="chart-svg" class="chart-mount" aria-label="Колесо карты"></div>
+            <p class="chart-caption">Натальное колесо · расчёт Astronomy Engine</p>
+          </div>
+
+          <div class="preview-main">
+            <div class="status-bar">
+              <span class="dot"></span>
+              <span id="status-text">Обработка завершена</span>
+              <span id="status-time" class="muted"></span>
+            </div>
+
+            <div class="triad" id="triad"></div>
+
+            <article class="ai-preview">
+              <header>
+                <span>AI-превью · ~20% отчёта</span>
+                <span class="tag" id="focus-tag">Самопознание</span>
+              </header>
+              <h3 id="preview-title">Твой короткий разбор</h3>
+              <p id="preview-body"></p>
+              <ul class="preview-bullets" id="preview-bullets"></ul>
+              <div class="blur-lock" aria-hidden="true">
+                <p>Дальше в полном отчёте: профиль по домам, аспекты, зона внимания сейчас и 3 практических шага.</p>
+              </div>
+            </article>
+
+            <aside class="stats" id="stats"></aside>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel step is-hidden" id="step3" hidden>
+        <div class="step-head">
+          <span class="step-num">3</span>
+          <div>
+            <h2>Скачать полный отчёт</h2>
+            <p>Расширенный AI-разбор в PDF. Оплата один раз — без подписки.</p>
+          </div>
+        </div>
+
+        <div class="pay-grid">
+          <div class="pay-offer">
+            <div class="report-mock">
+              <span class="badge">PDF · 8–10 стр.</span>
+              <h3>Полный разбор карты</h3>
+              <ul>
+                <li>Психологический профиль по Солнцу, Луне, Асценденту</li>
+                <li>Блоки: отношения · деньги · призвание</li>
+                <li>Сильные аспекты и «точки роста»</li>
+                <li>3 конкретных шага на ближайший месяц</li>
+              </ul>
+              <p class="price"><strong>790 ₽</strong> <span>разово</span></p>
+            </div>
+          </div>
+
+          <form class="pay-form" id="pay-form">
+            <p class="pay-lead">Чтобы открыть полный отчёт, оплати или запусти демо-оплату прототипа.</p>
+            <label>
+              Email для отправки PDF
+              <input id="email" name="email" type="email" placeholder="you@email.com" required />
+            </label>
+            <button type="submit" class="btn btn-primary btn-wide">Оплатить 790 ₽</button>
+            <button type="button" class="btn btn-ghost btn-wide" id="demo-pay">Демо: открыть отчёт без оплаты</button>
+            <p class="legal">Прототип: реальный платёж (ЮKassa) подключается на следующем шаге. Сейчас — демо-разблокировка.</p>
+          </form>
+        </div>
+      </div>
+
+      <div class="panel step is-hidden" id="report" hidden>
+        <div class="step-head">
+          <span class="step-num">✓</span>
+          <div>
+            <h2>Полный отчёт открыт</h2>
+            <p id="report-meta">Сгенерировано по твоей рамке качества · демо-версия</p>
+          </div>
+        </div>
+        <article class="full-report" id="full-report"></article>
+        <div class="report-actions">
+          <button type="button" class="btn btn-primary" id="print-report">Скачать / печать PDF</button>
+          <button type="button" class="btn btn-ghost" id="reset">Новый разбор</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section libs">
+      <h2>Открытые библиотеки и референсы</h2>
+      <div class="lib-grid">
+        <a href="https://github.com/cosinekitty/astronomy" target="_blank" rel="noopener">
+          <strong>Astronomy Engine</strong>
+          <span>Расчёт положений планет (MIT) — встроена в прототип</span>
+        </a>
+        <a href="https://github.com/0xStarcat/CircularNatalHoroscopeJS" target="_blank" rel="noopener">
+          <strong>CircularNatalHoroscopeJS</strong>
+          <span>Дома, аспекты, натальные расчёты — для следующего релиза</span>
+        </a>
+        <a href="https://astrodraw.github.io/" target="_blank" rel="noopener">
+          <strong>AstroChart</strong>
+          <span>SVG-колесо карты без зависимостей</span>
+        </a>
+        <a href="https://flat18.co.uk/case-studies/natal-charts" target="_blank" rel="noopener">
+          <strong>Natal Charts UX</strong>
+          <span>Референс: guided intake → progressive disclosure</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>МояКарта · прототип AI-инструмента · 2026</p>
+    <p class="muted">Расчёты приблизительные для демо. Не медицинский и не финансовый совет.</p>
+  </footer>
+
+  <script src="vendor/astronomy.browser.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
