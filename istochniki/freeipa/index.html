@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Инвентаризация Samba: сбор данных об активах | ИТМен</title>
-  <meta name="description" content="ИТМен подключается к Samba по LDAP, синхронизирует объекты домена, дополняет инвентаризацией узлов и передает очищенные данные в CMDB, ITSM и ITAM." />
+  <title>Инвентаризация FreeIPA: сбор данных об активах | ИТМен</title>
+  <meta name="description" content="ИТМен подключается к FreeIPA по LDAP, синхронизирует пользователей, узлы и сертификаты домена, дополняет инвентаризацией узлов и передает очищенные данные в CMDB, ITSM и ITAM." />
   <meta name="robots" content="index,follow" />
-  <link rel="canonical" href="https://katerinazaber.github.io/itman/istochniki/samba/" />
-  <meta property="og:title" content="Инвентаризация Samba: сбор данных об активах | ИТМен" />
-  <meta property="og:description" content="Сбор данных из Samba по LDAP, инвентаризация Windows- и Linux-узлов и передача очищенных данных в CMDB/ITSM/ITAM." />
+  <link rel="canonical" href="https://katerinazaber.github.io/itman/istochniki/freeipa/" />
+  <meta property="og:title" content="Инвентаризация FreeIPA: сбор данных об активах | ИТМен" />
+  <meta property="og:description" content="Сбор данных из FreeIPA по LDAP: пользователи, хосты, сертификаты PKI и передача очищенных данных в CMDB/ITSM/ITAM." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -241,7 +241,7 @@
       top: 4%;
       width: 78%;
       height: 86%;
-      background: linear-gradient(145deg, #4ecf7a 0%, #1b8f3a 42%, #0d6b2a 100%);
+      background: linear-gradient(145deg, #5ba8ff 0%, #1a6fd4 42%, #0d4fa3 100%);
       border-radius: 48px;
       z-index: 0;
       box-shadow: 0 28px 60px rgba(227, 6, 19, 0.28);
@@ -427,7 +427,7 @@
       background: #10b981;
     }
 
-    .badge-samba {
+    .badge-ipa {
       position: absolute;
       right: 2%;
       bottom: 6%;
@@ -435,12 +435,12 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: linear-gradient(160deg, #3ecf6e 0%, #1b8f3a 48%, #0d6b2a 100%);
+      background: linear-gradient(160deg, #4a9eff 0%, #1a6fd4 48%, #0d4fa3 100%);
       color: #fff;
       border-radius: 999px;
       padding: 14px 22px 14px 16px;
       box-shadow:
-        0 18px 36px rgba(27, 143, 58, 0.38),
+        0 18px 36px rgba(26, 111, 212, 0.38),
         0 2px 0 rgba(255,255,255,.35) inset,
         0 -2px 0 rgba(0,0,0,.12) inset;
       font-size: 15px;
@@ -449,14 +449,14 @@
       transform: rotate(-3deg);
       white-space: nowrap;
     }
-    .badge-samba__icon {
+    .badge-ipa__icon {
       width: 28px;
       height: 28px;
       display: grid;
       place-items: center;
       filter: drop-shadow(0 1px 1px rgba(0,0,0,.2));
     }
-    .badge-samba__icon svg { width: 22px; height: 22px; }
+    .badge-ipa__icon svg { width: 22px; height: 22px; }
 
     /* Trust */
     .trust { padding: 36px 0 20px; }
@@ -876,7 +876,7 @@
       }
       .product-ui { transform: none; width: min(100%, 560px); }
       .hero__blob { right: 4%; width: 88%; }
-      .badge-samba { right: 8%; bottom: 0; }
+      .badge-ipa { right: 8%; bottom: 0; }
     }
     @media (max-width: 720px) {
       .container { width: min(100% - 32px, var(--container)); }
@@ -893,7 +893,7 @@
       .product-ui__kpis { grid-template-columns: repeat(3, 1fr); }
       .product-ui__kpis .kpi:nth-child(4),
       .product-ui__kpis .kpi:nth-child(5) { display: none; }
-      .badge-samba { font-size: 13px; padding: 12px 16px 12px 12px; }
+      .badge-ipa { font-size: 13px; padding: 12px 16px 12px 12px; }
       .sync-row { grid-template-columns: 1.2fr .7fr .8fr; }
       .sync-row span:nth-child(3) { display: none; }
     }
@@ -970,24 +970,24 @@
           <span class="breadcrumbs__sep">›</span>
           <a href="#">Источники данных</a>
           <span class="breadcrumbs__sep">›</span>
-          <span>Инвентаризация Samba</span>
+          <span>Инвентаризация FreeIPA</span>
         </nav>
 
         <div class="hero__grid">
           <div>
-            <h1 class="hero__title">Инферит ИТМен. Сбор данных из <em>Samba</em></h1>
+            <h1 class="hero__title">Инферит ИТМен. Сбор данных из <em>FreeIPA</em></h1>
             <ul class="hero__list">
               <li>
                 <span class="hero__check" aria-hidden="true">
                   <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
-                Единый учет активов при переходе с Windows AD на Samba
+                Единый учет активов для домена, построенного изначально на Linux
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true">
                   <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
-                Работает с Windows- и Linux-узлами в одной инфраструктуре
+                Помимо пользователей и узлов, видит сертификаты и хосты из PKI FreeIPA
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true">
@@ -1033,7 +1033,7 @@
               </aside>
               <div class="product-ui__main">
                 <div class="product-ui__head">
-                  <h3>Samba</h3>
+                  <h3>FreeIPA</h3>
                   <div class="product-ui__tabs">
                     <span class="product-ui__tab is-active">Сводка</span>
                     <span class="product-ui__tab">Объекты</span>
@@ -1041,32 +1041,30 @@
                   </div>
                 </div>
                 <div class="product-ui__kpis">
-                  <div class="kpi"><div class="kpi__label">Windows</div><div class="kpi__value">890</div></div>
-                  <div class="kpi"><div class="kpi__label">Linux</div><div class="kpi__value">1 630</div></div>
-                  <div class="kpi"><div class="kpi__label">Пользователи</div><div class="kpi__value">4 240</div></div>
-                  <div class="kpi"><div class="kpi__label">Группы</div><div class="kpi__value">318</div></div>
-                  <div class="kpi"><div class="kpi__label">Вне домена</div><div class="kpi__value">64</div></div>
+                  <div class="kpi"><div class="kpi__label">Хосты</div><div class="kpi__value">1 840</div></div>
+                  <div class="kpi"><div class="kpi__label">Пользователи</div><div class="kpi__value">3 120</div></div>
+                  <div class="kpi"><div class="kpi__label">Группы</div><div class="kpi__value">286</div></div>
+                  <div class="kpi"><div class="kpi__label">Сертификаты</div><div class="kpi__value">942</div></div>
+                  <div class="kpi"><div class="kpi__label">Вне домена</div><div class="kpi__value">38</div></div>
                 </div>
                 <div class="product-ui__panel">
                   <div class="product-ui__panel-title">Последняя синхронизация</div>
                   <div class="sync-row"><span>Источник</span><span>Объекты</span><span>Время</span><span>Статус</span></div>
-                  <div class="sync-row"><span>samba.corp.local</span><span>2 140</span><span>сегодня, 09:14</span><span class="sync-status">OK</span></div>
-                  <div class="sync-row"><span>Windows · WinRM/WMI</span><span>890</span><span>сегодня, 09:15</span><span class="sync-status">OK</span></div>
-                  <div class="sync-row"><span>Linux · SSH</span><span>1 630</span><span>сегодня, 09:16</span><span class="sync-status">OK</span></div>
-                  <div class="sync-row"><span>вне домена (сеть)</span><span>64</span><span>сегодня, 09:18</span><span class="sync-status">OK</span></div>
+                  <div class="sync-row"><span>ipa.corp.local</span><span>3 120</span><span>сегодня, 09:14</span><span class="sync-status">OK</span></div>
+                  <div class="sync-row"><span>Хосты · LDAP</span><span>1 840</span><span>сегодня, 09:15</span><span class="sync-status">OK</span></div>
+                  <div class="sync-row"><span>PKI · сертификаты</span><span>942</span><span>сегодня, 09:16</span><span class="sync-status">OK</span></div>
+                  <div class="sync-row"><span>вне домена (сеть)</span><span>38</span><span>сегодня, 09:18</span><span class="sync-status">OK</span></div>
                 </div>
               </div>
             </div>
-            <div class="badge-samba">
-              <span class="badge-samba__icon">
+            <div class="badge-ipa">
+              <span class="badge-ipa__icon">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <rect x="3" y="4" width="18" height="14" rx="2" stroke="#fff" stroke-width="1.6"/>
-                  <path d="M7 17h10" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
-                  <path d="M7 9h4M7 12h6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
-                  <circle cx="17" cy="8" r="1.2" fill="#fff"/>
+                  <path d="M12 3l8 4v5c0 5-3.4 8.4-8 9-4.6-.6-8-4-8-9V7l8-4z" stroke="#fff" stroke-width="1.6"/>
+                  <path d="M9.5 12.2l1.8 1.8 3.4-3.6" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </span>
-              Samba · Linux DC
+              FreeIPA · PKI
             </div>
           </div>
         </div>
@@ -1120,25 +1118,25 @@
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="18" cy="12" r="2.2" stroke="currentColor" stroke-width="1.8"/></svg>
             </div>
-            <p>Компания переходит с Windows AD на Samba в рамках импортозамещения</p>
+            <p>Домен изначально построен на FreeIPA, а не мигрировал с Windows AD</p>
           </article>
           <article class="fit-card" data-frame="1000007730-1">
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="8.5" y="13" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><path d="M10 7.5h4M12 11v2" stroke="currentColor" stroke-width="1.8"/></svg>
             </div>
-            <p>Инфраструктура смешанная: часть узлов на Windows, часть на Linux</p>
+            <p>Инфраструктура полностью или почти полностью на Linux</p>
           </article>
           <article class="fit-card" data-frame="1000007730-2">
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M5 19l2.5-2.5M19 19l-2.5-2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Нужен единый учет активов независимо от того, какая служба каталогов используется</p>
+            <p>Нужно учитывать не только пользователей и узлы, но и сертификаты, выпущенные внутренним удостоверяющим центром</p>
           </article>
           <article class="fit-card" data-frame="1000007730-3">
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M7 7h10v10H7z" stroke="currentColor" stroke-width="1.8"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Данные из Samba нужно передавать в CMDB/ITSM без дублей и расхождений</p>
+            <p>Данные из FreeIPA нужно передавать в CMDB/ITSM без дублей и расхождений</p>
           </article>
         </div>
       </div>
@@ -1151,11 +1149,11 @@
           <div class="steps">
             <article class="step">
               <div class="step__num">1</div>
-              <h3>Подключение к Samba</h3>
+              <h3>Подключение к FreeIPA</h3>
               <ul>
-                <li>Подключение к контроллеру домена Samba по LDAP</li>
-                <li>Загрузка состава каталога: пользователи, компьютеры, группы</li>
-                <li>Загрузка связей учетных записей с устройствами</li>
+                <li>Подключение к серверу FreeIPA по LDAP (389 Directory Server)</li>
+                <li>Загрузка состава каталога: пользователи, хосты, группы</li>
+                <li>Загрузка данных о сертификатах и хостовых политиках</li>
               </ul>
             </article>
             <article class="step">
@@ -1165,7 +1163,7 @@
                 <li>Сбор карточек из каталога</li>
                 <li>Дополнительный сбор данных с самих узлов</li>
                 <li>Сверка с сетью</li>
-                <li>Приведение всех данных к единому формату, вместе с данными из других источников</li>
+                <li>Приведение всех данных к единому формату</li>
               </ul>
             </article>
             <article class="step">
@@ -1179,20 +1177,20 @@
 
           <div class="schema" aria-hidden="true">
             <svg viewBox="0 0 420 360" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="24" y="28" width="110" height="72" rx="12" stroke="#1b8f3a" stroke-width="1.8" fill="#f0faf4"/>
-              <text x="79" y="54" text-anchor="middle" fill="#1b8f3a" font-family="Manrope, Arial" font-size="12" font-weight="700">Samba DC</text>
-              <text x="79" y="72" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="11" font-weight="600">LDAP</text>
-              <text x="79" y="88" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="10">Linux · Astra / ALT</text>
+              <rect x="24" y="28" width="110" height="72" rx="12" stroke="#1a6fd4" stroke-width="1.8" fill="#eef5fc"/>
+              <text x="79" y="54" text-anchor="middle" fill="#1a6fd4" font-family="Manrope, Arial" font-size="12" font-weight="700">FreeIPA</text>
+              <text x="79" y="72" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="11" font-weight="600">LDAP · 389 DS</text>
+              <text x="79" y="88" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="10">Kerberos · Linux</text>
 
               <rect x="155" y="28" width="110" height="72" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
-              <text x="210" y="54" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">Смешанные узлы</text>
-              <text x="210" y="72" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">Windows · WinRM</text>
-              <text x="210" y="88" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">Linux · SSH</text>
+              <text x="210" y="54" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">PKI FreeIPA</text>
+              <text x="210" y="72" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">сертификаты</text>
+              <text x="210" y="88" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">хосты · политики</text>
 
               <rect x="286" y="28" width="110" height="72" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
               <text x="341" y="54" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">Дискаверинг</text>
               <text x="341" y="72" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">вне домена</text>
-              <text x="341" y="88" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">сеть · SNMP</text>
+              <text x="341" y="88" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">SSH · сеть</text>
 
               <path d="M79 100v36M210 100v36M341 100v36" stroke="#D8D8D8" stroke-width="1.5"/>
               <path d="M79 136h262" stroke="#D8D8D8" stroke-width="1.5"/>
@@ -1201,7 +1199,7 @@
               <rect x="135" y="164" width="150" height="78" rx="14" fill="#E30613"/>
               <text x="210" y="194" text-anchor="middle" fill="#fff" font-family="Manrope, Arial" font-size="14" font-weight="700">Инферит ИТМен</text>
               <text x="210" y="214" text-anchor="middle" fill="#ffd0d3" font-family="Manrope, Arial" font-size="11">единая база · сверка</text>
-              <text x="210" y="228" text-anchor="middle" fill="#ffd0d3" font-family="Manrope, Arial" font-size="10">Samba + Windows + Linux</text>
+              <text x="210" y="228" text-anchor="middle" fill="#ffd0d3" font-family="Manrope, Arial" font-size="10">FreeIPA + PKI + узлы</text>
 
               <path d="M210 242v28" stroke="#E30613" stroke-width="2"/>
               <path d="M80 270h260" stroke="#D8D8D8" stroke-width="1.5"/>
@@ -1222,17 +1220,17 @@
     <section class="collect" id="collect">
       <div class="container">
         <h2 class="section-title">Что мы собираем</h2>
-        <p class="collect__intro">Каталог Samba дает список компьютеров, пользователей и структуру домена. Этого мало для полной инвентаризации, поэтому ИТМен дополнительно опрашивает сами узлы.</p>
+        <p class="collect__intro">Каталог FreeIPA дает состав домена и данные удостоверяющего центра. Этого мало для полной инвентаризации, поэтому ИТМен дополнительно опрашивает сами узлы.</p>
         <div class="collect__grid">
           <article class="collect-card collect-card--dark">
             <div class="collect-card__icon">
               <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="8" y="10" width="28" height="24" rx="4" stroke="#fff" stroke-width="2"/><path d="M14 18h16M14 24h10" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
             </div>
-            <h3>Из каталога Samba</h3>
+            <h3>Из каталога FreeIPA</h3>
             <ul>
-              <li>Компьютеры, пользователи и группы</li>
+              <li>Пользователи, хосты и группы</li>
               <li>Связь учетной записи пользователя с конкретным устройством</li>
-              <li>Базовая информация об ОС</li>
+              <li>Сертификаты и хосты, зарегистрированные в удостоверяющем центре FreeIPA</li>
             </ul>
           </article>
           <article class="collect-card collect-card--red">
@@ -1250,10 +1248,10 @@
             <div class="collect-card__icon" style="color:var(--red)">
               <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><path d="M10 28c4-8 20-8 24 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="14" cy="16" r="4" stroke="currentColor" stroke-width="2"/><circle cx="30" cy="16" r="4" stroke="currentColor" stroke-width="2"/><circle cx="22" cy="30" r="4" stroke="currentColor" stroke-width="2"/></svg>
             </div>
-            <h3>Работа со смешанной инфраструктурой</h3>
+            <h3>Работа с Linux-инфраструктурой</h3>
             <ul>
-              <li>Узлы на Windows и Linux в одной нормализованной базе</li>
-              <li>Агентный и безагентный сбор: SSH для Linux-узлов, WinRM и WMI для Windows-узлов</li>
+              <li>Домены и хосты на разных Linux-дистрибутивах в одной нормализованной базе</li>
+              <li>Безагентный сбор по SSH, агентный сбор там, где нужна более глубокая детализация</li>
             </ul>
           </article>
         </div>
@@ -1293,12 +1291,12 @@
         <h2 class="section-title section-title--center">Частые вопросы</h2>
         <div class="faq__list">
           <details open>
-            <summary>Чем сбор данных из Samba отличается от сбора из Active Directory?</summary>
-            <p>Логика та же: каталог дает состав домена, узлы дополняют его фактическими данными. Меняется только протокол подключения к каталогу, сама модель сбора одинаковая.</p>
+            <summary>Чем FreeIPA отличается от Samba и Active Directory?</summary>
+            <p>FreeIPA изначально строится как Linux-домен, а не как аналог Windows AD. Помимо LDAP-каталога и Kerberos, в нем есть собственный удостоверяющий центр для сертификатов, поэтому ИТМен дополнительно собирает данные о сертификатах и хостах из PKI.</p>
           </details>
           <details>
-            <summary>Можно ли одновременно вести учет по Windows AD и Samba?</summary>
-            <p>Да. Если инфраструктура смешанная или идет постепенная миграция, ИТМен сводит данные из обеих служб каталогов в одну базу.</p>
+            <summary>Можно ли одновременно вести учет по FreeIPA и Windows AD?</summary>
+            <p>Да. Если часть инфраструктуры работает на FreeIPA, а часть на Windows AD или Samba, ИТМен сводит данные из всех источников в одну базу.</p>
           </details>
           <details>
             <summary>Нужны ли агенты для сбора?</summary>
@@ -1366,7 +1364,7 @@
 
   <footer class="footer">
     <div class="container footer__inner">
-      <p>© 2011–2026 ООО «НЦПР». Макет страницы «Инвентаризация Samba».</p>
+      <p>© 2011–2026 ООО «НЦПР». Макет страницы «Инвентаризация FreeIPA».</p>
       <p><a href="https://itman.ru/">itman.ru</a> · Отдел продаж: <a href="tel:88007078553">8 800 707 85 53</a></p>
     </div>
   </footer>
