@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Интеграция с ITSMbox: ITSM, ITAM и SAM в едином контуре | ИТМен</title>
+  <meta name="description" content="Интеграция ИТМен и ITSMbox: автоматическая передача очищенных данных об ИТ-активах, ПО и пользователях в ITSM/ITAM/SAM без дублей и ручной сверки." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://katerinazaber.github.io/itman/istochniki/itsmbox/" />
+  <meta property="og:title" content="Интеграция с ITSMbox: ITSM, ITAM и SAM в едином контуре | ИТМен" />
+  <meta property="og:description" content="ИТМен собирает и нормализует данные, ITSMbox использует их в процессах ITSM, ITAM и SAM." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red: #e30613;
+      --red-hover: #c50510;
+      --black: #1a1a1a;
+      --text: #222;
+      --muted: #6b6b6b;
+      --border: #e6e6e6;
+      --bg-soft: #f7f7f7;
+      --white: #fff;
+      --radius: 16px;
+      --radius-sm: 12px;
+      --container: 1180px;
+      --shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Manrope, Arial, Helvetica, sans-serif; color: var(--text); background: var(--white); line-height: 1.5; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    .container { width: min(100% - 48px, var(--container)); margin-inline: auto; }
+
+    .header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.92); backdrop-filter: blur(10px); border-bottom: 1px solid transparent; }
+    .header.is-scrolled { border-bottom-color: var(--border); }
+    .header__inner { display: flex; align-items: center; gap: 16px; min-height: 72px; }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo__mark { width: 36px; height: 36px; border-radius: 8px; background: var(--red); color: #fff; font-weight: 800; font-size: 13px; display: grid; place-items: center; letter-spacing: -0.02em; }
+    .logo__text { font-weight: 700; font-size: 15px; line-height: 1.1; }
+    .logo__text span { display: block; font-weight: 500; color: var(--muted); font-size: 11px; }
+    .nav { display: flex; align-items: center; gap: 16px; margin-left: auto; margin-right: 8px; font-size: 13px; font-weight: 500; color: var(--black); flex-wrap: nowrap; }
+    .nav a { opacity: .85; }
+    .nav a:hover { opacity: 1; color: var(--red); }
+    .nav__item { display: inline-flex; align-items: center; gap: 4px; }
+    .nav-drop{position:relative;}
+    .nav-menu{position:absolute;top:calc(100% + 14px);left:-20px;display:grid;grid-template-columns:repeat(3,minmax(180px,1fr));gap:8px 30px;background:#fff;border:1px solid #ECEEF1;border-radius:16px;padding:24px 28px;box-shadow:0 24px 60px -24px rgba(20,23,26,0.25);opacity:0;visibility:hidden;transform:translateY(6px);transition:.2s;z-index:60;}
+    .nav-drop:hover .nav-menu{opacity:1;visibility:visible;transform:translateY(0);}
+    .nav-menu::before{content:"";position:absolute;top:-14px;left:0;right:0;height:14px;}
+    .nav-col{display:flex;flex-direction:column;gap:4px;}
+    .nav-h{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#DD0D29;margin-bottom:6px;}
+    .nav-sub{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#9AA1A9;margin:10px 0 2px;}
+    .nav-menu a{font-size:14px;color:#2B2F35;padding:5px 0;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+    .nav-menu a.soon{color:#9AA1A9;}
+    .nav-menu a.soon span{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#9AA1A9;background:#F0F2F4;border-radius:5px;padding:2px 6px;}
+    .nav-menu a.planned{color:#8a5a00;}
+    .nav-menu a.planned span{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#B45309;background:#FFF4E5;border-radius:5px;padding:2px 6px;}
+    .nav-menu a.is-live{font-weight:600;}
+    .header__actions { display: flex; align-items: center; gap: 10px; }
+    .btn-phone { width: 42px; height: 42px; border-radius: 10px; background: var(--red); color: #fff; display: grid; place-items: center; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 22px; border-radius: 10px; font-weight: 600; font-size: 15px; transition: .2s ease; white-space: nowrap; }
+    .btn--red { background: var(--red); color: #fff; }
+    .btn--outline { background: #fff; color: var(--black); border: 1.5px solid var(--black); }
+    .btn--dark { background: var(--black); color: #fff; min-height: 42px; padding: 0 16px; font-size: 14px; }
+
+    .hero { padding: 28px 0 12px; overflow: hidden; }
+    .breadcrumbs { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+    .hero__grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 36px; align-items: center; }
+    .hero__title { font-size: clamp(30px, 3.6vw, 44px); font-weight: 800; line-height: 1.12; letter-spacing: -0.03em; margin-bottom: 22px; max-width: 14ch; }
+    .hero__title em { font-style: normal; color: var(--red); }
+    .hero__list { display: grid; gap: 14px; margin-bottom: 30px; }
+    .hero__list li { display: flex; align-items: flex-start; gap: 12px; font-size: 15.5px; font-weight: 500; }
+    .hero__check { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--red); color: #fff; display: grid; place-items: center; margin-top: 1px; }
+    .hero__cta { display: flex; flex-wrap: wrap; gap: 12px; }
+    .hero__visual { position: relative; min-height: 420px; display: flex; align-items: center; justify-content: flex-end; padding: 20px 0 40px; }
+    .hero__blob { position: absolute; right: -8%; top: 4%; width: 78%; height: 86%; background: linear-gradient(145deg, #ff6a6a 0%, #e30613 42%, #9f020b 100%); border-radius: 48px; z-index: 0; box-shadow: 0 28px 60px rgba(227, 6, 19, 0.28); }
+    .product-ui { position: relative; z-index: 1; width: min(100%, 620px); background: #fff; border: 1px solid #ececf2; border-radius: 18px; box-shadow: var(--shadow); overflow: hidden; display: grid; grid-template-columns: 170px 1fr; }
+    .product-ui__side { background: #121319; color: #c6cad5; padding: 16px 14px; }
+    .product-ui__brand { color: #fff; font-size: 13px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .product-ui__brand-mark { width: 22px; height: 22px; border-radius: 6px; background: var(--red); display: grid; place-items: center; font-size: 11px; font-weight: 800; }
+    .product-ui__nav { font-size: 12px; padding: 8px 10px; border-radius: 8px; margin-bottom: 6px; background: transparent; }
+    .product-ui__nav.is-active { background: rgba(255,255,255,0.12); color: #fff; }
+    .product-ui__main { padding: 16px; }
+    .product-ui__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .product-ui__head h3 { font-size: 16px; }
+    .product-ui__tabs { display: flex; gap: 8px; }
+    .product-ui__tab { font-size: 11px; padding: 6px 10px; border-radius: 999px; background: #f1f2f6; }
+    .product-ui__tab.is-active { background: #ffe6e8; color: #b30010; font-weight: 700; }
+    .product-ui__kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
+    .kpi { border: 1px solid #ebedf3; border-radius: 10px; padding: 8px; }
+    .kpi__label { font-size: 10px; color: #7b8191; text-transform: uppercase; }
+    .kpi__value { font-size: 15px; font-weight: 800; color: #20232c; }
+    .product-ui__panel { border: 1px solid #ebedf3; border-radius: 10px; overflow: hidden; }
+    .product-ui__panel-title { background: #f6f7fb; padding: 8px 10px; font-size: 12px; font-weight: 700; }
+    .sync-row { display: grid; grid-template-columns: 1.4fr .7fr 1fr .45fr; gap: 8px; padding: 7px 10px; border-top: 1px solid #f0f1f5; font-size: 11px; align-items: center; }
+    .sync-status { display: inline-flex; align-items: center; gap: 6px; color: #059669; font-weight: 700; }
+    .sync-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #10b981; }
+    .badge-box { position: absolute; right: 2%; bottom: 6%; z-index: 3; display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(160deg, #ff4a52 0%, #e30613 48%, #b0040e 100%); color: #fff; border-radius: 999px; padding: 14px 22px 14px 16px; font-size: 15px; font-weight: 800; transform: rotate(-3deg); white-space: nowrap; }
+
+    section { padding: 56px 0; }
+    .section-title { font-size: clamp(28px, 3vw, 38px); line-height: 1.15; letter-spacing: -0.02em; color: var(--black); margin-bottom: 18px; }
+    .section-title--center { text-align: center; }
+
+    .trust { padding-top: 36px; }
+    .trust__grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+    .trust-card { border: 1px solid var(--border); border-radius: 14px; padding: 14px 12px; background: #fff; min-height: 104px; display: grid; align-content: start; gap: 8px; }
+    .trust-card p { font-size: 13px; line-height: 1.3; font-weight: 600; }
+    .trust-card__year { color: var(--red); font-weight: 800; font-size: 24px; line-height: 1; }
+    .trust-card__icon { width: 28px; height: 28px; color: var(--red); }
+
+    .fit__grid,.value__grid,.usecases__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .fit-card,.value-card,.usecase-card { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 18px; background: #fff; }
+    .fit-card p,.value-card p,.usecase-card p { font-size: 15px; line-height: 1.45; }
+    .fit-card__icon,.value-card__icon,.usecase-card__icon { color: var(--red); margin-bottom: 10px; }
+
+    .flow__grid { display:grid; grid-template-columns: 1.1fr .9fr; gap:18px; align-items: stretch; }
+    .schema { border: 1px solid var(--border); border-radius: 16px; background: #fff; padding: 18px; display: grid; place-items: center; }
+    .schema svg { width: min(100%, 510px); height: auto; }
+    .handoff { border: 1px solid var(--border); border-radius: 16px; background: #fff; padding: 18px; }
+    .handoff h3 { font-size: 19px; margin-bottom: 12px; }
+    .handoff ul { display: grid; gap: 9px; }
+    .handoff li { position: relative; padding-left: 16px; font-size: 14.5px; }
+    .handoff li::before { content:""; position:absolute; left:0; top:.55em; width:7px; height:7px; border-radius:50%; background: var(--red); }
+
+    .steps { display: grid; gap: 12px; }
+    .step { border: 1px solid var(--border); border-radius: 14px; padding: 18px; background: #fff; }
+    .step__num { width: 32px; height: 32px; border-radius: 999px; background: #ffe5e8; color: var(--red); display: grid; place-items: center; font-weight: 800; margin-bottom: 10px; }
+    .step h3 { font-size: 22px; margin-bottom: 8px; }
+    .step ul { display: grid; gap: 8px; }
+    .step li { position: relative; padding-left: 16px; font-size: 15px; }
+    .step li::before { content:""; position:absolute; left:0; top:.55em; width:6px; height:6px; border-radius:50%; background: var(--red); }
+
+    .faq__list { display: grid; gap: 10px; max-width: 920px; margin: 0 auto; }
+    .faq details { border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; background: #fff; }
+    .faq summary { cursor: pointer; font-size: 17px; font-weight: 700; list-style: none; }
+    .faq p { margin-top: 8px; font-size: 15px; color: #3b3b3b; }
+
+    .cta__box { background: #101216; color: #fff; border-radius: 18px; padding: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .cta__title { font-size: clamp(28px, 3vw, 38px); line-height: 1.15; margin-bottom: 12px; }
+    .cta__text { color: #d0d4de; margin-bottom: 18px; max-width: 56ch; }
+    .cta__contacts { display: flex; flex-wrap: wrap; gap: 12px 18px; }
+    .cta__contacts a { display: inline-flex; align-items: center; gap: 8px; color: #fff; font-weight: 600; }
+    .form { background: #fff; color: #20222a; border-radius: 14px; padding: 16px; display: grid; gap: 10px; }
+    .form input,.form select,.form textarea { border: 1px solid #d8dbe4; border-radius: 10px; padding: 12px 13px; font: inherit; width: 100%; }
+    .form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .form textarea { min-height: 98px; resize: vertical; }
+    .form__check { display: inline-flex; align-items: flex-start; gap: 8px; font-size: 12px; color: #646a79; }
+    .footer { border-top: 1px solid var(--border); padding: 22px 0; color: var(--muted); font-size: 14px; }
+    .footer__inner { display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+
+    @media (max-width: 1080px) {
+      .hero__grid,.flow__grid,.cta__box { grid-template-columns: 1fr; }
+      .trust__grid { grid-template-columns: repeat(3, 1fr); }
+      .fit__grid,.value__grid,.usecases__grid { grid-template-columns: repeat(2, 1fr); }
+      .hero__visual { min-height: 340px; }
+      .badge-box { right: 8%; bottom: 0; }
+    }
+    @media (max-width: 720px) {
+      .container { width: min(100% - 32px, var(--container)); }
+      section { padding: 48px 0; }
+      .trust__grid,.fit__grid,.value__grid,.usecases__grid { grid-template-columns: 1fr; }
+      .nav { display: none; }
+      .product-ui { grid-template-columns: 1fr; }
+      .product-ui__side { display: none; }
+      .product-ui__kpis { grid-template-columns: repeat(2, 1fr); }
+      .sync-row { grid-template-columns: 1fr .6fr .9fr .5fr; }
+      .cta__box { padding: 22px; }
+      .form__row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a class="logo" href="https://itman.ru/" aria-label="Инферит ИТМен">
+        <div class="logo__mark">ИТ</div>
+        <div class="logo__text">Инферит ИТМен<span>Маркетинговый лендинг</span></div>
+      </a>
+      <nav class="nav" aria-label="Основная навигация">
+        <div class="nav-drop"><a href="#" class="nav__item">Технологии
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+          <div class="nav-menu">
+            <div class="nav-col">
+              <div class="nav-h">Источники данных</div>
+              <div class="nav-sub">Гипервизоры</div>
+              <a href="../vmware/" class="is-live">VMware (vCenter)</a>
+              <a href="#" class="soon">SCVMM (Hyper-V) <span>скоро</span></a>
+              <a href="#" class="soon">zVirt <span>скоро</span></a>
+              <a href="#" class="soon">RedVirt <span>скоро</span></a>
+              <div class="nav-sub">Службы каталогов</div>
+              <a href="../active-directory/" class="is-live">Active Directory</a>
+              <a href="../samba/" class="is-live">Samba</a>
+              <a href="../freeipa/" class="is-live">FreeIPA</a>
+            </div>
+            <div class="nav-col">
+              <div class="nav-sub">Антивирусы</div>
+              <a href="#" class="soon">Kaspersky Security Center <span>скоро</span></a>
+              <div class="nav-sub">Системы управления</div>
+              <a href="#" class="soon">SCCM <span>скоро</span></a>
+              <a href="#" class="soon">SolarWinds <span>скоро</span></a>
+              <div class="nav-sub">Системы мониторинга</div>
+              <a href="#" class="planned">Zabbix <span>в планах</span></a>
+            </div>
+            <div class="nav-col">
+              <div class="nav-h">Интеграции с ITSM / ITAM</div>
+              <a href="#" class="soon">Интеграция с SimpleOne <span>скоро</span></a>
+              <a href="#" class="soon">Интеграция с Naumen <span>скоро</span></a>
+              <a href="../itsmbox/" class="is-live">Интеграция с ITSMbox</a>
+            </div>
+          </div>
+        </div>
+        <a href="https://itman.ru/support">Поддержка</a>
+      </nav>
+      <div class="header__actions">
+        <a class="btn-phone" href="tel:88007078553" aria-label="Позвонить">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.5 3 3.6 5.1 6.6 6.6l2.2-2.2a1.2 1.2 0 011.2-.3c1.3.4 2.7.7 4.1.7a1.2 1.2 0 011.2 1.2V20a1.2 1.2 0 01-1.2 1.2A17.2 17.2 0 012.8 4.2 1.2 1.2 0 014 3h3.2A1.2 1.2 0 018.4 4.2c0 1.4.2 2.8.7 4.1a1.2 1.2 0 01-.3 1.2L6.6 10.8z" fill="currentColor"/></svg>
+        </a>
+        <a class="btn btn--dark" href="#cta">Получить демо</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <nav class="breadcrumbs" aria-label="Хлебные крошки">
+          <a href="https://itman.ru/">Главная</a>
+          <span class="breadcrumbs__sep">›</span>
+          <a href="#">Интеграции с ITSM/ITAM</a>
+          <span class="breadcrumbs__sep">›</span>
+          <span>Интеграция с ITSMbox</span>
+        </nav>
+
+        <div class="hero__grid">
+          <div>
+            <h1 class="hero__title">Инферит ИТМен + <em>ITSMbox</em></h1>
+            <ul class="hero__list">
+              <li><span class="hero__check">✓</span>Единый контур ITSM, ITAM и SAM на основе очищенных данных об активах</li>
+              <li><span class="hero__check">✓</span>Автосинхронизация конфигураций, ПО, пользователей и связей «пользователь-устройство»</li>
+              <li><span class="hero__check">✓</span>Снижение ручных операций: меньше дублей, быстрее инциденты, точнее лицензии</li>
+            </ul>
+            <div class="hero__cta">
+              <a class="btn btn--red" href="#cta">Получить демо</a>
+              <a class="btn btn--outline" href="#">Скачать презентацию</a>
+            </div>
+          </div>
+
+          <div class="hero__visual" aria-hidden="true">
+            <div class="hero__blob"></div>
+            <div class="product-ui">
+              <aside class="product-ui__side">
+                <div class="product-ui__brand"><span class="product-ui__brand-mark">ИТ</span>ИТМен</div>
+                <div class="product-ui__nav">Инвентаризация</div>
+                <div class="product-ui__nav is-active">Интеграции</div>
+                <div class="product-ui__nav">Нормализация</div>
+                <div class="product-ui__nav">Отчеты</div>
+              </aside>
+              <div class="product-ui__main">
+                <div class="product-ui__head">
+                  <h3>ITSMbox Connector</h3>
+                  <div class="product-ui__tabs">
+                    <span class="product-ui__tab is-active">Потоки</span>
+                    <span class="product-ui__tab">CMDB</span>
+                    <span class="product-ui__tab">SAM</span>
+                  </div>
+                </div>
+                <div class="product-ui__kpis">
+                  <div class="kpi"><div class="kpi__label">CI</div><div class="kpi__value">24 890</div></div>
+                  <div class="kpi"><div class="kpi__label">ПО</div><div class="kpi__value">3 740</div></div>
+                  <div class="kpi"><div class="kpi__label">Польз.</div><div class="kpi__value">8 510</div></div>
+                  <div class="kpi"><div class="kpi__label">Лиц.</div><div class="kpi__value">1 220</div></div>
+                </div>
+                <div class="product-ui__panel">
+                  <div class="product-ui__panel-title">Синхронизация</div>
+                  <div class="sync-row"><span>Сущность</span><span>Записей</span><span>Время</span><span>Статус</span></div>
+                  <div class="sync-row"><span>CI хостов</span><span>6 480</span><span>10:11</span><span class="sync-status">OK</span></div>
+                  <div class="sync-row"><span>ПО и версии</span><span>3 740</span><span>10:12</span><span class="sync-status">OK</span></div>
+                  <div class="sync-row"><span>Лицензии SAM</span><span>1 220</span><span>10:13</span><span class="sync-status">OK</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="badge-box">ITSMbox · ITAM/SAM</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust">
+      <div class="container">
+        <div class="trust__grid">
+          <article class="trust-card"><div class="trust-card__icon">✓</div><p>В реестре российского ПО</p></article>
+          <article class="trust-card"><div class="trust-card__year">2011</div><p>Применяется в бизнесе с 2011 года</p></article>
+          <article class="trust-card"><div class="trust-card__icon">⏱</div><p>Запуск интеграции за 8 часов</p></article>
+          <article class="trust-card"><div class="trust-card__icon">↗</div><p>Масштабируется без затрат</p></article>
+          <article class="trust-card"><div class="trust-card__icon">API</div><p>Открытое API для интеграции</p></article>
+          <article class="trust-card"><div class="trust-card__icon">★</div><p>Год бесплатной техподдержки</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="fit">
+      <div class="container">
+        <h2 class="section-title section-title--center">Вам подойдет решение, если:</h2>
+        <div class="fit__grid">
+          <article class="fit-card"><div class="fit-card__icon">◉</div><p>CMDB в ITSMbox заполняется вручную или с задержкой и дает неактуальные данные</p></article>
+          <article class="fit-card"><div class="fit-card__icon">◉</div><p>Нужно связать инвентаризацию, сервис-деск и управление ИТ-активами в одном процессе</p></article>
+          <article class="fit-card"><div class="fit-card__icon">◉</div><p>Для SAM важны точные данные по установленному ПО, версиям и фактическому использованию</p></article>
+          <article class="fit-card"><div class="fit-card__icon">◉</div><p>Важно убрать дубли и расхождения между мониторингом, каталогами и ITSMbox</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="value">
+      <div class="container">
+        <h2 class="section-title">Что дает интеграция ИТМен + ITSMbox</h2>
+        <div class="value__grid">
+          <article class="value-card"><div class="value-card__icon">1</div><p><strong>Для ITSM:</strong> быстрее обработка инцидентов и запросов за счет достоверной карточки CI и связей с пользователями.</p></article>
+          <article class="value-card"><div class="value-card__icon">2</div><p><strong>Для ITAM:</strong> учет ИТ-активов в одном контуре с историей изменений, местоположением и владельцем.</p></article>
+          <article class="value-card"><div class="value-card__icon">3</div><p><strong>Для SAM:</strong> сверка факта установки ПО с лицензионным учетом и сигнализация по рискам перерасхода.</p></article>
+          <article class="value-card"><div class="value-card__icon">4</div><p><strong>Для ИБ и аудита:</strong> прозрачный источник данных, воспроизводимые выгрузки и регулярная синхронизация без ручной рутины.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="flow">
+      <div class="container">
+        <h2 class="section-title">Как работает интегрированный продукт</h2>
+        <div class="flow__grid">
+          <div class="schema" aria-hidden="true">
+            <svg viewBox="0 0 520 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="20" y="22" width="145" height="68" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
+              <text x="92" y="52" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="700">Источники данных</text>
+              <text x="92" y="70" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">AD · Samba · FreeIPA · сеть</text>
+
+              <rect x="188" y="22" width="145" height="68" rx="12" fill="#E30613"/>
+              <text x="260" y="52" text-anchor="middle" fill="#fff" font-family="Manrope, Arial" font-size="12" font-weight="700">Инферит ИТМен</text>
+              <text x="260" y="70" text-anchor="middle" fill="#ffd0d3" font-family="Manrope, Arial" font-size="11">сбор · нормализация · сверка</text>
+
+              <rect x="356" y="22" width="145" height="68" rx="12" stroke="#1a1a1a" stroke-width="1.6"/>
+              <text x="428" y="52" text-anchor="middle" fill="#1a1a1a" font-family="Manrope, Arial" font-size="12" font-weight="700">ITSMbox</text>
+              <text x="428" y="70" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">CMDB · Service Desk · SAM</text>
+
+              <path d="M165 56h23M333 56h23" stroke="#D8D8D8" stroke-width="1.5"/>
+              <path d="M260 90v34" stroke="#E30613" stroke-width="2"/>
+
+              <rect x="150" y="124" width="220" height="76" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
+              <text x="260" y="154" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="700">Модель данных интеграции</text>
+              <text x="260" y="172" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">CI · пользователи · ПО · лицензии · связи</text>
+              <text x="260" y="188" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">обновление по расписанию и по событию</text>
+
+              <path d="M260 200v30" stroke="#E30613" stroke-width="2"/>
+              <rect x="35" y="230" width="130" height="82" rx="10" stroke="#D0D0D0" stroke-width="1.5"/>
+              <text x="100" y="258" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="11" font-weight="700">ITSM</text>
+              <text x="100" y="275" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="10">инциденты</text>
+              <text x="100" y="289" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="10">запросы</text>
+
+              <rect x="195" y="230" width="130" height="82" rx="10" stroke="#D0D0D0" stroke-width="1.5"/>
+              <text x="260" y="258" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="11" font-weight="700">ITAM</text>
+              <text x="260" y="275" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="10">учет активов</text>
+              <text x="260" y="289" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="10">жизненный цикл</text>
+
+              <rect x="355" y="230" width="130" height="82" rx="10" stroke="#D0D0D0" stroke-width="1.5"/>
+              <text x="420" y="258" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="11" font-weight="700">SAM</text>
+              <text x="420" y="275" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="10">лицензии</text>
+              <text x="420" y="289" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="10">соответствие</text>
+            </svg>
+          </div>
+          <div class="handoff">
+            <h3>Что передаем в ITSMbox</h3>
+            <ul>
+              <li>Карточки CI: серверы, рабочие станции, виртуальные узлы, сетевые параметры.</li>
+              <li>Пользователи и связи с устройствами для быстрого расследования инцидентов.</li>
+              <li>Установленное ПО и версии, включая историю изменений по времени.</li>
+              <li>Атрибуты для ITAM: владелец, подразделение, статус, место использования.</li>
+              <li>Данные для SAM: лицензируемые продукты, сопоставление с правилами учета.</li>
+              <li>Сигналы по расхождениям и дублям для автоматической чистки CMDB.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="usecases">
+      <div class="container">
+        <h2 class="section-title section-title--center">Ключевые сценарии ITSM / ITAM / SAM</h2>
+        <div class="usecases__grid">
+          <article class="usecase-card"><div class="usecase-card__icon">ITSM</div><p>Оператор видит связанный CI прямо в заявке: конфигурацию, владельца, последние изменения и установленное ПО.</p></article>
+          <article class="usecase-card"><div class="usecase-card__icon">ITAM</div><p>Формируется актуальная база активов с привязкой к организационной структуре и жизненному циклу оборудования.</p></article>
+          <article class="usecase-card"><div class="usecase-card__icon">SAM</div><p>Контроль лицензионных рисков: где ПО установлено, где используется сверх лимита, где есть резерв.</p></article>
+          <article class="usecase-card"><div class="usecase-card__icon">Финансы</div><p>Прозрачная база для бюджетирования, планирования закупок и обоснования затрат на ИТ-сервисы.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="how">
+      <div class="container">
+        <h2 class="section-title">Этапы запуска интеграции</h2>
+        <div class="steps">
+          <article class="step">
+            <div class="step__num">1</div>
+            <h3>Обследование и модель данных</h3>
+            <ul>
+              <li>Определяем источники в ИТМен и целевые сущности в ITSMbox.</li>
+              <li>Фиксируем правила сопоставления CI, ПО, пользователей и лицензий.</li>
+            </ul>
+          </article>
+          <article class="step">
+            <div class="step__num">2</div>
+            <h3>Настройка коннектора и пилот</h3>
+            <ul>
+              <li>Запускаем тестовый контур, проверяем качество данных и дедупликацию.</li>
+              <li>Согласуем расписание обновления и контрольные отчеты.</li>
+            </ul>
+          </article>
+          <article class="step">
+            <div class="step__num">3</div>
+            <h3>Промышленный запуск</h3>
+            <ul>
+              <li>Переводим интеграцию в продуктив, подключаем команды ITSM/ITAM/SAM.</li>
+              <li>Контролируем SLA синхронизации и расширяем охват по филиалам.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq" id="faq">
+      <div class="container">
+        <h2 class="section-title section-title--center">Частые вопросы</h2>
+        <div class="faq__list">
+          <details open>
+            <summary>Заменяет ли ИТМен ITSMbox?</summary>
+            <p>Нет. ИТМен собирает и нормализует технические данные, а ITSMbox управляет процессами и сервисами. Продукты усиливают друг друга.</p>
+          </details>
+          <details>
+            <summary>Нужны ли агенты для интеграции?</summary>
+            <p>Поддерживается и агентный, и безагентный сбор. Конкретная схема зависит от инфраструктуры и политики безопасности.</p>
+          </details>
+          <details>
+            <summary>Что с качеством данных в CMDB?</summary>
+            <p>Интеграция включает нормализацию, дедупликацию и сверку источников, поэтому в ITSMbox попадают очищенные данные.</p>
+          </details>
+          <details>
+            <summary>Можно ли начать с пилота?</summary>
+            <p>Да. Обычно стартуем с ограниченного контура (например, один филиал или группа сервисов), затем масштабируем на всю инфраструктуру.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="cta">
+      <div class="container">
+        <div class="cta__box">
+          <div>
+            <h2 class="cta__title">Есть вопросы по интеграции ИТМен и ITSMbox?</h2>
+            <p class="cta__text">Оставьте заявку. Покажем, как выстроить единый контур ITSM, ITAM и SAM с учетом вашей инфраструктуры и процессов.</p>
+            <div class="cta__contacts">
+              <a href="tel:88007078553">8 800 707 85 53</a>
+              <a href="mailto:info@itman.ru">info@itman.ru</a>
+            </div>
+          </div>
+          <form class="form" action="#" method="post" onsubmit="event.preventDefault(); alert('Это макет страницы. Форма не отправляется.');">
+            <div class="form__row">
+              <input type="text" name="name" placeholder="Имя и Фамилия *" required />
+              <input type="tel" name="phone" placeholder="Номер телефона *" required />
+            </div>
+            <input type="email" name="email" placeholder="E-mail" />
+            <select name="size" aria-label="Размер инфраструктуры">
+              <option value="">Размер инфраструктуры</option>
+              <option>100-1000</option>
+              <option>1000-5000</option>
+              <option>5000-10000</option>
+              <option>10000-20000</option>
+              <option>20000-50000</option>
+              <option>более 50000</option>
+            </select>
+            <textarea name="comment" placeholder="Комментарий"></textarea>
+            <label class="form__check">
+              <input type="checkbox" required />
+              <span>Я даю согласие на обработку персональных данных</span>
+            </label>
+            <button class="btn btn--red" type="submit">Оставить заявку</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>© 2011–2026 ООО «НЦПР». Макет страницы «Интеграция с ITSMbox».</p>
+      <p><a href="https://itman.ru/">itman.ru</a> · Отдел продаж: <a href="tel:88007078553">8 800 707 85 53</a></p>
+    </div>
+  </footer>
+
+  <script>
+    const header = document.getElementById('header');
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  </script>
+</body>
+</html>
