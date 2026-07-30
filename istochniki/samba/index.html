@@ -41,6 +41,9 @@
   .nav-menu a:hover{color:#DD0D29;}
   .nav-menu a.soon{color:#9AA1A9;}
   .nav-menu a.soon span{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#9AA1A9;background:#F0F2F4;border-radius:5px;padding:2px 6px;}
+  .nav-menu a.planned{color:#8a5a00;}
+  .nav-menu a.planned span{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#B45309;background:#FFF4E5;border-radius:5px;padding:2px 6px;}
+  .nav-menu a.is-live{font-weight:600;}
 
   input:focus,select:focus{border-color:#DD0D29 !important;}
 
@@ -86,28 +89,30 @@
           <div class="nav-menu">
             <div class="nav-col">
               <div class="nav-h">Источники данных</div>
-              <div class="nav-sub">Службы каталогов</div>
-              <a href="#">Active Directory</a>
-              <a href="#">FreeIPA и ALD Pro</a>
-              <a href="#">Samba</a>
               <div class="nav-sub">Гипервизоры</div>
-              <a href="#">VMware</a>
+              <a href="../vmware/" class="is-live">VMware (vCenter)</a>
               <a href="#" class="soon">SCVMM (Hyper-V) <span>скоро</span></a>
               <a href="#" class="soon">zVirt <span>скоро</span></a>
               <a href="#" class="soon">RedVirt <span>скоро</span></a>
+              <div class="nav-sub">Службы каталогов</div>
+              <a href="../active-directory/" class="is-live">Active Directory</a>
+              <a href="../samba/" class="is-live">Samba</a>
+              <a href="#" class="soon">FreeIPA <span>скоро</span></a>
             </div>
             <div class="nav-col">
               <div class="nav-sub">Антивирусы</div>
               <a href="#" class="soon">Kaspersky Security Center <span>скоро</span></a>
               <div class="nav-sub">Системы управления</div>
-              <a href="#">Аналог SCCM</a>
+              <a href="#" class="soon">SCCM <span>скоро</span></a>
               <a href="#" class="soon">SolarWinds <span>скоро</span></a>
+              <div class="nav-sub">Системы мониторинга</div>
+              <a href="#" class="planned">Zabbix <span>в планах</span></a>
             </div>
             <div class="nav-col">
               <div class="nav-h">Интеграции с ITSM / ITAM</div>
-              <a href="#">SimpleOne</a>
-              <a href="#" class="soon">Naumen <span>скоро</span></a>
-              <a href="#" class="soon">ITSMbox <span>скоро</span></a>
+              <a href="#" class="soon">Интеграция с SimpleOne <span>скоро</span></a>
+              <a href="#" class="soon">Интеграция с Naumen <span>скоро</span></a>
+              <a href="#" class="soon">Интеграция с ITSMbox <span>скоро</span></a>
             </div>
           </div>
         </div>

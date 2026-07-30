@@ -100,6 +100,23 @@
     .nav a:hover { opacity: 1; color: var(--red); }
     .nav__item { display: inline-flex; align-items: center; gap: 4px; }
     .nav__item svg { opacity: .45; }
+    .nav-drop{position:relative;}
+    .nav-drop>a{cursor:pointer;}
+    .nav-menu{position:absolute;top:calc(100% + 14px);left:-20px;display:grid;grid-template-columns:repeat(3,minmax(180px,1fr));gap:8px 30px;
+      background:#fff;border:1px solid #ECEEF1;border-radius:16px;padding:24px 28px;box-shadow:0 24px 60px -24px rgba(20,23,26,0.25);
+      opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .2s ease,transform .2s ease,visibility .2s;z-index:60;}
+    .nav-drop:hover .nav-menu{opacity:1;visibility:visible;transform:translateY(0);}
+    .nav-menu::before{content:"";position:absolute;top:-14px;left:0;right:0;height:14px;}
+    .nav-col{display:flex;flex-direction:column;gap:4px;}
+    .nav-h{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.6px;color:#DD0D29;margin-bottom:6px;}
+    .nav-sub{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#9AA1A9;margin:10px 0 2px;}
+    .nav-menu a{font-size:14px;color:#2B2F35;text-decoration:none;padding:5px 0;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+    .nav-menu a:hover{color:#DD0D29;}
+    .nav-menu a.soon{color:#9AA1A9;}
+    .nav-menu a.soon span{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#9AA1A9;background:#F0F2F4;border-radius:5px;padding:2px 6px;}
+    .nav-menu a.planned{color:#8a5a00;}
+    .nav-menu a.planned span{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#B45309;background:#FFF4E5;border-radius:5px;padding:2px 6px;}
+    .nav-menu a.is-live{font-weight:600;}
     .header__actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
     .btn-phone {
       width: 42px;
@@ -838,6 +855,7 @@
 
     @media (max-width: 1100px) {
       .nav { display: none; }
+      .nav-menu{grid-template-columns:1fr;left:0;}
       .trust__grid { grid-template-columns: repeat(3, 1fr); }
       .fit__grid { grid-template-columns: repeat(2, 1fr); }
       .security__grid { grid-template-columns: repeat(3, 1fr); }
@@ -883,7 +901,39 @@
         <img src="assets/brand.svg" alt="Инферит ИТМен" style="height:36px;width:auto;display:block;" />
       </a>
       <nav class="nav" aria-label="Основная навигация">
-        <a href="https://itman.ru/#modules">Модули</a>
+        <div class="nav-drop"><a href="#" class="nav__item">Технологии
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+          <div class="nav-menu">
+            <div class="nav-col">
+              <div class="nav-h">Источники данных</div>
+              <div class="nav-sub">Гипервизоры</div>
+              <a href="../vmware/" class="is-live">VMware (vCenter)</a>
+              <a href="#" class="soon">SCVMM (Hyper-V) <span>скоро</span></a>
+              <a href="#" class="soon">zVirt <span>скоро</span></a>
+              <a href="#" class="soon">RedVirt <span>скоро</span></a>
+              <div class="nav-sub">Службы каталогов</div>
+              <a href="../active-directory/" class="is-live">Active Directory</a>
+              <a href="../samba/" class="is-live">Samba</a>
+              <a href="#" class="soon">FreeIPA <span>скоро</span></a>
+            </div>
+            <div class="nav-col">
+              <div class="nav-sub">Антивирусы</div>
+              <a href="#" class="soon">Kaspersky Security Center <span>скоро</span></a>
+              <div class="nav-sub">Системы управления</div>
+              <a href="#" class="soon">SCCM <span>скоро</span></a>
+              <a href="#" class="soon">SolarWinds <span>скоро</span></a>
+              <div class="nav-sub">Системы мониторинга</div>
+              <a href="#" class="planned">Zabbix <span>в планах</span></a>
+            </div>
+            <div class="nav-col">
+              <div class="nav-h">Интеграции с ITSM / ITAM</div>
+              <a href="#" class="soon">Интеграция с SimpleOne <span>скоро</span></a>
+              <a href="#" class="soon">Интеграция с Naumen <span>скоро</span></a>
+              <a href="#" class="soon">Интеграция с ITSMbox <span>скоро</span></a>
+            </div>
+          </div>
+        </div>
         <a class="nav__item" href="https://itman.ru/#solutions">Готовые решения
           <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5"/></svg>
         </a>
