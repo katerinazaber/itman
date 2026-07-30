@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Мокап: шапка «Технологии» на прод · ИТМен</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red: #dd0d29;
+      --black: #15181c;
+      --text: #2b2f35;
+      --muted: #9aa1a9;
+      --border: #eceef1;
+      --bg-soft: #f5f7f8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Golos Text", Manrope, Arial, sans-serif;
+      color: var(--text);
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .preview-banner {
+      background: #fff8e8;
+      border-bottom: 1px solid #f0d9a8;
+      padding: 10px 24px;
+      font-size: 13px;
+      color: #6b5a2a;
+      text-align: center;
+    }
+    .preview-banner strong { color: #3d3218; }
+
+    .header {
+      position: relative;
+      z-index: 100;
+      background: rgba(255,255,255,.97);
+      border-bottom: 1px solid var(--border);
+    }
+    .header__inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 14px 40px;
+      display: flex;
+      align-items: center;
+      gap: 34px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .logo img { height: 36px; width: auto; display: block; }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      font-size: 14.5px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .nav > a,
+    .nav-drop > a {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--text);
+    }
+    .nav > a:hover,
+    .nav-drop > a:hover { color: var(--red); }
+    .nav svg.chev { opacity: .55; }
+
+    .nav-drop { position: relative; }
+    .nav-drop > a { cursor: default; color: var(--red); font-weight: 600; }
+
+    .nav-menu {
+      position: absolute;
+      top: calc(100% + 14px);
+      left: -20px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(200px, 1fr));
+      gap: 8px 28px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 28px;
+      box-shadow: 0 24px 60px -24px rgba(20, 23, 26, 0.25);
+      min-width: 920px;
+    }
+  /* мокап: меню всегда открыто */
+    .nav-menu::before {
+      content: "";
+      position: absolute;
+      top: -14px;
+      left: 0;
+      right: 0;
+      height: 14px;
+    }
+    .nav-col { display: flex; flex-direction: column; gap: 2px; }
+    .nav-h {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--red);
+      margin-bottom: 8px;
+    }
+    .nav-sub {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      margin: 10px 0 4px;
+    }
+  .nav-col .nav-sub:first-of-type { margin-top: 0; }
+    .nav-menu a {
+      font-size: 14px;
+      color: var(--text);
+      padding: 5px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    .nav-menu a:hover { color: var(--red); }
+    .nav-menu a.is-live { font-weight: 600; }
+    .nav-menu a.soon { color: var(--muted); }
+    .nav-menu a.soon span,
+    .nav-menu a.planned span {
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--muted);
+      background: #f0f2f4;
+      border-radius: 5px;
+      padding: 2px 6px;
+    }
+    .nav-menu a.planned span { background: #fff4e5; color: #b45309; }
+
+    .header__actions {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .btn-phone {
+      width: 44px;
+      height: 44px;
+      border-radius: 11px;
+      background: var(--red);
+      display: grid;
+      place-items: center;
+    }
+    .btn-demo {
+      height: 44px;
+      padding: 0 22px;
+      border-radius: 11px;
+      background: var(--black);
+      color: #fff;
+      font-size: 14.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+    }
+
+    .page-body {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 48px 40px 80px;
+    }
+    .page-body h1 {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+      color: var(--black);
+      margin-bottom: 12px;
+      line-height: 1.15;
+    }
+    .page-body .lead {
+      font-size: 17px;
+      line-height: 1.55;
+      color: #565c64;
+      max-width: 720px;
+      margin-bottom: 32px;
+    }
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .legend-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      background: var(--bg-soft);
+    }
+    .legend-card h3 {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--black);
+      margin-bottom: 8px;
+    }
+    .legend-card p {
+      font-size: 13px;
+      line-height: 1.45;
+      color: #565c64;
+    }
+    .legend-card code {
+      font-size: 12px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1px 6px;
+    }
+
+    .compare {
+      border: 1px dashed #d7dbe0;
+      border-radius: 16px;
+      padding: 24px 28px;
+      background: #fafbfc;
+    }
+    .compare h2 {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: var(--black);
+    }
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .compare-col h4 {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .compare-col ul {
+      list-style: none;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text);
+    }
+    .compare-col li + li { margin-top: 4px; }
+    .strike { color: var(--muted); text-decoration: line-through; }
+    .new { color: var(--red); font-weight: 600; }
+
+    @media (max-width: 1100px) {
+      .header__inner { padding: 14px 20px; gap: 16px; }
+      .nav { display: none; }
+      .nav-menu {
+        position: static;
+        min-width: 0;
+        grid-template-columns: 1fr 1fr;
+        margin-top: 16px;
+      }
+      .legend, .compare-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-banner">
+    <strong>Мокап для прод.</strong> Так будет выглядеть выпадающее меню «Технологии» после выкладки SEO-страниц. На мокапе меню открыто постоянно — на сайте открывается при наведении.
+  </div>
+
+  <header class="header">
+    <div class="header__inner">
+      <a class="logo" href="https://itman.ru/">
+        <img src="istochniki/active-directory/assets/brand.svg" alt="Инферит ИТМен" />
+      </a>
+
+      <nav class="nav" aria-label="Основная навигация">
+        <div class="nav-drop">
+          <a href="#" aria-haspopup="true" aria-expanded="true">
+            Технологии
+            <svg class="chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
+          </a>
+          <div class="nav-menu" role="menu">
+            <div class="nav-col">
+              <div class="nav-h">Источники данных</div>
+              <div class="nav-sub">Гипервизоры</div>
+              <a href="istochniki/vmware/" class="is-live">VMware (vCenter)</a>
+              <a href="#" class="soon">SCVMM (Hyper-V) <span>скоро</span></a>
+              <a href="#" class="soon">zVirt <span>скоро</span></a>
+              <a href="#" class="soon">RedVirt <span>скоро</span></a>
+              <div class="nav-sub">Службы каталогов</div>
+              <a href="istochniki/active-directory/" class="is-live">Active Directory</a>
+              <a href="istochniki/samba/" class="is-live">Samba</a>
+              <a href="#" class="soon">FreeIPA <span>скоро</span></a>
+            </div>
+            <div class="nav-col">
+              <div class="nav-sub">Антивирусы</div>
+              <a href="#" class="soon">Kaspersky Security Center <span>скоро</span></a>
+              <div class="nav-sub">Системы управления</div>
+              <a href="#" class="soon">SCCM <span>скоро</span></a>
+              <a href="#" class="soon">SolarWinds <span>скоро</span></a>
+              <div class="nav-sub">Системы мониторинга</div>
+              <a href="#" class="planned">Zabbix <span>в планах</span></a>
+            </div>
+            <div class="nav-col">
+              <div class="nav-h">Интеграции с ITSM / ITAM</div>
+              <a href="#" class="soon">Интеграция с SimpleOne <span>скоро</span></a>
+              <a href="#" class="soon">Интеграция с Naumen <span>скоро</span></a>
+              <a href="#" class="soon">Интеграция с ITSMbox <span>скоро</span></a>
+            </div>
+            <div class="nav-col">
+              <div class="nav-h" style="color:#9aa1a9;">Подсказка</div>
+              <p style="font-size:13px;line-height:1.45;color:#6b7280;padding-top:2px;">
+                Пункты с бейджем <strong style="color:#15181c;">скоро</strong> — страница в разработке.<br>
+                <strong style="color:#b45309;">в планах</strong> — функция/страница ещё не в релизе (Zabbix).
+              </p>
+            </div>
+          </div>
+        </div>
+        <a href="https://itman.ru/#solutions">Готовые решения <svg class="chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></a>
+        <a href="https://itman.ru/#industries">Отрасли <svg class="chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></a>
+        <a href="https://itman.ru/#projects">Проекты</a>
+        <a href="https://itman.ru/#about">О нас <svg class="chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></a>
+        <a href="https://itman.ru/support">Поддержка</a>
+      </nav>
+
+      <div class="header__actions">
+        <a class="btn-phone" href="tel:88007078553" aria-label="Позвонить">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg>
+        </a>
+        <a class="btn-demo" href="#">Получить демо</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-body">
+    <h1>Шапка сайта: «Технологии» на прод</h1>
+    <p class="lead">Пункт <strong>«Модули»</strong> заменяется на <strong>«Технологии»</strong> с выпадающим меню SEO-страниц. Структура — как в вашем списке: источники данных по категориям и блок интеграций с ITSM/ITAM.</p>
+
+    <div class="legend">
+      <article class="legend-card">
+        <h3>Уже есть мокап / страница</h3>
+        <p>Active Directory, Samba, VMware — ссылки ведут на текущие лендинги в <code>istochniki/</code>.</p>
+      </article>
+      <article class="legend-card">
+        <h3>Скоро</h3>
+        <p>Страница в работе: бейдж <code>скоро</code>, ссылка неактивна или ведёт на заглушку.</p>
+      </article>
+      <article class="legend-card">
+        <h3>В планах</h3>
+        <p>Zabbix — интеграция теоретически возможна, но ещё не в релизе. Отдельный бейдж <code>в планах</code>.</p>
+      </article>
+    </div>
+
+    <section class="compare">
+      <h2>Что меняется в шапке</h2>
+      <div class="compare-grid">
+        <div class="compare-col">
+          <h4>Сейчас на itman.ru</h4>
+          <ul>
+            <li class="strike">Модули</li>
+            <li>Готовые решения</li>
+            <li>Отрасли · Проекты · О нас · Поддержка</li>
+          </ul>
+        </div>
+        <div class="compare-col">
+          <h4>На прод после выкладки</h4>
+          <ul>
+            <li class="new">Технологии ▾ (выпадающее меню)</li>
+            <li>→ Источники данных (5 категорий, 14 пунктов)</li>
+            <li>→ Интеграции с ITSM/ITAM (3 пункта)</li>
+            <li>Остальная навигация без изменений</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
