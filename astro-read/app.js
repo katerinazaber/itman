@@ -75,8 +75,12 @@ function longitudeToSign(lon) {
 }
 
 function bodyLongitude(bodyName, time) {
+  if (bodyName === "Sun") {
+    return Astronomy.SunPosition(time).elon;
+  }
   const body = Astronomy.Body[bodyName];
-  return Astronomy.EclipticLongitude(body, time);
+  const vec = Astronomy.GeoVector(body, time, true);
+  return Astronomy.Ecliptic(vec).elon;
 }
 
 function obliquity(time) {
