@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>ИТМен · Возможности системы инвентаризации</title>
+  <meta name="description" content="Примеры возможностей системы инвентаризации ИТ — для кастдев и теста концепций"/>
+  <link rel="canonical" href="https://katerinazaber.github.io/itman/castdev/vozmozhnosti/"/>
+  <style>
+    :root {
+      --nav: #0b1f3a;
+      --accent: #2f6fed;
+      --accent-soft: #eef3ff;
+      --bg: #f4f6f9;
+      --card: #fff;
+      --line: #e6ebf2;
+      --text: #1a2332;
+      --muted: #6b778c;
+      --ok: #1a9f6a;
+      --warn: #c9841a;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", "SF Pro Text", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+    .hero {
+      background: linear-gradient(135deg, var(--nav) 0%, #122a4a 55%, #1a3d6e 100%);
+      color: #fff;
+      padding: 36px 24px 44px;
+    }
+    .hero-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(47, 111, 237, 0.35);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #dbe7ff;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: clamp(26px, 4vw, 34px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      max-width: 820px;
+    }
+    .hero p {
+      margin: 0;
+      color: #b7c4db;
+      max-width: 720px;
+      font-size: 16px;
+    }
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .stat {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 12px 16px;
+      min-width: 140px;
+    }
+    .stat b {
+      display: block;
+      font-size: 22px;
+      color: #fff;
+      line-height: 1.1;
+    }
+    .stat span {
+      font-size: 12px;
+      color: #9fb0cb;
+    }
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px 24px 48px;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      margin-bottom: 22px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .legend i {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 1px 2px rgba(11,31,58,0.04);
+      transition: box-shadow 0.15s, border-color 0.15s, transform 0.15s;
+      min-height: 190px;
+    }
+    .card:hover {
+      border-color: #cdd8ea;
+      box-shadow: 0 8px 24px rgba(11,31,58,0.08);
+      transform: translateY(-1px);
+    }
+    .card-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .num {
+      flex-shrink: 0;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .icon {
+      flex-shrink: 0;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    .card h2 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.3;
+      flex: 1;
+    }
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: auto;
+      padding-top: 4px;
+    }
+    .tag {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #f0f3f8;
+      color: #516079;
+    }
+    .card--data .icon { background: #e8f0ff; }
+    .card--infra .icon { background: #e7f6ef; }
+    .card--sec .icon { background: #fdeeee; }
+    .card--change .icon { background: #fff4e5; }
+    .card--sensor .icon { background: #f0ecff; }
+    .card--integ .icon { background: #e6f7fb; }
+    .card--license .icon { background: #fff0f5; }
+    .card--other {
+      border-style: dashed;
+      border-color: #cdd8ea;
+      background: linear-gradient(180deg, #fff 0%, #fafcff 100%);
+    }
+    .card--other .num { background: #f0f3f8; color: var(--muted); }
+    .card--other textarea {
+      width: 100%;
+      min-height: 72px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font: inherit;
+      color: var(--text);
+      background: #fff;
+    }
+    .card--other textarea::placeholder { color: #9aa5b5; }
+    .card--highlight {
+      border-color: #b8cff9;
+      background: linear-gradient(180deg, #fff 0%, #f8fbff 100%);
+    }
+    .card--highlight .num {
+      background: var(--accent);
+      color: #fff;
+    }
+    .footer {
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .footer strong { color: var(--text); }
+    @media (max-width: 680px) {
+      .grid { grid-template-columns: 1fr; }
+      .hero { padding: 28px 18px 36px; }
+      main { padding: 20px 18px 36px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="badge">Кастдев · тест концепций</div>
+      <h1>Возможности системы инвентаризации ИТ</h1>
+      <p>Перед вами примеры функций продукта. Используйте плашки как опору для обсуждения: что ценно, что «есть у всех», что вынести в главное сообщение.</p>
+      <div class="stats">
+        <div class="stat"><b>7</b><span>ключевых возможностей</span></div>
+        <div class="stat"><b>300 000+</b><span>наименований ПО в базе</span></div>
+        <div class="stat"><b>45 000+</b><span>SKU с правилами лицензирования</span></div>
+        <div class="stat"><b>до 3</b><span>самых ценных в опросе</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="legend">
+      <span><i style="background:#2f6fed"></i>Данные и CMDB</span>
+      <span><i style="background:#1a9f6a"></i>Инфраструктура</span>
+      <span><i style="background:#c4453a"></i>Контроль и ИБ</span>
+      <span><i style="background:#c9841a"></i>Изменения</span>
+      <span><i style="background:#7c5cfc"></i>Гибкость</span>
+      <span><i style="background:#0ea5c9"></i>Интеграции</span>
+      <span><i style="background:#db2777"></i>Лицензии и ПО</span>
+    </div>
+
+    <div class="grid">
+      <article class="card card--data card--highlight">
+        <div class="card-head">
+          <div class="num">1</div>
+          <div class="icon">🗄️</div>
+          <h2>Единая очищенная база данных для CMDB из разных источников</h2>
+        </div>
+        <p>Сведение данных из AD, SCCM, мониторинга, ручных реестров и других систем в одну достоверную картину без дублей и расхождений.</p>
+        <div class="tags">
+          <span class="tag">CMDB</span>
+          <span class="tag">Нормализация</span>
+          <span class="tag">Single source of truth</span>
+        </div>
+      </article>
+
+      <article class="card card--infra">
+        <div class="card-head">
+          <div class="num">2</div>
+          <div class="icon">🌐</div>
+          <h2>Инвентаризация закрытых и геораспределённых инфраструктур</h2>
+        </div>
+        <p>Обход периметра, изолированные сегменты, филиалы и удалённые площадки — сбор актуальных данных там, где нет прямого доступа из центра.</p>
+        <div class="tags">
+          <span class="tag">Air-gap</span>
+          <span class="tag">Филиалы</span>
+          <span class="tag">Discovery</span>
+        </div>
+      </article>
+
+      <article class="card card--sec">
+        <div class="card-head">
+          <div class="num">3</div>
+          <div class="icon">🔍</div>
+          <h2>Обнаружение неиспользуемых активов, запрещённого и portable-ПО</h2>
+        </div>
+        <p>Выявление «зомби»-активов, shadow IT, portable-приложений и ПО вне политики — для экономии лицензий и снижения рисков ИБ.</p>
+        <div class="tags">
+          <span class="tag">Shadow IT</span>
+          <span class="tag">Portable ПО</span>
+          <span class="tag">Экономия</span>
+        </div>
+      </article>
+
+      <article class="card card--change">
+        <div class="card-head">
+          <div class="num">4</div>
+          <div class="icon">📜</div>
+          <h2>Контроль изменений и история конфигураций</h2>
+        </div>
+        <p>Фиксация изменений на активах во времени: что поменялось, когда и на каком узле — для аудита, расследований и управления изменениями.</p>
+        <div class="tags">
+          <span class="tag">Change control</span>
+          <span class="tag">История</span>
+          <span class="tag">Аудит</span>
+        </div>
+      </article>
+
+      <article class="card card--sensor">
+        <div class="card-head">
+          <div class="num">5</div>
+          <div class="icon">⚙️</div>
+          <h2>Гибкие сенсоры и сбор нестандартных атрибутов без разработки</h2>
+        </div>
+        <p>Настраиваемые сенсоры и атрибуты под отраслевые или внутренние требования — без отдельной разработки под каждый новый параметр.</p>
+        <div class="tags">
+          <span class="tag">Сенсоры</span>
+          <span class="tag">No-code</span>
+          <span class="tag">Кастомизация</span>
+        </div>
+      </article>
+
+      <article class="card card--integ">
+        <div class="card-head">
+          <div class="num">6</div>
+          <div class="icon">🔗</div>
+          <h2>Интеграции с AD, SCCM, vCenter, Docker, ITSM/BPM через API</h2>
+        </div>
+        <p>Готовые коннекторы и API для обмена с экосистемой: каталоги, виртуализация, контейнеры, сервис-деск и бизнес-процессы.</p>
+        <div class="tags">
+          <span class="tag">AD</span>
+          <span class="tag">SCCM</span>
+          <span class="tag">vCenter</span>
+          <span class="tag">Docker</span>
+          <span class="tag">ITSM</span>
+        </div>
+      </article>
+
+      <article class="card card--license card--highlight">
+        <div class="card-head">
+          <div class="num">7</div>
+          <div class="icon">📚</div>
+          <h2>Нормализация и обогащение из базы знаний о ПО и лицензиях</h2>
+        </div>
+        <p>Крупнейшая в России база: <strong>300 000+</strong> наименований ПО, <strong>45 000+</strong> артикулов SKU с правилами лицензирования — для ITAM и SAM.</p>
+        <div class="tags">
+          <span class="tag">300 000+ ПО</span>
+          <span class="tag">45 000+ SKU</span>
+          <span class="tag">Лицензирование</span>
+        </div>
+      </article>
+
+      <article class="card card--other">
+        <div class="card-head">
+          <div class="num">8</div>
+          <div class="icon">✏️</div>
+          <h2>Другое — идеальная функция</h2>
+        </div>
+        <p>Если среди перечисленного нет главного — опишите свою идеальную возможность системы инвентаризации.</p>
+        <textarea placeholder="Например: автоматический расчёт экономии на лицензиях после первого сканирования…" aria-label="Своя идеальная функция"></textarea>
+      </article>
+    </div>
+
+    <footer class="footer">
+      <span><strong>Инферит ИТМен</strong> · материал для кастдев-интервью и опросника (блок 9)</span>
+      <span>Обновлено: август 2026</span>
+    </footer>
+  </main>
+</body>
+</html>
