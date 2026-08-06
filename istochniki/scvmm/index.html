@@ -5,12 +5,98 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Инвентаризация SCVMM и Hyper-V: учет виртуальных машин | ИТМен</title>
   <meta name="description" content="Инвентаризация SCVMM и Hyper-V в ИТМен: сбор данных о виртуальных машинах и хостах через WMI, WinRM и REST API, нормализация и передача в CMDB, ITSM и ITAM." />
-  <meta name="keywords" content="инвентаризация SCVMM, инвентаризация Hyper-V, учет виртуальных машин Hyper-V, сбор данных SCVMM, System Center Virtual Machine Manager, WMI WinRM Hyper-V, инвентаризация ВМ, CMDB Hyper-V, ITSM SCVMM, миграция с Hyper-V, ИТМен" />
+  <meta name="keywords" content="инвентаризация SCVMM, инвентаризация Hyper-V, учет виртуальных машин Hyper-V, инвентаризация виртуальной инфраструктуры, сбор данных WMI WinRM, выгрузка ВМ из SCVMM, инвентаризация перед миграцией с Hyper-V, российский аналог PowerShell SCOM, CMDB Hyper-V, ITSM SCVMM, ITAM, SAM, ИТМен" />
   <meta name="robots" content="index,follow" />
-  <link rel="canonical" href="https://katerinazaber.github.io/itman/istochniki/scvmm/" />
+  <link rel="canonical" href="https://itman.ru/istochniki/scvmm/" />
   <meta property="og:title" content="Инвентаризация SCVMM и Hyper-V: учет виртуальных машин | ИТМен" />
   <meta property="og:description" content="Инвентаризация SCVMM и Hyper-V в ИТМен: сбор данных о виртуальных машинах и хостах через WMI, WinRM и REST API, нормализация и передача в CMDB, ITSM и ITAM." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://itman.ru/istochniki/scvmm/" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="Инферит ИТМен" />
+  <meta property="og:image" content="https://itman.ru/istochniki/scvmm/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Инвентаризация SCVMM и Hyper-V в ИТМен, виртуальные машины и хосты" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Инвентаризация SCVMM и Hyper-V: учет виртуальных машин | ИТМен" />
+  <meta name="twitter:description" content="Инвентаризация SCVMM и Hyper-V в ИТМен: сбор данных о виртуальных машинах и хостах через WMI, WinRM и REST API, нормализация и передача в CMDB, ITSM и ITAM." />
+  <meta name="twitter:image" content="https://itman.ru/istochniki/scvmm/og-image.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://itman.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Источники данных", "item": "https://itman.ru/istochniki/" },
+      { "@type": "ListItem", "position": 3, "name": "Инвентаризация SCVMM (Hyper-V)", "item": "https://itman.ru/istochniki/scvmm/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Как ИТМен подключается к SCVMM?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Через сетевую инвентаризацию и задачу REST API с учетными данными Windows и доступом по WMI и WinRM к Hyper-V/VMM."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Нужны ли агенты на каждую виртуальную машину?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Для сбора метаданных виртуальных машин из SCVMM агенты на гостевых системах не обязательны. Более глубокая инвентаризация гостей идет через сетевую или локальную задачу."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Можно ли совмещать с VMware?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да. Данные из SCVMM и vCenter сводятся в единую нормализованную базу."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Какие права нужны для подключения к SCVMM?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Учетная запись с правами администратора на целевых узлах, доступ по WMI на tcp/135 и WinRM на tcp/5986."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Работает ли сбор в закрытом контуре?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да. Подключение к SCVMM и узлам Hyper-V выполняется внутри периметра, данные передаются по защищенным каналам."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Подходит ли ИТМен для учета ВМ перед миграцией с Hyper-V?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да. ИТМен проводит инвентаризацию перед миграцией с Hyper-V: собирает полный и актуальный список виртуальных машин, хостов и ПО из SCVMM — основа для планирования перехода на российский гипервизор и учета ВМ при переходе с Hyper-V."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Чем ИТМен отличается от ручных PowerShell-скриптов и отчетов SCOM?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Это российское решение из реестра ПО и альтернатива ручным PowerShell-скриптам и отчетам SCOM: собирает данные из нескольких источников виртуализации, нормализует их вместе с физическими узлами и передает в CMDB/ITSM без ручного экспорта и написания скриптов."
+        }
+      }
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -976,7 +1062,7 @@
         <nav class="breadcrumbs" aria-label="Хлебные крошки">
           <a href="https://itman.ru/">Главная</a>
           <span class="breadcrumbs__sep">›</span>
-          <a href="#">Источники данных</a>
+          <a href="https://itman.ru/istochniki/">Источники данных</a>
           <span class="breadcrumbs__sep">›</span>
           <span>Инвентаризация SCVMM (Hyper-V)</span>
         </nav>
@@ -984,15 +1070,14 @@
         <div class="hero__grid">
           <div>
             <h1 class="hero__title">Инвентаризация SCVMM и Hyper-V: учет виртуальных машин и хостов</h1>
-            <p class="hero__lead">Инферит ИТМен автоматизирует инвентаризацию Hyper-V: подключается к SCVMM по WMI, WinRM и REST API и собирает актуальные данные о виртуальных машинах, хостах и кластерах, а при необходимости дополняет их инвентаризацией гостевых систем: конфигурация, ПО, учетные записи. Очищенные данные передаются в CMDB, ITSM и ITAM вместе с данными из VMware, zVirt и других источников.</p>
             <ul class="hero__list">
               <li>
                 <span class="hero__check" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                Сбор данных о виртуальных машинах и хостах Hyper-V через SCVMM
+                Сбор данных о виртуальных машинах и хостах Hyper-V через SCVMM: актуальный список ВМ и выгрузка состава инфраструктуры
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                Доступ по WMI и WinRM, по рекомендациям для Hyper-V/VMM
+                Доступ по WMI и WinRM по рекомендациям для Hyper-V/VMM — сбор данных без ручных скриптов
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -1127,7 +1212,7 @@
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Виртуализация построена на Hyper-V, а управление идет через SCVMM</p>
+            <p>Виртуализация построена на Hyper-V, а управление идет через SCVMM — нужна инвентаризация виртуальной инфраструктуры Hyper-V</p>
           </article>
           <article class="fit-card" data-frame="1000007730-1">
             <div class="fit-card__icon">
@@ -1139,7 +1224,7 @@
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Данные из SCVMM нужно передавать в CMDB/ITSM без ручной сверки</p>
+            <p>Данные из SCVMM нужно передавать в CMDB/ITSM без ручной сверки: учет ВМ в SCVMM в одной нормализованной базе</p>
           </article>
           <article class="fit-card" data-frame="1000007730-3">
             <div class="fit-card__icon">
@@ -1151,7 +1236,7 @@
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Планируется миграция с Hyper-V, и нужен точный учет парка ВМ перед переходом</p>
+            <p>Планируется миграция с Hyper-V, и нужен точный учет парка ВМ перед переходом — инвентаризация перед миграцией с Hyper-V</p>
           </article>
         </div>
       </div>
@@ -1167,7 +1252,7 @@
               <h3>Подключение к SCVMM</h3>
               <ul>
                 <li>Настройка сетевой инвентаризации и задачи REST API с учетными данными Windows</li>
-                <li>Доступ по WMI (tcp/135) и WinRM (tcp/5986) к Hyper-V/VMM</li>
+                <li>Доступ по WMI (tcp/135) и WinRM (tcp/5986) к Hyper-V/VMM — сбор данных через WMI и WinRM</li>
                 <li>Учетные данные с правами администратора на целевых узлах</li>
               </ul>
             </article>
@@ -1175,8 +1260,8 @@
               <div class="step__num">2</div>
               <h3>Сбор и нормализация данных</h3>
               <ul>
-                <li>Сбор данных о виртуальных машинах и хостах Hyper-V</li>
-                <li>Сбор объектов Hyper-V в рамках локальной и сетевой инвентаризации</li>
+                <li>Сбор данных о виртуальных машинах и инвентаризация хостов Hyper-V</li>
+                <li>Сбор объектов Hyper-V в рамках локальной и сетевой инвентаризации, выгрузка списка ВМ из SCVMM</li>
                 <li>Приведение данных к единому формату вместе с другими гипервизорами</li>
               </ul>
             </article>
@@ -1238,7 +1323,7 @@
             </div>
             <h3>Из SCVMM / Hyper-V</h3>
             <ul>
-              <li>Виртуальные машины и хосты Hyper-V</li>
+              <li>Виртуальные машины и хосты Hyper-V — актуальный список для учета ВМ в SCVMM</li>
               <li>Конфигурация виртуальной машины: vCPU, RAM, диски, состояние</li>
               <li>Связь виртуальной машины с узлом Hyper-V и кластером</li>
             </ul>
@@ -1250,7 +1335,7 @@
             <h3>С гостевых систем</h3>
             <ul>
               <li>Конфигурация железа и сетевые параметры</li>
-              <li>Установленное ПО и версии, для контроля лицензий и учета ITAM/SAM</li>
+              <li>Инвентаризация ПО на виртуальных машинах и версии — для контроля лицензий и учета ITAM/SAM</li>
               <li>Пользователи и учетные записи на виртуальной машине</li>
             </ul>
           </article>
@@ -1319,11 +1404,11 @@
           </details>
           <details>
             <summary>Подходит ли ИТМен для учета ВМ перед миграцией с Hyper-V?</summary>
-            <p>Да. ИТМен собирает полный и актуальный список виртуальных машин, хостов и ПО из SCVMM, это удобная основа для планирования перехода на российский гипервизор.</p>
+            <p>Да. ИТМен проводит инвентаризацию перед миграцией с Hyper-V: собирает полный и актуальный список виртуальных машин, хостов и ПО из SCVMM — основа для планирования перехода на российский гипервизор и учета ВМ при переходе с Hyper-V.</p>
           </details>
           <details>
             <summary>Чем ИТМен отличается от ручных PowerShell-скриптов и отчетов SCOM?</summary>
-            <p>Это российское решение из реестра ПО: собирает данные из нескольких источников виртуализации, нормализует их вместе с физическими узлами и передает в CMDB/ITSM без ручного экспорта и написания скриптов.</p>
+            <p>Это российское решение из реестра ПО и альтернатива ручным PowerShell-скриптам и отчетам SCOM: собирает данные из нескольких источников виртуализации, нормализует их вместе с физическими узлами и передает в CMDB/ITSM без ручного экспорта и написания скриптов.</p>
           </details>
         </div>
       </div>
