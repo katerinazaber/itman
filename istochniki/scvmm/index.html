@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Инвентаризация FreeIPA: сбор данных об активах | ИТМен</title>
-  <meta name="description" content="ИТМен подключается к FreeIPA по LDAP, собирает пользователи и хосты домена, дополняет инвентаризацией узлов и передает очищенные данные в CMDB, ITSM и ITAM." />
+  <title>Инвентаризация SCVMM и Hyper-V: учёт виртуальных машин | ИТМен</title>
+  <meta name="description" content="ИТМен собирает данные о виртуальных машинах и хостах Hyper-V через SCVMM: WMI, WinRM и REST API, нормализует и передаёт в CMDB, ITSM и ITAM." />
   <meta name="robots" content="index,follow" />
-  <link rel="canonical" href="https://katerinazaber.github.io/itman/istochniki/freeipa/" />
-  <meta property="og:title" content="Инвентаризация FreeIPA: сбор данных об активах | ИТМен" />
-  <meta property="og:description" content="Сбор данных из FreeIPA по LDAP: пользователи, хосты и передача очищенных данных в CMDB/ITSM/ITAM." />
+  <link rel="canonical" href="https://katerinazaber.github.io/itman/istochniki/scvmm/" />
+  <meta property="og:title" content="Инвентаризация SCVMM и Hyper-V: учёт виртуальных машин | ИТМен" />
+  <meta property="og:description" content="Сбор ВМ и хостов Hyper-V из SCVMM в единую базу активов." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -241,7 +241,7 @@
       top: 4%;
       width: 78%;
       height: 86%;
-      background: linear-gradient(145deg, #5ba8ff 0%, #1a6fd4 42%, #0d4fa3 100%);
+      background: linear-gradient(145deg, #4ecf7a 0%, #1b8f3a 42%, #0d6b2a 100%);
       border-radius: 48px;
       z-index: 0;
       box-shadow: 0 28px 60px rgba(227, 6, 19, 0.28);
@@ -427,7 +427,7 @@
       background: #10b981;
     }
 
-    .badge-ipa {
+.badge-scvmm {
       position: absolute;
       right: 2%;
       bottom: 6%;
@@ -435,28 +435,24 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: linear-gradient(160deg, #4a9eff 0%, #1a6fd4 48%, #0d4fa3 100%);
+      background: linear-gradient(160deg, #0078d4 0%, #005a9e 48%, #004578 100%);
       color: #fff;
       border-radius: 999px;
       padding: 14px 22px 14px 16px;
-      box-shadow:
-        0 18px 36px rgba(26, 111, 212, 0.38),
-        0 2px 0 rgba(255,255,255,.35) inset,
-        0 -2px 0 rgba(0,0,0,.12) inset;
+      box-shadow: 0 18px 36px rgba(0,0,0,.22), 0 2px 0 rgba(255,255,255,.35) inset;
       font-size: 15px;
       font-weight: 800;
       letter-spacing: -.01em;
       transform: rotate(-3deg);
       white-space: nowrap;
     }
-    .badge-ipa__icon {
+    .badge-scvmm__icon {
       width: 28px;
       height: 28px;
       display: grid;
       place-items: center;
-      filter: drop-shadow(0 1px 1px rgba(0,0,0,.2));
     }
-    .badge-ipa__icon svg { width: 22px; height: 22px; }
+    .badge-scvmm__icon svg { width: 22px; height: 22px; }
 
     /* Trust */
     .trust { padding: 36px 0 20px; }
@@ -876,7 +872,7 @@
       }
       .product-ui { transform: none; width: min(100%, 560px); }
       .hero__blob { right: 4%; width: 88%; }
-      .badge-ipa { right: 8%; bottom: 0; }
+      .badge-scvmm { right: 8%; bottom: 0; }
     }
     @media (max-width: 720px) {
       .container { width: min(100% - 32px, var(--container)); }
@@ -893,7 +889,7 @@
       .product-ui__kpis { grid-template-columns: repeat(3, 1fr); }
       .product-ui__kpis .kpi:nth-child(4),
       .product-ui__kpis .kpi:nth-child(5) { display: none; }
-      .badge-ipa { font-size: 13px; padding: 12px 16px 12px 12px; }
+      .badge-scvmm { font-size: 13px; padding: 12px 16px 12px 12px; }
       .sync-row { grid-template-columns: 1.2fr .7fr .8fr; }
       .sync-row span:nth-child(3) { display: none; }
     }
@@ -974,30 +970,24 @@
           <span class="breadcrumbs__sep">›</span>
           <a href="#">Источники данных</a>
           <span class="breadcrumbs__sep">›</span>
-          <span>Инвентаризация FreeIPA</span>
+          <span>Инвентаризация SCVMM (Hyper-V)</span>
         </nav>
 
         <div class="hero__grid">
           <div>
-            <h1 class="hero__title">Инферит ИТМен. Сбор данных из <em>FreeIPA</em></h1>
+            <h1 class="hero__title">Инферит ИТМен. Сбор данных из <em>SCVMM (Hyper-V)</em></h1>
             <ul class="hero__list">
               <li>
-                <span class="hero__check" aria-hidden="true">
-                  <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </span>
-                Единый учет активов для домена, построенного изначально на Linux
+                <span class="hero__check" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                Виртуальные машины и хосты Hyper-V из System Center VMM
               </li>
               <li>
-                <span class="hero__check" aria-hidden="true">
-                  <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </span>
-                Пользователи и хосты домена по LDAP — в одной базе с данными с узлов
+                <span class="hero__check" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                Сбор через WinRM и WMI — по рекомендациям для Hyper-V / VMM
               </li>
               <li>
-                <span class="hero__check" aria-hidden="true">
-                  <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </span>
-                Сверка с сетью: устройства вне домена и единый контур для CMDB/ITSM/ITAM
+                <span class="hero__check" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                Единый учёт вместе с VMware, zVirt и физическими узлами
               </li>
             </ul>
             <div class="hero__cta">
@@ -1037,7 +1027,7 @@
               </aside>
               <div class="product-ui__main">
                 <div class="product-ui__head">
-                  <h3>FreeIPA</h3>
+                  <h3>SCVMM</h3>
                   <div class="product-ui__tabs">
                     <span class="product-ui__tab is-active">Сводка</span>
                     <span class="product-ui__tab">Объекты</span>
@@ -1045,30 +1035,32 @@
                   </div>
                 </div>
                 <div class="product-ui__kpis">
-                  <div class="kpi"><div class="kpi__label">Хосты</div><div class="kpi__value">1 840</div></div>
-                  <div class="kpi"><div class="kpi__label">Пользователи</div><div class="kpi__value">3 120</div></div>
-                  <div class="kpi"><div class="kpi__label">Группы</div><div class="kpi__value">286</div></div>
-                  <div class="kpi"><div class="kpi__label">Устройства</div><div class="kpi__value">1 680</div></div>
-                  <div class="kpi"><div class="kpi__label">Вне домена</div><div class="kpi__value">38</div></div>
+                  <div class="kpi"><div class="kpi__label">ВМ</div><div class="kpi__value">1 420</div></div>
+                  <div class="kpi"><div class="kpi__label">Хосты</div><div class="kpi__value">32</div></div>
+                  <div class="kpi"><div class="kpi__label">Кластеры</div><div class="kpi__value">4</div></div>
+                  <div class="kpi"><div class="kpi__label">vCPU</div><div class="kpi__value">6 800</div></div>
+                  <div class="kpi"><div class="kpi__label">Вне SCVMM</div><div class="kpi__value">15</div></div>
                 </div>
                 <div class="product-ui__panel">
-                  <div class="product-ui__panel-title">Последняя синхронизация</div>
-                  <div class="sync-row"><span>Источник</span><span>Объекты</span><span>Время</span><span>Статус</span></div>
-                  <div class="sync-row"><span>ipa.corp.local</span><span>3 120</span><span>сегодня, 09:14</span><span class="sync-status">OK</span></div>
-                  <div class="sync-row"><span>Хосты · LDAP</span><span>1 840</span><span>сегодня, 09:15</span><span class="sync-status">OK</span></div>
-                  <div class="sync-row"><span>LDAP · устройства</span><span>1 680</span><span>сегодня, 09:16</span><span class="sync-status">OK</span></div>
-                  <div class="sync-row"><span>вне домена (сеть)</span><span>38</span><span>сегодня, 09:18</span><span class="sync-status">OK</span></div>
+                  <div class="product-ui__panel-title">Синхронизация · SCVMM</div>
+
+                  <div class="sync-row"><span>Источник</span><span>Объектов</span><span>Обновление</span><span>Статус</span></div>
+                  <div class="sync-row"><span>SCVMM · hosts</span><span>32</span><span>сегодня, 09:05</span><span class="sync-status">OK</span></div>
+                  <div class="sync-row"><span>Hyper-V · ВМ</span><span>1 420</span><span>сегодня, 09:05</span><span class="sync-status">OK</span></div>
+                  <div class="sync-row"><span>Кластеры</span><span>4</span><span>сегодня, 09:05</span><span class="sync-status">OK</span></div>
                 </div>
               </div>
             </div>
-            <div class="badge-ipa">
-              <span class="badge-ipa__icon">
+            <div class="badge-scvmm">
+              <span class="badge-scvmm__icon">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M12 3l8 4v5c0 5-3.4 8.4-8 9-4.6-.6-8-4-8-9V7l8-4z" stroke="#fff" stroke-width="1.6"/>
-                  <path d="M9.5 12.2l1.8 1.8 3.4-3.6" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  <rect x="3" y="4" width="18" height="14" rx="2" stroke="#fff" stroke-width="1.6"/>
+                  <path d="M7 17h10" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+                  <path d="M7 9h4M7 12h6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+                  <circle cx="17" cy="8" r="1.2" fill="#fff"/>
                 </svg>
               </span>
-              FreeIPA · LDAP
+              SCVMM · Hyper-V
             </div>
           </div>
         </div>
@@ -1120,27 +1112,27 @@
         <div class="fit__grid">
           <article class="fit-card" data-frame="1000007730">
             <div class="fit-card__icon">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="18" cy="12" r="2.2" stroke="currentColor" stroke-width="1.8"/></svg>
+              <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Домен изначально построен на FreeIPA, а не мигрировал с Windows AD</p>
+            <p>Виртуализация на Hyper-V и управление через SCVMM</p>
           </article>
           <article class="fit-card" data-frame="1000007730-1">
             <div class="fit-card__icon">
-              <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="8.5" y="13" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><path d="M10 7.5h4M12 11v2" stroke="currentColor" stroke-width="1.8"/></svg>
+              <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Инфраструктура полностью или почти полностью на Linux</p>
+            <p>Нужен единый реестр ВМ вместе с VMware или физическими серверами</p>
           </article>
           <article class="fit-card" data-frame="1000007730-2">
             <div class="fit-card__icon">
-              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M5 19l2.5-2.5M19 19l-2.5-2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Нужен единый учет пользователей и Linux-хостов в домене FreeIPA без ручной сверки</p>
+            <p>Данные из SCVMM нужно передавать в CMDB/ITSM без ручной сверки</p>
           </article>
           <article class="fit-card" data-frame="1000007730-3">
             <div class="fit-card__icon">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M7 7h10v10H7z" stroke="currentColor" stroke-width="1.8"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Данные из FreeIPA нужно передавать в CMDB/ITSM без дублей и расхождений</p>
+            <p>Важно видеть связь ВМ, хостов Hyper-V и установленного ПО</p>
           </article>
         </div>
       </div>
@@ -1153,21 +1145,20 @@
           <div class="steps">
             <article class="step">
               <div class="step__num">1</div>
-              <h3>Подключение к FreeIPA</h3>
+              <h3>Подключение к SCVMM</h3>
               <ul>
-                <li>Подключение к серверу FreeIPA по LDAP</li>
-                <li>Задача «Сбор данных по протоколу LDAP»: пользователи и устройства, доступные учетным записям</li>
-                <li>Учетные данные с правами администратора на целевых компьютерах</li>
+                <li>Сетевая инвентаризация и REST API с учётными данными Windows</li>
+                <li>Доступ по WMI (tcp/135) и WinRM (tcp/5986) к Hyper-V / VMM</li>
+                <li>Учётные данные с правами администратора на целевых узлах</li>
               </ul>
             </article>
             <article class="step">
               <div class="step__num">2</div>
               <h3>Сбор и нормализация</h3>
               <ul>
-                <li>Сбор карточек из каталога</li>
-                <li>Дополнительный сбор данных с самих узлов</li>
-                <li>Сверка с сетью</li>
-                <li>Приведение всех данных к единому формату</li>
+                <li>Сбор данных о ВМ и хостах Hyper-V</li>
+                <li>Объекты Hyper-V в локальной и сетевой инвентаризации</li>
+                <li>Приведение к единому формату с другими гипервизорами</li>
               </ul>
             </article>
             <article class="step">
@@ -1181,29 +1172,25 @@
 
           <div class="schema" aria-hidden="true">
             <svg viewBox="0 0 420 360" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="24" y="28" width="110" height="72" rx="12" stroke="#1a6fd4" stroke-width="1.8" fill="#eef5fc"/>
-              <text x="79" y="54" text-anchor="middle" fill="#1a6fd4" font-family="Manrope, Arial" font-size="12" font-weight="700">FreeIPA</text>
-              <text x="79" y="72" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="11" font-weight="600">LDAP · 389 DS</text>
-              <text x="79" y="88" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="10">Kerberos · Linux</text>
+              <rect x="24" y="28" width="110" height="72" rx="12" stroke="#607080" stroke-width="1.8"/>
+              <text x="79" y="60" text-anchor="middle" fill="#607080" font-family="Manrope, Arial" font-size="12" font-weight="700">vCenter / API</text>
+              <text x="79" y="78" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">REST API</text>
 
               <rect x="155" y="28" width="110" height="72" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
-              <text x="210" y="54" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">Linux-узлы</text>
-              <text x="210" y="72" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">SSH · инвентаризация</text>
-              <text x="210" y="88" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">железо · ПО</text>
+              <text x="210" y="60" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">ВМ · хосты</text>
+              <text x="210" y="78" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">кластеры</text>
 
               <rect x="286" y="28" width="110" height="72" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
-              <text x="341" y="54" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">Дискаверинг</text>
-              <text x="341" y="72" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">вне домена</text>
-              <text x="341" y="88" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">SSH · сеть</text>
+              <text x="341" y="60" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">Гостевые ОС</text>
+              <text x="341" y="78" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">инвентаризация</text>
 
               <path d="M79 100v36M210 100v36M341 100v36" stroke="#D8D8D8" stroke-width="1.5"/>
               <path d="M79 136h262" stroke="#D8D8D8" stroke-width="1.5"/>
               <path d="M210 136v28" stroke="#E30613" stroke-width="2"/>
 
               <rect x="135" y="164" width="150" height="78" rx="14" fill="#E30613"/>
-              <text x="210" y="194" text-anchor="middle" fill="#fff" font-family="Manrope, Arial" font-size="14" font-weight="700">Инферит ИТМен</text>
-              <text x="210" y="214" text-anchor="middle" fill="#ffd0d3" font-family="Manrope, Arial" font-size="11">единая база · сверка</text>
-              <text x="210" y="228" text-anchor="middle" fill="#ffd0d3" font-family="Manrope, Arial" font-size="10">FreeIPA + узлы</text>
+              <text x="210" y="198" text-anchor="middle" fill="#fff" font-family="Manrope, Arial" font-size="14" font-weight="700">Инферит ИТМен</text>
+              <text x="210" y="218" text-anchor="middle" fill="#ffd0d3" font-family="Manrope, Arial" font-size="11">нормализация · сверка</text>
 
               <path d="M210 242v28" stroke="#E30613" stroke-width="2"/>
               <path d="M80 270h260" stroke="#D8D8D8" stroke-width="1.5"/>
@@ -1224,38 +1211,39 @@
     <section class="collect" id="collect">
       <div class="container">
         <h2 class="section-title">Что мы собираем</h2>
-        <p class="collect__intro">Каталог FreeIPA дает пользователей и хосты домена. Этого мало для полной инвентаризации, поэтому ИТМен дополнительно опрашивает узлы.</p>
+        <p class="collect__intro">SCVMM и Hyper-V дают состав виртуальной инфраструктуры на Windows. ИТМен собирает эти данные и сводит с другими источниками в единую базу.</p>
         <div class="collect__grid">
           <article class="collect-card collect-card--dark">
             <div class="collect-card__icon">
-              <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="8" y="10" width="28" height="24" rx="4" stroke="#fff" stroke-width="2"/><path d="M14 18h16M14 24h10" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+              <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="8" y="10" width="28" height="24" rx="4" stroke="currentColor" stroke-width="2"/></svg>
             </div>
-            <h3>Из каталога FreeIPA</h3>
+            <h3>Из SCVMM / Hyper-V</h3>
             <ul>
-              <li>Пользователи и хосты домена, атрибуты учетных записей (включая SID)</li>
-              <li>Связь ldap-пользователей с устройствами, на которые у них есть доступ</li>
-              <li>Фиксированный набор полей по пользователю и устройству</li>
+              <li>Виртуальные машины и хосты Hyper-V</li>
+              <li>Конфигурация ВМ: vCPU, RAM, диски, состояние</li>
+              <li>Связь ВМ с узлом Hyper-V и кластером</li>
             </ul>
           </article>
           <article class="collect-card collect-card--red">
             <div class="collect-card__icon">
-              <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="10" y="14" width="24" height="16" rx="2" stroke="#fff" stroke-width="2"/><path d="M16 30h12M22 14v-3" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="22" r="2" fill="#fff"/></svg>
+              <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="8" y="10" width="28" height="24" rx="4" stroke="currentColor" stroke-width="2"/></svg>
             </div>
-            <h3>С самих узлов</h3>
+            <h3>С гостевых систем</h3>
             <ul>
-              <li>Конфигурация: процессор, память, диски, сетевые адаптеры (IP, MAC, DNS-имя)</li>
-              <li>Установленное ПО и версии, для контроля лицензий и учета ITAM/SAM</li>
-              <li>Устройства, которые есть в сети, но не заведены в домене, и наоборот</li>
+              <li>Конфигурация железа и сетевые параметры</li>
+              <li>Установленное ПО и версии</li>
+              <li>Пользователи и учётные записи на ВМ</li>
             </ul>
           </article>
           <article class="collect-card collect-card--light">
             <div class="collect-card__icon" style="color:var(--red)">
-              <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><path d="M10 28c4-8 20-8 24 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="14" cy="16" r="4" stroke="currentColor" stroke-width="2"/><circle cx="30" cy="16" r="4" stroke="currentColor" stroke-width="2"/><circle cx="22" cy="30" r="4" stroke="currentColor" stroke-width="2"/></svg>
+              <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="8" y="10" width="28" height="24" rx="4" stroke="currentColor" stroke-width="2"/></svg>
             </div>
-            <h3>Работа с Linux-инфраструктурой</h3>
+            <h3>Работа со смешанной виртуализацией</h3>
             <ul>
-              <li>Хосты на разных Linux-дистрибутивах в одной нормализованной базе</li>
-              <li>Для LDAP — полный агент с сетевой инвентаризацией; сбор с узлов — SSH и локальный сбор</li>
+              <li>Hyper-V, VMware и oVirt-платформы в одной базе</li>
+              <li>Сбор Hyper-V объектов в рамках сетевой инвентаризации</li>
+              <li>Порты WMI/WinRM настраиваются по рекомендациям руководства</li>
             </ul>
           </article>
         </div>
@@ -1295,28 +1283,24 @@
         <h2 class="section-title section-title--center">Частые вопросы</h2>
         <div class="faq__list">
           <details open>
-            <summary>Чем FreeIPA отличается от Samba и Active Directory?</summary>
-            <p>FreeIPA изначально строится как Linux-домен. ИТМен подключается к нему по LDAP той же задачей, что к Active Directory и Samba AD: собирает пользователи и устройства домена, а узлы дополняют каталог фактическими данными.</p>
+            <summary>Как ИТМен подключается к SCVMM?</summary>
+            <p>Через сетевую инвентаризацию и задачу REST API с учётными данными Windows и доступом WMI/WinRM к Hyper-V / VMM.</p>
           </details>
           <details>
-            <summary>Можно ли одновременно вести учет по FreeIPA и Windows AD?</summary>
-            <p>Да. Если часть инфраструктуры работает на FreeIPA, а часть на Windows AD или Samba, ИТМен сводит данные из всех источников в одну базу.</p>
+            <summary>Нужны ли агенты на каждую ВМ?</summary>
+            <p>Для сбора метаданных ВМ из SCVMM агенты на гостях не обязательны. Глубокая инвентаризация гостей — через сетевую или локальную задачу.</p>
           </details>
           <details>
-            <summary>Нужны ли агенты для сбора?</summary>
-            <p>Для задачи LDAP нужен полный агент (DiscoveryAgent) с функцией сетевой инвентаризации на машине, с которой выполняется сбор. На целевых узлах агент не требуется. Дополнительный сбор с узлов — через сетевую инвентаризацию и локальный сбор.</p>
-          </details>
-          <details>
-            <summary>Видит ли ИТМен устройства вне домена?</summary>
-            <p>Да. Дискаверинг находит и неучтенные устройства, которые не заведены в каталоге.</p>
+            <summary>Можно ли совмещать с VMware?</summary>
+            <p>Да. Данные из SCVMM и vCenter сводятся в единую нормализованную базу.</p>
           </details>
           <details>
             <summary>Является ли Инферит ИТМен системой CMDB?</summary>
-            <p>Нет. ИТМен собирает и нормализует данные, а затем наполняет ими CMDB и ITSM. Он не заменяет эти системы.</p>
+            <p>Нет. ИТМен собирает и нормализует данные и наполняет CMDB и ITSM.</p>
           </details>
           <details>
-            <summary>Работает ли сбор в закрытом контуре без выхода в интернет?</summary>
-            <p>Да. ИТМен разворачивается внутри периметра и собирает данные без внешнего подключения, с передачей по защищенным каналам.</p>
+            <summary>Работает ли сбор в закрытом контуре?</summary>
+            <p>Да. Подключение к SCVMM и узлам Hyper-V выполняется внутри периметра.</p>
           </details>
         </div>
       </div>
@@ -1368,7 +1352,7 @@
 
   <footer class="footer">
     <div class="container footer__inner">
-      <p>© 2011–2026 ООО «НЦПР». Макет страницы «Инвентаризация FreeIPA».</p>
+      <p>© 2011–2026 ООО «НЦПР». Макет страницы «Инвентаризация SCVMM (Hyper-V)».</p>
       <p><a href="https://itman.ru/">itman.ru</a> · Отдел продаж: <a href="tel:88007078553">8 800 707 85 53</a></p>
     </div>
   </footer>
