@@ -4,11 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Инвентаризация FreeIPA: сбор данных об активах | ИТМен</title>
-  <meta name="description" content="ИТМен подключается к FreeIPA по LDAP, синхронизирует пользователей, узлы и сертификаты домена, дополняет инвентаризацией узлов и передает очищенные данные в CMDB, ITSM и ITAM." />
+  <meta name="description" content="ИТМен подключается к FreeIPA по LDAP, собирает пользователи и хосты домена, дополняет инвентаризацией узлов и передает очищенные данные в CMDB, ITSM и ITAM." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://katerinazaber.github.io/itman/istochniki/freeipa/" />
   <meta property="og:title" content="Инвентаризация FreeIPA: сбор данных об активах | ИТМен" />
-  <meta property="og:description" content="Сбор данных из FreeIPA по LDAP: пользователи, хосты, сертификаты PKI и передача очищенных данных в CMDB/ITSM/ITAM." />
+  <meta property="og:description" content="Сбор данных из FreeIPA по LDAP: пользователи, хосты и передача очищенных данных в CMDB/ITSM/ITAM." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -935,7 +935,7 @@
               <div class="nav-h">Интеграции с ITSM / ITAM</div>
               <a href="#" class="soon">Интеграция с SimpleOne <span>скоро</span></a>
               <a href="#" class="soon">Интеграция с Naumen <span>скоро</span></a>
-              <a href="../itsmbox/" class="is-live">Интеграция с ITSMbox</a>
+              <a href="#" class="soon">Интеграция с ITSMbox <span>скоро</span></a>
             </div>
           </div>
         </div>
@@ -987,7 +987,7 @@
                 <span class="hero__check" aria-hidden="true">
                   <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
-                Помимо пользователей и узлов, видит сертификаты и хосты из PKI FreeIPA
+                Пользователи и хосты домена по LDAP — в одной базе с данными с узлов
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true">
@@ -1044,7 +1044,7 @@
                   <div class="kpi"><div class="kpi__label">Хосты</div><div class="kpi__value">1 840</div></div>
                   <div class="kpi"><div class="kpi__label">Пользователи</div><div class="kpi__value">3 120</div></div>
                   <div class="kpi"><div class="kpi__label">Группы</div><div class="kpi__value">286</div></div>
-                  <div class="kpi"><div class="kpi__label">Сертификаты</div><div class="kpi__value">942</div></div>
+                  <div class="kpi"><div class="kpi__label">Устройства</div><div class="kpi__value">1 680</div></div>
                   <div class="kpi"><div class="kpi__label">Вне домена</div><div class="kpi__value">38</div></div>
                 </div>
                 <div class="product-ui__panel">
@@ -1052,7 +1052,7 @@
                   <div class="sync-row"><span>Источник</span><span>Объекты</span><span>Время</span><span>Статус</span></div>
                   <div class="sync-row"><span>ipa.corp.local</span><span>3 120</span><span>сегодня, 09:14</span><span class="sync-status">OK</span></div>
                   <div class="sync-row"><span>Хосты · LDAP</span><span>1 840</span><span>сегодня, 09:15</span><span class="sync-status">OK</span></div>
-                  <div class="sync-row"><span>PKI · сертификаты</span><span>942</span><span>сегодня, 09:16</span><span class="sync-status">OK</span></div>
+                  <div class="sync-row"><span>LDAP · устройства</span><span>1 680</span><span>сегодня, 09:16</span><span class="sync-status">OK</span></div>
                   <div class="sync-row"><span>вне домена (сеть)</span><span>38</span><span>сегодня, 09:18</span><span class="sync-status">OK</span></div>
                 </div>
               </div>
@@ -1064,7 +1064,7 @@
                   <path d="M9.5 12.2l1.8 1.8 3.4-3.6" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </span>
-              FreeIPA · PKI
+              FreeIPA · LDAP
             </div>
           </div>
         </div>
@@ -1130,7 +1130,7 @@
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M5 19l2.5-2.5M19 19l-2.5-2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Нужно учитывать не только пользователей и узлы, но и сертификаты, выпущенные внутренним удостоверяющим центром</p>
+            <p>Нужен единый учет пользователей и Linux-хостов в домене FreeIPA без ручной сверки</p>
           </article>
           <article class="fit-card" data-frame="1000007730-3">
             <div class="fit-card__icon">
@@ -1151,9 +1151,9 @@
               <div class="step__num">1</div>
               <h3>Подключение к FreeIPA</h3>
               <ul>
-                <li>Подключение к серверу FreeIPA по LDAP (389 Directory Server)</li>
-                <li>Загрузка состава каталога: пользователи, хосты, группы</li>
-                <li>Загрузка данных о сертификатах и хостовых политиках</li>
+                <li>Подключение к серверу FreeIPA по LDAP</li>
+                <li>Задача «Сбор данных по протоколу LDAP»: пользователи и устройства, доступные учетным записям</li>
+                <li>Учетные данные с правами администратора на целевых компьютерах</li>
               </ul>
             </article>
             <article class="step">
@@ -1183,9 +1183,9 @@
               <text x="79" y="88" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="10">Kerberos · Linux</text>
 
               <rect x="155" y="28" width="110" height="72" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
-              <text x="210" y="54" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">PKI FreeIPA</text>
-              <text x="210" y="72" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">сертификаты</text>
-              <text x="210" y="88" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">хосты · политики</text>
+              <text x="210" y="54" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">Linux-узлы</text>
+              <text x="210" y="72" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">SSH · инвентаризация</text>
+              <text x="210" y="88" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">железо · ПО</text>
 
               <rect x="286" y="28" width="110" height="72" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
               <text x="341" y="54" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">Дискаверинг</text>
@@ -1199,7 +1199,7 @@
               <rect x="135" y="164" width="150" height="78" rx="14" fill="#E30613"/>
               <text x="210" y="194" text-anchor="middle" fill="#fff" font-family="Manrope, Arial" font-size="14" font-weight="700">Инферит ИТМен</text>
               <text x="210" y="214" text-anchor="middle" fill="#ffd0d3" font-family="Manrope, Arial" font-size="11">единая база · сверка</text>
-              <text x="210" y="228" text-anchor="middle" fill="#ffd0d3" font-family="Manrope, Arial" font-size="10">FreeIPA + PKI + узлы</text>
+              <text x="210" y="228" text-anchor="middle" fill="#ffd0d3" font-family="Manrope, Arial" font-size="10">FreeIPA + узлы</text>
 
               <path d="M210 242v28" stroke="#E30613" stroke-width="2"/>
               <path d="M80 270h260" stroke="#D8D8D8" stroke-width="1.5"/>
@@ -1220,7 +1220,7 @@
     <section class="collect" id="collect">
       <div class="container">
         <h2 class="section-title">Что мы собираем</h2>
-        <p class="collect__intro">Каталог FreeIPA дает состав домена и данные удостоверяющего центра. Этого мало для полной инвентаризации, поэтому ИТМен дополнительно опрашивает сами узлы.</p>
+        <p class="collect__intro">Каталог FreeIPA дает пользователей и хосты домена. Этого мало для полной инвентаризации, поэтому ИТМен дополнительно опрашивает узлы.</p>
         <div class="collect__grid">
           <article class="collect-card collect-card--dark">
             <div class="collect-card__icon">
@@ -1228,9 +1228,9 @@
             </div>
             <h3>Из каталога FreeIPA</h3>
             <ul>
-              <li>Пользователи, хосты и группы</li>
-              <li>Связь учетной записи пользователя с конкретным устройством</li>
-              <li>Сертификаты и хосты, зарегистрированные в удостоверяющем центре FreeIPA</li>
+              <li>Пользователи и хосты домена, атрибуты учетных записей (включая SID)</li>
+              <li>Связь ldap-пользователей с устройствами, на которые у них есть доступ</li>
+              <li>Фиксированный набор полей по пользователю и устройству</li>
             </ul>
           </article>
           <article class="collect-card collect-card--red">
@@ -1250,8 +1250,8 @@
             </div>
             <h3>Работа с Linux-инфраструктурой</h3>
             <ul>
-              <li>Домены и хосты на разных Linux-дистрибутивах в одной нормализованной базе</li>
-              <li>Безагентный сбор по SSH, агентный сбор там, где нужна более глубокая детализация</li>
+              <li>Хосты на разных Linux-дистрибутивах в одной нормализованной базе</li>
+              <li>Для LDAP — полный агент с сетевой инвентаризацией; сбор с узлов — SSH и локальный сбор</li>
             </ul>
           </article>
         </div>
@@ -1292,7 +1292,7 @@
         <div class="faq__list">
           <details open>
             <summary>Чем FreeIPA отличается от Samba и Active Directory?</summary>
-            <p>FreeIPA изначально строится как Linux-домен, а не как аналог Windows AD. Помимо LDAP-каталога и Kerberos, в нем есть собственный удостоверяющий центр для сертификатов, поэтому ИТМен дополнительно собирает данные о сертификатах и хостах из PKI.</p>
+            <p>FreeIPA изначально строится как Linux-домен. ИТМен подключается к нему по LDAP той же задачей, что к Active Directory и Samba AD: собирает пользователи и устройства домена, а узлы дополняют каталог фактическими данными.</p>
           </details>
           <details>
             <summary>Можно ли одновременно вести учет по FreeIPA и Windows AD?</summary>
@@ -1300,7 +1300,7 @@
           </details>
           <details>
             <summary>Нужны ли агенты для сбора?</summary>
-            <p>Поддерживается и агентный, и безагентный сбор, в зависимости от инфраструктуры и политик.</p>
+            <p>Для задачи LDAP нужен полный агент (DiscoveryAgent) с функцией сетевой инвентаризации на машине, с которой выполняется сбор. На целевых узлах агент не требуется. Дополнительный сбор с узлов — через сетевую инвентаризацию и локальный сбор.</p>
           </details>
           <details>
             <summary>Видит ли ИТМен устройства вне домена?</summary>

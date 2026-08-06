@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Инвентаризация Active Directory: сбор данных об активах | ИТМен</title>
-  <meta name="description" content="ИТМен подключается к Active Directory по LDAP/LDAPS, синхронизирует OU и объекты домена, дополняет инвентаризацией узлов и передает очищенные данные в CMDB, ITSM и ITAM." />
+  <meta name="description" content="ИТМен подключается к Active Directory по LDAP/LDAPS, собирает пользователи и устройства домена, дополняет инвентаризацией узлов и передает очищенные данные в CMDB, ITSM и ITAM." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -100,23 +100,6 @@
     .nav a:hover { opacity: 1; color: var(--red); }
     .nav__item { display: inline-flex; align-items: center; gap: 4px; }
     .nav__item svg { opacity: .45; }
-    .nav-drop{position:relative;}
-    .nav-drop>a{cursor:pointer;}
-    .nav-menu{position:absolute;top:calc(100% + 14px);left:-20px;display:grid;grid-template-columns:repeat(3,minmax(180px,1fr));gap:8px 30px;
-      background:#fff;border:1px solid #ECEEF1;border-radius:16px;padding:24px 28px;box-shadow:0 24px 60px -24px rgba(20,23,26,0.25);
-      opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .2s ease,transform .2s ease,visibility .2s;z-index:60;}
-    .nav-drop:hover .nav-menu{opacity:1;visibility:visible;transform:translateY(0);}
-    .nav-menu::before{content:"";position:absolute;top:-14px;left:0;right:0;height:14px;}
-    .nav-col{display:flex;flex-direction:column;gap:4px;}
-    .nav-h{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.6px;color:#DD0D29;margin-bottom:6px;}
-    .nav-sub{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#9AA1A9;margin:10px 0 2px;}
-    .nav-menu a{font-size:14px;color:#2B2F35;text-decoration:none;padding:5px 0;display:flex;align-items:center;gap:8px;white-space:nowrap;}
-    .nav-menu a:hover{color:#DD0D29;}
-    .nav-menu a.soon{color:#9AA1A9;}
-    .nav-menu a.soon span{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#9AA1A9;background:#F0F2F4;border-radius:5px;padding:2px 6px;}
-    .nav-menu a.planned{color:#8a5a00;}
-    .nav-menu a.planned span{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#B45309;background:#FFF4E5;border-radius:5px;padding:2px 6px;}
-    .nav-menu a.is-live{font-weight:600;}
     .header__actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
     .btn-phone {
       width: 42px;
@@ -855,7 +838,6 @@
 
     @media (max-width: 1100px) {
       .nav { display: none; }
-      .nav-menu{grid-template-columns:1fr;left:0;}
       .trust__grid { grid-template-columns: repeat(3, 1fr); }
       .fit__grid { grid-template-columns: repeat(2, 1fr); }
       .security__grid { grid-template-columns: repeat(3, 1fr); }
@@ -901,39 +883,7 @@
         <img src="assets/brand.svg" alt="Инферит ИТМен" style="height:36px;width:auto;display:block;" />
       </a>
       <nav class="nav" aria-label="Основная навигация">
-        <div class="nav-drop"><a href="#" class="nav__item">Технологии
-          <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5"/></svg>
-        </a>
-          <div class="nav-menu">
-            <div class="nav-col">
-              <div class="nav-h">Источники данных</div>
-              <div class="nav-sub">Гипервизоры</div>
-              <a href="../vmware/" class="is-live">VMware (vCenter)</a>
-              <a href="#" class="soon">SCVMM (Hyper-V) <span>скоро</span></a>
-              <a href="#" class="soon">zVirt <span>скоро</span></a>
-              <a href="#" class="soon">RedVirt <span>скоро</span></a>
-              <div class="nav-sub">Службы каталогов</div>
-              <a href="../active-directory/" class="is-live">Active Directory</a>
-              <a href="../samba/" class="is-live">Samba</a>
-              <a href="../freeipa/" class="is-live">FreeIPA</a>
-            </div>
-            <div class="nav-col">
-              <div class="nav-sub">Антивирусы</div>
-              <a href="#" class="soon">Kaspersky Security Center <span>скоро</span></a>
-              <div class="nav-sub">Системы управления</div>
-              <a href="#" class="soon">SCCM <span>скоро</span></a>
-              <a href="#" class="soon">SolarWinds <span>скоро</span></a>
-              <div class="nav-sub">Системы мониторинга</div>
-              <a href="#" class="planned">Zabbix <span>в планах</span></a>
-            </div>
-            <div class="nav-col">
-              <div class="nav-h">Интеграции с ITSM / ITAM</div>
-              <a href="#" class="soon">Интеграция с SimpleOne <span>скоро</span></a>
-              <a href="#" class="soon">Интеграция с Naumen <span>скоро</span></a>
-              <a href="../itsmbox/" class="is-live">Интеграция с ITSMbox</a>
-            </div>
-          </div>
-        </div>
+        <a href="https://itman.ru/#modules">Модули</a>
         <a class="nav__item" href="https://itman.ru/#solutions">Готовые решения
           <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5"/></svg>
         </a>
@@ -976,7 +926,7 @@
                 <span class="hero__check" aria-hidden="true">
                   <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
-                Актуальный состав домена: компьютеры, пользователи, OU и группы по LDAP/LDAPS
+                Пользователи и устройства домена по LDAP/LDAPS
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true">
@@ -1037,7 +987,7 @@
                 </div>
                 <div class="product-ui__kpis">
                   <div class="kpi"><div class="kpi__label">Домены</div><div class="kpi__value">2</div></div>
-                  <div class="kpi"><div class="kpi__label">OU</div><div class="kpi__value">124</div></div>
+                  <div class="kpi"><div class="kpi__label">Устройства</div><div class="kpi__value">4 820</div></div>
                   <div class="kpi"><div class="kpi__label">Компьютеры</div><div class="kpi__value">2 457</div></div>
                   <div class="kpi"><div class="kpi__label">Пользователи</div><div class="kpi__value">3 682</div></div>
                   <div class="kpi"><div class="kpi__label">Группы</div><div class="kpi__value">356</div></div>
@@ -1144,9 +1094,9 @@
               <div class="step__num">1</div>
               <h3>Подключение к Active Directory</h3>
               <ul>
-                <li>Подключение к контроллеру домена по LDAP или LDAPS</li>
-                <li>Выбор нужных OU</li>
-                <li>Загрузка состава каталога и связей учетных записей с устройствами</li>
+                <li>Подключение к домену по LDAP или LDAPS (порт 389/636, при необходимости — SSL)</li>
+                <li>Задача «Сбор данных по протоколу LDAP»: пользователи и устройства, доступные учетным записям</li>
+                <li>Учетные данные с правами администратора на целевых компьютерах</li>
               </ul>
             </article>
             <article class="step">
@@ -1175,8 +1125,8 @@
               <text x="79" y="78" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">LDAP / LDAPS</text>
 
               <rect x="155" y="28" width="110" height="72" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
-              <text x="210" y="60" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">OU / Groups</text>
-              <text x="210" y="78" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">Users · Computers</text>
+              <text x="210" y="60" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">Пользователи</text>
+              <text x="210" y="78" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">Устройства · SID</text>
 
               <rect x="286" y="28" width="110" height="72" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
               <text x="341" y="60" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">Network scan</text>
@@ -1209,7 +1159,7 @@
     <section class="collect" id="collect">
       <div class="container">
         <h2 class="section-title">Что мы собираем</h2>
-        <p class="collect__intro">Каталог AD дает список компьютеров, пользователей и структуру домена. Этого мало для полной инвентаризации, поэтому ИТМен дополнительно опрашивает сами узлы.</p>
+        <p class="collect__intro">Каталог Active Directory дает пользователей и устройства домена. Этого мало для полной инвентаризации, поэтому ИТМен дополнительно опрашивает узлы.</p>
         <div class="collect__grid">
           <article class="collect-card collect-card--dark">
             <div class="collect-card__icon">
@@ -1217,9 +1167,9 @@
             </div>
             <h3>Из каталога Active Directory</h3>
             <ul>
-              <li>Компьютеры, пользователи, организационные единицы (OU) и группы</li>
-              <li>Связь учетной записи пользователя с конкретным устройством</li>
-              <li>Расположение, описание, базовая информация об ОС</li>
+              <li>Пользователи и устройства домена, атрибуты учетных записей (включая SID)</li>
+              <li>Связь ldap-пользователей с устройствами, на которые у них есть доступ</li>
+              <li>Фиксированный набор полей по пользователю и устройству</li>
             </ul>
           </article>
           <article class="collect-card collect-card--red">
@@ -1239,8 +1189,8 @@
             </div>
             <h3>Работа с масштабом</h3>
             <ul>
-              <li>Несколько доменов и лесов одновременно, в единой базе</li>
-              <li>Агентный и безагентный сбор: WinRM, WMI, SSH, SNMP</li>
+              <li>Несколько доменов — через отдельные цели в задаче LDAP</li>
+              <li>Для LDAP нужен полный агент с сетевой инвентаризацией; сбор с узлов — WinRM, WMI, SSH, SNMP</li>
             </ul>
           </article>
         </div>
@@ -1285,7 +1235,7 @@
           </details>
           <details>
             <summary>Нужны ли агенты для сбора?</summary>
-            <p>Поддерживается и агентный, и безагентный сбор, в зависимости от инфраструктуры и политик.</p>
+            <p>Для задачи LDAP нужен полный агент (DiscoveryAgent) с функцией сетевой инвентаризации на машине, с которой выполняется сбор. На целевых узлах агент не требуется. Дополнительный сбор с узлов — через сетевую инвентаризацию и локальный сбор.</p>
           </details>
           <details>
             <summary>Можно ли собирать данные из нескольких доменов?</summary>
@@ -1300,8 +1250,8 @@
             <p>Нет. ИТМен собирает и нормализует данные, а затем наполняет ими CMDB и ITSM. Он не заменяет эти системы.</p>
           </details>
           <details>
-            <summary>Можно ли синхронизировать не весь домен, а отдельные OU?</summary>
-            <p>Да. Область синхронизации задается по организационным единицам. Это удобно для филиалов и пилотных контуров.</p>
+            <summary>Какие учетные данные нужны для сбора?</summary>
+            <p>Укажите пользователей с административными привилегиями на целевых компьютерах. Агент использует их для доступа к устройствам домена при выполнении задачи LDAP.</p>
           </details>
           <details>
             <summary>Поддерживается ли защищенное подключение к каталогу?</summary>

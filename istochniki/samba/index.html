@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Инвентаризация Samba: сбор данных об активах | ИТМен</title>
-  <meta name="description" content="ИТМен подключается к Samba по LDAP, синхронизирует объекты домена, дополняет инвентаризацией узлов и передает очищенные данные в CMDB, ITSM и ITAM." />
+  <meta name="description" content="ИТМен подключается к Samba AD по LDAP, собирает пользователи и устройства домена, дополняет инвентаризацией узлов и передает очищенные данные в CMDB, ITSM и ITAM." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://katerinazaber.github.io/itman/istochniki/samba/" />
   <meta property="og:title" content="Инвентаризация Samba: сбор данных об активах | ИТМен" />
@@ -920,7 +920,7 @@
               <div class="nav-sub">Службы каталогов</div>
               <a href="../active-directory/" class="is-live">Active Directory</a>
               <a href="../samba/" class="is-live">Samba</a>
-              <a href="../freeipa/" class="is-live">FreeIPA</a>
+              <a href="#" class="soon">FreeIPA <span>скоро</span></a>
             </div>
             <div class="nav-col">
               <div class="nav-sub">Антивирусы</div>
@@ -935,7 +935,7 @@
               <div class="nav-h">Интеграции с ITSM / ITAM</div>
               <a href="#" class="soon">Интеграция с SimpleOne <span>скоро</span></a>
               <a href="#" class="soon">Интеграция с Naumen <span>скоро</span></a>
-              <a href="../itsmbox/" class="is-live">Интеграция с ITSMbox</a>
+              <a href="#" class="soon">Интеграция с ITSMbox <span>скоро</span></a>
             </div>
           </div>
         </div>
@@ -1153,9 +1153,9 @@
               <div class="step__num">1</div>
               <h3>Подключение к Samba</h3>
               <ul>
-                <li>Подключение к контроллеру домена Samba по LDAP</li>
-                <li>Загрузка состава каталога: пользователи, компьютеры, группы</li>
-                <li>Загрузка связей учетных записей с устройствами</li>
+                <li>Подключение к контроллеру домена Samba AD по LDAP</li>
+                <li>Задача «Сбор данных по протоколу LDAP»: пользователи и устройства, доступные учетным записям</li>
+                <li>Учетные данные с правами администратора на целевых компьютерах</li>
               </ul>
             </article>
             <article class="step">
@@ -1222,7 +1222,7 @@
     <section class="collect" id="collect">
       <div class="container">
         <h2 class="section-title">Что мы собираем</h2>
-        <p class="collect__intro">Каталог Samba дает список компьютеров, пользователей и структуру домена. Этого мало для полной инвентаризации, поэтому ИТМен дополнительно опрашивает сами узлы.</p>
+        <p class="collect__intro">Каталог Samba AD дает пользователей и устройства домена. Этого мало для полной инвентаризации, поэтому ИТМен дополнительно опрашивает узлы.</p>
         <div class="collect__grid">
           <article class="collect-card collect-card--dark">
             <div class="collect-card__icon">
@@ -1230,9 +1230,9 @@
             </div>
             <h3>Из каталога Samba</h3>
             <ul>
-              <li>Компьютеры, пользователи и группы</li>
-              <li>Связь учетной записи пользователя с конкретным устройством</li>
-              <li>Базовая информация об ОС</li>
+              <li>Пользователи и устройства домена, атрибуты учетных записей (включая SID)</li>
+              <li>Связь ldap-пользователей с устройствами, на которые у них есть доступ</li>
+              <li>Фиксированный набор полей по пользователю и устройству</li>
             </ul>
           </article>
           <article class="collect-card collect-card--red">
@@ -1253,7 +1253,7 @@
             <h3>Работа со смешанной инфраструктурой</h3>
             <ul>
               <li>Узлы на Windows и Linux в одной нормализованной базе</li>
-              <li>Агентный и безагентный сбор: SSH для Linux-узлов, WinRM и WMI для Windows-узлов</li>
+              <li>Для LDAP — полный агент с сетевой инвентаризацией; сбор с узлов — SSH, WinRM, WMI</li>
             </ul>
           </article>
         </div>
@@ -1294,7 +1294,7 @@
         <div class="faq__list">
           <details open>
             <summary>Чем сбор данных из Samba отличается от сбора из Active Directory?</summary>
-            <p>Логика та же: каталог дает состав домена, узлы дополняют его фактическими данными. Меняется только протокол подключения к каталогу, сама модель сбора одинаковая.</p>
+            <p>Логика та же: задача LDAP собирает пользователи и устройства домена, узлы дополняют каталог фактическими данными. Меняется только служба каталогов, модель сбора одинаковая.</p>
           </details>
           <details>
             <summary>Можно ли одновременно вести учет по Windows AD и Samba?</summary>
@@ -1302,7 +1302,7 @@
           </details>
           <details>
             <summary>Нужны ли агенты для сбора?</summary>
-            <p>Поддерживается и агентный, и безагентный сбор, в зависимости от инфраструктуры и политик.</p>
+            <p>Для задачи LDAP нужен полный агент (DiscoveryAgent) с функцией сетевой инвентаризации на машине, с которой выполняется сбор. На целевых узлах агент не требуется. Дополнительный сбор с узлов — через сетевую инвентаризацию и локальный сбор.</p>
           </details>
           <details>
             <summary>Видит ли ИТМен устройства вне домена?</summary>
