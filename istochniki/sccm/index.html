@@ -3,13 +3,92 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Инвентаризация SCCM: сбор данных об активах | ИТМен</title>
-  <meta name="description" content="ИТМен импортирует данные из базы SCCM через задачу SQL и дополняет инвентаризацией узлов. Очищенные данные передаются в CMDB, ITSM и ITAM." />
+  <title>Инвентаризация компьютеров из SCCM: учет устройств и ПО | ИТМен</title>
+  <meta name="description" content="Программа для инвентаризации компьютеров и ПО из SCCM / MECM: подключение к SQL Configuration Manager, сверка с AD и сетью, данные для CMDB, ITSM и ITAM без Excel." />
+  <meta name="keywords" content="инвентаризация компьютеров, SCCM, программа для инвентаризации, программа учет компьютеров, Microsoft Configuration Manager, MECM, инвентаризация программного обеспечения, SQL SCCM, CMDB, ITSM, ITAM, ИТМен" />
   <meta name="robots" content="index,follow" />
-  <link rel="canonical" href="https://katerinazaber.github.io/itman/istochniki/sccm/" />
-  <meta property="og:title" content="Инвентаризация SCCM: сбор данных об активах | ИТМен" />
-  <meta property="og:description" content="Сбор данных из Microsoft SCCM: устройства, ПО и конфигурации." />
+  <link rel="canonical" href="https://itman.ru/istochniki/sccm/" />
+  <meta property="og:title" content="Инвентаризация компьютеров из SCCM: учет устройств и ПО | ИТМен" />
+  <meta property="og:description" content="Программа для инвентаризации компьютеров и ПО из SCCM / MECM: подключение к SQL Configuration Manager, сверка с AD и сетью, данные для CMDB, ITSM и ITAM без Excel." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://itman.ru/istochniki/sccm/" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="Инферит ИТМен" />
+  <meta property="og:image" content="https://itman.ru/istochniki/sccm/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Инвентаризация компьютеров из SCCM в ИТМен: устройства, ПО и сверка источников" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Инвентаризация компьютеров из SCCM: учет устройств и ПО | ИТМен" />
+  <meta name="twitter:description" content="Программа для инвентаризации компьютеров и ПО из SCCM / MECM: подключение к SQL Configuration Manager, сверка с AD и сетью, данные для CMDB, ITSM и ITAM без Excel." />
+  <meta name="twitter:image" content="https://itman.ru/istochniki/sccm/og-image.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://itman.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Источники данных", "item": "https://itman.ru/istochniki/" },
+      { "@type": "ListItem", "position": 3, "name": "Инвентаризация SCCM", "item": "https://itman.ru/istochniki/sccm/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Зачем сверять данные, если SCCM и так все учитывает?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "База SCCM обновляется по расписанию клиента и может расходиться с реальностью: устройство сменили, ПО удалили, узел давно не синхронизировался. ИТМен показывает эти расхождения, а не просто копирует таблицы SCCM."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Как ИТМен подключается к SCCM?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Через задачу сбора данных из SQL БД, с учетными данными для SQL Server и драйвером ODBC. Нужные таблицы Microsoft Configuration Manager (SCCM / MECM) забираются напрямую, без выгрузки в Excel."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Нужен ли доступ к самим узлам, или достаточно базы SCCM?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Базы SCCM достаточно для основной инвентаризации компьютеров. Опрос самих узлов подключается дополнительно, если нужна сверка с фактическим состоянием оборудования и программного обеспечения."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Можно ли объединить SCCM с Active Directory и KSC?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да. Данные из SCCM, AD, KSC и опроса узлов сводятся в единую нормализованную базу, с одной картиной по каждому устройству."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Работает ли сбор в закрытом контуре?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да. ИТМен подключается к базе SCCM внутри периметра, данные передаются по защищенным каналам."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Является ли Инферит ИТМен системой CMDB?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Нет. ИТМен собирает и нормализует данные, а затем наполняет ими CMDB и ITSM. Он не заменяет эти системы."
+        }
+      }
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -192,7 +271,7 @@
       letter-spacing: -0.03em;
       color: var(--black);
       margin-bottom: 22px;
-      max-width: 14ch;
+      max-width: 18ch;
     }
     .hero__title em {
       font-style: normal;
@@ -968,26 +1047,30 @@
         <nav class="breadcrumbs" aria-label="Хлебные крошки">
           <a href="https://itman.ru/">Главная</a>
           <span class="breadcrumbs__sep">›</span>
-          <a href="#">Источники данных</a>
+          <a href="https://itman.ru/istochniki/">Источники данных</a>
           <span class="breadcrumbs__sep">›</span>
           <span>Инвентаризация SCCM</span>
         </nav>
 
         <div class="hero__grid">
           <div>
-            <h1 class="hero__title">Инферит ИТМен. Сбор данных из <em>SCCM</em></h1>
+            <h1 class="hero__title">Инвентаризация компьютеров из <em>SCCM</em>: учет устройств и ПО</h1>
             <ul class="hero__list">
               <li>
                 <span class="hero__check" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                Импорт данных из базы SCCM через задачу «Сбор данных из SQL БД»
+                Программа для инвентаризации компьютеров и ПО на Windows-парке
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                Устройства, ПО и конфигурации — в едином формате с другими источниками
+                Подключение к базе Microsoft Configuration Manager (SCCM / MECM) по SQL
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                Сверка SCCM с AD, сетью и фактическим состоянием узлов
+                Сверка данных SCCM с Active Directory, сетью и фактическим состоянием узлов
+              </li>
+              <li>
+                <span class="hero__check" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                Готовые данные для CMDB, ITSM и ITAM без ручных выгрузок и Excel
               </li>
             </ul>
             <div class="hero__cta">
@@ -996,9 +1079,9 @@
             </div>
           </div>
 
-          <div class="hero__visual" aria-hidden="true">
+          <div class="hero__visual" role="img" aria-label="Инвентаризация компьютеров из SCCM в ИТМен: устройства, ПО и сверка источников">
             <div class="hero__blob"></div>
-            <div class="product-ui">
+            <div class="product-ui" aria-hidden="true">
               <aside class="product-ui__side">
                 <div class="product-ui__brand">
                   <span class="product-ui__brand-mark">ИТ</span>
@@ -1114,25 +1197,25 @@
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>SCCM — основной или дополнительный источник данных об ПК и ПО</p>
+            <p>Нужен быстрый доступ к детальной информации по устройствам и ПО, а не только то, что показывает консоль SCCM</p>
           </article>
           <article class="fit-card" data-frame="1000007730-1">
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Нужно нормализовать сырые выгрузки из SCCM для CMDB/ITSM</p>
+            <p>Хотите видеть, что реально стоит на компьютере сейчас, а не то, что было на момент последней синхронизации клиента</p>
           </article>
           <article class="fit-card" data-frame="1000007730-2">
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Данные SCCM не сходятся с Active Directory или сетевой инвентаризацией</p>
+            <p>Необходимо контролировать расхождения между SCCM, Active Directory и сетью, включая многофилиальную инфраструктуру</p>
           </article>
           <article class="fit-card" data-frame="1000007730-3">
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Требуется единая база вместе с AD, VMware и другими источниками</p>
+            <p>Ежедневно готовите данные для аудита, ITAM или отчетов, и ручная сверка отнимает время</p>
           </article>
         </div>
       </div>
@@ -1147,25 +1230,25 @@
               <div class="step__num">1</div>
               <h3>Подключение к SCCM</h3>
               <ul>
-                <li>Задача «Сбор данных из SQL БД» с SQL-запросами через сенсоры</li>
-                <li>Учётные данные Sql в справочнике учётных данных</li>
-                <li>ODBC Driver 17 for SQL Server на агенте инвентаризации</li>
+                <li>Создание задачи «Сбор данных из SQL БД» для подключения к базе Microsoft Configuration Manager (SCCM / MECM)</li>
+                <li>Настройка учетных данных для SQL Server и драйвера ODBC</li>
+                <li>SQL-запросы в сенсорах забирают нужные таблицы напрямую, без разовых выгрузок в Excel</li>
               </ul>
             </article>
             <article class="step">
               <div class="step__num">2</div>
-              <h3>Сбор и нормализация</h3>
+              <h3>Сбор и нормализация данных</h3>
               <ul>
-                <li>Импорт устройств, ПО и конфигураций из таблиц SCCM</li>
-                <li>Дополнительный сбор с узлов через сетевую инвентаризацию</li>
-                <li>Сверка и приведение к единому формату</li>
+                <li>Импорт устройств и программного обеспечения из таблиц SCCM</li>
+                <li>При необходимости опрос узлов сверяет данные базы с фактическим состоянием ПК</li>
+                <li>Приведение данных к единому формату вместе с AD, KSC и другими источниками</li>
               </ul>
             </article>
             <article class="step">
               <div class="step__num">3</div>
               <h3>Передача данных</h3>
               <ul>
-                <li>Готовые очищенные данные уходят в CMDB, ITSM, ITAM или SAM</li>
+                <li>Передача очищенных данных в CMDB, ITSM, ITAM или SAM, чтобы Service Desk и учет активов опирались на одну и ту же картину</li>
               </ul>
             </article>
           </div>
@@ -1211,7 +1294,7 @@
     <section class="collect" id="collect">
       <div class="container">
         <h2 class="section-title">Что мы собираем</h2>
-        <p class="collect__intro">SCCM накапливает большой объём данных об устройствах и ПО. ИТМен импортирует нужные поля через SQL и дополняет инвентаризацией узлов.</p>
+        <p class="collect__intro">SCCM хранит данные о большом парке устройств и ПО, но сам по себе не дает единой картины с другими системами. ИТМен забирает данные из SQL-базы и при необходимости дополняет их опросом узлов, чтобы расхождения были видны сразу, а не всплывали при аудите.</p>
         <div class="collect__grid">
           <article class="collect-card collect-card--dark">
             <div class="collect-card__icon">
@@ -1219,9 +1302,9 @@
             </div>
             <h3>Из базы SCCM</h3>
             <ul>
-              <li>Устройства и их конфигурации из SQL-запросов</li>
-              <li>Установленное программное обеспечение</li>
-              <li>Пользователи и последние пользователи на узлах</li>
+              <li>Устройства: в т.ч. имя, домен, ОС, дата последней синхронизации с клиентом</li>
+              <li>Инвентаризация программного обеспечения и версии по данным SCCM</li>
+              <li>Аппаратные параметры узлов: в т.ч. процессор, память, диски</li>
             </ul>
           </article>
           <article class="collect-card collect-card--red">
@@ -1230,20 +1313,20 @@
             </div>
             <h3>С самих узлов</h3>
             <ul>
-              <li>Актуальное железо, сеть и ПО при сетевой инвентаризации</li>
-              <li>Сверка: что в SCCM и что на узле фактически</li>
-              <li>Устройства в сети, но не в SCCM</li>
+              <li>Конфигурация: процессор, память, диски, сетевые адаптеры</li>
+              <li>Установленное ПО и версии для сверки с данными SCCM</li>
+              <li>Учетные записи, которые реально используются на узле</li>
             </ul>
           </article>
           <article class="collect-card collect-card--light">
             <div class="collect-card__icon" style="color:var(--red)">
               <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="8" y="10" width="28" height="24" rx="4" stroke="currentColor" stroke-width="2"/></svg>
             </div>
-            <h3>Работа с масштабом</h3>
+            <h3>Работа со смешанными источниками</h3>
             <ul>
-              <li>Рекомендации по RAM для задач SCCM: 16+ GB для 30 000+ устройств</li>
-              <li>Настраиваемые SQL-запросы в сенсорах</li>
-              <li>Сводка с AD, VMware и KSC в одной базе</li>
+              <li>SCCM, Active Directory, KSC и данные с самих узлов сводятся в одну нормализованную базу</li>
+              <li>Расхождения между источниками видны сразу, без ручной сверки</li>
+              <li>Гипервизоры и сетевые устройства учитываются рядом с парком SCCM</li>
             </ul>
           </article>
         </div>
@@ -1260,7 +1343,7 @@
           </article>
           <article class="sec-item">
             <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V8a4 4 0 018 0v2" stroke="currentColor" stroke-width="1.7"/></svg>
-            <p>Подключение к каталогу по защищенному каналу</p>
+            <p>Подключение к базе SCCM внутри периметра по защищенному каналу</p>
           </article>
           <article class="sec-item">
             <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.7"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
@@ -1283,24 +1366,28 @@
         <h2 class="section-title section-title--center">Частые вопросы</h2>
         <div class="faq__list">
           <details open>
+            <summary>Зачем сверять данные, если SCCM и так все учитывает?</summary>
+            <p>База SCCM обновляется по расписанию клиента и может расходиться с реальностью: устройство сменили, ПО удалили, узел давно не синхронизировался. ИТМен показывает эти расхождения, а не просто копирует таблицы SCCM.</p>
+          </details>
+          <details>
             <summary>Как ИТМен подключается к SCCM?</summary>
-            <p>Через задачу «Сбор данных из SQL БД»: SQL-запросы в сенсорах и учётные данные платформы Sql.</p>
+            <p>Через задачу сбора данных из SQL БД, с учетными данными для SQL Server и драйвером ODBC. Нужные таблицы Microsoft Configuration Manager (SCCM / MECM) забираются напрямую, без выгрузки в Excel.</p>
           </details>
           <details>
-            <summary>Нужен ли ODBC-драйвер?</summary>
-            <p>Да. Для SQL Server установите ODBC Driver 17 for SQL Server на агенте, с которого выполняется задача.</p>
+            <summary>Нужен ли доступ к самим узлам, или достаточно базы SCCM?</summary>
+            <p>Базы SCCM достаточно для основной инвентаризации компьютеров. Опрос самих узлов подключается дополнительно, если нужна сверка с фактическим состоянием оборудования и программного обеспечения.</p>
           </details>
           <details>
-            <summary>Что если данные SCCM не совпадают с AD?</summary>
-            <p>ИТМен сводит источники и показывает расхождения — учётные и фактические узлы в одной базе.</p>
-          </details>
-          <details>
-            <summary>Является ли Инферит ИТМен системой CMDB?</summary>
-            <p>Нет. ИТМен собирает и нормализует данные и наполняет CMDB и ITSM.</p>
+            <summary>Можно ли объединить SCCM с Active Directory и KSC?</summary>
+            <p>Да. Данные из SCCM, AD, KSC и опроса узлов сводятся в единую нормализованную базу, с одной картиной по каждому устройству.</p>
           </details>
           <details>
             <summary>Работает ли сбор в закрытом контуре?</summary>
-            <p>Да. Подключение к базе SCCM выполняется внутри периметра.</p>
+            <p>Да. ИТМен подключается к базе SCCM внутри периметра, данные передаются по защищенным каналам.</p>
+          </details>
+          <details>
+            <summary>Является ли Инферит ИТМен системой CMDB?</summary>
+            <p>Нет. ИТМен собирает и нормализует данные, а затем наполняет ими CMDB и ITSM. Он не заменяет эти системы.</p>
           </details>
         </div>
       </div>
