@@ -5,11 +5,114 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Инвентаризация Active Directory: учёт компьютеров, пользователей и ПО домена | ИТМен</title>
   <meta name="description" content="Инвентаризация Active Directory в ИТМен: актуальный состав домена по LDAP/LDAPS, инвентаризация узлов поверх каталога и сверка с сетью для CMDB, ITSM и ITAM." />
+  <meta name="keywords" content="инвентаризация Active Directory, инвентаризация AD, учёт компьютеров в домене, учёт пользователей Active Directory, программа для инвентаризации Active Directory, сбор данных LDAP LDAPS, синхронизация OU, устройства вне AD, сверка с сетью, аналог Lansweeper, Total Network Inventory, CMDB, ITSM, ITAM, SAM, ИТМен" />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://itman.ru/istochniki/active-directory/" />
   <meta property="og:title" content="Инвентаризация Active Directory: учёт компьютеров, пользователей и ПО домена | ИТМен" />
   <meta property="og:description" content="Инвентаризация Active Directory в ИТМен: актуальный состав домена по LDAP/LDAPS, инвентаризация узлов поверх каталога и сверка с сетью для CMDB, ITSM и ITAM." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://itman.ru/istochniki/active-directory/" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="Инферит ИТМен" />
+  <meta property="og:image" content="https://itman.ru/istochniki/active-directory/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Инвентаризация Active Directory в ИТМен — компьютеры, пользователи и ПО домена" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Инвентаризация Active Directory: учёт компьютеров, пользователей и ПО домена | ИТМен" />
+  <meta name="twitter:description" content="Инвентаризация Active Directory в ИТМен: актуальный состав домена по LDAP/LDAPS, инвентаризация узлов поверх каталога и сверка с сетью для CMDB, ITSM и ITAM." />
+  <meta name="twitter:image" content="https://itman.ru/istochniki/active-directory/og-image.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://itman.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Источники данных", "item": "https://itman.ru/istochniki/" },
+      { "@type": "ListItem", "position": 3, "name": "Инвентаризация Active Directory", "item": "https://itman.ru/istochniki/active-directory/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Чем сбор данных через AD отличается от аудита Active Directory?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ИТМен инвентаризирует ИТ-активы: оборудование, ПО и пользователей на основе данных домена. Аудит прав доступа и настроек безопасности AD он не проводит."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Нужны ли агенты для сбора?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Поддерживается и агентный, и безагентный сбор, в зависимости от инфраструктуры и политик."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Можно ли собирать данные из нескольких доменов?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да. Данные из нескольких доменов и лесов сводятся в единую нормализованную базу."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Видит ли ИТМен устройства вне домена?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да. Дискаверинг находит и неучтённые устройства, которые не заведены в Active Directory."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Является ли Инферит ИТМен системой CMDB?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Нет. ИТМен собирает и нормализует данные, а затем наполняет ими CMDB и ITSM. Он не заменяет эти системы."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Можно ли синхронизировать не весь домен, а отдельные OU?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да. Область синхронизации задаётся по организационным единицам. Это удобно для филиалов и пилотных контуров."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Поддерживается ли защищённое подключение к каталогу?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да. Для работы с контроллером домена используется LDAP, при необходимости — защищённый канал LDAPS."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Работает ли сбор в закрытом контуре без выхода в интернет?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да. ИТМен разворачивается внутри периметра и собирает данные из Active Directory без внешнего подключения, с передачей по защищённым каналам."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Чем ИТМен отличается от зарубежных программ инвентаризации?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Это российская программа для инвентаризации Active Directory из реестра ПО — аналог Lansweeper и Total Network Inventory, работающий в закрытом контуре и без Open source-компонентов."
+        }
+      }
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -970,7 +1073,7 @@
         <nav class="breadcrumbs" aria-label="Хлебные крошки">
           <a href="https://itman.ru/">Главная</a>
           <span class="breadcrumbs__sep">›</span>
-          <a href="#">Источники данных</a>
+          <a href="https://itman.ru/istochniki/">Источники данных</a>
           <span class="breadcrumbs__sep">›</span>
           <span>Инвентаризация Active Directory</span>
         </nav>
@@ -989,7 +1092,7 @@
                 <span class="hero__check" aria-hidden="true">
                   <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
-                Инвентаризация узлов поверх каталога: железо, ПО, сетевые параметры
+                Инвентаризация узлов поверх каталога: железо, ПО, сетевые параметры — учёт ПО в Active Directory
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true">
@@ -1004,9 +1107,9 @@
             </div>
           </div>
 
-          <div class="hero__visual" aria-hidden="true">
+          <div class="hero__visual" role="img" aria-label="Инвентаризация Active Directory в ИТМен — компьютеры, пользователи и ПО домена">
             <div class="hero__blob"></div>
-            <div class="product-ui">
+            <div class="product-ui" aria-hidden="true">
               <aside class="product-ui__side">
                 <div class="product-ui__brand">
                   <span class="product-ui__brand-mark">ИТ</span>
@@ -1118,7 +1221,7 @@
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="18" cy="12" r="2.2" stroke="currentColor" stroke-width="1.8"/></svg>
             </div>
-            <p>Нужно автоматически получать актуальный список компьютеров и пользователей из домена</p>
+            <p>Нужно автоматически получать актуальный список компьютеров и пользователей из домена — учёт компьютеров в домене без ручной сверки</p>
           </article>
           <article class="fit-card" data-frame="1000007730-1">
             <div class="fit-card__icon">
@@ -1136,7 +1239,7 @@
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M7 7h10v10H7z" stroke="currentColor" stroke-width="1.8"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Данные из AD нужно передавать в CMDB/ITSM без дублей и расхождений</p>
+            <p>Данные из AD нужно передавать в CMDB/ITSM без дублей и расхождений — инвентаризация ИТ-активов домена</p>
           </article>
         </div>
       </div>
@@ -1144,14 +1247,14 @@
 
     <section class="how" id="how">
       <div class="container">
-        <h2 class="section-title">Как работает сбор данных из Active Directory</h2>
+        <h2 class="section-title">Инвентаризация Active Directory: как работает сбор данных</h2>
         <div class="how__grid">
           <div class="steps">
             <article class="step">
               <div class="step__num">1</div>
               <h3>Подключение к Active Directory</h3>
               <ul>
-                <li>Подключение к контроллеру домена по LDAP или LDAPS</li>
+                <li>Подключение к контроллеру домена по LDAP или LDAPS — сбор данных по LDAP/LDAPS</li>
                 <li>Выбор нужных OU (можно синхронизировать не весь домен, а отдельные организационные единицы)</li>
                 <li>Загрузка состава каталога и связей учётных записей с устройствами</li>
               </ul>
@@ -1216,7 +1319,7 @@
     <section class="collect" id="collect">
       <div class="container">
         <h2 class="section-title">Что ИТМен собирает из Active Directory</h2>
-        <p class="collect__intro">Каталог AD даёт список компьютеров, пользователей и структуру домена. Этого мало для полной инвентаризации, поэтому ИТМен дополнительно опрашивает сами узлы.</p>
+        <p class="collect__intro">Каталог AD даёт список компьютеров, пользователей и структуру домена. Этого мало для полной инвентаризации ИТ-активов, поэтому ИТМен дополнительно опрашивает сами узлы.</p>
         <div class="collect__grid">
           <article class="collect-card collect-card--dark">
             <div class="collect-card__icon">
@@ -1224,7 +1327,7 @@
             </div>
             <h3>Из каталога Active Directory</h3>
             <ul>
-              <li>Компьютеры, пользователи, организационные единицы (OU) и группы</li>
+              <li>Компьютеры, пользователи, организационные единицы (OU) и группы — учёт компьютеров и пользователей в Active Directory</li>
               <li>Связь учётной записи пользователя с конкретным устройством</li>
               <li>Расположение, описание, базовая информация об ОС</li>
             </ul>
@@ -1236,7 +1339,7 @@
             <h3>С самих узлов</h3>
             <ul>
               <li>Конфигурация: процессор, память, диски, сетевые адаптеры (IP, MAC, DNS-имя)</li>
-              <li>Установленное ПО и версии — для контроля лицензий и учёта ITAM/SAM</li>
+              <li>Инвентаризация ПО на компьютерах домена и версии — для контроля лицензий и учёта ITAM/SAM</li>
               <li>Устройства, которые есть в сети, но не заведены в AD, и наоборот</li>
             </ul>
           </article>
@@ -1320,7 +1423,7 @@
           </details>
           <details>
             <summary>Чем ИТМен отличается от зарубежных программ инвентаризации?</summary>
-            <p>Это российское решение из реестра ПО — аналог Lansweeper и Total Network Inventory, работающий в закрытом контуре и без Open source-компонентов.</p>
+            <p>Это российская программа для инвентаризации Active Directory из реестра ПО — аналог Lansweeper и Total Network Inventory, работающий в закрытом контуре и без Open source-компонентов.</p>
           </details>
         </div>
       </div>
