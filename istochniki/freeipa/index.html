@@ -17,7 +17,7 @@
   <meta property="og:image" content="https://itman.ru/istochniki/freeipa/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Инвентаризация FreeIPA в ИТМен — Linux-домен, пользователи, хосты и сертификаты PKI" />
+  <meta property="og:image:alt" content="Инвентаризация FreeIPA в ИТМен: Linux-домен, пользователи, хосты и сертификаты PKI" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Инвентаризация FreeIPA: учёт пользователей, хостов и сертификатов | ИТМен" />
   <meta name="twitter:description" content="Инвентаризация FreeIPA в ИТМен: сбор данных о пользователях, хостах и сертификатах домена по LDAP, инвентаризация Linux-узлов и сверка с сетью для CMDB, ITSM и ITAM." />
@@ -83,7 +83,7 @@
         "name": "Работает ли сбор в закрытом контуре без выхода в интернет?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Да. ИТМен разворачивается внутри периметра и собирает данные без внешнего подключения, с передачей по защищённым каналам. Это российская программа для инвентаризации FreeIPA из реестра ПО — удобна для закрытого Linux-контура."
+          "text": "Да. ИТМен разворачивается внутри периметра и собирает данные без внешнего подключения, с передачей по защищённым каналам. Это российская программа для инвентаризации FreeIPA из реестра ПО. Удобна для закрытого Linux-контура."
         }
       }
     ]
@@ -1064,13 +1064,13 @@
                 <span class="hero__check" aria-hidden="true">
                   <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
-                Единый учёт активов для домена, построенного изначально на Linux — инвентаризация Linux-домена FreeIPA
+                Единый учёт активов Linux-домена FreeIPA для инфраструктуры, построенной изначально на Linux
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true">
                   <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
-                Помимо пользователей и узлов, видит сертификаты и хосты из PKI FreeIPA — учёт сертификатов FreeIPA
+                Сертификаты и хосты из PKI FreeIPA в одном контуре с пользователями и узлами
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true">
@@ -1085,7 +1085,7 @@
             </div>
           </div>
 
-          <div class="hero__visual" role="img" aria-label="Инвентаризация FreeIPA в ИТМен — Linux-домен, пользователи, хосты и сертификаты PKI">
+          <div class="hero__visual" role="img" aria-label="Инвентаризация FreeIPA в ИТМен: Linux-домен, пользователи, хосты и сертификаты PKI">
             <div class="hero__blob"></div>
             <div class="product-ui" aria-hidden="true">
               <aside class="product-ui__side">
@@ -1213,13 +1213,13 @@
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M5 19l2.5-2.5M19 19l-2.5-2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Нужно учитывать не только пользователей и узлы, но и сертификаты, выпущенные внутренним удостоверяющим центром — учёт сертификатов и PKI FreeIPA</p>
+            <p>Нужно учитывать не только пользователей и узлы, но и сертификаты, выпущенные внутренним удостоверяющим центром FreeIPA</p>
           </article>
           <article class="fit-card" data-frame="1000007730-3">
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M7 7h10v10H7z" stroke="currentColor" stroke-width="1.8"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Данные из FreeIPA нужно передавать в CMDB/ITSM без дублей и расхождений — инвентаризация ИТ-активов FreeIPA</p>
+            <p>Данные из FreeIPA нужно передавать в CMDB/ITSM без дублей и расхождений</p>
           </article>
         </div>
       </div>
@@ -1234,7 +1234,7 @@
               <div class="step__num">1</div>
               <h3>Подключение к FreeIPA</h3>
               <ul>
-                <li>Подключение к серверу FreeIPA по LDAP (389 Directory Server) — сбор данных FreeIPA по LDAP</li>
+                <li>Подключение к серверу FreeIPA по LDAP (389 Directory Server) для сбора данных каталога</li>
                 <li>Загрузка состава каталога: пользователи, хосты, группы</li>
                 <li>Загрузка данных о сертификатах и хостовых политиках</li>
               </ul>
@@ -1311,7 +1311,7 @@
             </div>
             <h3>Из каталога FreeIPA</h3>
             <ul>
-              <li>Пользователи, хосты и группы — учёт пользователей и хостов в FreeIPA</li>
+              <li>Пользователи, хосты и группы домена FreeIPA</li>
               <li>Связь учётной записи пользователя с конкретным устройством</li>
               <li>Сертификаты и хосты, зарегистрированные в удостоверяющем центре FreeIPA</li>
             </ul>
@@ -1323,7 +1323,7 @@
             <h3>С самих узлов</h3>
             <ul>
               <li>Конфигурация: процессор, память, диски, сетевые адаптеры (IP, MAC, DNS-имя)</li>
-              <li>Инвентаризация ПО на Linux-узлах домена FreeIPA и версии — для контроля лицензий и учёта ITAM/SAM</li>
+              <li>Инвентаризация ПО на Linux-узлах домена FreeIPA и версии для контроля лицензий и учёта ITAM/SAM</li>
               <li>Устройства, которые есть в сети, но не заведены в домене, и наоборот</li>
             </ul>
           </article>
@@ -1395,7 +1395,7 @@
           </details>
           <details>
             <summary>Работает ли сбор в закрытом контуре без выхода в интернет?</summary>
-            <p>Да. ИТМен разворачивается внутри периметра и собирает данные без внешнего подключения, с передачей по защищённым каналам. Это российская программа для инвентаризации FreeIPA из реестра ПО — удобна для закрытого Linux-контура.</p>
+            <p>Да. ИТМен разворачивается внутри периметра и собирает данные без внешнего подключения, с передачей по защищённым каналам. Это российская программа для инвентаризации FreeIPA из реестра ПО. Удобна для закрытого Linux-контура.</p>
           </details>
         </div>
       </div>
