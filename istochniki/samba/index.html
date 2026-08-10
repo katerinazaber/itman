@@ -3,13 +3,92 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Инвентаризация Samba: сбор данных об активах | ИТМен</title>
-  <meta name="description" content="ИТМен подключается к Samba AD по LDAP, собирает пользователи и устройства домена, дополняет инвентаризацией узлов и передает очищенные данные в CMDB, ITSM и ITAM." />
+  <title>Инвентаризация Samba: учёт компьютеров, пользователей и ПО домена | ИТМен</title>
+  <meta name="description" content="Инвентаризация Samba в ИТМен: сбор данных о пользователях и компьютерах домена по LDAP, инвентаризация Windows- и Linux-узлов и сверка с сетью для CMDB, ITSM и ITAM." />
+  <meta name="keywords" content="инвентаризация Samba, инвентаризация Samba AD, учёт активов Samba, переход с Windows AD на Samba, сбор данных Samba LDAP, Windows и Linux в одной базе, устройства вне домена, программа для инвентаризации Samba, CMDB, ITSM, ITAM, SAM, ИТМен" />
   <meta name="robots" content="index,follow" />
-  <link rel="canonical" href="https://katerinazaber.github.io/itman/istochniki/samba/" />
-  <meta property="og:title" content="Инвентаризация Samba: сбор данных об активах | ИТМен" />
-  <meta property="og:description" content="Сбор данных из Samba по LDAP, инвентаризация Windows- и Linux-узлов и передача очищенных данных в CMDB/ITSM/ITAM." />
+  <link rel="canonical" href="https://itman.ru/istochniki/samba/" />
+  <meta property="og:title" content="Инвентаризация Samba: учёт компьютеров, пользователей и ПО домена | ИТМен" />
+  <meta property="og:description" content="Инвентаризация Samba в ИТМен: сбор данных о пользователях и компьютерах домена по LDAP, инвентаризация Windows- и Linux-узлов и сверка с сетью для CMDB, ITSM и ITAM." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://itman.ru/istochniki/samba/" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="Инферит ИТМен" />
+  <meta property="og:image" content="https://itman.ru/istochniki/samba/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Инвентаризация Samba в ИТМен — компьютеры, пользователи и смешанная Windows/Linux-инфраструктура" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Инвентаризация Samba: учёт компьютеров, пользователей и ПО домена | ИТМен" />
+  <meta name="twitter:description" content="Инвентаризация Samba в ИТМен: сбор данных о пользователях и компьютерах домена по LDAP, инвентаризация Windows- и Linux-узлов и сверка с сетью для CMDB, ITSM и ITAM." />
+  <meta name="twitter:image" content="https://itman.ru/istochniki/samba/og-image.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://itman.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Источники данных", "item": "https://itman.ru/istochniki/" },
+      { "@type": "ListItem", "position": 3, "name": "Инвентаризация Samba", "item": "https://itman.ru/istochniki/samba/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Чем сбор данных из Samba отличается от сбора из Active Directory?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Логика та же: каталог даёт состав домена, узлы дополняют его фактическими данными. Меняется только протокол подключения к каталогу, сама модель сбора одинаковая."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Можно ли одновременно вести учёт по Windows AD и Samba?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да. Если инфраструктура смешанная или идёт постепенная миграция с Windows AD на Samba, ИТМен сводит данные из обеих служб каталогов в одну базу — единый учёт активов Samba и AD."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Нужны ли агенты для сбора?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Поддерживается и агентный, и безагентный сбор, в зависимости от инфраструктуры и политик."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Видит ли ИТМен устройства вне домена?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да. Дискаверинг находит и неучтённые устройства, которые не заведены в каталоге."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Является ли Инферит ИТМен системой CMDB?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Нет. ИТМен собирает и нормализует данные, а затем наполняет ими CMDB и ITSM. Он не заменяет эти системы."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Работает ли сбор в закрытом контуре без выхода в интернет?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да. ИТМен разворачивается внутри периметра и собирает данные без внешнего подключения, с передачей по защищённым каналам. Это российская программа для инвентаризации Samba из реестра ПО — удобна для закрытого контура при импортозамещении."
+        }
+      }
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -186,18 +265,18 @@
       align-items: center;
     }
     .hero__title {
-      font-size: clamp(30px, 3.6vw, 44px);
+      font-size: clamp(26px, 3.2vw, 38px);
       font-weight: 800;
-      line-height: 1.12;
+      line-height: 1.15;
       letter-spacing: -0.03em;
       color: var(--black);
       margin-bottom: 22px;
-      max-width: 14ch;
+      max-width: none;
     }
     .hero__title em {
       font-style: normal;
       color: var(--red);
-      white-space: nowrap;
+      white-space: normal;
     }
     .hero__list {
       display: grid;
@@ -972,26 +1051,26 @@
         <nav class="breadcrumbs" aria-label="Хлебные крошки">
           <a href="https://itman.ru/">Главная</a>
           <span class="breadcrumbs__sep">›</span>
-          <a href="#">Источники данных</a>
+          <a href="https://itman.ru/istochniki/">Источники данных</a>
           <span class="breadcrumbs__sep">›</span>
           <span>Инвентаризация Samba</span>
         </nav>
 
         <div class="hero__grid">
           <div>
-            <h1 class="hero__title">Инферит ИТМен. Сбор данных из <em>Samba</em></h1>
+            <h1 class="hero__title">Инвентаризация Samba: учёт активов при переходе с Windows AD и в смешанной инфраструктуре</h1>
             <ul class="hero__list">
               <li>
                 <span class="hero__check" aria-hidden="true">
                   <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
-                Единый учет активов при переходе с Windows AD на Samba
+                Единый учёт активов при переходе с Windows AD на Samba — инвентаризация при миграции на Samba
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true">
                   <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
-                Работает с Windows- и Linux-узлами в одной инфраструктуре
+                Работает с Windows- и Linux-узлами в одной инфраструктуре: сбор данных Samba по LDAP и опрос узлов
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true">
@@ -1006,9 +1085,9 @@
             </div>
           </div>
 
-          <div class="hero__visual" aria-hidden="true">
+          <div class="hero__visual" role="img" aria-label="Инвентаризация Samba в ИТМен — компьютеры, пользователи и смешанная Windows/Linux-инфраструктура">
             <div class="hero__blob"></div>
-            <div class="product-ui">
+            <div class="product-ui" aria-hidden="true">
               <aside class="product-ui__side">
                 <div class="product-ui__brand">
                   <span class="product-ui__brand-mark">ИТ</span>
@@ -1124,7 +1203,7 @@
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="18" cy="12" r="2.2" stroke="currentColor" stroke-width="1.8"/></svg>
             </div>
-            <p>Компания переходит с Windows AD на Samba в рамках импортозамещения</p>
+            <p>Компания переходит с Windows AD на Samba в рамках импортозамещения — нужен учёт активов при импортозамещении каталога</p>
           </article>
           <article class="fit-card" data-frame="1000007730-1">
             <div class="fit-card__icon">
@@ -1136,13 +1215,13 @@
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M5 19l2.5-2.5M19 19l-2.5-2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Нужен единый учет активов независимо от того, какая служба каталогов используется</p>
+            <p>Нужен единый учёт активов независимо от того, какая служба каталогов используется — Samba и Active Directory в одной базе</p>
           </article>
           <article class="fit-card" data-frame="1000007730-3">
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M7 7h10v10H7z" stroke="currentColor" stroke-width="1.8"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Данные из Samba нужно передавать в CMDB/ITSM без дублей и расхождений</p>
+            <p>Данные из Samba нужно передавать в CMDB/ITSM без дублей и расхождений — инвентаризация ИТ-активов домена Samba</p>
           </article>
         </div>
       </div>
@@ -1150,16 +1229,16 @@
 
     <section class="how" id="how">
       <div class="container">
-        <h2 class="section-title">Как это работает</h2>
+        <h2 class="section-title">Инвентаризация Samba: как работает сбор данных</h2>
         <div class="how__grid">
           <div class="steps">
             <article class="step">
               <div class="step__num">1</div>
               <h3>Подключение к Samba</h3>
               <ul>
-                <li>Подключение к контроллеру домена Samba AD по LDAP</li>
-                <li>Задача «Сбор данных по протоколу LDAP»: пользователи и устройства, доступные учетным записям</li>
-                <li>Учетные данные с правами администратора на целевых компьютерах</li>
+                <li>Подключение к контроллеру домена Samba по LDAP — сбор данных Samba по LDAP</li>
+                <li>Загрузка состава каталога: пользователи, компьютеры, группы</li>
+                <li>Загрузка связей учётных записей с устройствами</li>
               </ul>
             </article>
             <article class="step">
@@ -1169,7 +1248,7 @@
                 <li>Сбор карточек из каталога</li>
                 <li>Дополнительный сбор данных с самих узлов</li>
                 <li>Сверка с сетью</li>
-                <li>Приведение всех данных к единому формату, вместе с данными из других источников</li>
+                <li>Приведение всех данных к единому формату вместе с данными из других источников</li>
               </ul>
             </article>
             <article class="step">
@@ -1225,8 +1304,8 @@
 
     <section class="collect" id="collect">
       <div class="container">
-        <h2 class="section-title">Что мы собираем</h2>
-        <p class="collect__intro">Каталог Samba AD дает пользователей и устройства домена. Этого мало для полной инвентаризации, поэтому ИТМен дополнительно опрашивает узлы.</p>
+        <h2 class="section-title">Что ИТМен собирает из Samba</h2>
+        <p class="collect__intro">Каталог Samba даёт список компьютеров, пользователей и структуру домена. Этого мало для полной инвентаризации ИТ-активов, поэтому ИТМен дополнительно опрашивает сами узлы.</p>
         <div class="collect__grid">
           <article class="collect-card collect-card--dark">
             <div class="collect-card__icon">
@@ -1234,9 +1313,9 @@
             </div>
             <h3>Из каталога Samba</h3>
             <ul>
-              <li>Пользователи и устройства домена, атрибуты учетных записей (включая SID)</li>
-              <li>Связь ldap-пользователей с устройствами, на которые у них есть доступ</li>
-              <li>Фиксированный набор полей по пользователю и устройству</li>
+              <li>Компьютеры, пользователи и группы — учёт компьютеров и пользователей в домене Samba</li>
+              <li>Связь учётной записи пользователя с конкретным устройством</li>
+              <li>Базовая информация об ОС</li>
             </ul>
           </article>
           <article class="collect-card collect-card--red">
@@ -1246,7 +1325,7 @@
             <h3>С самих узлов</h3>
             <ul>
               <li>Конфигурация: процессор, память, диски, сетевые адаптеры (IP, MAC, DNS-имя)</li>
-              <li>Установленное ПО и версии, для контроля лицензий и учета ITAM/SAM</li>
+              <li>Инвентаризация ПО на узлах домена Samba и версии — для контроля лицензий и учёта ITAM/SAM</li>
               <li>Устройства, которые есть в сети, но не заведены в домене, и наоборот</li>
             </ul>
           </article>
@@ -1257,7 +1336,7 @@
             <h3>Работа со смешанной инфраструктурой</h3>
             <ul>
               <li>Узлы на Windows и Linux в одной нормализованной базе</li>
-              <li>Для LDAP — полный агент с сетевой инвентаризацией; сбор с узлов — SSH, WinRM, WMI</li>
+              <li>Агентный и безагентный сбор: SSH для Linux-узлов, WinRM и WMI для Windows-узлов</li>
             </ul>
           </article>
         </div>
@@ -1274,7 +1353,7 @@
           </article>
           <article class="sec-item">
             <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V8a4 4 0 018 0v2" stroke="currentColor" stroke-width="1.7"/></svg>
-            <p>Подключение к каталогу по защищенному каналу</p>
+            <p>Подключение к каталогу по защищённому каналу</p>
           </article>
           <article class="sec-item">
             <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.7"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
@@ -1298,19 +1377,19 @@
         <div class="faq__list">
           <details open>
             <summary>Чем сбор данных из Samba отличается от сбора из Active Directory?</summary>
-            <p>Логика та же: задача LDAP собирает пользователи и устройства домена, узлы дополняют каталог фактическими данными. Меняется только служба каталогов, модель сбора одинаковая.</p>
+            <p>Логика та же: каталог даёт состав домена, узлы дополняют его фактическими данными. Меняется только протокол подключения к каталогу, сама модель сбора одинаковая.</p>
           </details>
           <details>
-            <summary>Можно ли одновременно вести учет по Windows AD и Samba?</summary>
-            <p>Да. Если инфраструктура смешанная или идет постепенная миграция, ИТМен сводит данные из обеих служб каталогов в одну базу.</p>
+            <summary>Можно ли одновременно вести учёт по Windows AD и Samba?</summary>
+            <p>Да. Если инфраструктура смешанная или идёт постепенная миграция с Windows AD на Samba, ИТМен сводит данные из обеих служб каталогов в одну базу — единый учёт активов Samba и AD.</p>
           </details>
           <details>
             <summary>Нужны ли агенты для сбора?</summary>
-            <p>Для задачи LDAP нужен полный агент (DiscoveryAgent) с функцией сетевой инвентаризации на машине, с которой выполняется сбор. На целевых узлах агент не требуется. Дополнительный сбор с узлов — через сетевую инвентаризацию и локальный сбор.</p>
+            <p>Поддерживается и агентный, и безагентный сбор, в зависимости от инфраструктуры и политик.</p>
           </details>
           <details>
             <summary>Видит ли ИТМен устройства вне домена?</summary>
-            <p>Да. Дискаверинг находит и неучтенные устройства, которые не заведены в каталоге.</p>
+            <p>Да. Дискаверинг находит и неучтённые устройства, которые не заведены в каталоге.</p>
           </details>
           <details>
             <summary>Является ли Инферит ИТМен системой CMDB?</summary>
@@ -1318,7 +1397,7 @@
           </details>
           <details>
             <summary>Работает ли сбор в закрытом контуре без выхода в интернет?</summary>
-            <p>Да. ИТМен разворачивается внутри периметра и собирает данные без внешнего подключения, с передачей по защищенным каналам.</p>
+            <p>Да. ИТМен разворачивается внутри периметра и собирает данные без внешнего подключения, с передачей по защищённым каналам. Это российская программа для инвентаризации Samba из реестра ПО — удобна для закрытого контура при импортозамещении.</p>
           </details>
         </div>
       </div>
@@ -1329,7 +1408,7 @@
         <div class="cta__box">
           <div>
             <h2 class="cta__title">Есть вопросы по продукту или хотите записаться на демо?</h2>
-            <p class="cta__text">Отправьте заявку. Ответим на вопросы и покажем возможности продукта с учетом ваших бизнес-задач и отраслевой специфики.</p>
+            <p class="cta__text">Отправьте заявку. Ответим на вопросы и покажем возможности продукта с учётом ваших бизнес-задач и отраслевой специфики.</p>
             <div class="cta__contacts">
               <a href="tel:88007078553">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.5 3 3.6 5.1 6.6 6.6l2.2-2.2a1.2 1.2 0 011.2-.3c1.3.4 2.7.7 4.1.7a1.2 1.2 0 011.2 1.2V20a1.2 1.2 0 01-1.2 1.2A17.2 17.2 0 012.8 4.2 1.2 1.2 0 014 3h3.2A1.2 1.2 0 018.4 4.2c0 1.4.2 2.8.7 4.1a1.2 1.2 0 01-.3 1.2L6.6 10.8z" fill="currentColor"/></svg>
