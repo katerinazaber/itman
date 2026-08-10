@@ -3,8 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Инвентаризация Active Directory: сбор данных об активах | ИТМен</title>
-  <meta name="description" content="ИТМен подключается к Active Directory по LDAP/LDAPS, собирает пользователи и устройства домена, дополняет инвентаризацией узлов и передает очищенные данные в CMDB, ITSM и ITAM." />
+  <title>Инвентаризация Active Directory: учёт компьютеров, пользователей и ПО домена | ИТМен</title>
+  <meta name="description" content="Инвентаризация Active Directory в ИТМен: актуальный состав домена по LDAP/LDAPS, инвентаризация узлов поверх каталога и сверка с сетью для CMDB, ITSM и ITAM." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://itman.ru/istochniki/active-directory/" />
+  <meta property="og:title" content="Инвентаризация Active Directory: учёт компьютеров, пользователей и ПО домена | ИТМен" />
+  <meta property="og:description" content="Инвентаризация Active Directory в ИТМен: актуальный состав домена по LDAP/LDAPS, инвентаризация узлов поверх каталога и сверка с сетью для CMDB, ITSM и ITAM." />
+  <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -180,18 +185,18 @@
       align-items: center;
     }
     .hero__title {
-      font-size: clamp(30px, 3.6vw, 44px);
+      font-size: clamp(26px, 3.2vw, 38px);
       font-weight: 800;
-      line-height: 1.12;
+      line-height: 1.15;
       letter-spacing: -0.03em;
       color: var(--black);
       margin-bottom: 22px;
-      max-width: 14ch;
+      max-width: none;
     }
     .hero__title em {
       font-style: normal;
       color: var(--red);
-      white-space: nowrap;
+      white-space: normal;
     }
     .hero__list {
       display: grid;
@@ -972,13 +977,13 @@
 
         <div class="hero__grid">
           <div>
-            <h1 class="hero__title">Инферит ИТМен. Сбор данных из <em>Active Directory</em></h1>
+            <h1 class="hero__title">Инвентаризация Active Directory: учёт компьютеров, пользователей и ПО домена</h1>
             <ul class="hero__list">
               <li>
                 <span class="hero__check" aria-hidden="true">
                   <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
-                Пользователи и устройства домена по LDAP/LDAPS
+                Актуальный состав домена: компьютеры, пользователи, OU и группы по LDAP/LDAPS
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true">
@@ -1119,7 +1124,7 @@
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="8.5" y="13" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><path d="M10 7.5h4M12 11v2" stroke="currentColor" stroke-width="1.8"/></svg>
             </div>
-            <p>Инфраструктура состоит из нескольких доменов или филиалов, а учет нужен единый</p>
+            <p>Инфраструктура состоит из нескольких доменов или филиалов, а учёт нужен единый</p>
           </article>
           <article class="fit-card" data-frame="1000007730-2">
             <div class="fit-card__icon">
@@ -1139,16 +1144,16 @@
 
     <section class="how" id="how">
       <div class="container">
-        <h2 class="section-title">Как это работает</h2>
+        <h2 class="section-title">Как работает сбор данных из Active Directory</h2>
         <div class="how__grid">
           <div class="steps">
             <article class="step">
               <div class="step__num">1</div>
               <h3>Подключение к Active Directory</h3>
               <ul>
-                <li>Подключение к домену по LDAP или LDAPS (порт 389/636, при необходимости — SSL)</li>
-                <li>Задача «Сбор данных по протоколу LDAP»: пользователи и устройства, доступные учетным записям</li>
-                <li>Учетные данные с правами администратора на целевых компьютерах</li>
+                <li>Подключение к контроллеру домена по LDAP или LDAPS</li>
+                <li>Выбор нужных OU (можно синхронизировать не весь домен, а отдельные организационные единицы)</li>
+                <li>Загрузка состава каталога и связей учётных записей с устройствами</li>
               </ul>
             </article>
             <article class="step">
@@ -1210,8 +1215,8 @@
 
     <section class="collect" id="collect">
       <div class="container">
-        <h2 class="section-title">Что мы собираем</h2>
-        <p class="collect__intro">Каталог Active Directory дает пользователей и устройства домена. Этого мало для полной инвентаризации, поэтому ИТМен дополнительно опрашивает узлы.</p>
+        <h2 class="section-title">Что ИТМен собирает из Active Directory</h2>
+        <p class="collect__intro">Каталог AD даёт список компьютеров, пользователей и структуру домена. Этого мало для полной инвентаризации, поэтому ИТМен дополнительно опрашивает сами узлы.</p>
         <div class="collect__grid">
           <article class="collect-card collect-card--dark">
             <div class="collect-card__icon">
@@ -1219,9 +1224,9 @@
             </div>
             <h3>Из каталога Active Directory</h3>
             <ul>
-              <li>Пользователи и устройства домена, атрибуты учетных записей (включая SID)</li>
-              <li>Связь ldap-пользователей с устройствами, на которые у них есть доступ</li>
-              <li>Фиксированный набор полей по пользователю и устройству</li>
+              <li>Компьютеры, пользователи, организационные единицы (OU) и группы</li>
+              <li>Связь учётной записи пользователя с конкретным устройством</li>
+              <li>Расположение, описание, базовая информация об ОС</li>
             </ul>
           </article>
           <article class="collect-card collect-card--red">
@@ -1231,7 +1236,7 @@
             <h3>С самих узлов</h3>
             <ul>
               <li>Конфигурация: процессор, память, диски, сетевые адаптеры (IP, MAC, DNS-имя)</li>
-              <li>Установленное ПО и версии, для контроля лицензий и учета ITAM/SAM</li>
+              <li>Установленное ПО и версии — для контроля лицензий и учёта ITAM/SAM</li>
               <li>Устройства, которые есть в сети, но не заведены в AD, и наоборот</li>
             </ul>
           </article>
@@ -1241,8 +1246,8 @@
             </div>
             <h3>Работа с масштабом</h3>
             <ul>
-              <li>Несколько доменов — через отдельные цели в задаче LDAP</li>
-              <li>Для LDAP нужен полный агент с сетевой инвентаризацией; сбор с узлов — WinRM, WMI, SSH, SNMP</li>
+              <li>Несколько доменов и лесов одновременно, в единой базе</li>
+              <li>Агентный и безагентный сбор: WinRM, WMI, SSH, SNMP</li>
             </ul>
           </article>
         </div>
@@ -1259,7 +1264,7 @@
           </article>
           <article class="sec-item">
             <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V8a4 4 0 018 0v2" stroke="currentColor" stroke-width="1.7"/></svg>
-            <p>Подключение к каталогу по защищенному каналу, включая LDAPS</p>
+            <p>Подключение к каталогу по защищённому каналу, включая LDAPS</p>
           </article>
           <article class="sec-item">
             <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.7"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
@@ -1287,7 +1292,7 @@
           </details>
           <details>
             <summary>Нужны ли агенты для сбора?</summary>
-            <p>Для задачи LDAP нужен полный агент (DiscoveryAgent) с функцией сетевой инвентаризации на машине, с которой выполняется сбор. На целевых узлах агент не требуется. Дополнительный сбор с узлов — через сетевую инвентаризацию и локальный сбор.</p>
+            <p>Поддерживается и агентный, и безагентный сбор, в зависимости от инфраструктуры и политик.</p>
           </details>
           <details>
             <summary>Можно ли собирать данные из нескольких доменов?</summary>
@@ -1295,23 +1300,27 @@
           </details>
           <details>
             <summary>Видит ли ИТМен устройства вне домена?</summary>
-            <p>Да. Дискаверинг находит и неучтенные устройства, которые не заведены в Active Directory.</p>
+            <p>Да. Дискаверинг находит и неучтённые устройства, которые не заведены в Active Directory.</p>
           </details>
           <details>
             <summary>Является ли Инферит ИТМен системой CMDB?</summary>
             <p>Нет. ИТМен собирает и нормализует данные, а затем наполняет ими CMDB и ITSM. Он не заменяет эти системы.</p>
           </details>
           <details>
-            <summary>Какие учетные данные нужны для сбора?</summary>
-            <p>Укажите пользователей с административными привилегиями на целевых компьютерах. Агент использует их для доступа к устройствам домена при выполнении задачи LDAP.</p>
+            <summary>Можно ли синхронизировать не весь домен, а отдельные OU?</summary>
+            <p>Да. Область синхронизации задаётся по организационным единицам. Это удобно для филиалов и пилотных контуров.</p>
           </details>
           <details>
-            <summary>Поддерживается ли защищенное подключение к каталогу?</summary>
-            <p>Да. Для работы с контроллером домена используется LDAP, при необходимости, защищенный канал LDAPS.</p>
+            <summary>Поддерживается ли защищённое подключение к каталогу?</summary>
+            <p>Да. Для работы с контроллером домена используется LDAP, при необходимости — защищённый канал LDAPS.</p>
           </details>
           <details>
             <summary>Работает ли сбор в закрытом контуре без выхода в интернет?</summary>
-            <p>Да. ИТМен разворачивается внутри периметра и собирает данные из Active Directory без внешнего подключения, с передачей по защищенным каналам.</p>
+            <p>Да. ИТМен разворачивается внутри периметра и собирает данные из Active Directory без внешнего подключения, с передачей по защищённым каналам.</p>
+          </details>
+          <details>
+            <summary>Чем ИТМен отличается от зарубежных программ инвентаризации?</summary>
+            <p>Это российское решение из реестра ПО — аналог Lansweeper и Total Network Inventory, работающий в закрытом контуре и без Open source-компонентов.</p>
           </details>
         </div>
       </div>
@@ -1322,7 +1331,7 @@
         <div class="cta__box">
           <div>
             <h2 class="cta__title">Есть вопросы по продукту или хотите записаться на демо?</h2>
-            <p class="cta__text">Отправьте заявку. Ответим на вопросы и покажем возможности продукта с учетом ваших бизнес-задач и отраслевой специфики.</p>
+            <p class="cta__text">Отправьте заявку. Ответим на вопросы и покажем возможности продукта с учётом ваших бизнес-задач и отраслевой специфики.</p>
             <div class="cta__contacts">
               <a href="tel:88007078553">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.5 3 3.6 5.1 6.6 6.6l2.2-2.2a1.2 1.2 0 011.2-.3c1.3.4 2.7.7 4.1.7a1.2 1.2 0 011.2 1.2V20a1.2 1.2 0 01-1.2 1.2A17.2 17.2 0 012.8 4.2 1.2 1.2 0 014 3h3.2A1.2 1.2 0 018.4 4.2c0 1.4.2 2.8.7 4.1a1.2 1.2 0 01-.3 1.2L6.6 10.8z" fill="currentColor"/></svg>
