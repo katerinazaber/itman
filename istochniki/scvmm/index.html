@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Инвентаризация SCVMM и Hyper-V: учет виртуальных машин | ИТМен</title>
-  <meta name="description" content="Инвентаризация SCVMM и Hyper-V в ИТМен: сбор данных о виртуальных машинах и хостах через WMI, WinRM и REST API, нормализация и передача в CMDB, ITSM и ITAM." />
+  <title>Инвентаризация SCVMM и Hyper-V: учет виртуальных машин и хостов | ИТМен</title>
+  <meta name="description" content="Инвентаризация SCVMM и Hyper-V в ИТМен: сбор данных о виртуальных машинах и хостах через WMI, WinRM и REST API, выгрузка списка ВМ и передача в CMDB, ITSM и ITAM." />
   <meta name="keywords" content="инвентаризация SCVMM, инвентаризация Hyper-V, учет виртуальных машин Hyper-V, инвентаризация виртуальной инфраструктуры, сбор данных WMI WinRM, выгрузка ВМ из SCVMM, инвентаризация перед миграцией с Hyper-V, российский аналог PowerShell SCOM, CMDB Hyper-V, ITSM SCVMM, ITAM, SAM, ИТМен" />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://itman.ru/istochniki/scvmm/" />
-  <meta property="og:title" content="Инвентаризация SCVMM и Hyper-V: учет виртуальных машин | ИТМен" />
-  <meta property="og:description" content="Инвентаризация SCVMM и Hyper-V в ИТМен: сбор данных о виртуальных машинах и хостах через WMI, WinRM и REST API, нормализация и передача в CMDB, ITSM и ITAM." />
+  <meta property="og:title" content="Инвентаризация SCVMM и Hyper-V: учет виртуальных машин и хостов | ИТМен" />
+  <meta property="og:description" content="Инвентаризация SCVMM и Hyper-V в ИТМен: сбор данных о виртуальных машинах и хостах через WMI, WinRM и REST API, выгрузка списка ВМ и передача в CMDB, ITSM и ITAM." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://itman.ru/istochniki/scvmm/" />
   <meta property="og:locale" content="ru_RU" />
@@ -17,10 +17,10 @@
   <meta property="og:image" content="https://itman.ru/istochniki/scvmm/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Инвентаризация SCVMM и Hyper-V в ИТМен, виртуальные машины и хосты" />
+  <meta property="og:image:alt" content="Инвентаризация SCVMM и Hyper-V в ИТМен: виртуальные машины и хосты" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Инвентаризация SCVMM и Hyper-V: учет виртуальных машин | ИТМен" />
-  <meta name="twitter:description" content="Инвентаризация SCVMM и Hyper-V в ИТМен: сбор данных о виртуальных машинах и хостах через WMI, WinRM и REST API, нормализация и передача в CMDB, ITSM и ITAM." />
+  <meta name="twitter:title" content="Инвентаризация SCVMM и Hyper-V: учет виртуальных машин и хостов | ИТМен" />
+  <meta name="twitter:description" content="Инвентаризация SCVMM и Hyper-V в ИТМен: сбор данных о виртуальных машинах и хостах через WMI, WinRM и REST API, выгрузка списка ВМ и передача в CMDB, ITSM и ITAM." />
   <meta name="twitter:image" content="https://itman.ru/istochniki/scvmm/og-image.png" />
   <script type="application/ld+json">
   {
@@ -83,7 +83,7 @@
         "name": "Подходит ли ИТМен для учета ВМ перед миграцией с Hyper-V?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Да. ИТМен проводит инвентаризацию перед миграцией с Hyper-V: собирает полный и актуальный список виртуальных машин, хостов и ПО из SCVMM — основа для планирования перехода на российский гипервизор и учета ВМ при переходе с Hyper-V."
+          "text": "Да. ИТМен собирает полный и актуальный список виртуальных машин, хостов и ПО из SCVMM. Это удобная основа для планирования перехода на российский гипервизор."
         }
       },
       {
@@ -91,7 +91,7 @@
         "name": "Чем ИТМен отличается от ручных PowerShell-скриптов и отчетов SCOM?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Это российское решение из реестра ПО и альтернатива ручным PowerShell-скриптам и отчетам SCOM: собирает данные из нескольких источников виртуализации, нормализует их вместе с физическими узлами и передает в CMDB/ITSM без ручного экспорта и написания скриптов."
+          "text": "Это российская программа для инвентаризации виртуальных машин из реестра ПО: собирает данные из нескольких источников виртуализации, нормализует их вместе с физическими узлами и передает в CMDB/ITSM без ручного экспорта и написания скриптов."
         }
       }
     ]
@@ -618,7 +618,7 @@
     .fit { background: var(--white); }
     .fit__grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 16px;
     }
     .fit-card {
@@ -1077,7 +1077,7 @@
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                Доступ по WMI и WinRM по рекомендациям для Hyper-V/VMM — сбор данных без ручных скриптов
+                Доступ по WMI и WinRM по рекомендациям для Hyper-V/VMM: сбор данных без ручных скриптов
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -1085,7 +1085,7 @@
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                Российское решение из реестра ПО, альтернатива ручным PowerShell-скриптам и отчетам SCOM
+                Альтернатива ручным PowerShell-скриптам и отчетам SCOM
               </li>
             </ul>
             <div class="hero__cta">
@@ -1094,7 +1094,7 @@
             </div>
           </div>
 
-          <div class="hero__visual" role="img" aria-label="Инвентаризация SCVMM и Hyper-V в ИТМен, виртуальные машины и хосты">
+          <div class="hero__visual" role="img" aria-label="Инвентаризация SCVMM и Hyper-V в ИТМен: виртуальные машины и хосты">
             <div class="hero__blob"></div>
             <div class="product-ui" aria-hidden="true">
               <aside class="product-ui__side">
@@ -1212,7 +1212,7 @@
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Виртуализация построена на Hyper-V, а управление идет через SCVMM — нужна инвентаризация виртуальной инфраструктуры Hyper-V</p>
+            <p>Виртуализация построена на Hyper-V, а управление идет через SCVMM</p>
           </article>
           <article class="fit-card" data-frame="1000007730-1">
             <div class="fit-card__icon">
@@ -1224,19 +1224,13 @@
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Данные из SCVMM нужно передавать в CMDB/ITSM без ручной сверки: учет ВМ в SCVMM в одной нормализованной базе</p>
+            <p>Важно видеть связь виртуальных машин, хостов Hyper-V и установленного ПО</p>
           </article>
           <article class="fit-card" data-frame="1000007730-3">
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Важно видеть связь виртуальных машин, хостов Hyper-V и установленного ПО</p>
-          </article>
-          <article class="fit-card" data-frame="1000007730-4">
-            <div class="fit-card__icon">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-            </div>
-            <p>Планируется миграция с Hyper-V, и нужен точный учет парка ВМ перед переходом — инвентаризация перед миграцией с Hyper-V</p>
+            <p>Планируется миграция с Hyper-V, и нужен точный учет парка ВМ перед переходом</p>
           </article>
         </div>
       </div>
@@ -1244,7 +1238,7 @@
 
     <section class="how" id="how">
       <div class="container">
-        <h2 class="section-title">Как работает сбор данных из SCVMM</h2>
+        <h2 class="section-title">Как это работает</h2>
         <div class="how__grid">
           <div class="steps">
             <article class="step">
@@ -1252,7 +1246,7 @@
               <h3>Подключение к SCVMM</h3>
               <ul>
                 <li>Настройка сетевой инвентаризации и задачи REST API с учетными данными Windows</li>
-                <li>Доступ по WMI (tcp/135) и WinRM (tcp/5986) к Hyper-V/VMM — сбор данных через WMI и WinRM</li>
+                <li>Доступ по WMI (tcp/135) и WinRM (tcp/5986) к Hyper-V/VMM для сбора данных через WMI и WinRM</li>
                 <li>Учетные данные с правами администратора на целевых узлах</li>
               </ul>
             </article>
@@ -1314,7 +1308,7 @@
 
     <section class="collect" id="collect">
       <div class="container">
-        <h2 class="section-title">Что ИТМен собирает из SCVMM и Hyper-V</h2>
+        <h2 class="section-title">Что мы собираем</h2>
         <p class="collect__intro">SCVMM и Hyper-V дают состав виртуальной инфраструктуры на Windows. Этого мало для полной инвентаризации, поэтому ИТМен при необходимости дополнительно опрашивает сами виртуальные машины.</p>
         <div class="collect__grid">
           <article class="collect-card collect-card--dark">
@@ -1323,7 +1317,7 @@
             </div>
             <h3>Из SCVMM / Hyper-V</h3>
             <ul>
-              <li>Виртуальные машины и хосты Hyper-V — актуальный список для учета ВМ в SCVMM</li>
+              <li>Виртуальные машины и хосты Hyper-V</li>
               <li>Конфигурация виртуальной машины: vCPU, RAM, диски, состояние</li>
               <li>Связь виртуальной машины с узлом Hyper-V и кластером</li>
             </ul>
@@ -1335,7 +1329,7 @@
             <h3>С гостевых систем</h3>
             <ul>
               <li>Конфигурация железа и сетевые параметры</li>
-              <li>Инвентаризация ПО на виртуальных машинах и версии — для контроля лицензий и учета ITAM/SAM</li>
+              <li>Установленное ПО и версии, для контроля лицензий и учета ITAM/SAM</li>
               <li>Пользователи и учетные записи на виртуальной машине</li>
             </ul>
           </article>
@@ -1404,11 +1398,11 @@
           </details>
           <details>
             <summary>Подходит ли ИТМен для учета ВМ перед миграцией с Hyper-V?</summary>
-            <p>Да. ИТМен проводит инвентаризацию перед миграцией с Hyper-V: собирает полный и актуальный список виртуальных машин, хостов и ПО из SCVMM — основа для планирования перехода на российский гипервизор и учета ВМ при переходе с Hyper-V.</p>
+            <p>Да. ИТМен собирает полный и актуальный список виртуальных машин, хостов и ПО из SCVMM. Это удобная основа для планирования перехода на российский гипервизор.</p>
           </details>
           <details>
             <summary>Чем ИТМен отличается от ручных PowerShell-скриптов и отчетов SCOM?</summary>
-            <p>Это российское решение из реестра ПО и альтернатива ручным PowerShell-скриптам и отчетам SCOM: собирает данные из нескольких источников виртуализации, нормализует их вместе с физическими узлами и передает в CMDB/ITSM без ручного экспорта и написания скриптов.</p>
+            <p>Это российская программа для инвентаризации виртуальных машин из реестра ПО: собирает данные из нескольких источников виртуализации, нормализует их вместе с физическими узлами и передает в CMDB/ITSM без ручного экспорта и написания скриптов.</p>
           </details>
         </div>
       </div>
