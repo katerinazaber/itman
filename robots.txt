@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /istochniki/
+
+# Черновики лендингов источников: не индексировать GitHub Pages.
+# Боевой SEO только на itman.ru после явной публикации.
