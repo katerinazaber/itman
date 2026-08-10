@@ -3,14 +3,94 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Инвентаризация Kaspersky Security Center: сбор данных | ИТМен</title>
-  <meta name="description" content="ИТМен подключается к Kaspersky Security Center по REST API, собирает данные об узлах и защите, дополняет инвентаризацией и передаёт в CMDB, ITSM и ITAM." />
+  <title>Инвентаризация Kaspersky Security Center: учет узлов и статуса защиты | ИТМен</title>
+  <meta name="description" content="Инвентаризация Kaspersky Security Center в ИТМен: сбор данных об узлах и статусе защиты через REST API, сверка с железом и ПО и передача в CMDB, ITSM и ITAM." />
+  <meta name="keywords" content="инвентаризация Kaspersky Security Center, инвентаризация KSC, учет узлов KSC, статус защиты KSC, сбор данных KSC REST API, сверка KSC с CMDB, агент Касперского, Active Directory, SCCM, ITAM, SAM, ИТМен" />
   <meta name="robots" content="index,follow" />
-  <link rel="canonical" href="https://katerinazaber.github.io/itman/istochniki/kaspersky/" />
-  <meta property="og:title" content="Инвентаризация Kaspersky Security Center: сбор данных | ИТМен" />
-  <meta property="og:description" content="Сбор данных из KSC: узлы, статус защиты и установленное ПО." />
+  <link rel="canonical" href="https://itman.ru/istochniki/kaspersky/" />
+  <meta property="og:title" content="Инвентаризация Kaspersky Security Center: учет узлов и статуса защиты | ИТМен" />
+  <meta property="og:description" content="Инвентаризация Kaspersky Security Center в ИТМен: сбор данных об узлах и статусе защиты через REST API, сверка с железом и ПО и передача в CMDB, ITSM и ITAM." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://itman.ru/istochniki/kaspersky/" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="Инферит ИТМен" />
+  <meta property="og:image" content="https://itman.ru/istochniki/kaspersky/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Инвентаризация Kaspersky Security Center в ИТМен: узлы, статус защиты и сверка с активами" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Инвентаризация Kaspersky Security Center: учет узлов и статуса защиты | ИТМен" />
+  <meta name="twitter:description" content="Инвентаризация Kaspersky Security Center в ИТМен: сбор данных об узлах и статусе защиты через REST API, сверка с железом и ПО и передача в CMDB, ITSM и ITAM." />
+  <meta name="twitter:image" content="https://itman.ru/istochniki/kaspersky/og-image.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://itman.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Источники данных", "item": "https://itman.ru/istochniki/" },
+      { "@type": "ListItem", "position": 3, "name": "Инвентаризация Kaspersky Security Center", "item": "https://itman.ru/istochniki/kaspersky/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Как ИТМен подключается к Kaspersky Security Center?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Через REST API: нужны адрес сервера KSC, учетные данные RestAPI и сенсоры для Kaspersky Security Center."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Нужны ли агенты ИТМен на каждом узле?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Для сбора данных из KSC агенты ИТМен на узлах не обязательны. Более глубокая инвентаризация идет через сетевую или локальную задачу."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Чем сбор из KSC отличается от отчёта по установленному ПО?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "KSC показывает контур защиты и управляемые узлы. ИТМен дополняет это полной инвентаризацией железа и ПО и сводит данные с другими источниками."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Можно ли связать KSC с Active Directory и SCCM?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да. Данные из KSC сводятся с LDAP, SCCM и другими источниками в единую нормализованную базу."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Видит ли ИТМен устройства без агента Касперского?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да. При сверке с сетью и другими источниками видны узлы, которых нет в контуре KSC или где защита не установлена."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Работает ли сбор в закрытом контуре?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да. Подключение к KSC выполняется внутри периметра, данные передаются по защищенным каналам."
+        }
+      }
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
@@ -684,7 +764,7 @@
     .security { background: var(--bg-soft); }
     .security__grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 14px;
     }
     .sec-item {
@@ -968,26 +1048,26 @@
         <nav class="breadcrumbs" aria-label="Хлебные крошки">
           <a href="https://itman.ru/">Главная</a>
           <span class="breadcrumbs__sep">›</span>
-          <a href="#">Источники данных</a>
+          <a href="https://itman.ru/istochniki/">Источники данных</a>
           <span class="breadcrumbs__sep">›</span>
           <span>Инвентаризация Kaspersky Security Center</span>
         </nav>
 
         <div class="hero__grid">
           <div>
-            <h1 class="hero__title">Инферит ИТМен. Сбор данных из <em>Kaspersky Security Center</em></h1>
+            <h1 class="hero__title">Инвентаризация Kaspersky Security Center: учет узлов и статуса защиты</h1>
             <ul class="hero__list">
               <li>
                 <span class="hero__check" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                Состав узлов и статус защиты из Kaspersky Security Center
+                Сбор данных об узлах и статусе защиты из Kaspersky Security Center
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                Задача REST API и сенсоры для подключения к KSC
+                Сверка данных KSC с инвентаризацией железа и ПО в единой базе
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                Сверка с инвентаризацией ПО и железа в единой базе
+                Готовые данные для CMDB, ITSM и ITAM без ручных выгрузок
               </li>
             </ul>
             <div class="hero__cta">
@@ -996,9 +1076,9 @@
             </div>
           </div>
 
-          <div class="hero__visual" aria-hidden="true">
+          <div class="hero__visual" role="img" aria-label="Инвентаризация Kaspersky Security Center в ИТМен: узлы, статус защиты и сверка с активами">
             <div class="hero__blob"></div>
-            <div class="product-ui">
+            <div class="product-ui" aria-hidden="true">
               <aside class="product-ui__side">
                 <div class="product-ui__brand">
                   <span class="product-ui__brand-mark">ИТ</span>
@@ -1043,21 +1123,18 @@
                 </div>
                 <div class="product-ui__panel">
                   <div class="product-ui__panel-title">Синхронизация · Kaspersky</div>
-
                   <div class="sync-row"><span>Источник</span><span>Объектов</span><span>Обновление</span><span>Статус</span></div>
                   <div class="sync-row"><span>KSC · узлы</span><span>3 420</span><span>сегодня, 09:20</span><span class="sync-status">OK</span></div>
                   <div class="sync-row"><span>Агенты Касперского</span><span>3 280</span><span>сегодня, 09:20</span><span class="sync-status">OK</span></div>
-                  <div class="sync-row"><span>Политики</span><span>18</span><span>сегодня, 09:20</span><span class="sync-status">OK</span></div>
+                  <div class="sync-row"><span>Вне KSC</span><span>56</span><span>сегодня, 09:22</span><span class="sync-status">OK</span></div>
                 </div>
               </div>
             </div>
             <div class="badge-kaspersky">
               <span class="badge-kaspersky__icon">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <rect x="3" y="4" width="18" height="14" rx="2" stroke="#fff" stroke-width="1.6"/>
-                  <path d="M7 17h10" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
-                  <path d="M7 9h4M7 12h6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
-                  <circle cx="17" cy="8" r="1.2" fill="#fff"/>
+                  <path d="M12 3l8 4v5c0 5-3.4 8.4-8 9-4.6-.6-8-4-8-9V7l8-4z" stroke="#fff" stroke-width="1.6"/>
+                  <path d="M9.5 12.2l1.8 1.8 3.4-3.6" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </span>
               KSC · защита
@@ -1120,19 +1197,19 @@
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Нужно видеть, на каких узлах установлен и работает агент защиты</p>
+            <p>Данные из KSC нужно связать с CMDB/ITSM без ручной сверки</p>
           </article>
           <article class="fit-card" data-frame="1000007730-2">
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Данные из KSC нужно связать с CMDB/ITSM без ручной сверки</p>
+            <p>Важно сверять контур KSC с фактическим парком: железо, ПО и устройства вне защиты</p>
           </article>
           <article class="fit-card" data-frame="1000007730-3">
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Важно отслеживать установку и удаление антивируса на узлах</p>
+            <p>Нужен единый учёт вместе с Active Directory, SCCM и другими источниками</p>
           </article>
         </div>
       </div>
@@ -1148,33 +1225,34 @@
               <h3>Подключение к KSC</h3>
               <ul>
                 <li>Задача «Сбор данных через REST API» с сенсорами для Kaspersky Security Center</li>
-                <li>Учётные данные RestAPI с правами чтения в KSC</li>
-                <li>Несколько серверов KSC как отдельные цели</li>
+                <li>Учетные данные с платформой RestAPI и правами чтения в KSC</li>
+                <li>Несколько серверов KSC добавляются как отдельные цели подключения</li>
               </ul>
             </article>
             <article class="step">
               <div class="step__num">2</div>
-              <h3>Сбор и нормализация</h3>
+              <h3>Сбор и нормализация данных</h3>
               <ul>
-                <li>Сбор данных об узлах и статусе защиты</li>
-                <li>Сопоставление с инвентаризацией ПО на узлах</li>
-                <li>Приведение к единому формату</li>
+                <li>Сбор данных об управляемых узлах и статусе защиты</li>
+                <li>Сопоставление с инвентаризацией железа и ПО на узлах</li>
+                <li>Приведение данных к единому формату вместе с другими источниками</li>
               </ul>
             </article>
             <article class="step">
               <div class="step__num">3</div>
               <h3>Передача данных</h3>
               <ul>
-                <li>Готовые очищенные данные уходят в CMDB, ITSM, ITAM или SAM</li>
+                <li>Передача готовых очищенных данных в CMDB, ITSM, ITAM или SAM</li>
               </ul>
             </article>
           </div>
 
           <div class="schema" aria-hidden="true">
             <svg viewBox="0 0 420 360" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="24" y="28" width="110" height="72" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
-              <text x="79" y="60" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">REST API</text>
-              <text x="79" y="78" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">источник</text>
+              <rect x="24" y="28" width="110" height="72" rx="12" stroke="#00a88e" stroke-width="1.8" fill="#f0faf8"/>
+              <text x="79" y="54" text-anchor="middle" fill="#008f79" font-family="Manrope, Arial" font-size="12" font-weight="700">KSC</text>
+              <text x="79" y="72" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="11" font-weight="600">REST API</text>
+              <text x="79" y="88" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="10">защита · узлы</text>
 
               <rect x="155" y="28" width="110" height="72" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
               <text x="210" y="60" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">Сенсоры</text>
@@ -1182,7 +1260,7 @@
 
               <rect x="286" y="28" width="110" height="72" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
               <text x="341" y="60" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">Узлы</text>
-              <text x="341" y="78" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">сеть · SSH</text>
+              <text x="341" y="78" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">железо · ПО</text>
 
               <path d="M79 100v36M210 100v36M341 100v36" stroke="#D8D8D8" stroke-width="1.5"/>
               <path d="M79 136h262" stroke="#D8D8D8" stroke-width="1.5"/>
@@ -1211,7 +1289,7 @@
     <section class="collect" id="collect">
       <div class="container">
         <h2 class="section-title">Что мы собираем</h2>
-        <p class="collect__intro">Kaspersky Security Center знает, где установлена защита. ИТМен подключается через REST API и сводит эти данные с инвентаризацией железа и ПО.</p>
+        <p class="collect__intro">Kaspersky Security Center знает состав управляемых устройств и статус защиты. Этого мало для полной инвентаризации активов, поэтому ИТМен при необходимости дополнительно опрашивает сами узлы.</p>
         <div class="collect__grid">
           <article class="collect-card collect-card--dark">
             <div class="collect-card__icon">
@@ -1219,31 +1297,31 @@
             </div>
             <h3>Из Kaspersky Security Center</h3>
             <ul>
-              <li>Узлы с установленным агентом защиты</li>
-              <li>Статус защиты и версии компонентов</li>
-              <li>Группы и политики администрирования</li>
+              <li>Управляемые узлы и группы администрирования</li>
+              <li>Статус агента и покрытия защиты</li>
+              <li>Признаки устройств вне контура KSC при сверке с другими источниками</li>
             </ul>
           </article>
           <article class="collect-card collect-card--red">
             <div class="collect-card__icon">
               <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="8" y="10" width="28" height="24" rx="4" stroke="currentColor" stroke-width="2"/></svg>
             </div>
-            <h3>С узлов инфраструктуры</h3>
+            <h3>С самих узлов</h3>
             <ul>
-              <li>Установленное ПО, включая антивирус Касперского</li>
-              <li>Отчёт «Установленное ПО» — когда и на каких узлах установлен антивирус</li>
               <li>Конфигурация железа и сетевые параметры</li>
+              <li>Установленное ПО и версии, включая продукты Касперского, для учета ITAM/SAM</li>
+              <li>Пользователи и учетные записи на устройстве</li>
             </ul>
           </article>
           <article class="collect-card collect-card--light">
             <div class="collect-card__icon" style="color:var(--red)">
               <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="8" y="10" width="28" height="24" rx="4" stroke="currentColor" stroke-width="2"/></svg>
             </div>
-            <h3>Работа с масштабом</h3>
+            <h3>Работа со смешанными источниками</h3>
             <ul>
-              <li>Несколько серверов KSC в одной базе</li>
-              <li>Сверка KSC с AD, SCCM и сетевой инвентаризацией</li>
-              <li>Настраиваемые сенсоры REST API</li>
+              <li>KSC, Active Directory, SCCM и сетевая инвентаризация в одной нормализованной базе</li>
+              <li>Несколько серверов KSC как отдельные источники</li>
+              <li>Настраиваемые сенсоры REST API под объекты и поля API</li>
             </ul>
           </article>
         </div>
@@ -1252,27 +1330,23 @@
 
     <section class="security" id="security">
       <div class="container">
-        <h2 class="section-title section-title--center">Соответствие требованиям информационной безопасности</h2>
+        <h2 class="section-title section-title--center">Инферит ИТМен соответствует требованиям информационной безопасности</h2>
         <div class="security__grid">
           <article class="sec-item">
             <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 4v5c0 5-3.4 8.4-8 9-4.6-.6-8-4-8-9V7l8-4z" stroke="currentColor" stroke-width="1.7"/><path d="M9.5 12l2 2 3.5-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <p>Работает в закрытых периметрах, без выхода инфраструктуры в интернет</p>
+            <p><strong>Сбор данных при ограничениях.</strong> Работает в условиях закрытых периметров, с соблюдением строгих политик заказчиков в области информационной безопасности</p>
           </article>
           <article class="sec-item">
             <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V8a4 4 0 018 0v2" stroke="currentColor" stroke-width="1.7"/></svg>
-            <p>Подключение к каталогу по защищенному каналу</p>
-          </article>
-          <article class="sec-item">
-            <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.7"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-            <p>Поддержка протоколов шифрования по ГОСТ</p>
+            <p><strong>Защита данных.</strong> Поддержка защищенных протоколов шифрования по ГОСТ для безопасной передачи данных</p>
           </article>
           <article class="sec-item">
             <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.7"/><path d="M8 12.5l2.5 2.5L16 9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <p>В реестре российского ПО: №2016662248, запись №12289 от 14.12.2021</p>
+            <p><strong>В реестре российского ПО.</strong> Зарегистрирован в государственном реестре программ для ЭВМ (№2016662248) и включен в реестр российского ПО (реестровая запись №12289 от 14.12.2021)</p>
           </article>
           <article class="sec-item">
             <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><path d="M4 18V6h6v12H4zm10 0V9h6v9h-6z" stroke="currentColor" stroke-width="1.7"/></svg>
-            <p>Разработка без Open source, вся команда и инфраструктура в России</p>
+            <p><strong>Сделано в России.</strong> Решение без использования Open source, команда разработки, серверная архитектура и средства хранения и компиляции кода в России</p>
           </article>
         </div>
       </div>
@@ -1283,24 +1357,28 @@
         <h2 class="section-title section-title--center">Частые вопросы</h2>
         <div class="faq__list">
           <details open>
-            <summary>Чем сбор из KSC отличается от отчёта по ПО?</summary>
-            <p>KSC даёт статус защиты и администрирование. ИТМен дополняет это полной инвентаризацией железа и ПО на узлах.</p>
+            <summary>Как ИТМен подключается к Kaspersky Security Center?</summary>
+            <p>Через REST API: нужны адрес сервера KSC, учетные данные RestAPI и сенсоры для Kaspersky Security Center.</p>
           </details>
           <details>
-            <summary>Нужны ли агенты ИТМен на узлах?</summary>
-            <p>Для данных из KSC агенты на узлах не требуются. Глубокая инвентаризация — через сетевую или локальную задачу.</p>
+            <summary>Нужны ли агенты ИТМен на каждом узле?</summary>
+            <p>Для сбора данных из KSC агенты ИТМен на узлах не обязательны. Более глубокая инвентаризация идет через сетевую или локальную задачу.</p>
           </details>
           <details>
-            <summary>Можно ли связать KSC с Active Directory?</summary>
-            <p>Да. Данные из KSC сводятся с LDAP, SCCM и другими источниками в единой базе.</p>
+            <summary>Чем сбор из KSC отличается от отчёта по установленному ПО?</summary>
+            <p>KSC показывает контур защиты и управляемые узлы. ИТМен дополняет это полной инвентаризацией железа и ПО и сводит данные с другими источниками.</p>
           </details>
           <details>
-            <summary>Является ли Инферит ИТМен системой CMDB?</summary>
-            <p>Нет. ИТМен собирает и нормализует данные и наполняет CMDB и ITSM.</p>
+            <summary>Можно ли связать KSC с Active Directory и SCCM?</summary>
+            <p>Да. Данные из KSC сводятся с LDAP, SCCM и другими источниками в единую нормализованную базу.</p>
+          </details>
+          <details>
+            <summary>Видит ли ИТМен устройства без агента Касперского?</summary>
+            <p>Да. При сверке с сетью и другими источниками видны узлы, которых нет в контуре KSC или где защита не установлена.</p>
           </details>
           <details>
             <summary>Работает ли сбор в закрытом контуре?</summary>
-            <p>Да. Подключение к KSC выполняется внутри периметра.</p>
+            <p>Да. Подключение к KSC выполняется внутри периметра, данные передаются по защищенным каналам.</p>
           </details>
         </div>
       </div>
