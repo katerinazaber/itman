@@ -3,14 +3,102 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Инвентаризация RedVirt: учёт виртуальных машин | ИТМен</title>
-  <meta name="description" content="ИТМен собирает данные о виртуальных машинах и хостах RedVirt через REST API, нормализует и передаёт в CMDB, ITSM и ITAM." />
+  <title>Инвентаризация RedVirt: учет виртуальных машин и хостов | ИТМен</title>
+  <meta name="description" content="Инвентаризация RedVirt (РЕД Виртуализация) в ИТМен: сбор данных о виртуальных машинах и хостах через REST API, нормализация вместе с VMware, zVirt и Hyper-V и передача в CMDB, ITSM и ITAM." />
+  <meta name="keywords" content="инвентаризация RedVirt, инвентаризация РЕД Виртуализация, учет виртуальных машин RedVirt, сбор данных RedVirt REST API, РЕД ОС, РЕД СОФТ, oVirt API, программа для инвентаризации RedVirt, CMDB, ITSM, ITAM, SAM, ИТМен" />
   <meta name="robots" content="index,follow" />
-  <link rel="canonical" href="https://katerinazaber.github.io/itman/istochniki/redvirt/" />
-  <meta property="og:title" content="Инвентаризация RedVirt: учёт виртуальных машин | ИТМен" />
-  <meta property="og:description" content="Сбор ВМ и хостов RedVirt в единую базу активов." />
+  <link rel="canonical" href="https://itman.ru/istochniki/redvirt/" />
+  <meta property="og:title" content="Инвентаризация RedVirt: учет виртуальных машин и хостов | ИТМен" />
+  <meta property="og:description" content="Инвентаризация RedVirt (РЕД Виртуализация) в ИТМен: сбор данных о виртуальных машинах и хостах через REST API, нормализация вместе с VMware, zVirt и Hyper-V и передача в CMDB, ITSM и ITAM." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://itman.ru/istochniki/redvirt/" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="Инферит ИТМен" />
+  <meta property="og:image" content="https://itman.ru/istochniki/redvirt/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Инвентаризация RedVirt в ИТМен: виртуальные машины, хосты KVM и кластеры" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Инвентаризация RedVirt: учет виртуальных машин и хостов | ИТМен" />
+  <meta name="twitter:description" content="Инвентаризация RedVirt (РЕД Виртуализация) в ИТМен: сбор данных о виртуальных машинах и хостах через REST API, нормализация вместе с VMware, zVirt и Hyper-V и передача в CMDB, ITSM и ITAM." />
+  <meta name="twitter:image" content="https://itman.ru/istochniki/redvirt/og-image.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://itman.ru/" },
+      { "@type": "ListItem", "position": 2, "name": "Источники данных", "item": "https://itman.ru/istochniki/" },
+      { "@type": "ListItem", "position": 3, "name": "Инвентаризация RedVirt", "item": "https://itman.ru/istochniki/redvirt/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Как ИТМен подключается к RedVirt?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Через задачу «Сбор данных через REST API»: адрес сервера RedVirt, учетные данные RestAPI и сенсоры к API RedVirt / oVirt."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Нужны ли агенты на каждую виртуальную машину?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Для сбора метаданных ВМ из RedVirt агенты на гостевых системах не обязательны. Более глубокая инвентаризация гостей идет через сетевую или локальную задачу."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Можно ли совмещать с zVirt и VMware?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да. Данные из RedVirt, zVirt, vCenter и SCVMM сводятся в единую нормализованную базу."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Какие права нужны для подключения?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Учетная запись с правами администратора для доступа к API RedVirt и учетные данные с платформой RestAPI в ИТМен."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Работает ли сбор в закрытом контуре?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да. Подключение к RedVirt выполняется внутри периметра, данные передаются по защищенным каналам."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Подходит ли ИТМен для учета ВМ при миграции на RedVirt?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да. ИТМен собирает актуальный список виртуальных машин и хостов из RedVirt и других гипервизоров. Это удобная основа для планирования и контроля перехода."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Чем ИТМен отличается от выгрузок из консоли РЕД Виртуализации?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Это российская программа для инвентаризации RedVirt из реестра ПО: сводит данные из нескольких источников виртуализации, нормализует их вместе с физическими узлами и передает в CMDB/ITSM без ручного экспорта."
+        }
+      }
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
@@ -684,7 +772,7 @@
     .security { background: var(--bg-soft); }
     .security__grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 14px;
     }
     .sec-item {
@@ -968,26 +1056,30 @@
         <nav class="breadcrumbs" aria-label="Хлебные крошки">
           <a href="https://itman.ru/">Главная</a>
           <span class="breadcrumbs__sep">›</span>
-          <a href="#">Источники данных</a>
+          <a href="https://itman.ru/istochniki/">Источники данных</a>
           <span class="breadcrumbs__sep">›</span>
           <span>Инвентаризация RedVirt</span>
         </nav>
 
         <div class="hero__grid">
           <div>
-            <h1 class="hero__title">Инферит ИТМен. Сбор данных из <em>RedVirt</em></h1>
+            <h1 class="hero__title">Инвентаризация RedVirt: учет виртуальных машин и хостов</h1>
             <ul class="hero__list">
               <li>
                 <span class="hero__check" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                Виртуальные машины и хосты RedVirt через REST API
+                Сбор данных о виртуальных машинах и хостах RedVirt через REST API: актуальный список ВМ и состав инфраструктуры
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                Учёт виртуализации на RED OS в едином контуре с другими источниками
+                Учет виртуализации РЕД СОФТ в экосистеме РЕД ОС без ручных выгрузок
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                Сверка ВМ из RedVirt с фактическими узлами и ПО
+                Единый учет вместе с VMware, zVirt, Hyper-V и физическими узлами
+              </li>
+              <li>
+                <span class="hero__check" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                Удобная основа для учета парка ВМ при переходе на российский гипервизор
               </li>
             </ul>
             <div class="hero__cta">
@@ -996,9 +1088,9 @@
             </div>
           </div>
 
-          <div class="hero__visual" aria-hidden="true">
+          <div class="hero__visual" role="img" aria-label="Инвентаризация RedVirt в ИТМен: виртуальные машины, хосты KVM и кластеры">
             <div class="hero__blob"></div>
-            <div class="product-ui">
+            <div class="product-ui" aria-hidden="true">
               <aside class="product-ui__side">
                 <div class="product-ui__brand">
                   <span class="product-ui__brand-mark">ИТ</span>
@@ -1043,7 +1135,6 @@
                 </div>
                 <div class="product-ui__panel">
                   <div class="product-ui__panel-title">Синхронизация · RedVirt</div>
-
                   <div class="sync-row"><span>Источник</span><span>Объектов</span><span>Обновление</span><span>Статус</span></div>
                   <div class="sync-row"><span>RedVirt · API</span><span>640</span><span>сегодня, 09:12</span><span class="sync-status">OK</span></div>
                   <div class="sync-row"><span>Хосты KVM</span><span>18</span><span>сегодня, 09:12</span><span class="sync-status">OK</span></div>
@@ -1114,25 +1205,25 @@
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Виртуализация на RedVirt в экосистеме RED OS</p>
+            <p>Виртуализация построена на RedVirt (РЕД Виртуализация) в экосистеме РЕД ОС</p>
           </article>
           <article class="fit-card" data-frame="1000007730-1">
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Нужен единый реестр ВМ на российском стеке</p>
+            <p>Нужен единый реестр виртуальных машин вместе с VMware, zVirt или физическими серверами</p>
           </article>
           <article class="fit-card" data-frame="1000007730-2">
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Данные из RedVirt нужно передавать в CMDB/ITSM</p>
+            <p>Важно видеть связь виртуальных машин, хостов KVM и установленного ПО</p>
           </article>
           <article class="fit-card" data-frame="1000007730-3">
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Смешанный контур: RedVirt, zVirt, VMware и физические узлы</p>
+            <p>Идет миграция на RedVirt, и нужен точный учет парка ВМ до и после перехода</p>
           </article>
         </div>
       </div>
@@ -1147,34 +1238,35 @@
               <div class="step__num">1</div>
               <h3>Подключение к RedVirt</h3>
               <ul>
-                <li>Задача «Сбор данных через REST API» с сенсорами для API платформы</li>
-                <li>Учётные данные RestAPI в справочнике учётных данных</li>
-                <li>Несколько инсталляций RedVirt как отдельные цели</li>
+                <li>Задача «Сбор данных через REST API» с сенсорами для API RedVirt / oVirt</li>
+                <li>Учетные данные с платформой RestAPI в справочнике учетных данных</li>
+                <li>Несколько инсталляций RedVirt добавляются как отдельные цели подключения</li>
               </ul>
             </article>
             <article class="step">
               <div class="step__num">2</div>
-              <h3>Сбор и нормализация</h3>
+              <h3>Сбор и нормализация данных</h3>
               <ul>
-                <li>Сбор карточек ВМ и хостов</li>
-                <li>Дополнительная инвентаризация гостевых систем на RED OS и др.</li>
-                <li>Приведение к единому формату</li>
+                <li>Сбор данных о виртуальных машинах и инвентаризация хостов RedVirt</li>
+                <li>При необходимости дополнительный опрос гостевых систем, в том числе на РЕД ОС</li>
+                <li>Приведение данных к единому формату вместе с другими гипервизорами</li>
               </ul>
             </article>
             <article class="step">
               <div class="step__num">3</div>
               <h3>Передача данных</h3>
               <ul>
-                <li>Готовые очищенные данные уходят в CMDB, ITSM, ITAM или SAM</li>
+                <li>Передача готовых очищенных данных в CMDB, ITSM, ITAM или SAM</li>
               </ul>
             </article>
           </div>
 
           <div class="schema" aria-hidden="true">
             <svg viewBox="0 0 420 360" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="24" y="28" width="110" height="72" rx="12" stroke="#607080" stroke-width="1.8"/>
-              <text x="79" y="60" text-anchor="middle" fill="#607080" font-family="Manrope, Arial" font-size="12" font-weight="700">vCenter / API</text>
-              <text x="79" y="78" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">REST API</text>
+              <rect x="24" y="28" width="110" height="72" rx="12" stroke="#c41e3a" stroke-width="1.8" fill="#fff5f6"/>
+              <text x="79" y="54" text-anchor="middle" fill="#c41e3a" font-family="Manrope, Arial" font-size="12" font-weight="700">RedVirt</text>
+              <text x="79" y="72" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="11" font-weight="600">REST API</text>
+              <text x="79" y="88" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="10">KVM · РЕД ОС</text>
 
               <rect x="155" y="28" width="110" height="72" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
               <text x="210" y="60" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">ВМ · хосты</text>
@@ -1211,7 +1303,7 @@
     <section class="collect" id="collect">
       <div class="container">
         <h2 class="section-title">Что мы собираем</h2>
-        <p class="collect__intro">RedVirt даёт состав виртуальной инфраструктуры на базе KVM. ИТМен подключается через REST API и дополняет данные инвентаризацией узлов.</p>
+        <p class="collect__intro">RedVirt дает состав виртуальной инфраструктуры на базе KVM: ВМ, хосты и кластеры. Этого мало для полной инвентаризации, поэтому ИТМен при необходимости дополнительно опрашивает сами виртуальные машины.</p>
         <div class="collect__grid">
           <article class="collect-card collect-card--dark">
             <div class="collect-card__icon">
@@ -1219,9 +1311,9 @@
             </div>
             <h3>Из RedVirt</h3>
             <ul>
-              <li>Виртуальные машины и хосты</li>
-              <li>Кластеры и ресурсные пулы</li>
-              <li>Конфигурация ВМ и статус</li>
+              <li>Виртуальные машины и хосты KVM</li>
+              <li>Кластеры и пулы ресурсов</li>
+              <li>Конфигурация виртуальной машины: CPU, RAM, диски, состояние</li>
             </ul>
           </article>
           <article class="collect-card collect-card--red">
@@ -1230,20 +1322,20 @@
             </div>
             <h3>С гостевых систем</h3>
             <ul>
-              <li>Железо, сеть, установленное ПО на RED OS и др.</li>
-              <li>SSH-сбор с Linux-гостей</li>
-              <li>Сверка учётных и фактических узлов</li>
+              <li>Конфигурация железа и сетевые параметры</li>
+              <li>Установленное ПО и версии для контроля лицензий и учета ITAM/SAM</li>
+              <li>Пользователи и учетные записи на виртуальной машине</li>
             </ul>
           </article>
           <article class="collect-card collect-card--light">
             <div class="collect-card__icon" style="color:var(--red)">
               <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="8" y="10" width="28" height="24" rx="4" stroke="currentColor" stroke-width="2"/></svg>
             </div>
-            <h3>Работа с масштабом</h3>
+            <h3>Работа со смешанной виртуализацией</h3>
             <ul>
-              <li>Несколько инсталляций RedVirt в одной базе</li>
-              <li>Сводка с zVirt, VMware и физическими серверами</li>
-              <li>Настраиваемые сенсоры REST API</li>
+              <li>RedVirt, zVirt, VMware и Hyper-V в одной нормализованной базе</li>
+              <li>Несколько инсталляций RedVirt как отдельные источники</li>
+              <li>Настраиваемые сенсоры REST API под объекты и поля API</li>
             </ul>
           </article>
         </div>
@@ -1252,27 +1344,23 @@
 
     <section class="security" id="security">
       <div class="container">
-        <h2 class="section-title section-title--center">Соответствие требованиям информационной безопасности</h2>
+        <h2 class="section-title section-title--center">Инферит ИТМен соответствует требованиям информационной безопасности</h2>
         <div class="security__grid">
           <article class="sec-item">
             <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 4v5c0 5-3.4 8.4-8 9-4.6-.6-8-4-8-9V7l8-4z" stroke="currentColor" stroke-width="1.7"/><path d="M9.5 12l2 2 3.5-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <p>Работает в закрытых периметрах, без выхода инфраструктуры в интернет</p>
+            <p><strong>Сбор данных при ограничениях.</strong> Работает в условиях закрытых периметров, с соблюдением строгих политик заказчиков в области информационной безопасности</p>
           </article>
           <article class="sec-item">
             <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V8a4 4 0 018 0v2" stroke="currentColor" stroke-width="1.7"/></svg>
-            <p>Подключение к каталогу по защищенному каналу</p>
-          </article>
-          <article class="sec-item">
-            <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.7"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-            <p>Поддержка протоколов шифрования по ГОСТ</p>
+            <p><strong>Защита данных.</strong> Поддержка защищенных протоколов шифрования по ГОСТ для безопасной передачи данных</p>
           </article>
           <article class="sec-item">
             <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.7"/><path d="M8 12.5l2.5 2.5L16 9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <p>В реестре российского ПО: №2016662248, запись №12289 от 14.12.2021</p>
+            <p><strong>В реестре российского ПО.</strong> Зарегистрирован в государственном реестре программ для ЭВМ (№2016662248) и включен в реестр российского ПО (реестровая запись №12289 от 14.12.2021)</p>
           </article>
           <article class="sec-item">
             <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><path d="M4 18V6h6v12H4zm10 0V9h6v9h-6z" stroke="currentColor" stroke-width="1.7"/></svg>
-            <p>Разработка без Open source, вся команда и инфраструктура в России</p>
+            <p><strong>Сделано в России.</strong> Решение без использования Open source, команда разработки, серверная архитектура и средства хранения и компиляции кода в России</p>
           </article>
         </div>
       </div>
@@ -1284,23 +1372,31 @@
         <div class="faq__list">
           <details open>
             <summary>Как ИТМен подключается к RedVirt?</summary>
-            <p>Через задачу «Сбор данных через REST API» с сенсорами для API RedVirt/oVirt.</p>
+            <p>Через задачу «Сбор данных через REST API»: адрес сервера RedVirt, учетные данные RestAPI и сенсоры к API RedVirt / oVirt.</p>
           </details>
           <details>
-            <summary>Нужны ли агенты на ВМ?</summary>
-            <p>Для метаданных из RedVirt агенты на ВМ не требуются. Инвентаризация гостей — через SSH или локальный сбор.</p>
+            <summary>Нужны ли агенты на каждую виртуальную машину?</summary>
+            <p>Для сбора метаданных ВМ из RedVirt агенты на гостевых системах не обязательны. Более глубокая инвентаризация гостей идет через сетевую или локальную задачу.</p>
           </details>
           <details>
             <summary>Можно ли совмещать с zVirt и VMware?</summary>
-            <p>Да. Данные из разных гипервизоров сводятся в единую базу.</p>
+            <p>Да. Данные из RedVirt, zVirt, vCenter и SCVMM сводятся в единую нормализованную базу.</p>
           </details>
           <details>
-            <summary>Является ли Инферит ИТМен системой CMDB?</summary>
-            <p>Нет. ИТМен собирает и нормализует данные и наполняет CMDB и ITSM.</p>
+            <summary>Какие права нужны для подключения?</summary>
+            <p>Учетная запись с правами администратора для доступа к API RedVirt и учетные данные с платформой RestAPI в ИТМен.</p>
           </details>
           <details>
             <summary>Работает ли сбор в закрытом контуре?</summary>
-            <p>Да. Подключение выполняется внутри периметра.</p>
+            <p>Да. Подключение к RedVirt выполняется внутри периметра, данные передаются по защищенным каналам.</p>
+          </details>
+          <details>
+            <summary>Подходит ли ИТМен для учета ВМ при миграции на RedVirt?</summary>
+            <p>Да. ИТМен собирает актуальный список виртуальных машин и хостов из RedVirt и других гипервизоров. Это удобная основа для планирования и контроля перехода.</p>
+          </details>
+          <details>
+            <summary>Чем ИТМен отличается от выгрузок из консоли РЕД Виртуализации?</summary>
+            <p>Это российская программа для инвентаризации RedVirt из реестра ПО: сводит данные из нескольких источников виртуализации, нормализует их вместе с физическими узлами и передает в CMDB/ITSM без ручного экспорта.</p>
           </details>
         </div>
       </div>
