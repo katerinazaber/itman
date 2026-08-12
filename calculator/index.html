@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
-  <title>ROI-калькулятор — обоснование бюджета · Инферит ИТМен</title>
+  <title>ROI-калькулятор «Инферит ИТМен»</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -42,25 +42,26 @@
 
         <div class="hero__grid">
           <div>
-            <h1 class="hero__title">Обоснуйте бюджет на автоматизацию ИТ за&nbsp;2&nbsp;минуты, а&nbsp;не за&nbsp;неделю согласований</h1>
+            <h1 class="hero__title">Сколько сэкономит компания, если навести порядок в&nbsp;ИТ-активах</h1>
+            <p class="hero__lead">Введите данные об инфраструктуре и получите готовое обоснование окупаемости «Инферит ИТМен» для согласования с руководством.</p>
             <ul class="hero__list">
               <li>
                 <span class="hero__check" aria-hidden="true">
                   <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
-                3 числа в — готовый документ для согласования с руководством
+                Онлайн-расчет за 2 минуты
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true">
                   <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
-                Консервативная модель: цифры, которые не стыдно показать финдиректору
+                Данные по потенциальной экономии и окупаемости
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true">
                   <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
-                Бесплатно · 2 минуты · PDF для пересылки руководству
+                Готовый PDF-отчет с цифрами для согласования с руководством
               </li>
             </ul>
             <div class="hero__cta">
@@ -86,8 +87,8 @@
       <div class="container">
         <div class="calc-box">
           <div class="calc-box__head">
-            <h2>Калькулятор ROI</h2>
-            <p>Все поля на одном экране — заполните данные и нажмите «Рассчитать»</p>
+            <h2>Калькулятор: сколько сэкономит ваша компания</h2>
+            <p>Заполните данные о вашей инфраструктуре и нажмите «Рассчитать». Калькулятор покажет потенциальную экономию и срок окупаемости.</p>
           </div>
 
           <div class="calc-fields">
@@ -96,22 +97,22 @@
               <input class="field-input field-input--num" type="number" id="workplaces" min="50" max="50000" value="850" />
               <input class="field-range" type="range" id="workplacesRange" min="50" max="10000" step="50" value="850" />
               <div class="range-labels"><span>50</span><span>10 000+</span></div>
-              <p class="field-hint">ПК, ноутбуки, VDI — всё, что инвентаризируется вручную или не инвентаризируется вообще.</p>
+              <p class="field-hint">ПК, ноутбуки, VDI. От масштаба зависит потенциал экономии.</p>
             </div>
             <div>
               <label class="field-label" for="itStaff">Сколько человек в ИТ-департаменте</label>
               <input class="field-input field-input--num" type="number" id="itStaff" min="1" max="500" value="25" />
-              <p class="field-hint">Посчитаем, сколько часов команды уходит на ручную сверку данных и отчёты — и сколько можно вернуть в реальные задачи.</p>
+              <p class="field-hint">Учитывается доля рабочего времени на ручную сверку данных и подготовку отчетов.</p>
             </div>
           </div>
 
           <div class="calc-licenses">
-            <h3>На что сейчас уходит бюджет</h3>
-            <p>Укажите ПО, за которое платите — в итоговом документе будут конкретные строки расходов.</p>
+            <h3>Добавьте лицензии</h3>
+            <p>Укажите ПО, на которое тратите бюджет. Можно выбрать из списка или добавить вручную.</p>
 
             <div class="row-actions">
               <div>
-                <label class="field-label" for="license">Добавьте лицензии</label>
+                <label class="field-label" for="license">Лицензия</label>
                 <select id="license" class="field-select"></select>
               </div>
               <div>
@@ -147,11 +148,11 @@
               </table>
             </div>
 
-            <p class="calc-note">Модель расчёта консервативная: мы не завышаем цифры, чтобы вам не пришлось потом их защищать перед скептически настроенным руководством.</p>
+            <p class="calc-note">Расчет выполнен по консервативной модели с учетом масштаба и организационного профиля.</p>
 
             <div class="calc-actions">
               <button type="button" class="btn btn--red btn--lg" id="btnCalc">Рассчитать ROI</button>
-              <span class="dirty-note hidden" id="dirtyNote">Данные изменились — нажмите «Рассчитать» ещё раз.</span>
+              <span class="dirty-note hidden" id="dirtyNote">Данные изменились — нажмите «Рассчитать» еще раз.</span>
             </div>
           </div>
 
@@ -167,8 +168,8 @@
 
     <section class="results-section" id="results">
       <div class="container">
-        <h2 class="section-title section-title--center">Это уже готовый аргумент для бюджетного комитета</h2>
-        <p class="section-lead">Цифры, которые можно один в один вставить в письмо руководству или презентацию на бюджетный комитет.</p>
+        <h2 class="section-title section-title--center">Готовое обоснование покупки решения для гендиректора и финансистов</h2>
+        <p class="section-lead">Документ с расчетом экономии и окупаемости, который можно сразу отправить руководству.</p>
 
         <div class="kpi-row">
           <article class="kpi-card"><span>Потенциальная экономия (₽/год) до</span><strong id="resSavings">—</strong></article>
@@ -182,7 +183,63 @@
           <div id="breakdown"></div>
         </div>
 
-        <p class="disclaimer">Расчёт носит ориентировочный характер и не является публичной офертой. Точная цифра зависит от конфигурации инфраструктуры, условий лицензирования и процессов эксплуатации в вашей компании.</p>
+        <p class="disclaimer">Расчет носит ориентировочный характер и не является публичной офертой. Точная цифра зависит от конфигурации инфраструктуры, условий лицензирования и процессов эксплуатации в вашей компании.</p>
+      </div>
+    </section>
+
+    <section class="report-preview" id="reportPreview">
+      <div class="container">
+        <h2 class="section-title section-title--center">Как выглядит часть отчета</h2>
+        <p class="section-lead">На странице — фрагмент. Полный PDF-отчет с вашими цифрами и аргументами для руководства придет на email после отправки формы.</p>
+
+        <div class="report-mock">
+          <div class="report-mock__bar">
+            <span class="report-mock__dots" aria-hidden="true"></span>
+            <span class="report-mock__filename">Обоснование окупаемости · Инферит ИТМен.pdf</span>
+            <span class="report-mock__badge">фрагмент</span>
+          </div>
+          <div class="report-mock__page">
+            <div class="report-mock__brand">ИНФЕРИТ ИТМен · ROI-отчет</div>
+            <h3 class="report-mock__h">Обоснование окупаемости внедрения</h3>
+            <p class="report-mock__sub">Расчет для согласования с руководством · консервативная модель</p>
+
+            <div class="report-mock__kpis">
+              <div>
+                <span>Потенциальная экономия</span>
+                <strong id="reportSavings">—</strong>
+              </div>
+              <div>
+                <span>ROI</span>
+                <strong id="reportRoi">—</strong>
+              </div>
+              <div>
+                <span>Окупаемость</span>
+                <strong id="reportPayback">—</strong>
+              </div>
+              <div>
+                <span>Инвестиции в ИТМен</span>
+                <strong id="reportInvest">—</strong>
+              </div>
+            </div>
+
+            <div class="report-mock__block">
+              <h4>Ключевые выводы для руководства</h4>
+              <ul>
+                <li>Внедрение окупается за счет оптимизации учета лицензий и сокращения потерь на ИТ-активах.</li>
+                <li>Расчет опирается на масштаб инфраструктуры и организационный профиль ИТ-команды.</li>
+                <li>Модель консервативна: цифры можно использовать в бюджетном комитете без завышения эффекта.</li>
+              </ul>
+            </div>
+
+            <div class="report-mock__fade" aria-hidden="true">
+              <p>В полном отчете: детализация по лицензиям, структура экономии, формулировки для гендиректора и финансиста…</p>
+            </div>
+          </div>
+          <p class="report-mock__cta-note">Полный отчет — после заполнения формы ниже</p>
+          <div class="report-mock__actions">
+            <a class="btn btn--red" href="#pdfForm">Получить полный отчет →</a>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -190,10 +247,22 @@
       <div class="container">
         <h2 class="section-title section-title--center">Что убеждает гендиректора и финдиректора выделить бюджет</h2>
         <div class="fit__grid">
-          <article class="fit-card"><h3>Цифры, а не ощущения</h3><p>«Кажется, мы теряем деньги на лишних лицензиях» и «мы теряем X ₽ в год» — это разные разговоры с ФД.</p></article>
-          <article class="fit-card"><h3>Расчёт, который не стыдно показать</h3><p>Консервативная модель: если её оспорят, она выдержит проверку, а не развалится при первом вопросе.</p></article>
-          <article class="fit-card"><h3>Работает в закрытом контуре</h3><p>Российское решение, не требует замены вашей CMDB и ITSM — снимает возражение «а не сломает ли это наши процессы».</p></article>
-          <article class="fit-card"><h3>Понятно, что покупаем</h3><p>Готовые данные для CMDB и ITAM, а не абстрактная «автоматизация» — руководству легче одобрить то, что можно потрогать.</p></article>
+          <article class="fit-card">
+            <h3>Не расходы, а предотвращенные потери</h3>
+            <p>Финдиректор реагирует не на «оборудование устарело», а на цифры: сколько будет стоить простой, если ничего не изменить.</p>
+          </article>
+          <article class="fit-card">
+            <h3>Инвестиция, которая окупает себя в деньгах</h3>
+            <p>Расчет показывает, за какой срок вложения в ИТМен окупятся за счет сэкономленного бюджета.</p>
+          </article>
+          <article class="fit-card">
+            <h3>Экономия, которую можно найти уже сейчас</h3>
+            <p>Аудит лицензий и активов показывает, за что компания платит, но не использует. Это готовый аргумент, а не просьба о новом бюджете.</p>
+          </article>
+          <article class="fit-card">
+            <h3>Один источник данных вместо разрозненных таблиц</h3>
+            <p>Расчет опирается на точные данные об инфраструктуре, поэтому его сложно оспорить.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -202,25 +271,24 @@
       <div class="container">
         <div class="cta__box">
           <div>
-            <h2 class="cta__title">Получите готовый документ — просто перешлите его руководству</h2>
-            <p class="cta__text">Цифры, выводы и формулировки уже готовы к пересылке — вам не нужно оборачивать их в аргументы самостоятельно.</p>
+            <h2 class="cta__title">Заполните форму и получите полный отчет c&nbsp;цифрами по окупаемости, которые убедят вашего гендиректора и финансиста</h2>
+            <p class="cta__text">Отчет включает расчет, выводы и аргументы для согласования бюджета.</p>
             <ul class="cta__list">
-              <li>Сколько компания тратит на лицензии сейчас — и сколько может сэкономить</li>
+              <li>Сколько компания тратит на лицензии сейчас и сколько может сэкономить</li>
               <li>ROI и срок окупаемости по консервативной модели</li>
-              <li>Готовые формулировки для бюджетного комитета</li>
+              <li>Аргументы для бюджетного комитета</li>
             </ul>
-            <a class="btn btn--outline" href="tel:88007078553">8 800 707 85 53</a>
           </div>
           <form class="form" id="pdfFormEl">
-            <input type="text" id="leadName" placeholder="Имя и Фамилия *" required />
+            <input type="text" id="leadName" placeholder="Имя *" required />
             <input type="text" id="leadCompany" placeholder="Компания *" required />
             <input type="email" id="leadEmail" placeholder="Рабочий email *" required />
             <input type="tel" id="leadPhone" placeholder="Телефон" />
             <label class="form__check">
               <input type="checkbox" required />
-              <span>Я даю согласие на обработку <a href="https://itman.ru/" target="_blank" rel="noopener">персональных данных</a></span>
+              <span>Нажимая кнопку, вы соглашаетесь на обработку <a href="https://itman.ru/" target="_blank" rel="noopener">персональных данных</a></span>
             </label>
-            <button type="submit" class="btn btn--red btn--lg">Получить документ для согласования</button>
+            <button type="submit" class="btn btn--red btn--lg">Получить отчет</button>
             <p class="form__success" id="pdfSuccess" hidden></p>
           </form>
         </div>
@@ -230,7 +298,7 @@
 
   <footer class="footer">
     <div class="container footer__inner">
-      <p>© 2011–2026 ООО «НЦПР». ROI-калькулятор Инферит ИТМен.</p>
+      <p>© 2011–2026 ООО «НЦПР». ROI-калькулятор «Инферит ИТМен».</p>
       <p><a href="https://itman.ru/">itman.ru</a> · Отдел продаж: <a href="tel:88007078553">8 800 707 85 53</a></p>
     </div>
   </footer>

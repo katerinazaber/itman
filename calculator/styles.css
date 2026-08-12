@@ -119,9 +119,16 @@ button { font: inherit; cursor: pointer; border: none; background: none; }
   line-height: 1.15;
   letter-spacing: -0.03em;
   color: var(--black);
-  margin-bottom: 22px;
+  margin-bottom: 16px;
 }
 .hero__title em { font-style: normal; color: var(--red); }
+.hero__lead {
+  font-size: 16px;
+  line-height: 1.55;
+  color: #555;
+  max-width: 540px;
+  margin-bottom: 22px;
+}
 .hero__list { display: grid; gap: 14px; margin-bottom: 30px; }
 .hero__list li {
   display: flex; align-items: flex-start; gap: 12px;
@@ -305,8 +312,166 @@ table input[type="number"] {
   margin-top: 28px; max-width: 760px; margin-inline: auto; line-height: 1.45;
 }
 
+/* Report preview */
+.report-preview {
+  background: var(--bg-soft);
+  padding: 64px 0;
+}
+.report-mock {
+  max-width: 780px;
+  margin: 0 auto;
+}
+.report-mock__bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #2a2a2a;
+  color: #fff;
+  border-radius: 14px 14px 0 0;
+  padding: 12px 16px;
+  font-size: 13px;
+}
+.report-mock__dots {
+  width: 42px;
+  height: 10px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 5px 5px, #ff5f57 4px, transparent 5px),
+    radial-gradient(circle at 21px 5px, #febc2e 4px, transparent 5px),
+    radial-gradient(circle at 37px 5px, #28c840 4px, transparent 5px);
+  flex: none;
+}
+.report-mock__filename {
+  flex: 1;
+  opacity: .85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.report-mock__badge {
+  flex: none;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  background: rgba(227,6,19,.2);
+  color: #ffb3b8;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.report-mock__page {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 14px 14px;
+  padding: 28px 28px 0;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.report-mock__brand {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--red);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.report-mock__h {
+  font-size: clamp(20px, 2.4vw, 26px);
+  font-weight: 800;
+  color: var(--black);
+  letter-spacing: -.02em;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+.report-mock__sub {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 22px;
+}
+.report-mock__kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 22px;
+}
+.report-mock__kpis > div {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 12px;
+  background: #fafbfc;
+}
+.report-mock__kpis span {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.report-mock__kpis strong {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--black);
+  letter-spacing: -.02em;
+}
+.report-mock__block {
+  border-top: 1px solid var(--border);
+  padding-top: 18px;
+  margin-bottom: 8px;
+}
+.report-mock__block h4 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--black);
+}
+.report-mock__block ul {
+  display: grid;
+  gap: 8px;
+}
+.report-mock__block li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 14px;
+  color: #444;
+  line-height: 1.45;
+}
+.report-mock__block li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+}
+.report-mock__fade {
+  margin-top: 18px;
+  padding: 28px 0 36px;
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, #fff 55%);
+  text-align: center;
+}
+.report-mock__fade p {
+  font-size: 13px;
+  color: var(--muted);
+  max-width: 420px;
+  margin: 0 auto;
+  line-height: 1.45;
+}
+.report-mock__cta-note {
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+  margin: 20px 0 12px;
+}
+.report-mock__actions {
+  display: flex;
+  justify-content: center;
+}
+
 /* Why — fit cards */
-.why-section { background: var(--bg-soft); }
+.why-section { background: #fff; }
 .fit__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -395,6 +560,7 @@ table input[type="number"] {
   .fit__grid { grid-template-columns: repeat(2, 1fr); }
   .kpi-row { grid-template-columns: repeat(2, 1fr); }
   .cta__box { grid-template-columns: 1fr; }
+  .report-mock__kpis { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 720px) {
@@ -404,4 +570,6 @@ table input[type="number"] {
   .fit__grid { grid-template-columns: 1fr; }
   .btn--dark { display: none; }
   .calc-box { padding: 20px; }
+  .report-mock__kpis { grid-template-columns: 1fr; }
+  .report-mock__page { padding: 20px 16px 0; }
 }

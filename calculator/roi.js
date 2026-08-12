@@ -218,10 +218,10 @@ function markDirty() {
 function renderBreakdown(result, container) {
   if (!container) return;
   const items = [
-    { label: "Меньше лишних лицензий — платите только за то, что реально используется", value: result.savingsLicenses },
-    { label: "Меньше потерь на неучтённых ИТ-активах", value: result.savingsAssets },
-    { label: "Меньше рутины у ИТ-команды", value: result.savingsIt },
-    { label: "Меньше риска из-за неточных данных об инфраструктуре", value: result.savingsRisks },
+    { label: "Оптимизация учета лицензий", value: result.savingsLicenses },
+    { label: "Сокращение потерь на ИТ-активах", value: result.savingsAssets },
+    { label: "Снижение нагрузки на ИТ-персонал", value: result.savingsIt },
+    { label: "Снижение рисков из-за неточных данных об инфраструктуре", value: result.savingsRisks },
   ];
   const total = result.savingsTotal || 1;
   container.innerHTML = items
@@ -263,6 +263,11 @@ function applyResultToUI(result) {
   set("resRoi", roiText);
   set("resPayback", paybackText);
   set("resInvest", fmtRubShort(result.itmenCost) + " / год");
+
+  set("reportSavings", fmtRubShort(result.savingsTotal) + " / год");
+  set("reportRoi", roiText);
+  set("reportPayback", paybackText);
+  set("reportInvest", fmtRubShort(result.itmenCost) + " / год");
 
   renderBreakdown(result, document.getElementById("breakdown"));
 }
@@ -378,8 +383,7 @@ function initRoiLanding() {
     const msg = document.getElementById("pdfSuccess");
     if (msg) {
       msg.hidden = false;
-      msg.textContent =
-        "Документ придёт на " + form.email + " в течение нескольких минут — можно сразу пересылать дальше.";
+      msg.textContent = "Спасибо! Отчет отправим на указанный email.";
     }
   });
 
