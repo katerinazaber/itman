@@ -1,4 +1,4 @@
-/* ROI landing v2 — logic from Roicalc.html */
+/* ROI landing — logic from Roicalc.html */
 
 const LEADS_ENDPOINT =
   "https://script.google.com/macros/s/AKfycbzY0v3ZZ1TAzTneF4NRmrP4j8RD6vJ3s6dxVMeZmWYUza_N6ZvoW-kFnA63ybhYbU_ExQ/exec";
@@ -29,7 +29,7 @@ const ITMEN_12_PRICING = [
   { max: 50000, perEndpoint: 850 },
 ];
 
-const state = { step: 1, lastResult: null };
+const state = { lastResult: null };
 const selected = new Map();
 let hasCalculated = false;
 
@@ -113,10 +113,10 @@ function calculate() {
 
   const rawSum = savingsLicensesBase + savingsAssetsBase + savingsItBase;
   const scale = rawSum > 0 ? savingsTotal / rawSum : 0;
-  let partLicenses = savingsLicensesBase * scale;
-  let partAssets = savingsAssetsBase * scale;
-  let partIt = savingsItBase * scale;
-  let partRisks = Math.max(0, savingsTotal - partLicenses - partAssets - partIt);
+  const partLicenses = savingsLicensesBase * scale;
+  const partAssets = savingsAssetsBase * scale;
+  const partIt = savingsItBase * scale;
+  const partRisks = Math.max(0, savingsTotal - partLicenses - partAssets - partIt);
 
   const licenses = [];
   for (const r of selected.values()) {
@@ -153,10 +153,10 @@ function renderList() {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${row.name}</td>
-      <td class="right"><input type="number" min="0" value="${row.qty}" style="max-width:100px;text-align:right" data-qty="${licenseId}" /></td>
+      <td class="right"><input type="number" min="0" value="${row.qty}" data-qty="${licenseId}" /></td>
       <td class="right hideCost">${fmtRub(row.pricePerYear)}</td>
       <td class="right hideCost"><span data-total="${licenseId}">${fmtRub(row.qty * row.pricePerYear)}</span></td>
-      <td><button type="button" class="btn btn--ghost btn--icon" data-del="${licenseId}">✕</button></td>`;
+      <td><button type="button" class="btn btn--ghost" data-del="${licenseId}" style="min-height:36px;padding:0 12px;font-size:13px">✕</button></td>`;
     listBody.appendChild(tr);
 
     tr.querySelector(`[data-qty="${licenseId}"]`)?.addEventListener("input", (e) => {
@@ -216,6 +216,7 @@ function markDirty() {
 }
 
 function renderBreakdown(result, container) {
+  if (!container) return;
   const items = [
     { label: "Меньше лишних лицензий — платите только за то, что реально используется", value: result.savingsLicenses },
     { label: "Меньше потерь на неучтённых ИТ-активах", value: result.savingsAssets },
@@ -234,24 +235,6 @@ function renderBreakdown(result, container) {
     .join("");
 }
 
-function renderDonut(result, container) {
-  const total = result.savingsTotal || 1;
-  const slices = [
-    { pct: (result.savingsLicenses / total) * 100, color: "#e30613" },
-    { pct: (result.savingsAssets / total) * 100, color: "#1a1a1a" },
-    { pct: (result.savingsIt / total) * 100, color: "#9ca3af" },
-    { pct: (result.savingsRisks / total) * 100, color: "#d1d5db" },
-  ];
-  let acc = 0;
-  container.style.background = `conic-gradient(${slices
-    .map((s) => {
-      const start = acc;
-      acc += s.pct;
-      return `${s.color} ${start}% ${acc}%`;
-    })
-    .join(", ")})`;
-}
-
 function applyResultToUI(result) {
   state.lastResult = result;
   const set = (id, text) => {
@@ -259,9 +242,7 @@ function applyResultToUI(result) {
     if (el) el.textContent = text;
   };
 
-  const paybackText = isFinite(result.paybackYears)
-    ? fmtNum(result.paybackYears, 1) + " лет"
-    : "—";
+  const paybackText = isFinite(result.paybackYears) ? fmtNum(result.paybackYears, 1) + " лет" : "—";
   const roiText = isFinite(result.roi) ? fmtNum(result.roi, 0) + "%" : "—";
   const roiPayback = roiText + " / " + paybackText;
 
@@ -284,7 +265,6 @@ function applyResultToUI(result) {
   set("resInvest", fmtRubShort(result.itmenCost) + " / год");
 
   renderBreakdown(result, document.getElementById("breakdown"));
-  renderDonut(result, document.getElementById("donut"));
 }
 
 function refreshPreview() {
@@ -335,29 +315,11 @@ function buildLeadPayload(calcResult, form) {
   };
 }
 
-function goStep(step) {
-  state.step = step;
-  document.querySelectorAll("[data-step-panel]").forEach((p) => {
-    p.hidden = Number(p.dataset.stepPanel) !== step;
-  });
-  document.querySelectorAll("[data-step-dot]").forEach((d) => {
-    const n = Number(d.dataset.stepDot);
-    d.classList.toggle("is-active", n === step);
-    d.classList.toggle("is-done", n < step);
-  });
-  if (step === 4) {
-    hasCalculated = true;
-    document.getElementById("dirtyNote")?.classList.add("hidden");
-    applyResultToUI(calculate());
-    document.getElementById("results")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-}
-
 function runCalc() {
   hasCalculated = true;
   document.getElementById("dirtyNote")?.classList.add("hidden");
   applyResultToUI(calculate());
-  goStep(4);
+  document.getElementById("results")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function initRoiLanding() {
@@ -396,18 +358,7 @@ function initRoiLanding() {
     document.getElementById("customBox")?.classList.toggle("hidden", !e.target.checked);
   });
 
-  document.getElementById("btnNext1")?.addEventListener("click", () => goStep(2));
-  document.getElementById("btnNext2")?.addEventListener("click", () => goStep(3));
-  document.getElementById("btnBack2")?.addEventListener("click", () => goStep(1));
-  document.getElementById("btnBack3")?.addEventListener("click", () => goStep(2));
   document.getElementById("btnCalc")?.addEventListener("click", runCalc);
-
-  document.getElementById("heroCalcBtn")?.addEventListener("click", () => {
-    document.getElementById("calculator")?.scrollIntoView({ behavior: "smooth" });
-  });
-  document.getElementById("btnToPdf")?.addEventListener("click", () => {
-    document.getElementById("pdfForm")?.scrollIntoView({ behavior: "smooth" });
-  });
 
   document.getElementById("pdfFormEl")?.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -434,7 +385,6 @@ function initRoiLanding() {
 
   renderList();
   refreshPreview();
-  goStep(1);
 }
 
 document.addEventListener("DOMContentLoaded", initRoiLanding);

@@ -11,262 +11,240 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="header">
+  <header class="header" id="header">
     <div class="container header__inner">
-      <a class="logo" href="https://itman.ru/">
-        <span class="logo__mark">IT</span>
-        <span class="logo__text"><strong>ИНФЕРИТ</strong> ИТМен</span>
+      <a class="logo" href="https://itman.ru/" aria-label="Инферит ИТМен">
+        <img src="assets/brand.svg" alt="Инферит ИТМен" style="height:36px;width:auto;display:block;" />
       </a>
-      <nav class="nav" aria-label="Навигация">
+      <nav class="nav" aria-label="Основная навигация">
         <a href="https://itman.ru/#about">О продукте</a>
         <a href="https://itman.ru/#features">Возможности</a>
         <a href="https://itman.ru/#cases">Кейсы</a>
-        <a href="https://itman.ru/blog/">Ресурсы</a>
+        <a href="https://itman.ru/support">Поддержка</a>
       </nav>
-      <a class="btn btn--red btn--sm" href="https://itman.ru/#demo">Получить демо</a>
+      <div class="header__actions">
+        <a class="btn-phone" href="tel:88007078553" aria-label="Позвонить">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.5 3 3.6 5.1 6.6 6.6l2.2-2.2a1.2 1.2 0 011.2-.3c1.3.4 2.7.7 4.1.7a1.2 1.2 0 011.2 1.2V20a1.2 1.2 0 01-1.2 1.2A17.2 17.2 0 012.8 4.2 1.2 1.2 0 014 3h3.2A1.2 1.2 0 018.4 4.2c0 1.4.2 2.8.7 4.1a1.2 1.2 0 01-.3 1.2L6.6 10.8z" fill="currentColor"/></svg>
+        </a>
+        <a class="btn btn--dark" href="#pdfForm">Получить документ</a>
+      </div>
     </div>
   </header>
 
-  <section class="hero">
-    <div class="container hero__grid">
-      <div class="hero__copy">
-        <h1>Обоснуйте бюджет на автоматизацию ИТ за 2&nbsp;минуты, а не за неделю согласований</h1>
-        <p class="lead">Вы знаете, что инвентаризация и дискаверинг нужны компании. Но чтобы получить бюджет, нужны цифры и аргументы для руководства. Мы их посчитаем и соберём в готовый документ — вам останется просто переслать.</p>
-        <ul class="hero__badges">
-          <li>Бесплатно</li>
-          <li>2 минуты</li>
-          <li>Готовый документ для согласования, не просто цифры</li>
-        </ul>
-        <button type="button" class="btn btn--red btn--lg" id="heroCalcBtn">Собрать аргументы для бюджета →</button>
-      </div>
-      <aside class="hero-card" aria-label="Пример результата">
-        <div class="hero-card__title">Предварительный результат</div>
-        <div class="hero-card__kpis">
-          <div><span>Сколько компания теряет сейчас</span><strong id="heroLoss">—</strong></div>
-          <div><span>Насколько окупится внедрение</span><strong id="heroRoi">—</strong></div>
-          <div><span>Через сколько отобьются вложения</span><strong id="heroPayback">—</strong></div>
-        </div>
-        <div class="hero-card__donut-wrap">
-          <div class="donut" id="donut" aria-hidden="true"></div>
-          <div class="donut-legend">
-            <span><i style="background:#e30613"></i>Лицензии</span>
-            <span><i style="background:#1a1a1a"></i>ИТ-активы</span>
-            <span><i style="background:#9ca3af"></i>Ручной труд</span>
-            <span><i style="background:#d1d5db"></i>Риски</span>
-          </div>
-        </div>
-        <p class="hero-card__meta" id="heroMeta">850 рабочих мест · 25 сотрудников ИТ · 3 лицензии</p>
-      </aside>
-    </div>
-  </section>
+  <main>
+    <section class="hero">
+      <div class="container">
+        <nav class="breadcrumbs" aria-label="Хлебные крошки">
+          <a href="https://itman.ru/">Главная</a>
+          <span class="breadcrumbs__sep">›</span>
+          <span>ROI-калькулятор</span>
+        </nav>
 
-  <section class="calc" id="calculator">
-    <div class="container">
-      <h2 class="section-title">Соберите пакет для согласования</h2>
-      <p class="section-lead">3 шага — и вместо часов на подготовку презентации у вас готовый расчёт с аргументами</p>
-      <div class="steps" aria-label="Шаги">
-        <div class="step-dot is-active" data-step-dot="1"><span>1</span> Рабочие места</div>
-        <div class="step-dot" data-step-dot="2"><span>2</span> Сотрудники ИТ</div>
-        <div class="step-dot" data-step-dot="3"><span>3</span> Лицензии</div>
-        <div class="step-dot" data-step-dot="4"><span>4</span> Результат</div>
-      </div>
-
-      <div class="calc-panel" data-step-panel="1">
-        <div class="calc-grid">
+        <div class="hero__grid">
           <div>
-            <label class="field-label" for="workplaces">Сколько у вас рабочих мест (РМ) *</label>
-            <input class="field-input field-input--lg" type="number" id="workplaces" min="50" max="50000" value="850" />
-            <input class="field-range" type="range" id="workplacesRange" min="50" max="10000" step="50" value="850" />
-            <div class="range-labels"><span>50</span><span>10 000+</span></div>
-            <p class="hint">ПК, ноутбуки, VDI — всё, что сейчас инвентаризируется вручную или не инвентаризируется вообще. От масштаба зависит и потенциал экономии, и то, насколько весомым будет аргумент для руководства.</p>
+            <h1 class="hero__title">Обоснуйте бюджет на автоматизацию ИТ за&nbsp;2&nbsp;минуты, а&nbsp;не за&nbsp;неделю согласований</h1>
+            <ul class="hero__list">
+              <li>
+                <span class="hero__check" aria-hidden="true">
+                  <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                3 числа в — готовый документ для согласования с руководством
+              </li>
+              <li>
+                <span class="hero__check" aria-hidden="true">
+                  <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                Консервативная модель: цифры, которые не стыдно показать финдиректору
+              </li>
+              <li>
+                <span class="hero__check" aria-hidden="true">
+                  <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                Бесплатно · 2 минуты · PDF для пересылки руководству
+              </li>
+            </ul>
+            <div class="hero__cta">
+              <a class="btn btn--red btn--lg" href="#calculator">Рассчитать ROI →</a>
+              <a class="btn btn--outline btn--lg" href="#pdfForm">Получить документ</a>
+            </div>
           </div>
-          <div class="calc-side-note">
-            <strong>Шаг 1 из 4</strong>
-            <p>Введите кол-во рабочих мест (РМ) — как в калькуляторе ROI.</p>
+
+          <aside class="preview-card" aria-label="Предварительный результат">
+            <div class="preview-card__title">Предварительный результат</div>
+            <div class="preview-kpis">
+              <div><span>Потенциальная экономия</span><strong id="heroLoss">—</strong></div>
+              <div><span>ROI</span><strong id="heroRoi">—</strong></div>
+              <div><span>Окупаемость</span><strong id="heroPayback">—</strong></div>
+            </div>
+            <p class="preview-card__meta" id="heroMeta">850 рабочих мест · 25 сотрудников ИТ · 0 лицензий</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="calc-section" id="calculator">
+      <div class="container">
+        <div class="calc-box">
+          <div class="calc-box__head">
+            <h2>Калькулятор ROI</h2>
+            <p>Все поля на одном экране — заполните данные и нажмите «Рассчитать»</p>
+          </div>
+
+          <div class="calc-fields">
+            <div>
+              <label class="field-label" for="workplaces">Сколько у вас рабочих мест (РМ) *</label>
+              <input class="field-input field-input--num" type="number" id="workplaces" min="50" max="50000" value="850" />
+              <input class="field-range" type="range" id="workplacesRange" min="50" max="10000" step="50" value="850" />
+              <div class="range-labels"><span>50</span><span>10 000+</span></div>
+              <p class="field-hint">ПК, ноутбуки, VDI — всё, что инвентаризируется вручную или не инвентаризируется вообще.</p>
+            </div>
+            <div>
+              <label class="field-label" for="itStaff">Сколько человек в ИТ-департаменте</label>
+              <input class="field-input field-input--num" type="number" id="itStaff" min="1" max="500" value="25" />
+              <p class="field-hint">Посчитаем, сколько часов команды уходит на ручную сверку данных и отчёты — и сколько можно вернуть в реальные задачи.</p>
+            </div>
+          </div>
+
+          <div class="calc-licenses">
+            <h3>На что сейчас уходит бюджет</h3>
+            <p>Укажите ПО, за которое платите — в итоговом документе будут конкретные строки расходов.</p>
+
+            <div class="row-actions">
+              <div>
+                <label class="field-label" for="license">Добавьте лицензии</label>
+                <select id="license" class="field-select"></select>
+              </div>
+              <div>
+                <label class="field-label" for="qty">Кол-во</label>
+                <input class="field-input" type="number" id="qty" min="0" value="0" />
+              </div>
+              <div class="row-actions__btn">
+                <label class="field-label">&nbsp;</label>
+                <button type="button" class="btn btn--ghost" id="addBtn">+ Добавить</button>
+              </div>
+            </div>
+
+            <p class="custom-toggle">
+              <label><input type="checkbox" id="customToggle" /> Не нашли нужную лицензию — введите вручную</label>
+            </p>
+            <div class="custom-box hidden" id="customBox">
+              <div class="row-actions">
+                <div><label class="field-label">Название лицензии</label><input class="field-input" id="customName" /></div>
+                <div><label class="field-label">Кол-во</label><input class="field-input" type="number" id="customQty" min="1" value="1" /></div>
+                <div><label class="field-label">Цена за 1 / год (₽)</label><input class="field-input" type="number" id="customPrice" min="0" /></div>
+                <div class="row-actions__btn"><label class="field-label">&nbsp;</label><button type="button" class="btn btn--ghost" id="addCustomBtn">+ Добавить лицензию</button></div>
+              </div>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Лицензия</th><th class="right">Кол-во</th><th class="right hideCost">Цена за 1/год</th><th class="right hideCost">Итого/год</th><th></th></tr>
+                </thead>
+                <tbody id="listBody">
+                  <tr id="emptyRow"><td colspan="5" class="small">Пока ничего не добавлено. Выберите лицензию, укажите кол-во и нажмите «Добавить».</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p class="calc-note">Модель расчёта консервативная: мы не завышаем цифры, чтобы вам не пришлось потом их защищать перед скептически настроенным руководством.</p>
+
+            <div class="calc-actions">
+              <button type="button" class="btn btn--red btn--lg" id="btnCalc">Рассчитать ROI</button>
+              <span class="dirty-note hidden" id="dirtyNote">Данные изменились — нажмите «Рассчитать» ещё раз.</span>
+            </div>
+          </div>
+
+          <div class="kpi-row" id="kpiRow">
+            <article class="kpi-card"><span>Сколько платите за лицензии сейчас (₽/год)</span><strong id="kpiCurrent">—</strong></article>
+            <article class="kpi-card"><span>Сколько сможете сэкономить (₽/год) до</span><strong id="kpiSavings">—</strong></article>
+            <article class="kpi-card"><span>Сколько будет стоить ИТМен (₽/год)</span><strong id="kpiInvest">—</strong></article>
+            <article class="kpi-card"><span>ROI / окупаемость</span><strong id="kpiRoiPayback">—</strong></article>
           </div>
         </div>
-        <div class="calc-actions"><button type="button" class="btn btn--red" id="btnNext1">Далее →</button></div>
       </div>
+    </section>
 
-      <div class="calc-panel" data-step-panel="2" hidden>
-        <div class="calc-grid">
+    <section class="results-section" id="results">
+      <div class="container">
+        <h2 class="section-title section-title--center">Это уже готовый аргумент для бюджетного комитета</h2>
+        <p class="section-lead">Цифры, которые можно один в один вставить в письмо руководству или презентацию на бюджетный комитет.</p>
+
+        <div class="kpi-row">
+          <article class="kpi-card"><span>Потенциальная экономия (₽/год) до</span><strong id="resSavings">—</strong></article>
+          <article class="kpi-card"><span>ROI (%)</span><strong id="resRoi">—</strong></article>
+          <article class="kpi-card"><span>Окупаемость (лет)</span><strong id="resPayback">—</strong></article>
+          <article class="kpi-card"><span>Инвестиции (₽/год)</span><strong id="resInvest">—</strong></article>
+        </div>
+
+        <div class="breakdown">
+          <h3>Из чего складывается экономия</h3>
+          <div id="breakdown"></div>
+        </div>
+
+        <p class="disclaimer">Расчёт носит ориентировочный характер и не является публичной офертой. Точная цифра зависит от конфигурации инфраструктуры, условий лицензирования и процессов эксплуатации в вашей компании.</p>
+      </div>
+    </section>
+
+    <section class="why-section">
+      <div class="container">
+        <h2 class="section-title section-title--center">Что убеждает гендиректора и финдиректора выделить бюджет</h2>
+        <div class="fit__grid">
+          <article class="fit-card"><h3>Цифры, а не ощущения</h3><p>«Кажется, мы теряем деньги на лишних лицензиях» и «мы теряем X ₽ в год» — это разные разговоры с ФД.</p></article>
+          <article class="fit-card"><h3>Расчёт, который не стыдно показать</h3><p>Консервативная модель: если её оспорят, она выдержит проверку, а не развалится при первом вопросе.</p></article>
+          <article class="fit-card"><h3>Работает в закрытом контуре</h3><p>Российское решение, не требует замены вашей CMDB и ITSM — снимает возражение «а не сломает ли это наши процессы».</p></article>
+          <article class="fit-card"><h3>Понятно, что покупаем</h3><p>Готовые данные для CMDB и ITAM, а не абстрактная «автоматизация» — руководству легче одобрить то, что можно потрогать.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="pdfForm">
+      <div class="container">
+        <div class="cta__box">
           <div>
-            <label class="field-label" for="itStaff">Сколько человек в ИТ-департаменте</label>
-            <input class="field-input field-input--lg" type="number" id="itStaff" min="1" max="500" value="25" />
-            <p class="hint">Посчитаем, сколько часов команды сейчас уходит на ручную сверку данных и отчёты — и сколько вы сможете вернуть в реальные задачи. Это тоже аргумент, который стоит показать руководству.</p>
+            <h2 class="cta__title">Получите готовый документ — просто перешлите его руководству</h2>
+            <p class="cta__text">Цифры, выводы и формулировки уже готовы к пересылке — вам не нужно оборачивать их в аргументы самостоятельно.</p>
+            <ul class="cta__list">
+              <li>Сколько компания тратит на лицензии сейчас — и сколько может сэкономить</li>
+              <li>ROI и срок окупаемости по консервативной модели</li>
+              <li>Готовые формулировки для бюджетного комитета</li>
+            </ul>
+            <a class="btn btn--outline" href="tel:88007078553">8 800 707 85 53</a>
           </div>
-          <div class="calc-side-note">
-            <strong>Шаг 2 из 4</strong>
-            <p>Введите кол-во сотрудников ИТ-департамента (чел.).</p>
-          </div>
-        </div>
-        <div class="calc-actions">
-          <button type="button" class="btn btn--ghost" id="btnBack2">← Назад</button>
-          <button type="button" class="btn btn--red" id="btnNext2">Далее →</button>
-        </div>
-      </div>
-
-      <div class="calc-panel" data-step-panel="3" hidden>
-        <h3 class="field-label">На что сейчас уходит бюджет</h3>
-        <p class="hint hint--top">Укажите ПО, за которое платите. Так в итоговом документе будут не абстрактные проценты, а конкретные строки расходов, которые видит и понимает финансовый директор.</p>
-
-        <div class="license-add row-actions">
-          <div>
-            <label class="field-label" for="license">Добавьте лицензии</label>
-            <select id="license" class="field-input"></select>
-          </div>
-          <div>
-            <label class="field-label" for="qty">Кол-во</label>
-            <input class="field-input" type="number" id="qty" min="0" value="0" />
-          </div>
-          <div class="license-add__btn">
-            <label class="field-label">&nbsp;</label>
-            <button type="button" class="btn btn--ghost btn--add" id="addBtn">+ Добавить</button>
-          </div>
-        </div>
-
-        <p class="custom-toggle-wrap">
-          <label><input type="checkbox" id="customToggle" /> Не нашли нужную лицензию — введите вручную</label>
-        </p>
-        <div class="custom-box hidden" id="customBox">
-          <div class="row-actions">
-            <div><label class="field-label">Название лицензии</label><input class="field-input" id="customName" /></div>
-            <div><label class="field-label">Кол-во</label><input class="field-input" type="number" id="customQty" min="1" value="1" /></div>
-            <div><label class="field-label">Цена за 1 / год (₽)</label><input class="field-input" type="number" id="customPrice" min="0" /></div>
-            <div class="license-add__btn"><label class="field-label">&nbsp;</label><button type="button" class="btn btn--ghost btn--add" id="addCustomBtn">+ Добавить лицензию</button></div>
-          </div>
-        </div>
-
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr><th>Лицензия</th><th class="right">Кол-во</th><th class="right hideCost">Цена за 1/год</th><th class="right hideCost">Итого/год</th><th></th></tr>
-            </thead>
-            <tbody id="listBody">
-              <tr id="emptyRow"><td colspan="5" class="small">Пока ничего не добавлено. Выберите лицензию, укажите кол-во и нажмите «Добавить».</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <p class="calc-note">Модель расчёта консервативная: мы не завышаем цифры, чтобы вам не пришлось потом их защищать перед скептически настроенным руководством.</p>
-        <div class="calc-actions">
-          <button type="button" class="btn btn--ghost" id="btnBack3">← Назад</button>
-          <button type="button" class="btn btn--red" id="btnCalc">Рассчитать и собрать документ</button>
+          <form class="form" id="pdfFormEl">
+            <input type="text" id="leadName" placeholder="Имя и Фамилия *" required />
+            <input type="text" id="leadCompany" placeholder="Компания *" required />
+            <input type="email" id="leadEmail" placeholder="Рабочий email *" required />
+            <input type="tel" id="leadPhone" placeholder="Телефон" />
+            <label class="form__check">
+              <input type="checkbox" required />
+              <span>Я даю согласие на обработку <a href="https://itman.ru/" target="_blank" rel="noopener">персональных данных</a></span>
+            </label>
+            <button type="submit" class="btn btn--red btn--lg">Получить документ для согласования</button>
+            <p class="form__success" id="pdfSuccess" hidden></p>
+          </form>
         </div>
       </div>
-
-      <div class="calc-panel" data-step-panel="4" hidden>
-        <div class="kpi-cards kpi-cards--step4">
-          <article class="kpi-card"><span>Сколько платите за лицензии сейчас (₽/год)</span><strong id="kpiCurrent">—</strong></article>
-          <article class="kpi-card"><span>Сколько сможете сэкономить (₽/год) до</span><strong id="kpiSavings">—</strong></article>
-          <article class="kpi-card"><span>Сколько будет стоить ИТМен (₽/год)</span><strong id="kpiInvest">—</strong></article>
-          <article class="kpi-card"><span>Насколько окупится и за какой срок</span><strong id="kpiRoiPayback">—</strong></article>
-        </div>
-        <p class="dirty-note hidden" id="dirtyNote">Данные изменились — нажмите «Рассчитать» ещё раз, чтобы в документе были точные цифры.</p>
-        <p class="calc-done">Пакет готов — получите PDF для пересылки руководству.</p>
-        <div class="calc-actions">
-          <button type="button" class="btn btn--ghost" id="btnToPdf">Получить документ для согласования →</button>
-        </div>
-      </div>
-
-      <p class="privacy-note">Данные никуда не передаются. Контакты нужны только, чтобы отправить вам готовый PDF.</p>
-    </div>
-  </section>
-
-  <section class="results" id="results">
-    <div class="container">
-      <h2 class="section-title">Это уже готовый аргумент для бюджетного комитета</h2>
-      <p class="section-lead">Не просто оценка эффекта — цифры, которые можно один в один вставить в письмо руководству или презентацию на бюджетный комитет.</p>
-      <div class="results-grid">
-        <div class="kpi-cards">
-          <article class="kpi-card"><span>Потенциальная экономия (₽/год) до</span><strong id="resSavings">—</strong><small>на лицензиях, ИТ-активах и времени команды</small></article>
-          <article class="kpi-card"><span>ROI (%)</span><strong id="resRoi">—</strong><small>во сколько раз отдача превышает вложения</small></article>
-          <article class="kpi-card"><span>Окупаемость (лет)</span><strong id="resPayback">—</strong><small>когда вложения в ИТМен себя отобьют</small></article>
-          <article class="kpi-card"><span>Инвестиции (₽/год)</span><strong id="resInvest">—</strong><small>стоимость решения для вашего масштаба</small></article>
-        </div>
-        <aside class="results-cta">
-          <p>Нужен развёрнутый расчёт и готовые слайды под вашу инфраструктуру?</p>
-          <a href="#pdfForm">Получить полный пакет для согласования →</a>
-        </aside>
-      </div>
-      <div class="breakdown">
-        <h3>Из чего складывается экономия</h3>
-        <div id="breakdown"></div>
-      </div>
-      <p class="disclaimer">Расчёт носит ориентировочный характер и не является публичной офертой. Точная цифра зависит от конфигурации инфраструктуры, условий лицензирования и процессов эксплуатации в вашей компании.</p>
-    </div>
-  </section>
-
-  <section class="why">
-    <div class="container">
-      <h2 class="section-title">Что убеждает гендиректора и финдиректора выделить бюджет</h2>
-      <div class="why-grid">
-        <article><h3>Цифры, а не ощущения</h3><p>«Кажется, мы теряем деньги на лишних лицензиях» и «мы теряем X ₽ в год» — это разные разговоры с ФД. Второй выигрывает.</p></article>
-        <article><h3>Расчёт, который не стыдно показать</h3><p>Консервативная модель: если её оспорят, она выдержит проверку, а не развалится при первом вопросе.</p></article>
-        <article><h3>Работает в закрытом контуре</h3><p>Российское решение, не требует замены вашей CMDB и ITSM — снимает возражение «а не сломает ли это наши процессы».</p></article>
-        <article><h3>Понятно, что покупаем</h3><p>Готовые данные для CMDB и ITAM, а не абстрактная «автоматизация» — руководству легче одобрить то, что можно потрогать.</p></article>
-      </div>
-    </div>
-  </section>
-
-  <section class="pdf-block" id="pdfForm">
-    <div class="container pdf-block__grid">
-      <div>
-        <h2>Получите готовый документ — просто перешлите его руководству</h2>
-        <p class="pdf-block__lead">Это не отчёт с цифрами, которые вам ещё предстоит обернуть в аргументы. Мы уже сделали эту работу: цифры, выводы и формулировки готовы к пересылке.</p>
-        <ul>
-          <li>Сколько компания тратит на лицензии сейчас — и сколько может сэкономить</li>
-          <li>ROI и срок окупаемости, посчитанные по консервативной модели</li>
-          <li>Готовые формулировки и аргументы для бюджетного комитета</li>
-        </ul>
-      </div>
-      <div class="pdf-mock" aria-hidden="true">
-        <div class="pdf-mock__page">Пакет для согласования бюджета · ROI ИТМен</div>
-      </div>
-      <form class="pdf-form" id="pdfFormEl">
-        <label>Имя<input type="text" id="leadName" required /></label>
-        <label>Компания<input type="text" id="leadCompany" required /></label>
-        <label>Рабочий email<input type="email" id="leadEmail" required /></label>
-        <label>Телефон<input type="tel" id="leadPhone" /></label>
-        <button type="submit" class="btn btn--dark btn--block">Получить документ для согласования</button>
-        <p class="pdf-form__legal">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
-        <p class="pdf-form__success" id="pdfSuccess" hidden></p>
-      </form>
-    </div>
-  </section>
-
-  <section class="trust">
-    <div class="container">
-      <p class="trust__title">Нам доверяют ведущие компании</p>
-      <div class="trust__logos">
-        <span>Сбер</span><span>Почта России</span><span>РЖД</span><span>X5 Group</span><span>Мегафон</span><span>Газпром</span>
-      </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <footer class="footer">
-    <div class="container footer__grid">
-      <div>
-        <div class="logo logo--footer"><span class="logo__mark">IT</span><span class="logo__text"><strong>ИНФЕРИТ</strong> ИТМен</span></div>
-        <p>Российская система инвентаризации, учёта и дискаверинга ИТ-инфраструктуры.</p>
-      </div>
-      <div>
-        <strong>Продукт</strong>
-        <a href="https://itman.ru/">О продукте</a>
-        <a href="https://itman.ru/#demo">Демо</a>
-      </div>
-      <div>
-        <strong>Контакты</strong>
-        <a href="mailto:info@itman.ru">info@itman.ru</a>
-        <a href="https://itman.ru/#demo">Написать нам</a>
-      </div>
-    </div>
-    <div class="container footer__bottom">
-      <span>© 2026 Инферит ИТМен</span>
-      <a href="https://itman.ru/privacy/">Политика конфиденциальности</a>
+    <div class="container footer__inner">
+      <p>© 2011–2026 ООО «НЦПР». ROI-калькулятор Инферит ИТМен.</p>
+      <p><a href="https://itman.ru/">itman.ru</a> · Отдел продаж: <a href="tel:88007078553">8 800 707 85 53</a></p>
     </div>
   </footer>
 
+  <a class="to-top" href="#" aria-label="Наверх">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 10l5-5 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+
   <script src="roi.js"></script>
+  <script>
+    const header = document.getElementById('header');
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  </script>
 </body>
 </html>
