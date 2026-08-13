@@ -93,17 +93,32 @@ WebFont.load({
 <script>document.addEventListener("DOMContentLoaded",()=>{const cookies_get=name=>{const parts=("; "+document.cookie).split("; "+name+"=");if(2===parts.length)return decodeURIComponent(parts.pop().split(";").shift())},cookies_set=(name,value,options={})=>{if((options={path:"/",...options}).expires){const date=new Date;date.setTime(date.getTime()+24*options.expires*60*60*1e3),options.expires=date.toUTCString()}let updatedCookie=encodeURIComponent(name)+"="+encodeURIComponent(value);for(const[key,val]of Object.entries(options))updatedCookie+=";"+key+(!0!==val?"="+val:"");document.cookie=updatedCookie},ui={banner:document.querySelector("[data-cookie-banner]"),consentBtn:document.querySelector('[data-cookie-consent="accept"]'),rejectBtn:document.querySelector('[data-cookie-consent="reject"]'),closeBtn:document.querySelector(".pop-up__inside-close-button"),overlay:document.querySelector(".pop-up__overlay")},hideBanner=()=>{ui.banner&&ui.banner.style.setProperty("display","none","important")};void 0===cookies_get("cookieAgreement")&&ui.banner&&(ui.banner.style.display="flex",ui.closeBtn?.addEventListener("click",hideBanner),ui.overlay?.addEventListener("click",hideBanner),ui.consentBtn?.addEventListener("click",()=>{cookies_set("cookieAgreement","true",{expires:30}),hideBanner()}),ui.rejectBtn?.addEventListener("click",()=>{cookies_set("cookieAgreement","false",{expires:30}),hideBanner()}))});</script>
 <link rel='icon' href='https://itman.ru/favicon.svg' type='image/svg+xml' />
 
-<!-- Carrot quest BEGIN -->
-<script type="text/javascript">
-!function(){function t(t,e){return function(){window.carrotquestasync.push(t,arguments)}}if("undefined"==typeof carrotquest){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src="https://cdn.carrotquest.app/api.min.js",document.getElementsByTagName("head")[0].appendChild(e),window.carrotquest={},window.carrotquestasync=[],carrotquest.settings={};for(var n=["connect","track","identify","auth","onReady","addCallback","removeCallback","trackMessageInteraction"],a=0;a<n.length;a++)carrotquest[n[a]]=t(n[a])}}(),carrotquest.connect("69393-e9692d4c2d90bba162f5003c96");
-</script>
-<!-- Carrot quest END -->
-
-
-
+<!-- Carrot quest removed on preview -->
 <!-- mosaic.head.scripts -->
 <link rel="canonical" href="https://itman.ru/">
-<!-- /mosaic.head.scripts --></head>
+<!-- /mosaic.head.scripts -->
+<style id="preview-overlay-kill">
+  /* Preview page: disable chat/popups that steal clicks over the calculator */
+  #carrot-popup-frame,
+  iframe.carrot-popup-frame,
+  iframe[src*="carrotquest"],
+  .carrotquest-css-reset,
+  div[class*="carrot"],
+  #carrotquest-messenger-frame,
+  .cq-popup,
+  .cq-overlay {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    opacity: 0 !important;
+  }
+  .itman-roi [hidden] { display: none !important; }
+</style>
+
+<style>[data-cookie-banner]{display:none!important}</style>
+</head>
 <body>
 <div class='mosaic-wrap'>
 <div class='root' id='i8z5xo3zc_0'>
