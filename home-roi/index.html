@@ -2156,7 +2156,7 @@ textarea[name="first_visit_source"] {
 
 <!-- ROI calculator preview block (mock for itman.ru homepage) -->
 <link rel="stylesheet" href="roi-embed.css" />
-<section class="itman-roi" id="roi-calculator" aria-label="ROI-калькулятор">
+<section class="itman-roi" id="roi-calculator" aria-label="ROI-калькулятор" data-phase="input" data-input-step="1">
   <div class="itman-roi__inner">
     <header class="itman-roi__head">
       <h2 class="itman-roi__title">А какой экономический эффект может получить ваша компания?</h2>
@@ -2164,91 +2164,205 @@ textarea[name="first_visit_source"] {
     </header>
 
     <div class="itman-roi__grid">
+      <!-- LEFT -->
       <div class="itman-roi__form-card">
-        <ol class="itman-roi__steps" aria-label="Шаги расчёта">
-          <li class="is-active" data-step-dot="1"><span>1</span>Компания</li>
-          <li data-step-dot="2"><span>2</span>ИТ-команда</li>
-          <li data-step-dot="3"><span>3</span>Лицензии</li>
-          <li data-step-dot="4"><span>4</span>Результат</li>
-        </ol>
+        <div data-view="input">
+          <ol class="itman-roi__steps" aria-label="Шаги расчёта">
+            <li class="is-active" data-step-dot="1"><span>1</span>Компания</li>
+            <li data-step-dot="2"><span>2</span>ИТ-команда</li>
+            <li data-step-dot="3"><span>3</span>Лицензии</li>
+            <li data-step-dot="4"><span>4</span>Результат</li>
+          </ol>
 
-        <div class="itman-roi__panel" data-panel="form">
-          <p class="itman-roi__q">Сколько рабочих мест в вашей компании?</p>
-          <div class="itman-roi__pills" role="group" aria-label="Рабочие места">
-            <button type="button" class="itman-roi__pill" data-wp="100">до 100</button>
-            <button type="button" class="itman-roi__pill is-active" data-wp="300">100–500</button>
-            <button type="button" class="itman-roi__pill" data-wp="750">500–1000</button>
-            <button type="button" class="itman-roi__pill" data-wp="2500">1000–5000</button>
-            <button type="button" class="itman-roi__pill" data-wp="7500">5000+</button>
+          <div class="itman-roi__panel" data-input-panel="1">
+            <p class="itman-roi__q">Сколько рабочих мест в вашей компании?</p>
+            <div class="itman-roi__pills" role="group" aria-label="Рабочие места">
+              <button type="button" class="itman-roi__pill" data-wp="100">до 100</button>
+              <button type="button" class="itman-roi__pill is-active" data-wp="300">100–500</button>
+              <button type="button" class="itman-roi__pill" data-wp="750">500–1000</button>
+              <button type="button" class="itman-roi__pill" data-wp="2500">1000–5000</button>
+              <button type="button" class="itman-roi__pill" data-wp="7500">5000+</button>
+            </div>
+            <input type="hidden" id="roiWp" value="300" />
+            <button type="button" class="itman-roi__btn" data-go-input="2">Далее →</button>
+            <p class="itman-roi__hint">Это займёт меньше 2 минут</p>
           </div>
-          <input type="hidden" id="roiWp" value="300" />
 
-          <p class="itman-roi__q">Сколько сотрудников работает в ИТ?</p>
-          <label class="itman-roi__field">
-            <input type="number" id="roiIt" min="1" max="500" value="35" />
-            <span>чел.</span>
-          </label>
+          <div class="itman-roi__panel" data-input-panel="2" hidden>
+            <p class="itman-roi__q">Сколько сотрудников работает в ИТ?</p>
+            <label class="itman-roi__field">
+              <input type="number" id="roiIt" min="1" max="500" value="35" />
+              <span>чел.</span>
+            </label>
+            <div class="itman-roi__nav">
+              <button type="button" class="itman-roi__btn itman-roi__btn--ghost" data-go-input="1">← Назад</button>
+              <button type="button" class="itman-roi__btn" data-go-input="3">Далее →</button>
+            </div>
+            <p class="itman-roi__hint">Это займёт меньше 2 минут</p>
+          </div>
 
-          <p class="itman-roi__q">Какой годовой бюджет на ПО и лицензии?</p>
-          <label class="itman-roi__field">
-            <input type="text" id="roiBudget" inputmode="numeric" value="12 000 000" />
-            <span>₽</span>
-          </label>
+          <div class="itman-roi__panel" data-input-panel="3" hidden>
+            <p class="itman-roi__q">Какой годовой бюджет на ПО и лицензии?</p>
+            <label class="itman-roi__field">
+              <input type="text" id="roiBudget" inputmode="numeric" value="12 000 000" />
+              <span>₽</span>
+            </label>
+            <div class="itman-roi__nav">
+              <button type="button" class="itman-roi__btn itman-roi__btn--ghost" data-go-input="2">← Назад</button>
+              <button type="button" class="itman-roi__btn" id="roiCalcBtn">Рассчитать →</button>
+            </div>
+            <p class="itman-roi__hint">Это займёт меньше 2 минут</p>
+          </div>
 
-          <button type="button" class="itman-roi__btn" id="roiNextBtn">Далее →</button>
-          <p class="itman-roi__hint">Это займёт меньше 2 минут</p>
+          <p class="itman-roi__lock">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            Все данные остаются конфиденциальными и используются только для расчёта экономического эффекта.
+          </p>
         </div>
 
-        <div class="itman-roi__panel" data-panel="result" hidden>
-          <p class="itman-roi__q">Персональный расчёт готов</p>
-          <p class="itman-roi__result-text">Оставьте контакты — пришлём полный отчёт с детализацией экономии на email.</p>
-          <form class="itman-roi__lead" id="roiLeadForm">
-            <input type="text" id="roiName" placeholder="Имя *" required />
-            <input type="text" id="roiCompany" placeholder="Компания *" required />
-            <input type="email" id="roiEmail" placeholder="Рабочий email *" required />
-            <button type="submit" class="itman-roi__btn">Получить отчёт</button>
-          </form>
-          <p class="itman-roi__success" id="roiSuccess" hidden>Спасибо! Отчёт отправим на указанный email.</p>
-          <button type="button" class="itman-roi__btn itman-roi__btn--ghost" id="roiBackBtn">← Изменить данные</button>
+        <div data-view="summary" hidden>
+          <p class="itman-roi__summary-label">Ваш расчёт</p>
+          <div class="itman-roi__metric itman-roi__metric--save">
+            <div class="itman-roi__metric-icon" aria-hidden="true">₽</div>
+            <div>
+              <span>Потенциальная экономия в год</span>
+              <strong data-bind="save">—</strong>
+            </div>
+          </div>
+          <div class="itman-roi__metric itman-roi__metric--roi">
+            <div class="itman-roi__metric-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <span>Ориентировочный ROI</span>
+              <strong data-bind="roi">—</strong>
+            </div>
+          </div>
+          <div class="itman-roi__metric itman-roi__metric--pay">
+            <div class="itman-roi__metric-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <span>Срок окупаемости</span>
+              <strong data-bind="pay">—</strong>
+            </div>
+          </div>
+          <button type="button" class="itman-roi__btn itman-roi__btn--ghost" id="roiEditBtn">← Изменить данные</button>
         </div>
-
-        <p class="itman-roi__lock">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-          Все данные остаются конфиденциальными и используются только для расчёта экономического эффекта.
-        </p>
       </div>
 
+      <!-- RIGHT -->
       <aside class="itman-roi__preview" aria-live="polite">
-        <div class="itman-roi__preview-head">
-          <h3>Ваш предварительный результат</h3>
-          <p>На основе введённых данных</p>
+        <div data-view="preview">
+          <div class="itman-roi__preview-head">
+            <h3>Ваш предварительный результат</h3>
+            <p>На основе введённых данных</p>
+          </div>
+          <div class="itman-roi__metric itman-roi__metric--save">
+            <div class="itman-roi__metric-icon" aria-hidden="true">₽</div>
+            <div>
+              <span>Потенциальная экономия в год</span>
+              <strong data-bind="save">—</strong>
+            </div>
+          </div>
+          <div class="itman-roi__metric itman-roi__metric--roi">
+            <div class="itman-roi__metric-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <span>Ориентировочный ROI</span>
+              <strong data-bind="roi">—</strong>
+            </div>
+          </div>
+          <div class="itman-roi__metric itman-roi__metric--pay">
+            <div class="itman-roi__metric-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <span>Срок окупаемости</span>
+              <strong data-bind="pay">—</strong>
+            </div>
+          </div>
+          <p class="itman-roi__preview-note" id="roiPreviewNote">Заполните ещё 3 шага, чтобы получить персональный расчёт с детализацией</p>
         </div>
-        <div class="itman-roi__metric itman-roi__metric--save">
-          <div class="itman-roi__metric-icon" aria-hidden="true">₽</div>
-          <div>
-            <span>Потенциальная экономия в год</span>
-            <strong id="roiOutSave">—</strong>
+
+        <div data-view="cta" hidden>
+          <div class="itman-roi__preview-head">
+            <h3>Ваш предварительный результат</h3>
+            <p>На основе введённых данных</p>
+          </div>
+          <div class="itman-roi__metric itman-roi__metric--save">
+            <div class="itman-roi__metric-icon" aria-hidden="true">₽</div>
+            <div>
+              <span>Потенциальная экономия в год</span>
+              <strong data-bind="save">—</strong>
+            </div>
+          </div>
+          <div class="itman-roi__metric itman-roi__metric--roi">
+            <div class="itman-roi__metric-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <span>Ориентировочный ROI</span>
+              <strong data-bind="roi">—</strong>
+            </div>
+          </div>
+          <div class="itman-roi__metric itman-roi__metric--pay">
+            <div class="itman-roi__metric-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <span>Срок окупаемости</span>
+              <strong data-bind="pay">—</strong>
+            </div>
+          </div>
+
+          <div class="itman-roi__cta-box">
+            <h4>Получите полный расчёт с обоснованием для руководства</h4>
+            <p>На основе ваших данных мы подготовим персональный отчёт с детальным расчётом экономического эффекта, финансовой моделью и готовым обоснованием для принятия решения о внедрении.</p>
+            <button type="button" class="itman-roi__btn" id="roiGetReportBtn">Получить полный отчёт →</button>
           </div>
         </div>
-        <div class="itman-roi__metric itman-roi__metric--roi">
-          <div class="itman-roi__metric-icon" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div>
-            <span>Ориентировочный ROI</span>
-            <strong id="roiOutRoi">—</strong>
+
+        <div data-view="lead" hidden>
+          <h3 class="itman-roi__lead-title">Получите готовое обоснование для руководства</h3>
+          <p class="itman-roi__lead-text">Мы подготовим для вас персональный расчёт экономического эффекта с детализацией по основным статьям затрат и готовым обоснованием для руководства.</p>
+          <ul class="itman-roi__checklist">
+            <li>расчёт потенциальной экономии</li>
+            <li>ROI и срок окупаемости</li>
+            <li>детализация экономического эффекта</li>
+            <li>финансовая модель внедрения</li>
+            <li>ключевые аргументы для принятия решения</li>
+          </ul>
+          <form class="itman-roi__lead" id="roiLeadForm">
+            <label class="itman-roi__label">Ваше имя
+              <input type="text" id="roiName" placeholder="Иван Иванов" required autocomplete="name" />
+            </label>
+            <label class="itman-roi__label">Рабочий e-mail
+              <input type="email" id="roiEmail" placeholder="name@company.ru" required autocomplete="email" />
+            </label>
+            <label class="itman-roi__label">Телефон <em>(необязательно)</em>
+              <input type="tel" id="roiPhone" placeholder="+7 (___) ___-__-__" autocomplete="tel" />
+            </label>
+            <button type="submit" class="itman-roi__btn">Получить полный отчёт →</button>
+          </form>
+          <p class="itman-roi__lock">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            Ваши данные конфиденциальны и используются только для подготовки расчёта.
+          </p>
+        </div>
+
+        <div data-view="done" hidden>
+          <p class="itman-roi__done-kicker">Готово!</p>
+          <h3 class="itman-roi__lead-title">Мы уже готовим ваш персональный отчёт</h3>
+          <p class="itman-roi__lead-text">Отправим его на указанный e-mail в течение 15 минут.</p>
+          <p class="itman-roi__lead-text">А пока вы можете посмотреть, как ИТМен решает задачи управления ИТ-инфраструктурой.</p>
+          <a class="itman-roi__btn" href="https://itman.ru/#features" target="_blank" rel="noopener">Посмотреть возможности ИТМен</a>
+          <div class="itman-roi__done-soft">
+            <p>Хотите обсудить результаты с экспертом?</p>
+            <a class="itman-roi__btn itman-roi__btn--ghost" href="https://itman.ru/#demo" target="_blank" rel="noopener">Связаться с экспертом</a>
           </div>
         </div>
-        <div class="itman-roi__metric itman-roi__metric--pay">
-          <div class="itman-roi__metric-icon" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          </div>
-          <div>
-            <span>Срок окупаемости</span>
-            <strong id="roiOutPay">—</strong>
-          </div>
-        </div>
-        <p class="itman-roi__preview-note" id="roiPreviewNote">Заполните форму и нажмите «Далее», чтобы получить персональный расчёт с детализацией</p>
       </aside>
     </div>
 

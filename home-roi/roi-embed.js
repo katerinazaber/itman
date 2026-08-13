@@ -1,4 +1,4 @@
-/* ROI embed for itman.ru homepage preview — ITMen-styled structure from mock */
+/* ROI embed — 3-phase funnel: input → preview CTA → lead form → done */
 
 (function () {
   const PCT_LICENSES = 0.1;
@@ -15,7 +15,8 @@
   const root = document.querySelector(".itman-roi");
   if (!root) return;
 
-  let step = 1; // 1..3 filling visual progress, 4 = result form
+  let inputStep = 1; // 1 company, 2 IT, 3 licenses
+  let phase = "input"; // input | result | lead | done
 
   function clamp01(x) {
     return Math.max(0, Math.min(1, x));
@@ -46,6 +47,14 @@
   function fmtNum(n, digits = 1) {
     if (!isFinite(n)) return "—";
     return (Math.round(n * 10 ** digits) / 10 ** digits).toString().replace(".", ",");
+  }
+  function paybackLabel(years) {
+    if (!isFinite(years)) return "—";
+    const v = fmtNum(years, 1);
+    const n = Number(String(v).replace(",", "."));
+    if (n === 1) return v + " год";
+    if (n >= 2 && n < 5) return v + " года";
+    return v + " лет";
   }
 
   function getInputs() {
@@ -84,67 +93,82 @@
     return { savingsTotal, roi, paybackYears };
   }
 
-  function updateStepper() {
-    root.querySelectorAll("[data-step-dot]").forEach((d) => {
-      const s = Number(d.dataset.stepDot);
-      d.classList.toggle("is-active", s === step);
-      d.classList.toggle("is-done", s < step);
-    });
-  }
-
-  function refreshPreview() {
+  function refreshNumbers() {
     const r = calculate();
-    const set = (id, text) => {
-      const el = document.getElementById(id);
-      if (el) el.textContent = text;
-    };
-    set("roiOutSave", fmtRubShort(r.savingsTotal));
-    set("roiOutRoi", isFinite(r.roi) ? fmtNum(r.roi, 0) + "%" : "—");
-    set("roiOutPay", isFinite(r.paybackYears) ? fmtNum(r.paybackYears, 1) + " года" : "—");
+    const save = fmtRubShort(r.savingsTotal);
+    const roi = isFinite(r.roi) ? fmtNum(r.roi, 0) + "%" : "—";
+    const pay = paybackLabel(r.paybackYears);
+    root.querySelectorAll('[data-bind="save"]').forEach((el) => (el.textContent = save));
+    root.querySelectorAll('[data-bind="roi"]').forEach((el) => (el.textContent = roi));
+    root.querySelectorAll('[data-bind="pay"]').forEach((el) => (el.textContent = pay));
 
     const note = document.getElementById("roiPreviewNote");
-    if (!note) return;
-    if (step >= 4) {
-      note.textContent = "Персональный расчёт готов — оставьте email, чтобы получить детальный отчёт";
-    } else {
-      const left = Math.max(1, 4 - step);
-      note.textContent =
-        "Заполните ещё " +
-        left +
-        (left === 1 ? " шаг" : " шага") +
-        ", чтобы получить персональный расчёт с детализацией";
+    if (note && phase === "input") {
+      const left = Math.max(0, 4 - inputStep);
+      if (left === 0) {
+        note.textContent = "Нажмите «Рассчитать», чтобы увидеть персональный результат";
+      } else {
+        note.textContent =
+          "Заполните ещё " +
+          left +
+          (left === 1 ? " шаг" : " шага") +
+          ", чтобы получить персональный расчёт с детализацией";
+      }
     }
   }
 
-  function showForm() {
-    step = 1;
-    root.querySelector('[data-panel="form"]').hidden = false;
-    root.querySelector('[data-panel="result"]').hidden = true;
-    updateStepper();
-    refreshPreview();
+  function updateStepper() {
+    const visualStep = phase === "input" ? inputStep : 4;
+    root.querySelectorAll("[data-step-dot]").forEach((d) => {
+      const s = Number(d.dataset.stepDot);
+      d.classList.toggle("is-active", s === visualStep);
+      d.classList.toggle("is-done", s < visualStep);
+    });
   }
 
-  function showResult() {
-    step = 4;
-    root.querySelector('[data-panel="form"]').hidden = true;
-    root.querySelector('[data-panel="result"]').hidden = false;
+  function setPhase(next) {
+    phase = next;
+    root.dataset.phase = next;
+
+    const show = (sel, on) => {
+      root.querySelectorAll(sel).forEach((el) => {
+        el.hidden = !on;
+      });
+    };
+
+    // left
+    show('[data-view="input"]', next === "input");
+    show('[data-view="summary"]', next === "result" || next === "lead" || next === "done");
+
+    // right
+    show('[data-view="preview"]', next === "input");
+    show('[data-view="cta"]', next === "result");
+    show('[data-view="lead"]', next === "lead");
+    show('[data-view="done"]', next === "done");
+
+    if (next === "input") {
+      root.querySelectorAll("[data-input-panel]").forEach((p) => {
+        p.hidden = Number(p.dataset.inputPanel) !== inputStep;
+      });
+    }
+
     updateStepper();
-    refreshPreview();
+    refreshNumbers();
+  }
+
+  function goInputStep(n) {
+    inputStep = n;
+    root.dataset.inputStep = String(n);
+    root.querySelectorAll("[data-input-panel]").forEach((p) => {
+      p.hidden = Number(p.dataset.inputPanel) !== n;
+    });
+    updateStepper();
+    refreshNumbers();
   }
 
   function formatBudgetInput(el) {
     const digits = String(el.value || "").replace(/\D/g, "");
     el.value = digits ? digits.replace(/\B(?=(\d{3})+(?!\d))/g, " ") : "";
-  }
-
-  // Visual stepper advances as user interacts: wp -> IT -> budget -> next
-  function bumpStepFromInputs(target) {
-    if (step >= 4) return;
-    if (target === "wp" && step < 2) step = 2;
-    else if (target === "it" && step < 3) step = 3;
-    else if (target === "budget" && step < 3) step = 3;
-    updateStepper();
-    refreshPreview();
   }
 
   root.querySelectorAll(".itman-roi__pill").forEach((btn) => {
@@ -153,27 +177,43 @@
       btn.classList.add("is-active");
       const wp = document.getElementById("roiWp");
       if (wp) wp.value = btn.dataset.wp || "300";
-      bumpStepFromInputs("wp");
+      refreshNumbers();
     });
   });
 
-  document.getElementById("roiIt")?.addEventListener("input", () => bumpStepFromInputs("it"));
+  document.getElementById("roiIt")?.addEventListener("input", refreshNumbers);
   document.getElementById("roiBudget")?.addEventListener("input", (e) => {
     formatBudgetInput(e.target);
-    bumpStepFromInputs("budget");
+    refreshNumbers();
   });
 
-  document.getElementById("roiNextBtn")?.addEventListener("click", showResult);
-  document.getElementById("roiBackBtn")?.addEventListener("click", showForm);
+  root.querySelectorAll("[data-go-input]").forEach((btn) => {
+    btn.addEventListener("click", () => goInputStep(Number(btn.dataset.goInput)));
+  });
+
+  document.getElementById("roiCalcBtn")?.addEventListener("click", () => {
+    inputStep = 4;
+    setPhase("result");
+  });
+
+  document.getElementById("roiGetReportBtn")?.addEventListener("click", () => {
+    setPhase("lead");
+  });
+
+  document.getElementById("roiEditBtn")?.addEventListener("click", () => {
+    inputStep = 1;
+    setPhase("input");
+    goInputStep(1);
+  });
 
   document.getElementById("roiLeadForm")?.addEventListener("submit", (e) => {
     e.preventDefault();
-    const msg = document.getElementById("roiSuccess");
-    if (msg) {
-      msg.hidden = false;
-      msg.textContent = "Спасибо! Отчёт отправим на указанный email.";
-    }
+    const name = document.getElementById("roiName")?.value?.trim();
+    const email = document.getElementById("roiEmail")?.value?.trim();
+    if (!name || !email) return;
+    setPhase("done");
   });
 
-  showForm();
+  setPhase("input");
+  goInputStep(1);
 })();
