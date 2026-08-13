@@ -358,9 +358,20 @@
 }
 
 .itman-roi__cta-box {
-  margin-top: 18px;
-  padding-top: 18px;
-  border-top: 1px solid var(--roi-border);
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.itman-roi__cta-box--solo p {
+  margin: 0 0 16px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--roi-muted);
+}
+
+.itman-roi__cta-box--solo .itman-roi__checklist {
+  margin-bottom: 22px;
 }
 
 .itman-roi__cta-box h4 {
