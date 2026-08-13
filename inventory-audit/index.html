@@ -18,7 +18,7 @@
 <meta content="https://itman.ru/Taptop" name="generator"> 
 <meta charset="utf-8">
 <meta name="robots" content="noindex,nofollow" />
-<title>Превью: Инвентаризация + аудит зрелости · Инферит ИТМен</title>
+<title>Превью: Инвентаризация + тест-аудит · Инферит ИТМен</title>
 <meta name="viewport" content="https://itman.ru/width=device-width, initial-scale=1">
 <meta name="format-detection" content="https://itman.ru/telephone=no">
 
@@ -93,8 +93,13 @@ WebFont.load({
   .cq-popup, .cq-overlay { display:none!important; pointer-events:none!important; }
   [data-cookie-banner]{display:none!important}
   #inventory-audit { scroll-margin-top: 88px; }
-  .inv-hero-cta { display:flex!important; flex-wrap:wrap!important; gap:12px!important; }
+  .inv-hero-cta { display:flex!important; flex-wrap:wrap!important; gap:12px!important; align-items:stretch!important; }
   .inv-hero-cta > .button, .inv-hero-cta > a.button { flex:0 1 auto; white-space:nowrap; }
+  @media (min-width:721px){
+    .inv-hero-cta { flex-wrap:nowrap!important; }
+    .inv-hero-cta > .button, .inv-hero-cta > a.button { padding-left:14px!important; padding-right:14px!important; }
+    .inv-hero-cta .text-button, .inv-hero-cta .text-block-wrap-div { font-size:15px!important; }
+  }
   @media (max-width:720px){
     .inv-hero-cta > .button, .inv-hero-cta > a.button { width:100%; justify-content:center; }
   }
@@ -730,35 +735,61 @@ textarea[name="first_visit_source"] {
 </div>
 </div>
 <h1 class='text font--nekst-40-semibold color--text-black' id='iny66dq79_0'>
-<span class='text-block-wrap-div'><span style="font-family:&quot;Nekst SemiBold&quot;"><span style="font-style:normal"><span style="font-weight:600"><span style="color:rgb(0, 0, 0)">Знаете, что на самом деле происходит в вашей ИТ-инфраструктуре?</span></span></span></span></span>
+<span class='text-block-wrap-div'><span style="font-family:&quot;Nekst SemiBold&quot;"><span style="font-style:normal"><span style="font-weight:600"><span style="color:rgb(0, 0, 0)">Инферит ИТМен. Инвентаризация</span></span></span></span></span>
 </h1>
 <p class='text font--nekst-18-regular' id='iu4wgn6d5_0'>
-<span class='text-block-wrap-div'>Получите актуальную картину оборудования, ПО и пользователей — без ручного сбора данных и Excel-таблиц.</span>
+<span class='text-block-wrap-div'>Для системных администраторов, специалистов техподдержки, <br>ИТ-инженеров</span>
 </p>
 <div class='div div--u-igg4npmp6 color--text-black' id='igg4npmp6_0'>
 <div class='div div--u-i9nhcuezj' id='i9nhcuezj_0'>
-<div class='text font--nekst-18-regular' id='ivd58aav9_0'><span class='text-block-wrap-div'>•</span></div>
-<p class='text font--nekst-18-regular' id='i3ebigbwf_0'><span class='text-block-wrap-div'><strong>Все устройства</strong> — автоматически обнаруживает оборудование в сети</span></p>
+<div class='text font--nekst-18-regular' id='ivd58aav9_0'>
+<span class='text-block-wrap-div'>•</span>
+</div>
+<p class='text font--nekst-18-regular' id='i3ebigbwf_0'>
+<span class='text-block-wrap-div'>Актуальная информация о каждом устройстве, ПО, пользователе</span>
+</p>
 </div>
 <div class='div div--u-ipsenzgo8' id='ipsenzgo8_0'>
-<div class='text font--nekst-18-regular' id='i2hharhyb_0'><span class='text-block-wrap-div'>•</span></div>
-<p class='text font--nekst-18-regular' id='ijh4zks4e_0'><span class='text-block-wrap-div'><strong>Все данные</strong> — собирает информацию из разных источников</span></p>
+<div class='text font--nekst-18-regular' id='i2hharhyb_0'>
+<span class='text-block-wrap-div'>•</span>
+</div>
+<p class='text font--nekst-18-regular' id='ijh4zks4e_0'>
+<span class='text-block-wrap-div'>Агрегированные данные из AD, FreeIPA, VMware, Clouds, VMM</span>
+</p>
 </div>
 <div class='div div--u-ii9sy0pyn' id='ii9sy0pyn_0'>
-<div class='text font--nekst-18-regular' id='ifmpw4tqp_0'><span class='text-block-wrap-div'>•</span></div>
-<p class='text font--nekst-18-regular' id='ipttt0qup_0'><span class='text-block-wrap-div'><strong>Все изменения</strong> — показывает, что изменилось и когда</span></p>
+<div class='text font--nekst-18-regular' id='ifmpw4tqp_0'>
+<span class='text-block-wrap-div'>•</span>
+</div>
+<p class='text font--nekst-18-regular' id='ipttt0qup_0'>
+<span class='text-block-wrap-div'>Полный контроль ИТ-инфраструктуры</span>
+</p>
+</div>
+<div class='div div--u-i4j4uujd4' id='i4j4uujd4_0'>
+<div class='text font--nekst-18-regular' id='ivtlt2bbd_0'>
+<span class='text-block-wrap-div'>•</span>
+</div>
+<p class='text font--nekst-18-regular' id='ie8j3ieco_0'>
+<span class='text-block-wrap-div'>Альтернатива импортным продуктам: FusionInventory, Lansweeper и др.</span>
+</p>
 </div>
 </div>
 </div>
-<div class='div div--u-i8cfkrs5k id='i8cfkrs5k_0'>
+<div class='div div--u-i8cfkrs5k inv-hero-cta' id='i8cfkrs5k_0'>
 <div href='https://itman.ru/' data-action-element='in2bw8hq2_0' role='button' data-goal='request-demo' class='button button--u-iohlxysgn button-primary color--background-accent-red' id='iohlxysgn_0'>
 <span class='text-button font--nekst-18-semibold' id='ikxz5c79o_0'>
 <span class='text-block-wrap-div'>Получить демо</span>
 </span>
 </div>
+
 <a href='#inventory-audit' data-goal='scroll-audit' class='button button--u-i3xw4t9co button-stroke-default color--background-neutral-white' id='heroAuditBtn'>
 <span class='text-button font--nekst-18-semibold color--text-black text-button--u-izz9m7zki'>
-<span class='text-block-wrap-div'>Проверить свою инфраструктуру →</span>
+<span class='text-block-wrap-div'>Тест-аудит за 1 мин</span>
+</span>
+</a>
+<a href='https://itman.ru/f/prezentaciya_inferit_itmen_sistemy_inventarizacii_ucheta_i_kontrolya_it-infrastruktury_498947.pdf?dl=1' data-action-element='' target='_blank' data-goal='click-presentation' class='button button--u-i3xw4t9co button-stroke-default color--background-neutral-white' id='i3xw4t9co_0'>
+<span class='text-button font--nekst-18-semibold color--text-black text-button--u-izz9m7zki' id='izz9m7zki_0'>
+<span class='text-block-wrap-div'>Скачать презентацию</span>
 </span>
 </a>
 </div>
@@ -821,155 +852,6 @@ textarea[name="first_visit_source"] {
 </div>
 </div>
 </section>
-
-<!-- Inventory maturity audit lead magnet -->
-<link rel="stylesheet" href="audit-embed.css" />
-<section class="itman-audit" id="inventory-audit" aria-label="Экспресс-оценка ИТ-инвентаризации" data-phase="quiz">
-  <div class="itman-audit__inner">
-    <header class="itman-audit__head">
-      <h2 class="itman-audit__title">Сколько ИТ-активов вы действительно контролируете?</h2>
-      <p class="itman-audit__lead">Ответьте на несколько вопросов и получите экспресс-оценку зрелости ИТ-инвентаризации вашей компании.</p>
-    </header>
-
-    <div class="itman-audit__grid">
-      <div class="itman-audit__card">
-        <div data-view="quiz">
-          <ol class="itman-audit__steps" aria-label="Шаги">
-            <li class="is-active" data-step-dot="1"><span>1</span>Сбор данных</li>
-            <li data-step-dot="2"><span>2</span>Актуальность</li>
-            <li data-step-dot="3"><span>3</span>Контроль</li>
-            <li data-step-dot="4"><span>4</span>Результат</li>
-          </ol>
-
-          <div data-q="1">
-            <p class="itman-audit__q">Насколько актуальна ваша ИТ-инвентаризация?</p>
-            <p class="itman-audit__subq">1. Как вы сейчас собираете информацию об ИТ-активах?</p>
-            <div class="itman-audit__options">
-              <button type="button" class="itman-audit__option" data-group="collect" data-value="excel">Вручную / Excel</button>
-              <button type="button" class="itman-audit__option" data-group="collect" data-value="multi">Из нескольких систем</button>
-              <button type="button" class="itman-audit__option" data-group="collect" data-value="auto">Автоматизированно</button>
-              <button type="button" class="itman-audit__option" data-group="collect" data-value="unified">Единая система учёта</button>
-            </div>
-            <div class="itman-audit__nav" style="grid-template-columns:1fr">
-              <button type="button" class="itman-audit__btn" data-next="2" disabled>Далее →</button>
-            </div>
-          </div>
-
-          <div data-q="2" hidden>
-            <p class="itman-audit__q">2. Как часто обновляются данные?</p>
-            <div class="itman-audit__options">
-              <button type="button" class="itman-audit__option" data-group="freshness" data-value="month">Раз в месяц и реже</button>
-              <button type="button" class="itman-audit__option" data-group="freshness" data-value="week">Раз в неделю</button>
-              <button type="button" class="itman-audit__option" data-group="freshness" data-value="day">Ежедневно</button>
-              <button type="button" class="itman-audit__option" data-group="freshness" data-value="realtime">В реальном времени</button>
-            </div>
-            <div class="itman-audit__nav">
-              <button type="button" class="itman-audit__btn itman-audit__btn--ghost" data-prev="1">← Назад</button>
-              <button type="button" class="itman-audit__btn" data-next="3" disabled>Далее →</button>
-            </div>
-          </div>
-
-          <div data-q="3" hidden>
-            <p class="itman-audit__q">3. Можете ли вы быстро ответить:</p>
-            <p class="itman-audit__subq">Сколько у вас устройств? Какое ПО установлено? Кто использует конкретное устройство? Что изменилось за последний месяц?</p>
-            <div class="itman-audit__options">
-              <button type="button" class="itman-audit__option" data-group="visibility" data-value="yes">Да, данные всегда под рукой</button>
-              <button type="button" class="itman-audit__option" data-group="visibility" data-value="partial">Частично</button>
-              <button type="button" class="itman-audit__option" data-group="visibility" data-value="no">Нет, нужно собирать информацию</button>
-            </div>
-            <div class="itman-audit__nav">
-              <button type="button" class="itman-audit__btn itman-audit__btn--ghost" data-prev="2">← Назад</button>
-              <button type="button" class="itman-audit__btn" data-next="4" disabled>Получить результат →</button>
-            </div>
-          </div>
-
-          <p class="itman-audit__hint">3 вопроса · меньше минуты</p>
-          <p class="itman-audit__lock">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-            Ответы используются только для экспресс-оценки. Контакты не требуются на этом шаге.
-          </p>
-        </div>
-
-        <div data-view="summary" hidden>
-          <p class="itman-audit__summary-label">Ваша оценка</p>
-          <div class="itman-audit__score" data-bind-score>—</div>
-          <p class="itman-audit__score-label" data-bind-verdict></p>
-          <div data-bars class="itman-audit__bars"></div>
-          <button type="button" class="itman-audit__btn itman-audit__btn--ghost" id="auditEdit">← Изменить ответы</button>
-        </div>
-      </div>
-
-      <aside class="itman-audit__card">
-        <div data-view="side-intro">
-          <h3 class="itman-audit__side-title">Экспресс-оценка зрелости</h3>
-          <p class="itman-audit__side-sub">Не ROI-калькулятор — мини-аудит текущего подхода к инвентаризации</p>
-          <ul class="itman-audit__checklist">
-            <li>оценка зрелости инвентаризации</li>
-            <li>основные зоны риска</li>
-            <li>где теряется время специалистов</li>
-            <li>какие процессы можно автоматизировать</li>
-          </ul>
-          <p class="itman-audit__meaning">После ответов сразу увидите персональный результат — без формы и звонков.</p>
-        </div>
-
-        <div data-view="side-result" hidden>
-          <div class="itman-audit__cta-box">
-            <h3>Ваша ИТ-инвентаризация: <span data-bind-score>—</span></h3>
-            <p class="itman-audit__score-label" data-bind-verdict style="margin-bottom:14px"></p>
-            <p class="itman-audit__subq" style="margin-bottom:8px">Что это означает для вашей компании?</p>
-            <p class="itman-audit__meaning" data-bind-meaning style="margin-bottom:18px"></p>
-            <h3>Получите подробный отчёт и рекомендации</h3>
-            <p>На основе ваших ответов подготовим персональный отчёт с оценкой текущего подхода и рекомендациями по автоматизации.</p>
-            <button type="button" class="itman-audit__btn" id="auditGetReport">Получить подробный отчёт →</button>
-          </div>
-        </div>
-
-        <div data-view="side-lead" hidden>
-          <h3 class="itman-audit__side-title">Получите персональный отчёт по ИТ-инвентаризации</h3>
-          <p class="itman-audit__side-sub">Документ, который можно показать руководителю — не просто балл, а зоны риска и что делать дальше.</p>
-          <ul class="itman-audit__checklist">
-            <li>оценка зрелости инвентаризации</li>
-            <li>основные зоны риска</li>
-            <li>где теряется время специалистов</li>
-            <li>какие процессы можно автоматизировать</li>
-            <li>рекомендации по построению единой базы ИТ-активов</li>
-            <li>возможности ИТМен для вашей инфраструктуры</li>
-          </ul>
-          <form class="itman-audit__form" id="auditLeadForm">
-            <label class="itman-audit__label">Ваше имя
-              <input type="text" id="auditName" placeholder="Иван Иванов" required autocomplete="name" />
-            </label>
-            <label class="itman-audit__label">Рабочий e-mail
-              <input type="email" id="auditEmail" placeholder="name@company.ru" required autocomplete="email" />
-            </label>
-            <label class="itman-audit__label">Телефон <em>(необязательно)</em>
-              <input type="tel" id="auditPhone" placeholder="+7 (___) ___-__-__" autocomplete="tel" />
-            </label>
-            <button type="submit" class="itman-audit__btn">Получить отчёт →</button>
-          </form>
-          <p class="itman-audit__lock">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-            Ваши данные конфиденциальны и используются только для подготовки отчёта.
-          </p>
-        </div>
-
-        <div data-view="side-done" hidden>
-          <p class="itman-audit__done-kicker">Готово!</p>
-          <h3 class="itman-audit__side-title">Мы уже готовим ваш персональный отчёт</h3>
-          <p class="itman-audit__meaning" style="margin-bottom:16px">Отправим его на указанный e-mail в течение 15 минут.</p>
-          <p class="itman-audit__meaning" style="margin-bottom:16px">А пока можете посмотреть, как ИТМен автоматизирует инвентаризацию.</p>
-          <a class="itman-audit__btn" href="https://itman.ru/inventory#features" target="_blank" rel="noopener">Посмотреть возможности ИТМен</a>
-          <div class="itman-audit__done-soft">
-            <p>Хотите обсудить результат с экспертом?</p>
-            <a class="itman-audit__btn itman-audit__btn--ghost" href="https://itman.ru/#demo" target="_blank" rel="noopener">Связаться с экспертом</a>
-          </div>
-        </div>
-      </aside>
-    </div>
-  </div>
-</section>
-<script src="audit-embed.js"></script>
-
 <section class='section section--u-itxf757ev' id='itxf757ev_0'>
 <div class='container container--u-ic7qmjdm4' id='ic7qmjdm4_0'>
 <div class='div div--u-iw8ni8sou' id='iw8ni8sou_0'>
@@ -1212,6 +1094,153 @@ textarea[name="first_visit_source"] {
 </div>
 </div>
 </section>
+<!-- Inventory maturity audit lead magnet -->
+<link rel="stylesheet" href="audit-embed.css" />
+<section class="itman-audit" id="inventory-audit" aria-label="Экспресс-оценка ИТ-инвентаризации" data-phase="quiz">
+  <div class="itman-audit__inner">
+    <header class="itman-audit__head">
+      <h2 class="itman-audit__title">Сколько ИТ-активов вы действительно контролируете?</h2>
+      <p class="itman-audit__lead">Ответьте на несколько вопросов и получите экспресс-оценку зрелости ИТ-инвентаризации вашей компании.</p>
+    </header>
+
+    <div class="itman-audit__grid">
+      <div class="itman-audit__card">
+        <div data-view="quiz">
+          <ol class="itman-audit__steps" aria-label="Шаги">
+            <li class="is-active" data-step-dot="1"><span>1</span>Сбор данных</li>
+            <li data-step-dot="2"><span>2</span>Актуальность</li>
+            <li data-step-dot="3"><span>3</span>Контроль</li>
+            <li data-step-dot="4"><span>4</span>Результат</li>
+          </ol>
+
+          <div data-q="1">
+            <p class="itman-audit__q">Насколько актуальна ваша ИТ-инвентаризация?</p>
+            <p class="itman-audit__subq">1. Как вы сейчас собираете информацию об ИТ-активах?</p>
+            <div class="itman-audit__options">
+              <button type="button" class="itman-audit__option" data-group="collect" data-value="excel">Вручную / Excel</button>
+              <button type="button" class="itman-audit__option" data-group="collect" data-value="multi">Из нескольких систем</button>
+              <button type="button" class="itman-audit__option" data-group="collect" data-value="auto">Автоматизированно</button>
+              <button type="button" class="itman-audit__option" data-group="collect" data-value="unified">Единая система учёта</button>
+            </div>
+            <div class="itman-audit__nav" style="grid-template-columns:1fr">
+              <button type="button" class="itman-audit__btn" data-next="2" disabled>Далее →</button>
+            </div>
+          </div>
+
+          <div data-q="2" hidden>
+            <p class="itman-audit__q">2. Как часто обновляются данные?</p>
+            <div class="itman-audit__options">
+              <button type="button" class="itman-audit__option" data-group="freshness" data-value="month">Раз в месяц и реже</button>
+              <button type="button" class="itman-audit__option" data-group="freshness" data-value="week">Раз в неделю</button>
+              <button type="button" class="itman-audit__option" data-group="freshness" data-value="day">Ежедневно</button>
+              <button type="button" class="itman-audit__option" data-group="freshness" data-value="realtime">В реальном времени</button>
+            </div>
+            <div class="itman-audit__nav">
+              <button type="button" class="itman-audit__btn itman-audit__btn--ghost" data-prev="1">← Назад</button>
+              <button type="button" class="itman-audit__btn" data-next="3" disabled>Далее →</button>
+            </div>
+          </div>
+
+          <div data-q="3" hidden>
+            <p class="itman-audit__q">3. Можете ли вы быстро ответить:</p>
+            <p class="itman-audit__subq">Сколько у вас устройств? Какое ПО установлено? Кто использует конкретное устройство? Что изменилось за последний месяц?</p>
+            <div class="itman-audit__options">
+              <button type="button" class="itman-audit__option" data-group="visibility" data-value="yes">Да, данные всегда под рукой</button>
+              <button type="button" class="itman-audit__option" data-group="visibility" data-value="partial">Частично</button>
+              <button type="button" class="itman-audit__option" data-group="visibility" data-value="no">Нет, нужно собирать информацию</button>
+            </div>
+            <div class="itman-audit__nav">
+              <button type="button" class="itman-audit__btn itman-audit__btn--ghost" data-prev="2">← Назад</button>
+              <button type="button" class="itman-audit__btn" data-next="4" disabled>Получить результат →</button>
+            </div>
+          </div>
+
+          <p class="itman-audit__hint">3 вопроса · меньше минуты</p>
+          <p class="itman-audit__lock">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            Ответы используются только для экспресс-оценки. Контакты не требуются на этом шаге.
+          </p>
+        </div>
+
+        <div data-view="summary" hidden>
+          <p class="itman-audit__summary-label">Ваша оценка</p>
+          <div class="itman-audit__score" data-bind-score>—</div>
+          <p class="itman-audit__score-label" data-bind-verdict></p>
+          <div data-bars class="itman-audit__bars"></div>
+          <button type="button" class="itman-audit__btn itman-audit__btn--ghost" id="auditEdit">← Изменить ответы</button>
+        </div>
+      </div>
+
+      <aside class="itman-audit__card">
+        <div data-view="side-intro">
+          <h3 class="itman-audit__side-title">Экспресс-оценка зрелости</h3>
+          <p class="itman-audit__side-sub">Не ROI-калькулятор — мини-аудит текущего подхода к инвентаризации</p>
+          <ul class="itman-audit__checklist">
+            <li>оценка зрелости инвентаризации</li>
+            <li>основные зоны риска</li>
+            <li>где теряется время специалистов</li>
+            <li>какие процессы можно автоматизировать</li>
+          </ul>
+          <p class="itman-audit__meaning">После ответов сразу увидите персональный результат — без формы и звонков.</p>
+        </div>
+
+        <div data-view="side-result" hidden>
+          <div class="itman-audit__cta-box">
+            <h3>Ваша ИТ-инвентаризация: <span data-bind-score>—</span></h3>
+            <p class="itman-audit__score-label" data-bind-verdict style="margin-bottom:14px"></p>
+            <p class="itman-audit__subq" style="margin-bottom:8px">Что это означает для вашей компании?</p>
+            <p class="itman-audit__meaning" data-bind-meaning style="margin-bottom:18px"></p>
+            <h3>Получите подробный отчёт и рекомендации</h3>
+            <p>На основе ваших ответов подготовим персональный отчёт с оценкой текущего подхода и рекомендациями по автоматизации.</p>
+            <button type="button" class="itman-audit__btn" id="auditGetReport">Получить подробный отчёт →</button>
+          </div>
+        </div>
+
+        <div data-view="side-lead" hidden>
+          <h3 class="itman-audit__side-title">Получите персональный отчёт по ИТ-инвентаризации</h3>
+          <p class="itman-audit__side-sub">Документ, который можно показать руководителю — не просто балл, а зоны риска и что делать дальше.</p>
+          <ul class="itman-audit__checklist">
+            <li>оценка зрелости инвентаризации</li>
+            <li>основные зоны риска</li>
+            <li>где теряется время специалистов</li>
+            <li>какие процессы можно автоматизировать</li>
+            <li>рекомендации по построению единой базы ИТ-активов</li>
+            <li>возможности ИТМен для вашей инфраструктуры</li>
+          </ul>
+          <form class="itman-audit__form" id="auditLeadForm">
+            <label class="itman-audit__label">Ваше имя
+              <input type="text" id="auditName" placeholder="Иван Иванов" required autocomplete="name" />
+            </label>
+            <label class="itman-audit__label">Рабочий e-mail
+              <input type="email" id="auditEmail" placeholder="name@company.ru" required autocomplete="email" />
+            </label>
+            <label class="itman-audit__label">Телефон <em>(необязательно)</em>
+              <input type="tel" id="auditPhone" placeholder="+7 (___) ___-__-__" autocomplete="tel" />
+            </label>
+            <button type="submit" class="itman-audit__btn">Получить отчёт →</button>
+          </form>
+          <p class="itman-audit__lock">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            Ваши данные конфиденциальны и используются только для подготовки отчёта.
+          </p>
+        </div>
+
+        <div data-view="side-done" hidden>
+          <p class="itman-audit__done-kicker">Готово!</p>
+          <h3 class="itman-audit__side-title">Мы уже готовим ваш персональный отчёт</h3>
+          <p class="itman-audit__meaning" style="margin-bottom:16px">Отправим его на указанный e-mail в течение 15 минут.</p>
+          <p class="itman-audit__meaning" style="margin-bottom:16px">А пока можете посмотреть, как ИТМен автоматизирует инвентаризацию.</p>
+          <a class="itman-audit__btn" href="https://itman.ru/inventory#features" target="_blank" rel="noopener">Посмотреть возможности ИТМен</a>
+          <div class="itman-audit__done-soft">
+            <p>Хотите обсудить результат с экспертом?</p>
+            <a class="itman-audit__btn itman-audit__btn--ghost" href="https://itman.ru/#demo" target="_blank" rel="noopener">Связаться с экспертом</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+<script src="audit-embed.js"></script>
 <section class='section section--u-igyqu3zpy' id='igyqu3zpy_0'>
 <div class='container container--u-i7vvgmc0y' id='i7vvgmc0y_0'>
 <div class='div div--u-ivh56vg4v color--text-neutral-white' id='ivh56vg4v_0'>
