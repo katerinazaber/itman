@@ -9,3 +9,6 @@ Disallow: /home-roi/
 
 User-agent: *
 Disallow: /seraya-zona/
+
+User-agent: *
+Disallow: /inventory-audit/
