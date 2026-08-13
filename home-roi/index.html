@@ -127,6 +127,23 @@ WebFont.load({
     flex: 0 1 auto;
     white-space: nowrap;
   }
+  @media (min-width: 721px) {
+    .hero-cta-row {
+      flex-wrap: nowrap !important;
+    }
+    .hero-cta-row > .button,
+    .hero-cta-row > a.button {
+      flex: 0 1 auto;
+      min-width: 0;
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
+    .hero-cta-row .text-button,
+    .hero-cta-row .text-block-wrap-div {
+      font-size: 15px !important;
+      white-space: nowrap;
+    }
+  }
   @media (max-width: 720px) {
     .hero-cta-row > .button,
     .hero-cta-row > a.button {
@@ -1061,7 +1078,7 @@ textarea[name="first_visit_source"] {
 </a>
 <a href='#roi-calculator' data-goal='scroll-roi' class='button button--u-i0yw7elld button-stroke-default color--background-neutral-white hero-roi-btn' id='heroRoiBtn'>
 <span class='text-button font--nekst-18-semibold color--text-black text-button--u-idi56o9or'>
-<span class='text-block-wrap-div'>Рассчитать экономический эффект →</span>
+<span class='text-block-wrap-div'>Рассчитать эффект →</span>
 </span>
 </a>
 </div>
