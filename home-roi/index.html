@@ -115,6 +115,25 @@ WebFont.load({
     opacity: 0 !important;
   }
   .itman-roi [hidden] { display: none !important; }
+  #roi-calculator { scroll-margin-top: 88px; }
+  .hero-cta-row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+    align-items: stretch !important;
+  }
+  .hero-cta-row > .button,
+  .hero-cta-row > a.button {
+    flex: 0 1 auto;
+    white-space: nowrap;
+  }
+  @media (max-width: 720px) {
+    .hero-cta-row > .button,
+    .hero-cta-row > a.button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
 </style>
 
 <style>[data-cookie-banner]{display:none!important}</style>
@@ -1029,7 +1048,7 @@ textarea[name="first_visit_source"] {
 </div>
 </div>
 </div>
-<div class='div div--u-i0itxs3pp' id='i0itxs3pp_0'>
+<div class='div div--u-i0itxs3pp hero-cta-row' id='i0itxs3pp_0'>
 <div href='https://itman.ru/' data-action-element='in2bw8hq2_0' role='button' data-goal='request-demo' class='button button--u-il5pu4anv color--background-accent-red button-primary' id='il5pu4anv_0'>
 <span class='text-button font--nekst-18-semibold' id='i7t23d04s_0'>
 <span class='text-block-wrap-div'>Демо на 30 дней</span>
@@ -1038,6 +1057,11 @@ textarea[name="first_visit_source"] {
 <a href='https://itman.ru/f/prezentaciya_inferit_itmen_na_sajt.pdf?dl=1' data-action-element='' data-goal='click-presentation' class='button button--u-i0yw7elld button-stroke-default color--background-neutral-white' id='i0yw7elld_0'>
 <span class='text-button font--nekst-18-semibold color--text-black text-button--u-idi56o9or' id='idi56o9or_0'>
 <span class='text-block-wrap-div'>Скачать презентацию</span>
+</span>
+</a>
+<a href='#roi-calculator' data-goal='scroll-roi' class='button button--u-i0yw7elld button-stroke-default color--background-neutral-white hero-roi-btn' id='heroRoiBtn'>
+<span class='text-button font--nekst-18-semibold color--text-black text-button--u-idi56o9or'>
+<span class='text-block-wrap-div'>Рассчитать экономический эффект →</span>
 </span>
 </a>
 </div>
