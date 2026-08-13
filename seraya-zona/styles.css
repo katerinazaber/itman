@@ -100,7 +100,7 @@ body {
   position: absolute;
   left: 62%;
   top: 80%;
-  width: min(24vw, 236px);
+  width: min(20vw, 200px);
   z-index: 35;
   pointer-events: none;
   transform: translate(-42%, -100%);

@@ -37,10 +37,10 @@ const $ = (s, r = document) => r.querySelector(s);
 const actor = {
   x: 1.14,
   y: 0.84,
-  tx: 0.62,
-  ty: 0.80,
-  homeX: 0.62,
-  homeY: 0.80,
+  tx: 0.58,
+  ty: 0.82,
+  homeX: 0.58,
+  homeY: 0.82,
   hovering: false,
   playing: false,
 };
@@ -55,13 +55,18 @@ function floorY(ny) {
   return Math.max(0.64, Math.min(0.84, ny));
 }
 
+const STAND = {
+  laptop: [0.4, 0.82],
+  monitor: [0.44, 0.8],
+  box: [0.34, 0.84],
+  radio: [0.32, 0.82],
+  ap: [0.7, 0.8],
+};
+
 function goToHotspot(btn) {
-  const game = $("#game").getBoundingClientRect();
-  const r = btn.getBoundingClientRect();
-  const right = (r.right - game.left) / game.width;
-  const bottom = (r.bottom - game.top) / game.height;
-  actor.tx = Math.min(0.84, Math.max(0.22, right + 0.05));
-  actor.ty = floorY(bottom + 0.06);
+  const [x, y] = STAND[btn.dataset.item] || [actor.homeX, actor.homeY];
+  actor.tx = x;
+  actor.ty = y;
 }
 
 function setProgress() {
@@ -209,8 +214,8 @@ function bind() {
     const r = $("#game").getBoundingClientRect();
     const mx = (e.clientX - r.left) / r.width;
     const my = (e.clientY - r.top) / r.height;
-    actor.tx = Math.max(0.2, Math.min(0.84, mx + 0.08));
-    actor.ty = floorY(0.72 + (my - 0.45) * 0.22);
+    actor.tx = Math.max(0.28, Math.min(0.78, mx + 0.06));
+    actor.ty = floorY(0.8 + (my - 0.6) * 0.08);
   });
 
   $("#btnStart").addEventListener("click", () => {
