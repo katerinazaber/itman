@@ -8,10 +8,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=3" />
+  <link rel="stylesheet" href="styles.css?v=5" />
 </head>
 <body>
-  <div class="game">
+  <div class="game" id="game">
     <div class="scene" aria-hidden="true">
       <img class="scene-art" src="assets/scene/pixar-infra-room.jpg" alt="" />
     </div>
@@ -23,12 +23,16 @@
     <button class="hotspot paint" data-item="radio" style="left:6%; top:44%; width:8%; height:13%" aria-label="IoT"></button>
     <button class="hotspot paint" data-item="ap" style="left:54%; top:28%; width:11%; height:20%" aria-label="Точка доступа"></button>
 
-    <div class="hero enter">
-      <img src="assets/mascot/itmen-bear.png" alt="ИТМен" />
+    <div class="hero" id="hero">
+      <div class="hero-shadow"></div>
+      <div class="hero-body" id="heroBody">
+        <img src="assets/mascot/itmen-bear.png" alt="ИТМен" />
+      </div>
     </div>
     <div class="bubble" id="bubble">
       <div id="bubbleText">Excel говорит — сорок устройств. Я вижу больше. Помоги найти серые зоны.</div>
     </div>
+    <img class="paw-cursor" id="paw" src="assets/mascot/paw.png" alt="" />
 
     <header class="hud">
       <div class="progress">
@@ -67,7 +71,7 @@
         <h2>Как играть</h2>
         <ol>
           <li>Ищи в серверной и на рабочих местах то, чего нет в учёте.</li>
-          <li>Кликай по предметам — ИТМен расскажет, что это за дыра.</li>
+          <li>Наведи на предмет — лапка ИТМена покажет его. Кликни: он расскажет, что это за дыра.</li>
           <li>3 находки — чек-лист. 5 находок — полная картина площадки.</li>
           <li>Подсказка подсветит следующую серую зону.</li>
         </ol>
@@ -92,6 +96,6 @@
       </div>
     </section>
   </div>
-  <script src="game.js?v=3"></script>
+  <script src="game.js?v=5"></script>
 </body>
 </html>
