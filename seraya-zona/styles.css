@@ -27,25 +27,19 @@ body {
   overflow: hidden;
 }
 
-/* Infrastructure floor */
 .scene {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 55% 40%, rgba(62, 198, 224, 0.12), transparent 55%),
-    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(221, 12, 41, 0.08), transparent 50%),
-    linear-gradient(180deg, #0a1622 0%, #071018 100%);
+  background: #0a1218;
 }
-.scene::before {
-  content: "";
+.scene-art {
   position: absolute;
-  inset: 12% 0 0;
-  background-image:
-    linear-gradient(30deg, rgba(30, 58, 82, 0.45) 12%, transparent 12.5%, transparent 87%, rgba(30, 58, 82, 0.45) 87.5%),
-    linear-gradient(150deg, rgba(30, 58, 82, 0.45) 12%, transparent 12.5%, transparent 87%, rgba(30, 58, 82, 0.45) 87.5%);
-  background-size: 72px 42px;
-  opacity: 0.55;
-  mask-image: linear-gradient(180deg, transparent, #000 18%, #000 78%, transparent);
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 28% 55%;
+  pointer-events: none;
 }
 
 .sprite {
@@ -81,6 +75,20 @@ body {
 }
 .hotspot.hint img {
   animation: pulse 0.9s ease-in-out 3;
+}
+.hotspot.paint {
+  border-radius: 14px;
+  background: transparent;
+  box-shadow: none;
+}
+.hotspot.paint:hover,
+.hotspot.paint.hint {
+  box-shadow: 0 0 0 3px rgba(221, 12, 41, 0.85), 0 0 22px rgba(62, 198, 224, 0.55);
+  background: rgba(221, 12, 41, 0.12);
+}
+.hotspot.paint.found {
+  box-shadow: 0 0 0 3px rgba(62, 198, 224, 0.9);
+  background: rgba(62, 198, 224, 0.16);
 }
 @keyframes pulse {
   0%, 100% { filter: drop-shadow(0 8px 6px rgba(0,0,0,.4)); }

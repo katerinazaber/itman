@@ -1,10 +1,4 @@
-Фон и предметы сцены — бесплатные игровые ассеты Kenney (CC0):
-- Furniture Kit  https://kenney.nl/assets/furniture-kit
-- Space Kit      https://kenney.nl/assets/space-kit
-
-License: Creative Commons Zero (CC0)
-https://creativecommons.org/publicdomain/zero/1.0/
-
-Credit: Kenney.nl (не обязателен, но приятен).
+Локация «Серая зона» — стилизованный 3D-рендер комнаты инфраструктуры
+в том же lookdev, что маскот ИТМен (мягкий студийный свет, объём, не low-poly).
 
 Маскот ИТМен — исходный рендер бренда, без изменений черт лица и одежды.
