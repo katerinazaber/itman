@@ -6,3 +6,6 @@ Disallow: /istochniki/
 
 User-agent: *
 Disallow: /home-roi/
+
+User-agent: *
+Disallow: /seraya-zona/
