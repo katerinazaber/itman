@@ -12,3 +12,6 @@ Disallow: /seraya-zona/
 
 User-agent: *
 Disallow: /inventory-audit/
+
+User-agent: *
+Disallow: /cmdb-audit/
