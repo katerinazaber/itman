@@ -18,3 +18,6 @@ Disallow: /cmdb-audit/
 
 User-agent: *
 Disallow: /data-prism-audit/
+
+User-agent: *
+Disallow: /itman-bonus/

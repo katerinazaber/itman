@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Превью: ITMAN Бонус · колесо после DEMO</title>
+  <link rel="stylesheet" href="bonus-wheel.css" />
+  <link rel="icon" href="https://itman.ru/favicon.svg" type="image/svg+xml" />
+  <script>
+    WebFontConfig = {
+      google: { families: ["Manrope:400,500,600,700", "display=swap"] }
+    };
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" async></script>
+</head>
+<body>
+  <main class="itman-bonus" aria-label="ITMAN Бонус после демо">
+    <div class="itman-bonus__frame">
+      <div class="itman-bonus__frame-inner">
+        <div class="itman-bonus__frame-deco" aria-hidden="true"></div>
+
+        <!-- Wheel screen -->
+        <div id="bonusMainView">
+          <div class="itman-bonus__logo">
+            <img src="assets/brand.svg" alt="" width="32" height="32" onerror="this.style.display='none'" />
+            <span>Инферит ИТМен</span>
+          </div>
+
+          <div class="itman-bonus__layout">
+            <div id="bonusIntroPanel">
+              <p class="itman-bonus__kicker">ITMAN Бонус</p>
+              <h1 class="itman-bonus__title">ITMAN БОНУС</h1>
+              <p class="itman-bonus__gift-line"><span aria-hidden="true">🎁</span> Подарок за знакомство с ITMAN</p>
+              <p class="itman-bonus__lead">
+                Вы завершили демонстрацию продукта.<br />
+                Теперь получите бонус от нашего технологического партнёра.
+              </p>
+              <p class="itman-bonus__meta">6 возможных бонусов · 1 вращение</p>
+              <button type="button" class="itman-bonus__btn" id="bonusSpinBtn">Крутить колесо →</button>
+            </div>
+
+            <div id="bonusWinPanel" hidden>
+              <p class="itman-bonus__kicker">ITMAN Бонус</p>
+              <div class="itman-bonus__win-card">
+                <h3 id="winTitle">Поздравляем!</h3>
+                <p class="itman-bonus__gift-line" style="margin-bottom:10px">Вам достался бонус</p>
+                <p class="prize-amount" id="winAmount">20 000 ₽</p>
+                <p class="prize-desc" id="winDesc">на ПО и ИТ-решения</p>
+                <p class="prize-partner" id="winPartner">Партнёр: Softline</p>
+                <p class="prize-note" id="winNote">Бонус можно использовать при следующей покупке ПО и ИТ-решений у партнёра.</p>
+                <button type="button" class="itman-bonus__btn" id="bonusClaimBtn">Получить бонус →</button>
+              </div>
+            </div>
+
+            <div class="itman-bonus__scene">
+              <div class="itman-bonus__wheel-wrap">
+                <div class="itman-bonus__pointer" aria-hidden="true"></div>
+                <div class="itman-bonus__wheel-ticks" aria-hidden="true"></div>
+                <div class="itman-bonus__wheel-ring" aria-hidden="true"></div>
+                <div class="itman-bonus__wheel is-idle" id="bonusWheel" role="img" aria-label="Колесо бонусов ITMAN">
+                  <div class="itman-bonus__wheel-hub">
+                    <strong>ITMAN</strong>
+                    <em>BONUS</em>
+                  </div>
+                </div>
+              </div>
+
+              <div class="itman-bonus__bear" id="bonusBear">
+                <img src="assets/certificate-ref.png" alt="Маскот ITMAN" style="object-fit:cover;object-position:78% 55%;width:220%;max-width:none;margin-left:-95%;" />
+              </div>
+
+              <div class="itman-bonus__bubble" id="bonusBubble" hidden>Ну что, крутим? 🐻</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Certificate screen -->
+        <div class="itman-bonus__cert-view" id="bonusCertView" hidden>
+          <div class="itman-bonus__logo">
+            <img src="assets/brand.svg" alt="" width="32" height="32" onerror="this.style.display='none'" />
+            <span>Инферит ИТМен</span>
+          </div>
+
+          <div class="itman-bonus__cert">
+            <div class="itman-bonus__cert-inner">
+              <div class="itman-bonus__cert-content">
+                <p class="itman-bonus__kicker">Demo Perks</p>
+                <h2 class="itman-bonus__cert-title">Ваш ITMAN Бонус</h2>
+                <div class="itman-bonus__cert-amount" id="certAmount">20 000 ₽</div>
+                <p class="itman-bonus__cert-sub" id="certDesc">на ПО и IT-решения</p>
+                <p class="itman-bonus__cert-partner-label">Партнёр</p>
+                <p class="itman-bonus__cert-partner" id="certPartner">SOFTLINE</p>
+                <div class="itman-bonus__cert-code" id="certCode">ITMAN-SL-4827</div>
+                <p class="itman-bonus__meta" style="margin-top:16px">Действует 60 дней · 1 бонус на компанию</p>
+
+                <div class="itman-bonus__cert-actions">
+                  <button type="button" class="itman-bonus__btn" id="copyCodeBtn">Скопировать код</button>
+                  <button type="button" class="itman-bonus__btn itman-bonus__btn--ghost" id="bonusBackBtn">← Назад</button>
+                </div>
+
+                <form class="itman-bonus__email-form" id="certEmailForm">
+                  <label>
+                    <span class="itman-bonus__meta" style="display:block;margin-bottom:6px">Отправить сертификат на e-mail</span>
+                    <input type="email" id="certEmail" placeholder="name@company.ru" required autocomplete="email" />
+                  </label>
+                  <button type="submit" class="itman-bonus__btn itman-bonus__btn--ghost">Отправить на e-mail</button>
+                </form>
+              </div>
+              <div class="itman-bonus__cert-bear">
+                <img src="assets/certificate-ref.png" alt="Маскот ITMAN с сертификатом" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+  <script src="bonus-wheel.js"></script>
+</body>
+</html>
