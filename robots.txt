@@ -15,3 +15,6 @@ Disallow: /inventory-audit/
 
 User-agent: *
 Disallow: /cmdb-audit/
+
+User-agent: *
+Disallow: /data-prism-audit/
