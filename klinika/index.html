@@ -94,72 +94,94 @@
     .header__actions { display: flex; align-items: center; gap: 10px; }
 
     .hero {
+      position: relative;
       background:
-        radial-gradient(ellipse 70% 80% at 85% 20%, rgba(227,6,19,.28), transparent 55%),
-        linear-gradient(180deg, #141414 0%, #0c0c0c 100%);
+        radial-gradient(ellipse 55% 70% at 88% 42%, rgba(227,6,19,.38), transparent 58%),
+        radial-gradient(circle at 12% 80%, rgba(227,6,19,.12), transparent 40%),
+        linear-gradient(180deg, #070707 0%, #0b0b0b 100%);
       color: #fff;
-      padding: 48px 0 56px;
+      padding: 52px 0 40px;
       overflow: hidden;
     }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(90deg, transparent 0 46px, rgba(227,6,19,.05) 46px 47px),
+        repeating-linear-gradient(0deg, transparent 0 38px, rgba(255,255,255,.03) 38px 39px);
+      opacity: .45;
+      pointer-events: none;
+    }
+    .hero .container { position: relative; z-index: 1; }
     .hero__grid {
       display: grid;
       grid-template-columns: 1.05fr .95fr;
-      gap: 32px;
+      gap: 24px;
       align-items: center;
     }
     .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(227,6,19,.15);
-      color: #ff6b73;
-      border: 1px solid rgba(227,6,19,.35);
-      border-radius: 999px;
-      padding: 6px 12px;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 18px;
+      display: inline-block;
+      color: var(--red);
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 14px;
     }
     .hero h1 {
-      font-size: clamp(30px, 4vw, 46px);
-      line-height: 1.15;
+      font-size: clamp(32px, 4.2vw, 48px);
+      line-height: 1.12;
       font-weight: 800;
       letter-spacing: -0.03em;
       margin-bottom: 22px;
     }
+    .hero h1 .accent { color: var(--red); }
     .hero-points {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
       margin-bottom: 28px;
-      color: rgba(255,255,255,.82);
-      font-size: 15px;
     }
     .hero-points li {
       display: flex;
-      gap: 10px;
-      align-items: flex-start;
+      flex-direction: column;
+      gap: 8px;
+      color: rgba(255,255,255,.88);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.35;
     }
-    .hero-points svg { flex-shrink: 0; margin-top: 2px; color: var(--red); }
+    .hero-points svg { color: var(--red); }
     .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
     .hero-note {
       display: flex;
       align-items: center;
       gap: 8px;
-      color: rgba(255,255,255,.55);
-      font-size: 13px;
+      color: rgba(255,255,255,.7);
+      font-size: 14px;
+      font-weight: 600;
     }
     .mascot-wrap {
       position: relative;
-      min-height: 420px;
+      min-height: 460px;
       display: grid;
-      place-items: center;
+      place-items: end center;
+    }
+    .mascot-wrap::before {
+      content: "+";
+      position: absolute;
+      right: 8%;
+      top: 12%;
+      color: var(--red);
+      font-size: 72px;
+      font-weight: 800;
+      opacity: .85;
+      text-shadow: 0 0 24px rgba(227,6,19,.7);
+      pointer-events: none;
     }
     .mascot-wrap img {
-      width: min(100%, 480px);
-      border-radius: 24px;
-      object-fit: cover;
-      box-shadow: 0 24px 60px rgba(0,0,0,.45);
+      width: min(100%, 520px);
+      object-fit: contain;
+      filter: drop-shadow(0 18px 40px rgba(0,0,0,.55));
     }
 
     .section { padding: 72px 0; }
@@ -247,29 +269,32 @@
     .result p { font-size: 14px; font-weight: 600; color: var(--black); }
 
     .cta {
-      background: #111;
+      background: #fff;
+      padding: 0 0 64px;
+    }
+    .cta-banner {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      min-height: 340px;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #0a0a0a;
       color: #fff;
-      padding: 64px 0;
     }
-    .cta__inner { text-align: center; max-width: 640px; margin: 0 auto; }
-    .cta h2 { color: #fff; margin-bottom: 12px; }
-    .cta p { color: rgba(255,255,255,.7); margin-bottom: 24px; }
-    .cta .btn { min-width: 240px; }
-
-    .clients {
-      padding: 28px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .clients__row {
+    .cta__copy {
+      padding: 48px 40px;
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       justify-content: center;
-      gap: 28px 40px;
-      color: #9aa0a6;
-      font-weight: 800;
-      letter-spacing: .04em;
-      font-size: 14px;
-      text-transform: uppercase;
+    }
+    .cta h2 { color: #fff; text-align: left; margin-bottom: 12px; font-size: clamp(24px, 3vw, 34px); }
+    .cta p { color: rgba(255,255,255,.78); margin-bottom: 24px; }
+    .cta-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+    .cta .btn { min-width: 220px; }
+    .cta-visual {
+      position: relative;
+      min-height: 280px;
+      background: #0a0a0a url("assets/cta-visual.jpg") center / cover no-repeat;
     }
 
     .footer {
@@ -288,7 +313,8 @@
     .footer a:hover { color: #fff; }
 
     @media (max-width: 980px) {
-      .hero__grid, .days, .results-grid { grid-template-columns: 1fr 1fr; }
+      .hero__grid, .days, .results-grid, .cta-banner { grid-template-columns: 1fr; }
+      .hero-points { grid-template-columns: 1fr; }
       .nav { display: none; }
       .mascot-wrap { min-height: 280px; }
     }
@@ -320,32 +346,32 @@
     <div class="container hero__grid">
       <div>
         <span class="badge">4-дневный онлайн-интенсив</span>
-        <h1>Клиника чистых данных: полное выздоровление вашей базы лицензий</h1>
+        <h1>Клиника чистых данных:<br /><span class="accent">полное выздоровление вашей базы лицензий</span></h1>
         <ul class="hero-points">
           <li>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 7L10 17l-6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-            Находим скрытые потери в учёте ПО
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M3 12h4l2-4 4 8 2-4h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Находим скрытые потери в лицензиях
           </li>
           <li>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 7L10 17l-6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-            Снижаем лицензионные и юридические риски
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.7"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            Снижаем финансовые и юридические риски
           </li>
           <li>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 7L10 17l-6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-            Экономим до 25% ИТ-бюджета на ПО
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 18V6M4 18h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M7 14l4-4 3 3 5-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Экономим до 25% ИТ-бюджета
           </li>
         </ul>
         <div class="hero-cta">
-          <a class="btn btn-red" href="https://t.me/klinika_dannyh_bot" target="_blank" rel="noopener">Участвовать бесплатно</a>
-          <a class="btn btn-ghost" href="#program">Смотреть программу</a>
+          <a class="btn btn-red" href="https://t.me/klinika_dannyh_bot" target="_blank" rel="noopener">Принять участие бесплатно</a>
+          <a class="btn btn-ghost" href="#program">Посмотреть программу</a>
         </div>
         <p class="hero-note">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 9h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-          Старт марафона: скоро
+          12–15 октября 2026
         </p>
       </div>
       <div class="mascot-wrap">
-        <img src="assets/mascot.jpg" alt="Маскот Клиники чистых данных" />
+        <img src="assets/mascot.png" alt="Маскот Клиники чистых данных" />
       </div>
     </div>
   </section>
@@ -410,47 +436,52 @@
           <div class="result-icon">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M7 14a5 5 0 0110 0v6H7v-6z" stroke="currentColor" stroke-width="1.7"/><path d="M9 10V7a3 3 0 016 0v3" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="17" r="1.2" fill="currentColor"/></svg>
           </div>
-          <p>Точный диагноз ИТ-инфраструктуры</p>
+          <p>Точный диагноз вашей ИТ-инфраструктуры</p>
         </div>
         <div class="result">
           <div class="result-icon">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 7h16v13H4V7z" stroke="currentColor" stroke-width="1.7"/><path d="M8 7V5h8v2" stroke="currentColor" stroke-width="1.7"/><path d="M12 11v6M9 14h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
           </div>
-          <p>Чистая и достоверная база ПО</p>
+          <p>Чистая и достоверная база ПО без дублей и ошибок</p>
         </div>
         <div class="result">
           <div class="result-icon">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v10M9 9.5c.6-.8 1.6-1.2 3-1.2 1.7 0 3 .8 3 2.2s-1.3 2-3 2.2c-1.8.2-3 .9-3 2.3 0 1.4 1.4 2.2 3.2 2.2 1.3 0 2.3-.4 3-1.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
           </div>
-          <p>Экономия бюджета до 25%</p>
+          <p>Экономию бюджета до 25%</p>
         </div>
         <div class="result">
           <div class="result-icon">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.7"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
           </div>
-          <p>Снижение лицензионных рисков</p>
+          <p>Снижение юридических и лицензионных рисков</p>
         </div>
         <div class="result">
           <div class="result-icon">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 18V6M4 18h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M7 14l4-4 3 3 5-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <p>Готовая дорожная карта SAM</p>
+          <p>Готовую дорожную карту для здоровых ИТ-процессов</p>
         </div>
       </div>
     </div>
   </section>
 
   <section class="cta">
-    <div class="container cta__inner">
-      <h2>Присоединяйтесь к «Клинике чистых данных»</h2>
-      <p>4 дня практики, материалы и live-вебинар — чтобы привести в порядок базу лицензий.</p>
-      <a class="btn btn-red" href="https://t.me/klinika_dannyh_bot" target="_blank" rel="noopener">Участвовать бесплатно</a>
-    </div>
-  </section>
-
-  <section class="clients">
-    <div class="container clients__row">
-      <span>РЖД</span><span>ВТБ</span><span>Газпром</span><span>Ростелеком</span><span>Сбер</span><span>ЛУКОЙЛ</span>
+    <div class="container">
+      <div class="cta-banner">
+        <div class="cta__copy">
+          <h2>Присоединяйтесь к «Клинике чистых данных»</h2>
+          <p>4 дня практики, инструментов и экспертной поддержки для полного выздоровления вашей базы лицензий.</p>
+          <div class="cta-actions">
+            <a class="btn btn-red" href="https://t.me/klinika_dannyh_bot" target="_blank" rel="noopener">Участвовать бесплатно</a>
+            <span class="hero-note">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 9h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              12–15 октября 2026
+            </span>
+          </div>
+        </div>
+        <div class="cta-visual" role="img" aria-label="Клиника чистых данных"></div>
+      </div>
     </div>
   </section>
 
