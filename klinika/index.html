@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Клиника чистых данных — 4-дневный интенсив | ИТМен</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red: #e30613;
+      --red-hover: #c50510;
+      --black: #1a1a1a;
+      --text: #222;
+      --muted: #6b6b6b;
+      --border: #e6e6e6;
+      --bg-soft: #f7f7f7;
+      --white: #fff;
+      --radius: 16px;
+      --radius-btn: 10px;
+      --container: 1180px;
+      --shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+      --bot: https://t.me/klinika_dannyh_bot;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Manrope, Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    ul { list-style: none; }
+
+    .container { width: min(100% - 48px, var(--container)); margin-inline: auto; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 22px;
+      border-radius: var(--radius-btn);
+      font-weight: 700;
+      font-size: 15px;
+      white-space: nowrap;
+      transition: background .2s, color .2s, border-color .2s;
+    }
+    .btn-red { background: var(--red); color: #fff; }
+    .btn-red:hover { background: var(--red-hover); }
+    .btn-ghost {
+      background: transparent;
+      color: #fff;
+      border: 1.5px solid rgba(255,255,255,.45);
+    }
+    .btn-ghost:hover { border-color: #fff; }
+    .btn-outline {
+      background: #fff;
+      color: var(--black);
+      border: 1.5px solid var(--border);
+    }
+    .btn-outline:hover { border-color: #bbb; }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .header__inner {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-height: 72px;
+    }
+    .logo img { height: 28px; width: auto; }
+    .nav {
+      display: flex;
+      gap: 22px;
+      margin-left: auto;
+      margin-right: 16px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--black);
+    }
+    .nav a:hover { color: var(--red); }
+    .header__actions { display: flex; align-items: center; gap: 10px; }
+
+    .hero {
+      background:
+        radial-gradient(ellipse 70% 80% at 85% 20%, rgba(227,6,19,.28), transparent 55%),
+        linear-gradient(180deg, #141414 0%, #0c0c0c 100%);
+      color: #fff;
+      padding: 48px 0 56px;
+      overflow: hidden;
+    }
+    .hero__grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 32px;
+      align-items: center;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(227,6,19,.15);
+      color: #ff6b73;
+      border: 1px solid rgba(227,6,19,.35);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+    .hero h1 {
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 22px;
+    }
+    .hero-points {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 28px;
+      color: rgba(255,255,255,.82);
+      font-size: 15px;
+    }
+    .hero-points li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .hero-points svg { flex-shrink: 0; margin-top: 2px; color: var(--red); }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+    .hero-note {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,.55);
+      font-size: 13px;
+    }
+    .mascot-wrap {
+      position: relative;
+      min-height: 420px;
+      display: grid;
+      place-items: center;
+    }
+    .mascot-wrap img {
+      width: min(100%, 480px);
+      border-radius: 24px;
+      object-fit: cover;
+      box-shadow: 0 24px 60px rgba(0,0,0,.45);
+    }
+
+    .section { padding: 72px 0; }
+    .section h2 {
+      font-size: clamp(26px, 3vw, 36px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      text-align: center;
+      margin-bottom: 36px;
+      color: var(--black);
+    }
+
+    .days {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .day {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 20px 18px;
+      background: #fff;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+    .day__n {
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .day h3 {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+    .day p { color: var(--muted); font-size: 14px; margin-bottom: 14px; }
+    .day ul { display: flex; flex-direction: column; gap: 8px; font-size: 14px; flex: 1; }
+    .day li { padding-left: 14px; position: relative; }
+    .day li::before {
+      content: "";
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--red);
+      position: absolute;
+      left: 0; top: 8px;
+    }
+    .day__mat {
+      margin-top: 16px;
+      background: var(--bg-soft);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .results {
+      background: var(--bg-soft);
+    }
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+    }
+    .result {
+      text-align: center;
+      padding: 8px;
+    }
+    .result-icon {
+      width: 56px; height: 56px;
+      margin: 0 auto 12px;
+      border-radius: 14px;
+      background: #fff;
+      color: var(--red);
+      display: grid;
+      place-items: center;
+      box-shadow: var(--shadow);
+    }
+    .result p { font-size: 14px; font-weight: 600; color: var(--black); }
+
+    .cta {
+      background: #111;
+      color: #fff;
+      padding: 64px 0;
+    }
+    .cta__inner { text-align: center; max-width: 640px; margin: 0 auto; }
+    .cta h2 { color: #fff; margin-bottom: 12px; }
+    .cta p { color: rgba(255,255,255,.7); margin-bottom: 24px; }
+    .cta .btn { min-width: 240px; }
+
+    .clients {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .clients__row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 28px 40px;
+      color: #9aa0a6;
+      font-weight: 800;
+      letter-spacing: .04em;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
+    .footer {
+      background: #0e0e0e;
+      color: rgba(255,255,255,.65);
+      padding: 36px 0 28px;
+      font-size: 14px;
+    }
+    .footer__inner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+    }
+    .footer a:hover { color: #fff; }
+
+    @media (max-width: 980px) {
+      .hero__grid, .days, .results-grid { grid-template-columns: 1fr 1fr; }
+      .nav { display: none; }
+      .mascot-wrap { min-height: 280px; }
+    }
+    @media (max-width: 640px) {
+      .hero__grid, .days, .results-grid { grid-template-columns: 1fr; }
+      .header__actions .btn-outline { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <a class="logo" href="https://itman.ru" target="_blank" rel="noopener">
+        <img src="assets/brand.svg" alt="Инферит ИТМен" />
+      </a>
+      <nav class="nav">
+        <a href="https://itman.ru/o-produkte/" target="_blank" rel="noopener">О продукте</a>
+        <a href="#program">Программа</a>
+        <a href="#result">Результат</a>
+      </nav>
+      <div class="header__actions">
+        <a class="btn btn-outline" href="https://itman.ru/kontakty/" target="_blank" rel="noopener">Связаться с нами</a>
+        <a class="btn btn-red" href="https://t.me/klinika_dannyh_bot" target="_blank" rel="noopener">Записаться на марафон</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero__grid">
+      <div>
+        <span class="badge">4-дневный онлайн-интенсив</span>
+        <h1>Клиника чистых данных: полное выздоровление вашей базы лицензий</h1>
+        <ul class="hero-points">
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 7L10 17l-6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+            Находим скрытые потери в учёте ПО
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 7L10 17l-6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+            Снижаем лицензионные и юридические риски
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 7L10 17l-6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+            Экономим до 25% ИТ-бюджета на ПО
+          </li>
+        </ul>
+        <div class="hero-cta">
+          <a class="btn btn-red" href="https://t.me/klinika_dannyh_bot" target="_blank" rel="noopener">Участвовать бесплатно</a>
+          <a class="btn btn-ghost" href="#program">Смотреть программу</a>
+        </div>
+        <p class="hero-note">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 9h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          Старт марафона: скоро
+        </p>
+      </div>
+      <div class="mascot-wrap">
+        <img src="assets/mascot.jpg" alt="Маскот Клиники чистых данных" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="program">
+    <div class="container">
+      <h2>4 дня до здоровой базы лицензий</h2>
+      <div class="days">
+        <article class="day">
+          <div class="day__n">День 1</div>
+          <h3>Приёмный покой</h3>
+          <p>Симптомы «грязных» данных и цена ошибок.</p>
+          <ul>
+            <li>Кружок Главврача</li>
+            <li>Скрытые патологии в лицензиях</li>
+            <li>Хронический Shadow IT</li>
+          </ul>
+          <div class="day__mat">Материал: чек-лист 10 симптомов</div>
+        </article>
+        <article class="day">
+          <div class="day__n">День 2</div>
+          <h3>Сложные диагнозы</h3>
+          <p>Юридические и финансовые риски, метрики SAM.</p>
+          <ul>
+            <li>Мини-викторина врача-SAM</li>
+            <li>Импортозамещение без осложнений</li>
+            <li>Excel vs автоматизация</li>
+          </ul>
+          <div class="day__mat">Материал: калькулятор экономии</div>
+        </article>
+        <article class="day">
+          <div class="day__n">День 3</div>
+          <h3>ML-хирургия в эфире</h3>
+          <p>Live-нормализация базы ПО на «Призме данных».</p>
+          <ul>
+            <li>Чистка базы в прямом эфире</li>
+            <li>До / После на выгрузках</li>
+            <li>Оффер на бесплатный пилот</li>
+          </ul>
+          <div class="day__mat">Материал: калькулятор бюджета</div>
+        </article>
+        <article class="day">
+          <div class="day__n">День 4</div>
+          <h3>Выписка и дорожная карта</h3>
+          <p>Закрепление, запись эфира и план на 30 дней.</p>
+          <ul>
+            <li>Запись + презентация</li>
+            <li>Финальный оффер клиники</li>
+            <li>Шаблон для защиты бюджета</li>
+          </ul>
+          <div class="day__mat">Материал: дорожная карта SAM</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section results" id="result">
+    <div class="container">
+      <h2>Что вы получите в результате</h2>
+      <div class="results-grid">
+        <div class="result">
+          <div class="result-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M7 14a5 5 0 0110 0v6H7v-6z" stroke="currentColor" stroke-width="1.7"/><path d="M9 10V7a3 3 0 016 0v3" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="17" r="1.2" fill="currentColor"/></svg>
+          </div>
+          <p>Точный диагноз ИТ-инфраструктуры</p>
+        </div>
+        <div class="result">
+          <div class="result-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 7h16v13H4V7z" stroke="currentColor" stroke-width="1.7"/><path d="M8 7V5h8v2" stroke="currentColor" stroke-width="1.7"/><path d="M12 11v6M9 14h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          </div>
+          <p>Чистая и достоверная база ПО</p>
+        </div>
+        <div class="result">
+          <div class="result-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v10M9 9.5c.6-.8 1.6-1.2 3-1.2 1.7 0 3 .8 3 2.2s-1.3 2-3 2.2c-1.8.2-3 .9-3 2.3 0 1.4 1.4 2.2 3.2 2.2 1.3 0 2.3-.4 3-1.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          </div>
+          <p>Экономия бюджета до 25%</p>
+        </div>
+        <div class="result">
+          <div class="result-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.7"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          </div>
+          <p>Снижение лицензионных рисков</p>
+        </div>
+        <div class="result">
+          <div class="result-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 18V6M4 18h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M7 14l4-4 3 3 5-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <p>Готовая дорожная карта SAM</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container cta__inner">
+      <h2>Присоединяйтесь к «Клинике чистых данных»</h2>
+      <p>4 дня практики, материалы и live-вебинар — чтобы привести в порядок базу лицензий.</p>
+      <a class="btn btn-red" href="https://t.me/klinika_dannyh_bot" target="_blank" rel="noopener">Участвовать бесплатно</a>
+    </div>
+  </section>
+
+  <section class="clients">
+    <div class="container clients__row">
+      <span>РЖД</span><span>ВТБ</span><span>Газпром</span><span>Ростелеком</span><span>Сбер</span><span>ЛУКОЙЛ</span>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span>© 2026 Инферит ИТМен</span>
+      <a href="https://itman.ru" target="_blank" rel="noopener">itman.ru</a>
+      <a href="https://t.me/klinika_dannyh_bot" target="_blank" rel="noopener">Бот марафона</a>
+    </div>
+  </footer>
+</body>
+</html>
