@@ -1,0 +1,103 @@
+/* FAQ Accordion — CMDB page embed */
+.itm-faq {
+  --faq-red: #e30613;
+  --faq-dark: #1a1a2e;
+  --faq-bg: #f5f6fa;
+  --faq-white: #fff;
+  --faq-gray: #6b7280;
+  --faq-border: #e5e7eb;
+  --faq-radius: 12px;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 64px 24px;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  color: var(--faq-dark);
+}
+
+.itm-faq__title {
+  font-size: clamp(22px, 3.5vw, 30px);
+  font-weight: 800;
+  line-height: 1.3;
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.itm-faq__list {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.itm-faq__item {
+  background: var(--faq-white);
+  border: 1px solid var(--faq-border);
+  border-radius: var(--faq-radius);
+  overflow: hidden;
+  transition: box-shadow .2s;
+}
+.itm-faq__item:hover {
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+.itm-faq__item.open {
+  border-color: var(--faq-red);
+  box-shadow: 0 4px 20px rgba(227,6,19,.08);
+}
+
+.itm-faq__q {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 20px 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--faq-dark);
+  text-align: left;
+  line-height: 1.45;
+}
+.itm-faq__q:hover { color: var(--faq-red); }
+
+.itm-faq__q::before {
+  content: '';
+  flex-shrink: 0;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--faq-bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M7 1v12M1 7h12' stroke='%231a1a2e' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: transform .25s, background-color .25s;
+}
+.itm-faq__item.open .itm-faq__q::before {
+  transform: rotate(45deg);
+  background-color: var(--faq-red);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M7 1v12M1 7h12' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+.itm-faq__a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .35s ease, padding .35s ease;
+}
+.itm-faq__item.open .itm-faq__a {
+  max-height: 600px;
+}
+
+.itm-faq__a-inner {
+  padding: 0 24px 20px 68px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #444;
+}
+
+@media (max-width: 600px) {
+  .itm-faq { padding: 40px 16px; }
+  .itm-faq__q { padding: 16px; font-size: 15px; gap: 12px; }
+  .itm-faq__a-inner { padding: 0 16px 16px 56px; font-size: 14px; }
+}
