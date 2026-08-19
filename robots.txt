@@ -21,3 +21,5 @@ Disallow: /data-prism-audit/
 
 User-agent: *
 Disallow: /itman-bonus/
+
+Disallow: /glossary/
