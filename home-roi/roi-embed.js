@@ -1,6 +1,8 @@
-/* ROI embed — 3-phase funnel: input → preview CTA → lead form → done */
-
+/* ROI embed for Taptop — resilient init (event delegation + retry) */
 (function () {
+  if (window.__itmenRoiInit) return;
+  window.__itmenRoiInit = true;
+
   const PCT_LICENSES = 0.1;
   const PCT_ASSETS = 0.05;
   const PCT_IT = 0.01;
@@ -11,12 +13,6 @@
     { max: 25000, perEndpoint: 950 },
     { max: 50000, perEndpoint: 850 },
   ];
-
-  const root = document.querySelector(".itman-roi");
-  if (!root) return;
-
-  let inputStep = 1; // 1 company, 2 IT, 3 licenses
-  let phase = "input"; // input | result | lead | done
 
   function clamp01(x) {
     return Math.max(0, Math.min(1, x));
@@ -57,163 +53,222 @@
     return v + " лет";
   }
 
-  function getInputs() {
-    return {
-      endpoints: Number(document.getElementById("roiWp")?.value || 0),
-      itStaff: Number(document.getElementById("roiIt")?.value || 0),
-      currentLicenses: parseBudget(document.getElementById("roiBudget")?.value),
-    };
+  function boot(attempt) {
+    const root =
+      document.querySelector("#roi-calculator.itman-roi") ||
+      document.querySelector(".itman-roi");
+    if (!root) {
+      if ((attempt || 0) < 40) {
+        setTimeout(function () {
+          boot((attempt || 0) + 1);
+        }, 150);
+      }
+      return;
+    }
+    if (root.dataset.roiReady === "1") return;
+    root.dataset.roiReady = "1";
+    init(root);
   }
 
-  function calculate() {
-    const { endpoints, itStaff, currentLicenses } = getInputs();
-    const savingsLicensesBase = currentLicenses * PCT_LICENSES;
-    const assetsCurrent = Math.max(0, endpoints) * ASSET_COST_PER_ENDPOINT_PER_YEAR;
-    const savingsAssetsBase = assetsCurrent * PCT_ASSETS;
-    const itPayrollBase = Math.max(0, itStaff) * AVG_IT_SALARY_PER_MONTH * 12;
-    const savingsItBase = itPayrollBase * PCT_IT;
-    const savingsBase = savingsLicensesBase + savingsAssetsBase + savingsItBase;
-    const itmenCost = Math.max(0, endpoints) * getItmenPerEndpointPrice(endpoints);
+  function init(root) {
+    let inputStep = 1;
+    let phase = "input";
 
-    let roi = NaN;
-    let paybackYears = NaN;
-    let savingsTotal = 0;
-
-    if (itmenCost > 0) {
-      const ratio = savingsBase / itmenCost;
-      const ratioScore = clamp01((ratio - 0.3) / (2.5 - 0.3));
-      const scaleScore = clamp01(Math.log10(Math.max(1, endpoints)) / 4);
-      const orgScore = clamp01(Math.log10(Math.max(1, itStaff)) / 4);
-      const score = 0.55 * ratioScore + 0.25 * scaleScore + 0.2 * orgScore;
-      roi = 30 + 120 * smoothstep(score);
-      savingsTotal = itmenCost * (1 + roi / 100);
-      paybackYears = itmenCost / savingsTotal;
+    function el(id) {
+      return root.querySelector("#" + id);
     }
 
-    return { savingsTotal, roi, paybackYears };
-  }
+    function getInputs() {
+      return {
+        endpoints: Number(el("roiWp")?.value || 0),
+        itStaff: Number(el("roiIt")?.value || 0),
+        currentLicenses: parseBudget(el("roiBudget")?.value),
+      };
+    }
 
-  function refreshNumbers() {
-    const r = calculate();
-    const save = fmtRubShort(r.savingsTotal);
-    const roi = isFinite(r.roi) ? fmtNum(r.roi, 0) + "%" : "—";
-    const pay = paybackLabel(r.paybackYears);
-    root.querySelectorAll('[data-bind="save"]').forEach((el) => (el.textContent = save));
-    root.querySelectorAll('[data-bind="roi"]').forEach((el) => (el.textContent = roi));
-    root.querySelectorAll('[data-bind="pay"]').forEach((el) => (el.textContent = pay));
+    function calculate() {
+      const { endpoints, itStaff, currentLicenses } = getInputs();
+      const savingsLicensesBase = currentLicenses * PCT_LICENSES;
+      const assetsCurrent = Math.max(0, endpoints) * ASSET_COST_PER_ENDPOINT_PER_YEAR;
+      const savingsAssetsBase = assetsCurrent * PCT_ASSETS;
+      const itPayrollBase = Math.max(0, itStaff) * AVG_IT_SALARY_PER_MONTH * 12;
+      const savingsItBase = itPayrollBase * PCT_IT;
+      const savingsBase = savingsLicensesBase + savingsAssetsBase + savingsItBase;
+      const itmenCost = Math.max(0, endpoints) * getItmenPerEndpointPrice(endpoints);
 
-    const note = document.getElementById("roiPreviewNote");
-    if (note && phase === "input") {
-      const left = Math.max(0, 4 - inputStep);
-      if (left === 0) {
-        note.textContent = "Нажмите «Рассчитать», чтобы увидеть персональный результат";
-      } else {
-        note.textContent =
-          "Заполните ещё " +
-          left +
-          (left === 1 ? " шаг" : " шага") +
-          ", чтобы получить персональный расчёт с детализацией";
+      let roi = NaN;
+      let paybackYears = NaN;
+      let savingsTotal = 0;
+
+      if (itmenCost > 0) {
+        const ratio = savingsBase / itmenCost;
+        const ratioScore = clamp01((ratio - 0.3) / (2.5 - 0.3));
+        const scaleScore = clamp01(Math.log10(Math.max(1, endpoints)) / 4);
+        const orgScore = clamp01(Math.log10(Math.max(1, itStaff)) / 4);
+        const score = 0.55 * ratioScore + 0.25 * scaleScore + 0.2 * orgScore;
+        roi = 30 + 120 * smoothstep(score);
+        savingsTotal = itmenCost * (1 + roi / 100);
+        paybackYears = itmenCost / savingsTotal;
+      }
+
+      return { savingsTotal, roi, paybackYears };
+    }
+
+    function refreshNumbers() {
+      const r = calculate();
+      const save = fmtRubShort(r.savingsTotal);
+      const roi = isFinite(r.roi) ? fmtNum(r.roi, 0) + "%" : "—";
+      const pay = paybackLabel(r.paybackYears);
+      root.querySelectorAll('[data-bind="save"]').forEach(function (node) {
+        node.textContent = save;
+      });
+      root.querySelectorAll('[data-bind="roi"]').forEach(function (node) {
+        node.textContent = roi;
+      });
+      root.querySelectorAll('[data-bind="pay"]').forEach(function (node) {
+        node.textContent = pay;
+      });
+
+      const note = el("roiPreviewNote");
+      if (note && phase === "input") {
+        const left = Math.max(0, 4 - inputStep);
+        if (left === 0) {
+          note.textContent = "Нажмите «Рассчитать», чтобы увидеть персональный результат";
+        } else {
+          note.textContent =
+            "Заполните ещё " +
+            left +
+            (left === 1 ? " шаг" : " шага") +
+            ", чтобы получить персональный расчёт с детализацией";
+        }
       }
     }
-  }
 
-  function updateStepper() {
-    const visualStep = phase === "input" ? inputStep : 4;
-    root.querySelectorAll("[data-step-dot]").forEach((d) => {
-      const s = Number(d.dataset.stepDot);
-      d.classList.toggle("is-active", s === visualStep);
-      d.classList.toggle("is-done", s < visualStep);
-    });
-  }
-
-  function setPhase(next) {
-    phase = next;
-    root.dataset.phase = next;
-
-    const show = (sel, on) => {
-      root.querySelectorAll(sel).forEach((el) => {
-        el.hidden = !on;
-      });
-    };
-
-    // left
-    show('[data-view="input"]', next === "input");
-    show('[data-view="summary"]', next === "result" || next === "lead" || next === "done");
-
-    // right
-    show('[data-view="preview"]', next === "input");
-    show('[data-view="cta"]', next === "result");
-    show('[data-view="lead"]', next === "lead");
-    show('[data-view="done"]', next === "done");
-
-    if (next === "input") {
-      root.querySelectorAll("[data-input-panel]").forEach((p) => {
-        p.hidden = Number(p.dataset.inputPanel) !== inputStep;
+    function updateStepper() {
+      const visualStep = phase === "input" ? inputStep : 4;
+      root.querySelectorAll("[data-step-dot]").forEach(function (d) {
+        const s = Number(d.dataset.stepDot);
+        d.classList.toggle("is-active", s === visualStep);
+        d.classList.toggle("is-done", s < visualStep);
       });
     }
 
-    updateStepper();
-    refreshNumbers();
-  }
+    function setPhase(next) {
+      phase = next;
+      root.dataset.phase = next;
 
-  function goInputStep(n) {
-    inputStep = n;
-    root.dataset.inputStep = String(n);
-    root.querySelectorAll("[data-input-panel]").forEach((p) => {
-      p.hidden = Number(p.dataset.inputPanel) !== n;
-    });
-    updateStepper();
-    refreshNumbers();
-  }
+      function show(sel, on) {
+        root.querySelectorAll(sel).forEach(function (node) {
+          node.hidden = !on;
+        });
+      }
 
-  function formatBudgetInput(el) {
-    const digits = String(el.value || "").replace(/\D/g, "");
-    el.value = digits ? digits.replace(/\B(?=(\d{3})+(?!\d))/g, " ") : "";
-  }
+      show('[data-view="input"]', next === "input");
+      show('[data-view="summary"]', next === "result" || next === "lead" || next === "done");
+      show('[data-view="preview"]', next === "input");
+      show('[data-view="cta"]', next === "result");
+      show('[data-view="lead"]', next === "lead");
+      show('[data-view="done"]', next === "done");
 
-  root.querySelectorAll(".itman-roi__pill").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      root.querySelectorAll(".itman-roi__pill").forEach((b) => b.classList.remove("is-active"));
-      btn.classList.add("is-active");
-      const wp = document.getElementById("roiWp");
-      if (wp) wp.value = btn.dataset.wp || "300";
+      if (next === "input") {
+        root.querySelectorAll("[data-input-panel]").forEach(function (p) {
+          p.hidden = Number(p.dataset.inputPanel) !== inputStep;
+        });
+      }
+
+      updateStepper();
       refreshNumbers();
+    }
+
+    function goInputStep(n) {
+      inputStep = n;
+      root.dataset.inputStep = String(n);
+      root.querySelectorAll("[data-input-panel]").forEach(function (p) {
+        p.hidden = Number(p.dataset.inputPanel) !== n;
+      });
+      updateStepper();
+      refreshNumbers();
+    }
+
+    function formatBudgetInput(node) {
+      const digits = String(node.value || "").replace(/\D/g, "");
+      node.value = digits ? digits.replace(/\B(?=(\d{3})+(?!\d))/g, " ") : "";
+    }
+
+    // Event delegation — works even if Taptop re-wraps nodes
+    root.addEventListener("click", function (e) {
+      const t = e.target.closest("button, a, [data-go-input], .itman-roi__pill");
+      if (!t || !root.contains(t)) return;
+
+      if (t.classList.contains("itman-roi__pill") || t.closest(".itman-roi__pill")) {
+        const pill = t.classList.contains("itman-roi__pill") ? t : t.closest(".itman-roi__pill");
+        e.preventDefault();
+        root.querySelectorAll(".itman-roi__pill").forEach(function (b) {
+          b.classList.remove("is-active");
+        });
+        pill.classList.add("is-active");
+        const wp = el("roiWp");
+        if (wp) wp.value = pill.dataset.wp || "300";
+        refreshNumbers();
+        return;
+      }
+
+      if (t.hasAttribute("data-go-input") || t.closest("[data-go-input]")) {
+        const btn = t.hasAttribute("data-go-input") ? t : t.closest("[data-go-input]");
+        e.preventDefault();
+        goInputStep(Number(btn.getAttribute("data-go-input")));
+        return;
+      }
+
+      if (t.id === "roiCalcBtn" || t.closest("#roiCalcBtn")) {
+        e.preventDefault();
+        inputStep = 4;
+        setPhase("result");
+        return;
+      }
+
+      if (t.id === "roiGetReportBtn" || t.closest("#roiGetReportBtn")) {
+        e.preventDefault();
+        setPhase("lead");
+        return;
+      }
+
+      if (t.id === "roiEditBtn" || t.closest("#roiEditBtn")) {
+        e.preventDefault();
+        inputStep = 1;
+        setPhase("input");
+        goInputStep(1);
+      }
     });
-  });
 
-  document.getElementById("roiIt")?.addEventListener("input", refreshNumbers);
-  document.getElementById("roiBudget")?.addEventListener("input", (e) => {
-    formatBudgetInput(e.target);
-    refreshNumbers();
-  });
+    root.addEventListener("input", function (e) {
+      const t = e.target;
+      if (t && t.id === "roiIt") refreshNumbers();
+      if (t && t.id === "roiBudget") {
+        formatBudgetInput(t);
+        refreshNumbers();
+      }
+    });
 
-  root.querySelectorAll("[data-go-input]").forEach((btn) => {
-    btn.addEventListener("click", () => goInputStep(Number(btn.dataset.goInput)));
-  });
+    root.addEventListener("submit", function (e) {
+      if (e.target && e.target.id === "roiLeadForm") {
+        e.preventDefault();
+        const name = el("roiName")?.value?.trim();
+        const email = el("roiEmail")?.value?.trim();
+        if (!name || !email) return;
+        setPhase("done");
+      }
+    });
 
-  document.getElementById("roiCalcBtn")?.addEventListener("click", () => {
-    inputStep = 4;
-    setPhase("result");
-  });
-
-  document.getElementById("roiGetReportBtn")?.addEventListener("click", () => {
-    setPhase("lead");
-  });
-
-  document.getElementById("roiEditBtn")?.addEventListener("click", () => {
-    inputStep = 1;
     setPhase("input");
     goInputStep(1);
-  });
+  }
 
-  document.getElementById("roiLeadForm")?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const name = document.getElementById("roiName")?.value?.trim();
-    const email = document.getElementById("roiEmail")?.value?.trim();
-    if (!name || !email) return;
-    setPhase("done");
-  });
-
-  setPhase("input");
-  goInputStep(1);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () {
+      boot(0);
+    });
+  } else {
+    boot(0);
+  }
 })();
