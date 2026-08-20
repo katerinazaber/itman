@@ -1,7 +1,7 @@
 /* ROI embed for Taptop — resilient init (event delegation + retry) */
 (function () {
-  var ROI_VER = 16;
-  // v16: keep roi_summary in DOM (Taptop display:none strips field from publish).
+  var ROI_VER = 17;
+  // v17: forcefully hide roi_summary from users (keep in DOM for submit).
   if ((window.__itmenRoiInitVersion || 0) >= ROI_VER) return;
   window.__itmenRoiInitVersion = ROI_VER;
   window.__itmenRoiInit = true;
