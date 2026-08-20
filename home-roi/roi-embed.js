@@ -1,7 +1,7 @@
 /* ROI embed for Taptop — resilient init (event delegation + retry) */
 (function () {
-  var ROI_VER = 14;
-  // v14: fill calculator answers into hidden Taptop fields (email + admin).
+  var ROI_VER = 15;
+  // v15: if #roiTaptopMount missing, create it and hide legacy #roiLeadForm.
   if ((window.__itmenRoiInitVersion || 0) >= ROI_VER) return;
   window.__itmenRoiInitVersion = ROI_VER;
   window.__itmenRoiInit = true;
@@ -475,7 +475,23 @@
     }
 
     function mountNativeLeadForm() {
+      var leadView = root.querySelector('[data-view="lead"]');
       var mount = el("roiTaptopMount");
+      if (!mount && leadView) {
+        // Legacy embed still has #roiLeadForm — replace with mount slot
+        var legacy = leadView.querySelector("#roiLeadForm");
+        if (legacy) legacy.hidden = true;
+        mount = document.createElement("div");
+        mount.id = "roiTaptopMount";
+        mount.className = "itman-roi__taptop-mount";
+        mount.setAttribute("aria-live", "polite");
+        if (legacy && legacy.parentNode) {
+          legacy.parentNode.insertBefore(mount, legacy);
+        } else {
+          leadView.appendChild(mount);
+        }
+        console.info("[ROI] v" + ROI_VER + " created #roiTaptopMount (legacy embed)");
+      }
       if (!mount) {
         console.warn("[ROI] #roiTaptopMount missing — update Embed HTML");
         return false;
