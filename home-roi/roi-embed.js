@@ -1,6 +1,9 @@
 /* ROI embed for Taptop — resilient init (event delegation + retry) */
 (function () {
-  if (window.__itmenRoiInit) return;
+  var ROI_VER = 12;
+  // Newer version must win over stale loaders (old Embed onerror v=6 vs Custom Code).
+  if ((window.__itmenRoiInitVersion || 0) >= ROI_VER) return;
+  window.__itmenRoiInitVersion = ROI_VER;
   window.__itmenRoiInit = true;
 
   const PCT_LICENSES = 0.1;
@@ -65,8 +68,8 @@
       }
       return;
     }
-    if (root.dataset.roiReady === "1") return;
-    root.dataset.roiReady = "1";
+    if (root.dataset.roiReady === String(ROI_VER)) return;
+    root.dataset.roiReady = String(ROI_VER);
     init(root);
   }
 
@@ -250,13 +253,15 @@
       }
     });
 
-    root.addEventListener("submit", function (e) {
-      if (!(e.target && e.target.id === "roiLeadForm")) return;
-      e.preventDefault();
+    function sendLead(e) {
+      if (e) e.preventDefault();
       var name = el("roiName")?.value?.trim();
       var email = el("roiEmail")?.value?.trim();
       var phone = el("roiPhone")?.value?.trim() || "";
-      if (!name || !email) return;
+      if (!name || !email) {
+        console.warn("[ROI] name/email required");
+        return;
+      }
 
       var r = calculate();
       var ok = submitToHiddenTaptopForm({
@@ -271,8 +276,20 @@
       setPhase("done");
       if (!ok) {
         console.warn(
-          "[ROI] Taptop form not submitted. Check: form visible in editor (Visibility=show), CSS off-screen hide only, name «Лид-магнит Главная»."
+          "[ROI] Taptop form not submitted. Disable Smart Captcha on «Лид-магнит Главная», keep Visibility=show, hide only via CSS in-viewport."
         );
+      }
+    }
+
+    root.addEventListener("submit", function (e) {
+      if (!(e.target && e.target.id === "roiLeadForm")) return;
+      sendLead(e);
+    });
+    root.addEventListener("click", function (e) {
+      var t = e.target;
+      if (!t) return;
+      if (t.id === "roiLeadSend" || (t.closest && t.closest("#roiLeadSend"))) {
+        sendLead(e);
       }
     });
 
@@ -332,59 +349,45 @@
 
     function revealForSubmit(elNode) {
       if (!elNode || !elNode.style) return function () {};
-      var prev = {
-        display: elNode.style.display,
-        visibility: elNode.style.visibility,
-        opacity: elNode.style.opacity,
-        position: elNode.style.position,
-        left: elNode.style.left,
-        top: elNode.style.top,
-        width: elNode.style.width,
-        height: elNode.style.height,
-        overflow: elNode.style.overflow,
-        pointerEvents: elNode.style.pointerEvents,
-        clip: elNode.style.clip,
-      };
+      var prev = elNode.getAttribute("style") || "";
+      // Must stay in viewport — left:-9999 + overflow:hidden breaks Yandex Smart Captcha.
       elNode.style.setProperty("display", "block", "important");
       elNode.style.setProperty("visibility", "visible", "important");
-      elNode.style.setProperty("opacity", "1", "important");
+      elNode.style.setProperty("opacity", "0.02", "important");
       elNode.style.setProperty("pointer-events", "auto", "important");
       elNode.style.setProperty("position", "fixed", "important");
-      elNode.style.setProperty("left", "12px", "important");
-      elNode.style.setProperty("top", "12px", "important");
-      elNode.style.setProperty("width", "320px", "important");
+      elNode.style.setProperty("left", "8px", "important");
+      elNode.style.setProperty("bottom", "8px", "important");
+      elNode.style.setProperty("top", "auto", "important");
+      elNode.style.setProperty("right", "auto", "important");
+      elNode.style.setProperty("width", "280px", "important");
       elNode.style.setProperty("height", "auto", "important");
+      elNode.style.setProperty("max-height", "70vh", "important");
       elNode.style.setProperty("overflow", "visible", "important");
+      elNode.style.setProperty("clip", "auto", "important");
+      elNode.style.setProperty("clip-path", "none", "important");
+      elNode.style.setProperty("transform", "none", "important");
       elNode.style.setProperty("z-index", "2147483646", "important");
-      // keep visually invisible but "on-screen" for captcha/validators
-      elNode.style.setProperty("opacity", "0.01", "important");
       return function restore() {
-        Object.keys(prev).forEach(function (k) {
-          elNode.style[k] = prev[k] || "";
-        });
-        elNode.style.removeProperty("z-index");
+        if (prev) elNode.setAttribute("style", prev);
+        else elNode.removeAttribute("style");
       };
     }
 
     function submitToHiddenTaptopForm(data) {
       var found = findTaptopLeadForm();
-      if (!found) return false;
+      if (!found) {
+        console.warn("[ROI] lead form not found (anketa 346201316 / Получить отчет)");
+        return false;
+      }
       var box = found.root;
       var form = found.form;
-      var restores = [revealForSubmit(box)];
-      var p = box.parentElement;
-      for (var up = 0; up < 6 && p; up++) {
-        restores.push(revealForSubmit(p));
-        p = p.parentElement;
-      }
-
-      var inputs = Array.prototype.slice.call(
-        form.querySelectorAll("input.form__input, input")
-      );
+      var wrap = form.closest(".form") || box.parentElement || box;
+      var restores = [revealForSubmit(wrap), revealForSubmit(box), revealForSubmit(form)];
 
       function byDataType(typeName) {
-        var wrap = form.querySelector('[data-type-field="' + typeName + '"]');
-        return wrap ? wrap.querySelector("input, textarea") : null;
+        var wrapField = form.querySelector('[data-type-field="' + typeName + '"]');
+        return wrapField ? wrapField.querySelector("input, textarea") : null;
       }
 
       function byLabel(re) {
@@ -398,18 +401,13 @@
         return null;
       }
 
-      var nameInp =
-        byDataType("text") ||
-        byLabel(/^\s*Имя/i) ||
-        form.querySelector("input[type='text']");
-      // phone is also type=text in Taptop — take field labeled Телефон
+      var nameInp = byLabel(/Имя/i) || byDataType("text");
       var phoneInp = byLabel(/Телефон/i);
       var emailInp =
-        byDataType("email") ||
         byLabel(/Email|E-mail|Почта/i) ||
+        byDataType("email") ||
         form.querySelector("input[type='email']");
 
-      // If first data-type=text was name, second text-like unlabeled → phone
       if (!phoneInp) {
         var textInputs = form.querySelectorAll(
           '[data-type-field="text"] input, input[type="text"]'
@@ -432,15 +430,29 @@
         form.querySelector('[type="submit"]') ||
         form.querySelector("button");
 
-      // Give Smart Captcha a tick to init, then submit
+      console.info("[ROI] v" + ROI_VER + " filled Taptop form", {
+        formId: form.id,
+        anketa: form.getAttribute("data-s3-anketa-id"),
+        name: nameInp && nameInp.value,
+        phone: phoneInp && phoneInp.value,
+        email: emailInp && emailInp.value,
+        hasBtn: !!btn,
+      });
+
+      // Real click — Taptop + Smart Captcha listen to user gesture on the button.
       setTimeout(function () {
         try {
-          if (form.tagName === "FORM" && typeof form.requestSubmit === "function") {
-            form.requestSubmit(btn || undefined);
-          } else if (btn) {
+          if (btn) {
+            btn.focus();
+            btn.dispatchEvent(
+              new MouseEvent("mousedown", { bubbles: true, cancelable: true, view: window })
+            );
+            btn.dispatchEvent(
+              new MouseEvent("mouseup", { bubbles: true, cancelable: true, view: window })
+            );
             btn.click();
-          } else if (form.tagName === "FORM") {
-            HTMLFormElement.prototype.submit.call(form);
+          } else if (form.tagName === "FORM" && typeof form.requestSubmit === "function") {
+            form.requestSubmit();
           }
         } catch (err) {
           console.warn("[ROI] submit error", err);
@@ -452,16 +464,8 @@
               fn();
             } catch (e2) {}
           });
-        }, 2500);
-      }, 400);
-
-      console.info("[ROI] filled Taptop form", {
-        formId: form.id,
-        anketa: form.getAttribute("data-s3-anketa-id"),
-        name: !!(nameInp && nameInp.value),
-        phone: !!(phoneInp && phoneInp.value),
-        email: !!(emailInp && emailInp.value),
-      });
+        }, 5000);
+      }, 600);
 
       return !!(nameInp && emailInp);
     }
