@@ -229,32 +229,7 @@
 
       if (t.id === "roiGetReportBtn" || t.closest("#roiGetReportBtn")) {
         e.preventDefault();
-        // Prefer native Taptop form (#roi-taptop-form) so leads go to admin + email
-        var tapForm = document.getElementById("roi-taptop-form");
-        if (tapForm) {
-          tapForm.hidden = false;
-          tapForm.style.display = "";
-          tapForm.classList.add("is-visible");
-          // Pass calculated numbers into optional hidden/text fields if present
-          var r = calculate();
-          var map = {
-            roi_save: fmtRubShort(r.savingsTotal),
-            roi_percent: isFinite(r.roi) ? fmtNum(r.roi, 0) + "%" : "",
-            roi_payback: paybackLabel(r.paybackYears),
-          };
-          Object.keys(map).forEach(function (name) {
-            var field =
-              tapForm.querySelector('[name="' + name + '"]') ||
-              tapForm.querySelector("#" + name);
-            if (field) field.value = map[name];
-          });
-          setPhase("lead");
-          setTimeout(function () {
-            tapForm.scrollIntoView({ behavior: "smooth", block: "start" });
-          }, 50);
-        } else {
-          setPhase("lead");
-        }
+        setPhase("lead");
         return;
       }
 
@@ -276,14 +251,107 @@
     });
 
     root.addEventListener("submit", function (e) {
-      if (e.target && e.target.id === "roiLeadForm") {
-        e.preventDefault();
-        const name = el("roiName")?.value?.trim();
-        const email = el("roiEmail")?.value?.trim();
-        if (!name || !email) return;
-        setPhase("done");
+      if (!(e.target && e.target.id === "roiLeadForm")) return;
+      e.preventDefault();
+      var name = el("roiName")?.value?.trim();
+      var email = el("roiEmail")?.value?.trim();
+      var phone = el("roiPhone")?.value?.trim() || "";
+      if (!name || !email) return;
+
+      var sent = submitToHiddenTaptopForm({
+        name: name,
+        email: email,
+        phone: phone,
+        save: fmtRubShort(calculate().savingsTotal),
+        roi: isFinite(calculate().roi) ? fmtNum(calculate().roi, 0) + "%" : "",
+        payback: paybackLabel(calculate().paybackYears),
+      });
+
+      // Always show success UI in calculator; Taptop form stays invisible
+      setPhase("done");
+      if (!sent) {
+        console.warn(
+          "[ROI] Hidden Taptop form #roi-taptop-form not found or not submitted. Leads may not reach email."
+        );
       }
     });
+
+    function submitToHiddenTaptopForm(data) {
+      var wrap = document.getElementById("roi-taptop-form");
+      if (!wrap) return false;
+      var form = wrap.matches("form") ? wrap : wrap.querySelector("form");
+      if (!form) return false;
+
+      var inputs = Array.prototype.slice.call(
+        form.querySelectorAll("input, textarea, select")
+      );
+      function fillBy(pred, value) {
+        for (var i = 0; i < inputs.length; i++) {
+          var inp = inputs[i];
+          var type = (inp.type || "").toLowerCase();
+          if (type === "hidden" || type === "submit" || type === "button") continue;
+          if (pred(inp, type)) {
+            inp.value = value;
+            inp.dispatchEvent(new Event("input", { bubbles: true }));
+            inp.dispatchEvent(new Event("change", { bubbles: true }));
+            return true;
+          }
+        }
+        return false;
+      }
+
+      fillBy(function (inp, type) {
+        return (
+          type === "email" ||
+          /email|mail/i.test(inp.name || "") ||
+          /email|mail/i.test(inp.id || "") ||
+          /email|mail/i.test(inp.placeholder || "")
+        );
+      }, data.email);
+
+      fillBy(function (inp, type) {
+        return (
+          type === "tel" ||
+          /phone|tel|телефон/i.test(inp.name || "") ||
+          /phone|tel/i.test(inp.id || "") ||
+          /phone|\+7/i.test(inp.placeholder || "")
+        );
+      }, data.phone);
+
+      fillBy(function (inp, type) {
+        return (
+          type === "text" ||
+          /name|имя|fio/i.test(inp.name || "") ||
+          /name|имя/i.test(inp.id || "") ||
+          /имя|name/i.test(inp.placeholder || "")
+        );
+      }, data.name);
+
+      // optional ROI fields if added later
+      fillBy(function (inp) {
+        return /roi_save|save/i.test(inp.name || inp.id || "");
+      }, data.save);
+      fillBy(function (inp) {
+        return /roi_percent|roi%/i.test(inp.name || inp.id || "");
+      }, data.roi);
+      fillBy(function (inp) {
+        return /roi_payback|payback/i.test(inp.name || inp.id || "");
+      }, data.payback);
+
+      var btn =
+        form.querySelector('[type="submit"]') ||
+        form.querySelector("button");
+      if (typeof form.requestSubmit === "function") {
+        form.requestSubmit(btn || undefined);
+      } else if (btn) {
+        btn.click();
+      } else {
+        form.dispatchEvent(
+          new Event("submit", { bubbles: true, cancelable: true })
+        );
+      }
+      return true;
+    }
 
     setPhase("input");
     goInputStep(1);
