@@ -1,7 +1,7 @@
 /* ROI embed for Taptop — resilient init (event delegation + retry) */
 (function () {
-  var ROI_VER = 17;
-  // v17: forcefully hide roi_summary from users (keep in DOM for submit).
+  var ROI_VER = 18;
+  // v18: unlock pointer-events for Yandex SmartCaptcha inside mounted form.
   if ((window.__itmenRoiInitVersion || 0) >= ROI_VER) return;
   window.__itmenRoiInitVersion = ROI_VER;
   window.__itmenRoiInit = true;
@@ -404,9 +404,32 @@
         "position:absolute!important;left:0!important;top:0!important;" +
         "width:1px!important;height:1px!important;margin:0!important;padding:0!important;" +
         "opacity:0!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;" +
-        "border:0!important;pointer-events:none!important;z-index:-1!important;" +
+        "border:0!important;pointer-events:none!important;" +
+        "}" +
+        /* Captcha must stay clickable (park CSS / overlays often break it) */
+        "#roiTaptopMount,.itman-roi__taptop-mount,.itman-roi__preview," +
+        "#roiTaptopMount .form,#roiTaptopMount form," +
+        "#roiTaptopMount smart-captcha,#roiTaptopMount iframe{" +
+        "pointer-events:auto!important;overflow:visible!important;" +
+        "}" +
+        "#roiTaptopMount smart-captcha,#roiTaptopMount .SmartCaptcha," +
+        "#roiTaptopMount iframe[src*='captcha'],#roiTaptopMount iframe[src*='smartcaptcha']{" +
+        "position:relative!important;z-index:2147483000!important;" +
+        "pointer-events:auto!important;max-width:100%!important;" +
+        "}" +
+        "body > div[id*='captcha'],body > div[class*='Captcha']," +
+        "body > div[class*='captcha']{" +
+        "pointer-events:auto!important;z-index:2147483646!important;" +
         "}";
       document.head.appendChild(st);
+    }
+
+    function unlockInteractive(node) {
+      if (!node || !node.style) return;
+      node.style.setProperty("pointer-events", "auto", "important");
+      node.style.setProperty("overflow", "visible", "important");
+      node.style.setProperty("opacity", "1", "important");
+      node.style.setProperty("z-index", "30", "important");
     }
 
     function hideMetaField(field) {
@@ -547,6 +570,12 @@
       wrap.style.cssText = "";
       var form = wrap.querySelector("form") || (wrap.matches("form") ? wrap : null);
       if (form) form.style.cssText = "";
+      unlockInteractive(mount);
+      unlockInteractive(wrap);
+      if (form) unlockInteractive(form);
+      var captcha = (form || wrap).querySelector("smart-captcha, .SmartCaptcha, [data-captcha]");
+      if (captcha) unlockInteractive(captcha);
+      ensureMetaHideStyle();
       if (form) {
         fillRoiIntoTaptopForm(form);
         bindFillBeforeSubmit(form);
