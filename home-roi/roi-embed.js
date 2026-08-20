@@ -258,118 +258,238 @@
       var phone = el("roiPhone")?.value?.trim() || "";
       if (!name || !email) return;
 
-      var sent = submitToHiddenTaptopForm({
+      var r = calculate();
+      var ok = submitToHiddenTaptopForm({
         name: name,
         email: email,
         phone: phone,
-        save: fmtRubShort(calculate().savingsTotal),
-        roi: isFinite(calculate().roi) ? fmtNum(calculate().roi, 0) + "%" : "",
-        payback: paybackLabel(calculate().paybackYears),
+        save: fmtRubShort(r.savingsTotal),
+        roi: isFinite(r.roi) ? fmtNum(r.roi, 0) + "%" : "",
+        payback: paybackLabel(r.paybackYears),
       });
 
-      // Always show success UI in calculator; Taptop form stays invisible
       setPhase("done");
-      if (!sent) {
+      if (!ok) {
         console.warn(
-          "[ROI] Taptop lead form not found. Name it «Лид-магнит Главная» or set id=roi-taptop-form."
+          "[ROI] Taptop form not submitted. Check: form visible in editor (Visibility=show), CSS off-screen hide only, name «Лид-магнит Главная»."
         );
       }
     });
 
+    function setNativeValue(inp, value) {
+      if (!inp) return;
+      var proto =
+        inp instanceof HTMLTextAreaElement
+          ? HTMLTextAreaElement.prototype
+          : HTMLInputElement.prototype;
+      var desc = Object.getOwnPropertyDescriptor(proto, "value");
+      if (desc && desc.set) desc.set.call(inp, value);
+      else inp.value = value;
+      inp.dispatchEvent(new Event("input", { bubbles: true }));
+      inp.dispatchEvent(new Event("change", { bubbles: true }));
+      try {
+        inp.dispatchEvent(
+          new InputEvent("input", { bubbles: true, data: value })
+        );
+      } catch (err) {}
+    }
+
     function findTaptopLeadForm() {
       var wrap = document.getElementById("roi-taptop-form");
       if (wrap) {
-        return wrap.matches("form") ? wrap : wrap.querySelector("form") || wrap;
+        return {
+          root: wrap,
+          form: wrap.matches("form") ? wrap : wrap.querySelector("form") || wrap,
+        };
       }
-      // Fallback without ID: find Taptop form by visible title on the page
+
+      // Prefer native <form> that is NOT inside the calculator
       var forms = document.querySelectorAll("form");
       for (var i = 0; i < forms.length; i++) {
         var f = forms[i];
-        if (root.contains(f)) continue; // skip calculator's own form
-        var text = (f.innerText || f.textContent || "").replace(/\s+/g, " ");
+        if (root.contains(f)) continue;
+        var text = (f.textContent || "").replace(/\s+/g, " ");
         if (
-          /Лид-магнит\s*Главная/i.test(text) ||
-          /Получить\s+отч[её]т/i.test(text)
+          /Лид-магнит/i.test(text) ||
+          /Получить\s+отч[её]т/i.test(text) ||
+          f.querySelectorAll("input").length >= 2
         ) {
-          return f;
+          // If multiple forms, prefer one with «отчет»
+          if (
+            /Лид-магнит|отч[её]т/i.test(text) ||
+            forms.length === 1
+          ) {
+            return { root: f, form: f };
+          }
+        }
+      }
+
+      // Taptop sometimes wraps fields in a div, not <form>
+      var nodes = document.querySelectorAll("button, [type='submit']");
+      for (var j = 0; j < nodes.length; j++) {
+        var btn = nodes[j];
+        if (root.contains(btn)) continue;
+        if (!/Получить\s+отч[её]т|Отправить/i.test(btn.textContent || ""))
+          continue;
+        var node = btn.parentElement;
+        for (var depth = 0; depth < 10 && node; depth++) {
+          var inputs = node.querySelectorAll("input");
+          if (inputs.length >= 2) {
+            return {
+              root: node,
+              form: node.matches("form") ? node : node.querySelector("form") || node,
+              button: btn,
+            };
+          }
+          node = node.parentElement;
         }
       }
       return null;
     }
 
+    function revealForSubmit(elNode) {
+      if (!elNode || !elNode.style) return function () {};
+      var prev = {
+        display: elNode.style.display,
+        visibility: elNode.style.visibility,
+        opacity: elNode.style.opacity,
+        position: elNode.style.position,
+        left: elNode.style.left,
+        height: elNode.style.height,
+        overflow: elNode.style.overflow,
+        pointerEvents: elNode.style.pointerEvents,
+      };
+      elNode.style.setProperty("display", "block", "important");
+      elNode.style.setProperty("visibility", "visible", "important");
+      elNode.style.setProperty("opacity", "1", "important");
+      elNode.style.setProperty("pointer-events", "auto", "important");
+      // keep off-screen so user doesn't flash-see it
+      elNode.style.setProperty("position", "fixed", "important");
+      elNode.style.setProperty("left", "-10000px", "important");
+      elNode.style.setProperty("top", "0", "important");
+      elNode.style.setProperty("height", "auto", "important");
+      elNode.style.setProperty("overflow", "visible", "important");
+      return function restore() {
+        Object.keys(prev).forEach(function (k) {
+          elNode.style[k] = prev[k] || "";
+        });
+      };
+    }
+
     function submitToHiddenTaptopForm(data) {
-      var form = findTaptopLeadForm();
-      if (!form) return false;
+      var found = findTaptopLeadForm();
+      if (!found) return false;
+      var box = found.root;
+      var form = found.form;
+      var restore = revealForSubmit(box);
+      // also unhide parents up to 5 levels (Taptop Visibility)
+      var restores = [restore];
+      var p = box.parentElement;
+      for (var up = 0; up < 5 && p; up++) {
+        restores.push(revealForSubmit(p));
+        p = p.parentElement;
+      }
 
       var inputs = Array.prototype.slice.call(
-        form.querySelectorAll("input, textarea, select")
+        form.querySelectorAll("input, textarea")
       );
-      function fillBy(pred, value) {
+      var used = {};
+
+      function pick(pred) {
         for (var i = 0; i < inputs.length; i++) {
+          if (used[i]) continue;
           var inp = inputs[i];
           var type = (inp.type || "").toLowerCase();
-          if (type === "hidden" || type === "submit" || type === "button") continue;
+          if (type === "hidden" || type === "submit" || type === "button")
+            continue;
           if (pred(inp, type)) {
-            inp.value = value;
-            inp.dispatchEvent(new Event("input", { bubbles: true }));
-            inp.dispatchEvent(new Event("change", { bubbles: true }));
-            return true;
+            used[i] = true;
+            return inp;
           }
         }
-        return false;
+        return null;
       }
 
-      fillBy(function (inp, type) {
+      var emailInp = pick(function (inp, type) {
         return (
           type === "email" ||
-          /email|mail/i.test(inp.name || "") ||
-          /email|mail/i.test(inp.id || "") ||
-          /email|mail/i.test(inp.placeholder || "")
+          /email|e-?mail|mail/i.test(
+            (inp.name || "") + (inp.id || "") + (inp.placeholder || "") + (inp.getAttribute("aria-label") || "")
+          )
         );
-      }, data.email);
-
-      fillBy(function (inp, type) {
+      });
+      var phoneInp = pick(function (inp, type) {
         return (
           type === "tel" ||
-          /phone|tel|телефон/i.test(inp.name || "") ||
-          /phone|tel/i.test(inp.id || "") ||
-          /phone|\+7/i.test(inp.placeholder || "")
+          /phone|tel|телефон/i.test(
+            (inp.name || "") + (inp.id || "") + (inp.placeholder || "") + (inp.getAttribute("aria-label") || "")
+          )
         );
-      }, data.phone);
-
-      fillBy(function (inp, type) {
+      });
+      var nameInp = pick(function (inp, type) {
         return (
           type === "text" ||
-          /name|имя|fio/i.test(inp.name || "") ||
-          /name|имя/i.test(inp.id || "") ||
-          /имя|name/i.test(inp.placeholder || "")
+          type === "" ||
+          /name|имя|fio/i.test(
+            (inp.name || "") + (inp.id || "") + (inp.placeholder || "") + (inp.getAttribute("aria-label") || "")
+          )
         );
-      }, data.name);
+      });
 
-      // optional ROI fields if added later
-      fillBy(function (inp) {
-        return /roi_save|save/i.test(inp.name || inp.id || "");
-      }, data.save);
-      fillBy(function (inp) {
-        return /roi_percent|roi%/i.test(inp.name || inp.id || "");
-      }, data.roi);
-      fillBy(function (inp) {
-        return /roi_payback|payback/i.test(inp.name || inp.id || "");
-      }, data.payback);
+      // Fallback by order: many Taptop forms are Name, Phone, Email
+      var free = inputs.filter(function (inp, idx) {
+        var type = (inp.type || "").toLowerCase();
+        return (
+          !used[idx] &&
+          type !== "hidden" &&
+          type !== "submit" &&
+          type !== "button"
+        );
+      });
+      if (!nameInp && free[0]) nameInp = free[0];
+      if (!phoneInp && free[1]) phoneInp = free[1];
+      if (!emailInp && free[2]) emailInp = free[2];
+      if (!emailInp) {
+        emailInp = pick(function (inp, type) {
+          return type === "text" || type === "email";
+        });
+      }
+
+      setNativeValue(nameInp, data.name);
+      setNativeValue(emailInp, data.email);
+      setNativeValue(phoneInp, data.phone);
 
       var btn =
+        found.button ||
         form.querySelector('[type="submit"]') ||
         form.querySelector("button");
-      if (typeof form.requestSubmit === "function") {
-        form.requestSubmit(btn || undefined);
-      } else if (btn) {
-        btn.click();
-      } else {
-        form.dispatchEvent(
-          new Event("submit", { bubbles: true, cancelable: true })
-        );
+
+      try {
+        if (form.tagName === "FORM" && typeof form.requestSubmit === "function") {
+          form.requestSubmit(btn || undefined);
+        } else if (btn) {
+          btn.click();
+        } else if (form.tagName === "FORM") {
+          form.submit();
+        } else if (btn) {
+          btn.dispatchEvent(
+            new MouseEvent("click", { bubbles: true, cancelable: true })
+          );
+        }
+      } catch (err) {
+        console.warn("[ROI] submit error", err);
+        if (btn) btn.click();
       }
-      return true;
+
+      setTimeout(function () {
+        restores.forEach(function (fn) {
+          try {
+            fn();
+          } catch (e2) {}
+        });
+      }, 1500);
+
+      return !!(nameInp && emailInp);
     }
 
     setPhase("input");
