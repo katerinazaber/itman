@@ -229,7 +229,32 @@
 
       if (t.id === "roiGetReportBtn" || t.closest("#roiGetReportBtn")) {
         e.preventDefault();
-        setPhase("lead");
+        // Prefer native Taptop form (#roi-taptop-form) so leads go to admin + email
+        var tapForm = document.getElementById("roi-taptop-form");
+        if (tapForm) {
+          tapForm.hidden = false;
+          tapForm.style.display = "";
+          tapForm.classList.add("is-visible");
+          // Pass calculated numbers into optional hidden/text fields if present
+          var r = calculate();
+          var map = {
+            roi_save: fmtRubShort(r.savingsTotal),
+            roi_percent: isFinite(r.roi) ? fmtNum(r.roi, 0) + "%" : "",
+            roi_payback: paybackLabel(r.paybackYears),
+          };
+          Object.keys(map).forEach(function (name) {
+            var field =
+              tapForm.querySelector('[name="' + name + '"]') ||
+              tapForm.querySelector("#" + name);
+            if (field) field.value = map[name];
+          });
+          setPhase("lead");
+          setTimeout(function () {
+            tapForm.scrollIntoView({ behavior: "smooth", block: "start" });
+          }, 50);
+        } else {
+          setPhase("lead");
+        }
         return;
       }
 
