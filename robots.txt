@@ -23,3 +23,6 @@ User-agent: *
 Disallow: /itman-bonus/
 
 Disallow: /glossary/
+
+User-agent: *
+Disallow: /booklet-2026/
