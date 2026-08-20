@@ -394,8 +394,30 @@
       ].join("\n");
     }
 
+    function ensureMetaHideStyle() {
+      if (document.getElementById("itman-roi-meta-hide")) return;
+      var st = document.createElement("style");
+      st.id = "itman-roi-meta-hide";
+      st.textContent =
+        "#roiTaptopMount .itman-roi-meta-field," +
+        "#roiTaptopMount .form__field.itman-roi-meta-field{" +
+        "position:absolute!important;left:0!important;top:0!important;" +
+        "width:1px!important;height:1px!important;margin:0!important;padding:0!important;" +
+        "opacity:0!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;" +
+        "border:0!important;pointer-events:none!important;z-index:-1!important;" +
+        "}";
+      document.head.appendChild(st);
+    }
+
+    function hideMetaField(field) {
+      if (!field) return;
+      var box = field.closest(".form__field") || field.parentElement || field;
+      box.classList.add("itman-roi-meta-field");
+    }
+
     function fillRoiIntoTaptopForm(form) {
       if (!form) return false;
+      ensureMetaHideStyle();
       var inp = getInputs();
       var r = calculate();
       var summary = buildRoiSummary();
@@ -432,6 +454,17 @@
         /Окупаемост/i
       );
 
+      // Hide first so user never sees the filled values
+      [
+        summaryField,
+        wpField,
+        itField,
+        budgetField,
+        saveField,
+        roiField,
+        payField,
+      ].forEach(hideMetaField);
+
       setNativeValue(summaryField, summary);
       setNativeValue(wpField, String(inp.endpoints));
       setNativeValue(itField, String(inp.itStaff));
@@ -442,21 +475,6 @@
         isFinite(r.roi) ? fmtNum(r.roi, 0) + "%" : ""
       );
       setNativeValue(payField, paybackLabel(r.paybackYears));
-
-      // Hide meta fields visually without removing from form submit
-      [summaryField, wpField, itField, budgetField, saveField, roiField, payField].forEach(
-        function (field) {
-          if (!field) return;
-          var box = field.closest(".form__field") || field.parentElement;
-          if (!box || !box.style) return;
-          box.style.setProperty("position", "absolute", "important");
-          box.style.setProperty("width", "1px", "important");
-          box.style.setProperty("height", "1px", "important");
-          box.style.setProperty("opacity", "0", "important");
-          box.style.setProperty("overflow", "hidden", "important");
-          box.style.setProperty("pointer-events", "none", "important");
-        }
-      );
 
       console.info("[ROI] v" + ROI_VER + " filled calc meta", {
         hasSummary: !!(summaryField && summaryField.value),
