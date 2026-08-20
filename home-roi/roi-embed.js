@@ -1,7 +1,7 @@
 /* ROI embed for Taptop — resilient init (event delegation + retry) */
 (function () {
-  var ROI_VER = 15;
-  // v15: if #roiTaptopMount missing, create it and hide legacy #roiLeadForm.
+  var ROI_VER = 16;
+  // v16: keep roi_summary in DOM (Taptop display:none strips field from publish).
   if ((window.__itmenRoiInitVersion || 0) >= ROI_VER) return;
   window.__itmenRoiInitVersion = ROI_VER;
   window.__itmenRoiInit = true;
@@ -442,6 +442,21 @@
         isFinite(r.roi) ? fmtNum(r.roi, 0) + "%" : ""
       );
       setNativeValue(payField, paybackLabel(r.paybackYears));
+
+      // Hide meta fields visually without removing from form submit
+      [summaryField, wpField, itField, budgetField, saveField, roiField, payField].forEach(
+        function (field) {
+          if (!field) return;
+          var box = field.closest(".form__field") || field.parentElement;
+          if (!box || !box.style) return;
+          box.style.setProperty("position", "absolute", "important");
+          box.style.setProperty("width", "1px", "important");
+          box.style.setProperty("height", "1px", "important");
+          box.style.setProperty("opacity", "0", "important");
+          box.style.setProperty("overflow", "hidden", "important");
+          box.style.setProperty("pointer-events", "none", "important");
+        }
+      );
 
       console.info("[ROI] v" + ROI_VER + " filled calc meta", {
         hasSummary: !!(summaryField && summaryField.value),
