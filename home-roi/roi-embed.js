@@ -271,15 +271,34 @@
       setPhase("done");
       if (!sent) {
         console.warn(
-          "[ROI] Hidden Taptop form #roi-taptop-form not found or not submitted. Leads may not reach email."
+          "[ROI] Taptop lead form not found. Name it «Лид-магнит Главная» or set id=roi-taptop-form."
         );
       }
     });
 
-    function submitToHiddenTaptopForm(data) {
+    function findTaptopLeadForm() {
       var wrap = document.getElementById("roi-taptop-form");
-      if (!wrap) return false;
-      var form = wrap.matches("form") ? wrap : wrap.querySelector("form");
+      if (wrap) {
+        return wrap.matches("form") ? wrap : wrap.querySelector("form") || wrap;
+      }
+      // Fallback without ID: find Taptop form by visible title on the page
+      var forms = document.querySelectorAll("form");
+      for (var i = 0; i < forms.length; i++) {
+        var f = forms[i];
+        if (root.contains(f)) continue; // skip calculator's own form
+        var text = (f.innerText || f.textContent || "").replace(/\s+/g, " ");
+        if (
+          /Лид-магнит\s*Главная/i.test(text) ||
+          /Получить\s+отч[её]т/i.test(text)
+        ) {
+          return f;
+        }
+      }
+      return null;
+    }
+
+    function submitToHiddenTaptopForm(data) {
+      var form = findTaptopLeadForm();
       if (!form) return false;
 
       var inputs = Array.prototype.slice.call(
