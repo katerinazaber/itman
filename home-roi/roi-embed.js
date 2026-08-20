@@ -295,53 +295,36 @@
     }
 
     function findTaptopLeadForm() {
-      var wrap = document.getElementById("roi-taptop-form");
-      if (wrap) {
+      // Exact form from preview «Лид-магнит Главная»
+      var exact =
+        document.querySelector("form[data-s3-anketa-id='346201316']") ||
+        document.getElementById("if6fgkokg_0") ||
+        document.getElementById("roi-taptop-form");
+      if (exact) {
+        var box = exact.id === "roi-taptop-form" && !exact.matches("form")
+          ? exact.querySelector("form") || exact
+          : exact;
         return {
-          root: wrap,
-          form: wrap.matches("form") ? wrap : wrap.querySelector("form") || wrap,
+          root: exact,
+          form: box.matches("form") ? box : box.querySelector("form") || box,
+          button:
+            (box.matches("form") ? box : box.querySelector("form") || box).querySelector(
+              "[type='submit'], button.submit_button, button"
+            ) || null,
         };
       }
 
-      // Prefer native <form> that is NOT inside the calculator
-      var forms = document.querySelectorAll("form");
+      var forms = document.querySelectorAll("form[data-s3-anketa-id]");
       for (var i = 0; i < forms.length; i++) {
         var f = forms[i];
         if (root.contains(f)) continue;
         var text = (f.textContent || "").replace(/\s+/g, " ");
-        if (
-          /Лид-магнит/i.test(text) ||
-          /Получить\s+отч[её]т/i.test(text) ||
-          f.querySelectorAll("input").length >= 2
-        ) {
-          // If multiple forms, prefer one with «отчет»
-          if (
-            /Лид-магнит|отч[её]т/i.test(text) ||
-            forms.length === 1
-          ) {
-            return { root: f, form: f };
-          }
-        }
-      }
-
-      // Taptop sometimes wraps fields in a div, not <form>
-      var nodes = document.querySelectorAll("button, [type='submit']");
-      for (var j = 0; j < nodes.length; j++) {
-        var btn = nodes[j];
-        if (root.contains(btn)) continue;
-        if (!/Получить\s+отч[её]т|Отправить/i.test(btn.textContent || ""))
-          continue;
-        var node = btn.parentElement;
-        for (var depth = 0; depth < 10 && node; depth++) {
-          var inputs = node.querySelectorAll("input");
-          if (inputs.length >= 2) {
-            return {
-              root: node,
-              form: node.matches("form") ? node : node.querySelector("form") || node,
-              button: btn,
-            };
-          }
-          node = node.parentElement;
+        if (/Получить\s+отч[её]т/i.test(text) && /Имя/i.test(text) && /Email/i.test(text)) {
+          return {
+            root: f,
+            form: f,
+            button: f.querySelector("[type='submit'], button.submit_button, button"),
+          };
         }
       }
       return null;
@@ -355,24 +338,31 @@
         opacity: elNode.style.opacity,
         position: elNode.style.position,
         left: elNode.style.left,
+        top: elNode.style.top,
+        width: elNode.style.width,
         height: elNode.style.height,
         overflow: elNode.style.overflow,
         pointerEvents: elNode.style.pointerEvents,
+        clip: elNode.style.clip,
       };
       elNode.style.setProperty("display", "block", "important");
       elNode.style.setProperty("visibility", "visible", "important");
       elNode.style.setProperty("opacity", "1", "important");
       elNode.style.setProperty("pointer-events", "auto", "important");
-      // keep off-screen so user doesn't flash-see it
       elNode.style.setProperty("position", "fixed", "important");
-      elNode.style.setProperty("left", "-10000px", "important");
-      elNode.style.setProperty("top", "0", "important");
+      elNode.style.setProperty("left", "12px", "important");
+      elNode.style.setProperty("top", "12px", "important");
+      elNode.style.setProperty("width", "320px", "important");
       elNode.style.setProperty("height", "auto", "important");
       elNode.style.setProperty("overflow", "visible", "important");
+      elNode.style.setProperty("z-index", "2147483646", "important");
+      // keep visually invisible but "on-screen" for captcha/validators
+      elNode.style.setProperty("opacity", "0.01", "important");
       return function restore() {
         Object.keys(prev).forEach(function (k) {
           elNode.style[k] = prev[k] || "";
         });
+        elNode.style.removeProperty("z-index");
       };
     }
 
@@ -381,113 +371,97 @@
       if (!found) return false;
       var box = found.root;
       var form = found.form;
-      var restore = revealForSubmit(box);
-      // also unhide parents up to 5 levels (Taptop Visibility)
-      var restores = [restore];
+      var restores = [revealForSubmit(box)];
       var p = box.parentElement;
-      for (var up = 0; up < 5 && p; up++) {
+      for (var up = 0; up < 6 && p; up++) {
         restores.push(revealForSubmit(p));
         p = p.parentElement;
       }
 
       var inputs = Array.prototype.slice.call(
-        form.querySelectorAll("input, textarea")
+        form.querySelectorAll("input.form__input, input")
       );
-      var used = {};
 
-      function pick(pred) {
-        for (var i = 0; i < inputs.length; i++) {
-          if (used[i]) continue;
-          var inp = inputs[i];
-          var type = (inp.type || "").toLowerCase();
-          if (type === "hidden" || type === "submit" || type === "button")
-            continue;
-          if (pred(inp, type)) {
-            used[i] = true;
-            return inp;
+      function byDataType(typeName) {
+        var wrap = form.querySelector('[data-type-field="' + typeName + '"]');
+        return wrap ? wrap.querySelector("input, textarea") : null;
+      }
+
+      function byLabel(re) {
+        var fields = form.querySelectorAll(".form__field, [data-type-field]");
+        for (var i = 0; i < fields.length; i++) {
+          var label = (fields[i].textContent || "").replace(/\s+/g, " ");
+          if (re.test(label)) {
+            return fields[i].querySelector("input, textarea");
           }
         }
         return null;
       }
 
-      var emailInp = pick(function (inp, type) {
-        return (
-          type === "email" ||
-          /email|e-?mail|mail/i.test(
-            (inp.name || "") + (inp.id || "") + (inp.placeholder || "") + (inp.getAttribute("aria-label") || "")
-          )
-        );
-      });
-      var phoneInp = pick(function (inp, type) {
-        return (
-          type === "tel" ||
-          /phone|tel|телефон/i.test(
-            (inp.name || "") + (inp.id || "") + (inp.placeholder || "") + (inp.getAttribute("aria-label") || "")
-          )
-        );
-      });
-      var nameInp = pick(function (inp, type) {
-        return (
-          type === "text" ||
-          type === "" ||
-          /name|имя|fio/i.test(
-            (inp.name || "") + (inp.id || "") + (inp.placeholder || "") + (inp.getAttribute("aria-label") || "")
-          )
-        );
-      });
+      var nameInp =
+        byDataType("text") ||
+        byLabel(/^\s*Имя/i) ||
+        form.querySelector("input[type='text']");
+      // phone is also type=text in Taptop — take field labeled Телефон
+      var phoneInp = byLabel(/Телефон/i);
+      var emailInp =
+        byDataType("email") ||
+        byLabel(/Email|E-mail|Почта/i) ||
+        form.querySelector("input[type='email']");
 
-      // Fallback by order: many Taptop forms are Name, Phone, Email
-      var free = inputs.filter(function (inp, idx) {
-        var type = (inp.type || "").toLowerCase();
-        return (
-          !used[idx] &&
-          type !== "hidden" &&
-          type !== "submit" &&
-          type !== "button"
+      // If first data-type=text was name, second text-like unlabeled → phone
+      if (!phoneInp) {
+        var textInputs = form.querySelectorAll(
+          '[data-type-field="text"] input, input[type="text"]'
         );
-      });
-      if (!nameInp && free[0]) nameInp = free[0];
-      if (!phoneInp && free[1]) phoneInp = free[1];
-      if (!emailInp && free[2]) emailInp = free[2];
-      if (!emailInp) {
-        emailInp = pick(function (inp, type) {
-          return type === "text" || type === "email";
-        });
+        for (var t = 0; t < textInputs.length; t++) {
+          if (textInputs[t] !== nameInp) {
+            phoneInp = textInputs[t];
+            break;
+          }
+        }
       }
 
       setNativeValue(nameInp, data.name);
+      setNativeValue(phoneInp, data.phone || "не указан");
       setNativeValue(emailInp, data.email);
-      setNativeValue(phoneInp, data.phone);
 
       var btn =
         found.button ||
+        form.querySelector("button.submit_button") ||
         form.querySelector('[type="submit"]') ||
         form.querySelector("button");
 
-      try {
-        if (form.tagName === "FORM" && typeof form.requestSubmit === "function") {
-          form.requestSubmit(btn || undefined);
-        } else if (btn) {
-          btn.click();
-        } else if (form.tagName === "FORM") {
-          form.submit();
-        } else if (btn) {
-          btn.dispatchEvent(
-            new MouseEvent("click", { bubbles: true, cancelable: true })
-          );
-        }
-      } catch (err) {
-        console.warn("[ROI] submit error", err);
-        if (btn) btn.click();
-      }
-
+      // Give Smart Captcha a tick to init, then submit
       setTimeout(function () {
-        restores.forEach(function (fn) {
-          try {
-            fn();
-          } catch (e2) {}
-        });
-      }, 1500);
+        try {
+          if (form.tagName === "FORM" && typeof form.requestSubmit === "function") {
+            form.requestSubmit(btn || undefined);
+          } else if (btn) {
+            btn.click();
+          } else if (form.tagName === "FORM") {
+            HTMLFormElement.prototype.submit.call(form);
+          }
+        } catch (err) {
+          console.warn("[ROI] submit error", err);
+          if (btn) btn.click();
+        }
+        setTimeout(function () {
+          restores.forEach(function (fn) {
+            try {
+              fn();
+            } catch (e2) {}
+          });
+        }, 2500);
+      }, 400);
+
+      console.info("[ROI] filled Taptop form", {
+        formId: form.id,
+        anketa: form.getAttribute("data-s3-anketa-id"),
+        name: !!(nameInp && nameInp.value),
+        phone: !!(phoneInp && phoneInp.value),
+        email: !!(emailInp && emailInp.value),
+      });
 
       return !!(nameInp && emailInp);
     }
