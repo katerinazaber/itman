@@ -1,7 +1,7 @@
 /* ROI embed for Taptop — resilient init (event delegation + retry) */
 (function () {
-  var ROI_VER = 13;
-  // v13: native Taptop form is MOVED into calculator (no fake bridge / no hidden submit).
+  var ROI_VER = 14;
+  // v14: fill calculator answers into hidden Taptop fields (email + admin).
   if ((window.__itmenRoiInitVersion || 0) >= ROI_VER) return;
   window.__itmenRoiInitVersion = ROI_VER;
   window.__itmenRoiInit = true;
@@ -327,6 +327,153 @@
       }, 500);
     }
 
+    function setNativeValue(inp, value) {
+      if (!inp) return;
+      var proto =
+        inp instanceof HTMLTextAreaElement
+          ? HTMLTextAreaElement.prototype
+          : HTMLInputElement.prototype;
+      var desc = Object.getOwnPropertyDescriptor(proto, "value");
+      if (desc && desc.set) desc.set.call(inp, String(value));
+      else inp.value = String(value);
+      inp.dispatchEvent(new Event("input", { bubbles: true }));
+      inp.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+
+    function findFieldByNameOrLabel(form, names, labelRe) {
+      if (!form) return null;
+      var i, inp, wrap, label;
+      var inputs = form.querySelectorAll("input, textarea");
+      for (i = 0; i < inputs.length; i++) {
+        inp = inputs[i];
+        var nm = (inp.getAttribute("name") || inp.getAttribute("data-name") || "").toLowerCase();
+        var id = (inp.id || "").toLowerCase();
+        for (var n = 0; n < names.length; n++) {
+          if (nm === names[n] || id === names[n] || nm.indexOf(names[n]) !== -1) {
+            return inp;
+          }
+        }
+      }
+      if (labelRe) {
+        var fields = form.querySelectorAll(".form__field, [data-type-field]");
+        for (i = 0; i < fields.length; i++) {
+          wrap = fields[i];
+          label = (wrap.textContent || "").replace(/\s+/g, " ");
+          if (labelRe.test(label)) {
+            return wrap.querySelector("input, textarea");
+          }
+        }
+      }
+      return null;
+    }
+
+    function buildRoiSummary() {
+      var inp = getInputs();
+      var r = calculate();
+      var wpLabel =
+        inp.endpoints <= 100
+          ? "до 100"
+          : inp.endpoints <= 500
+            ? "100–500"
+            : inp.endpoints <= 1000
+              ? "500–1000"
+              : inp.endpoints <= 5000
+                ? "1000–5000"
+                : "5000+";
+      return [
+        "Рабочие места: " + wpLabel + " (ориентир " + inp.endpoints + ")",
+        "Сотрудников в ИТ: " + inp.itStaff,
+        "Бюджет на ПО/лицензии в год: " +
+          (inp.currentLicenses
+            ? inp.currentLicenses.toLocaleString("ru-RU") + " ₽"
+            : "—"),
+        "Потенциальная экономия в год: " + fmtRubShort(r.savingsTotal),
+        "Ориентировочный ROI: " +
+          (isFinite(r.roi) ? fmtNum(r.roi, 0) + "%" : "—"),
+        "Срок окупаемости: " + paybackLabel(r.paybackYears),
+      ].join("\n");
+    }
+
+    function fillRoiIntoTaptopForm(form) {
+      if (!form) return false;
+      var inp = getInputs();
+      var r = calculate();
+      var summary = buildRoiSummary();
+
+      var summaryField = findFieldByNameOrLabel(
+        form,
+        ["roi_summary", "roi-summary", "данные_расчёта", "dannye_rascheta"],
+        /Данные\s+расч[её]та|ROI\s*summary|Расч[её]т\s+калькулятора/i
+      );
+      var wpField = findFieldByNameOrLabel(
+        form,
+        ["roi_wp", "endpoints", "rabochie_mesta"],
+        /Рабочие\s+места|Endpoints/i
+      );
+      var itField = findFieldByNameOrLabel(
+        form,
+        ["roi_it", "it_staff"],
+        /Сотрудников\s+в\s+ИТ|ИТ-команда/i
+      );
+      var budgetField = findFieldByNameOrLabel(
+        form,
+        ["roi_budget", "licenses_budget"],
+        /Бюджет\s+на\s+ПО|Лицензии/i
+      );
+      var saveField = findFieldByNameOrLabel(
+        form,
+        ["roi_save", "savings"],
+        /Экономия/i
+      );
+      var roiField = findFieldByNameOrLabel(form, ["roi_pct", "roi"], /^ROI|Ориентировочный ROI/i);
+      var payField = findFieldByNameOrLabel(
+        form,
+        ["roi_payback", "payback"],
+        /Окупаемост/i
+      );
+
+      setNativeValue(summaryField, summary);
+      setNativeValue(wpField, String(inp.endpoints));
+      setNativeValue(itField, String(inp.itStaff));
+      setNativeValue(budgetField, String(inp.currentLicenses || ""));
+      setNativeValue(saveField, fmtRubShort(r.savingsTotal));
+      setNativeValue(
+        roiField,
+        isFinite(r.roi) ? fmtNum(r.roi, 0) + "%" : ""
+      );
+      setNativeValue(payField, paybackLabel(r.paybackYears));
+
+      console.info("[ROI] v" + ROI_VER + " filled calc meta", {
+        hasSummary: !!(summaryField && summaryField.value),
+        summaryPreview: summary.slice(0, 80),
+      });
+      return !!(summaryField || wpField || saveField);
+    }
+
+    function bindFillBeforeSubmit(form) {
+      if (!form || form.dataset.roiFillBound === "1") return;
+      form.dataset.roiFillBound = "1";
+      form.addEventListener(
+        "submit",
+        function () {
+          fillRoiIntoTaptopForm(form);
+        },
+        true
+      );
+      var btn = form.querySelector(
+        "button.submit_button, button[type='submit'], [type='submit']"
+      );
+      if (btn) {
+        btn.addEventListener(
+          "click",
+          function () {
+            fillRoiIntoTaptopForm(form);
+          },
+          true
+        );
+      }
+    }
+
     function mountNativeLeadForm() {
       var mount = el("roiTaptopMount");
       if (!mount) {
@@ -351,6 +498,10 @@
       wrap.style.cssText = "";
       var form = wrap.querySelector("form") || (wrap.matches("form") ? wrap : null);
       if (form) form.style.cssText = "";
+      if (form) {
+        fillRoiIntoTaptopForm(form);
+        bindFillBeforeSubmit(form);
+      }
       console.info("[ROI] v" + ROI_VER + " mounted native Taptop form", {
         anketa: form && form.getAttribute("data-s3-anketa-id"),
         formId: form && form.id,
