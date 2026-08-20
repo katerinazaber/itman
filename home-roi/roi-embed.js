@@ -1,7 +1,7 @@
 /* ROI embed for Taptop — resilient init (event delegation + retry) */
 (function () {
-  var ROI_VER = 12;
-  // Newer version must win over stale loaders (old Embed onerror v=6 vs Custom Code).
+  var ROI_VER = 13;
+  // v13: native Taptop form is MOVED into calculator (no fake bridge / no hidden submit).
   if ((window.__itmenRoiInitVersion || 0) >= ROI_VER) return;
   window.__itmenRoiInitVersion = ROI_VER;
   window.__itmenRoiInit = true;
@@ -233,6 +233,7 @@
       if (t.id === "roiGetReportBtn" || t.closest("#roiGetReportBtn")) {
         e.preventDefault();
         setPhase("lead");
+        mountNativeLeadForm();
         return;
       }
 
@@ -253,221 +254,109 @@
       }
     });
 
-    function sendLead(e) {
-      if (e) e.preventDefault();
-      var name = el("roiName")?.value?.trim();
-      var email = el("roiEmail")?.value?.trim();
-      var phone = el("roiPhone")?.value?.trim() || "";
-      if (!name || !email) {
-        console.warn("[ROI] name/email required");
-        return;
-      }
+    var mountedWrap = null;
+    var successObserver = null;
 
-      var r = calculate();
-      var ok = submitToHiddenTaptopForm({
-        name: name,
-        email: email,
-        phone: phone,
-        save: fmtRubShort(r.savingsTotal),
-        roi: isFinite(r.roi) ? fmtNum(r.roi, 0) + "%" : "",
-        payback: paybackLabel(r.paybackYears),
-      });
-
-      setPhase("done");
-      if (!ok) {
-        console.warn(
-          "[ROI] Taptop form not submitted. Disable Smart Captcha on «Лид-магнит Главная», keep Visibility=show, hide only via CSS in-viewport."
-        );
-      }
-    }
-
-    root.addEventListener("submit", function (e) {
-      if (!(e.target && e.target.id === "roiLeadForm")) return;
-      sendLead(e);
-    });
-    root.addEventListener("click", function (e) {
-      var t = e.target;
-      if (!t) return;
-      if (t.id === "roiLeadSend" || (t.closest && t.closest("#roiLeadSend"))) {
-        sendLead(e);
-      }
-    });
-
-    function setNativeValue(inp, value) {
-      if (!inp) return;
-      var proto =
-        inp instanceof HTMLTextAreaElement
-          ? HTMLTextAreaElement.prototype
-          : HTMLInputElement.prototype;
-      var desc = Object.getOwnPropertyDescriptor(proto, "value");
-      if (desc && desc.set) desc.set.call(inp, value);
-      else inp.value = value;
-      inp.dispatchEvent(new Event("input", { bubbles: true }));
-      inp.dispatchEvent(new Event("change", { bubbles: true }));
-      try {
-        inp.dispatchEvent(
-          new InputEvent("input", { bubbles: true, data: value })
-        );
-      } catch (err) {}
-    }
-
-    function findTaptopLeadForm() {
-      // Exact form from preview «Лид-магнит Главная»
-      var exact =
+    function findTaptopLeadWrap() {
+      var form =
         document.querySelector("form[data-s3-anketa-id='346201316']") ||
-        document.getElementById("if6fgkokg_0") ||
-        document.getElementById("roi-taptop-form");
-      if (exact) {
-        var box = exact.id === "roi-taptop-form" && !exact.matches("form")
-          ? exact.querySelector("form") || exact
-          : exact;
-        return {
-          root: exact,
-          form: box.matches("form") ? box : box.querySelector("form") || box,
-          button:
-            (box.matches("form") ? box : box.querySelector("form") || box).querySelector(
-              "[type='submit'], button.submit_button, button"
-            ) || null,
-        };
+        document.getElementById("if6fgkokg_0");
+      if (form) {
+        return form.closest(".form") || form.parentElement || form;
       }
-
       var forms = document.querySelectorAll("form[data-s3-anketa-id]");
       for (var i = 0; i < forms.length; i++) {
         var f = forms[i];
-        if (root.contains(f)) continue;
+        if (root.contains(f) && f.closest("#roiTaptopMount")) continue;
         var text = (f.textContent || "").replace(/\s+/g, " ");
         if (/Получить\s+отч[её]т/i.test(text) && /Имя/i.test(text) && /Email/i.test(text)) {
-          return {
-            root: f,
-            form: f,
-            button: f.querySelector("[type='submit'], button.submit_button, button"),
-          };
+          return f.closest(".form") || f;
         }
       }
       return null;
     }
 
-    function revealForSubmit(elNode) {
-      if (!elNode || !elNode.style) return function () {};
-      var prev = elNode.getAttribute("style") || "";
-      // Must stay in viewport — left:-9999 + overflow:hidden breaks Yandex Smart Captcha.
-      elNode.style.setProperty("display", "block", "important");
-      elNode.style.setProperty("visibility", "visible", "important");
-      elNode.style.setProperty("opacity", "0.02", "important");
-      elNode.style.setProperty("pointer-events", "auto", "important");
-      elNode.style.setProperty("position", "fixed", "important");
-      elNode.style.setProperty("left", "8px", "important");
-      elNode.style.setProperty("bottom", "8px", "important");
-      elNode.style.setProperty("top", "auto", "important");
-      elNode.style.setProperty("right", "auto", "important");
-      elNode.style.setProperty("width", "280px", "important");
-      elNode.style.setProperty("height", "auto", "important");
-      elNode.style.setProperty("max-height", "70vh", "important");
-      elNode.style.setProperty("overflow", "visible", "important");
-      elNode.style.setProperty("clip", "auto", "important");
-      elNode.style.setProperty("clip-path", "none", "important");
-      elNode.style.setProperty("transform", "none", "important");
-      elNode.style.setProperty("z-index", "2147483646", "important");
-      return function restore() {
-        if (prev) elNode.setAttribute("style", prev);
-        else elNode.removeAttribute("style");
-      };
-    }
-
-    function submitToHiddenTaptopForm(data) {
-      var found = findTaptopLeadForm();
-      if (!found) {
-        console.warn("[ROI] lead form not found (anketa 346201316 / Получить отчет)");
+    function isSuccessVisible(wrap) {
+      if (!wrap) return false;
+      var ok = wrap.querySelector(".form__state-success");
+      if (!ok) return false;
+      var st = window.getComputedStyle(ok);
+      if (st.display === "none" || st.visibility === "hidden" || st.opacity === "0") {
         return false;
       }
-      var box = found.root;
-      var form = found.form;
-      var wrap = form.closest(".form") || box.parentElement || box;
-      var restores = [revealForSubmit(wrap), revealForSubmit(box), revealForSubmit(form)];
-
-      function byDataType(typeName) {
-        var wrapField = form.querySelector('[data-type-field="' + typeName + '"]');
-        return wrapField ? wrapField.querySelector("input, textarea") : null;
+      // Taptop often keeps success in DOM; also check if default form is hidden
+      var def = wrap.querySelector("form.form__state-default, form#if6fgkokg_0");
+      if (def) {
+        var ds = window.getComputedStyle(def);
+        if (ds.display === "none") return true;
       }
+      var txt = (ok.textContent || "").replace(/\s+/g, " ");
+      return /Спасибо|отправлена|успеш/i.test(txt) && st.display !== "none";
+    }
 
-      function byLabel(re) {
-        var fields = form.querySelectorAll(".form__field, [data-type-field]");
-        for (var i = 0; i < fields.length; i++) {
-          var label = (fields[i].textContent || "").replace(/\s+/g, " ");
-          if (re.test(label)) {
-            return fields[i].querySelector("input, textarea");
-          }
-        }
-        return null;
-      }
-
-      var nameInp = byLabel(/Имя/i) || byDataType("text");
-      var phoneInp = byLabel(/Телефон/i);
-      var emailInp =
-        byLabel(/Email|E-mail|Почта/i) ||
-        byDataType("email") ||
-        form.querySelector("input[type='email']");
-
-      if (!phoneInp) {
-        var textInputs = form.querySelectorAll(
-          '[data-type-field="text"] input, input[type="text"]'
-        );
-        for (var t = 0; t < textInputs.length; t++) {
-          if (textInputs[t] !== nameInp) {
-            phoneInp = textInputs[t];
-            break;
-          }
-        }
-      }
-
-      setNativeValue(nameInp, data.name);
-      setNativeValue(phoneInp, data.phone || "не указан");
-      setNativeValue(emailInp, data.email);
-
-      var btn =
-        found.button ||
-        form.querySelector("button.submit_button") ||
-        form.querySelector('[type="submit"]') ||
-        form.querySelector("button");
-
-      console.info("[ROI] v" + ROI_VER + " filled Taptop form", {
-        formId: form.id,
-        anketa: form.getAttribute("data-s3-anketa-id"),
-        name: nameInp && nameInp.value,
-        phone: phoneInp && phoneInp.value,
-        email: emailInp && emailInp.value,
-        hasBtn: !!btn,
-      });
-
-      // Real click — Taptop + Smart Captcha listen to user gesture on the button.
-      setTimeout(function () {
+    function watchFormSuccess(wrap) {
+      if (successObserver) {
         try {
-          if (btn) {
-            btn.focus();
-            btn.dispatchEvent(
-              new MouseEvent("mousedown", { bubbles: true, cancelable: true, view: window })
-            );
-            btn.dispatchEvent(
-              new MouseEvent("mouseup", { bubbles: true, cancelable: true, view: window })
-            );
-            btn.click();
-          } else if (form.tagName === "FORM" && typeof form.requestSubmit === "function") {
-            form.requestSubmit();
-          }
-        } catch (err) {
-          console.warn("[ROI] submit error", err);
-          if (btn) btn.click();
+          successObserver.disconnect();
+        } catch (e) {}
+      }
+      successObserver = new MutationObserver(function () {
+        if (isSuccessVisible(wrap)) {
+          console.info("[ROI] v" + ROI_VER + " native form success");
+          setPhase("done");
+          try {
+            successObserver.disconnect();
+          } catch (e2) {}
         }
-        setTimeout(function () {
-          restores.forEach(function (fn) {
-            try {
-              fn();
-            } catch (e2) {}
-          });
-        }, 5000);
-      }, 600);
+      });
+      successObserver.observe(wrap, {
+        attributes: true,
+        childList: true,
+        subtree: true,
+        attributeFilter: ["class", "style", "hidden"],
+      });
+      // Fallback poll — Taptop may toggle without attributes we catch
+      var tries = 0;
+      var timer = setInterval(function () {
+        tries += 1;
+        if (isSuccessVisible(wrap) || phase === "done") {
+          clearInterval(timer);
+          if (phase !== "done" && isSuccessVisible(wrap)) setPhase("done");
+        }
+        if (tries > 60) clearInterval(timer);
+      }, 500);
+    }
 
-      return !!(nameInp && emailInp);
+    function mountNativeLeadForm() {
+      var mount = el("roiTaptopMount");
+      if (!mount) {
+        console.warn("[ROI] #roiTaptopMount missing — update Embed HTML");
+        return false;
+      }
+      var wrap = findTaptopLeadWrap();
+      if (!wrap) {
+        console.warn(
+          "[ROI] Taptop form «Лид-магнит Главная» not found (anketa 346201316)"
+        );
+        mount.innerHTML =
+          '<p class="itman-roi__lead-text">Форма заявки не найдена на странице. Проверьте, что блок «Лид-магнит Главная» на странице и Visibility = Отображать.</p>';
+        return false;
+      }
+      if (!mount.contains(wrap)) {
+        mount.innerHTML = "";
+        mount.appendChild(wrap);
+        mountedWrap = wrap;
+      }
+      wrap.classList.add("itman-roi-native-form");
+      wrap.style.cssText = "";
+      var form = wrap.querySelector("form") || (wrap.matches("form") ? wrap : null);
+      if (form) form.style.cssText = "";
+      console.info("[ROI] v" + ROI_VER + " mounted native Taptop form", {
+        anketa: form && form.getAttribute("data-s3-anketa-id"),
+        formId: form && form.id,
+      });
+      watchFormSuccess(wrap);
+      return true;
     }
 
     setPhase("input");
