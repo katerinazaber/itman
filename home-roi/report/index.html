@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
-  <title>ИТМен — отчёт ROI + чек-лист инфраструктуры</title>
+  <title>ИТМен — персональный отчёт ROI (макет)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600&display=swap" rel="stylesheet" />
@@ -17,6 +17,7 @@
       --card: #ffffff;
       --red: #e30613;
       --red-soft: #fde8ea;
+      --ok: #1a7a4c;
       --font: "Manrope", sans-serif;
       --display: "Source Serif 4", Georgia, serif;
     }
@@ -32,7 +33,7 @@
     }
     .studio {
       display: grid;
-      grid-template-columns: 300px minmax(0, 1fr);
+      grid-template-columns: 320px minmax(0, 1fr);
       gap: 24px;
       max-width: 1280px;
       margin: 0 auto;
@@ -45,12 +46,13 @@
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: 16px;
-      padding: 18px;
+      padding: 18px 18px 20px;
       box-shadow: 0 10px 30px rgba(20, 20, 20, 0.04);
     }
     .panel h1 {
       font-family: var(--display);
-      font-size: 20px;
+      font-size: 22px;
+      line-height: 1.2;
       margin: 0 0 6px;
       font-weight: 600;
     }
@@ -58,171 +60,308 @@
       color: var(--muted);
       font-size: 13px;
       line-height: 1.4;
-      margin: 0 0 14px;
+      margin: 0 0 16px;
     }
     .panel label {
       display: block;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 600;
-      margin: 10px 0 5px;
+      margin: 12px 0 6px;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
     .panel input, .panel select {
       width: 100%;
-      height: 42px;
+      height: 44px;
       border: 1px solid #d8d4ce;
       border-radius: 10px;
       padding: 0 12px;
       font: inherit;
       background: #fff;
     }
-    .row-btns { display: grid; gap: 8px; margin-top: 16px; }
+    .panel .row-btns {
+      display: grid;
+      gap: 8px;
+      margin-top: 16px;
+    }
     .btn {
-      appearance: none; border: 0; border-radius: 12px; min-height: 46px;
-      padding: 0 16px; font: inherit; font-weight: 600; cursor: pointer;
+      appearance: none;
+      border: 0;
+      border-radius: 12px;
+      min-height: 46px;
+      padding: 0 16px;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
     }
     .btn-primary { background: var(--red); color: #fff; }
     .btn-ghost { background: transparent; border: 1px solid #ccc; color: var(--ink); }
+    .btn:hover { filter: brightness(0.97); }
 
+    .report-wrap { min-width: 0; }
     .report {
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: 4px;
       box-shadow: 0 18px 50px rgba(20, 20, 20, 0.07);
+      padding: 0;
+      overflow: hidden;
     }
-    .page { padding: 40px 44px; border-bottom: 1px dashed var(--line); }
+
+    .page {
+      padding: 48px 52px;
+      border-bottom: 1px dashed var(--line);
+    }
     .page:last-child { border-bottom: 0; }
+
     .brand-row {
-      display: flex; justify-content: space-between; gap: 16px; margin-bottom: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 28px;
     }
-    .brand { font-weight: 700; font-size: 14px; }
+    .brand {
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      font-size: 14px;
+    }
     .brand span { color: var(--red); }
-    .meta { text-align: right; font-size: 12px; color: var(--muted); line-height: 1.45; }
+    .meta {
+      text-align: right;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
     .kicker {
-      display: inline-block; font-size: 12px; font-weight: 700; color: var(--red);
-      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
     }
     h2.report-title {
-      font-family: var(--display); font-size: 30px; line-height: 1.15;
-      margin: 0 0 10px; max-width: 22ch; font-weight: 600;
+      font-family: var(--display);
+      font-size: 34px;
+      line-height: 1.15;
+      margin: 0 0 12px;
+      max-width: 18ch;
+      font-weight: 600;
     }
-    .lead { font-size: 14px; color: var(--muted); max-width: 58ch; line-height: 1.5; margin: 0 0 22px; }
+    .lead {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 56ch;
+      line-height: 1.5;
+      margin: 0 0 28px;
+    }
+
     .hero-metrics {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 28px;
     }
     .metric {
-      background: #faf8f5; border: 1px solid var(--line); border-radius: 14px; padding: 14px;
-    }
-    .metric.accent { background: var(--red-soft); border-color: #f3c4c8; }
-    .metric .l { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
-    .metric .v { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
-
-    .score-banner {
-      display: grid; grid-template-columns: 120px 1fr; gap: 14px; align-items: center;
-      border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; margin-bottom: 20px;
       background: #faf8f5;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 16px 18px;
     }
-    .score-banner .big {
-      font-size: 34px; font-weight: 700; color: var(--red); line-height: 1;
+    .metric.accent {
+      background: var(--red-soft);
+      border-color: #f3c4c8;
     }
-    .score-banner .big span { font-size: 14px; color: var(--muted); font-weight: 500; }
-    .score-banner h3 { margin: 0 0 4px; font-size: 16px; }
-    .score-banner p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.4; }
-
-    .sec-h {
-      font-family: var(--display); font-size: 20px; margin: 0 0 6px; font-weight: 600;
+    .metric .l {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      line-height: 1.3;
     }
-    .sec-aud {
-      font-size: 11px; font-weight: 700; color: var(--red); text-transform: uppercase;
-      letter-spacing: 0.05em; margin-bottom: 12px;
-    }
-    .check-item {
-      border: 1px solid var(--line); border-radius: 12px; padding: 12px 12px 12px 14px;
-      margin-bottom: 8px; background: #fff;
-    }
-    .check-item p {
-      margin: 0 0 10px; font-size: 13px; line-height: 1.4;
-    }
-    .check-item .num {
-      display: inline-block; width: 22px; height: 22px; border-radius: 50%;
-      background: #141414; color: #fff; font-size: 11px; font-weight: 700;
-      text-align: center; line-height: 22px; margin-right: 8px; vertical-align: middle;
-    }
-    .tri {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
-    }
-    .tri button {
-      appearance: none; border: 1px solid #d8d4ce; background: #faf8f5;
-      border-radius: 10px; min-height: 38px; font: inherit; font-size: 12px;
-      font-weight: 600; cursor: pointer; color: var(--ink);
-    }
-    .tri button.is-on[data-v="yes"] { background: #e8f6ee; border-color: #1a7a4c; color: #1a7a4c; }
-    .tri button.is-on[data-v="mid"] { background: #fff6e5; border-color: #c48100; color: #8a5a00; }
-    .tri button.is-on[data-v="no"] { background: var(--red-soft); border-color: var(--red); color: var(--red); }
-
-    .section-score {
-      font-size: 12px; color: var(--muted); margin: 4px 0 18px; text-align: right;
+    .metric .v {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
     }
 
-    .aud-grid {
-      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
+    .inputs-box {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 18px;
+      background: #fff;
+    }
+    .inputs-box h3 {
+      margin: 0 0 12px;
+      font-size: 14px;
+    }
+    .inputs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      font-size: 13px;
+    }
+    .inputs-grid div {
+      background: #faf8f5;
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    .inputs-grid b { display: block; font-size: 16px; margin-top: 4px; }
+
+    h3.sec {
+      font-family: var(--display);
+      font-size: 22px;
+      margin: 0 0 8px;
+      font-weight: 600;
+    }
+    .sec-lead {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 0 18px;
+      line-height: 1.45;
+      max-width: 60ch;
+    }
+
+    .bars { display: grid; gap: 12px; margin-bottom: 18px; }
+    .bar-row { display: grid; grid-template-columns: 140px 1fr 90px; gap: 10px; align-items: center; font-size: 13px; }
+    .bar-track {
+      height: 10px;
+      background: #eee;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #c40510, var(--red));
+      border-radius: 99px;
+    }
+    .bar-row strong { text-align: right; }
+
+    .assumptions {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+      background: #faf8f5;
+      border-radius: 12px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+    }
+
+    .audience {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-top: 8px;
     }
     .aud-card {
-      border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 14px 16px;
+      background: #fff;
     }
     .aud-card h4 {
-      margin: 0 0 8px; font-size: 12px; color: var(--red);
-      text-transform: uppercase; letter-spacing: 0.05em;
+      margin: 0 0 10px;
+      font-size: 13px;
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
     .aud-card ul {
-      margin: 0; padding: 0 0 0 16px; font-size: 12.5px; line-height: 1.45;
+      margin: 0;
+      padding: 0 0 0 16px;
+      font-size: 12.5px;
+      line-height: 1.45;
+      color: #333;
     }
     .aud-card li { margin-bottom: 6px; }
 
-    .recs { display: grid; gap: 8px; }
+    .recs { display: grid; gap: 10px; }
     .rec {
-      border-left: 3px solid var(--red); padding: 10px 12px; background: #faf8f5;
+      border-left: 3px solid var(--red);
+      padding: 10px 12px 12px 14px;
+      background: #faf8f5;
       border-radius: 0 12px 12px 0;
     }
-    .rec .aud { font-size: 10px; color: var(--red); text-transform: uppercase; letter-spacing: 0.04em; }
-    .rec strong { display: block; margin: 2px 0 4px; font-size: 13px; }
-    .rec p { margin: 0; font-size: 12.5px; color: #333; line-height: 1.4; }
+    .rec strong { display: block; margin-bottom: 4px; font-size: 14px; }
+    .rec p { margin: 0; font-size: 13px; color: #333; line-height: 1.45; }
+
+    .steps {
+      counter-reset: step;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+    }
+    .steps li {
+      counter-increment: step;
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 12px;
+      align-items: start;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .steps li::before {
+      content: counter(step);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--red);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
 
     .disclaimer {
-      margin-top: 20px; font-size: 11px; color: var(--muted); line-height: 1.4;
-      border-top: 1px solid var(--line); padding-top: 12px;
+      margin-top: 24px;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.4;
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
     }
 
     @media (max-width: 960px) {
       .studio { grid-template-columns: 1fr; }
       .panel { position: static; }
-      .hero-metrics, .aud-grid { grid-template-columns: 1fr; }
-      .page { padding: 24px 18px; }
-      .score-banner { grid-template-columns: 1fr; }
+      .hero-metrics, .audience, .inputs-grid { grid-template-columns: 1fr; }
+      .page { padding: 28px 20px; }
+      .bar-row { grid-template-columns: 1fr; }
     }
 
     @media print {
       body { background: #fff; }
-      .studio { display: block; padding: 0; max-width: none; }
+      .studio { display: block; max-width: none; padding: 0; }
       .panel { display: none !important; }
-      .report { border: 0; box-shadow: none; }
-      .page { padding: 14mm 12mm; break-after: page; border: 0; }
+      .report {
+        border: 0;
+        box-shadow: none;
+        border-radius: 0;
+      }
+      .page {
+        border: 0;
+        padding: 18mm 16mm;
+        break-after: page;
+      }
       .page:last-child { break-after: auto; }
-      .tri button:not(.is-on) { display: none; }
-      .tri { grid-template-columns: 1fr; }
+      a { color: inherit; text-decoration: none; }
     }
   </style>
 </head>
 <body>
   <div class="studio">
-    <aside class="panel">
-      <h1>Отчёт + чек-лист</h1>
-      <p class="hint">Калькулятор остаётся коротким. Здесь — кликабельный чек-лист из 20 пунктов (как в PDF «проверка ИТ-инфраструктуры»). Ответы сразу собирают рекомендации.</p>
+    <aside class="panel" aria-label="Параметры отчёта">
+      <h1>Макет PDF-отчёта</h1>
+      <p class="hint">Те же ответы, что в лид-магните. Меняйте поля — отчёт пересоберётся. «Скачать PDF» = печать в файл.</p>
 
-      <label for="company">Компания</label>
-      <input id="company" type="text" value="Пример для руководства" />
+      <label for="company">Компания (опционально)</label>
+      <input id="company" type="text" placeholder="Например, ООО «Пример»" value="Пример для руководства" />
 
       <label for="endpoints">Рабочие места</label>
       <select id="endpoints">
@@ -236,50 +375,292 @@
       <label for="itStaff">Сотрудники ИТ</label>
       <input id="itStaff" type="number" min="1" max="500" value="35" />
 
-      <label for="budget">Бюджет на ПО / год, ₽</label>
+      <label for="budget">Годовой бюджет на ПО, ₽</label>
       <input id="budget" type="text" inputmode="numeric" value="12 000 000" />
+
+      <p class="hint" style="margin-top:18px;margin-bottom:0;font-weight:600;color:var(--ink)">Тест: финансы · ИБ · руководство</p>
+      <p class="hint">6 вопросов — слабые места по аудиториям (как в inventory/CMDB, но под ROI-отчёт).</p>
+
+      <label for="qUsage">Финансы · Usage ПО</label>
+      <select id="qUsage">
+        <option value="unknown">Не знаем, что реально используется</option>
+        <option value="installs" selected>Знаем установки, не usage</option>
+        <option value="partial">Usage по отдельным продуктам</option>
+        <option value="known">Видим использование по ключевому ПО</option>
+      </select>
+
+      <label for="qBudgetBasis">Финансы · База ИТ-бюджета</label>
+      <select id="qBudgetBasis">
+        <option value="gut">«На глаз» / прошлый год + %</option>
+        <option value="requests">По заявкам подразделений</option>
+        <option value="lists" selected>По спискам и амортизации</option>
+        <option value="facts">По факту парка и usage</option>
+      </select>
+
+      <label for="qSegments">ИБ · Закрытые сегменты</label>
+      <select id="qSegments">
+        <option value="no">Нет / всё видно</option>
+        <option value="some" selected>Есть труднодоступные зоны</option>
+        <option value="closed">Есть закрытые / изолированные периметры</option>
+        <option value="unknown">Не знаем границы видимости</option>
+      </select>
+
+      <label for="qShadow">ИБ · Запрещённое / теневое ПО</label>
+      <select id="qShadow">
+        <option value="none">Нет контроля</option>
+        <option value="reactive" selected>Узнаём после инцидента / аудита</option>
+        <option value="policy">Политика есть, проверка выборочная</option>
+        <option value="active">Регулярно выявляем и блокируем</option>
+      </select>
+
+      <label for="qProjects">Руководство · ИТ-проекты</label>
+      <select id="qProjects">
+        <option value="often">Часто срываются из‑за сюрпризов в инфраструктуре</option>
+        <option value="sometimes" selected>Иногда не хватает полной картины</option>
+        <option value="rare">Редко</option>
+        <option value="no">Картины достаточно</option>
+      </select>
+
+      <label for="qDowntime">Руководство · Простои / изменения</label>
+      <select id="qDowntime">
+        <option value="often">Часто «после изменений отвалилось»</option>
+        <option value="sometimes" selected>Бывает, причину ищем долго</option>
+        <option value="rare">Редко</option>
+        <option value="no">Изменения прозрачны</option>
+      </select>
 
       <div class="row-btns">
         <button type="button" class="btn btn-primary" id="btnPrint">Скачать PDF</button>
-        <button type="button" class="btn btn-ghost" id="btnReset">Сбросить чек-лист</button>
+        <button type="button" class="btn btn-ghost" id="btnCopyLink">Ссылка с параметрами</button>
       </div>
-      <p class="hint" style="margin-top:12px;margin-bottom:0">Калькулятор без квиза: <a href="../calc-preview.html">calc-preview</a></p>
     </aside>
 
     <div class="report-wrap">
-      <article class="report" id="report"></article>
+      <article class="report" id="report" aria-label="Персональный отчёт">
+        <!-- filled by JS -->
+      </article>
     </div>
   </div>
 
   <script src="./report-engine.js"></script>
-  <script src="./checklist-data.js"></script>
   <script>
     (function () {
-      var answers = {};
-      try {
-        answers = JSON.parse(localStorage.getItem("itmen_roi_checklist") || "{}") || {};
-      } catch (e) {
-        answers = {};
-      }
-
       function parseBudget(raw) {
-        var n = Number(String(raw || "").replace(/\D/g, ""));
+        var n = Number(String(raw || "").replace(/[^\d]/g, ""));
         return isFinite(n) ? n : 0;
       }
 
-      function readScale() {
+      function qs() {
+        var p = new URLSearchParams(location.search);
+        return {
+          company: p.get("company") || "",
+          endpoints: p.get("wp") || p.get("endpoints") || "",
+          itStaff: p.get("it") || p.get("itStaff") || "",
+          budget: p.get("budget") || "",
+        };
+      }
+
+      function applyQs() {
+        var q = qs();
+        if (q.company) document.getElementById("company").value = q.company;
+        if (q.endpoints) document.getElementById("endpoints").value = q.endpoints;
+        if (q.itStaff) document.getElementById("itStaff").value = q.itStaff;
+        if (q.budget) {
+          var b = parseBudget(q.budget);
+          document.getElementById("budget").value = b
+            ? b.toLocaleString("ru-RU").replace(/\u00a0/g, " ")
+            : q.budget;
+        }
+        var p = new URLSearchParams(location.search);
+        if (p.get("usage")) document.getElementById("qUsage").value = p.get("usage");
+        if (p.get("budget_basis")) document.getElementById("qBudgetBasis").value = p.get("budget_basis");
+        if (p.get("segments")) document.getElementById("qSegments").value = p.get("segments");
+        if (p.get("shadow")) document.getElementById("qShadow").value = p.get("shadow");
+        if (p.get("projects")) document.getElementById("qProjects").value = p.get("projects");
+        if (p.get("downtime")) document.getElementById("qDowntime").value = p.get("downtime");
+      }
+
+      function readInputs() {
         return {
           company: document.getElementById("company").value.trim(),
           endpoints: Number(document.getElementById("endpoints").value || 0),
           itStaff: Number(document.getElementById("itStaff").value || 0),
           budget: parseBudget(document.getElementById("budget").value),
+          quiz: {
+            usage: document.getElementById("qUsage").value,
+            budget_basis: document.getElementById("qBudgetBasis").value,
+            segments: document.getElementById("qSegments").value,
+            shadow: document.getElementById("qShadow").value,
+            projects: document.getElementById("qProjects").value,
+            downtime: document.getElementById("qDowntime").value,
+          },
         };
       }
 
-      function saveAnswers() {
-        try {
-          localStorage.setItem("itmen_roi_checklist", JSON.stringify(answers));
-        } catch (e) {}
+      function pct(part, total) {
+        if (!total) return 0;
+        return Math.max(4, Math.round((part / total) * 100));
+      }
+
+      function li(list) {
+        return list.map(function (t) { return "<li>" + t + "</li>"; }).join("");
+      }
+
+      function render() {
+        var inp = readInputs();
+        var model = ItmenRoiReport.buildReportModel(inp, { company: inp.company });
+        var c = model.calc;
+        var n = model.narrative;
+        var f = c.fmt;
+        var when = model.generatedAt.toLocaleDateString("ru-RU", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+        var company = inp.company || "вашей компании";
+
+        var html = "";
+        html += '<section class="page">';
+        html += '<div class="brand-row"><div class="brand">Инферит <span>ИТМен</span></div>';
+        html += '<div class="meta">Персональный экономический отчёт<br>' + when + "<br>Конфиденциально</div></div>";
+        html += '<div class="kicker">Лид-магнит · ROI</div>';
+        html += "<h2 class=\"report-title\">Обоснование экономического эффекта для " + escapeHtml(company) + "</h2>";
+        html += '<p class="lead">Ориентировочный расчёт потенциальной экономии и окупаемости внедрения ИТМен на основе ваших ответов. Аргументы для руководства, финансов и ИБ — ниже.</p>';
+        html += '<div class="hero-metrics">';
+        html += '<div class="metric accent"><div class="l">Потенциальная экономия в год</div><div class="v">' + f.save + "</div></div>";
+        html += '<div class="metric"><div class="l">Ориентировочный ROI (год 1)</div><div class="v">' + f.roi + "</div></div>";
+        html += '<div class="metric"><div class="l">Срок окупаемости</div><div class="v">' + f.pay + "</div></div>";
+        html += "</div>";
+        html += '<div class="inputs-box"><h3>Ваши вводные</h3><div class="inputs-grid">';
+        html += "<div>Рабочие места<b>" + c.inputs.endpoints.toLocaleString("ru-RU") + "</b></div>";
+        html += "<div>Сотрудники ИТ<b>" + c.inputs.itStaff + "</b></div>";
+        html += "<div>Бюджет на ПО / год<b>" + f.budget + "</b></div>";
+        html += "</div>";
+        html += '<div style="margin-top:12px;font-size:12px;line-height:1.45;color:#555"><strong>Самооценка по аудиториям:</strong><br>Финансы — ' +
+          escapeHtml(c.quizLabels.usage) +
+          "; " +
+          escapeHtml(c.quizLabels.budget_basis) +
+          ".<br>ИБ — " +
+          escapeHtml(c.quizLabels.segments) +
+          "; " +
+          escapeHtml(c.quizLabels.shadow) +
+          ".<br>Руководство — " +
+          escapeHtml(c.quizLabels.projects) +
+          "; " +
+          escapeHtml(c.quizLabels.downtime) +
+          ".</div></div>";
+        html += '<p class="disclaimer" style="border:0;padding:16px 0 0;margin:0">Оценка стоимости ИТМен (ориентир): <strong>' + f.costFull + "</strong> в год при тарифе " + c.assumptions.pricePerEndpoint + " ₽ / рабочее место.</p>";
+        html += "</section>";
+
+        if (n.gaps && n.gaps.length) {
+          html += '<section class="page">';
+          html += '<div class="kicker">Слабые места</div>';
+          html += '<h3 class="sec">Что мешает экономить прямо сейчас</h3>';
+          html += '<p class="sec-lead">По ответам теста выделены зоны для финансов, ИБ и руководства — от них зависят цифры экономии и аргументы в отчёте.</p>';
+          html += '<div class="recs">';
+          n.gaps.forEach(function (g) {
+            html +=
+              '<div class="rec"><strong><span style="color:var(--red);font-size:11px;text-transform:uppercase;letter-spacing:0.04em">' +
+              escapeHtml(g.audience || "") +
+              "</span><br>" +
+              escapeHtml(g.title) +
+              "</strong><p>" +
+              escapeHtml(g.text) +
+              "</p></div>";
+          });
+          html += "</div></section>";
+        }
+
+        html += '<section class="page">';
+        html += '<div class="kicker">Детализация</div>';
+        html += '<h3 class="sec">Экономия по трём направлениям</h3>';
+        html += '<p class="sec-lead">' + n.driverLine + " " + n.scaleLine + "</p>";
+        html += '<div class="bars">';
+        [
+          { key: "licenses", label: "ПО и лицензии", val: c.breakdown.licenses, tip: Math.round(c.assumptions.pctLicenses * 100) + "% от бюджета на ПО (с учётом зрелости)" },
+          { key: "assets", label: "Оборудование", val: c.breakdown.assets, tip: Math.round(c.assumptions.pctAssets * 100) + "% от оценочной стоимости парка" },
+          { key: "labor", label: "Трудозатраты ИТ", val: c.breakdown.labor, tip: (c.assumptions.pctIt * 100).toFixed(1).replace(".", ",") + "% от ФОТ ИТ" },
+        ].forEach(function (row) {
+          html += '<div class="bar-row"><span>' + row.label + '<br><small style="color:#888">' + row.tip + "</small></span>";
+          html += '<div class="bar-track"><div class="bar-fill" style="width:' + pct(row.val, c.savingsTotal) + '%"></div></div>';
+          html += "<strong>" + ItmenRoiReport.fmtRubShort(row.val) + "</strong></div>";
+        });
+        html += "</div>";
+        html += '<div class="assumptions"><strong>Допущения модели:</strong> базовые доли ' +
+          Math.round(c.assumptions.basePctLicenses * 100) +
+          "% / " +
+          Math.round(c.assumptions.basePctAssets * 100) +
+          "% / " +
+          String(c.assumptions.basePctIt * 100).replace(".", ",") +
+          "% скорректированы тестом зрелости (мультипликаторы к рычагам). Потолок не выше ориентиров из «Обоснования ИТМен». Оценка парка: " +
+          c.assumptions.assetCostPerEndpoint.toLocaleString("ru-RU") +
+          " ₽ / РМ в год; ставка ИТ " +
+          c.assumptions.avgItSalaryMonth.toLocaleString("ru-RU") +
+          " ₽/мес.</div>";
+        html += "</section>";
+
+        html += '<section class="page">';
+        html += '<div class="kicker">Аргументы</div>';
+        html += '<h3 class="sec">Для руководства, финансов и ИБ</h3>';
+        html += '<p class="sec-lead">Один отчёт — три угла зрения. Формулировки подобраны под масштаб парка и доминирующий рычаг экономии.</p>';
+        html += '<div class="audience">';
+        html += '<div class="aud-card"><h4>Руководство</h4><ul>' + li(n.forExec) + "</ul></div>";
+        html += '<div class="aud-card"><h4>Финансисты</h4><ul>' + li(n.forFinance) + "</ul></div>";
+        html += '<div class="aud-card"><h4>ИБ / комплаенс</h4><ul>' + li(n.forSecurity) + "</ul></div>";
+        html += "</div></div>";
+        html += "</section>";
+
+        html += '<section class="page">';
+        html += '<div class="kicker">ITIL 4 · РИТМ</div>';
+        html += '<h3 class="sec">Соответствие практикам управления ИТ</h3>';
+        html += '<p class="sec-lead">ИТМен даёт фактический контур данных под практики ITIL 4 Foundation. Набор ниже подобран под ваш доминирующий рычаг экономии и масштаб. Рядом — контекст российского проекта РИТМ.</p>';
+        html += '<div class="recs">';
+        n.itilFocus.forEach(function (p) {
+          html +=
+            '<div class="rec"><strong>' +
+            escapeHtml(p.ru) +
+            ' <span style="color:#888;font-weight:500">(' +
+            escapeHtml(p.practice) +
+            ")</span></strong><p>" +
+            escapeHtml(p.why) +
+            "</p></div>";
+        });
+        html += "</div>";
+        html +=
+          '<div class="assumptions" style="margin-top:18px"><strong>' +
+          escapeHtml(n.ritm.title) +
+          "</strong><br>" +
+          escapeHtml(n.ritm.blurb) +
+          "<ul style=\"margin:10px 0 8px 18px;padding:0\">" +
+          n.ritm.points
+            .map(function (t) {
+              return "<li style=\"margin-bottom:4px\">" + escapeHtml(t) + "</li>";
+            })
+            .join("") +
+          '</ul>Источник: <a href="' +
+          n.ritm.link +
+          '" target="_blank" rel="noopener">Устав проекта РИТМ</a>. Карта практик — из БЗ ИТМен × ITIL 4 Foundation.</div>';
+        html += "</section>";
+
+        html += '<section class="page">';
+        html += '<div class="kicker">Рекомендации</div>';
+        html += '<h3 class="sec">Что сделать в первую очередь</h3>';
+        html += '<p class="sec-lead">Набор зависит от ваших ответов: масштаб, размер ИТ-команды и бюджет на ПО.</p>';
+        html += '<div class="recs">';
+        n.recommendations.forEach(function (r) {
+          html += '<div class="rec"><strong>' + escapeHtml(r.title) + "</strong><p>" + escapeHtml(r.text) + "</p></div>";
+        });
+        html += "</div>";
+        html += '<h3 class="sec" style="margin-top:28px">Следующие шаги</h3>';
+        html += '<ol class="steps">';
+        n.nextSteps.forEach(function (s) {
+          html += "<li>" + escapeHtml(s) + "</li>";
+        });
+        html += "</ol>";
+        html += '<p class="disclaimer">Отчёт носит оценочный характер и не является офертой. Фактический эффект зависит от текущего уровня зрелости учёта активов, структуры лицензий и периметра пилота. Источники формулировок: материалы обоснования ИТМен, кейсы экономии по трём направлениям, БЗ (ITAM/SAM × ITIL 4), контекст проекта РИТМ. Подробнее о продукте: <a href="https://itman.ru" target="_blank" rel="noopener">itman.ru</a>.</p>';
+        html += "</section>";
+
+        document.getElementById("report").innerHTML = html;
       }
 
       function escapeHtml(s) {
@@ -290,205 +671,37 @@
           .replace(/"/g, "&quot;");
       }
 
-      function applyQs() {
-        var p = new URLSearchParams(location.search);
-        if (p.get("company")) document.getElementById("company").value = p.get("company");
-        if (p.get("wp") || p.get("endpoints"))
-          document.getElementById("endpoints").value = p.get("wp") || p.get("endpoints");
-        if (p.get("it") || p.get("itStaff"))
-          document.getElementById("itStaff").value = p.get("it") || p.get("itStaff");
-        if (p.get("budget")) {
-          var b = parseBudget(p.get("budget"));
-          document.getElementById("budget").value = b
-            ? b.toLocaleString("ru-RU").replace(/\u00a0/g, " ")
-            : p.get("budget");
-        }
+      function bind() {
+        ["company", "endpoints", "itStaff", "budget", "qUsage", "qBudgetBasis", "qSegments", "qShadow", "qProjects", "qDowntime"].forEach(function (id) {
+          document.getElementById(id).addEventListener("input", render);
+          document.getElementById(id).addEventListener("change", render);
+        });
+        document.getElementById("btnPrint").addEventListener("click", function () {
+          window.print();
+        });
+        document.getElementById("btnCopyLink").addEventListener("click", function () {
+          var inp = readInputs();
+          var u = new URL(location.href);
+          u.searchParams.set("company", inp.company);
+          u.searchParams.set("wp", String(inp.endpoints));
+          u.searchParams.set("it", String(inp.itStaff));
+          u.searchParams.set("budget", String(inp.budget));
+          u.searchParams.set("usage", inp.quiz.usage);
+          u.searchParams.set("budget_basis", inp.quiz.budget_basis);
+          u.searchParams.set("segments", inp.quiz.segments);
+          u.searchParams.set("shadow", inp.quiz.shadow);
+          u.searchParams.set("projects", inp.quiz.projects);
+          u.searchParams.set("downtime", inp.quiz.downtime);
+          history.replaceState(null, "", u.toString());
+          navigator.clipboard.writeText(u.toString()).then(
+            function () { alert("Ссылка скопирована — откроется тот же отчёт"); },
+            function () { prompt("Скопируйте ссылку:", u.toString()); }
+          );
+        });
       }
-
-      function render() {
-        var scale = readScale();
-        var calc = ItmenRoiReport.calculate({
-          endpoints: scale.endpoints,
-          itStaff: scale.itStaff,
-          budget: scale.budget,
-          quiz: {},
-        });
-        var scored = ItmenChecklist.scoreAnswers(answers);
-        var narrative = ItmenChecklist.buildChecklistNarrative(scored, calc.fmt);
-        var f = calc.fmt;
-        var company = scale.company || "вашей компании";
-        var when = new Date().toLocaleDateString("ru-RU", {
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        });
-
-        var html = "";
-        html += '<section class="page">';
-        html += '<div class="brand-row"><div class="brand">Инферит <span>ИТМен</span></div>';
-        html += '<div class="meta">Персональный отчёт<br>' + when + "<br>Конфиденциально</div></div>";
-        html += '<div class="kicker">ROI + самопроверка</div>';
-        html += "<h2 class=\"report-title\">Эффект и контроль инфраструктуры для " + escapeHtml(company) + "</h2>";
-        html += '<p class="lead">Сверху — ориентир экономии по масштабу парка. Ниже — кликабельный чек-лист (20 пунктов из материалов ИТМен): отметьте Да / Средне / Нет — и получите рекомендации под ваши ответы.</p>';
-        html += '<div class="hero-metrics">';
-        html += '<div class="metric accent"><div class="l">Потенциальная экономия в год</div><div class="v">' + f.save + "</div></div>";
-        html += '<div class="metric"><div class="l">ROI (год 1)</div><div class="v">' + f.roi + "</div></div>";
-        html += '<div class="metric"><div class="l">Окупаемость</div><div class="v">' + f.pay + "</div></div>";
-        html += "</div>";
-        html +=
-          '<p style="font-size:12px;color:#666;margin:0 0 8px">Вводные: ' +
-          calc.inputs.endpoints.toLocaleString("ru-RU") +
-          " РМ · " +
-          calc.inputs.itStaff +
-          " в ИТ · бюджет ПО " +
-          f.budget +
-          "</p>";
-        html += "</section>";
-
-        html += '<section class="page">';
-        html += '<div class="kicker">Чек-лист · 20 пунктов</div>';
-        html += '<h3 class="sec-h">Под контролем ли ваша ИТ-инфраструктура?</h3>';
-        html += '<p class="lead">Механика как в PDF-чек-листе: Да = 2, Средне = 1, Нет = 0. Максимум 40 баллов.</p>';
-
-        html += '<div class="score-banner" id="scoreBanner">';
-        html +=
-          '<div class="big">' +
-          scored.total +
-          ' <span>/ ' +
-          (scored.max || 40) +
-          "</span></div>";
-        html +=
-          "<div><h3>" +
-          escapeHtml(scored.level.title) +
-          "</h3><p>" +
-          escapeHtml(scored.level.text) +
-          (scored.answered < 20
-            ? " Отмечено " + scored.answered + " из 20."
-            : "") +
-          "</p></div></div>";
-
-        var n = 0;
-        ItmenChecklist.SECTIONS.forEach(function (sec) {
-          var secScore = scored.bySection[sec.id] || { score: 0, max: 10 };
-          html += '<div class="sec-aud">' + escapeHtml(sec.audience) + "</div>";
-          html += '<h3 class="sec-h" style="font-size:18px">' + escapeHtml(sec.title) + "</h3>";
-          sec.items.forEach(function (item) {
-            n += 1;
-            var cur = answers[item.id] || "";
-            html += '<div class="check-item" data-id="' + item.id + '">';
-            html +=
-              "<p><span class=\"num\">" +
-              n +
-              "</span>" +
-              escapeHtml(item.text) +
-              "</p>";
-            html += '<div class="tri" role="group" aria-label="Оценка">';
-            ["yes", "mid", "no"].forEach(function (v) {
-              var label = v === "yes" ? "Да (2)" : v === "mid" ? "Средне (1)" : "Нет (0)";
-              html +=
-                '<button type="button" data-id="' +
-                item.id +
-                '" data-v="' +
-                v +
-                '"' +
-                (cur === v ? ' class="is-on"' : "") +
-                ">" +
-                label +
-                "</button>";
-            });
-            html += "</div></div>";
-          });
-          html +=
-            '<p class="section-score">Итого по разделу: <strong>' +
-            secScore.score +
-            " / " +
-            secScore.max +
-            "</strong></p>";
-        });
-        html += "</section>";
-
-        html += '<section class="page">';
-        html += '<div class="kicker">По вашим ответам</div>';
-        html += '<h3 class="sec-h">Рекомендации и аргументы</h3>';
-        html += '<p class="lead">Собрано из пунктов, где вы отметили «Нет» или «Средне» — отдельно для финансов, ИБ и руководства.</p>';
-        html += '<div class="aud-grid">';
-        html +=
-          '<div class="aud-card"><h4>Финансы</h4><ul>' +
-          narrative.forFinance
-            .map(function (t) {
-              return "<li>" + escapeHtml(t) + "</li>";
-            })
-            .join("") +
-          "</ul></div>";
-        html +=
-          '<div class="aud-card"><h4>ИБ</h4><ul>' +
-          narrative.forSecurity
-            .map(function (t) {
-              return "<li>" + escapeHtml(t) + "</li>";
-            })
-            .join("") +
-          "</ul></div>";
-        html +=
-          '<div class="aud-card"><h4>Руководство</h4><ul>' +
-          narrative.forExec
-            .map(function (t) {
-              return "<li>" + escapeHtml(t) + "</li>";
-            })
-            .join("") +
-          "</ul></div>";
-        html += "</div>";
-
-        if (narrative.recommendations.length) {
-          html += '<h3 class="sec-h" style="margin-top:22px;font-size:18px">Приоритеты</h3>';
-          html += '<div class="recs">';
-          narrative.recommendations.forEach(function (r) {
-            html +=
-              '<div class="rec"><span class="aud">' +
-              escapeHtml(r.audience) +
-              "</span><strong>" +
-              escapeHtml(r.title) +
-              "</strong><p>" +
-              escapeHtml(r.text) +
-              (r.itil
-                ? " <em style=\"color:#888\">ITIL: " + escapeHtml(r.itil) + "</em>"
-                : "") +
-              "</p></div>";
-          });
-          html += "</div>";
-        } else {
-          html +=
-            '<p class="lead" style="margin-top:16px">Отметьте пункты чек-листа — здесь появятся приоритетные рекомендации.</p>';
-        }
-
-        html +=
-          '<p class="disclaimer">Чек-лист адаптирован из материала «Бесплатный чек-лист для проверки ИТ-инфраструктуры» (Инферит ИТМен). Цифры экономии — ориентир по масштабу парка, не оферта. Фактический эффект зависит от периметра пилота.</p>';
-        html += "</section>";
-
-        document.getElementById("report").innerHTML = html;
-      }
-
-      document.getElementById("report").addEventListener("click", function (e) {
-        var btn = e.target.closest("button[data-id][data-v]");
-        if (!btn) return;
-        answers[btn.getAttribute("data-id")] = btn.getAttribute("data-v");
-        saveAnswers();
-        render();
-      });
-
-      ["company", "endpoints", "itStaff", "budget"].forEach(function (id) {
-        document.getElementById(id).addEventListener("input", render);
-        document.getElementById(id).addEventListener("change", render);
-      });
-      document.getElementById("btnPrint").addEventListener("click", function () {
-        window.print();
-      });
-      document.getElementById("btnReset").addEventListener("click", function () {
-        answers = {};
-        saveAnswers();
-        render();
-      });
 
       applyQs();
+      bind();
       render();
     })();
   </script>
