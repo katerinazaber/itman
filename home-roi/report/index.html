@@ -378,6 +378,41 @@
       <label for="budget">Годовой бюджет на ПО, ₽</label>
       <input id="budget" type="text" inputmode="numeric" value="12 000 000" />
 
+      <p class="hint" style="margin-top:18px;margin-bottom:0;font-weight:600;color:var(--ink)">Тест зрелости учёта</p>
+      <p class="hint">Как в inventory/CMDB-аудитах — выявляет слабые места и точнее подбирает аргументы.</p>
+
+      <label for="qLicenses">ПО и лицензии</label>
+      <select id="qLicenses">
+        <option value="manual">Списки / Excel / «по запросу»</option>
+        <option value="install_only" selected>Инвентаризация установок без usage</option>
+        <option value="partial_sam">Частичный SAM</option>
+        <option value="usage_sam">Установки + usage / нормализация</option>
+      </select>
+
+      <label for="qFreshness">Актуальность инвентаризации</label>
+      <select id="qFreshness">
+        <option value="rare">Раз в квартал и реже</option>
+        <option value="month" selected>Раз в месяц</option>
+        <option value="week">Раз в неделю</option>
+        <option value="live">Непрерывно / автоматически</option>
+      </select>
+
+      <label for="qHardware">Замена ПК / серверов</label>
+      <select id="qHardware">
+        <option value="amort" selected>По сроку амортизации</option>
+        <option value="ticket">По заявкам / инцидентам</option>
+        <option value="mixed">Смешанно</option>
+        <option value="fact">По факту конфигурации и ПО</option>
+      </select>
+
+      <label for="qTruth">Единый ответ за час?</label>
+      <select id="qTruth">
+        <option value="no">Нет, собираем из разных мест</option>
+        <option value="partial" selected>Частично</option>
+        <option value="yes_slow">Да, но долго / вручную</option>
+        <option value="yes_fast">Да, данные под рукой</option>
+      </select>
+
       <div class="row-btns">
         <button type="button" class="btn btn-primary" id="btnPrint">Скачать PDF</button>
         <button type="button" class="btn btn-ghost" id="btnCopyLink">Ссылка с параметрами</button>
@@ -420,6 +455,11 @@
             ? b.toLocaleString("ru-RU").replace(/\u00a0/g, " ")
             : q.budget;
         }
+        var p = new URLSearchParams(location.search);
+        if (p.get("lic")) document.getElementById("qLicenses").value = p.get("lic");
+        if (p.get("fresh")) document.getElementById("qFreshness").value = p.get("fresh");
+        if (p.get("hw")) document.getElementById("qHardware").value = p.get("hw");
+        if (p.get("truth")) document.getElementById("qTruth").value = p.get("truth");
       }
 
       function readInputs() {
@@ -428,6 +468,12 @@
           endpoints: Number(document.getElementById("endpoints").value || 0),
           itStaff: Number(document.getElementById("itStaff").value || 0),
           budget: parseBudget(document.getElementById("budget").value),
+          quiz: {
+            licenses: document.getElementById("qLicenses").value,
+            freshness: document.getElementById("qFreshness").value,
+            hardware: document.getElementById("qHardware").value,
+            truth: document.getElementById("qTruth").value,
+          },
         };
       }
 
@@ -469,9 +515,30 @@
         html += "<div>Рабочие места<b>" + c.inputs.endpoints.toLocaleString("ru-RU") + "</b></div>";
         html += "<div>Сотрудники ИТ<b>" + c.inputs.itStaff + "</b></div>";
         html += "<div>Бюджет на ПО / год<b>" + f.budget + "</b></div>";
-        html += "</div></div>";
+        html += "</div>";
+        html += '<div style="margin-top:12px;font-size:12px;line-height:1.45;color:#555"><strong>Самооценка учёта:</strong> ПО — ' +
+          escapeHtml(c.quizLabels.licenses) +
+          "; актуальность — " +
+          escapeHtml(c.quizLabels.freshness) +
+          "; замена техники — " +
+          escapeHtml(c.quizLabels.hardware) +
+          "; единый реестр — " +
+          escapeHtml(c.quizLabels.truth) +
+          ".</div></div>";
         html += '<p class="disclaimer" style="border:0;padding:16px 0 0;margin:0">Оценка стоимости ИТМен (ориентир): <strong>' + f.costFull + "</strong> в год при тарифе " + c.assumptions.pricePerEndpoint + " ₽ / рабочее место.</p>";
         html += "</section>";
+
+        if (n.gaps && n.gaps.length) {
+          html += '<section class="page">';
+          html += '<div class="kicker">Слабые места</div>';
+          html += '<h3 class="sec">Что мешает экономить прямо сейчас</h3>';
+          html += '<p class="sec-lead">По ответам теста зрелости (как в аудитах инвентаризации и CMDB) выделены зоны, где потери бюджета и времени наиболее вероятны.</p>';
+          html += '<div class="recs">';
+          n.gaps.forEach(function (g) {
+            html += '<div class="rec"><strong>' + escapeHtml(g.title) + "</strong><p>" + escapeHtml(g.text) + "</p></div>";
+          });
+          html += "</div></section>";
+        }
 
         html += '<section class="page">';
         html += '<div class="kicker">Детализация</div>';
@@ -479,7 +546,7 @@
         html += '<p class="sec-lead">' + n.driverLine + " " + n.scaleLine + "</p>";
         html += '<div class="bars">';
         [
-          { key: "licenses", label: "ПО и лицензии", val: c.breakdown.licenses, tip: Math.round(c.assumptions.pctLicenses * 100) + "% от бюджета на ПО" },
+          { key: "licenses", label: "ПО и лицензии", val: c.breakdown.licenses, tip: Math.round(c.assumptions.pctLicenses * 100) + "% от бюджета на ПО (с учётом зрелости)" },
           { key: "assets", label: "Оборудование", val: c.breakdown.assets, tip: Math.round(c.assumptions.pctAssets * 100) + "% от оценочной стоимости парка" },
           { key: "labor", label: "Трудозатраты ИТ", val: c.breakdown.labor, tip: (c.assumptions.pctIt * 100).toFixed(1).replace(".", ",") + "% от ФОТ ИТ" },
         ].forEach(function (row) {
@@ -488,17 +555,17 @@
           html += "<strong>" + ItmenRoiReport.fmtRubShort(row.val) + "</strong></div>";
         });
         html += "</div>";
-        html += '<div class="assumptions"><strong>Допущения модели (консервативно):</strong> экономия на ПО — ' +
-          Math.round(c.assumptions.pctLicenses * 100) +
-          "% годового бюджета лицензий; на оборудовании — " +
-          Math.round(c.assumptions.pctAssets * 100) +
-          "% от оценки " +
+        html += '<div class="assumptions"><strong>Допущения модели:</strong> базовые доли ' +
+          Math.round(c.assumptions.basePctLicenses * 100) +
+          "% / " +
+          Math.round(c.assumptions.basePctAssets * 100) +
+          "% / " +
+          String(c.assumptions.basePctIt * 100).replace(".", ",") +
+          "% скорректированы тестом зрелости (мультипликаторы к рычагам). Потолок не выше ориентиров из «Обоснования ИТМен». Оценка парка: " +
           c.assumptions.assetCostPerEndpoint.toLocaleString("ru-RU") +
-          " ₽ / РМ в год; на трудозатратах — " +
-          String(c.assumptions.pctIt * 100).replace(".", ",") +
-          "% ФОТ ИТ (ставка " +
+          " ₽ / РМ в год; ставка ИТ " +
           c.assumptions.avgItSalaryMonth.toLocaleString("ru-RU") +
-          " ₽/мес). В презентации «Обоснование ИТМен» ориентиры выше (до 20% / апгрейд vs замена / кратное сокращение ручного аудита) — здесь взяты осторожные доли для лид-магнита.</div>";
+          " ₽/мес.</div>";
         html += "</section>";
 
         html += '<section class="page">';
@@ -574,7 +641,7 @@
       }
 
       function bind() {
-        ["company", "endpoints", "itStaff", "budget"].forEach(function (id) {
+        ["company", "endpoints", "itStaff", "budget", "qLicenses", "qFreshness", "qHardware", "qTruth"].forEach(function (id) {
           document.getElementById(id).addEventListener("input", render);
           document.getElementById(id).addEventListener("change", render);
         });
@@ -588,6 +655,10 @@
           u.searchParams.set("wp", String(inp.endpoints));
           u.searchParams.set("it", String(inp.itStaff));
           u.searchParams.set("budget", String(inp.budget));
+          u.searchParams.set("lic", inp.quiz.licenses);
+          u.searchParams.set("fresh", inp.quiz.freshness);
+          u.searchParams.set("hw", inp.quiz.hardware);
+          u.searchParams.set("truth", inp.quiz.truth);
           history.replaceState(null, "", u.toString());
           navigator.clipboard.writeText(u.toString()).then(
             function () { alert("Ссылка скопирована — откроется тот же отчёт"); },

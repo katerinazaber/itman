@@ -69,16 +69,177 @@
     return "enterprise";
   }
 
+  /** Мультипликаторы зрелости по квизу (0.7–1.35), см. docs/roi-quiz-spec.md */
+  function quizMultipliers(quiz) {
+    var q = quiz || {};
+    var mLic = 1;
+    var mAst = 1;
+    var mLab = 1;
+    var weak = [];
+
+    switch (q.licenses) {
+      case "manual":
+        mLic = 1.35;
+        weak.push("licenses");
+        break;
+      case "install_only":
+        mLic = 1.2;
+        weak.push("licenses");
+        break;
+      case "partial_sam":
+        mLic = 1.0;
+        break;
+      case "usage_sam":
+        mLic = 0.75;
+        break;
+      default:
+        break;
+    }
+
+    switch (q.freshness) {
+      case "rare":
+        mLab = 1.35;
+        weak.push("labor");
+        break;
+      case "month":
+        mLab = 1.15;
+        weak.push("labor");
+        break;
+      case "week":
+        mLab = 0.95;
+        break;
+      case "live":
+        mLab = 0.7;
+        break;
+      default:
+        break;
+    }
+
+    switch (q.hardware) {
+      case "amort":
+        mAst = 1.3;
+        weak.push("assets");
+        break;
+      case "ticket":
+        mAst = 1.15;
+        weak.push("assets");
+        break;
+      case "mixed":
+        mAst = 1.0;
+        break;
+      case "fact":
+        mAst = 0.75;
+        break;
+      default:
+        break;
+    }
+
+    switch (q.truth) {
+      case "no":
+        mLic *= 1.08;
+        mAst *= 1.08;
+        mLab *= 1.12;
+        weak.push("config");
+        break;
+      case "partial":
+        mLic *= 1.04;
+        mLab *= 1.05;
+        weak.push("config");
+        break;
+      case "yes_slow":
+        mLab *= 1.08;
+        weak.push("labor");
+        break;
+      case "yes_fast":
+        mLic *= 0.95;
+        mLab *= 0.9;
+        break;
+      default:
+        break;
+    }
+
+    // unique weak
+    var seen = {};
+    weak = weak.filter(function (w) {
+      if (seen[w]) return false;
+      seen[w] = true;
+      return true;
+    });
+
+    return {
+      licenses: Math.min(1.4, Math.max(0.65, mLic)),
+      assets: Math.min(1.4, Math.max(0.65, mAst)),
+      labor: Math.min(1.4, Math.max(0.65, mLab)),
+      weak: weak,
+    };
+  }
+
+  var QUIZ_LABELS = {
+    licenses: {
+      manual: "Списки / Excel / «по запросу»",
+      install_only: "Инвентаризация установок без usage",
+      partial_sam: "Частичный SAM / отдельные вендоры",
+      usage_sam: "Установки + usage / нормализация",
+    },
+    freshness: {
+      rare: "Раз в квартал и реже / проектно",
+      month: "Раз в месяц",
+      week: "Раз в неделю",
+      live: "Непрерывно / автоматически",
+    },
+    hardware: {
+      amort: "По сроку амортизации / плановой замене",
+      ticket: "По заявкам пользователей / инцидентам",
+      mixed: "Смешанно: план + точечный апгрейд",
+      fact: "По факту конфигурации и требований ПО",
+    },
+    truth: {
+      no: "Нет, нужно собирать из разных мест",
+      partial: "Частично, по отдельным контурам",
+      yes_slow: "Да, но долго / вручную",
+      yes_fast: "Да, данные под рукой",
+    },
+  };
+
+  var WEAK_COPY = {
+    licenses: {
+      title: "ПО и лицензии",
+      text: "Слабый контроль SAM: риск оплаты неиспользуемого ПО и слепых продлений. ITIL: IT asset management + Measurement and reporting.",
+    },
+    assets: {
+      title: "Оборудование",
+      text: "Закупки скорее «по сроку», чем по факту железа — преждевременная замена вместо апгрейда. ITIL: IT asset management / lifecycle.",
+    },
+    labor: {
+      title: "Трудозатраты на учёт",
+      text: "Инвентаризация редкая или ручная — аудиты съедают часы ИТ. ITIL: Service configuration management + Continual improvement.",
+    },
+    config: {
+      title: "Единый источник правды",
+      text: "Нет одного подтверждаемого реестра — решения по бюджету и ИБ на разрозненных выгрузках. ITIL: Service configuration management (путь к CMDB).",
+    },
+  };
+
   function calculate(inputs) {
     var endpoints = Math.max(0, Number(inputs.endpoints || 0));
     var itStaff = Math.max(0, Number(inputs.itStaff || 0));
     var budget = Math.max(0, Number(inputs.budget || 0));
+    var quiz = inputs.quiz || {};
+    var mult = quizMultipliers(quiz);
 
-    var savingsLicenses = budget * PCT_LICENSES;
+    var pctL = PCT_LICENSES * mult.licenses;
+    var pctA = PCT_ASSETS * mult.assets;
+    var pctI = PCT_IT * mult.labor;
+    // потолок ближе к материалам обоснования
+    pctL = Math.min(0.18, pctL);
+    pctA = Math.min(0.1, pctA);
+    pctI = Math.min(0.03, pctI);
+
+    var savingsLicenses = budget * pctL;
     var assetsBase = endpoints * ASSET_COST_PER_ENDPOINT_PER_YEAR;
-    var savingsAssets = assetsBase * PCT_ASSETS;
+    var savingsAssets = assetsBase * pctA;
     var payroll = itStaff * AVG_IT_SALARY_PER_MONTH * 12;
-    var savingsLabor = payroll * PCT_IT;
+    var savingsLabor = payroll * pctI;
 
     var savingsTotal = savingsLicenses + savingsAssets + savingsLabor;
     var pricePer = getItmenPerEndpointPrice(endpoints);
@@ -97,11 +258,27 @@
     });
 
     return {
-      inputs: { endpoints: endpoints, itStaff: itStaff, budget: budget },
+      inputs: {
+        endpoints: endpoints,
+        itStaff: itStaff,
+        budget: budget,
+        quiz: quiz,
+      },
+      quizLabels: {
+        licenses: QUIZ_LABELS.licenses[quiz.licenses] || "—",
+        freshness: QUIZ_LABELS.freshness[quiz.freshness] || "—",
+        hardware: QUIZ_LABELS.hardware[quiz.hardware] || "—",
+        truth: QUIZ_LABELS.truth[quiz.truth] || "—",
+      },
+      weak: mult.weak,
       assumptions: {
-        pctLicenses: PCT_LICENSES,
-        pctAssets: PCT_ASSETS,
-        pctIt: PCT_IT,
+        pctLicenses: pctL,
+        pctAssets: pctA,
+        pctIt: pctI,
+        basePctLicenses: PCT_LICENSES,
+        basePctAssets: PCT_ASSETS,
+        basePctIt: PCT_IT,
+        mult: mult,
         assetCostPerEndpoint: ASSET_COST_PER_ENDPOINT_PER_YEAR,
         avgItSalaryMonth: AVG_IT_SALARY_PER_MONTH,
         pricePerEndpoint: pricePer,
@@ -196,22 +373,34 @@
     ];
 
     var recommendations = [];
-    if (dom === "licenses" || calc.inputs.budget >= 5e6) {
+    var weak = calc.weak || [];
+
+    function hasWeak(k) {
+      return weak.indexOf(k) !== -1;
+    }
+
+    if (hasWeak("licenses") || dom === "licenses" || calc.inputs.budget >= 5e6) {
       recommendations.push({
         title: "Оптимизация лицензий и SAM",
         text: "Ввести контроль установленного vs используемого ПО; вычистить неиспользуемое (ориентир — ПО без запусков >90 дней); нормализовать названия до эталонного SKU (ИТМен + Призма данных).",
       });
     }
-    if (dom === "assets" || calc.inputs.endpoints >= 500) {
+    if (hasWeak("assets") || dom === "assets" || calc.inputs.endpoints >= 500) {
       recommendations.push({
         title: "Жизненный цикл оборудования",
         text: "Решения о замене ПК принимать по факту CPU/RAM/диска и требованиям ПО, а не только по сроку амортизации; формировать пул комплектующих для переиспользования.",
       });
     }
-    if (dom === "labor" || calc.inputs.itStaff >= 15) {
+    if (hasWeak("labor") || hasWeak("config") || dom === "labor" || calc.inputs.itStaff >= 15) {
       recommendations.push({
         title: "Автоматизация инвентаризации и аудита",
         text: "Перевести периодические «проекты инвентаризации» в непрерывный сбор: агенты + сеть + AD/FreeIPA. Трудозатраты на аудит в материалах кейсов сокращаются кратно.",
+      });
+    }
+    if (hasWeak("config")) {
+      recommendations.push({
+        title: "Единый источник правды (путь к CMDB)",
+        text: "Свести разрозненные списки в один подтверждаемый реестр с историей атрибутов — база для финансов, ИБ и ITSM. Без этого CMDB быстро станет ещё одним «кладбищем» данных.",
       });
     }
     if (seg === "enterprise") {
@@ -225,6 +414,22 @@
         title: "Единый источник правды",
         text: "Свести разрозненные списки устройств и ПО в один реестр с историей атрибутов — это база и для финансов, и для ИБ, и для ITSM/CMDB.",
       });
+    }
+
+    var gaps = weak.map(function (k) {
+      return WEAK_COPY[k];
+    }).filter(Boolean);
+
+    if (gaps.length) {
+      forExec.unshift(
+        "По самооценке зрелости учёта выделены зоны риска: " +
+          gaps
+            .map(function (g) {
+              return g.title;
+            })
+            .join(", ") +
+          "."
+      );
     }
 
     var nextSteps = [
@@ -321,6 +526,7 @@
       nextSteps: nextSteps,
       itilFocus: itilFocus.slice(0, 5),
       ritm: ritm,
+      gaps: gaps,
     };
   }
 
@@ -339,6 +545,9 @@
     calculate: calculate,
     buildNarrative: buildNarrative,
     buildReportModel: buildReportModel,
+    quizMultipliers: quizMultipliers,
+    QUIZ_LABELS: QUIZ_LABELS,
+    WEAK_COPY: WEAK_COPY,
     fmtRub: fmtRub,
     fmtRubShort: fmtRubShort,
     paybackLabel: paybackLabel,
