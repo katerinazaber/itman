@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
-  <title>Бесплатный чек-лист ИТ-инфраструктуры — Инферит ИТМен</title>
+  <title>Бесплатный экспресс-аудит ИТ-инфраструктуры — Инферит ИТМен</title>
   <style>
     @font-face {
       font-family: "Nekst Regular Web";
@@ -19,12 +19,6 @@
       src: url("https://itman.ru/t/images/mosaic/fonts/Nekst%20Medium%20Web-500-normal-0.ttf") format("truetype");
     }
     @font-face {
-      font-family: "Nekst SemiBold";
-      font-weight: 600;
-      font-style: normal;
-      src: url("https://itman.ru/t/images/mosaic/fonts/Nekst%20SemiBold-600-normal-0.ttf") format("truetype");
-    }
-    @font-face {
       font-family: "Nekst";
       font-weight: 400;
       font-style: normal;
@@ -32,20 +26,20 @@
     }
     @font-face {
       font-family: "Nekst";
-      font-weight: 600;
+      font-weight: 500;
       font-style: normal;
-      src: url("https://itman.ru/t/images/mosaic/fonts/Nekst-600-normal-0.woff") format("woff");
+      src: url("https://itman.ru/t/images/mosaic/fonts/Nekst%20Medium%20Web-500-normal-0.ttf") format("truetype");
     }
 
     :root {
       --red: #e30613;
       --red-dark: #c40510;
-      --bg: #0d0d0d;
-      --card: #161616;
-      --border: rgba(255, 255, 255, 0.12);
-      --muted: rgba(255, 255, 255, 0.58);
-      --white: #fff;
-      --gold: #c9a24a;
+      --ink: #141414;
+      --muted: #5c636b;
+      --line: #e6e8eb;
+      --bg: #f4f5f7;
+      --card: #fff;
+      --hero: #0f1115;
       --font: "Nekst", "Nekst Regular Web", Arial, Helvetica, sans-serif;
       --font-m: "Nekst Medium Web", "Nekst", Arial, Helvetica, sans-serif;
     }
@@ -55,91 +49,48 @@
     body {
       margin: 0;
       font-family: var(--font);
+      color: var(--ink);
       background: var(--bg);
-      color: var(--white);
-      min-height: 100vh;
     }
-    h1, h2, h3, h4 {
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    [hidden] { display: none !important; }
+    h1, h2, h3, h4, strong, b {
       font-family: var(--font-m);
       font-weight: 500;
     }
-    a { color: inherit; }
-    img { max-width: 100%; display: block; }
-    [hidden] { display: none !important; }
 
     .wrap {
-      width: min(1120px, calc(100% - 40px));
+      width: min(1180px, calc(100% - 40px));
       margin: 0 auto;
     }
 
     /* —— header —— */
-    .top {
+    .site-header {
+      background: var(--hero);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .site-header .inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 20px 0;
+      gap: 20px;
+      min-height: 72px;
     }
-    .top a.logo img { height: 36px; width: auto; }
-    .top-link {
-      font-size: 13px;
-      color: var(--muted);
-      text-decoration: none;
+    .logo img { height: 34px; width: auto; }
+    .nav {
+      display: flex;
+      gap: 22px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.72);
     }
-    .top-link:hover { color: #fff; }
-
-    /* —— hero —— */
-    .hero {
-      position: relative;
-      padding: 28px 0 56px;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: -20% -10% auto auto;
-      width: min(70vw, 640px);
-      height: min(70vw, 640px);
-      background: radial-gradient(circle, rgba(227, 6, 19, 0.22) 0%, transparent 68%);
-      pointer-events: none;
-    }
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 28px;
-      align-items: end;
-      position: relative;
-      z-index: 1;
-    }
-    .hero h1 {
-      font-family: var(--font-m);
-      font-size: clamp(32px, 4.6vw, 48px);
-      line-height: 1.08;
-      letter-spacing: -0.02em;
-      margin: 14px 0 16px;
-      font-weight: 500;
-      max-width: 14em;
-    }
-    .hero-lead {
-      font-size: 16px;
-      line-height: 1.5;
-      color: var(--muted);
-      margin: 0 0 28px;
-      max-width: 36em;
-    }
-    .eyebrow {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--red);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .nav a:hover { color: #fff; }
     .btn {
       appearance: none;
       border: 0;
-      border-radius: 12px;
-      min-height: 52px;
-      padding: 0 22px;
+      border-radius: 10px;
+      min-height: 48px;
+      padding: 0 20px;
       font: inherit;
       font-family: var(--font-m);
       font-weight: 500;
@@ -148,118 +99,213 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      text-decoration: none;
-      transition: transform 0.2s ease, filter 0.2s ease;
+      transition: filter 0.15s, transform 0.15s;
     }
-    .btn:hover { filter: brightness(1.06); transform: translateY(-1px); }
-    .btn-primary { background: var(--red); color: #fff; }
-    .btn-ghost {
+    .btn:hover { filter: brightness(1.05); transform: translateY(-1px); }
+    .btn-red { background: var(--red); color: #fff; }
+    .btn-ghost-light {
       background: transparent;
       color: #fff;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
-    .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; filter: none; }
-    .meta-line {
-      margin-top: 18px;
-      font-size: 13px;
-      color: var(--muted);
-      display: flex;
-      gap: 10px;
+    .btn-header { min-height: 42px; font-size: 13px; }
+
+    /* —— hero —— */
+    .hero {
+      background:
+        radial-gradient(ellipse 50% 60% at 78% 55%, rgba(227, 6, 19, 0.18), transparent 70%),
+        linear-gradient(180deg, #12151b 0%, #0b0d11 100%);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 70% 80% at 70% 50%, #000 20%, transparent 75%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 24px;
       align-items: center;
+      padding: 48px 0 56px;
+      min-height: 560px;
     }
-    .meta-line svg { flex: 0 0 auto; opacity: 0.7; }
+    .eyebrow {
+      color: var(--red);
+      font-family: var(--font-m);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin: 0 0 14px;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 4.5vw, 46px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin: 0 0 16px;
+      max-width: 12em;
+    }
+    .hero-lead {
+      margin: 0 0 28px;
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 16px;
+      line-height: 1.5;
+      max-width: 34em;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px 22px;
+      margin-top: 22px;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .hero-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hero-meta i {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      display: grid;
+      place-items: center;
+      font-style: normal;
+      color: var(--red);
+      font-size: 12px;
+      font-family: var(--font-m);
+    }
 
     .hero-visual {
       position: relative;
-      min-height: 360px;
+      min-height: 420px;
       display: flex;
       align-items: flex-end;
       justify-content: center;
     }
-    .hero-visual img.bear {
-      width: min(100%, 420px);
-      height: auto;
-      filter: drop-shadow(0 28px 40px rgba(0, 0, 0, 0.55));
-      animation: floatBear 4.5s ease-in-out infinite;
-      transform-origin: 50% 100%;
+    .hero-visual .bear {
+      width: min(100%, 380px);
+      filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.5));
+      animation: floatY 4.5s ease-in-out infinite;
     }
-    @keyframes floatBear {
+    @keyframes floatY {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      50% { transform: translateY(-8px); }
     }
-    .speech {
+    .float-card {
       position: absolute;
-      top: 8%;
-      left: 0;
-      max-width: 220px;
-      background: #1c1c1c;
-      border: 1px solid var(--border);
-      border-radius: 16px 16px 16px 4px;
-      padding: 12px 14px;
-      font-size: 13px;
-      line-height: 1.4;
-      color: rgba(255, 255, 255, 0.88);
-      animation: fadeIn 0.8s ease 0.3s both;
+      background: rgba(22, 24, 30, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(8px);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 12px;
+      line-height: 1.3;
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 160px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+      animation: fadeUp 0.7s ease both;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
+    .float-card b {
+      display: block;
+      color: #fff;
+      margin-bottom: 2px;
+      font-size: 13px;
+    }
+    .float-card--1 { top: 12%; left: 0; animation-delay: 0.15s; }
+    .float-card--2 { top: 28%; right: 0; animation-delay: 0.3s; }
+    .float-card--3 { bottom: 28%; left: 2%; animation-delay: 0.45s; }
+    .float-card--4 { bottom: 12%; right: 4%; animation-delay: 0.6s; max-width: 170px; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: none; }
     }
 
-    /* —— zones strip —— */
-    .zones {
-      padding: 8px 0 48px;
+    /* —— problems —— */
+    .problems {
+      padding: 64px 0 40px;
+      background: #fff;
     }
-    .zones-grid {
+    .section-title {
+      text-align: center;
+      font-size: clamp(26px, 3vw, 34px);
+      margin: 0 0 32px;
+      letter-spacing: -0.02em;
+    }
+    .problems-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
+      gap: 14px;
     }
-    .zone {
-      border: 1px solid var(--border);
+    .prob {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      background: #fff;
+      border: 1px solid var(--line);
       border-radius: 16px;
-      padding: 16px 16px 18px;
-      background: linear-gradient(180deg, #151515, #111);
+      padding: 18px 16px;
+      box-shadow: 0 8px 24px rgba(20, 20, 20, 0.04);
     }
-    .zone b {
+    .prob-ico {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--red);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+    }
+    .prob-ico svg { width: 22px; height: 22px; }
+    .prob strong {
       display: block;
-      font-family: var(--font-m);
-      font-size: 14px;
-      font-weight: 500;
-      margin-bottom: 6px;
+      font-size: 22px;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
     }
-    .zone span { font-size: 12px; color: var(--muted); line-height: 1.4; }
-    .zone i {
-      display: inline-block;
-      font-style: normal;
-      color: var(--red);
-      font-size: 12px;
-      font-weight: 500;
-      margin-bottom: 8px;
+    .prob p {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.4;
+      color: var(--muted);
     }
 
     /* —— quiz —— */
-    #quiz {
-      padding: 0 0 72px;
-      scroll-margin-top: 16px;
+    .quiz-section {
+      padding: 24px 0 64px;
+      background: #fff;
+      scroll-margin-top: 12px;
     }
     .quiz-shell {
       background: #111;
-      border: 1px solid var(--border);
+      color: #fff;
       border-radius: 28px;
       padding: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
-    .quiz-head {
-      margin-bottom: 22px;
-    }
-    .quiz-head h2 {
-      font-family: var(--font-m);
-      font-size: 28px;
+    .quiz-shell .quiz-head h2 {
       margin: 0 0 8px;
-      font-weight: 500;
+      font-size: 28px;
+      color: #fff;
     }
-    .quiz-head p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
-
+    .quiz-shell .quiz-head p {
+      margin: 0 0 22px;
+      color: rgba(255, 255, 255, 0.58);
+      font-size: 14px;
+    }
     .sec-steps {
       list-style: none;
       display: flex;
@@ -275,7 +321,6 @@
       font-size: 13px;
       color: rgba(255, 255, 255, 0.38);
       padding-right: 16px;
-      margin-right: 4px;
     }
     .sec-steps li span {
       width: 28px;
@@ -285,40 +330,36 @@
       display: grid;
       place-items: center;
       font-size: 12px;
-      font-weight: 500;
+      font-family: var(--font-m);
     }
     .sec-steps li.is-active { color: #fff; }
     .sec-steps li.is-active span {
       background: var(--red);
       border-color: var(--red);
     }
-    .sec-steps li.is-done { color: rgba(255, 255, 255, 0.7); }
     .sec-steps li.is-done span {
       background: rgba(227, 6, 19, 0.35);
       border-color: transparent;
     }
-
     .quiz-grid {
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
-      gap: 18px;
-      align-items: start;
+      gap: 16px;
     }
     .panel {
-      background: var(--card);
-      border: 1px solid var(--border);
+      background: #161616;
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 20px;
-      padding: 24px;
-      min-height: 320px;
+      padding: 22px;
+      min-height: 300px;
     }
-
     .cl-progress {
       display: flex;
       flex-direction: column;
       gap: 8px;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       font-size: 12px;
-      color: var(--muted);
+      color: rgba(255, 255, 255, 0.55);
     }
     .cl-progress__bar {
       height: 6px;
@@ -330,13 +371,12 @@
       display: block;
       height: 100%;
       background: linear-gradient(90deg, var(--red-dark), var(--red));
-      border-radius: 99px;
-      transition: width 0.35s ease;
+      transition: width 0.3s ease;
     }
     .cl-section-tag {
       display: inline-block;
       font-size: 11px;
-      font-weight: 500;
+      font-family: var(--font-m);
       letter-spacing: 0.05em;
       text-transform: uppercase;
       color: #fff;
@@ -347,40 +387,36 @@
     }
     .cl-q {
       font-family: var(--font-m);
-      font-size: 20px;
+      font-size: 19px;
       line-height: 1.35;
-      margin: 0 0 22px;
-      font-weight: 500;
+      margin: 0 0 20px;
     }
     .cl-tri {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 8px;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
     .cl-pick {
       appearance: none;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.14);
       background: #1a1a1a;
       color: #fff;
       border-radius: 12px;
-      min-height: 52px;
+      min-height: 50px;
       font: inherit;
       font-family: var(--font-m);
       font-weight: 500;
       cursor: pointer;
-      transition: border-color 0.15s, background 0.15s;
     }
-    .cl-pick:hover { border-color: rgba(255, 255, 255, 0.35); }
     .cl-pick.is-on {
-      background: rgba(227, 6, 19, 0.18);
+      background: rgba(227, 6, 19, 0.2);
       border-color: var(--red);
     }
     .cl-nav {
       display: flex;
       justify-content: space-between;
       gap: 12px;
-      align-items: center;
     }
     .cl-btn {
       appearance: none;
@@ -395,50 +431,31 @@
       background: var(--red);
       color: #fff;
     }
+    .cl-btn:disabled { opacity: 0.4; cursor: not-allowed; }
     .cl-btn--ghost {
       background: transparent;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       color: #fff;
     }
-    .cl-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-    .live h3 {
-      margin: 0 0 4px;
-      font-family: var(--font-m);
-      font-size: 18px;
-      font-weight: 500;
-    }
-    .live > .sub { margin: 0 0 16px; font-size: 13px; color: var(--muted); }
+    .live h3 { margin: 0 0 4px; font-size: 18px; }
+    .live .sub { margin: 0 0 14px; font-size: 13px; color: rgba(255, 255, 255, 0.55); }
     .live-stats {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
-    .live-card {
-      border-radius: 14px;
-      padding: 14px;
-    }
+    .live-card { border-radius: 14px; padding: 14px; }
     .live-card.red { background: #3a0a0e; }
     .live-card.gold { background: #2a220f; }
-    .live-card .l { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
-    .live-card .v {
-      font-family: var(--font-m);
-      font-size: 22px;
-      font-weight: 500;
-    }
-    .live-note { font-size: 13px; color: var(--muted); line-height: 1.45; margin: 0 0 16px; }
-    .live ul {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 8px;
-    }
+    .live-card .l { font-size: 12px; color: rgba(255, 255, 255, 0.55); margin-bottom: 6px; }
+    .live-card .v { font-family: var(--font-m); font-size: 22px; }
+    .live-note { font-size: 13px; color: rgba(255, 255, 255, 0.55); line-height: 1.45; margin: 0 0 14px; }
+    .live ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
     .live li {
       font-size: 13px;
       color: rgba(255, 255, 255, 0.78);
-      padding-left: 22px;
+      padding-left: 18px;
       position: relative;
     }
     .live li::before {
@@ -446,37 +463,113 @@
       position: absolute;
       left: 0;
       top: 5px;
-      width: 12px;
-      height: 12px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: var(--red);
-      opacity: 0.85;
     }
 
-    /* result */
-    .cl-muted { color: var(--muted); font-size: 14px; line-height: 1.45; }
-    .verdict {
-      margin-bottom: 18px;
+    /* —— result —— */
+    .result-section {
+      padding: 56px 0 40px;
+      background: var(--bg);
+      scroll-margin-top: 12px;
     }
-    .verdict .score {
+    .result-grid {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 28px;
+      align-items: center;
+    }
+    .result-bear {
+      text-align: center;
+    }
+    .result-bear img {
+      width: min(100%, 320px);
+      margin: 0 auto;
+      filter: drop-shadow(0 18px 28px rgba(20, 20, 20, 0.18));
+    }
+    .result-copy h2 {
+      font-size: clamp(26px, 3vw, 34px);
+      margin: 0 0 10px;
+    }
+    .result-score {
       font-family: var(--font-m);
       font-size: 40px;
-      font-weight: 500;
-      margin: 0 0 6px;
+      margin: 0 0 8px;
+      letter-spacing: -0.02em;
     }
-    .verdict .score span { font-size: 18px; color: var(--muted); font-weight: 400; }
-    .verdict h3 { margin: 0 0 8px; font-family: var(--font-m); font-size: 22px; }
-    .cl-bar { margin-bottom: 12px; }
+    .result-score span { font-size: 18px; color: var(--muted); }
+    .result-meaning {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+      margin: 0 0 22px;
+    }
+    .level-cards {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+    .level-card {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 16px;
+      opacity: 0.55;
+      transition: opacity 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+    .level-card.is-active {
+      opacity: 1;
+      border-color: transparent;
+      box-shadow: 0 10px 28px rgba(20, 20, 20, 0.08);
+    }
+    .level-card.is-active[data-level-card="good"] { background: #eaf7ef; }
+    .level-card.is-active[data-level-card="mid"] { background: #fff7e6; }
+    .level-card.is-active[data-level-card="bad"] { background: #fde8ea; }
+    .level-card .mark {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      font-size: 14px;
+      color: #fff;
+      font-family: var(--font-m);
+    }
+    .level-card[data-level-card="good"] .mark { background: #1a7a4c; }
+    .level-card[data-level-card="mid"] .mark { background: #c98a12; }
+    .level-card[data-level-card="bad"] .mark { background: var(--red); }
+    .level-card strong { display: block; font-size: 15px; margin-bottom: 2px; }
+    .level-card span { font-size: 13px; color: var(--muted); }
+    .result-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .detail-box {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+    }
+    .detail-box h4 { margin: 0 0 10px; font-size: 14px; }
+    .cl-bar { margin-bottom: 10px; }
     .cl-bar__head {
       display: flex;
       justify-content: space-between;
-      font-size: 13px;
-      margin-bottom: 6px;
+      font-size: 12px;
+      margin-bottom: 5px;
     }
     .cl-bar__track {
-      height: 8px;
+      height: 7px;
       border-radius: 99px;
-      background: rgba(255, 255, 255, 0.08);
+      background: #e8eaed;
       overflow: hidden;
     }
     .cl-bar__fill {
@@ -486,54 +579,82 @@
     }
     .cl-bar__fill.is-good { background: linear-gradient(90deg, #1a7a4c, #2ecc71); }
     .cl-bar__fill.is-mid { background: linear-gradient(90deg, #a86b00, #f0b429); }
-
     .cl-risk {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 14px;
-      margin-bottom: 10px;
-      background: #141414;
+      border-top: 1px solid var(--line);
+      padding: 8px 0;
     }
+    .cl-risk:first-of-type { border-top: 0; padding-top: 0; }
     .cl-risk__aud {
-      display: inline-block;
+      display: block;
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--red);
-      margin-bottom: 6px;
+      margin-bottom: 3px;
+      font-family: var(--font-m);
     }
-    .cl-risk p { margin: 0 0 6px; font-size: 14px; line-height: 1.4; }
-    .cl-risk small { color: var(--muted); font-size: 12px; line-height: 1.4; }
+    .cl-risk p { margin: 0; font-size: 13px; line-height: 1.35; }
+    .cl-muted { color: var(--muted); font-size: 13px; }
 
-    .cta-box {
-      border: 1px solid rgba(227, 6, 19, 0.35);
-      background: linear-gradient(160deg, #2a0a0d, #161616);
-      border-radius: 16px;
-      padding: 20px;
-      margin-top: 8px;
-    }
-    .cta-box h3 { margin: 0 0 8px; font-family: var(--font-m); font-size: 18px; }
-    .cta-box p { margin: 0 0 14px; color: var(--muted); font-size: 13px; line-height: 1.45; }
-    .cta-box ul {
-      margin: 0 0 16px;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 6px;
-    }
-    .cta-box li {
-      font-size: 13px;
-      padding-left: 16px;
+    /* —— lead —— */
+    .lead-section {
+      padding: 48px 0 72px;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08), transparent 40%),
+        linear-gradient(135deg, #b50510 0%, #e30613 45%, #9e0410 100%);
+      color: #fff;
       position: relative;
+      overflow: hidden;
+      scroll-margin-top: 12px;
     }
-    .cta-box li::before {
-      content: "✓";
+    .lead-section::before {
+      content: "";
       position: absolute;
-      left: 0;
-      color: var(--red);
-      font-size: 12px;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+      background-size: 80px 80px;
+      opacity: 0.35;
+      pointer-events: none;
     }
-
+    .lead-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: center;
+    }
+    .lead-copy h2 {
+      font-size: clamp(26px, 3.2vw, 36px);
+      margin: 0 0 12px;
+      line-height: 1.15;
+      max-width: 16em;
+    }
+    .lead-copy p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.88);
+      max-width: 34em;
+    }
+    .lead-card {
+      background: #fff;
+      color: var(--ink);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.22);
+    }
+    .lead-card h3 {
+      margin: 0 0 6px;
+      font-size: 20px;
+    }
+    .lead-card .hint {
+      margin: 0 0 16px;
+      font-size: 13px;
+      color: var(--muted);
+    }
     .lead-form label {
       display: block;
       font-size: 12px;
@@ -541,160 +662,165 @@
       margin: 0 0 6px;
       text-transform: uppercase;
       letter-spacing: 0.04em;
+      font-family: var(--font-m);
     }
     .lead-form input {
       width: 100%;
       height: 48px;
       border-radius: 10px;
-      border: 1px solid var(--border);
-      background: #1a1a1a;
-      color: #fff;
+      border: 1px solid var(--line);
       padding: 0 12px;
       font: inherit;
       margin-bottom: 12px;
+      background: #fff;
     }
-    .lead-form .hint { font-size: 12px; color: var(--muted); margin-top: 10px; }
-
-    .done-box { text-align: center; padding: 40px 20px; }
-    .done-box h3 { font-family: var(--font-m); font-size: 24px; margin: 0 0 10px; }
-    .done-box p { color: var(--muted); margin: 0; line-height: 1.5; }
-
-    .foot {
-      padding: 28px 0 48px;
-      border-top: 1px solid var(--border);
+    .lead-form .btn { width: 100%; }
+    .lead-form .note {
+      margin: 10px 0 0;
+      font-size: 12px;
       color: var(--muted);
+    }
+    .done-msg { text-align: center; padding: 20px 8px; }
+    .done-msg h3 { margin: 0 0 8px; font-size: 22px; }
+    .done-msg p { margin: 0; color: var(--muted); }
+
+    .site-footer {
+      background: #0f1115;
+      color: rgba(255, 255, 255, 0.55);
+      padding: 28px 0;
       font-size: 13px;
+    }
+    .site-footer .inner {
       display: flex;
       justify-content: space-between;
       gap: 16px;
       flex-wrap: wrap;
+      align-items: center;
     }
-    .foot a { color: rgba(255, 255, 255, 0.75); }
+    .site-footer a { color: rgba(255, 255, 255, 0.75); }
 
-    @media (max-width: 900px) {
-      .hero-grid, .quiz-grid, .zones-grid { grid-template-columns: 1fr; }
-      .hero-visual { min-height: 280px; order: -1; }
-      .speech { left: 4%; top: 0; }
-      .hero h1 { max-width: none; }
+    @media (max-width: 960px) {
+      .nav { display: none; }
+      .hero-grid,
+      .problems-grid,
+      .quiz-grid,
+      .result-grid,
+      .lead-inner,
+      .result-details { grid-template-columns: 1fr; }
+      .hero-visual { min-height: 300px; order: -1; }
+      .float-card--2, .float-card--4 { display: none; }
       .quiz-shell { padding: 18px; border-radius: 20px; }
       .cl-q { font-size: 17px; }
     }
-  
-    strong, b, .cl-bar__head strong, .live-card .v, .verdict .score,
-    .cl-section-tag, .zone i, .eyebrow, .btn, .cl-btn, .cl-pick {
-      font-family: var(--font-m);
-      font-weight: 500;
-    }
-</style>
+  </style>
 </head>
 <body>
-  <div class="wrap">
-    <header class="top">
+  <header class="site-header">
+    <div class="wrap inner">
       <a class="logo" href="https://itman.ru/" aria-label="Инферит ИТМен">
         <img src="assets/brand-white.svg" alt="Инферит ИТМен" width="228" height="41" />
       </a>
-      <a class="top-link" href="https://itman.ru/">itman.ru</a>
-    </header>
+      <nav class="nav" aria-label="Разделы">
+        <a href="#quiz">Экспресс-аудит</a>
+        <a href="#problems">Возможности</a>
+        <a href="#lead">Контакты</a>
+        <a href="https://itman.ru/" target="_blank" rel="noopener">О продукте</a>
+      </nav>
+      <a class="btn btn-red btn-header" href="#quiz" data-go-quiz>Пройти аудит бесплатно</a>
+    </div>
+  </header>
 
-    <section class="hero" aria-label="Чек-лист ИТ-инфраструктуры">
-      <div class="hero-grid">
-        <div>
-          <p class="eyebrow">Бесплатный чек-лист</p>
-          <h1>Под контролем ли ваша ИТ‑инфраструктура?</h1>
-          <p class="hero-lead">
-            20 вопросов из чек-листа Инферит ИТМен — по четырём зонам: учёт, ПО и ИБ, лицензии, эффективность.
-            Ответьте онлайн и сразу увидите слабые места.
-          </p>
-          <div class="cta-row">
-            <a class="btn btn-primary" href="#quiz" id="clStartHero">Пройти чек-лист</a>
-            <a class="btn btn-ghost" href="#zones">Что внутри</a>
+  <section class="hero" aria-label="Экспресс-аудит">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Бесплатный экспресс-аудит</p>
+        <h1>Проверьте свою ИТ‑инфраструктуру за 5 минут</h1>
+        <p class="hero-lead">
+          20 вопросов помогут оценить контроль активов, ПО, лицензий и затрат —
+          и сразу увидеть, где теряются деньги и видимость.
+        </p>
+        <a class="btn btn-red" href="#quiz" data-go-quiz>
+          Пройти бесплатный экспресс-аудит
+          <span aria-hidden="true">→</span>
+        </a>
+        <div class="hero-meta">
+          <span><i>20</i> вопросов</span>
+          <span><i>5</i> минут</span>
+          <span><i>✓</i> результат сразу</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="float-card float-card--1"><b>Неучтенные активы</b>7 устройств вне реестра</div>
+        <div class="float-card float-card--2"><b>Проблемы ИБ</b>5 зон риска</div>
+        <div class="float-card float-card--3"><b>Дубли лицензий</b>лишние затраты</div>
+        <div class="float-card float-card--4"><b>20 критериев · /40</b>ваш уровень контроля</div>
+        <img class="bear" src="assets/bear.png" alt="Маскот Инферит ИТМен" width="380" height="440" />
+      </div>
+    </div>
+  </section>
+
+  <section class="problems" id="problems">
+    <div class="wrap">
+      <h2 class="section-title">Скрытые проблемы, которые стоят вам денег</h2>
+      <div class="problems-grid">
+        <article class="prob">
+          <div class="prob-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 109 9h-9V3z" stroke="#fff" stroke-width="1.8"/><path d="M13 3.2A9 9 0 0120.8 11H13V3.2z" fill="#fff" opacity=".35"/></svg>
           </div>
-          <p class="meta-line">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-            ~8 минут · Да / Средне / Нет · подробный разбор — после заявки
-          </p>
-        </div>
-        <div class="hero-visual">
-          <div class="speech" aria-hidden="true">Я уже вижу пару «серых зон». Пройдём чек-лист вместе?</div>
-          <img class="bear" src="assets/bear.png" alt="Маскот Инферит ИТМен" width="420" height="480" />
-        </div>
+          <div>
+            <strong>До 35%</strong>
+            <p>ИТ-бюджета тратится впустую на неиспользуемые лицензии и оборудование</p>
+          </div>
+        </article>
+        <article class="prob">
+          <div class="prob-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="#fff" stroke-width="1.8"/><path d="M12 8v5l3 2" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <strong>До 40%</strong>
+            <p>времени ИТ-специалистов уходит на ручной сбор данных</p>
+          </div>
+        </article>
+        <article class="prob">
+          <div class="prob-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 15v2a3 3 0 003 3h10a3 3 0 003-3v-2M7 11a5 5 0 0110 0" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><path d="M12 14v4" stroke="#fff" stroke-width="1.8"/></svg>
+          </div>
+          <div>
+            <strong>15%</strong>
+            <p>увеличивается нагрузка на техподдержку из-за отсутствия актуальной информации</p>
+          </div>
+        </article>
+        <article class="prob">
+          <div class="prob-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="12" rx="2" stroke="#fff" stroke-width="1.8"/><path d="M8 21h8M12 17v4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <strong>До 25%</strong>
+            <p>устройств остаются «в серой зоне» — есть информация, но нет полного учёта</p>
+          </div>
+        </article>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="zones" id="zones">
-      <div class="zones-grid">
-        <div class="zone"><i>01 · 5 пунктов</i><b>Инвентаризация и учёт</b><span>Автосбор, источники, единая база, локации, автообнаружение</span></div>
-        <div class="zone"><i>02 · 5 пунктов</i><b>ПО и безопасность</b><span>Каталог ПО, запрещённое, usage, изменения, отчёты</span></div>
-        <div class="zone"><i>03 · 5 пунктов</i><b>Лицензии и затраты</b><span>Учёт лицензий, чистота, простой, TCO, бюджет</span></div>
-        <div class="zone"><i>04 · 5 пунктов</i><b>Эффективность</b><span>Рутина, реакция, проекты, ROI, масштабирование</span></div>
-      </div>
-    </section>
-
-    <section id="quiz">
+  <section class="quiz-section" id="quiz" data-page-phase="quiz">
+    <div class="wrap">
       <div class="quiz-shell" id="checklist-app">
         <div class="quiz-head">
-          <h2>Интерактивный чек-лист</h2>
-          <p>Отмечайте каждый пункт: Да, Средне или Нет. Счёт справа обновляется по мере ответов.</p>
+          <h2>Интерактивный экспресс-аудит</h2>
+          <p>20 пунктов из чек-листа ИТМен. Ответьте Да / Средне / Нет — счёт обновляется сразу.</p>
         </div>
-
         <ol class="sec-steps" aria-label="Разделы">
           <li data-sec-dot="0" class="is-active"><span>1</span>Учёт</li>
           <li data-sec-dot="1"><span>2</span>ПО / ИБ</li>
           <li data-sec-dot="2"><span>3</span>Лицензии</li>
           <li data-sec-dot="3"><span>4</span>Эффективность</li>
         </ol>
-
         <div class="quiz-grid">
           <div class="panel">
-            <div data-phase="quiz">
-              <div data-quiz-host></div>
-            </div>
-
-            <div data-phase="result" hidden>
-              <div class="verdict">
-                <p class="score" data-bind-score>— / 40</p>
-                <h3 data-bind-verdict>Результат</h3>
-                <p class="cl-muted" data-bind-meaning></p>
-              </div>
-              <h4 style="margin:0 0 10px;font-size:14px;font-family:var(--font-m);font-weight:500">По разделам</h4>
-              <div data-bars></div>
-              <h4 style="margin:18px 0 10px;font-size:14px;font-family:var(--font-m);font-weight:500">Где риски</h4>
-              <div data-risks></div>
-              <div class="cta-box">
-                <h3>Получите подробный разбор</h3>
-                <p>На основе ответов подготовим приоритеты и аргументы для руководства, финансов и ИБ.</p>
-                <ul>
-                  <li>разбор слабых пунктов</li>
-                  <li>рекомендации по зонам</li>
-                  <li>следующий шаг с ИТМен</li>
-                </ul>
-                <button type="button" class="cl-btn" id="clGetReport" style="width:100%">Получить разбор →</button>
-                <button type="button" class="cl-btn cl-btn--ghost" id="clEdit" style="width:100%;margin-top:8px">Пройти ещё раз</button>
-              </div>
-            </div>
-
-            <div data-phase="lead" hidden>
-              <h3 style="margin:0 0 8px;font-family:var(--font-m);font-weight:500">Куда отправить разбор</h3>
-              <p class="cl-muted" style="margin:0 0 16px">Макет формы — на Taptop будет нативная заявка.</p>
-              <form class="lead-form" id="clLeadForm">
-                <label for="clName">Имя</label>
-                <input id="clName" name="name" autocomplete="name" required />
-                <label for="clEmail">E-mail</label>
-                <input id="clEmail" name="email" type="email" autocomplete="email" required />
-                <button type="submit" class="cl-btn" style="width:100%">Отправить</button>
-                <p class="hint">В проде — нативная форма Taptop + согласие на ПДн.</p>
-              </form>
-            </div>
-
-            <div data-phase="done" hidden>
-              <div class="done-box">
-                <h3>Готово!</h3>
-                <p>Мы готовим персональные рекомендации. Менеджер свяжется с вами в ближайшее время.</p>
-              </div>
-            </div>
+            <div data-phase="quiz"><div data-quiz-host></div></div>
           </div>
-
-          <aside class="panel live" data-phase-side>
+          <aside class="panel live">
             <h3>Живой счёт</h3>
             <p class="sub">Обновляется по мере ответов</p>
             <div class="live-stats">
@@ -714,20 +840,104 @@
               <li>лицензии и затраты</li>
               <li>операционная эффективность</li>
             </ul>
-            <div data-phase="result" hidden style="margin-top:18px">
-              <p class="live-note" style="margin-bottom:8px">Слабые зоны:</p>
-              <ul data-side-gaps></ul>
-            </div>
           </aside>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <footer class="foot">
+  <section class="result-section" id="result" data-page-phase="after" hidden>
+    <div class="wrap">
+      <div class="result-grid">
+        <div class="result-bear">
+          <img src="assets/bear.png" alt="Маскот ИТМен с результатом" width="320" height="360" />
+        </div>
+        <div class="result-copy">
+          <h2>Ваш результат — ваш уровень контроля</h2>
+          <p class="result-score" data-bind-score>— / 40 <span data-bind-pct></span></p>
+          <p class="result-meaning"><strong data-bind-verdict></strong> — <span data-bind-meaning></span></p>
+
+          <div class="level-cards" aria-label="Шкала уровней">
+            <div class="level-card" data-level-card="good">
+              <div class="mark">✓</div>
+              <div>
+                <strong>Хорошее состояние · 26–40</strong>
+                <span>Базовый контроль выглядит уверенно</span>
+              </div>
+            </div>
+            <div class="level-card" data-level-card="mid">
+              <div class="mark">!</div>
+              <div>
+                <strong>Требует внимания · 11–25</strong>
+                <span>Есть основа, но есть зоны риска</span>
+              </div>
+            </div>
+            <div class="level-card" data-level-card="bad">
+              <div class="mark">×</div>
+              <div>
+                <strong>Критическое состояние · 0–10</strong>
+                <span>Значительные пробелы в контроле</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-details" id="checklist-app-result">
+            <div class="detail-box">
+              <h4>По разделам</h4>
+              <div data-bars></div>
+            </div>
+            <div class="detail-box">
+              <h4>Где риски</h4>
+              <div data-risks></div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button type="button" class="btn btn-red" id="clToLead">Получить разбор →</button>
+            <button type="button" class="btn btn-ghost-light" id="clEdit" style="background:#fff;color:var(--ink);border:1px solid var(--line)">Пройти ещё раз</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lead-section" id="lead" data-page-phase="after" hidden>
+    <div class="wrap lead-inner">
+      <div class="lead-copy">
+        <h2>Нужна помощь с контролем ИТ‑инфраструктуры?</h2>
+        <p>Эксперты «Инферит ИТМен» помогут устранить выявленные проблемы и наладить 100% контроль за ИТ‑активами.</p>
+      </div>
+      <div class="lead-card">
+        <div data-phase="lead">
+          <h3>Оставьте контакты</h3>
+          <p class="hint">Пришлём персональный разбор по вашим ответам. Макет формы — на Taptop будет нативная заявка.</p>
+          <form class="lead-form" id="clLeadForm">
+            <label for="clName">Имя</label>
+            <input id="clName" name="name" autocomplete="name" required />
+            <label for="clEmail">E-mail</label>
+            <input id="clEmail" name="email" type="email" autocomplete="email" required />
+            <label for="clPhone">Телефон</label>
+            <input id="clPhone" name="phone" type="tel" autocomplete="tel" />
+            <button type="submit" class="btn btn-red">Отправить заявку</button>
+            <p class="note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
+          </form>
+        </div>
+        <div data-phase="done" hidden>
+          <div class="done-msg">
+            <h3>Готово!</h3>
+            <p>Мы готовим персональные рекомендации. Менеджер свяжется с вами в ближайшее время.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap inner">
       <span>© Инферит ИТМен · макет лид-страницы · noindex</span>
       <a href="https://itman.ru/">itman.ru</a>
-    </footer>
-  </div>
+    </div>
+  </footer>
 
   <script src="./checklist-data.js"></script>
   <script src="./checklist-app.js"></script>

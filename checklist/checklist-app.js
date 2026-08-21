@@ -1,4 +1,4 @@
-/* Full 20-point checklist lead magnet */
+/* Full 20-point express-audit lead magnet */
 (function () {
   if (!window.ItmenChecklist) return;
 
@@ -8,10 +8,9 @@
   var SECTIONS = ItmenChecklist.SECTIONS;
   var flat = [];
   SECTIONS.forEach(function (sec, si) {
-    sec.items.forEach(function (item, ii) {
+    sec.items.forEach(function (item) {
       flat.push({
         sectionIndex: si,
-        itemIndex: ii,
         section: sec,
         item: item,
         n: flat.length + 1,
@@ -21,7 +20,7 @@
 
   var answers = {};
   var idx = 0;
-  var phase = "quiz"; // quiz | result | lead | done
+  var phase = "quiz";
 
   function scored() {
     return ItmenChecklist.scoreAnswers(answers);
@@ -29,21 +28,49 @@
 
   function levelCls(pct) {
     if (pct >= 65) return "is-good";
-    if (pct >= 35) return "is-mid";
+    if (pct >= 28) return "is-mid";
     return "is-bad";
+  }
+
+  function levelKey(total) {
+    if (total >= 26) return "good";
+    if (total >= 11) return "mid";
+    return "bad";
   }
 
   function showPhase(next) {
     phase = next;
-    root.querySelectorAll("[data-phase]").forEach(function (el) {
-      el.hidden = el.getAttribute("data-phase") !== next;
+
+    var afterQuiz = next !== "quiz";
+    document.querySelectorAll("[data-page-phase]").forEach(function (el) {
+      var want = el.getAttribute("data-page-phase");
+      if (want === "quiz") el.hidden = afterQuiz;
+      else if (want === "after") el.hidden = !afterQuiz;
     });
+
+    document.querySelectorAll('[data-phase="quiz"]').forEach(function (el) {
+      el.hidden = next !== "quiz";
+    });
+
+    // Form card: lead vs done
+    document.querySelectorAll('[data-phase="lead"]').forEach(function (el) {
+      el.hidden = next === "done";
+    });
+    document.querySelectorAll('[data-phase="done"]').forEach(function (el) {
+      el.hidden = next !== "done";
+    });
+
     if (next === "quiz") renderQuiz();
-    if (next === "result" || next === "lead") renderResult();
+    if (afterQuiz) renderResult();
     refreshLive();
-    if (next === "quiz" || next === "result") {
-      var el = document.getElementById("quiz");
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    if (next === "result") {
+      var r = document.getElementById("result");
+      if (r) r.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    if (next === "lead" || next === "done") {
+      var l = document.getElementById("lead");
+      if (l) l.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }
 
@@ -60,7 +87,7 @@
     html += '<div class="cl-progress" role="status">';
     html +=
       '<div class="cl-progress__bar"><span style="width:' +
-      (idx / flat.length) * 100 +
+      ((idx + (curAns ? 1 : 0)) / flat.length) * 100 +
       '%"></span></div>';
     html +=
       "<span>Вопрос " +
@@ -70,7 +97,8 @@
       " · раздел " +
       (cur.sectionIndex + 1) +
       "/4</span></div>";
-    html += '<p class="cl-section-tag">' + sec.audience + " · " + sec.title + "</p>";
+    html +=
+      '<p class="cl-section-tag">' + sec.audience + " · " + sec.title + "</p>";
     html += '<p class="cl-q">' + q.text + "</p>";
     html += '<div class="cl-tri" role="group">';
     [
@@ -101,7 +129,7 @@
       '<button type="button" class="cl-btn" data-next' +
       (curAns ? "" : " disabled") +
       ">" +
-      (idx < flat.length - 1 ? "Далее →" : "Посмотреть результат →") +
+      (idx < flat.length - 1 ? "Далее →" : "Смотреть результат →") +
       "</button>";
     html += "</div>";
     host.innerHTML = html;
@@ -116,23 +144,32 @@
   function renderResult() {
     var s = scored();
     var pct = s.max ? Math.round((s.total / s.max) * 100) : 0;
-    var bind = function (sel, html) {
-      root.querySelectorAll(sel).forEach(function (n) {
-        n.innerHTML = html;
-      });
-    };
-    var text = function (sel, t) {
-      root.querySelectorAll(sel).forEach(function (n) {
-        n.textContent = t;
-      });
-    };
+    var key = levelKey(s.total);
 
-    text("[data-bind-score]", s.total + " / " + s.max);
-    text("[data-bind-pct]", pct + "%");
-    text("[data-bind-verdict]", s.level.title);
-    text("[data-bind-meaning]", s.level.text);
+    document.querySelectorAll("[data-bind-score]").forEach(function (n) {
+      n.innerHTML =
+        s.total +
+        " / " +
+        s.max +
+        ' <span data-bind-pct">' +
+        pct +
+        "%</span>";
+    });
+    document.querySelectorAll("[data-bind-verdict]").forEach(function (n) {
+      n.textContent = s.level.title;
+    });
+    document.querySelectorAll("[data-bind-meaning]").forEach(function (n) {
+      n.textContent = s.level.text;
+    });
 
-    var bars = root.querySelector("[data-bars]");
+    document.querySelectorAll("[data-level-card]").forEach(function (card) {
+      card.classList.toggle(
+        "is-active",
+        card.getAttribute("data-level-card") === key
+      );
+    });
+
+    var bars = document.querySelector("[data-bars]");
     if (bars) {
       bars.innerHTML = SECTIONS.map(function (sec) {
         var st = s.bySection[sec.id] || { score: 0, max: 10 };
@@ -153,48 +190,32 @@
       }).join("");
     }
 
-    var risks = root.querySelector("[data-risks]");
+    var risks = document.querySelector("[data-risks]");
     if (risks) {
       if (!s.gaps.length) {
         risks.innerHTML =
-          '<p class="cl-muted">Критических провалов нет. В отчёте разберём, что усилить точечно.</p>';
+          '<p class="cl-muted">Критических провалов нет. В разборе усилим точечные зоны.</p>';
       } else {
         risks.innerHTML = s.gaps
-          .slice(0, 8)
+          .slice(0, 6)
           .map(function (g) {
             return (
               '<div class="cl-risk"><span class="cl-risk__aud">' +
               g.audience +
               "</span><p>" +
               g.text +
-              "</p><small>" +
-              g.rec +
-              "</small></div>"
+              "</p></div>"
             );
           })
           .join("");
       }
-    }
-
-    var side = root.querySelector("[data-side-gaps]");
-    if (side) {
-      side.innerHTML = s.gaps.length
-        ? s.gaps
-            .slice(0, 4)
-            .map(function (g) {
-              return "<li>" + g.section + "</li>";
-            })
-            .join("")
-        : "<li>Слабых зон почти нет</li>";
     }
   }
 
   function refreshLive() {
     var s = scored();
     var live = root.querySelector("[data-live-score]");
-    if (live) {
-      live.textContent = s.answered ? s.total + " / " + s.max : "— / 40";
-    }
+    if (live) live.textContent = s.answered ? s.total + " / " + s.max : "— / 40";
     var ans = root.querySelector("[data-live-answered]");
     if (ans) ans.textContent = s.answered + " из 20";
     var note = root.querySelector("[data-live-note]");
@@ -202,7 +223,7 @@
       var cur = flat[idx];
       note.textContent = cur
         ? "Сейчас: " + cur.section.title
-        : "20 пунктов из бесплатного чек-листа ИТМен";
+        : "20 пунктов из чек-листа ИТМен";
     }
   }
 
@@ -236,15 +257,13 @@
         renderQuiz();
         refreshLive();
       }
-      return;
     }
-    if (btn.hasAttribute("data-start") || btn.id === "clStart") {
-      e.preventDefault();
-      idx = 0;
-      showPhase("quiz");
-      return;
-    }
-    if (btn.id === "clGetReport" || btn.closest("#clGetReport")) {
+  });
+
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest("button, a");
+    if (!btn) return;
+    if (btn.id === "clToLead" || btn.closest("#clToLead")) {
       e.preventDefault();
       showPhase("lead");
       return;
@@ -253,40 +272,31 @@
       e.preventDefault();
       idx = 0;
       showPhase("quiz");
+      var q = document.getElementById("quiz");
+      if (q) q.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+    if (btn.hasAttribute("data-go-quiz")) {
+      e.preventDefault();
+      if (phase !== "quiz") {
+        idx = 0;
+        showPhase("quiz");
+      }
+      var quiz = document.getElementById("quiz");
+      if (quiz) quiz.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   });
 
-  var form = root.querySelector("#clLeadForm");
+  var form = document.querySelector("#clLeadForm");
   if (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var name = root.querySelector("#clName");
-      var email = root.querySelector("#clEmail");
+      var name = document.querySelector("#clName");
+      var email = document.querySelector("#clEmail");
       if (!name || !email || !name.value.trim() || !email.value.trim()) return;
       showPhase("done");
     });
   }
 
-  document.querySelectorAll("[data-start], #clStartHero").forEach(function (b) {
-    b.addEventListener("click", function (e) {
-      e.preventDefault();
-      idx = 0;
-      phase = "quiz";
-      root.querySelectorAll("[data-phase]").forEach(function (el) {
-        el.hidden = el.getAttribute("data-phase") !== "quiz";
-      });
-      renderQuiz();
-      refreshLive();
-      var el = document.getElementById("quiz");
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  });
-
-  // initial: hero visible, quiz panel ready but wait for start — show quiz UI empty state with CTA
-  phase = "quiz";
-  root.querySelectorAll("[data-phase]").forEach(function (el) {
-    el.hidden = el.getAttribute("data-phase") !== "quiz";
-  });
-  renderQuiz();
-  refreshLive();
+  showPhase("quiz");
 })();
