@@ -47,7 +47,7 @@
       --white: #fff;
       --gold: #c9a24a;
       --font: "Nekst", "Nekst Regular Web", Arial, Helvetica, sans-serif;
-      --font-m: "Nekst Medium Web", "Nekst SemiBold", "Nekst", Arial, Helvetica, sans-serif;
+      --font-m: "Nekst Medium Web", "Nekst", Arial, Helvetica, sans-serif;
     }
 
     * { box-sizing: border-box; }
@@ -58,6 +58,10 @@
       background: var(--bg);
       color: var(--white);
       min-height: 100vh;
+    }
+    h1, h2, h3, h4 {
+      font-family: var(--font-m);
+      font-weight: 500;
     }
     a { color: inherit; }
     img { max-width: 100%; display: block; }
@@ -112,7 +116,7 @@
       line-height: 1.08;
       letter-spacing: -0.02em;
       margin: 14px 0 16px;
-      font-weight: 600;
+      font-weight: 500;
       max-width: 14em;
     }
     .hero-lead {
@@ -221,6 +225,7 @@
       display: block;
       font-family: var(--font-m);
       font-size: 14px;
+      font-weight: 500;
       margin-bottom: 6px;
     }
     .zone span { font-size: 12px; color: var(--muted); line-height: 1.4; }
@@ -251,7 +256,7 @@
       font-family: var(--font-m);
       font-size: 28px;
       margin: 0 0 8px;
-      font-weight: 600;
+      font-weight: 500;
     }
     .quiz-head p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
 
@@ -401,7 +406,7 @@
       margin: 0 0 4px;
       font-family: var(--font-m);
       font-size: 18px;
-      font-weight: 600;
+      font-weight: 500;
     }
     .live > .sub { margin: 0 0 16px; font-size: 13px; color: var(--muted); }
     .live-stats {
