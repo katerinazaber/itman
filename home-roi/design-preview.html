@@ -18,20 +18,11 @@
 @font-face {font-family: 'Nekst Medium Web'; font-weight: 500; font-style: normal;
   src: url('https://itman.ru/t/images/mosaic/fonts/Nekst%20Medium%20Web-500-normal-0.ttf') format('truetype');}
 
-html, body {
-  margin: 0;
-  padding: 0;
-  background: #0d0d0d;
-  min-height: 100%;
-}
+html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
 .preview-bar {
   font-family: "Nekst Regular Web", "Nekst", Arial, sans-serif;
-  font-size: 13px;
-  color: rgba(255,255,255,.55);
-  text-align: center;
-  padding: 12px 16px;
-  border-bottom: 1px solid #2a2a2a;
-  background: #121212;
+  font-size: 13px; color: rgba(255,255,255,.55); text-align: center;
+  padding: 12px 16px; border-bottom: 1px solid #2a2a2a; background: #121212;
 }
 .preview-bar strong { color: #fff; font-family: "Nekst Medium Web", "Nekst", sans-serif; font-weight: 500; }
 </style>
@@ -695,8 +686,8 @@ html, body {
 <section class="itman-roi" id="roi-calculator" aria-label="ROI-калькулятор" data-phase="input" data-input-step="1">
   <div class="itman-roi__inner">
     <header class="itman-roi__head">
-      <h2 class="itman-roi__title">А какой экономический эффект может получить ваша компания?</h2>
-      <p class="itman-roi__lead">Рассчитайте потенциальную экономию и окупаемость внедрения ИТМен за 2 минуты.</p>
+      <h2 class="itman-roi__title">Какой экономический эффект может получить ваша компания?</h2>
+      <p class="itman-roi__lead">Рассчитайте потенциальную экономию и окупаемость внедрения ИТМен за 2 минуты</p>
     </header>
 
     <div class="itman-roi__grid">
@@ -721,16 +712,10 @@ html, body {
             </div>
             <input type="hidden" id="roiWp" value="300" />
             <button type="button" class="itman-roi__btn" data-go-input="2">Далее →</button>
-            <div class="itman-roi__footnotes">
-              <p class="itman-roi__hint">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.6"/><path d="M12 8v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-                Это займёт меньше 2 минут
-              </p>
-              <p class="itman-roi__lock">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-                Все данные остаются конфиденциальными и используются только для расчёта экономического эффекта.
-              </p>
-            </div>
+            <p class="itman-roi__lock">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              Все данные остаются конфиденциальными и используются только для расчёта экономического эффекта
+            </p>
           </div>
 
           <div class="itman-roi__panel" data-input-panel="2" hidden>
@@ -743,14 +728,10 @@ html, body {
               <button type="button" class="itman-roi__btn itman-roi__btn--ghost" data-go-input="1">← Назад</button>
               <button type="button" class="itman-roi__btn" data-go-input="3">Далее →</button>
             </div>
-            <p class="itman-roi__hint">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.6"/><path d="M12 8v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-              Это займёт меньше 2 минут
-            </p>
           </div>
 
           <div class="itman-roi__panel" data-input-panel="3" hidden>
-            <p class="itman-roi__q">Какой годовой бюджет на ПО и лицензии?</p>
+            <p class="itman-roi__q">Какой примерный годовой бюджет на ПО и лицензии?</p>
             <label class="itman-roi__field">
               <input type="text" id="roiBudget" inputmode="numeric" value="12 000 000" />
               <span>₽</span>
@@ -759,16 +740,12 @@ html, body {
               <button type="button" class="itman-roi__btn itman-roi__btn--ghost" data-go-input="2">← Назад</button>
               <button type="button" class="itman-roi__btn" id="roiCalcBtn">Рассчитать →</button>
             </div>
-            <p class="itman-roi__hint">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.6"/><path d="M12 8v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-              Это займёт меньше 2 минут
-            </p>
           </div>
 
         </div>
 
         <div data-view="summary" hidden>
-          <p class="itman-roi__summary-label">Ваш расчёт</p>
+          <p class="itman-roi__summary-label">Ваш примерный расчёт</p>
           <div class="itman-roi__metric itman-roi__metric--save">
             <div class="itman-roi__metric-icon" aria-hidden="true">₽</div>
             <div>
@@ -835,31 +812,26 @@ html, body {
 
         <div data-view="cta" hidden>
           <div class="itman-roi__preview-head">
-            <h3>Получите полный расчёт с обоснованием для руководства</h3>
-            <p>Следующий шаг после предварительного результата</p>
+            <h3>Получите полный расчёт с обоснованием и аргументами для пилота для руководства</h3>
           </div>
           <div class="itman-roi__cta-box itman-roi__cta-box--solo">
-            <p>На основе ваших данных мы подготовим персональный отчёт с детальным расчётом экономического эффекта, финансовой моделью и готовым обоснованием для принятия решения о внедрении.</p>
+            <p>На основе ваших данных подготовим отчет с полным расчетом экономии и готовыми аргументами для руководства, ИБ и финансистов.</p>
             <ul class="itman-roi__checklist">
-              <li>расчёт потенциальной экономии</li>
-              <li>ROI и срок окупаемости</li>
-              <li>детализация экономического эффекта</li>
-              <li>финансовая модель внедрения</li>
-              <li>ключевые аргументы для принятия решения</li>
+              <li>расчет потенциальной экономии</li>
+              <li>срок окупаемости</li>
+              <li>детализация экономии по направлениям</li>
             </ul>
-            <button type="button" class="itman-roi__btn" id="roiGetReportBtn">Получить полный отчёт →</button>
+            <button type="button" class="itman-roi__btn" id="roiGetReportBtn">Получить полный отчет</button>
           </div>
         </div>
 
         <div data-view="lead" hidden>
-          <h3 class="itman-roi__lead-title">Получите готовое обоснование для руководства</h3>
-          <p class="itman-roi__lead-text">Оставьте контакты — подготовим персональный расчёт с детализацией и обоснованием для руководства.</p>
+          <h3 class="itman-roi__lead-title">Получите полный расчет с обоснованием для руководства</h3>
+          <p class="itman-roi__lead-text">На основе ваших данных подготовим отчет с полным расчетом экономии и готовыми аргументами для руководства, ИБ и финансистов.</p>
           <ul class="itman-roi__checklist">
-            <li>расчёт потенциальной экономии</li>
-            <li>ROI и срок окупаемости</li>
-            <li>детализация экономического эффекта</li>
-            <li>финансовая модель внедрения</li>
-            <li>ключевые аргументы для принятия решения</li>
+            <li>расчет потенциальной экономии</li>
+            <li>срок окупаемости</li>
+            <li>детализация экономии по направлениям</li>
           </ul>
           <!-- Сюда JS переносит настоящую форму Taptop «Лид-магнит Главная» -->
           <div id="roiTaptopMount" class="itman-roi__taptop-mount" aria-live="polite"></div>
