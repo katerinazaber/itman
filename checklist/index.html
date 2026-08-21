@@ -128,7 +128,7 @@
     }
     .eyebrow {
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--red);
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -142,7 +142,7 @@
       padding: 0 22px;
       font: inherit;
       font-family: var(--font-m);
-      font-weight: 600;
+      font-weight: 500;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -234,7 +234,7 @@
       font-style: normal;
       color: var(--red);
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 500;
       margin-bottom: 8px;
     }
 
@@ -285,7 +285,7 @@
       display: grid;
       place-items: center;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 500;
     }
     .sec-steps li.is-active { color: #fff; }
     .sec-steps li.is-active span {
@@ -336,7 +336,7 @@
     .cl-section-tag {
       display: inline-block;
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 500;
       letter-spacing: 0.05em;
       text-transform: uppercase;
       color: #fff;
@@ -390,7 +390,7 @@
       padding: 0 18px;
       font: inherit;
       font-family: var(--font-m);
-      font-weight: 600;
+      font-weight: 500;
       cursor: pointer;
       background: var(--red);
       color: #fff;
@@ -425,7 +425,7 @@
     .live-card .v {
       font-family: var(--font-m);
       font-size: 22px;
-      font-weight: 600;
+      font-weight: 500;
     }
     .live-note { font-size: 13px; color: var(--muted); line-height: 1.45; margin: 0 0 16px; }
     .live ul {
@@ -461,7 +461,7 @@
     .verdict .score {
       font-family: var(--font-m);
       font-size: 40px;
-      font-weight: 600;
+      font-weight: 500;
       margin: 0 0 6px;
     }
     .verdict .score span { font-size: 18px; color: var(--muted); font-weight: 400; }
@@ -579,7 +579,13 @@
       .quiz-shell { padding: 18px; border-radius: 20px; }
       .cl-q { font-size: 17px; }
     }
-  </style>
+  
+    strong, b, .cl-bar__head strong, .live-card .v, .verdict .score,
+    .cl-section-tag, .zone i, .eyebrow, .btn, .cl-btn, .cl-pick {
+      font-family: var(--font-m);
+      font-weight: 500;
+    }
+</style>
 </head>
 <body>
   <div class="wrap">
@@ -650,9 +656,9 @@
                 <h3 data-bind-verdict>Результат</h3>
                 <p class="cl-muted" data-bind-meaning></p>
               </div>
-              <h4 style="margin:0 0 10px;font-size:14px;font-family:var(--font-m)">По разделам</h4>
+              <h4 style="margin:0 0 10px;font-size:14px;font-family:var(--font-m);font-weight:500">По разделам</h4>
               <div data-bars></div>
-              <h4 style="margin:18px 0 10px;font-size:14px;font-family:var(--font-m)">Где риски</h4>
+              <h4 style="margin:18px 0 10px;font-size:14px;font-family:var(--font-m);font-weight:500">Где риски</h4>
               <div data-risks></div>
               <div class="cta-box">
                 <h3>Получите подробный разбор</h3>
@@ -668,7 +674,7 @@
             </div>
 
             <div data-phase="lead" hidden>
-              <h3 style="margin:0 0 8px;font-family:var(--font-m)">Куда отправить разбор</h3>
+              <h3 style="margin:0 0 8px;font-family:var(--font-m);font-weight:500">Куда отправить разбор</h3>
               <p class="cl-muted" style="margin:0 0 16px">Макет формы — на Taptop будет нативная заявка.</p>
               <form class="lead-form" id="clLeadForm">
                 <label for="clName">Имя</label>
