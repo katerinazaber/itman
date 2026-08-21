@@ -148,12 +148,7 @@
 
     document.querySelectorAll("[data-bind-score]").forEach(function (n) {
       n.innerHTML =
-        s.total +
-        " / " +
-        s.max +
-        ' <span data-bind-pct">' +
-        pct +
-        "%</span>";
+        s.total + " / " + s.max + " <span>" + pct + "%</span>";
     });
     document.querySelectorAll("[data-bind-verdict]").forEach(function (n) {
       n.textContent = s.level.title;
