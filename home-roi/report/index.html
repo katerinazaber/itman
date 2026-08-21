@@ -378,57 +378,6 @@
       <label for="budget">Годовой бюджет на ПО, ₽</label>
       <input id="budget" type="text" inputmode="numeric" value="12 000 000" />
 
-      <p class="hint" style="margin-top:18px;margin-bottom:0;font-weight:600;color:var(--ink)">Тест: финансы · ИБ · руководство</p>
-      <p class="hint">6 вопросов — слабые места по аудиториям (как в inventory/CMDB, но под ROI-отчёт).</p>
-
-      <label for="qUsage">Финансы · Usage ПО</label>
-      <select id="qUsage">
-        <option value="unknown">Не знаем, что реально используется</option>
-        <option value="installs" selected>Знаем установки, не usage</option>
-        <option value="partial">Usage по отдельным продуктам</option>
-        <option value="known">Видим использование по ключевому ПО</option>
-      </select>
-
-      <label for="qBudgetBasis">Финансы · База ИТ-бюджета</label>
-      <select id="qBudgetBasis">
-        <option value="gut">«На глаз» / прошлый год + %</option>
-        <option value="requests">По заявкам подразделений</option>
-        <option value="lists" selected>По спискам и амортизации</option>
-        <option value="facts">По факту парка и usage</option>
-      </select>
-
-      <label for="qSegments">ИБ · Закрытые сегменты</label>
-      <select id="qSegments">
-        <option value="no">Нет / всё видно</option>
-        <option value="some" selected>Есть труднодоступные зоны</option>
-        <option value="closed">Есть закрытые / изолированные периметры</option>
-        <option value="unknown">Не знаем границы видимости</option>
-      </select>
-
-      <label for="qShadow">ИБ · Запрещённое / теневое ПО</label>
-      <select id="qShadow">
-        <option value="none">Нет контроля</option>
-        <option value="reactive" selected>Узнаём после инцидента / аудита</option>
-        <option value="policy">Политика есть, проверка выборочная</option>
-        <option value="active">Регулярно выявляем и блокируем</option>
-      </select>
-
-      <label for="qProjects">Руководство · ИТ-проекты</label>
-      <select id="qProjects">
-        <option value="often">Часто срываются из‑за сюрпризов в инфраструктуре</option>
-        <option value="sometimes" selected>Иногда не хватает полной картины</option>
-        <option value="rare">Редко</option>
-        <option value="no">Картины достаточно</option>
-      </select>
-
-      <label for="qDowntime">Руководство · Простои / изменения</label>
-      <select id="qDowntime">
-        <option value="often">Часто «после изменений отвалилось»</option>
-        <option value="sometimes" selected>Бывает, причину ищем долго</option>
-        <option value="rare">Редко</option>
-        <option value="no">Изменения прозрачны</option>
-      </select>
-
       <div class="row-btns">
         <button type="button" class="btn btn-primary" id="btnPrint">Скачать PDF</button>
         <button type="button" class="btn btn-ghost" id="btnCopyLink">Ссылка с параметрами</button>
@@ -471,13 +420,6 @@
             ? b.toLocaleString("ru-RU").replace(/\u00a0/g, " ")
             : q.budget;
         }
-        var p = new URLSearchParams(location.search);
-        if (p.get("usage")) document.getElementById("qUsage").value = p.get("usage");
-        if (p.get("budget_basis")) document.getElementById("qBudgetBasis").value = p.get("budget_basis");
-        if (p.get("segments")) document.getElementById("qSegments").value = p.get("segments");
-        if (p.get("shadow")) document.getElementById("qShadow").value = p.get("shadow");
-        if (p.get("projects")) document.getElementById("qProjects").value = p.get("projects");
-        if (p.get("downtime")) document.getElementById("qDowntime").value = p.get("downtime");
       }
 
       function readInputs() {
@@ -486,14 +428,6 @@
           endpoints: Number(document.getElementById("endpoints").value || 0),
           itStaff: Number(document.getElementById("itStaff").value || 0),
           budget: parseBudget(document.getElementById("budget").value),
-          quiz: {
-            usage: document.getElementById("qUsage").value,
-            budget_basis: document.getElementById("qBudgetBasis").value,
-            segments: document.getElementById("qSegments").value,
-            shadow: document.getElementById("qShadow").value,
-            projects: document.getElementById("qProjects").value,
-            downtime: document.getElementById("qDowntime").value,
-          },
         };
       }
 
@@ -535,41 +469,9 @@
         html += "<div>Рабочие места<b>" + c.inputs.endpoints.toLocaleString("ru-RU") + "</b></div>";
         html += "<div>Сотрудники ИТ<b>" + c.inputs.itStaff + "</b></div>";
         html += "<div>Бюджет на ПО / год<b>" + f.budget + "</b></div>";
-        html += "</div>";
-        html += '<div style="margin-top:12px;font-size:12px;line-height:1.45;color:#555"><strong>Самооценка по аудиториям:</strong><br>Финансы — ' +
-          escapeHtml(c.quizLabels.usage) +
-          "; " +
-          escapeHtml(c.quizLabels.budget_basis) +
-          ".<br>ИБ — " +
-          escapeHtml(c.quizLabels.segments) +
-          "; " +
-          escapeHtml(c.quizLabels.shadow) +
-          ".<br>Руководство — " +
-          escapeHtml(c.quizLabels.projects) +
-          "; " +
-          escapeHtml(c.quizLabels.downtime) +
-          ".</div></div>";
+        html += "</div></div>";
         html += '<p class="disclaimer" style="border:0;padding:16px 0 0;margin:0">Оценка стоимости ИТМен (ориентир): <strong>' + f.costFull + "</strong> в год при тарифе " + c.assumptions.pricePerEndpoint + " ₽ / рабочее место.</p>";
         html += "</section>";
-
-        if (n.gaps && n.gaps.length) {
-          html += '<section class="page">';
-          html += '<div class="kicker">Слабые места</div>';
-          html += '<h3 class="sec">Что мешает экономить прямо сейчас</h3>';
-          html += '<p class="sec-lead">По ответам теста выделены зоны для финансов, ИБ и руководства — от них зависят цифры экономии и аргументы в отчёте.</p>';
-          html += '<div class="recs">';
-          n.gaps.forEach(function (g) {
-            html +=
-              '<div class="rec"><strong><span style="color:var(--red);font-size:11px;text-transform:uppercase;letter-spacing:0.04em">' +
-              escapeHtml(g.audience || "") +
-              "</span><br>" +
-              escapeHtml(g.title) +
-              "</strong><p>" +
-              escapeHtml(g.text) +
-              "</p></div>";
-          });
-          html += "</div></section>";
-        }
 
         html += '<section class="page">';
         html += '<div class="kicker">Детализация</div>';
@@ -577,7 +479,7 @@
         html += '<p class="sec-lead">' + n.driverLine + " " + n.scaleLine + "</p>";
         html += '<div class="bars">';
         [
-          { key: "licenses", label: "ПО и лицензии", val: c.breakdown.licenses, tip: Math.round(c.assumptions.pctLicenses * 100) + "% от бюджета на ПО (с учётом зрелости)" },
+          { key: "licenses", label: "ПО и лицензии", val: c.breakdown.licenses, tip: Math.round(c.assumptions.pctLicenses * 100) + "% от бюджета на ПО" },
           { key: "assets", label: "Оборудование", val: c.breakdown.assets, tip: Math.round(c.assumptions.pctAssets * 100) + "% от оценочной стоимости парка" },
           { key: "labor", label: "Трудозатраты ИТ", val: c.breakdown.labor, tip: (c.assumptions.pctIt * 100).toFixed(1).replace(".", ",") + "% от ФОТ ИТ" },
         ].forEach(function (row) {
@@ -586,17 +488,17 @@
           html += "<strong>" + ItmenRoiReport.fmtRubShort(row.val) + "</strong></div>";
         });
         html += "</div>";
-        html += '<div class="assumptions"><strong>Допущения модели:</strong> базовые доли ' +
-          Math.round(c.assumptions.basePctLicenses * 100) +
-          "% / " +
-          Math.round(c.assumptions.basePctAssets * 100) +
-          "% / " +
-          String(c.assumptions.basePctIt * 100).replace(".", ",") +
-          "% скорректированы тестом зрелости (мультипликаторы к рычагам). Потолок не выше ориентиров из «Обоснования ИТМен». Оценка парка: " +
+        html += '<div class="assumptions"><strong>Допущения модели (консервативно):</strong> экономия на ПО — ' +
+          Math.round(c.assumptions.pctLicenses * 100) +
+          "% годового бюджета лицензий; на оборудовании — " +
+          Math.round(c.assumptions.pctAssets * 100) +
+          "% от оценки " +
           c.assumptions.assetCostPerEndpoint.toLocaleString("ru-RU") +
-          " ₽ / РМ в год; ставка ИТ " +
+          " ₽ / РМ в год; на трудозатратах — " +
+          String(c.assumptions.pctIt * 100).replace(".", ",") +
+          "% ФОТ ИТ (ставка " +
           c.assumptions.avgItSalaryMonth.toLocaleString("ru-RU") +
-          " ₽/мес.</div>";
+          " ₽/мес). В презентации «Обоснование ИТМен» ориентиры выше (до 20% / апгрейд vs замена / кратное сокращение ручного аудита) — здесь взяты осторожные доли для лид-магнита.</div>";
         html += "</section>";
 
         html += '<section class="page">';
@@ -672,7 +574,7 @@
       }
 
       function bind() {
-        ["company", "endpoints", "itStaff", "budget", "qUsage", "qBudgetBasis", "qSegments", "qShadow", "qProjects", "qDowntime"].forEach(function (id) {
+        ["company", "endpoints", "itStaff", "budget"].forEach(function (id) {
           document.getElementById(id).addEventListener("input", render);
           document.getElementById(id).addEventListener("change", render);
         });
@@ -686,12 +588,6 @@
           u.searchParams.set("wp", String(inp.endpoints));
           u.searchParams.set("it", String(inp.itStaff));
           u.searchParams.set("budget", String(inp.budget));
-          u.searchParams.set("usage", inp.quiz.usage);
-          u.searchParams.set("budget_basis", inp.quiz.budget_basis);
-          u.searchParams.set("segments", inp.quiz.segments);
-          u.searchParams.set("shadow", inp.quiz.shadow);
-          u.searchParams.set("projects", inp.quiz.projects);
-          u.searchParams.set("downtime", inp.quiz.downtime);
           history.replaceState(null, "", u.toString());
           navigator.clipboard.writeText(u.toString()).then(
             function () { alert("Ссылка скопирована — откроется тот же отчёт"); },

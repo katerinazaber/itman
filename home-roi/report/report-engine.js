@@ -69,240 +69,16 @@
     return "enterprise";
   }
 
-  /** Мультипликаторы по квизу финансы/ИБ/руководство — docs/roi-quiz-spec.md */
-  function quizMultipliers(quiz) {
-    var q = quiz || {};
-    var mLic = 1;
-    var mAst = 1;
-    var mLab = 1;
-    var weak = [];
-
-    // Финансы: usage лицензий
-    switch (q.usage) {
-      case "unknown":
-        mLic = 1.35;
-        weak.push("finance_usage");
-        break;
-      case "installs":
-        mLic = 1.2;
-        weak.push("finance_usage");
-        break;
-      case "partial":
-        mLic = 1.05;
-        break;
-      case "known":
-        mLic = 0.75;
-        break;
-      default:
-        break;
-    }
-
-    // Финансы: база бюджета / перераспределение
-    switch (q.budget_basis) {
-      case "gut":
-        mAst = 1.25;
-        mLic *= 1.1;
-        weak.push("finance_budget");
-        break;
-      case "requests":
-        mAst = 1.15;
-        weak.push("finance_budget");
-        break;
-      case "lists":
-        mAst = 1.0;
-        break;
-      case "facts":
-        mAst = 0.75;
-        mLic *= 0.95;
-        break;
-      default:
-        break;
-    }
-
-    // ИБ: закрытые сегменты
-    switch (q.segments) {
-      case "closed":
-        mLab *= 1.2;
-        weak.push("security_segments");
-        break;
-      case "some":
-        mLab *= 1.1;
-        weak.push("security_segments");
-        break;
-      case "unknown":
-        mLab *= 1.15;
-        weak.push("security_segments");
-        break;
-      case "no":
-        break;
-      default:
-        break;
-    }
-
-    // ИБ: запрещённое / теневое ПО
-    switch (q.shadow) {
-      case "none":
-        mLic *= 1.15;
-        weak.push("security_shadow");
-        break;
-      case "reactive":
-        mLic *= 1.1;
-        weak.push("security_shadow");
-        break;
-      case "policy":
-        break;
-      case "active":
-        mLic *= 0.9;
-        break;
-      default:
-        break;
-    }
-
-    // Руководство: проекты / миграции
-    switch (q.projects) {
-      case "often":
-        mLab *= 1.2;
-        mAst *= 1.1;
-        weak.push("exec_projects");
-        break;
-      case "sometimes":
-        mLab *= 1.1;
-        weak.push("exec_projects");
-        break;
-      case "rare":
-        break;
-      case "no":
-        mLab *= 0.9;
-        break;
-      default:
-        break;
-    }
-
-    // Руководство: простои после изменений
-    switch (q.downtime) {
-      case "often":
-        mLab *= 1.2;
-        weak.push("exec_downtime");
-        break;
-      case "sometimes":
-        mLab *= 1.1;
-        weak.push("exec_downtime");
-        break;
-      case "rare":
-        break;
-      case "no":
-        mLab *= 0.9;
-        break;
-      default:
-        break;
-    }
-
-    var seen = {};
-    weak = weak.filter(function (w) {
-      if (seen[w]) return false;
-      seen[w] = true;
-      return true;
-    });
-
-    return {
-      licenses: Math.min(1.4, Math.max(0.65, mLic)),
-      assets: Math.min(1.4, Math.max(0.65, mAst)),
-      labor: Math.min(1.4, Math.max(0.65, mLab)),
-      weak: weak,
-    };
-  }
-
-  var QUIZ_LABELS = {
-    usage: {
-      unknown: "Не знаем, что реально используется",
-      installs: "Знаем установки, не usage",
-      partial: "Usage по отдельным продуктам",
-      known: "Видим использование по ключевому ПО",
-    },
-    budget_basis: {
-      gut: "Оценка «на глаз» / прошлый год + %",
-      requests: "По заявкам подразделений",
-      lists: "По спискам и срокам амортизации",
-      facts: "По факту парка, usage и потребностей",
-    },
-    segments: {
-      no: "Закрытых сегментов нет / всё видно",
-      some: "Есть отдельные труднодоступные зоны",
-      closed: "Есть закрытые / изолированные периметры",
-      unknown: "Не знаем границы видимости",
-    },
-    shadow: {
-      none: "Нет контроля запрещённого / теневого ПО",
-      reactive: "Узнаём после инцидента или аудита",
-      policy: "Есть политика, проверка выборочная",
-      active: "Регулярно выявляем и блокируем",
-    },
-    projects: {
-      often: "Часто срываются / дорожают из‑за сюрпризов в инфраструктуре",
-      sometimes: "Иногда не хватает полной картины",
-      rare: "Редко",
-      no: "Картина достаточна для проектов",
-    },
-    downtime: {
-      often: "Часто: «после изменений что‑то отвалилось»",
-      sometimes: "Бывает, причину ищем долго",
-      rare: "Редко",
-      no: "Изменения прозрачны, простоев мало",
-    },
-  };
-
-  var WEAK_COPY = {
-    finance_usage: {
-      audience: "Финансы",
-      title: "Неиспользуемые лицензии и ПО",
-      text: "Нет ясной картины usage: часть бюджета уходит на ПО, которое стоит, но не запускается. Типичный кейс БЗ: «куплено 500 — используется 320». ИТМен + Призма дают установки и фактическое использование для перераспределения бюджета.",
-    },
-    finance_budget: {
-      audience: "Финансы",
-      title: "Бюджет без опоры на факт",
-      text: "Закупки и перераспределение ИТ-денег идут без подтверждаемого реестра активов. Риск — переплата за железо «по сроку» и лицензии «с запасом». Нужны данные для CFO: почему именно эта закупка.",
-    },
-    security_segments: {
-      audience: "ИБ",
-      title: "Закрытые сегменты вне видимости",
-      text: "Обычные системы инвентаризации часто не добираются в изолированные периметры. «Серые» устройства и ПО вне учёта — слепая зона ИБ. ИТМен рассчитан на сбор в условиях ограничений ИБ (агенты, разные каналы, интеграция источников).",
-    },
-    security_shadow: {
-      audience: "ИБ",
-      title: "Запрещённое и теневое ПО",
-      text: "Без регулярного выявления нелегитимных установок политики безопасности остаются на бумаге. Нужен факт: что установлено в сети, в т.ч. в обход стандарта — для ИБ и комплаенса.",
-    },
-    exec_projects: {
-      audience: "Руководство",
-      title: "ИТ-проекты без полной картины",
-      text: "Миграции, импортозамещение и M&A буксуют, когда нет точного списка «что и где менять». Двойные закупки и срыв сроков — следствие разрозненных данных, а не «слабой команды».",
-    },
-    exec_downtime: {
-      audience: "Руководство",
-      title: "Простои и сбои процессов",
-      text: "Инциденты «после выходных что‑то сломалось» без истории изменений бьют по бизнес-процессам и SLA. Нужна доказательная база: что изменилось на CI и когда — чтобы сервисы работали предсказуемо.",
-    },
-  };
-
   function calculate(inputs) {
     var endpoints = Math.max(0, Number(inputs.endpoints || 0));
     var itStaff = Math.max(0, Number(inputs.itStaff || 0));
     var budget = Math.max(0, Number(inputs.budget || 0));
-    var quiz = inputs.quiz || {};
-    var mult = quizMultipliers(quiz);
 
-    var pctL = PCT_LICENSES * mult.licenses;
-    var pctA = PCT_ASSETS * mult.assets;
-    var pctI = PCT_IT * mult.labor;
-    pctL = Math.min(0.18, pctL);
-    pctA = Math.min(0.1, pctA);
-    pctI = Math.min(0.03, pctI);
-
-    var savingsLicenses = budget * pctL;
+    var savingsLicenses = budget * PCT_LICENSES;
     var assetsBase = endpoints * ASSET_COST_PER_ENDPOINT_PER_YEAR;
-    var savingsAssets = assetsBase * pctA;
+    var savingsAssets = assetsBase * PCT_ASSETS;
     var payroll = itStaff * AVG_IT_SALARY_PER_MONTH * 12;
-    var savingsLabor = payroll * pctI;
+    var savingsLabor = payroll * PCT_IT;
 
     var savingsTotal = savingsLicenses + savingsAssets + savingsLabor;
     var pricePer = getItmenPerEndpointPrice(endpoints);
@@ -321,29 +97,11 @@
     });
 
     return {
-      inputs: {
-        endpoints: endpoints,
-        itStaff: itStaff,
-        budget: budget,
-        quiz: quiz,
-      },
-      quizLabels: {
-        usage: QUIZ_LABELS.usage[quiz.usage] || "—",
-        budget_basis: QUIZ_LABELS.budget_basis[quiz.budget_basis] || "—",
-        segments: QUIZ_LABELS.segments[quiz.segments] || "—",
-        shadow: QUIZ_LABELS.shadow[quiz.shadow] || "—",
-        projects: QUIZ_LABELS.projects[quiz.projects] || "—",
-        downtime: QUIZ_LABELS.downtime[quiz.downtime] || "—",
-      },
-      weak: mult.weak,
+      inputs: { endpoints: endpoints, itStaff: itStaff, budget: budget },
       assumptions: {
-        pctLicenses: pctL,
-        pctAssets: pctA,
-        pctIt: pctI,
-        basePctLicenses: PCT_LICENSES,
-        basePctAssets: PCT_ASSETS,
-        basePctIt: PCT_IT,
-        mult: mult,
+        pctLicenses: PCT_LICENSES,
+        pctAssets: PCT_ASSETS,
+        pctIt: PCT_IT,
         assetCostPerEndpoint: ASSET_COST_PER_ENDPOINT_PER_YEAR,
         avgItSalaryMonth: AVG_IT_SALARY_PER_MONTH,
         pricePerEndpoint: pricePer,
@@ -438,82 +196,35 @@
     ];
 
     var recommendations = [];
-    var weak = calc.weak || [];
-
-    function hasWeak(k) {
-      return weak.indexOf(k) !== -1;
-    }
-
-    if (hasWeak("finance_usage") || hasWeak("finance_budget") || dom === "licenses") {
+    if (dom === "licenses" || calc.inputs.budget >= 5e6) {
       recommendations.push({
-        title: "Для финансов: usage и перераспределение бюджета",
-        text: "Зафиксировать, какое ПО реально запускается; убрать из плана закупок простой; закупки железа — по факту конфигурации, не только по амортизации. Это прямой рычаг оптимизации ИТ-бюджета.",
+        title: "Оптимизация лицензий и SAM",
+        text: "Ввести контроль установленного vs используемого ПО; вычистить неиспользуемое (ориентир — ПО без запусков >90 дней); нормализовать названия до эталонного SKU (ИТМен + Призма данных).",
       });
     }
-    if (hasWeak("security_segments") || hasWeak("security_shadow")) {
+    if (dom === "assets" || calc.inputs.endpoints >= 500) {
       recommendations.push({
-        title: "Для ИБ: закрытые периметры и теневое ПО",
-        text: "Закрыть «серую зону» в изолированных сегментах (агенты / допустимые каналы сбора) и регулярно выявлять запрещённые установки — иначе политика безопасности не опирается на факт.",
+        title: "Жизненный цикл оборудования",
+        text: "Решения о замене ПК принимать по факту CPU/RAM/диска и требованиям ПО, а не только по сроку амортизации; формировать пул комплектующих для переиспользования.",
       });
     }
-    if (hasWeak("exec_projects") || hasWeak("exec_downtime") || dom === "labor") {
+    if (dom === "labor" || calc.inputs.itStaff >= 15) {
       recommendations.push({
-        title: "Для руководства: проекты без сюрпризов и меньше простоев",
-        text: "Единый реестр + история изменений: миграции и импортозамещение с точным периметром; инциденты «после изменений» разбираются по факту, а не по мнениям — бизнес-процессы стабильнее.",
-      });
-    }
-    if (hasWeak("finance_usage") || calc.inputs.budget >= 5e6) {
-      recommendations.push({
-        title: "SAM и нормализация ПО",
-        text: "Нормализовать названия до эталонного SKU (ИТМен + Призма), сопоставить установки с лицензиями и usage — основа для переговоров с вендорами и аудитов.",
+        title: "Автоматизация инвентаризации и аудита",
+        text: "Перевести периодические «проекты инвентаризации» в непрерывный сбор: агенты + сеть + AD/FreeIPA. Трудозатраты на аудит в материалах кейсов сокращаются кратно.",
       });
     }
     if (seg === "enterprise") {
       recommendations.push({
-        title: "Импортозамещение без двойных закупок",
-        text: "Сначала карта «что реально используется», затем план миграции — чтобы не финансировать выведенные из эксплуатации системы.",
+        title: "Импортозамещение без лишних закупок",
+        text: "Сначала карта «что реально используется», затем план миграции — чтобы не закупать лицензии и железо «с запасом» на выведенные из эксплуатации системы.",
       });
     }
     if (recommendations.length < 3) {
       recommendations.push({
         title: "Единый источник правды",
-        text: "Свести разрозненные списки устройств и ПО в один реестр с историей атрибутов — база для финансов, ИБ и ITSM/CMDB.",
+        text: "Свести разрозненные списки устройств и ПО в один реестр с историей атрибутов — это база и для финансов, и для ИБ, и для ITSM/CMDB.",
       });
-    }
-
-    var gaps = weak
-      .map(function (k) {
-        return WEAK_COPY[k];
-      })
-      .filter(Boolean);
-
-    if (gaps.length) {
-      forExec.unshift(
-        "По самооценке выделены зоны риска для бизнеса: " +
-          gaps
-            .map(function (g) {
-              return g.title;
-            })
-            .join("; ") +
-          "."
-      );
-    }
-
-    // Усиление аргументов под аудитории по ответам квиза
-    if (hasWeak("finance_usage") || hasWeak("finance_budget")) {
-      forFinance.unshift(
-        "По ответам: бюджет на ПО/железо пока слабо опирается на usage и факт парка — здесь основной потенциал перераспределения средств."
-      );
-    }
-    if (hasWeak("security_segments") || hasWeak("security_shadow")) {
-      forSecurity.unshift(
-        "По ответам: есть риск слепых зон (закрытые сегменты и/или слабый контроль запрещённого ПО) — приоритет для ИБ до аудита и инцидента."
-      );
-    }
-    if (hasWeak("exec_projects") || hasWeak("exec_downtime")) {
-      forExec.push(
-        "Снижение простоев и предсказуемость ИТ-проектов — прямой эффект единого реестра и истории изменений для бизнес-процессов."
-      );
     }
 
     var nextSteps = [
@@ -587,20 +298,6 @@
         why: "Снижение «серой зоны» устройств и теневого ПО — меньше слепых зон для ИБ и комплаенса.",
       });
     }
-    if (hasWeak("security_segments") || hasWeak("security_shadow")) {
-      itilFocus.unshift({
-        practice: "Information security management",
-        ru: "Управление информационной безопасностью",
-        why: "Закрытые сегменты и контроль нелегитимного ПО — приоритет по вашим ответам для ИБ.",
-      });
-    }
-    if (hasWeak("exec_downtime")) {
-      itilFocus.unshift({
-        practice: "Change control",
-        ru: "Контроль изменений",
-        why: "История изменений конфигурации снижает простои «после правок» и ускоряет разбор инцидентов.",
-      });
-    }
 
     var ritm = {
       title: "РИТМ — российский контур практик управления ИТ",
@@ -624,7 +321,6 @@
       nextSteps: nextSteps,
       itilFocus: itilFocus.slice(0, 5),
       ritm: ritm,
-      gaps: gaps,
     };
   }
 
@@ -643,9 +339,6 @@
     calculate: calculate,
     buildNarrative: buildNarrative,
     buildReportModel: buildReportModel,
-    quizMultipliers: quizMultipliers,
-    QUIZ_LABELS: QUIZ_LABELS,
-    WEAK_COPY: WEAK_COPY,
     fmtRub: fmtRub,
     fmtRubShort: fmtRubShort,
     paybackLabel: paybackLabel,
