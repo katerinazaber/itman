@@ -1,10 +1,12 @@
 /* ROI embed for Taptop — resilient init (event delegation + retry) */
 (function () {
-  var ROI_VER = 18;
+  var ROI_VER = 19;
+  // v19: consent checkbox (ПДн) + block submit until checked; link → itman.ru/soglasie
   // v18: unlock pointer-events for Yandex SmartCaptcha inside mounted form.
   if ((window.__itmenRoiInitVersion || 0) >= ROI_VER) return;
   window.__itmenRoiInitVersion = ROI_VER;
   window.__itmenRoiInit = true;
+  var SOGLASIE_URL = "https://itman.ru/soglasie";
 
   const PCT_LICENSES = 0.1;
   const PCT_ASSETS = 0.05;
@@ -506,6 +508,103 @@
       return !!(summaryField || wpField || saveField);
     }
 
+    function findConsentCheckboxes(form) {
+      if (!form) return [];
+      return Array.prototype.slice.call(
+        form.querySelectorAll(
+          '[data-type-field="checkbox_group"] input[type="checkbox"], input.form__checkbox[type="checkbox"], .itman-roi-consent input[type="checkbox"]'
+        )
+      );
+    }
+
+    function enhanceConsentLinks(scope) {
+      if (!scope) return;
+      var links = scope.querySelectorAll('a[href*="soglasie"], a[data-url*="soglasie"]');
+      for (var i = 0; i < links.length; i++) {
+        links[i].setAttribute("href", SOGLASIE_URL);
+        links[i].setAttribute("target", "_blank");
+        links[i].setAttribute("rel", "noopener noreferrer");
+      }
+    }
+
+    function ensureConsentField(form) {
+      if (!form) return;
+      enhanceConsentLinks(form);
+      if (findConsentCheckboxes(form).length) return;
+
+      var btn = form.querySelector(
+        "button.submit_button, button[type='submit'], [type='submit']"
+      );
+      var box = document.createElement("div");
+      box.className = "form__field itman-roi-consent";
+      box.setAttribute("data-type-field", "checkbox_group");
+      box.innerHTML =
+        '<label class="form__widget-item">' +
+        '<input type="checkbox" class="form__checkbox itman-roi-consent-input" name="pdn_consent" value="1" required />' +
+        '<span class="itman-roi-consent-box" aria-hidden="true"></span>' +
+        '<span class="form__label-text">Я даю согласие на обработку ' +
+        '<a href="' +
+        SOGLASIE_URL +
+        '" target="_blank" rel="noopener noreferrer">персональных данных</a></span>' +
+        "</label>" +
+        '<p class="itman-roi-consent-error" role="alert">Отметьте согласие на обработку персональных данных</p>';
+      if (btn && btn.parentNode) btn.parentNode.insertBefore(box, btn);
+      else form.appendChild(box);
+      console.warn(
+        "[ROI] v" +
+          ROI_VER +
+          " injected consent checkbox — add required Checkbox in Taptop form «Лид-магнит Главная» for CRM"
+      );
+    }
+
+    function isConsentOk(form) {
+      var boxes = findConsentCheckboxes(form);
+      if (!boxes.length) return false;
+      for (var i = 0; i < boxes.length; i++) {
+        if (!boxes[i].checked) return false;
+      }
+      return true;
+    }
+
+    function showConsentError(form, on) {
+      var err =
+        form.querySelector(".itman-roi-consent-error") ||
+        form.querySelector('[data-type-field="checkbox_group"] .form__field-error');
+      if (!err) return;
+      if (err.classList.contains("itman-roi-consent-error")) {
+        err.classList.toggle("is-visible", !!on);
+      } else {
+        err.style.display = on ? "block" : "";
+      }
+    }
+
+    function bindConsentGate(form) {
+      if (!form || form.dataset.roiConsentBound === "1") return;
+      form.dataset.roiConsentBound = "1";
+
+      function blockIfNeeded(e) {
+        if (isConsentOk(form)) {
+          showConsentError(form, false);
+          return;
+        }
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+        showConsentError(form, true);
+      }
+
+      form.addEventListener("submit", blockIfNeeded, true);
+      var btn = form.querySelector(
+        "button.submit_button, button[type='submit'], [type='submit']"
+      );
+      if (btn) btn.addEventListener("click", blockIfNeeded, true);
+
+      form.addEventListener("change", function (e) {
+        var t = e.target;
+        if (t && t.type === "checkbox") showConsentError(form, !isConsentOk(form));
+      });
+    }
+
     function bindFillBeforeSubmit(form) {
       if (!form || form.dataset.roiFillBound === "1") return;
       form.dataset.roiFillBound = "1";
@@ -577,12 +676,15 @@
       if (captcha) unlockInteractive(captcha);
       ensureMetaHideStyle();
       if (form) {
+        ensureConsentField(form);
+        bindConsentGate(form);
         fillRoiIntoTaptopForm(form);
         bindFillBeforeSubmit(form);
       }
       console.info("[ROI] v" + ROI_VER + " mounted native Taptop form", {
         anketa: form && form.getAttribute("data-s3-anketa-id"),
         formId: form && form.id,
+        consent: form && findConsentCheckboxes(form).length,
       });
       watchFormSuccess(wrap);
       return true;

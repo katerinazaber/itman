@@ -629,7 +629,7 @@ html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
   gap: 6px !important;
 }
 #roiTaptopMount .form__input,
-#roiTaptopMount input {
+#roiTaptopMount input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]) {
   width: 100% !important;
   min-height: 48px !important;
   border-radius: 12px !important;
@@ -640,6 +640,92 @@ html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
   font-family: var(--roi-font) !important;
   font-size: 14px !important;
   box-sizing: border-box !important;
+}
+#roiTaptopMount [data-type-field="checkbox_group"],
+#roiTaptopMount .itman-roi-consent {
+  display: block !important;
+  margin: 4px 0 14px !important;
+}
+#roiTaptopMount [data-type-field="checkbox_group"] .text-subtitle {
+  display: none !important;
+}
+#roiTaptopMount .form__widget-item,
+#roiTaptopMount .itman-roi-consent label {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 10px !important;
+  cursor: pointer !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+  font-family: var(--roi-font) !important;
+}
+#roiTaptopMount input[type="checkbox"].form__checkbox,
+#roiTaptopMount .itman-roi-consent input[type="checkbox"] {
+  position: absolute !important;
+  opacity: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  pointer-events: none !important;
+}
+#roiTaptopMount .form__checkbox-styled,
+#roiTaptopMount .itman-roi-consent-box {
+  flex: 0 0 18px !important;
+  width: 18px !important;
+  height: 18px !important;
+  min-height: 18px !important;
+  margin-top: 1px !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.85) !important;
+  border-radius: 3px !important;
+  background: transparent !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+}
+#roiTaptopMount input[type="checkbox"]:checked + .form__checkbox-styled,
+#roiTaptopMount input[type="checkbox"]:checked + .itman-roi-consent-box,
+#roiTaptopMount .form__widget-item:has(input:checked) .form__checkbox-styled,
+#roiTaptopMount .itman-roi-consent label:has(input:checked) .itman-roi-consent-box {
+  background: #fff !important;
+  border-color: #fff !important;
+}
+#roiTaptopMount input[type="checkbox"]:checked + .form__checkbox-styled::after,
+#roiTaptopMount input[type="checkbox"]:checked + .itman-roi-consent-box::after,
+#roiTaptopMount .form__widget-item:has(input:checked) .form__checkbox-styled::after,
+#roiTaptopMount .itman-roi-consent label:has(input:checked) .itman-roi-consent-box::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 5px !important;
+  top: 2px !important;
+  width: 5px !important;
+  height: 9px !important;
+  border: solid #0d0d0d !important;
+  border-width: 0 2px 2px 0 !important;
+  transform: rotate(45deg) !important;
+}
+#roiTaptopMount .form__label-text,
+#roiTaptopMount .form__label-text a,
+#roiTaptopMount .itman-roi-consent a {
+  color: #fff !important;
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+}
+#roiTaptopMount .form__label-text a,
+#roiTaptopMount .itman-roi-consent a {
+  text-decoration: underline !important;
+  text-underline-offset: 2px !important;
+}
+#roiTaptopMount .itman-roi-consent-error {
+  color: #ff6b73 !important;
+  font-size: 12px !important;
+  margin: 6px 0 0 !important;
+  display: none;
+}
+#roiTaptopMount .itman-roi-consent-error.is-visible {
+  display: block !important;
 }
 #roiTaptopMount .submit_button,
 #roiTaptopMount button[type="submit"] {
