@@ -1,6 +1,7 @@
 /* ROI embed for Taptop — resilient init (event delegation + retry) */
 (function () {
-  var ROI_VER = 19;
+  var ROI_VER = 20;
+  // v20: nbsp before «персональных» in consent label
   // v19: consent checkbox (ПДн) + block submit until checked; link → itman.ru/soglasie
   // v18: unlock pointer-events for Yandex SmartCaptcha inside mounted form.
   if ((window.__itmenRoiInitVersion || 0) >= ROI_VER) return;
@@ -542,7 +543,7 @@
         '<label class="form__widget-item">' +
         '<input type="checkbox" class="form__checkbox itman-roi-consent-input" name="pdn_consent" value="1" required />' +
         '<span class="itman-roi-consent-box" aria-hidden="true"></span>' +
-        '<span class="form__label-text">Я даю согласие на обработку ' +
+        '<span class="form__label-text">Я даю согласие на обработку&nbsp;' +
         '<a href="' +
         SOGLASIE_URL +
         '" target="_blank" rel="noopener noreferrer">персональных данных</a></span>' +
