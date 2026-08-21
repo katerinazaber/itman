@@ -256,7 +256,7 @@ html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
   justify-content: center;
   min-height: 52px;
   padding: 0 28px;
-  border-radius: 999px;
+  border-radius: 12px;
   background: var(--roi-red);
   color: #fff;
   font-family: var(--roi-font-medium);
@@ -321,10 +321,11 @@ html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
 }
 
 .itman-roi__preview-head h3 {
-  margin: 0 0 4px;
+  margin: 0 0 14px;
   font-family: var(--roi-font-medium);
   font-size: 20px;
   font-weight: 500;
+  line-height: 1.3;
 }
 
 .itman-roi__preview-head p {
@@ -333,6 +334,10 @@ html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
   font-size: 13px;
   font-weight: 400;
   color: var(--roi-muted);
+}
+
+.itman-roi__cta-box--solo > p {
+  margin: 0 0 18px;
 }
 
 .itman-roi__metric {
@@ -642,7 +647,7 @@ html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
   min-height: 52px !important;
   margin-top: 8px !important;
   border: 0 !important;
-  border-radius: 999px !important;
+  border-radius: 12px !important;
   background: #e30613 !important;
   color: #fff !important;
   font-family: var(--roi-font-medium) !important;
@@ -813,22 +818,22 @@ html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
 
         <div data-view="cta" hidden>
           <div class="itman-roi__preview-head">
-            <h3>Получите полный расчёт с обоснованием и аргументами для пилота для руководства</h3>
+            <h3>Получите полный расчет и обоснование для руководства</h3>
           </div>
           <div class="itman-roi__cta-box itman-roi__cta-box--solo">
-            <p>На основе ваших данных подготовим отчет с полным расчетом экономии и готовыми аргументами для руководства, ИБ и финансистов.</p>
+            <p>На основе ваших данных подготовим отчет с расчетом экономии и аргументами для руководства, ИБ и финансистов.</p>
             <ul class="itman-roi__checklist">
               <li>расчет потенциальной экономии</li>
               <li>срок окупаемости</li>
               <li>детализация экономии по направлениям</li>
             </ul>
-            <button type="button" class="itman-roi__btn" id="roiGetReportBtn">Получить полный отчет</button>
+            <button type="button" class="itman-roi__btn" id="roiGetReportBtn">Получить полный отчет ▸</button>
           </div>
         </div>
 
         <div data-view="lead" hidden>
-          <h3 class="itman-roi__lead-title">Получите полный расчет с обоснованием для руководства</h3>
-          <p class="itman-roi__lead-text">На основе ваших данных подготовим отчет с полным расчетом экономии и готовыми аргументами для руководства, ИБ и финансистов.</p>
+          <h3 class="itman-roi__lead-title">Получите полный расчет и обоснование для руководства</h3>
+          <p class="itman-roi__lead-text">На основе ваших данных подготовим отчет с расчетом экономии и аргументами для руководства, ИБ и финансистов.</p>
           <ul class="itman-roi__checklist">
             <li>расчет потенциальной экономии</li>
             <li>срок окупаемости</li>
