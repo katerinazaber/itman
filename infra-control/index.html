@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<title>Под контролем ли ваша ИТ-инфраструктура? · чек-лист ИТМен</title>
+<style>
+@font-face {font-family: 'Nekst Regular Web'; font-weight: 400; font-style: normal;
+  src: url('https://itman.ru/t/images/mosaic/fonts/Nekst%20Regular%20Web-400-normal-0.ttf') format('truetype');}
+@font-face {font-family: 'Nekst SemiBold'; font-weight: 600; font-style: normal;
+  src: url('https://itman.ru/t/images/mosaic/fonts/Nekst%20SemiBold-600-normal-0.ttf') format('truetype');}
+@font-face {font-family: 'Nekst'; font-weight: 600; font-style: normal;
+  src: url('https://itman.ru/t/images/mosaic/fonts/Nekst-600-normal-0.woff') format('woff');}
+@font-face {font-family: 'Nekst'; font-weight: 400; font-style: normal;
+  src: url('https://itman.ru/t/images/mosaic/fonts/Nekst-400-normal-0.woff') format('woff');}
+@font-face {font-family: 'Nekst Medium Web'; font-weight: 500; font-style: normal;
+  src: url('https://itman.ru/t/images/mosaic/fonts/Nekst%20Medium%20Web-500-normal-0.ttf') format('truetype');}
+html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
+.preview-bar {
+  font-family: "Nekst Regular Web", "Nekst", Arial, sans-serif;
+  font-size: 13px; color: rgba(255,255,255,.55); text-align: center;
+  padding: 12px 16px; border-bottom: 1px solid #2a2a2a; background: #121212;
+}
+.preview-bar a { color: #fff; }
+.preview-bar strong { color: #fff; font-family: "Nekst Medium Web", "Nekst", sans-serif; font-weight: 500; }
+
+/* ROI lead-magnet — ITMen brand; Nekst from site (already loaded on Taptop page) */
+
+.itman-roi {
+  --roi-red: #e30613;
+  --roi-red-hover: #c50510;
+  --roi-black: #121212;
+  --roi-bg: #0d0d0d;
+  --roi-card: #161616;
+  --roi-border: #2a2a2a;
+  --roi-muted: rgba(255, 255, 255, 0.58);
+  --roi-muted-2: rgba(255, 255, 255, 0.42);
+  --roi-white: #fff;
+  /* Medium = headings; Regular/Nekst 400 = body; Regular = "light" (Light нет на сайте) */
+  --roi-font: "Nekst", "Nekst Regular Web", Arial, Helvetica, sans-serif;
+  --roi-font-medium: "Nekst Medium Web", "Nekst SemiBold", "Nekst", Arial, Helvetica, sans-serif;
+  --roi-font-light: "Nekst Regular Web", "Nekst", Arial, Helvetica, sans-serif;
+  font-family: var(--roi-font);
+  font-weight: 400;
+  background: var(--roi-bg);
+  color: var(--roi-white);
+  padding: 48px 0 64px;
+  box-sizing: border-box;
+}
+
+.itman-roi *,
+.itman-roi *::before,
+.itman-roi *::after { box-sizing: border-box; }
+
+.itman-roi__inner {
+  width: min(100% - 48px, 1180px);
+  margin: 0 auto;
+}
+
+.itman-roi__head {
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto 40px;
+}
+
+.itman-roi__title {
+  margin: 0 0 14px;
+  font-family: var(--roi-font-medium);
+  font-size: clamp(26px, 3.4vw, 40px);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--roi-white);
+}
+
+.itman-roi__lead {
+  margin: 0;
+  font-family: var(--roi-font-light);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--roi-muted);
+}
+
+.itman-roi__grid {
+  display: grid;
+  grid-template-columns: 1.12fr 0.88fr;
+  gap: 20px;
+  align-items: stretch;
+  margin-bottom: 24px;
+}
+
+.itman-roi__form-card,
+.itman-roi__preview {
+  background: var(--roi-card);
+  border: 1px solid var(--roi-border);
+  border-radius: 24px;
+  padding: 28px;
+}
+
+.itman-roi__steps {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 0;
+  margin: 0 0 28px;
+  padding: 0;
+  align-items: center;
+}
+
+.itman-roi__steps li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--roi-font);
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.38);
+  position: relative;
+  padding-right: 18px;
+  margin-right: 6px;
+}
+
+.itman-roi__steps li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  width: 10px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.22);
+  transform: translateY(-50%);
+}
+
+.itman-roi__steps span {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--roi-font-medium);
+  font-size: 13px;
+  font-weight: 500;
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  color: rgba(255, 255, 255, 0.5);
+  background: transparent;
+}
+
+.itman-roi__steps li.is-active {
+  color: var(--roi-white);
+}
+
+.itman-roi__steps li.is-active span {
+  background: var(--roi-red);
+  color: #fff;
+  border-color: var(--roi-red);
+}
+
+.itman-roi__steps li.is-done {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.itman-roi__steps li.is-done span {
+  background: var(--roi-red);
+  border-color: var(--roi-red);
+  color: #fff;
+}
+
+.itman-roi__q {
+  margin: 0 0 14px;
+  font-family: var(--roi-font-medium);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--roi-white);
+}
+
+.itman-roi__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.itman-roi__pill {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
+  border-radius: 999px;
+  min-height: 40px;
+  padding: 0 16px;
+  font-family: var(--roi-font);
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: .15s ease;
+}
+
+.itman-roi__pill:hover {
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.itman-roi__pill.is-active {
+  background: var(--roi-red);
+  color: #fff;
+  border-color: var(--roi-red);
+}
+
+.itman-roi__field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 14px;
+  padding: 0 14px;
+  min-height: 52px;
+  background: rgba(255, 255, 255, 0.03);
+  margin-bottom: 4px;
+}
+
+.itman-roi__field input {
+  flex: 1;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--roi-white);
+  font-family: var(--roi-font-medium);
+  font-size: 20px;
+  font-weight: 500;
+  min-width: 0;
+  width: 100%;
+}
+
+.itman-roi__field span {
+  color: var(--roi-muted);
+  font-family: var(--roi-font);
+  font-size: 15px;
+  font-weight: 400;
+  flex: none;
+}
+
+.itman-roi__btn {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 28px;
+  border-radius: 12px;
+  background: var(--roi-red);
+  color: #fff;
+  font-family: var(--roi-font-medium);
+  font-size: 16px;
+  font-weight: 500;
+  width: 100%;
+  margin-top: 24px;
+  transition: background .15s ease;
+  text-decoration: none;
+}
+
+.itman-roi__btn:hover { background: var(--roi-red-hover); }
+
+.itman-roi__btn--ghost {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #fff;
+  margin-top: 12px;
+}
+
+.itman-roi__btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.itman-roi__nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.itman-roi__nav .itman-roi__btn { margin-top: 0; }
+
+.itman-roi__footnotes {
+  margin-top: 18px;
+  display: grid;
+  gap: 10px;
+}
+
+.itman-roi__hint,
+.itman-roi__lock {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin: 0;
+  font-family: var(--roi-font-light);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--roi-muted-2);
+  text-align: left;
+}
+
+.itman-roi__hint { margin-top: 14px; }
+.itman-roi__lock { margin-top: 18px; }
+
+.itman-roi__hint svg,
+.itman-roi__lock svg {
+  flex: none;
+  margin-top: 1px;
+  opacity: 0.85;
+}
+
+.itman-roi__preview-head h3 {
+  margin: 0 0 14px;
+  font-family: var(--roi-font-medium);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.itman-roi__preview-head p {
+  margin: 0 0 20px;
+  font-family: var(--roi-font-light);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--roi-muted);
+}
+
+.itman-roi__cta-box--solo > p {
+  margin: 0 0 18px;
+}
+
+.itman-roi__metric {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid transparent;
+}
+
+.itman-roi__metric span {
+  display: block;
+  font-family: var(--roi-font-light);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--roi-muted);
+  margin-bottom: 4px;
+}
+
+.itman-roi__metric strong {
+  font-family: var(--roi-font-medium);
+  font-size: clamp(24px, 2.4vw, 30px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.itman-roi__metric-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-family: var(--roi-font-medium);
+  font-weight: 500;
+  flex: none;
+}
+
+.itman-roi__metric--save {
+  background: rgba(227, 6, 19, 0.14);
+  border-color: rgba(227, 6, 19, 0.28);
+}
+.itman-roi__metric--save strong { color: #ff6b73; }
+.itman-roi__metric--save .itman-roi__metric-icon {
+  background: rgba(227, 6, 19, 0.2);
+  color: #ff6b73;
+}
+
+.itman-roi__metric--roi {
+  background: rgba(79, 110, 247, 0.14);
+  border-color: rgba(79, 110, 247, 0.28);
+}
+.itman-roi__metric--roi strong { color: #a8b6ff; }
+.itman-roi__metric--roi .itman-roi__metric-icon {
+  background: rgba(79, 110, 247, 0.2);
+  color: #a8b6ff;
+}
+
+.itman-roi__metric--pay {
+  background: rgba(214, 154, 46, 0.14);
+  border-color: rgba(214, 154, 46, 0.3);
+}
+.itman-roi__metric--pay strong { color: #f0c36a; }
+.itman-roi__metric--pay .itman-roi__metric-icon {
+  background: rgba(214, 154, 46, 0.2);
+  color: #f0c36a;
+}
+
+.itman-roi__preview-note {
+  margin: 8px 0 0;
+  font-family: var(--roi-font-light);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--roi-muted);
+}
+
+.itman-roi__summary-label {
+  margin: 0 0 16px;
+  font-family: var(--roi-font-medium);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--roi-muted);
+}
+
+.itman-roi__cta-box--solo p {
+  margin: 0 0 16px;
+  font-family: var(--roi-font);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--roi-muted);
+}
+
+.itman-roi__cta-box--solo .itman-roi__checklist {
+  margin-bottom: 22px;
+}
+
+.itman-roi__cta-box h4 {
+  margin: 0 0 10px;
+  font-family: var(--roi-font-medium);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--roi-white);
+}
+
+.itman-roi__cta-box p {
+  margin: 0 0 16px;
+  font-family: var(--roi-font);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--roi-muted);
+}
+
+.itman-roi__lead-title {
+  margin: 0 0 10px;
+  font-family: var(--roi-font-medium);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--roi-white);
+}
+
+.itman-roi__lead-text {
+  margin: 0 0 14px;
+  font-family: var(--roi-font);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--roi-muted);
+}
+
+.itman-roi__checklist {
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.itman-roi__checklist li {
+  position: relative;
+  padding-left: 22px;
+  font-family: var(--roi-font);
+  font-size: 14px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.itman-roi__checklist li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--roi-red);
+  font-weight: 700;
+}
+
+.itman-roi__done-kicker {
+  margin: 0 0 8px;
+  font-family: var(--roi-font-medium);
+  font-size: 28px;
+  font-weight: 500;
+  color: #ff6b73;
+  letter-spacing: -.02em;
+}
+
+.itman-roi__done-soft {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--roi-border);
+}
+
+.itman-roi__done-soft p {
+  margin: 0 0 12px;
+  font-family: var(--roi-font);
+  font-size: 14px;
+  color: var(--roi-muted);
+}
+
+.itman-roi__preview a.itman-roi__btn {
+  text-decoration: none;
+  margin-top: 8px;
+}
+
+.itman-roi__benefits {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  background: #fff;
+  color: var(--roi-black);
+  border-radius: 24px;
+  padding: 28px 24px 32px;
+  margin-top: 8px;
+}
+
+.itman-roi__benefit {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.itman-roi__benefit-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(227, 6, 19, 0.35);
+  color: var(--roi-red);
+  display: grid;
+  place-items: center;
+  flex: none;
+  background: rgba(227, 6, 19, 0.06);
+}
+
+.itman-roi__benefit strong {
+  display: block;
+  font-family: var(--roi-font-medium);
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  line-height: 1.3;
+  color: #121212;
+}
+
+.itman-roi__benefit p {
+  margin: 0;
+  font-family: var(--roi-font-light);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #6b7280;
+}
+
+@media (max-width: 960px) {
+  .itman-roi__grid { grid-template-columns: 1fr; }
+  .itman-roi__benefits { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .itman-roi { padding-top: 48px; }
+  .itman-roi__form-card,
+  .itman-roi__preview { padding: 20px; }
+  .itman-roi__benefits {
+    grid-template-columns: 1fr;
+    border-radius: 16px;
+  }
+  .itman-roi__nav { grid-template-columns: 1fr; }
+}
+
+/* Taptop Embed tweaks */
+.itman-roi { padding: 48px 16px 48px; width: 100%; max-width: 100%; }
+.itman-roi [hidden] { display: none !important; }
+.itman-roi__inner { width: min(100%, 1180px); }
+
+.itman-roi__taptop-mount { margin-top: 8px; }
+#roiTaptopMount .form,
+#roiTaptopMount form {
+  position: static !important;
+  left: auto !important;
+  bottom: auto !important;
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+  pointer-events: auto !important;
+  z-index: 1 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+#roiTaptopMount .text-title { display: none !important; }
+#roiTaptopMount .text-subtitle,
+#roiTaptopMount .text-subtitle span,
+#roiTaptopMount .form__field {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-family: var(--roi-font) !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+}
+#roiTaptopMount .form__field {
+  margin: 0 0 12px !important;
+  display: grid !important;
+  gap: 6px !important;
+}
+#roiTaptopMount .form__input,
+#roiTaptopMount input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]) {
+  width: 100% !important;
+  min-height: 48px !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: #fff !important;
+  padding: 0 14px !important;
+  font-family: var(--roi-font) !important;
+  font-size: 14px !important;
+  box-sizing: border-box !important;
+}
+#roiTaptopMount [data-type-field="checkbox_group"],
+#roiTaptopMount .itman-roi-consent {
+  display: block !important;
+  margin: 4px 0 14px !important;
+}
+#roiTaptopMount [data-type-field="checkbox_group"] .text-subtitle {
+  display: none !important;
+}
+#roiTaptopMount .form__widget-item,
+#roiTaptopMount .itman-roi-consent label {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 10px !important;
+  cursor: pointer !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+  font-family: var(--roi-font) !important;
+}
+#roiTaptopMount input[type="checkbox"].form__checkbox,
+#roiTaptopMount .itman-roi-consent input[type="checkbox"] {
+  position: absolute !important;
+  opacity: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  pointer-events: none !important;
+}
+#roiTaptopMount .form__checkbox-styled,
+#roiTaptopMount .itman-roi-consent-box {
+  flex: 0 0 18px !important;
+  width: 18px !important;
+  height: 18px !important;
+  min-height: 18px !important;
+  margin-top: 1px !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.85) !important;
+  border-radius: 3px !important;
+  background: transparent !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+}
+#roiTaptopMount input[type="checkbox"]:checked + .form__checkbox-styled,
+#roiTaptopMount input[type="checkbox"]:checked + .itman-roi-consent-box,
+#roiTaptopMount .form__widget-item:has(input:checked) .form__checkbox-styled,
+#roiTaptopMount .itman-roi-consent label:has(input:checked) .itman-roi-consent-box {
+  background: #fff !important;
+  border-color: #fff !important;
+}
+#roiTaptopMount input[type="checkbox"]:checked + .form__checkbox-styled::after,
+#roiTaptopMount input[type="checkbox"]:checked + .itman-roi-consent-box::after,
+#roiTaptopMount .form__widget-item:has(input:checked) .form__checkbox-styled::after,
+#roiTaptopMount .itman-roi-consent label:has(input:checked) .itman-roi-consent-box::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 5px !important;
+  top: 2px !important;
+  width: 5px !important;
+  height: 9px !important;
+  border: solid #0d0d0d !important;
+  border-width: 0 2px 2px 0 !important;
+  transform: rotate(45deg) !important;
+}
+#roiTaptopMount .form__label-text,
+#roiTaptopMount .form__label-text a,
+#roiTaptopMount .itman-roi-consent a {
+  color: #fff !important;
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+}
+#roiTaptopMount .form__label-text a,
+#roiTaptopMount .itman-roi-consent a {
+  text-decoration: underline !important;
+  text-underline-offset: 2px !important;
+}
+#roiTaptopMount .itman-roi-consent-error {
+  color: #ff6b73 !important;
+  font-size: 12px !important;
+  margin: 6px 0 0 !important;
+  display: none;
+}
+#roiTaptopMount .itman-roi-consent-error.is-visible {
+  display: block !important;
+}
+#roiTaptopMount .submit_button,
+#roiTaptopMount button[type="submit"] {
+  width: 100% !important;
+  min-height: 52px !important;
+  margin-top: 8px !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  background: #e30613 !important;
+  color: #fff !important;
+  font-family: var(--roi-font-medium) !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+}
+#roiTaptopMount .form__state-success,
+#roiTaptopMount .form__state-error {
+  color: #fff !important;
+  margin-top: 12px !important;
+  font-family: var(--roi-font) !important;
+}
+#roiTaptopMount .form__field-error {
+  color: #ff6b73 !important;
+  font-size: 12px !important;
+}
+#roiTaptopMount .itman-roi-meta-field {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  pointer-events: none !important;
+}
+#roiTaptopMount,
+.itman-roi__taptop-mount,
+.itman-roi__preview {
+  overflow: visible !important;
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 20 !important;
+}
+#roiTaptopMount smart-captcha,
+#roiTaptopMount iframe {
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 100 !important;
+}
+
+/* Infra-control lead magnet — extras on top of itman-roi skin */
+.itman-roi__tri {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+}
+.itman-roi__tri button {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  border-radius: 12px;
+  min-height: 44px;
+  font-family: var(--roi-font-medium);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.itman-roi__tri button.is-on[data-v="yes"] {
+  border-color: #2ecc71;
+  background: rgba(46, 204, 113, 0.15);
+  color: #7dffa8;
+}
+.itman-roi__tri button.is-on[data-v="mid"] {
+  border-color: #f0b429;
+  background: rgba(240, 180, 41, 0.15);
+  color: #ffd56a;
+}
+.itman-roi__tri button.is-on[data-v="no"] {
+  border-color: var(--roi-red);
+  background: rgba(227, 6, 19, 0.18);
+  color: #ff8a93;
+}
+.itman-roi__check-row {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 14px 14px 12px;
+  margin-bottom: 10px;
+  background: rgba(255, 255, 255, 0.03);
+}
+.itman-roi__check-row p {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.9);
+}
+.itman-roi__check-row .n {
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  background: var(--roi-red);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  margin-right: 8px;
+  font-family: var(--roi-font-medium);
+}
+.itman-roi__sec-prog {
+  font-size: 12px;
+  color: var(--roi-muted-2);
+  margin: 0 0 12px;
+}
+.itman-roi__aud-tag {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-family: var(--roi-font-medium);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgba(227, 6, 19, 0.9);
+  color: #fff;
+}
+.itman-roi__score-hero {
+  font-size: 48px;
+  font-family: var(--roi-font-medium);
+  font-weight: 500;
+  line-height: 1;
+  margin: 8px 0 6px;
+  color: #fff;
+}
+.itman-roi__score-hero span {
+  font-size: 18px;
+  color: var(--roi-muted);
+  font-weight: 400;
+}
+.itman-roi__risk {
+  border-left: 3px solid var(--roi-red);
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 0 12px 12px 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.78);
+}
+.itman-roi__risk strong {
+  display: block;
+  color: #fff;
+  margin-bottom: 2px;
+  font-size: 13px;
+  font-family: var(--roi-font-medium);
+  font-weight: 500;
+}
+.itman-roi__risk .aud {
+  color: var(--roi-red);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.itman-roi__bar-row { margin-bottom: 12px; }
+.itman-roi__bar-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: rgba(255, 255, 255, 0.85);
+}
+.itman-roi__bar-track {
+  height: 8px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+.itman-roi__bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #c40510, var(--roi-red));
+}
+.itman-roi__bar-fill.is-good { background: linear-gradient(90deg, #1a7a4c, #2ecc71); }
+.itman-roi__bar-fill.is-mid { background: linear-gradient(90deg, #a86b00, #f0b429); }
+.itman-roi__bar-fill.is-bad { background: linear-gradient(90deg, #c40510, var(--roi-red)); }
+.itman-roi__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.itman-roi__stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 14px 0 18px;
+}
+.itman-roi__stat {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px;
+}
+.itman-roi__stat b {
+  display: block;
+  font-size: 22px;
+  font-family: var(--roi-font-medium);
+  font-weight: 500;
+  margin-top: 4px;
+}
+.itman-roi__stat span {
+  font-size: 11px;
+  color: var(--roi-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.itman-roi__lead-mock label {
+  display: block;
+  font-size: 12px;
+  color: var(--roi-muted);
+  margin: 10px 0 6px;
+}
+.itman-roi__lead-mock input {
+  width: 100%;
+  min-height: 48px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  padding: 0 14px;
+  font-family: var(--roi-font);
+  font-size: 14px;
+  box-sizing: border-box;
+}
+@media (max-width: 720px) {
+  .itman-roi__stats { grid-template-columns: 1fr; }
+  .itman-roi__tri { grid-template-columns: 1fr; }
+}
+
+.itman-roi__steps { flex-wrap: wrap; row-gap: 8px; }
+.itman-roi__subq { margin: 0; }
+</style>
+</head>
+<body>
+<div class="preview-bar">Лид-магнит · чек-лист контроля инфраструктуры · <strong>не для индексации</strong> ·
+  <a href="../home-roi/calc-preview.html">ROI-калькулятор</a> ·
+  <a href="../home-roi/report/">отчёт ROI</a></div>
+
+<section class="itman-roi" id="infra-control" aria-label="Чек-лист контроля ИТ-инфраструктуры" data-phase="quiz">
+  <div class="itman-roi__inner">
+    <header class="itman-roi__head">
+      <h2 class="itman-roi__title">Под контролем ли ваша ИТ-инфраструктура?</h2>
+      <p class="itman-roi__lead">Пройдите чек-лист из 20 пунктов и узнайте реальный уровень контроля — где риски для бюджета, ИБ и руководства</p>
+    </header>
+
+    <div class="itman-roi__grid">
+      <div class="itman-roi__form-card">
+        <div data-view="quiz">
+          <ol class="itman-roi__steps" aria-label="Шаги">
+            <li class="is-active" data-step-dot="1"><span>1</span>Учёт</li>
+            <li data-step-dot="2"><span>2</span>ПО / ИБ</li>
+            <li data-step-dot="3"><span>3</span>Лицензии</li>
+            <li data-step-dot="4"><span>4</span>Эффективность</li>
+            <li data-step-dot="5"><span>5</span>Результат</li>
+          </ol>
+          <div data-quiz-host></div>
+          <p class="itman-roi__lock" style="margin-top:16px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            20 пунктов · Да / Средне / Нет · контакты только если захотите подробный отчёт
+          </p>
+        </div>
+
+        <div data-view="summary" hidden>
+          <p class="itman-roi__summary-label">Ваш результат</p>
+          <div class="itman-roi__score-hero" data-bind-score>— <span>/ 40</span></div>
+          <p class="itman-roi__q" style="margin-top:8px" data-bind-verdict></p>
+          <p class="itman-roi__lead-text" style="margin:8px 0 16px;font-size:14px;color:var(--roi-muted);line-height:1.45" data-bind-meaning></p>
+          <div class="itman-roi__stats">
+            <div class="itman-roi__stat"><span>Уровень контроля</span><b data-bind-pct>—</b></div>
+            <div class="itman-roi__stat"><span>Баллы</span><b><span data-bind-score style="font-size:22px">—</span></b></div>
+          </div>
+          <p class="itman-roi__summary-label" style="margin-top:8px">По разделам</p>
+          <div data-bars></div>
+          <p class="itman-roi__summary-label" style="margin-top:18px">Где риски</p>
+          <div data-risks></div>
+          <button type="button" class="itman-roi__btn itman-roi__btn--ghost" id="clEdit">← Изменить ответы</button>
+        </div>
+      </div>
+
+      <aside class="itman-roi__preview" aria-live="polite">
+        <div data-view="preview">
+          <div class="itman-roi__preview-head">
+            <h3>Живой счёт</h3>
+            <p>Обновляется по мере ответов</p>
+          </div>
+          <div class="itman-roi__metric itman-roi__metric--save">
+            <div class="itman-roi__metric-icon" aria-hidden="true">✓</div>
+            <div>
+              <span>Текущий балл</span>
+              <strong data-live-score>— / 40</strong>
+            </div>
+          </div>
+          <div class="itman-roi__metric itman-roi__metric--pay">
+            <div class="itman-roi__metric-icon" aria-hidden="true">#</div>
+            <div>
+              <span>Отмечено пунктов</span>
+              <strong data-live-answered>0 из 20</strong>
+            </div>
+          </div>
+          <p class="itman-roi__preview-note" data-live-note>Четыре раздела — как в чек-листе ИТМен. В конце покажем зоны риска.</p>
+          <ul class="itman-roi__checklist" style="margin-top:16px">
+            <li>инвентаризация и учёт активов</li>
+            <li>контроль ПО и безопасность</li>
+            <li>лицензии и затраты</li>
+            <li>операционная эффективность</li>
+          </ul>
+        </div>
+
+        <div data-view="cta" hidden>
+          <div class="itman-roi__preview-head">
+            <h3>Получите подробные рекомендации</h3>
+          </div>
+          <div class="itman-roi__cta-box itman-roi__cta-box--solo">
+            <p>На основе ваших ответов подготовим отчёт с приоритетами и обоснованием для руководства, финансов и ИБ.</p>
+            <ul class="itman-roi__checklist">
+              <li>разбор рисков по разделам</li>
+              <li>аргументы для руководства</li>
+              <li>практические следующие шаги</li>
+            </ul>
+            <p style="font-size:13px;color:var(--roi-muted);margin:0 0 12px">Слабые зоны сейчас:</p>
+            <ul class="itman-roi__checklist" data-side-risks></ul>
+            <button type="button" class="itman-roi__btn" id="clGetReport">Получить подробный отчёт ▸</button>
+          </div>
+        </div>
+
+        <div data-view="lead" hidden>
+          <div class="itman-roi__preview-head">
+            <h3>Куда отправить отчёт</h3>
+            <p>Макет формы — на Taptop будет нативная заявка</p>
+          </div>
+          <form class="itman-roi__lead-mock" id="clLeadForm">
+            <label for="clName">Имя</label>
+            <input id="clName" name="name" required autocomplete="name" placeholder="Иван Иванов" />
+            <label for="clEmail">E-mail</label>
+            <input id="clEmail" name="email" type="email" required autocomplete="email" placeholder="name@company.ru" />
+            <button type="submit" class="itman-roi__btn" style="margin-top:16px">Отправить ▸</button>
+            <p class="itman-roi__lock" style="margin-top:12px">В проде — нативная форма Taptop + согласие на ПДн.</p>
+          </form>
+        </div>
+
+        <div data-view="done" hidden>
+          <p class="itman-roi__done-kicker" style="color:var(--roi-red);font-family:var(--roi-font-medium);margin:0 0 8px">Готово!</p>
+          <h3 class="itman-roi__lead-title" style="margin:0;font-size:22px;line-height:1.25">Мы готовим персональные рекомендации. Менеджер свяжется с вами в ближайшее время.</h3>
+        </div>
+      </aside>
+    </div>
+
+    <div class="itman-roi__benefits" style="margin-top:40px">
+      <div class="itman-roi__benefit">
+        <div class="itman-roi__benefit-icon" aria-hidden="true">1</div>
+        <div>
+          <strong>До 35% бюджета</strong>
+          <p>часто уходит на неиспользуемые лицензии и оборудование</p>
+        </div>
+      </div>
+      <div class="itman-roi__benefit">
+        <div class="itman-roi__benefit-icon" aria-hidden="true">2</div>
+        <div>
+          <strong>До 40% времени ИТ</strong>
+          <p>тратится на ручной сбор и обработку данных об активах</p>
+        </div>
+      </div>
+      <div class="itman-roi__benefit">
+        <div class="itman-roi__benefit-icon" aria-hidden="true">3</div>
+        <div>
+          <strong>До 25% устройств</strong>
+          <p>могут оставаться в «серых зонах» вне систем учёта</p>
+        </div>
+      </div>
+      <div class="itman-roi__benefit">
+        <div class="itman-roi__benefit-icon" aria-hidden="true">4</div>
+        <div>
+          <strong>20 пунктов</strong>
+          <p>та же механика, что в чек-листе ИТМен — только интерактивно</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="./checklist-data.js"></script>
+<script src="./checklist-embed.js"></script>
+</body>
+</html>
