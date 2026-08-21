@@ -5,10 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
   <title>ИТМен — персональный отчёт ROI (макет)</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600&display=swap" rel="stylesheet" />
   <style>
+    @font-face {
+      font-family: "Nekst Regular Web";
+      font-weight: 400;
+      font-style: normal;
+      src: url("https://itman.ru/t/images/mosaic/fonts/Nekst%20Regular%20Web-400-normal-0.ttf") format("truetype");
+    }
+    @font-face {
+      font-family: "Nekst Medium Web";
+      font-weight: 500;
+      font-style: normal;
+      src: url("https://itman.ru/t/images/mosaic/fonts/Nekst%20Medium%20Web-500-normal-0.ttf") format("truetype");
+    }
+    @font-face {
+      font-family: "Nekst SemiBold";
+      font-weight: 600;
+      font-style: normal;
+      src: url("https://itman.ru/t/images/mosaic/fonts/Nekst%20SemiBold-600-normal-0.ttf") format("truetype");
+    }
+    @font-face {
+      font-family: "Nekst";
+      font-weight: 400;
+      font-style: normal;
+      src: url("https://itman.ru/t/images/mosaic/fonts/Nekst-400-normal-0.woff") format("woff");
+    }
+    @font-face {
+      font-family: "Nekst";
+      font-weight: 600;
+      font-style: normal;
+      src: url("https://itman.ru/t/images/mosaic/fonts/Nekst-600-normal-0.woff") format("woff");
+    }
     :root {
       --ink: #141414;
       --muted: #5c5c5c;
@@ -18,8 +45,8 @@
       --red: #e30613;
       --red-soft: #fde8ea;
       --ok: #1a7a4c;
-      --font: "Manrope", sans-serif;
-      --display: "Source Serif 4", Georgia, serif;
+      --font: "Nekst", "Nekst Regular Web", Arial, Helvetica, sans-serif;
+      --display: "Nekst Medium Web", "Nekst SemiBold", "Nekst", Arial, Helvetica, sans-serif;
     }
     * { box-sizing: border-box; }
     body {
@@ -460,7 +487,6 @@
         html += '<section class="page">';
         html += '<div class="brand-row"><a class="brand" href="https://itman.ru/" target="_blank" rel="noopener"><img src="assets/brand.svg" alt="Инферит ИТМен" width="200" height="36" /></a>';
         html += '<div class="meta">Персональный экономический отчёт<br>' + when + "<br>Конфиденциально</div></div>";
-        html += '<div class="kicker">Лид-магнит · ROI</div>';
         html += "<h2 class=\"report-title\">Обоснование экономического эффекта для " + escapeHtml(company) + "</h2>";
         html += '<p class="lead">Ориентировочный расчёт потенциальной экономии и окупаемости внедрения ИТМен на основе ваших ответов. Аргументы для руководства, финансов и ИБ — ниже.</p>';
         html += '<div class="hero-metrics">';
