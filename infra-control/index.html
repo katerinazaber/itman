@@ -1110,7 +1110,423 @@ html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
   </div>
 </section>
 
-<script src="./checklist-short.js"></script>
-<script src="./checklist-embed.js"></script>
+<!-- Локально/GH: inline. На Taptop — Custom Code с jsDelivr (см. README). -->
+<script>
+/**
+ * Short lead-magnet checklist (4 section questions from the 20-point PDF).
+ * Score: Да=2, Средне=1, Нет=0 · max 8
+ */
+(function (global) {
+  "use strict";
+
+  var QUESTIONS = [
+    {
+      id: "inventory",
+      step: 1,
+      audience: "Учёт активов",
+      title: "Инвентаризация и учёт",
+      q: "Есть ли у вас единая автоматическая инвентаризация — все устройства, ПО и пользователи в одной системе с историей изменений?",
+      hint: "В полном чек-листе это 5 пунктов: автосбор, агрегация источников, единая база, все локации, автообнаружение.",
+      riskTitle: "Инвентаризация и учёт",
+      risk: "Без единого автоматического учёта часть парка остаётся в «серой зоне», а данные для решений устаревают.",
+      rec: "Внедрить непрерывный сбор и один подтверждаемый реестр активов вместо разовых проектов инвентаризации.",
+    },
+    {
+      id: "security",
+      step: 2,
+      audience: "ПО и ИБ",
+      title: "Контроль ПО и безопасность",
+      q: "Контролируете ли установленное и запрещённое ПО, видите usage и получаете оповещения об изменениях в инфраструктуре?",
+      hint: "В полном чек-листе: каталог ПО, запрещённое ПО, usage, контроль изменений, отчёты для регуляторов.",
+      riskTitle: "Контроль ПО и ИБ",
+      risk: "Теневое и запрещённое ПО, слабый usage и отсутствие алертов на изменения — прямые риски для ИБ и комплаенса.",
+      rec: "Нормализовать каталог ПО, регулярно выявлять нелегитимные установки и фиксировать изменения конфигурации.",
+    },
+    {
+      id: "licenses",
+      step: 3,
+      audience: "Финансы",
+      title: "Лицензии и затраты",
+      q: "Знаете ли точно, какие лицензии куплены, где стоят, что не используется — и строите ли ИТ-бюджет на этих данных?",
+      hint: "В полном чек-листе: учёт лицензий, чистота, неиспользуемые, TCO, бюджет на фактах.",
+      riskTitle: "Лицензии и бюджет",
+      risk: "Без картины «куплено / установлено / используется» бюджет уходит на простой и слепые продления.",
+      rec: "Свести лицензии с usage и пересобрать закупки и продления на фактическом использовании.",
+    },
+    {
+      id: "ops",
+      step: 4,
+      audience: "Руководство",
+      title: "Операционная эффективность",
+      q: "Автоматизирован ли рутинный учёт, можете ли быстро найти активы при изменениях и доказать ROI ИТ-инвестиций?",
+      hint: "В полном чек-листе: автоматизация рутины, скорость реакции, точность для проектов, ROI, масштабирование.",
+      riskTitle: "Эффективность и проекты",
+      risk: "Ручной учёт и неточные данные тормозят проекты, offboarding и доказательство эффекта инвестиций.",
+      rec: "Снять рутину с ИТ, связать пользователь↔устройства↔ПО и использовать данные для планирования и ROI.",
+    },
+  ];
+
+  function scoreAnswers(answers) {
+    var total = 0;
+    var max = 0;
+    var gaps = [];
+    var bySection = {};
+
+    QUESTIONS.forEach(function (q) {
+      var v = answers[q.id];
+      var pts = v === "yes" ? 2 : v === "mid" ? 1 : v === "no" ? 0 : null;
+      var sMax = 2;
+      if (pts === null) {
+        bySection[q.id] = { score: 0, max: sMax, title: q.title, audience: q.audience };
+        return;
+      }
+      total += pts;
+      max += sMax;
+      bySection[q.id] = { score: pts, max: sMax, title: q.title, audience: q.audience };
+      if (pts <= 1) {
+        gaps.push({
+          sectionId: q.id,
+          audience: q.audience,
+          section: q.riskTitle,
+          text: q.q,
+          score: pts,
+          rec: q.rec,
+          risk: q.risk,
+        });
+      }
+    });
+
+    var answered = max / 2;
+    // Scale bands from /40 checklist: 26–40 good, 11–25 mid, 0–10 bad → on /8: ~5.2, 2.2
+    var level =
+      total >= 6
+        ? {
+            key: "good",
+            title: "Хорошее состояние",
+            text: "Базовый контроль выглядит уверенно. Имеет смысл точечно усилить зоны со «Средне» и закрепить автоматизацию.",
+          }
+        : total >= 3
+          ? {
+              key: "mid",
+              title: "Требуются улучшения",
+              text: "Есть основа, но есть зоны риска. Ниже — где чаще всего теряются бюджет, видимость и скорость ИТ.",
+            }
+          : {
+              key: "bad",
+              title: "Есть проблемы с контролем ИТ-активов",
+              text: "Значительные пробелы в контроле. Имеет смысл закрыть критичные зоны до масштабирования процессов.",
+            };
+
+    gaps.sort(function (a, b) {
+      return a.score - b.score;
+    });
+
+    return {
+      total: total,
+      max: max || 8,
+      answered: answered,
+      bySection: bySection,
+      gaps: gaps,
+      level: level,
+      complete: answered === 4,
+      questions: QUESTIONS,
+    };
+  }
+
+  global.ItmenChecklistShort = {
+    QUESTIONS: QUESTIONS,
+    scoreAnswers: scoreAnswers,
+  };
+})(typeof window !== "undefined" ? window : globalThis);
+
+</script>
+<script>
+/* Short 4-question infra-control lead magnet */
+(function () {
+  var booted = false;
+
+  function boot() {
+  var root = document.querySelector("#infra-control.itman-roi");
+  if (!root || !window.ItmenChecklistShort) return false;
+  if (booted || root.getAttribute("data-cl-ready") === "1") return true;
+  booted = true;
+  root.setAttribute("data-cl-ready", "1");
+
+  var QUESTIONS = ItmenChecklistShort.QUESTIONS;
+  var answers = {};
+  var step = 1; // 1..4
+  var phase = "quiz";
+  var RESULT_DOT = 5;
+
+  function levelCls(pct) {
+    if (pct >= 75) return "is-good";
+    if (pct >= 50) return "is-mid";
+    return "is-bad";
+  }
+
+  function scored() {
+    return ItmenChecklistShort.scoreAnswers(answers);
+  }
+
+  function updateStepper() {
+    var visual = phase === "quiz" ? step : RESULT_DOT;
+    root.querySelectorAll("[data-step-dot]").forEach(function (d) {
+      var s = Number(d.dataset.stepDot);
+      d.classList.toggle("is-active", s === visual);
+      d.classList.toggle("is-done", s < visual);
+    });
+  }
+
+  function currentQ() {
+    return QUESTIONS[step - 1];
+  }
+
+  function renderQuiz() {
+    var host = root.querySelector("[data-quiz-host]");
+    if (!host) return;
+    var q = currentQ();
+    var cur = answers[q.id] || "";
+    var html = "";
+    html +=
+      '<p class="itman-roi__sec-prog">Вопрос ' + step + " из 4</p>";
+    html += '<span class="itman-roi__aud-tag">' + q.audience + "</span>";
+    html += '<p class="itman-roi__q">' + q.q + "</p>";
+    html +=
+      '<p class="itman-roi__subq" style="margin:0 0 16px;font-size:13px;color:var(--roi-muted);line-height:1.45">' +
+      q.hint +
+      "</p>";
+    html += '<div class="itman-roi__tri" role="group" style="margin-bottom:8px">';
+    [
+      ["yes", "Да — в целом так"],
+      ["mid", "Средне — частично"],
+      ["no", "Нет — скорее нет"],
+    ].forEach(function (pair) {
+      html +=
+        '<button type="button" data-pick="' +
+        q.id +
+        '" data-v="' +
+        pair[0] +
+        '"' +
+        (cur === pair[0] ? ' class="is-on"' : "") +
+        ">" +
+        pair[1] +
+        "</button>";
+    });
+    html += "</div>";
+    html += '<div class="itman-roi__nav">';
+    if (step > 1) {
+      html +=
+        '<button type="button" class="itman-roi__btn itman-roi__btn--ghost" data-prev>← Назад</button>';
+    } else {
+      html += "<div></div>";
+    }
+    html +=
+      '<button type="button" class="itman-roi__btn" data-next' +
+      (cur ? "" : " disabled") +
+      ">" +
+      (step < 4 ? "Далее →" : "Получить результат →") +
+      "</button>";
+    html += "</div>";
+    host.innerHTML = html;
+  }
+
+  function renderResult() {
+    var s = scored();
+    var pct = s.max ? Math.round((s.total / s.max) * 100) : 0;
+
+    root.querySelectorAll("[data-bind-score]").forEach(function (n) {
+      n.innerHTML = s.total + ' <span>/ ' + s.max + "</span>";
+    });
+    root.querySelectorAll("[data-bind-verdict]").forEach(function (n) {
+      n.textContent = s.level.title;
+    });
+    root.querySelectorAll("[data-bind-meaning]").forEach(function (n) {
+      n.textContent = s.level.text;
+    });
+    root.querySelectorAll("[data-bind-pct]").forEach(function (n) {
+      n.textContent = pct + "%";
+    });
+
+    var riskHost = root.querySelector("[data-risks]");
+    if (riskHost) {
+      if (!s.gaps.length) {
+        riskHost.innerHTML =
+          '<p class="itman-roi__preview-note">Критичных провалов по экспресс-оценке не видно. В подробном отчёте разберём, что усилить точечно.</p>';
+      } else {
+        riskHost.innerHTML = s.gaps
+          .map(function (g) {
+            return (
+              '<div class="itman-roi__risk"><span class="aud">' +
+              g.audience +
+              "</span><strong>" +
+              g.section +
+              "</strong>" +
+              g.risk +
+              "</div>"
+            );
+          })
+          .join("");
+      }
+    }
+
+    var bars = root.querySelector("[data-bars]");
+    if (bars) {
+      bars.innerHTML = QUESTIONS.map(function (q) {
+        var st = s.bySection[q.id] || { score: 0, max: 2 };
+        var p = st.max ? Math.round((st.score / st.max) * 100) : 0;
+        var label =
+          st.score === 2 ? "Да" : st.score === 1 ? "Средне" : "Нет";
+        return (
+          '<div class="itman-roi__bar-row"><div class="itman-roi__bar-head"><span>' +
+          q.title +
+          "</span><strong>" +
+          label +
+          '</strong></div><div class="itman-roi__bar-track"><div class="itman-roi__bar-fill ' +
+          levelCls(p) +
+          '" style="width:' +
+          Math.max(p, 8) +
+          '%"></div></div></div>'
+        );
+      }).join("");
+    }
+
+    var sideRisk = root.querySelector("[data-side-risks]");
+    if (sideRisk) {
+      sideRisk.innerHTML = s.gaps.length
+        ? s.gaps
+            .map(function (g) {
+              return (
+                "<li><strong>" +
+                g.audience +
+                ":</strong> " +
+                g.section +
+                "</li>"
+              );
+            })
+            .join("")
+        : "<li>Экспресс-оценка без критичных зон</li>";
+    }
+  }
+
+  function setPhase(next) {
+    phase = next;
+    root.dataset.phase = next;
+    function show(sel, on) {
+      root.querySelectorAll(sel).forEach(function (el) {
+        el.hidden = !on;
+      });
+    }
+    show('[data-view="quiz"]', next === "quiz");
+    show(
+      '[data-view="summary"]',
+      next === "result" || next === "lead" || next === "done"
+    );
+    show('[data-view="preview"]', next === "quiz");
+    show('[data-view="cta"]', next === "result");
+    show('[data-view="lead"]', next === "lead");
+    show('[data-view="done"]', next === "done");
+    if (next === "quiz") renderQuiz();
+    if (next === "result" || next === "lead" || next === "done") renderResult();
+    updateStepper();
+    refreshLive();
+  }
+
+  function refreshLive() {
+    var s = scored();
+    var live = root.querySelector("[data-live-score]");
+    if (live) live.textContent = s.answered ? s.total + " / " + s.max : "— / 8";
+    var liveAns = root.querySelector("[data-live-answered]");
+    if (liveAns) liveAns.textContent = s.answered + " из 4";
+    var note = root.querySelector("[data-live-note]");
+    if (note && phase === "quiz") {
+      note.textContent =
+        "Короткая экспресс-оценка по 4 зонам чек-листа. Подробный разбор — в отчёте после заявки.";
+    }
+  }
+
+  root.addEventListener("click", function (e) {
+    var btn = e.target.closest("button");
+    if (!btn || !root.contains(btn)) return;
+
+    if (btn.hasAttribute("data-pick")) {
+      e.preventDefault();
+      answers[btn.getAttribute("data-pick")] = btn.getAttribute("data-v");
+      renderQuiz();
+      refreshLive();
+      return;
+    }
+    if (btn.hasAttribute("data-next")) {
+      if (btn.disabled) return;
+      e.preventDefault();
+      if (step < 4) {
+        step += 1;
+        renderQuiz();
+        updateStepper();
+        refreshLive();
+      } else {
+        setPhase("result");
+      }
+      return;
+    }
+    if (btn.hasAttribute("data-prev")) {
+      e.preventDefault();
+      if (step > 1) {
+        step -= 1;
+        renderQuiz();
+        updateStepper();
+        refreshLive();
+      }
+      return;
+    }
+    if (btn.id === "clGetReport" || btn.closest("#clGetReport")) {
+      e.preventDefault();
+      setPhase("lead");
+      return;
+    }
+    if (btn.id === "clEdit" || btn.closest("#clEdit")) {
+      e.preventDefault();
+      step = 1;
+      setPhase("quiz");
+    }
+  });
+
+  var form = root.querySelector("#clLeadForm");
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var name = root.querySelector("#clName");
+      var email = root.querySelector("#clEmail");
+      if (!name || !email || !name.value.trim() || !email.value.trim()) return;
+      setPhase("done");
+    });
+  }
+
+  setPhase("quiz");
+  return true;
+  }
+
+  function showLoadError() {
+    var root = document.querySelector("#infra-control.itman-roi");
+    if (!root) return;
+    var host = root.querySelector("[data-quiz-host]");
+    if (host && !host.innerHTML.trim()) {
+      host.innerHTML =
+        '<p class="itman-roi__q" style="font-size:16px">Не удалось загрузить вопросы. Обновите страницу или проверьте, что подключён checklist-short.js.</p>';
+    }
+  }
+
+  if (!boot()) {
+    var tries = 0;
+    var timer = setInterval(function () {
+      tries += 1;
+      if (boot() || tries >= 40) {
+        clearInterval(timer);
+        if (!booted) showLoadError();
+      }
+    }, 50);
+  }
+})();
+
+</script>
 </body>
 </html>

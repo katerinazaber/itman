@@ -1,7 +1,13 @@
 /* Short 4-question infra-control lead magnet */
 (function () {
+  var booted = false;
+
+  function boot() {
   var root = document.querySelector("#infra-control.itman-roi");
-  if (!root || !window.ItmenChecklistShort) return;
+  if (!root || !window.ItmenChecklistShort) return false;
+  if (booted || root.getAttribute("data-cl-ready") === "1") return true;
+  booted = true;
+  root.setAttribute("data-cl-ready", "1");
 
   var QUESTIONS = ItmenChecklistShort.QUESTIONS;
   var answers = {};
@@ -253,4 +259,27 @@
   }
 
   setPhase("quiz");
+  return true;
+  }
+
+  function showLoadError() {
+    var root = document.querySelector("#infra-control.itman-roi");
+    if (!root) return;
+    var host = root.querySelector("[data-quiz-host]");
+    if (host && !host.innerHTML.trim()) {
+      host.innerHTML =
+        '<p class="itman-roi__q" style="font-size:16px">Не удалось загрузить вопросы. Обновите страницу или проверьте, что подключён checklist-short.js.</p>';
+    }
+  }
+
+  if (!boot()) {
+    var tries = 0;
+    var timer = setInterval(function () {
+      tries += 1;
+      if (boot() || tries >= 40) {
+        clearInterval(timer);
+        if (!booted) showLoadError();
+      }
+    }, 50);
+  }
 })();
