@@ -26,3 +26,6 @@ Disallow: /glossary/
 
 User-agent: *
 Disallow: /booklet-2026/
+
+User-agent: *
+Disallow: /infra-control/
