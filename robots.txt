@@ -29,3 +29,6 @@ Disallow: /booklet-2026/
 
 User-agent: *
 Disallow: /infra-control/
+
+User-agent: *
+Disallow: /checklist/

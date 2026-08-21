@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Бесплатный чек-лист ИТ-инфраструктуры — Инферит ИТМен</title>
+  <style>
+    @font-face {
+      font-family: "Nekst Regular Web";
+      font-weight: 400;
+      font-style: normal;
+      src: url("https://itman.ru/t/images/mosaic/fonts/Nekst%20Regular%20Web-400-normal-0.ttf") format("truetype");
+    }
+    @font-face {
+      font-family: "Nekst Medium Web";
+      font-weight: 500;
+      font-style: normal;
+      src: url("https://itman.ru/t/images/mosaic/fonts/Nekst%20Medium%20Web-500-normal-0.ttf") format("truetype");
+    }
+    @font-face {
+      font-family: "Nekst SemiBold";
+      font-weight: 600;
+      font-style: normal;
+      src: url("https://itman.ru/t/images/mosaic/fonts/Nekst%20SemiBold-600-normal-0.ttf") format("truetype");
+    }
+    @font-face {
+      font-family: "Nekst";
+      font-weight: 400;
+      font-style: normal;
+      src: url("https://itman.ru/t/images/mosaic/fonts/Nekst-400-normal-0.woff") format("woff");
+    }
+    @font-face {
+      font-family: "Nekst";
+      font-weight: 600;
+      font-style: normal;
+      src: url("https://itman.ru/t/images/mosaic/fonts/Nekst-600-normal-0.woff") format("woff");
+    }
+
+    :root {
+      --red: #e30613;
+      --red-dark: #c40510;
+      --bg: #0d0d0d;
+      --card: #161616;
+      --border: rgba(255, 255, 255, 0.12);
+      --muted: rgba(255, 255, 255, 0.58);
+      --white: #fff;
+      --gold: #c9a24a;
+      --font: "Nekst", "Nekst Regular Web", Arial, Helvetica, sans-serif;
+      --font-m: "Nekst Medium Web", "Nekst SemiBold", "Nekst", Arial, Helvetica, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--white);
+      min-height: 100vh;
+    }
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+    [hidden] { display: none !important; }
+
+    .wrap {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    /* —— header —— */
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+    }
+    .top a.logo img { height: 32px; width: auto; }
+    .top-link {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .top-link:hover { color: #fff; }
+
+    /* —— hero —— */
+    .hero {
+      position: relative;
+      padding: 28px 0 56px;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: -20% -10% auto auto;
+      width: min(70vw, 640px);
+      height: min(70vw, 640px);
+      background: radial-gradient(circle, rgba(227, 6, 19, 0.22) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 28px;
+      align-items: end;
+      position: relative;
+      z-index: 1;
+    }
+    .hero h1 {
+      font-family: var(--font-m);
+      font-size: clamp(32px, 4.6vw, 48px);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin: 14px 0 16px;
+      font-weight: 600;
+      max-width: 14em;
+    }
+    .hero-lead {
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--muted);
+      margin: 0 0 28px;
+      max-width: 36em;
+    }
+    .eyebrow {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--red);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .btn {
+      appearance: none;
+      border: 0;
+      border-radius: 12px;
+      min-height: 52px;
+      padding: 0 22px;
+      font: inherit;
+      font-family: var(--font-m);
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+    .btn:hover { filter: brightness(1.06); transform: translateY(-1px); }
+    .btn-primary { background: var(--red); color: #fff; }
+    .btn-ghost {
+      background: transparent;
+      color: #fff;
+      border: 1px solid var(--border);
+    }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; filter: none; }
+    .meta-line {
+      margin-top: 18px;
+      font-size: 13px;
+      color: var(--muted);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .meta-line svg { flex: 0 0 auto; opacity: 0.7; }
+
+    .hero-visual {
+      position: relative;
+      min-height: 360px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .hero-visual img.bear {
+      width: min(100%, 420px);
+      height: auto;
+      filter: drop-shadow(0 28px 40px rgba(0, 0, 0, 0.55));
+      animation: floatBear 4.5s ease-in-out infinite;
+      transform-origin: 50% 100%;
+    }
+    @keyframes floatBear {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .speech {
+      position: absolute;
+      top: 8%;
+      left: 0;
+      max-width: 220px;
+      background: #1c1c1c;
+      border: 1px solid var(--border);
+      border-radius: 16px 16px 16px 4px;
+      padding: 12px 14px;
+      font-size: 13px;
+      line-height: 1.4;
+      color: rgba(255, 255, 255, 0.88);
+      animation: fadeIn 0.8s ease 0.3s both;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    /* —— zones strip —— */
+    .zones {
+      padding: 8px 0 48px;
+    }
+    .zones-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .zone {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 16px 18px;
+      background: linear-gradient(180deg, #151515, #111);
+    }
+    .zone b {
+      display: block;
+      font-family: var(--font-m);
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+    .zone span { font-size: 12px; color: var(--muted); line-height: 1.4; }
+    .zone i {
+      display: inline-block;
+      font-style: normal;
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    /* —— quiz —— */
+    #quiz {
+      padding: 0 0 72px;
+      scroll-margin-top: 16px;
+    }
+    .quiz-shell {
+      background: #111;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 28px;
+    }
+    .quiz-head {
+      margin-bottom: 22px;
+    }
+    .quiz-head h2 {
+      font-family: var(--font-m);
+      font-size: 28px;
+      margin: 0 0 8px;
+      font-weight: 600;
+    }
+    .quiz-head p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
+
+    .sec-steps {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 0;
+      margin: 0 0 22px;
+      padding: 0;
+    }
+    .sec-steps li {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.38);
+      padding-right: 16px;
+      margin-right: 4px;
+    }
+    .sec-steps li span {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .sec-steps li.is-active { color: #fff; }
+    .sec-steps li.is-active span {
+      background: var(--red);
+      border-color: var(--red);
+    }
+    .sec-steps li.is-done { color: rgba(255, 255, 255, 0.7); }
+    .sec-steps li.is-done span {
+      background: rgba(227, 6, 19, 0.35);
+      border-color: transparent;
+    }
+
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      min-height: 320px;
+    }
+
+    .cl-progress {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 18px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .cl-progress__bar {
+      height: 6px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+    .cl-progress__bar span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--red-dark), var(--red));
+      border-radius: 99px;
+      transition: width 0.35s ease;
+    }
+    .cl-section-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--red);
+      border-radius: 6px;
+      padding: 5px 9px;
+      margin: 0 0 14px;
+    }
+    .cl-q {
+      font-family: var(--font-m);
+      font-size: 20px;
+      line-height: 1.35;
+      margin: 0 0 22px;
+      font-weight: 500;
+    }
+    .cl-tri {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .cl-pick {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: #1a1a1a;
+      color: #fff;
+      border-radius: 12px;
+      min-height: 52px;
+      font: inherit;
+      font-family: var(--font-m);
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .cl-pick:hover { border-color: rgba(255, 255, 255, 0.35); }
+    .cl-pick.is-on {
+      background: rgba(227, 6, 19, 0.18);
+      border-color: var(--red);
+    }
+    .cl-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+    .cl-btn {
+      appearance: none;
+      border: 0;
+      border-radius: 12px;
+      min-height: 48px;
+      padding: 0 18px;
+      font: inherit;
+      font-family: var(--font-m);
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--red);
+      color: #fff;
+    }
+    .cl-btn--ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: #fff;
+    }
+    .cl-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .live h3 {
+      margin: 0 0 4px;
+      font-family: var(--font-m);
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .live > .sub { margin: 0 0 16px; font-size: 13px; color: var(--muted); }
+    .live-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .live-card {
+      border-radius: 14px;
+      padding: 14px;
+    }
+    .live-card.red { background: #3a0a0e; }
+    .live-card.gold { background: #2a220f; }
+    .live-card .l { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+    .live-card .v {
+      font-family: var(--font-m);
+      font-size: 22px;
+      font-weight: 600;
+    }
+    .live-note { font-size: 13px; color: var(--muted); line-height: 1.45; margin: 0 0 16px; }
+    .live ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+    .live li {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.78);
+      padding-left: 22px;
+      position: relative;
+    }
+    .live li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 5px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--red);
+      opacity: 0.85;
+    }
+
+    /* result */
+    .cl-muted { color: var(--muted); font-size: 14px; line-height: 1.45; }
+    .verdict {
+      margin-bottom: 18px;
+    }
+    .verdict .score {
+      font-family: var(--font-m);
+      font-size: 40px;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+    .verdict .score span { font-size: 18px; color: var(--muted); font-weight: 400; }
+    .verdict h3 { margin: 0 0 8px; font-family: var(--font-m); font-size: 22px; }
+    .cl-bar { margin-bottom: 12px; }
+    .cl-bar__head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .cl-bar__track {
+      height: 8px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+    .cl-bar__fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--red-dark), var(--red));
+    }
+    .cl-bar__fill.is-good { background: linear-gradient(90deg, #1a7a4c, #2ecc71); }
+    .cl-bar__fill.is-mid { background: linear-gradient(90deg, #a86b00, #f0b429); }
+
+    .cl-risk {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      background: #141414;
+    }
+    .cl-risk__aud {
+      display: inline-block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--red);
+      margin-bottom: 6px;
+    }
+    .cl-risk p { margin: 0 0 6px; font-size: 14px; line-height: 1.4; }
+    .cl-risk small { color: var(--muted); font-size: 12px; line-height: 1.4; }
+
+    .cta-box {
+      border: 1px solid rgba(227, 6, 19, 0.35);
+      background: linear-gradient(160deg, #2a0a0d, #161616);
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 8px;
+    }
+    .cta-box h3 { margin: 0 0 8px; font-family: var(--font-m); font-size: 18px; }
+    .cta-box p { margin: 0 0 14px; color: var(--muted); font-size: 13px; line-height: 1.45; }
+    .cta-box ul {
+      margin: 0 0 16px;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 6px;
+    }
+    .cta-box li {
+      font-size: 13px;
+      padding-left: 16px;
+      position: relative;
+    }
+    .cta-box li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--red);
+      font-size: 12px;
+    }
+
+    .lead-form label {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0 0 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .lead-form input {
+      width: 100%;
+      height: 48px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #1a1a1a;
+      color: #fff;
+      padding: 0 12px;
+      font: inherit;
+      margin-bottom: 12px;
+    }
+    .lead-form .hint { font-size: 12px; color: var(--muted); margin-top: 10px; }
+
+    .done-box { text-align: center; padding: 40px 20px; }
+    .done-box h3 { font-family: var(--font-m); font-size: 24px; margin: 0 0 10px; }
+    .done-box p { color: var(--muted); margin: 0; line-height: 1.5; }
+
+    .foot {
+      padding: 28px 0 48px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .foot a { color: rgba(255, 255, 255, 0.75); }
+
+    @media (max-width: 900px) {
+      .hero-grid, .quiz-grid, .zones-grid { grid-template-columns: 1fr; }
+      .hero-visual { min-height: 280px; order: -1; }
+      .speech { left: 4%; top: 0; }
+      .hero h1 { max-width: none; }
+      .quiz-shell { padding: 18px; border-radius: 20px; }
+      .cl-q { font-size: 17px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a class="logo" href="https://itman.ru/" aria-label="Инферит ИТМен">
+        <img src="assets/brand.svg" alt="Инферит ИТМен" width="200" height="36" />
+      </a>
+      <a class="top-link" href="https://itman.ru/">itman.ru</a>
+    </header>
+
+    <section class="hero" aria-label="Чек-лист ИТ-инфраструктуры">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Бесплатный чек-лист</p>
+          <h1>Под контролем ли ваша ИТ‑инфраструктура?</h1>
+          <p class="hero-lead">
+            20 вопросов из чек-листа Инферит ИТМен — по четырём зонам: учёт, ПО и ИБ, лицензии, эффективность.
+            Ответьте онлайн и сразу увидите слабые места.
+          </p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#quiz" id="clStartHero">Пройти чек-лист</a>
+            <a class="btn btn-ghost" href="#zones">Что внутри</a>
+          </div>
+          <p class="meta-line">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            ~8 минут · Да / Средне / Нет · подробный разбор — после заявки
+          </p>
+        </div>
+        <div class="hero-visual">
+          <div class="speech" aria-hidden="true">Я уже вижу пару «серых зон». Пройдём чек-лист вместе?</div>
+          <img class="bear" src="assets/bear.png" alt="Маскот Инферит ИТМен" width="420" height="480" />
+        </div>
+      </div>
+    </section>
+
+    <section class="zones" id="zones">
+      <div class="zones-grid">
+        <div class="zone"><i>01 · 5 пунктов</i><b>Инвентаризация и учёт</b><span>Автосбор, источники, единая база, локации, автообнаружение</span></div>
+        <div class="zone"><i>02 · 5 пунктов</i><b>ПО и безопасность</b><span>Каталог ПО, запрещённое, usage, изменения, отчёты</span></div>
+        <div class="zone"><i>03 · 5 пунктов</i><b>Лицензии и затраты</b><span>Учёт лицензий, чистота, простой, TCO, бюджет</span></div>
+        <div class="zone"><i>04 · 5 пунктов</i><b>Эффективность</b><span>Рутина, реакция, проекты, ROI, масштабирование</span></div>
+      </div>
+    </section>
+
+    <section id="quiz">
+      <div class="quiz-shell" id="checklist-app">
+        <div class="quiz-head">
+          <h2>Интерактивный чек-лист</h2>
+          <p>Отмечайте каждый пункт: Да, Средне или Нет. Счёт справа обновляется по мере ответов.</p>
+        </div>
+
+        <ol class="sec-steps" aria-label="Разделы">
+          <li data-sec-dot="0" class="is-active"><span>1</span>Учёт</li>
+          <li data-sec-dot="1"><span>2</span>ПО / ИБ</li>
+          <li data-sec-dot="2"><span>3</span>Лицензии</li>
+          <li data-sec-dot="3"><span>4</span>Эффективность</li>
+        </ol>
+
+        <div class="quiz-grid">
+          <div class="panel">
+            <div data-phase="quiz">
+              <div data-quiz-host></div>
+            </div>
+
+            <div data-phase="result" hidden>
+              <div class="verdict">
+                <p class="score" data-bind-score>— / 40</p>
+                <h3 data-bind-verdict>Результат</h3>
+                <p class="cl-muted" data-bind-meaning></p>
+              </div>
+              <h4 style="margin:0 0 10px;font-size:14px;font-family:var(--font-m)">По разделам</h4>
+              <div data-bars></div>
+              <h4 style="margin:18px 0 10px;font-size:14px;font-family:var(--font-m)">Где риски</h4>
+              <div data-risks></div>
+              <div class="cta-box">
+                <h3>Получите подробный разбор</h3>
+                <p>На основе ответов подготовим приоритеты и аргументы для руководства, финансов и ИБ.</p>
+                <ul>
+                  <li>разбор слабых пунктов</li>
+                  <li>рекомендации по зонам</li>
+                  <li>следующий шаг с ИТМен</li>
+                </ul>
+                <button type="button" class="cl-btn" id="clGetReport" style="width:100%">Получить разбор →</button>
+                <button type="button" class="cl-btn cl-btn--ghost" id="clEdit" style="width:100%;margin-top:8px">Пройти ещё раз</button>
+              </div>
+            </div>
+
+            <div data-phase="lead" hidden>
+              <h3 style="margin:0 0 8px;font-family:var(--font-m)">Куда отправить разбор</h3>
+              <p class="cl-muted" style="margin:0 0 16px">Макет формы — на Taptop будет нативная заявка.</p>
+              <form class="lead-form" id="clLeadForm">
+                <label for="clName">Имя</label>
+                <input id="clName" name="name" autocomplete="name" required />
+                <label for="clEmail">E-mail</label>
+                <input id="clEmail" name="email" type="email" autocomplete="email" required />
+                <button type="submit" class="cl-btn" style="width:100%">Отправить</button>
+                <p class="hint">В проде — нативная форма Taptop + согласие на ПДн.</p>
+              </form>
+            </div>
+
+            <div data-phase="done" hidden>
+              <div class="done-box">
+                <h3>Готово!</h3>
+                <p>Мы готовим персональные рекомендации. Менеджер свяжется с вами в ближайшее время.</p>
+              </div>
+            </div>
+          </div>
+
+          <aside class="panel live" data-phase-side>
+            <h3>Живой счёт</h3>
+            <p class="sub">Обновляется по мере ответов</p>
+            <div class="live-stats">
+              <div class="live-card red">
+                <div class="l">Текущий балл</div>
+                <div class="v" data-live-score>— / 40</div>
+              </div>
+              <div class="live-card gold">
+                <div class="l">Отмечено</div>
+                <div class="v" data-live-answered>0 из 20</div>
+              </div>
+            </div>
+            <p class="live-note" data-live-note>20 пунктов из бесплатного чек-листа ИТМен</p>
+            <ul>
+              <li>инвентаризация и учёт</li>
+              <li>контроль ПО и ИБ</li>
+              <li>лицензии и затраты</li>
+              <li>операционная эффективность</li>
+            </ul>
+            <div data-phase="result" hidden style="margin-top:18px">
+              <p class="live-note" style="margin-bottom:8px">Слабые зоны:</p>
+              <ul data-side-gaps></ul>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span>© Инферит ИТМен · макет лид-страницы · noindex</span>
+      <a href="https://itman.ru/">itman.ru</a>
+    </footer>
+  </div>
+
+  <script src="./checklist-data.js"></script>
+  <script src="./checklist-app.js"></script>
+</body>
+</html>
