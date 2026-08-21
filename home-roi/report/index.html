@@ -513,6 +513,38 @@
         html += "</section>";
 
         html += '<section class="page">';
+        html += '<div class="kicker">ITIL 4 · РИТМ</div>';
+        html += '<h3 class="sec">Соответствие практикам управления ИТ</h3>';
+        html += '<p class="sec-lead">ИТМен даёт фактический контур данных под практики ITIL 4 Foundation. Набор ниже подобран под ваш доминирующий рычаг экономии и масштаб. Рядом — контекст российского проекта РИТМ.</p>';
+        html += '<div class="recs">';
+        n.itilFocus.forEach(function (p) {
+          html +=
+            '<div class="rec"><strong>' +
+            escapeHtml(p.ru) +
+            ' <span style="color:#888;font-weight:500">(' +
+            escapeHtml(p.practice) +
+            ")</span></strong><p>" +
+            escapeHtml(p.why) +
+            "</p></div>";
+        });
+        html += "</div>";
+        html +=
+          '<div class="assumptions" style="margin-top:18px"><strong>' +
+          escapeHtml(n.ritm.title) +
+          "</strong><br>" +
+          escapeHtml(n.ritm.blurb) +
+          "<ul style=\"margin:10px 0 8px 18px;padding:0\">" +
+          n.ritm.points
+            .map(function (t) {
+              return "<li style=\"margin-bottom:4px\">" + escapeHtml(t) + "</li>";
+            })
+            .join("") +
+          '</ul>Источник: <a href="' +
+          n.ritm.link +
+          '" target="_blank" rel="noopener">Устав проекта РИТМ</a>. Карта практик — из БЗ ИТМен × ITIL 4 Foundation.</div>';
+        html += "</section>";
+
+        html += '<section class="page">';
         html += '<div class="kicker">Рекомендации</div>';
         html += '<h3 class="sec">Что сделать в первую очередь</h3>';
         html += '<p class="sec-lead">Набор зависит от ваших ответов: масштаб, размер ИТ-команды и бюджет на ПО.</p>';
@@ -527,7 +559,7 @@
           html += "<li>" + escapeHtml(s) + "</li>";
         });
         html += "</ol>";
-        html += '<p class="disclaimer">Отчёт носит оценочный характер и не является офертой. Фактический эффект зависит от текущего уровня зрелости учёта активов, структуры лицензий и периметра пилота. Источники формулировок: материалы обоснования ИТМен, кейсы экономии по трём направлениям, БЗ (ITAM/SAM). Подробнее о продукте: <a href="https://itman.ru" target="_blank" rel="noopener">itman.ru</a>.</p>';
+        html += '<p class="disclaimer">Отчёт носит оценочный характер и не является офертой. Фактический эффект зависит от текущего уровня зрелости учёта активов, структуры лицензий и периметра пилота. Источники формулировок: материалы обоснования ИТМен, кейсы экономии по трём направлениям, БЗ (ITAM/SAM × ITIL 4), контекст проекта РИТМ. Подробнее о продукте: <a href="https://itman.ru" target="_blank" rel="noopener">itman.ru</a>.</p>';
         html += "</section>";
 
         document.getElementById("report").innerHTML = html;
