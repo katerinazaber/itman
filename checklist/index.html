@@ -192,45 +192,20 @@
       position: relative;
       min-height: 420px;
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       justify-content: center;
     }
-    .hero-visual .bear {
-      width: min(100%, 380px);
-      filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.5));
+    .hero-visual .hero-art {
+      width: 100%;
+      max-width: 560px;
+      height: auto;
+      border-radius: 20px;
+      filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.45));
       animation: floatY 4.5s ease-in-out infinite;
     }
     @keyframes floatY {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
-    }
-    .float-card {
-      position: absolute;
-      background: rgba(22, 24, 30, 0.88);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(8px);
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-size: 12px;
-      line-height: 1.3;
-      color: rgba(255, 255, 255, 0.9);
-      max-width: 160px;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
-      animation: fadeUp 0.7s ease both;
-    }
-    .float-card b {
-      display: block;
-      color: #fff;
-      margin-bottom: 2px;
-      font-size: 13px;
-    }
-    .float-card--1 { top: 12%; left: 0; animation-delay: 0.15s; }
-    .float-card--2 { top: 28%; right: 0; animation-delay: 0.3s; }
-    .float-card--3 { bottom: 28%; left: 2%; animation-delay: 0.45s; }
-    .float-card--4 { bottom: 12%; right: 4%; animation-delay: 0.6s; max-width: 170px; }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: none; }
     }
 
     /* —— problems —— */
@@ -707,8 +682,7 @@
       .result-grid,
       .lead-inner,
       .result-details { grid-template-columns: 1fr; }
-      .hero-visual { min-height: 300px; order: -1; }
-      .float-card--2, .float-card--4 { display: none; }
+      .hero-visual { min-height: 260px; order: -1; }
       .quiz-shell { padding: 18px; border-radius: 20px; }
       .cl-q { font-size: 17px; }
     }
@@ -750,11 +724,7 @@
         </div>
       </div>
       <div class="hero-visual">
-        <div class="float-card float-card--1"><b>Неучтенные активы</b>7 устройств вне реестра</div>
-        <div class="float-card float-card--2"><b>Проблемы ИБ</b>5 зон риска</div>
-        <div class="float-card float-card--3"><b>Дубли лицензий</b>лишние затраты</div>
-        <div class="float-card float-card--4"><b>20 критериев · /40</b>ваш уровень контроля</div>
-        <img class="bear" src="assets/bear.png" alt="Маскот Инферит ИТМен" width="380" height="440" />
+        <img class="hero-art" src="assets/hero-bear.jpg" alt="ИТМен: экспресс-аудит ИТ-инфраструктуры" width="1024" height="682" />
       </div>
     </div>
   </section>
