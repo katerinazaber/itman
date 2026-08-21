@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>ИТМен — персональный отчёт ROI (макет)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #141414;
+      --muted: #5c5c5c;
+      --line: #e6e6e6;
+      --paper: #f7f5f2;
+      --card: #ffffff;
+      --red: #e30613;
+      --red-soft: #fde8ea;
+      --ok: #1a7a4c;
+      --font: "Manrope", sans-serif;
+      --display: "Source Serif 4", Georgia, serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--ink);
+      background:
+        radial-gradient(900px 400px at 10% -10%, #ffe5e7 0%, transparent 55%),
+        linear-gradient(180deg, #faf8f5 0%, var(--paper) 40%, #efece7 100%);
+      min-height: 100vh;
+    }
+    .studio {
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+      gap: 24px;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px 20px 64px;
+    }
+    .panel {
+      position: sticky;
+      top: 16px;
+      align-self: start;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px 18px 20px;
+      box-shadow: 0 10px 30px rgba(20, 20, 20, 0.04);
+    }
+    .panel h1 {
+      font-family: var(--display);
+      font-size: 22px;
+      line-height: 1.2;
+      margin: 0 0 6px;
+      font-weight: 600;
+    }
+    .panel .hint {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+      margin: 0 0 16px;
+    }
+    .panel label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      margin: 12px 0 6px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .panel input, .panel select {
+      width: 100%;
+      height: 44px;
+      border: 1px solid #d8d4ce;
+      border-radius: 10px;
+      padding: 0 12px;
+      font: inherit;
+      background: #fff;
+    }
+    .panel .row-btns {
+      display: grid;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .btn {
+      appearance: none;
+      border: 0;
+      border-radius: 12px;
+      min-height: 46px;
+      padding: 0 16px;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-primary { background: var(--red); color: #fff; }
+    .btn-ghost { background: transparent; border: 1px solid #ccc; color: var(--ink); }
+    .btn:hover { filter: brightness(0.97); }
+
+    .report-wrap { min-width: 0; }
+    .report {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      box-shadow: 0 18px 50px rgba(20, 20, 20, 0.07);
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .page {
+      padding: 48px 52px;
+      border-bottom: 1px dashed var(--line);
+    }
+    .page:last-child { border-bottom: 0; }
+
+    .brand-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .brand {
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      font-size: 14px;
+    }
+    .brand span { color: var(--red); }
+    .meta {
+      text-align: right;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .kicker {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+    h2.report-title {
+      font-family: var(--display);
+      font-size: 34px;
+      line-height: 1.15;
+      margin: 0 0 12px;
+      max-width: 18ch;
+      font-weight: 600;
+    }
+    .lead {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 56ch;
+      line-height: 1.5;
+      margin: 0 0 28px;
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .metric {
+      background: #faf8f5;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 16px 18px;
+    }
+    .metric.accent {
+      background: var(--red-soft);
+      border-color: #f3c4c8;
+    }
+    .metric .l {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .metric .v {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .inputs-box {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 18px;
+      background: #fff;
+    }
+    .inputs-box h3 {
+      margin: 0 0 12px;
+      font-size: 14px;
+    }
+    .inputs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      font-size: 13px;
+    }
+    .inputs-grid div {
+      background: #faf8f5;
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    .inputs-grid b { display: block; font-size: 16px; margin-top: 4px; }
+
+    h3.sec {
+      font-family: var(--display);
+      font-size: 22px;
+      margin: 0 0 8px;
+      font-weight: 600;
+    }
+    .sec-lead {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 0 18px;
+      line-height: 1.45;
+      max-width: 60ch;
+    }
+
+    .bars { display: grid; gap: 12px; margin-bottom: 18px; }
+    .bar-row { display: grid; grid-template-columns: 140px 1fr 90px; gap: 10px; align-items: center; font-size: 13px; }
+    .bar-track {
+      height: 10px;
+      background: #eee;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #c40510, var(--red));
+      border-radius: 99px;
+    }
+    .bar-row strong { text-align: right; }
+
+    .assumptions {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+      background: #faf8f5;
+      border-radius: 12px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+    }
+
+    .audience {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .aud-card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 14px 16px;
+      background: #fff;
+    }
+    .aud-card h4 {
+      margin: 0 0 10px;
+      font-size: 13px;
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .aud-card ul {
+      margin: 0;
+      padding: 0 0 0 16px;
+      font-size: 12.5px;
+      line-height: 1.45;
+      color: #333;
+    }
+    .aud-card li { margin-bottom: 6px; }
+
+    .recs { display: grid; gap: 10px; }
+    .rec {
+      border-left: 3px solid var(--red);
+      padding: 10px 12px 12px 14px;
+      background: #faf8f5;
+      border-radius: 0 12px 12px 0;
+    }
+    .rec strong { display: block; margin-bottom: 4px; font-size: 14px; }
+    .rec p { margin: 0; font-size: 13px; color: #333; line-height: 1.45; }
+
+    .steps {
+      counter-reset: step;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+    }
+    .steps li {
+      counter-increment: step;
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 12px;
+      align-items: start;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .steps li::before {
+      content: counter(step);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--red);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .disclaimer {
+      margin-top: 24px;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.4;
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+    }
+
+    @media (max-width: 960px) {
+      .studio { grid-template-columns: 1fr; }
+      .panel { position: static; }
+      .hero-metrics, .audience, .inputs-grid { grid-template-columns: 1fr; }
+      .page { padding: 28px 20px; }
+      .bar-row { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .studio { display: block; max-width: none; padding: 0; }
+      .panel { display: none !important; }
+      .report {
+        border: 0;
+        box-shadow: none;
+        border-radius: 0;
+      }
+      .page {
+        border: 0;
+        padding: 18mm 16mm;
+        break-after: page;
+      }
+      .page:last-child { break-after: auto; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="studio">
+    <aside class="panel" aria-label="Параметры отчёта">
+      <h1>Макет PDF-отчёта</h1>
+      <p class="hint">Те же ответы, что в лид-магните. Меняйте поля — отчёт пересоберётся. «Скачать PDF» = печать в файл.</p>
+
+      <label for="company">Компания (опционально)</label>
+      <input id="company" type="text" placeholder="Например, ООО «Пример»" value="Пример для руководства" />
+
+      <label for="endpoints">Рабочие места</label>
+      <select id="endpoints">
+        <option value="100">до 100</option>
+        <option value="300" selected>100–500</option>
+        <option value="750">500–1000</option>
+        <option value="2500">1000–5000</option>
+        <option value="7500">5000+</option>
+      </select>
+
+      <label for="itStaff">Сотрудники ИТ</label>
+      <input id="itStaff" type="number" min="1" max="500" value="35" />
+
+      <label for="budget">Годовой бюджет на ПО, ₽</label>
+      <input id="budget" type="text" inputmode="numeric" value="12 000 000" />
+
+      <div class="row-btns">
+        <button type="button" class="btn btn-primary" id="btnPrint">Скачать PDF</button>
+        <button type="button" class="btn btn-ghost" id="btnCopyLink">Ссылка с параметрами</button>
+      </div>
+    </aside>
+
+    <div class="report-wrap">
+      <article class="report" id="report" aria-label="Персональный отчёт">
+        <!-- filled by JS -->
+      </article>
+    </div>
+  </div>
+
+  <script src="./report-engine.js"></script>
+  <script>
+    (function () {
+      function parseBudget(raw) {
+        var n = Number(String(raw || "").replace(/[^\d]/g, ""));
+        return isFinite(n) ? n : 0;
+      }
+
+      function qs() {
+        var p = new URLSearchParams(location.search);
+        return {
+          company: p.get("company") || "",
+          endpoints: p.get("wp") || p.get("endpoints") || "",
+          itStaff: p.get("it") || p.get("itStaff") || "",
+          budget: p.get("budget") || "",
+        };
+      }
+
+      function applyQs() {
+        var q = qs();
+        if (q.company) document.getElementById("company").value = q.company;
+        if (q.endpoints) document.getElementById("endpoints").value = q.endpoints;
+        if (q.itStaff) document.getElementById("itStaff").value = q.itStaff;
+        if (q.budget) {
+          var b = parseBudget(q.budget);
+          document.getElementById("budget").value = b
+            ? b.toLocaleString("ru-RU").replace(/\u00a0/g, " ")
+            : q.budget;
+        }
+      }
+
+      function readInputs() {
+        return {
+          company: document.getElementById("company").value.trim(),
+          endpoints: Number(document.getElementById("endpoints").value || 0),
+          itStaff: Number(document.getElementById("itStaff").value || 0),
+          budget: parseBudget(document.getElementById("budget").value),
+        };
+      }
+
+      function pct(part, total) {
+        if (!total) return 0;
+        return Math.max(4, Math.round((part / total) * 100));
+      }
+
+      function li(list) {
+        return list.map(function (t) { return "<li>" + t + "</li>"; }).join("");
+      }
+
+      function render() {
+        var inp = readInputs();
+        var model = ItmenRoiReport.buildReportModel(inp, { company: inp.company });
+        var c = model.calc;
+        var n = model.narrative;
+        var f = c.fmt;
+        var when = model.generatedAt.toLocaleDateString("ru-RU", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+        var company = inp.company || "вашей компании";
+
+        var html = "";
+        html += '<section class="page">';
+        html += '<div class="brand-row"><div class="brand">Инферит <span>ИТМен</span></div>';
+        html += '<div class="meta">Персональный экономический отчёт<br>' + when + "<br>Конфиденциально</div></div>";
+        html += '<div class="kicker">Лид-магнит · ROI</div>';
+        html += "<h2 class=\"report-title\">Обоснование экономического эффекта для " + escapeHtml(company) + "</h2>";
+        html += '<p class="lead">Ориентировочный расчёт потенциальной экономии и окупаемости внедрения ИТМен на основе ваших ответов. Аргументы для руководства, финансов и ИБ — ниже.</p>';
+        html += '<div class="hero-metrics">';
+        html += '<div class="metric accent"><div class="l">Потенциальная экономия в год</div><div class="v">' + f.save + "</div></div>";
+        html += '<div class="metric"><div class="l">Ориентировочный ROI (год 1)</div><div class="v">' + f.roi + "</div></div>";
+        html += '<div class="metric"><div class="l">Срок окупаемости</div><div class="v">' + f.pay + "</div></div>";
+        html += "</div>";
+        html += '<div class="inputs-box"><h3>Ваши вводные</h3><div class="inputs-grid">';
+        html += "<div>Рабочие места<b>" + c.inputs.endpoints.toLocaleString("ru-RU") + "</b></div>";
+        html += "<div>Сотрудники ИТ<b>" + c.inputs.itStaff + "</b></div>";
+        html += "<div>Бюджет на ПО / год<b>" + f.budget + "</b></div>";
+        html += "</div></div>";
+        html += '<p class="disclaimer" style="border:0;padding:16px 0 0;margin:0">Оценка стоимости ИТМен (ориентир): <strong>' + f.costFull + "</strong> в год при тарифе " + c.assumptions.pricePerEndpoint + " ₽ / рабочее место.</p>";
+        html += "</section>";
+
+        html += '<section class="page">';
+        html += '<div class="kicker">Детализация</div>';
+        html += '<h3 class="sec">Экономия по трём направлениям</h3>';
+        html += '<p class="sec-lead">' + n.driverLine + " " + n.scaleLine + "</p>";
+        html += '<div class="bars">';
+        [
+          { key: "licenses", label: "ПО и лицензии", val: c.breakdown.licenses, tip: Math.round(c.assumptions.pctLicenses * 100) + "% от бюджета на ПО" },
+          { key: "assets", label: "Оборудование", val: c.breakdown.assets, tip: Math.round(c.assumptions.pctAssets * 100) + "% от оценочной стоимости парка" },
+          { key: "labor", label: "Трудозатраты ИТ", val: c.breakdown.labor, tip: (c.assumptions.pctIt * 100).toFixed(1).replace(".", ",") + "% от ФОТ ИТ" },
+        ].forEach(function (row) {
+          html += '<div class="bar-row"><span>' + row.label + '<br><small style="color:#888">' + row.tip + "</small></span>";
+          html += '<div class="bar-track"><div class="bar-fill" style="width:' + pct(row.val, c.savingsTotal) + '%"></div></div>';
+          html += "<strong>" + ItmenRoiReport.fmtRubShort(row.val) + "</strong></div>";
+        });
+        html += "</div>";
+        html += '<div class="assumptions"><strong>Допущения модели (консервативно):</strong> экономия на ПО — ' +
+          Math.round(c.assumptions.pctLicenses * 100) +
+          "% годового бюджета лицензий; на оборудовании — " +
+          Math.round(c.assumptions.pctAssets * 100) +
+          "% от оценки " +
+          c.assumptions.assetCostPerEndpoint.toLocaleString("ru-RU") +
+          " ₽ / РМ в год; на трудозатратах — " +
+          String(c.assumptions.pctIt * 100).replace(".", ",") +
+          "% ФОТ ИТ (ставка " +
+          c.assumptions.avgItSalaryMonth.toLocaleString("ru-RU") +
+          " ₽/мес). В презентации «Обоснование ИТМен» ориентиры выше (до 20% / апгрейд vs замена / кратное сокращение ручного аудита) — здесь взяты осторожные доли для лид-магнита.</div>";
+        html += "</section>";
+
+        html += '<section class="page">';
+        html += '<div class="kicker">Аргументы</div>';
+        html += '<h3 class="sec">Для руководства, финансов и ИБ</h3>';
+        html += '<p class="sec-lead">Один отчёт — три угла зрения. Формулировки подобраны под масштаб парка и доминирующий рычаг экономии.</p>';
+        html += '<div class="audience">';
+        html += '<div class="aud-card"><h4>Руководство</h4><ul>' + li(n.forExec) + "</ul></div>";
+        html += '<div class="aud-card"><h4>Финансисты</h4><ul>' + li(n.forFinance) + "</ul></div>";
+        html += '<div class="aud-card"><h4>ИБ / комплаенс</h4><ul>' + li(n.forSecurity) + "</ul></div>";
+        html += "</div></div>";
+        html += "</section>";
+
+        html += '<section class="page">';
+        html += '<div class="kicker">Рекомендации</div>';
+        html += '<h3 class="sec">Что сделать в первую очередь</h3>';
+        html += '<p class="sec-lead">Набор зависит от ваших ответов: масштаб, размер ИТ-команды и бюджет на ПО.</p>';
+        html += '<div class="recs">';
+        n.recommendations.forEach(function (r) {
+          html += '<div class="rec"><strong>' + escapeHtml(r.title) + "</strong><p>" + escapeHtml(r.text) + "</p></div>";
+        });
+        html += "</div>";
+        html += '<h3 class="sec" style="margin-top:28px">Следующие шаги</h3>';
+        html += '<ol class="steps">';
+        n.nextSteps.forEach(function (s) {
+          html += "<li>" + escapeHtml(s) + "</li>";
+        });
+        html += "</ol>";
+        html += '<p class="disclaimer">Отчёт носит оценочный характер и не является офертой. Фактический эффект зависит от текущего уровня зрелости учёта активов, структуры лицензий и периметра пилота. Источники формулировок: материалы обоснования ИТМен, кейсы экономии по трём направлениям, БЗ (ITAM/SAM). Подробнее о продукте: <a href="https://itman.ru" target="_blank" rel="noopener">itman.ru</a>.</p>';
+        html += "</section>";
+
+        document.getElementById("report").innerHTML = html;
+      }
+
+      function escapeHtml(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function bind() {
+        ["company", "endpoints", "itStaff", "budget"].forEach(function (id) {
+          document.getElementById(id).addEventListener("input", render);
+          document.getElementById(id).addEventListener("change", render);
+        });
+        document.getElementById("btnPrint").addEventListener("click", function () {
+          window.print();
+        });
+        document.getElementById("btnCopyLink").addEventListener("click", function () {
+          var inp = readInputs();
+          var u = new URL(location.href);
+          u.searchParams.set("company", inp.company);
+          u.searchParams.set("wp", String(inp.endpoints));
+          u.searchParams.set("it", String(inp.itStaff));
+          u.searchParams.set("budget", String(inp.budget));
+          history.replaceState(null, "", u.toString());
+          navigator.clipboard.writeText(u.toString()).then(
+            function () { alert("Ссылка скопирована — откроется тот же отчёт"); },
+            function () { prompt("Скопируйте ссылку:", u.toString()); }
+          );
+        });
+      }
+
+      applyQs();
+      bind();
+      render();
+    })();
+  </script>
+</body>
+</html>
