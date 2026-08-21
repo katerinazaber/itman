@@ -123,11 +123,14 @@
       margin-bottom: 28px;
     }
     .brand {
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      font-size: 14px;
+      display: block;
+      line-height: 0;
     }
-    .brand span { color: var(--red); }
+    .brand img {
+      height: 36px;
+      width: auto;
+      display: block;
+    }
     .meta {
       text-align: right;
       font-size: 12px;
@@ -455,7 +458,7 @@
 
         var html = "";
         html += '<section class="page">';
-        html += '<div class="brand-row"><div class="brand">Инферит <span>ИТМен</span></div>';
+        html += '<div class="brand-row"><a class="brand" href="https://itman.ru/" target="_blank" rel="noopener"><img src="assets/brand.svg" alt="Инферит ИТМен" width="200" height="36" /></a>';
         html += '<div class="meta">Персональный экономический отчёт<br>' + when + "<br>Конфиденциально</div></div>";
         html += '<div class="kicker">Лид-магнит · ROI</div>';
         html += "<h2 class=\"report-title\">Обоснование экономического эффекта для " + escapeHtml(company) + "</h2>";
