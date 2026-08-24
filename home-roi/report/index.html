@@ -435,22 +435,86 @@
     }
 
     @media print {
-      @page { size: A4; margin: 14mm 12mm; }
+      @page {
+        size: A4 portrait;
+        margin: 12mm 10mm;
+      }
+      html, body {
+        height: auto !important;
+        overflow: visible !important;
+        background: #fff !important;
+      }
       body { background: #fff; }
-      .studio { display: block; max-width: none; padding: 0; }
+      .studio {
+        display: block !important;
+        max-width: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
       .panel, .report-toolbar { display: none !important; }
+      .report-wrap {
+        max-height: none !important;
+        height: auto !important;
+        overflow: visible !important;
+        position: static !important;
+        top: auto !important;
+      }
       .report {
         border: 0;
         box-shadow: none;
         border-radius: 0;
+        overflow: visible !important;
       }
       .page {
         border: 0;
-        padding: 18mm 16mm;
-        break-after: page;
+        padding: 0;
+        margin: 0;
+        break-after: auto;
+        break-inside: auto;
+        page-break-after: auto;
+        page-break-inside: auto;
       }
-      .page:last-child { break-after: auto; }
+      .page + .page {
+        break-before: page;
+        page-break-before: always;
+      }
+      h2.report-title { font-size: 22px; line-height: 1.25; }
+      h3.sec { font-size: 18px; }
+      .lead, .sec-lead { font-size: 12px; }
+      .hero-metrics { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .metric { padding: 12px; break-inside: avoid; page-break-inside: avoid; }
+      .metric .v { font-size: 20px; }
+      .inputs-grid { grid-template-columns: repeat(3, 1fr); }
+      .audience { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+      .aud-card, .rec, .assumptions, .inputs-box {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      .aud-card ul, .rec p, .assumptions { font-size: 10px; }
+      .bar-row { grid-template-columns: 110px 1fr 72px; font-size: 11px; }
+      .bar-fill {
+        background: #e30613 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .metric.accent {
+        background: #fde8ea !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .steps li::before {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
       a { color: inherit; text-decoration: none; }
+      a[href]::after { content: none !important; }
+    }
+
+    body.is-printing .report-wrap {
+      max-height: none !important;
+      height: auto !important;
+      overflow: visible !important;
+      position: static !important;
     }
   </style>
 </head>
@@ -463,7 +527,7 @@
       <ol class="hint-steps">
         <li>Заполните поля из заявки или калькулятора</li>
         <li>Проверьте отчёт справа</li>
-        <li>Нажмите «Скачать PDF» → «Сохранить как PDF»</li>
+        <li>Нажмите «Скачать PDF» → в диалоге снимите «Колонтитулы» → «Сохранить как PDF»</li>
       </ol>
 
       <label for="company">Компания клиента (в заголовке отчёта)</label>
@@ -714,13 +778,37 @@
           .replace(/"/g, "&quot;");
       }
 
+      function preparePrint() {
+        var wrap = document.querySelector(".report-wrap");
+        document.body.classList.add("is-printing");
+        if (wrap) {
+          wrap.dataset.prevScroll = String(wrap.scrollTop || 0);
+          wrap.scrollTop = 0;
+        }
+        window.scrollTo(0, 0);
+      }
+
+      function restoreAfterPrint() {
+        var wrap = document.querySelector(".report-wrap");
+        document.body.classList.remove("is-printing");
+        if (wrap && wrap.dataset.prevScroll) {
+          wrap.scrollTop = Number(wrap.dataset.prevScroll || 0);
+          delete wrap.dataset.prevScroll;
+        }
+      }
+
       function bind() {
         ["company", "endpoints", "itStaff", "budget"].forEach(function (id) {
           document.getElementById(id).addEventListener("input", render);
           document.getElementById(id).addEventListener("change", render);
         });
+        window.addEventListener("beforeprint", preparePrint);
+        window.addEventListener("afterprint", restoreAfterPrint);
         document.getElementById("btnPrint").addEventListener("click", function () {
-          window.print();
+          preparePrint();
+          window.setTimeout(function () {
+            window.print();
+          }, 50);
         });
         document.getElementById("btnCopyLink").addEventListener("click", function () {
           var clientUrl = buildShareUrl(true);
