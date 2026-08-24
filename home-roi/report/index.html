@@ -218,13 +218,8 @@
       border-bottom: 1px dashed var(--line);
     }
     .page:last-child { border-bottom: 0; }
-    .report .pdf-chunk {
-      padding: 0;
-      margin: 0 0 28px;
-    }
-    .report .pdf-chunk:last-child { margin-bottom: 0; }
-    .report .pdf-chunk.pdf-section-head { margin-bottom: 18px; }
-    .report .pdf-chunk.cost-note { margin-top: 16px; margin-bottom: 0; }
+    /* Обёртки для PDF — на экране не влияют на вёрстку */
+    .report .pdf-chunk-wrap { display: contents; }
     .pdf-break {
       height: 0;
       break-before: page;
@@ -697,7 +692,7 @@
 
         var html = "";
         html += '<section class="page">';
-        html += '<div class="pdf-chunk pdf-intro">';
+        html += '<div class="pdf-chunk-wrap pdf-intro">';
         html += '<div class="brand-row"><span class="brand">' + BRAND_SVG + '</span>';
         html += '<div class="meta">Персональный экономический отчёт<br>' + when + "<br>Конфиденциально</div></div>";
         html += '<h2 class="report-title">Экономический эффект от внедрения «Инферит ИТМен» и обоснование для руководства' +
@@ -705,26 +700,26 @@
           "</h2>";
         html += '<p class="lead">Ориентировочный расчёт потенциальной экономии и окупаемости внедрения ИТМен на основе ваших ответов. Аргументы для руководства, финансов и ИБ — ниже.</p>';
         html += "</div>";
-        html += '<div class="pdf-chunk"><div class="hero-metrics">';
+        html += '<div class="pdf-chunk-wrap"><div class="hero-metrics">';
         html += '<div class="metric accent"><div class="l">Потенциальная экономия в год</div><div class="v">' + f.save + "</div></div>";
         html += '<div class="metric"><div class="l">Ориентировочный ROI (год 1)</div><div class="v">' + f.roi + "</div></div>";
         html += '<div class="metric"><div class="l">Срок окупаемости</div><div class="v">' + f.pay + "</div></div>";
         html += "</div></div>";
-        html += '<div class="pdf-chunk inputs-box"><h3>Ваши вводные</h3><div class="inputs-grid">';
+        html += '<div class="pdf-chunk-wrap"><div class="inputs-box"><h3>Ваши вводные</h3><div class="inputs-grid">';
         html += "<div>Рабочие места<b>" + c.inputs.endpoints.toLocaleString("ru-RU") + "</b></div>";
         html += "<div>Сотрудники ИТ<b>" + c.inputs.itStaff + "</b></div>";
         html += "<div>Бюджет на ПО / год<b>" + f.budget + "</b></div>";
-        html += "</div></div>";
-        html += '<p class="pdf-chunk disclaimer cost-note">Оценка стоимости ИТМен (ориентир): <strong>' + f.costFull + "</strong> в год при тарифе " + c.assumptions.pricePerEndpoint + " ₽ / рабочее место.</p>";
+        html += "</div></div></div>";
+        html += '<div class="pdf-chunk-wrap"><p class="disclaimer" style="border:0;padding:16px 0 0;margin:0">Оценка стоимости ИТМен (ориентир): <strong>' + f.costFull + "</strong> в год при тарифе " + c.assumptions.pricePerEndpoint + " ₽ / рабочее место.</p></div>";
         html += "</section>";
 
         html += '<section class="page">';
-        html += '<div class="pdf-chunk pdf-section-head">';
+        html += '<div class="pdf-chunk-wrap pdf-section-head">';
         html += '<div class="kicker">Детализация</div>';
         html += '<h3 class="sec">Экономия по трём направлениям</h3>';
         html += '<p class="sec-lead">' + n.driverLine + " " + n.scaleLine + "</p>";
         html += "</div>";
-        html += '<div class="pdf-chunk bars">';
+        html += '<div class="pdf-chunk-wrap"><div class="bars">';
         [
           { key: "licenses", label: "ПО и лицензии", val: c.breakdown.licenses, tip: Math.round(c.assumptions.pctLicenses * 100) + "% от бюджета на ПО" },
           { key: "assets", label: "Оборудование", val: c.breakdown.assets, tip: Math.round(c.assumptions.pctAssets * 100) + "% от оценочной стоимости парка" },
@@ -734,8 +729,8 @@
           html += '<div class="bar-track"><div class="bar-fill" style="width:' + pct(row.val, c.savingsTotal) + '%"></div></div>';
           html += "<strong>" + ItmenRoiReport.fmtRubShort(row.val) + "</strong></div>";
         });
-        html += "</div>";
-        html += '<div class="pdf-chunk assumptions"><strong>Допущения модели (консервативно):</strong> экономия на ПО — ' +
+        html += "</div></div>";
+        html += '<div class="pdf-chunk-wrap"><div class="assumptions"><strong>Допущения модели (консервативно):</strong> экономия на ПО — ' +
           Math.round(c.assumptions.pctLicenses * 100) +
           "% годового бюджета лицензий; на оборудовании — " +
           Math.round(c.assumptions.pctAssets * 100) +
@@ -745,40 +740,42 @@
           String(c.assumptions.pctIt * 100).replace(".", ",") +
           "% ФОТ ИТ (ставка " +
           c.assumptions.avgItSalaryMonth.toLocaleString("ru-RU") +
-          " ₽/мес). В презентации «Обоснование ИТМен» ориентиры выше (до 20% / апгрейд vs замена / кратное сокращение ручного аудита) — здесь взяты осторожные доли для лид-магнита.</div>";
+          " ₽/мес). В презентации «Обоснование ИТМен» ориентиры выше (до 20% / апгрейд vs замена / кратное сокращение ручного аудита) — здесь взяты осторожные доли для лид-магнита.</div></div>";
         html += "</section>";
 
         html += '<section class="page">';
-        html += '<div class="pdf-chunk pdf-section-head">';
+        html += '<div class="pdf-chunk-wrap pdf-section-head">';
         html += '<div class="kicker">Аргументы</div>';
         html += '<h3 class="sec">Для руководства, финансов и ИБ</h3>';
         html += '<p class="sec-lead">Один отчёт — три угла зрения. Формулировки подобраны под масштаб парка и доминирующий рычаг экономии.</p>';
         html += "</div>";
-        html += '<div class="pdf-chunk audience">';
+        html += '<div class="pdf-chunk-wrap"><div class="audience">';
         html += '<div class="aud-card"><h4>Руководство</h4><ul>' + li(n.forExec) + "</ul></div>";
         html += '<div class="aud-card"><h4>Финансисты</h4><ul>' + li(n.forFinance) + "</ul></div>";
         html += '<div class="aud-card"><h4>ИБ / комплаенс</h4><ul>' + li(n.forSecurity) + "</ul></div>";
-        html += "</div>";
+        html += "</div></div>";
         html += "</section>";
 
         html += '<section class="page">';
-        html += '<div class="pdf-chunk pdf-section-head">';
+        html += '<div class="pdf-chunk-wrap pdf-section-head">';
         html += '<div class="kicker">ITIL 4 · РИТМ</div>';
         html += '<h3 class="sec">Соответствие практикам управления ИТ</h3>';
         html += '<p class="sec-lead">ИТМен даёт фактический контур данных под практики ITIL 4 Foundation. Набор ниже подобран под ваш доминирующий рычаг экономии и масштаб. Рядом — контекст российского проекта РИТМ.</p>';
         html += "</div>";
+        html += '<div class="recs">';
         n.itilFocus.forEach(function (p) {
           html +=
-            '<div class="pdf-chunk rec"><strong>' +
+            '<div class="pdf-chunk-wrap"><div class="rec"><strong>' +
             escapeHtml(p.ru) +
             ' <span style="color:#888;font-weight:500">(' +
             escapeHtml(p.practice) +
             ")</span></strong><p>" +
             escapeHtml(p.why) +
-            "</p></div>";
+            "</p></div></div>";
         });
+        html += "</div>";
         html +=
-          '<div class="pdf-chunk assumptions"><strong>' +
+          '<div class="pdf-chunk-wrap"><div class="assumptions" style="margin-top:18px"><strong>' +
           escapeHtml(n.ritm.title) +
           "</strong><br>" +
           escapeHtml(n.ritm.blurb) +
@@ -790,26 +787,28 @@
             .join("") +
           '</ul>Источник: <a href="' +
           n.ritm.link +
-          '" target="_blank" rel="noopener">Устав проекта РИТМ</a>. Карта практик — из БЗ ИТМен × ITIL 4 Foundation.</div>';
+          '" target="_blank" rel="noopener">Устав проекта РИТМ</a>. Карта практик — из БЗ ИТМен × ITIL 4 Foundation.</div></div>';
         html += "</section>";
 
         html += '<section class="page">';
-        html += '<div class="pdf-chunk pdf-section-head">';
+        html += '<div class="pdf-chunk-wrap pdf-section-head">';
         html += '<div class="kicker">Рекомендации</div>';
         html += '<h3 class="sec">Что сделать в первую очередь</h3>';
         html += '<p class="sec-lead">Набор зависит от ваших ответов: масштаб, размер ИТ-команды и бюджет на ПО.</p>';
         html += "</div>";
+        html += '<div class="recs">';
         n.recommendations.forEach(function (r) {
-          html += '<div class="pdf-chunk rec"><strong>' + escapeHtml(r.title) + "</strong><p>" + escapeHtml(r.text) + "</p></div>";
+          html += '<div class="pdf-chunk-wrap"><div class="rec"><strong>' + escapeHtml(r.title) + "</strong><p>" + escapeHtml(r.text) + "</p></div></div>";
         });
-        html += '<div class="pdf-chunk steps-block">';
-        html += '<h3 class="sec" style="margin-top:8px">Следующие шаги</h3>';
+        html += "</div>";
+        html += '<div class="pdf-chunk-wrap">';
+        html += '<h3 class="sec" style="margin-top:28px">Следующие шаги</h3>';
         html += '<ol class="steps">';
         n.nextSteps.forEach(function (s) {
           html += "<li>" + escapeHtml(s) + "</li>";
         });
         html += "</ol></div>";
-        html += '<p class="pdf-chunk disclaimer">Отчёт носит оценочный характер и не является офертой. Фактический эффект зависит от текущего уровня зрелости учёта активов, структуры лицензий и периметра пилота. Источники формулировок: материалы обоснования ИТМен, кейсы экономии по трём направлениям, БЗ (ITAM/SAM × ITIL 4), контекст проекта РИТМ. Подробнее о продукте: <a href="https://itman.ru" target="_blank" rel="noopener">itman.ru</a>.</p>';
+        html += '<div class="pdf-chunk-wrap"><p class="disclaimer">Отчёт носит оценочный характер и не является офертой. Фактический эффект зависит от текущего уровня зрелости учёта активов, структуры лицензий и периметра пилота. Источники формулировок: материалы обоснования ИТМен, кейсы экономии по трём направлениям, БЗ (ITAM/SAM × ITIL 4), контекст проекта РИТМ. Подробнее о продукте: <a href="https://itman.ru" target="_blank" rel="noopener">itman.ru</a>.</p></div>';
         html += "</section>";
 
         document.getElementById("report").innerHTML = html;
@@ -954,7 +953,7 @@
         var contentW = 210 - margin * 2;
         var contentH = 297 - margin * 2;
         var gap = 3;
-        var chunks = Array.prototype.slice.call(doc.querySelectorAll(".pdf-chunk"));
+        var chunks = Array.prototype.slice.call(doc.querySelectorAll(".pdf-chunk-wrap"));
         var y = margin;
         var pageNum = 0;
 

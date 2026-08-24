@@ -39,17 +39,28 @@ html, body {
   width: 794px;
   max-width: 794px;
 }
-.pdf-chunk {
+.pdf-chunk-wrap {
+  display: block;
   width: 794px;
   max-width: 794px;
-  padding: 28px 44px 0;
+  padding: 0 44px;
   background: #fff;
   overflow: visible;
+  box-sizing: border-box;
 }
-.pdf-chunk:last-child {
-  padding-bottom: 28px;
+.page > .pdf-chunk-wrap:first-child {
+  padding-top: 36px;
 }
-.pdf-section-head { padding-bottom: 4px; }
+.page > .pdf-chunk-wrap:last-child {
+  padding-bottom: 36px;
+}
+.pdf-chunk-wrap + .pdf-chunk-wrap {
+  margin-top: 20px;
+}
+.pdf-section-head {
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+}
 .brand-row {
   display: flex;
   justify-content: space-between;
@@ -225,9 +236,5 @@ h3.sec {
   line-height: 1.4;
   border-top: 1px solid #e6e6e6;
   padding-top: 10px;
-}
-.cost-note {
-  border: 0;
-  padding-top: 0;
 }
 .pdf-break { display: none; }
