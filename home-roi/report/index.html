@@ -204,6 +204,38 @@
       font-family: var(--display);
       font-weight: 500;
     }
+    .report-toolbar .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .report-toolbar .btn-save-pdf {
+      appearance: none;
+      border: 0;
+      border-radius: 10px;
+      min-height: 40px;
+      padding: 0 14px;
+      background: var(--red);
+      color: #fff;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .report-toolbar .btn-save-pdf:hover { filter: brightness(0.97); }
+    .studio.report-only .report-toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      margin: 0 0 16px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: 0 8px 24px rgba(20, 20, 20, 0.06);
+      backdrop-filter: blur(8px);
+    }
+    .studio.report-only .toolbar-live { display: none; }
     .report {
       background: var(--card);
       border: 1px solid var(--line);
@@ -1409,8 +1441,11 @@
 
     <div class="report-wrap">
       <div class="report-toolbar" id="reportToolbar">
-        <span>Предпросмотр отчёта · <strong id="reportCompanyLabel">Компания не указана</strong></span>
-        <span>Обновляется автоматически</span>
+        <span id="toolbarCaption">Предпросмотр отчёта · <strong id="reportCompanyLabel">Компания не указана</strong></span>
+        <div class="toolbar-actions">
+          <span class="toolbar-live">Обновляется автоматически</span>
+          <button type="button" class="btn-save-pdf" id="btnSavePdf" hidden>Сохранить PDF</button>
+        </div>
       </div>
       <article class="report" id="report" aria-label="Персональный отчёт">
         <!-- filled by JS -->
@@ -1463,13 +1498,39 @@
       function applyViewMode() {
         var reportOnly = isReportOnlyView();
         var p = new URLSearchParams(location.search);
+        var toolbar = document.getElementById("reportToolbar");
+        var saveBtn = document.getElementById("btnSavePdf");
+        var caption = document.getElementById("toolbarCaption");
         document.getElementById("studio").classList.toggle("report-only", reportOnly);
-        document.getElementById("reportToolbar").hidden = reportOnly;
+        toolbar.hidden = false;
+        saveBtn.hidden = !reportOnly;
+        if (reportOnly) {
+          caption.innerHTML = 'Экономическое обоснование · <strong id="reportCompanyLabel">Компания не указана</strong>';
+        }
         if (p.get("print") === "1" && reportOnly) {
           window.setTimeout(function () {
-            window.print();
-          }, 600);
+            printReportPdf();
+          }, 700);
         }
+      }
+
+      function printReportPdf() {
+        document.body.classList.add("is-printing");
+        window.scrollTo(0, 0);
+        var wrap = document.querySelector(".report-wrap");
+        if (wrap) wrap.scrollTop = 0;
+        var done = function () {
+          window.setTimeout(function () {
+            document.body.classList.remove("is-printing");
+          }, 400);
+        };
+        var fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+        fontsReady.then(function () {
+          window.setTimeout(function () {
+            window.print();
+            done();
+          }, 200);
+        });
       }
 
       function applyQs() {
@@ -1883,6 +1944,7 @@
           document.getElementById(id).addEventListener("change", render);
         });
         document.getElementById("btnPrint").addEventListener("click", downloadPdf);
+        document.getElementById("btnSavePdf").addEventListener("click", printReportPdf);
         document.getElementById("btnCopyLink").addEventListener("click", function () {
           var clientUrl = buildShareUrl(true);
           var managerUrl = buildShareUrl(false);
