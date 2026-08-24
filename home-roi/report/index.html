@@ -874,40 +874,76 @@
         ].join("");
       }
 
+      var EXPORT_W = 794;
+
+      function ensureExportFonts(doc) {
+        var win = doc.defaultView;
+        if (!win || !win.FontFace || !doc.fonts) {
+          return Promise.resolve();
+        }
+        var faces = [
+          ["Nekst Regular Web", "https://itman.ru/t/images/mosaic/fonts/Nekst%20Regular%20Web-400-normal-0.ttf", "400"],
+          ["Nekst Medium Web", "https://itman.ru/t/images/mosaic/fonts/Nekst%20Medium%20Web-500-normal-0.ttf", "500"],
+          ["Nekst SemiBold", "https://itman.ru/t/images/mosaic/fonts/Nekst%20SemiBold-600-normal-0.ttf", "600"],
+        ];
+        return Promise.all(
+          faces.map(function (f) {
+            var face = new win.FontFace(f[0], "url(" + f[1] + ")", { weight: f[2], style: "normal" });
+            return face.load().then(function (loaded) {
+              doc.fonts.add(loaded);
+            }).catch(function () {});
+          })
+        ).then(function () {
+          return doc.fonts.ready;
+        });
+      }
+
       function waitForExportFrame(doc) {
-        var fontsReady = doc.fonts && doc.fonts.ready ? doc.fonts.ready : Promise.resolve();
-        return fontsReady.then(function () {
+        return ensureExportFonts(doc).then(function () {
           return new Promise(function (resolve, reject) {
             var tries = 0;
             var tick = function () {
               var target = doc.querySelector(".report");
-              if (target && target.offsetHeight > 200) {
+              if (target && target.offsetHeight > 200 && target.offsetWidth >= EXPORT_W - 4) {
                 resolve(target);
                 return;
               }
               tries += 1;
-              if (tries > 50) {
+              if (tries > 60) {
                 reject(new Error("export-timeout"));
                 return;
               }
               window.setTimeout(tick, 120);
             };
-            window.setTimeout(tick, 250);
+            window.setTimeout(tick, 300);
           });
         });
       }
 
-      function captureChunkElement(chunk) {
+      function captureChunkElement(chunk, win) {
         return html2canvas(chunk, {
           scale: 2,
           useCORS: true,
           allowTaint: true,
           backgroundColor: "#ffffff",
           logging: false,
-          width: chunk.scrollWidth,
-          height: chunk.scrollHeight,
-          windowWidth: chunk.scrollWidth,
-          windowHeight: chunk.scrollHeight,
+          width: EXPORT_W,
+          windowWidth: EXPORT_W,
+          scrollX: 0,
+          scrollY: 0,
+          window: win,
+          onclone: function (clonedDoc, clonedNode) {
+            clonedNode.style.width = EXPORT_W + "px";
+            clonedNode.style.maxWidth = EXPORT_W + "px";
+            clonedNode.style.boxSizing = "border-box";
+            var report = clonedDoc.querySelector(".report");
+            if (report) {
+              report.style.width = EXPORT_W + "px";
+              report.style.maxWidth = EXPORT_W + "px";
+            }
+            clonedDoc.body.style.width = EXPORT_W + "px";
+            clonedDoc.body.style.margin = "0";
+          },
         });
       }
 
@@ -928,9 +964,10 @@
           y = margin;
         }
 
-        return chunks.reduce(function (chain, chunk, index) {
+        var win = doc.defaultView;
+        return chunks.reduce(function (chain, chunk) {
           return chain.then(function () {
-            return captureChunkElement(chunk).then(function (canvas) {
+            return captureChunkElement(chunk, win).then(function (canvas) {
               if (canvas.width < 2 || canvas.height < 2) return;
               var imgH = (canvas.height * contentW) / canvas.width;
               if (pageNum === 0) newPage();
@@ -985,7 +1022,7 @@
         var iframe = document.createElement("iframe");
         iframe.id = "pdf-export-iframe";
         iframe.setAttribute("aria-hidden", "true");
-        iframe.style.cssText = "position:fixed;left:0;top:0;width:794px;height:12000px;border:0;opacity:0.01;pointer-events:none;z-index:2147483646;";
+        iframe.style.cssText = "position:fixed;left:0;top:0;width:" + EXPORT_W + "px;height:12000px;border:0;opacity:0.01;pointer-events:none;z-index:2147483646;";
         document.body.appendChild(iframe);
 
         var doc = iframe.contentDocument;
