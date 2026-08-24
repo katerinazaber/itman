@@ -223,15 +223,16 @@
     .report h4,
     .report h5,
     .report strong,
-    .report b {
+    .report b,
+    .report .kicker,
+    .report .section-index,
+    .report .stakeholder-role {
       font-family: "Nekst Regular Web", "Nekst", Arial, Helvetica, sans-serif;
       font-weight: 400 !important;
     }
+    /* Крупный текст: Medium TTF читается чётче SemiBold на экране */
     .report h2,
     .report h3,
-    .report .kicker,
-    .report .section-index,
-    .report .stakeholder-role,
     .report .cta-button,
     .report .metric .v,
     .report .inputs-grid b,
@@ -246,9 +247,13 @@
     .report .confidence-score,
     .report .priority-card strong,
     .report .stakeholder-card > strong,
+    .report .next-step-card h3,
     .report .next-step-card h3 strong {
-      font-family: "Nekst SemiBold", "Nekst", Arial, Helvetica, sans-serif;
-      font-weight: 600 !important;
+      font-family: "Nekst Medium Web", "Nekst", Arial, Helvetica, sans-serif;
+      font-weight: 500 !important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: geometricPrecision;
     }
     .pdf-break {
       height: 0;
