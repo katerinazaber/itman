@@ -392,6 +392,42 @@
     }
     .aud-card li { margin-bottom: 6px; }
 
+    .expert-cta {
+      padding: 24px;
+      border-radius: 16px;
+      background: var(--red-soft);
+      border: 1px solid #f3c4c8;
+    }
+    .expert-cta h3 {
+      margin: 0 0 10px;
+      font-family: var(--display);
+      font-size: 22px;
+      line-height: 1.25;
+    }
+    .expert-cta p {
+      margin: 0 0 16px;
+      max-width: 720px;
+      color: #333;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .expert-cta .cta-note {
+      color: var(--red);
+      font-weight: 600;
+    }
+    .expert-cta .cta-button {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 18px;
+      border-radius: 11px;
+      background: var(--red);
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
     .recs { display: grid; gap: 10px; }
     .rec {
       border-left: 3px solid var(--red);
@@ -698,11 +734,11 @@
         html += '<h2 class="report-title">Экономический эффект от внедрения «Инферит ИТМен» и обоснование для руководства' +
           (inp.company ? " — " + escapeHtml(inp.company) : "") +
           "</h2>";
-        html += '<p class="lead">Ориентировочный расчёт потенциальной экономии и окупаемости внедрения ИТМен на основе ваших ответов. Аргументы для руководства, финансов и ИБ — ниже.</p>';
+        html += '<p class="lead">Ориентировочный расчёт потенциальной экономии и окупаемости «Инферит ИТМен» и обоснование внедрения для руководства, финансов и ИБ на основе ваших данных.</p>';
         html += "</div>";
         html += '<div class="pdf-chunk-wrap"><div class="hero-metrics">';
         html += '<div class="metric accent"><div class="l">Потенциальная экономия в год</div><div class="v">' + f.save + "</div></div>";
-        html += '<div class="metric"><div class="l">Ориентировочный ROI (год 1)</div><div class="v">' + f.roi + "</div></div>";
+        html += '<div class="metric"><div class="l">Ориентировочный ROI (за год)</div><div class="v">' + f.roi + "</div></div>";
         html += '<div class="metric"><div class="l">Срок окупаемости</div><div class="v">' + f.pay + "</div></div>";
         html += "</div></div>";
         html += '<div class="pdf-chunk-wrap"><div class="inputs-box"><h3>Ваши вводные</h3><div class="inputs-grid">';
@@ -710,7 +746,6 @@
         html += "<div>Сотрудники ИТ<b>" + c.inputs.itStaff + "</b></div>";
         html += "<div>Бюджет на ПО / год<b>" + f.budget + "</b></div>";
         html += "</div></div></div>";
-        html += '<div class="pdf-chunk-wrap"><p class="disclaimer" style="border:0;padding:16px 0 0;margin:0">Оценка стоимости ИТМен (ориентир): <strong>' + f.costFull + "</strong> в год при тарифе " + c.assumptions.pricePerEndpoint + " ₽ / рабочее место.</p></div>";
         html += "</section>";
 
         html += '<section class="page">';
@@ -730,29 +765,38 @@
           html += "<strong>" + ItmenRoiReport.fmtRubShort(row.val) + "</strong></div>";
         });
         html += "</div></div>";
-        html += '<div class="pdf-chunk-wrap"><div class="assumptions"><strong>Допущения модели (консервативно):</strong> экономия на ПО — ' +
+        html += '<div class="pdf-chunk-wrap"><div class="assumptions">Цифры посчитаны по нижней границе: ' +
           Math.round(c.assumptions.pctLicenses * 100) +
-          "% годового бюджета лицензий; на оборудовании — " +
+          "% экономии от бюджета на лицензии, " +
           Math.round(c.assumptions.pctAssets * 100) +
-          "% от оценки " +
+          "% от стоимости парка (при средних тратах " +
           c.assumptions.assetCostPerEndpoint.toLocaleString("ru-RU") +
-          " ₽ / РМ в год; на трудозатратах — " +
+          " ₽ на рабочее место в год) и " +
           String(c.assumptions.pctIt * 100).replace(".", ",") +
-          "% ФОТ ИТ (ставка " +
+          "% ФОТ ИТ-специалистов при средней ставке " +
           c.assumptions.avgItSalaryMonth.toLocaleString("ru-RU") +
-          " ₽/мес). В презентации «Обоснование ИТМен» ориентиры выше (до 20% / апгрейд vs замена / кратное сокращение ручного аудита) — здесь взяты осторожные доли для лид-магнита.</div></div>";
+          " ₽ в месяц.</div></div>";
         html += "</section>";
 
         html += '<section class="page">';
         html += '<div class="pdf-chunk-wrap pdf-section-head">';
         html += '<div class="kicker">Аргументы</div>';
-        html += '<h3 class="sec">Для руководства, финансов и ИБ</h3>';
-        html += '<p class="sec-lead">Один отчёт — три угла зрения. Формулировки подобраны под масштаб парка и доминирующий рычаг экономии.</p>';
+        html += '<h3 class="sec">Обоснование внедрения</h3>';
         html += "</div>";
         html += '<div class="pdf-chunk-wrap"><div class="audience">';
-        html += '<div class="aud-card"><h4>Руководство</h4><ul>' + li(n.forExec) + "</ul></div>";
-        html += '<div class="aud-card"><h4>Финансисты</h4><ul>' + li(n.forFinance) + "</ul></div>";
-        html += '<div class="aud-card"><h4>ИБ / комплаенс</h4><ul>' + li(n.forSecurity) + "</ul></div>";
+        html += '<div class="aud-card"><h4>Для руководства</h4><ul>' + li(n.forExec) + "</ul></div>";
+        html += '<div class="aud-card"><h4>Для финансистов</h4><ul>' + li(n.forFinance) + "</ul></div>";
+        html += '<div class="aud-card"><h4>Для ИБ и комплаенса</h4><ul>' + li(n.forSecurity) + "</ul></div>";
+        html += "</div></div>";
+        html += "</section>";
+
+        html += '<section class="page">';
+        html += '<div class="pdf-chunk-wrap"><div class="expert-cta">';
+        html += '<div class="kicker">Следующий шаг</div>';
+        html += '<h3>Хотите проверить «Инферит ИТМен» на практике?</h3>';
+        html += '<p class="cta-note">Дарим сертификат на лицензии ИТМен −30%.</p>';
+        html += '<p>Этот расчёт построен на средних показателях. Реальные цифры зависят от вашей инфраструктуры, структуры лицензий и текущего состояния учёта. За 20 минут созвона наш эксперт посмотрит на ваш контур и уточнит расчёт, а заодно подготовит аргументы под вашу презентацию для руководства.</p>';
+        html += '<a class="cta-button" href="mailto:info@itman.ru?subject=Созвон с экспертом по расчёту ИТМен">Записаться на созвон с экспертом</a>';
         html += "</div></div>";
         html += "</section>";
 
