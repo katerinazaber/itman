@@ -230,7 +230,7 @@
       font-family: "Nekst Regular Web", "Nekst", Arial, Helvetica, sans-serif;
       font-weight: 400 !important;
     }
-    /* Крупный текст: Medium TTF + лёгкое утолщение штриха (без SemiBold) */
+    /* Крупный текст: Medium TTF + утолщение штриха (без SemiBold) */
     .report h2,
     .report h3,
     .report .cta-button,
@@ -254,10 +254,29 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-rendering: geometricPrecision;
-      -webkit-text-stroke: 0.45px currentColor;
+      -webkit-text-stroke: 0.55px currentColor;
+    }
+    /* Основные заголовки презентации — Medium + плотнее stroke */
+    .report h2.report-title,
+    .report h2.report-title .company-line,
+    .report h3.sec,
+    .report h3.sec-large,
+    .report .subhead,
+    .report .money-head h4,
+    .report .stakeholder-card h5,
+    .report .process-column h4,
+    .report .priority-card h4,
+    .report .confidence-head strong,
+    .report .next-step-card h3 {
+      font-family: "Nekst Medium Web", "Nekst", Arial, Helvetica, sans-serif;
+      font-weight: 500 !important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: geometricPrecision;
+      -webkit-text-stroke: 0.75px currentColor;
     }
     .report h2.report-title {
-      -webkit-text-stroke: 0.55px currentColor;
+      -webkit-text-stroke: 0.9px currentColor;
     }
     .pdf-break {
       height: 0;
