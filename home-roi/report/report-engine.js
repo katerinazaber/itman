@@ -307,6 +307,144 @@
       ],
     };
 
+    var potentialShare =
+      calc.inputs.budget > 0
+        ? (calc.savingsTotal / calc.inputs.budget) * 100
+        : NaN;
+
+    var directions = [
+      {
+        key: "licenses",
+        title: "Оптимизация лицензий",
+        value: calc.breakdown.licenses,
+        formatted: f.licenses,
+        formula:
+          f.budget +
+          " × " +
+          Math.round(calc.assumptions.pctLicenses * 100) +
+          "% = " +
+          f.licenses,
+        logic:
+          "Диапазон основан на модельном потенциале перехода от учёта по факту закупки к управлению лицензиями на основе данных об использовании.",
+        factors: [
+          "неиспользуемые и избыточные лицензии",
+          "дублирование программного обеспечения",
+          "неэффективное распределение лицензий",
+          "отсутствие данных о фактическом использовании",
+        ],
+        verification:
+          "ИТМен сопоставляет установленное ПО, пользователей, лицензии и фактическое использование.",
+      },
+      {
+        key: "labor",
+        title: "Снижение ручных трудозатрат ИТ",
+        value: calc.breakdown.labor,
+        formatted: f.labor,
+        formula:
+          calc.inputs.itStaff.toLocaleString("ru-RU") +
+          " сотрудников × " +
+          fmtRub(calc.assumptions.avgItSalaryMonth) +
+          " × 12 × " +
+          String(calc.assumptions.pctIt * 100).replace(".", ",") +
+          "% = " +
+          f.labor,
+        logic:
+          "Модель учитывает только небольшую долю ФОТ ИТ, которая может приходиться на ручной сбор, сверку и актуализацию данных.",
+        factors: [
+          "ручной сбор информации",
+          "подготовка инвентаризационных отчётов",
+          "сверка данных из разных систем",
+          "поиск информации по рабочим местам",
+        ],
+        verification:
+          "ИТМен автоматизирует сбор, агрегацию и нормализацию данных об ИТ-активах.",
+      },
+      {
+        key: "assets",
+        title: "Снижение потерь из-за неполной картины",
+        value: calc.breakdown.assets,
+        formatted: f.assets,
+        formula:
+          calc.inputs.endpoints.toLocaleString("ru-RU") +
+          " рабочих мест × " +
+          fmtRub(calc.assumptions.assetCostPerEndpoint) +
+          " × " +
+          Math.round(calc.assumptions.pctAssets * 100) +
+          "% = " +
+          f.assets,
+        logic:
+          "Оценка отражает консервативный потенциал более обоснованных решений по жизненному циклу оборудования и связанным закупкам.",
+        factors: [
+          "закупки без полной информации о текущих активах",
+          "дублирование оборудования и записей",
+          "невозможность быстро определить владельца актива",
+          "ошибки и расхождения в реестрах",
+        ],
+        verification:
+          "ИТМен объединяет сведения об активах и показывает их состав, владельцев, конфигурации и историю изменений.",
+      },
+    ];
+
+    var priorities = directions
+      .slice()
+      .sort(function (a, b) {
+        return b.value - a.value;
+      })
+      .map(function (item, index) {
+        return {
+          rank: index + 1,
+          key: item.key,
+          title: item.title,
+          formatted: item.formatted,
+        };
+      });
+
+    var validationQuestions = [
+      {
+        question: "Сколько ПО реально установлено?",
+        answer: "ИТМен автоматически собирает данные с рабочих мест и серверов.",
+      },
+      {
+        question: "Сколько лицензий реально используется?",
+        answer: "Сопоставляем лицензии с пользователями и фактическим использованием.",
+      },
+      {
+        question: "Где есть дублирование?",
+        answer: "Объединяем данные из разных источников и нормализуем ПО.",
+      },
+      {
+        question: "Какие активы отсутствуют в учёте?",
+        answer: "Обнаруживаем устройства и ПО вне текущего реестра.",
+      },
+      {
+        question: "Сколько времени ИТ-команда тратит на ручную работу?",
+        answer: "Сравниваем текущий процесс с автоматизированным сбором данных.",
+      },
+    ];
+
+    var businessOutcomes = [
+      {
+        role: "Финансовый директор",
+        outcome: "Понимание, где можно сократить ИТ-расходы.",
+      },
+      {
+        role: "ИТ-директор",
+        outcome: "Единая картина инфраструктуры и контроль ИТ-бюджета.",
+      },
+      {
+        role: "ИБ",
+        outcome: "Контроль ПО и изменений в инфраструктуре.",
+      },
+      {
+        role: "Закупки",
+        outcome: "Данные для обоснования закупок и продлений.",
+      },
+      {
+        role: "ИТ-команда",
+        outcome: "Меньше ручного сбора и сверки данных.",
+      },
+    ];
+
     return {
       scaleLine: scaleLine,
       driverLine: driverLine,
@@ -317,6 +455,27 @@
       nextSteps: nextSteps,
       itilFocus: itilFocus.slice(0, 5),
       ritm: ritm,
+      potentialShare: potentialShare,
+      directions: directions,
+      priorities: priorities,
+      confidence: {
+        level: "Ориентировочный",
+        score: 35,
+        known: [
+          "размер инфраструктуры",
+          "размер ИТ-команды",
+          "бюджет на ПО",
+        ],
+        unknown: [
+          "фактический состав ПО",
+          "количество и типы лицензий",
+          "реальное использование",
+          "дублирование активов",
+          "распределение затрат",
+        ],
+      },
+      validationQuestions: validationQuestions,
+      businessOutcomes: businessOutcomes,
     };
   }
 
