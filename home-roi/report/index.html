@@ -66,6 +66,11 @@
       margin: 0 auto;
       padding: 24px 20px 64px;
     }
+    .studio.report-only {
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 920px;
+    }
+    .studio.report-only .panel { display: none; }
     .panel {
       position: sticky;
       top: 16px;
@@ -359,7 +364,15 @@
 
     @media (max-width: 960px) {
       .studio { grid-template-columns: 1fr; }
+      .studio .report-wrap { order: -1; }
       .panel { position: static; }
+      .panel .hint::after {
+        content: " Отчёт показан выше — прокрутите вверх, если не видите.";
+        display: block;
+        margin-top: 8px;
+        color: var(--red);
+        font-weight: 600;
+      }
       .hero-metrics, .audience, .inputs-grid { grid-template-columns: 1fr; }
       .page { padding: 28px 20px; }
       .bar-row { grid-template-columns: 1fr; }
@@ -437,6 +450,17 @@
           itStaff: p.get("it") || p.get("itStaff") || "",
           budget: p.get("budget") || "",
         };
+      }
+
+      function isReportOnlyView() {
+        var p = new URLSearchParams(location.search);
+        if (p.get("view") === "report" || p.get("embed") === "1") return true;
+        var q = qs();
+        return !!(q.company || q.endpoints || q.itStaff || q.budget);
+      }
+
+      function applyViewMode() {
+        document.querySelector(".studio").classList.toggle("report-only", isReportOnlyView());
       }
 
       function applyQs() {
@@ -538,7 +562,7 @@
         html += '<div class="aud-card"><h4>Руководство</h4><ul>' + li(n.forExec) + "</ul></div>";
         html += '<div class="aud-card"><h4>Финансисты</h4><ul>' + li(n.forFinance) + "</ul></div>";
         html += '<div class="aud-card"><h4>ИБ / комплаенс</h4><ul>' + li(n.forSecurity) + "</ul></div>";
-        html += "</div></div>";
+        html += "</div>";
         html += "</section>";
 
         html += '<section class="page">';
@@ -592,6 +616,9 @@
         html += "</section>";
 
         document.getElementById("report").innerHTML = html;
+        if (!isReportOnlyView() && window.matchMedia("(max-width: 960px)").matches) {
+          document.getElementById("report").scrollIntoView({ behavior: "smooth", block: "start" });
+        }
       }
 
       function escapeHtml(s) {
@@ -625,6 +652,7 @@
         });
       }
 
+      applyViewMode();
       applyQs();
       bind();
       render();
