@@ -947,22 +947,60 @@
       font-family: var(--display);
       font-size: 18px;
     }
-    .outcome-table {
-      overflow: hidden;
+    .stakeholder-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .stakeholder-card {
+      display: flex;
+      min-height: 238px;
+      flex-direction: column;
+      padding: 18px;
       border: 1px solid var(--line);
       border-radius: 14px;
+      background: #fff;
     }
-    .outcome-table > div {
-      display: grid;
-      grid-template-columns: 180px minmax(0, 1fr);
-      gap: 16px;
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--line);
-      font-size: 12px;
-      line-height: 1.4;
+    .stakeholder-card:nth-child(1) {
+      border-color: #f3c4c8;
+      background: var(--red-soft);
     }
-    .outcome-table > div:last-child { border-bottom: 0; }
-    .outcome-table strong { color: var(--red); }
+    .stakeholder-role {
+      display: inline-flex;
+      width: fit-content;
+      margin-bottom: 18px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: #f2f0ed;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .stakeholder-card:nth-child(1) .stakeholder-role {
+      background: rgba(227, 6, 19, 0.1);
+      color: var(--red);
+    }
+    .stakeholder-card > strong {
+      margin-bottom: 8px;
+      color: var(--red);
+      font-family: var(--display);
+      font-size: 18px;
+      line-height: 1.25;
+    }
+    .stakeholder-card h5 {
+      margin: 0 0 9px;
+      font-family: var(--display);
+      font-size: 15px;
+      line-height: 1.3;
+    }
+    .stakeholder-card p {
+      margin: 0;
+      color: #444;
+      font-size: 11.5px;
+      line-height: 1.5;
+    }
     .priority-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -1162,7 +1200,8 @@
       .accuracy-path > div:nth-child(3) { border-left: 0; }
       .accuracy-path > div:nth-child(n+3) { border-top: 1px solid var(--line); }
       .process-shift { min-height: 38px; transform: rotate(90deg); }
-      .outcome-table > div { grid-template-columns: 1fr; gap: 4px; }
+      .stakeholder-grid { grid-template-columns: 1fr; }
+      .stakeholder-card { min-height: auto; }
       .next-step-card { padding: 22px; }
       .next-step-card h3 { font-size: 23px; }
       .next-step-card ul { grid-template-columns: 1fr; }
@@ -1311,7 +1350,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
-  <script src="./report-engine.js?v=d14c985"></script>
+  <script src="./report-engine.js?v=stakeholders-1"></script>
   <script>
     (function () {
       var BRAND_SVG = '<svg width="200" height="36" viewBox="0 0 200 36" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0)"><path d="M15.8734 36H3.9943C1.79304 36 0 34.2298 0 32.0562V2.46573C0 1.10593 1.11911 0 2.49688 0H31.5426C33.7439 0 35.5334 1.77018 35.5334 3.94552V16.5698C35.5334 17.4914 35.1709 18.3591 34.5111 19.0094L18.3439 34.988C17.6823 35.6401 16.806 35.9983 15.8734 35.9983M2.49688 1.25199C1.81943 1.25199 1.26867 1.79626 1.26867 2.46573V32.0545C1.26867 33.5395 2.4916 34.7463 3.9943 34.7463H15.8734C16.4681 34.7463 17.0277 34.5167 17.4482 34.1011L33.6155 18.1226C34.036 17.707 34.2665 17.1558 34.2665 16.568V3.94552C34.2665 2.46051 33.0436 1.25373 31.5426 1.25373H2.49688V1.25199Z" fill="#DD0C29"/><path d="M56.0897 0C55.1624 0 54.2738 0.365164 53.6193 1.01029L37.452 16.9888C36.7957 17.6357 36.4297 18.5138 36.4297 19.4285V32.0545C36.4297 34.2333 38.2157 35.9983 40.4222 35.9983H69.468C70.8458 35.9983 71.9613 34.8941 71.9613 33.5343V3.94725C71.9613 1.7667 70.1754 0 67.9706 0H56.0897Z" fill="#DD0C29"/><path d="M54.8478 29.9801L58.6855 24.7183H59.9859V31.9572H58.6855V26.6954L54.8478 31.9572H53.5352V24.7183H54.8478V29.9801Z" fill="white"/><path d="M61.0703 24.7183H67.4682V25.9824H64.9203V31.9572H63.6182V25.9824H61.0703V24.7183Z" fill="white"/><path d="M89.5364 27.9873L94.1782 21.623H95.7513V30.38H94.1782V24.0157L89.5364 30.38H87.9492V21.623H89.5364V27.9873Z" fill="black"/><path d="M97.0586 21.623H104.796V23.1533H101.713V30.38H100.14V23.1533H97.0586V21.623Z" fill="black"/><path d="M115.877 21.623V30.38H114.29V24.0018L111.552 30.38H110.389L107.664 24.0018V30.38H106.078V21.623H108.272L110.996 28.0134L113.722 21.623H115.877Z" fill="black"/><path d="M120.453 23.7009C121.537 23.7009 122.392 24.0783 123.018 24.8312C123.645 25.5841 123.909 26.5231 123.812 27.6482H118.614C118.675 28.0759 118.876 28.4342 119.216 28.7263C119.555 29.0184 119.976 29.168 120.479 29.1767C120.849 29.1853 121.185 29.1141 121.484 28.961C121.783 28.808 121.999 28.6011 122.131 28.3403H123.704C123.493 29.0375 123.094 29.5818 122.508 29.9731C121.922 30.3643 121.236 30.5608 120.451 30.5608C119.411 30.5608 118.582 30.2304 117.965 29.5679C117.347 28.9054 117.039 28.0951 117.039 27.137C117.039 26.1788 117.358 25.3442 117.998 24.6869C118.637 24.0296 119.455 23.7009 120.451 23.7009M120.425 25.0868C119.974 25.0868 119.589 25.2085 119.267 25.452C118.945 25.6954 118.735 26.0189 118.639 26.4188H122.235C122.138 26.0102 121.927 25.685 121.6 25.445C121.274 25.2051 120.882 25.0851 120.423 25.0851" fill="black"/><path d="M129.761 26.3545V23.8853H131.282V30.38H129.761V27.7925H126.52V30.38H125V23.8853H126.52V26.3545H129.761Z" fill="black"/><path d="M134.91 13.2434H130.542V8.17801H134.91V13.2434ZM127.551 13.2434H123.245V8.17801H127.551V13.2434ZM133.701 5.62012H132.154L130.544 7.21293V5.62012H124.454C121.97 5.62012 119.953 7.61287 119.953 10.0682V11.3532C119.953 13.8085 121.97 15.8013 124.454 15.8013H127.553V17.4671H130.546V15.8013H133.703C136.189 15.8013 138.204 13.8102 138.204 11.3532V10.0682C138.204 7.61287 136.189 5.62012 133.703 5.62012" fill="black"/><path d="M143.638 14.8969V12.8172H150.053V10.2628H143.638V8.17792H152.339V5.62524H140.469V10.2628V12.8172V17.4548H152.568V14.8969H143.638Z" fill="black"/><path d="M187.672 5.62695V8.35699L192.252 8.35873V17.4548H195.421V8.35699H200.001V5.62695H187.672Z" fill="black"/><path d="M101.146 5.64117V5.6377L97.8594 5.64117L89.7933 13.5931H89.7194L89.7159 13.5948V5.6377H86.5486L86.5469 17.4673H89.8391L97.9016 9.51887H97.9773V17.4673H101.146V5.64117Z" fill="black"/><path d="M185.775 5.62872H185.773V5.62524L182.488 5.62872L174.42 13.5806H174.348H174.345V5.62524H171.176V17.4548H174.468L182.53 9.50642H182.606V17.4548H185.773L185.775 5.62872Z" fill="black"/><path d="M114.506 5.63916H117.675V17.467H114.506V12.8225H107.161V17.467H103.992V5.63916H107.161V10.0924H114.506V5.63916Z" fill="black"/><path d="M165.451 12.0937H158.585V8.17776H165.451V12.0937ZM164.816 5.61987H160.209L158.585 7.22486V5.61987H155.418V17.4495H158.585V14.6516H164.816C167.052 14.6516 168.867 12.8588 168.867 10.6487V9.62451C168.867 7.4144 167.054 5.61987 164.816 5.61987Z" fill="black"/></g><defs><clipPath id="clip0"><rect width="200" height="36" fill="white"/></clipPath></defs></svg>';
@@ -1505,9 +1544,12 @@
         html += '<div class="process-shift">→</div>';
         html += '<div class="process-column after"><h4>С ИТМен</h4><ol><li>Автоматический сбор данных</li><li>Единая база ИТ-активов</li><li>Нормализация и обогащение</li><li>Аналитика использования</li><li>Данные для управления расходами</li></ol></div>';
         html += "</div></div>";
-        html += '<div class="pdf-chunk-wrap"><h4 class="subhead">Что получит бизнес</h4><div class="outcome-table">';
-        n.businessOutcomes.forEach(function (item) {
-          html += '<div><strong>' + escapeHtml(item.role) + "</strong><span>" + escapeHtml(item.outcome) + "</span></div>";
+        html += '<div class="pdf-chunk-wrap"><h4 class="subhead">Обоснование для ключевых подразделений</h4><div class="stakeholder-grid">';
+        n.stakeholderCases.forEach(function (item) {
+          html += '<article class="stakeholder-card"><span class="stakeholder-role">' + escapeHtml(item.role) + "</span>";
+          html += "<strong>" + escapeHtml(item.metric) + "</strong>";
+          html += "<h5>" + escapeHtml(item.title) + "</h5>";
+          html += "<p>" + escapeHtml(item.rationale) + "</p></article>";
         });
         html += "</div></div></section>";
 
