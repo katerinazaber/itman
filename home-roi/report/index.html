@@ -220,16 +220,33 @@
     .page:last-child { border-bottom: 0; }
     /* Обёртки для PDF — на экране не влияют на вёрстку */
     .report .pdf-chunk-wrap { display: contents; }
-    .report h2,
-    .report h3,
     .report h4,
     .report h5,
     .report strong,
-    .report b,
+    .report b {
+      font-family: "Nekst Regular Web", "Nekst", Arial, Helvetica, sans-serif;
+      font-weight: 400 !important;
+    }
+    .report h2,
+    .report h3,
     .report .kicker,
     .report .section-index,
     .report .stakeholder-role,
-    .report .cta-button {
+    .report .cta-button,
+    .report .metric .v,
+    .report .inputs-grid b,
+    .report .data-table strong,
+    .report .potential-hero strong,
+    .report .flow-node strong,
+    .report .factor-grid b,
+    .report .money-head strong,
+    .report .formula-box b,
+    .report .total-line strong,
+    .report .confidence-head strong,
+    .report .confidence-score,
+    .report .priority-card strong,
+    .report .stakeholder-card > strong,
+    .report .next-step-card h3 strong {
       font-family: "Nekst SemiBold", "Nekst", Arial, Helvetica, sans-serif;
       font-weight: 600 !important;
     }
