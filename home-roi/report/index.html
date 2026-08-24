@@ -230,7 +230,7 @@
       font-family: "Nekst Regular Web", "Nekst", Arial, Helvetica, sans-serif;
       font-weight: 400 !important;
     }
-    /* Крупный текст: Medium TTF читается чётче SemiBold на экране */
+    /* Крупный текст: Medium TTF + лёгкое утолщение штриха (без SemiBold) */
     .report h2,
     .report h3,
     .report .cta-button,
@@ -254,6 +254,10 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-rendering: geometricPrecision;
+      -webkit-text-stroke: 0.45px currentColor;
+    }
+    .report h2.report-title {
+      -webkit-text-stroke: 0.55px currentColor;
     }
     .pdf-break {
       height: 0;
