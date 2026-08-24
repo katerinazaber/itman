@@ -218,8 +218,16 @@
       border-bottom: 1px dashed var(--line);
     }
     .page:last-child { border-bottom: 0; }
-    /* Обёртки для PDF — на экране не влияют на вёрстку */
-    .report .pdf-chunk-wrap { display: contents; }
+    /* На экране обёртки дают воздух между блоками; для PDF — свой CSS */
+    .report .pdf-chunk-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 0 0 22px;
+    }
+    .report .page > .pdf-chunk-wrap:last-child {
+      margin-bottom: 0;
+    }
     .report h4,
     .report h5,
     .report strong,
@@ -534,7 +542,7 @@
       line-height: 1.5;
     }
     .section-index {
-      margin-bottom: 10px;
+      margin-bottom: 0;
       color: var(--red);
       font-size: 12px;
       font-weight: 700;
@@ -542,8 +550,12 @@
     }
     h3.sec-large {
       max-width: 720px;
+      margin: 0;
       font-size: 28px;
       line-height: 1.15;
+    }
+    .report .sec-lead {
+      margin: 0;
     }
     .data-table {
       overflow: hidden;
@@ -629,7 +641,7 @@
       font-size: 12.5px;
       line-height: 1.55;
     }
-    .evidence-note.compact { margin-top: 12px; }
+    .evidence-note.compact { margin-top: 0; }
     .calc-flow {
       display: grid;
       grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1fr) 28px minmax(0, 1fr);
@@ -817,7 +829,7 @@
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
-      margin-top: 16px;
+      margin-top: 0;
     }
     .confidence-head span {
       display: block;
@@ -1001,7 +1013,7 @@
       font-weight: 700;
     }
     .subhead {
-      margin: 28px 0 12px;
+      margin: 0 0 4px;
       font-family: var(--display);
       font-size: 18px;
     }
@@ -1199,7 +1211,7 @@
     }
 
     .disclaimer {
-      margin-top: 24px;
+      margin: 0;
       font-size: 11px;
       color: var(--muted);
       line-height: 1.4;
