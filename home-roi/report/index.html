@@ -218,6 +218,13 @@
       border-bottom: 1px dashed var(--line);
     }
     .page:last-child { border-bottom: 0; }
+    .report .pdf-chunk {
+      padding: 0;
+      margin: 0 0 28px;
+    }
+    .report .pdf-chunk:last-child { margin-bottom: 0; }
+    .report .pdf-chunk.pdf-section-head { margin-bottom: 18px; }
+    .report .pdf-chunk.cost-note { margin-top: 16px; margin-bottom: 0; }
     .pdf-break {
       height: 0;
       break-before: page;
@@ -690,30 +697,34 @@
 
         var html = "";
         html += '<section class="page">';
+        html += '<div class="pdf-chunk pdf-intro">';
         html += '<div class="brand-row"><span class="brand">' + BRAND_SVG + '</span>';
         html += '<div class="meta">Персональный экономический отчёт<br>' + when + "<br>Конфиденциально</div></div>";
         html += '<h2 class="report-title">Экономический эффект от внедрения «Инферит ИТМен» и обоснование для руководства' +
           (inp.company ? " — " + escapeHtml(inp.company) : "") +
           "</h2>";
         html += '<p class="lead">Ориентировочный расчёт потенциальной экономии и окупаемости внедрения ИТМен на основе ваших ответов. Аргументы для руководства, финансов и ИБ — ниже.</p>';
-        html += '<div class="hero-metrics">';
+        html += "</div>";
+        html += '<div class="pdf-chunk"><div class="hero-metrics">';
         html += '<div class="metric accent"><div class="l">Потенциальная экономия в год</div><div class="v">' + f.save + "</div></div>";
         html += '<div class="metric"><div class="l">Ориентировочный ROI (год 1)</div><div class="v">' + f.roi + "</div></div>";
         html += '<div class="metric"><div class="l">Срок окупаемости</div><div class="v">' + f.pay + "</div></div>";
-        html += "</div>";
-        html += '<div class="inputs-box"><h3>Ваши вводные</h3><div class="inputs-grid">';
+        html += "</div></div>";
+        html += '<div class="pdf-chunk inputs-box"><h3>Ваши вводные</h3><div class="inputs-grid">';
         html += "<div>Рабочие места<b>" + c.inputs.endpoints.toLocaleString("ru-RU") + "</b></div>";
         html += "<div>Сотрудники ИТ<b>" + c.inputs.itStaff + "</b></div>";
         html += "<div>Бюджет на ПО / год<b>" + f.budget + "</b></div>";
         html += "</div></div>";
-        html += '<p class="disclaimer" style="border:0;padding:16px 0 0;margin:0">Оценка стоимости ИТМен (ориентир): <strong>' + f.costFull + "</strong> в год при тарифе " + c.assumptions.pricePerEndpoint + " ₽ / рабочее место.</p>";
+        html += '<p class="pdf-chunk disclaimer cost-note">Оценка стоимости ИТМен (ориентир): <strong>' + f.costFull + "</strong> в год при тарифе " + c.assumptions.pricePerEndpoint + " ₽ / рабочее место.</p>";
         html += "</section>";
 
         html += '<section class="page">';
+        html += '<div class="pdf-chunk pdf-section-head">';
         html += '<div class="kicker">Детализация</div>';
         html += '<h3 class="sec">Экономия по трём направлениям</h3>';
         html += '<p class="sec-lead">' + n.driverLine + " " + n.scaleLine + "</p>";
-        html += '<div class="bars">';
+        html += "</div>";
+        html += '<div class="pdf-chunk bars">';
         [
           { key: "licenses", label: "ПО и лицензии", val: c.breakdown.licenses, tip: Math.round(c.assumptions.pctLicenses * 100) + "% от бюджета на ПО" },
           { key: "assets", label: "Оборудование", val: c.breakdown.assets, tip: Math.round(c.assumptions.pctAssets * 100) + "% от оценочной стоимости парка" },
@@ -724,7 +735,7 @@
           html += "<strong>" + ItmenRoiReport.fmtRubShort(row.val) + "</strong></div>";
         });
         html += "</div>";
-        html += '<div class="assumptions"><strong>Допущения модели (консервативно):</strong> экономия на ПО — ' +
+        html += '<div class="pdf-chunk assumptions"><strong>Допущения модели (консервативно):</strong> экономия на ПО — ' +
           Math.round(c.assumptions.pctLicenses * 100) +
           "% годового бюджета лицензий; на оборудовании — " +
           Math.round(c.assumptions.pctAssets * 100) +
@@ -738,10 +749,12 @@
         html += "</section>";
 
         html += '<section class="page">';
+        html += '<div class="pdf-chunk pdf-section-head">';
         html += '<div class="kicker">Аргументы</div>';
         html += '<h3 class="sec">Для руководства, финансов и ИБ</h3>';
         html += '<p class="sec-lead">Один отчёт — три угла зрения. Формулировки подобраны под масштаб парка и доминирующий рычаг экономии.</p>';
-        html += '<div class="audience">';
+        html += "</div>";
+        html += '<div class="pdf-chunk audience">';
         html += '<div class="aud-card"><h4>Руководство</h4><ul>' + li(n.forExec) + "</ul></div>";
         html += '<div class="aud-card"><h4>Финансисты</h4><ul>' + li(n.forFinance) + "</ul></div>";
         html += '<div class="aud-card"><h4>ИБ / комплаенс</h4><ul>' + li(n.forSecurity) + "</ul></div>";
@@ -749,13 +762,14 @@
         html += "</section>";
 
         html += '<section class="page">';
+        html += '<div class="pdf-chunk pdf-section-head">';
         html += '<div class="kicker">ITIL 4 · РИТМ</div>';
         html += '<h3 class="sec">Соответствие практикам управления ИТ</h3>';
         html += '<p class="sec-lead">ИТМен даёт фактический контур данных под практики ITIL 4 Foundation. Набор ниже подобран под ваш доминирующий рычаг экономии и масштаб. Рядом — контекст российского проекта РИТМ.</p>';
-        html += '<div class="recs">';
+        html += "</div>";
         n.itilFocus.forEach(function (p) {
           html +=
-            '<div class="rec"><strong>' +
+            '<div class="pdf-chunk rec"><strong>' +
             escapeHtml(p.ru) +
             ' <span style="color:#888;font-weight:500">(' +
             escapeHtml(p.practice) +
@@ -763,9 +777,8 @@
             escapeHtml(p.why) +
             "</p></div>";
         });
-        html += "</div>";
         html +=
-          '<div class="assumptions" style="margin-top:18px"><strong>' +
+          '<div class="pdf-chunk assumptions"><strong>' +
           escapeHtml(n.ritm.title) +
           "</strong><br>" +
           escapeHtml(n.ritm.blurb) +
@@ -781,21 +794,22 @@
         html += "</section>";
 
         html += '<section class="page">';
+        html += '<div class="pdf-chunk pdf-section-head">';
         html += '<div class="kicker">Рекомендации</div>';
         html += '<h3 class="sec">Что сделать в первую очередь</h3>';
         html += '<p class="sec-lead">Набор зависит от ваших ответов: масштаб, размер ИТ-команды и бюджет на ПО.</p>';
-        html += '<div class="recs">';
-        n.recommendations.forEach(function (r) {
-          html += '<div class="rec"><strong>' + escapeHtml(r.title) + "</strong><p>" + escapeHtml(r.text) + "</p></div>";
-        });
         html += "</div>";
-        html += '<h3 class="sec" style="margin-top:28px">Следующие шаги</h3>';
+        n.recommendations.forEach(function (r) {
+          html += '<div class="pdf-chunk rec"><strong>' + escapeHtml(r.title) + "</strong><p>" + escapeHtml(r.text) + "</p></div>";
+        });
+        html += '<div class="pdf-chunk steps-block">';
+        html += '<h3 class="sec" style="margin-top:8px">Следующие шаги</h3>';
         html += '<ol class="steps">';
         n.nextSteps.forEach(function (s) {
           html += "<li>" + escapeHtml(s) + "</li>";
         });
-        html += "</ol>";
-        html += '<p class="disclaimer">Отчёт носит оценочный характер и не является офертой. Фактический эффект зависит от текущего уровня зрелости учёта активов, структуры лицензий и периметра пилота. Источники формулировок: материалы обоснования ИТМен, кейсы экономии по трём направлениям, БЗ (ITAM/SAM × ITIL 4), контекст проекта РИТМ. Подробнее о продукте: <a href="https://itman.ru" target="_blank" rel="noopener">itman.ru</a>.</p>';
+        html += "</ol></div>";
+        html += '<p class="pdf-chunk disclaimer">Отчёт носит оценочный характер и не является офертой. Фактический эффект зависит от текущего уровня зрелости учёта активов, структуры лицензий и периметра пилота. Источники формулировок: материалы обоснования ИТМен, кейсы экономии по трём направлениям, БЗ (ITAM/SAM × ITIL 4), контекст проекта РИТМ. Подробнее о продукте: <a href="https://itman.ru" target="_blank" rel="noopener">itman.ru</a>.</p>';
         html += "</section>";
 
         document.getElementById("report").innerHTML = html;
@@ -861,66 +875,80 @@
       }
 
       function waitForExportFrame(doc) {
-        return new Promise(function (resolve, reject) {
-          var tries = 0;
-          var tick = function () {
-            var target = doc.querySelector(".report");
-            if (target && target.offsetHeight > 200) {
-              resolve(target);
-              return;
-            }
-            tries += 1;
-            if (tries > 40) {
-              reject(new Error("export-timeout"));
-              return;
-            }
-            window.setTimeout(tick, 100);
-          };
-          window.setTimeout(tick, 150);
+        var fontsReady = doc.fonts && doc.fonts.ready ? doc.fonts.ready : Promise.resolve();
+        return fontsReady.then(function () {
+          return new Promise(function (resolve, reject) {
+            var tries = 0;
+            var tick = function () {
+              var target = doc.querySelector(".report");
+              if (target && target.offsetHeight > 200) {
+                resolve(target);
+                return;
+              }
+              tries += 1;
+              if (tries > 50) {
+                reject(new Error("export-timeout"));
+                return;
+              }
+              window.setTimeout(tick, 120);
+            };
+            window.setTimeout(tick, 250);
+          });
         });
       }
 
-      function isCanvasBlank(canvas) {
-        var ctx = canvas.getContext("2d");
-        if (!ctx || canvas.width < 10 || canvas.height < 10) return true;
-        var sample = ctx.getImageData(
-          Math.floor(canvas.width * 0.25),
-          Math.floor(canvas.height * 0.1),
-          Math.min(120, canvas.width),
-          Math.min(80, canvas.height)
-        ).data;
-        for (var i = 0; i < sample.length; i += 16) {
-          if (sample[i] < 248 || sample[i + 1] < 248 || sample[i + 2] < 248) return false;
-        }
-        return true;
+      function captureChunkElement(chunk) {
+        return html2canvas(chunk, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: "#ffffff",
+          logging: false,
+          width: chunk.scrollWidth,
+          height: chunk.scrollHeight,
+          windowWidth: chunk.scrollWidth,
+          windowHeight: chunk.scrollHeight,
+        });
       }
 
-      function canvasToPdf(canvas) {
+      function packChunksToPdf(doc, filename) {
         var jsPDF = window.jspdf.jsPDF;
         var pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
         var margin = 10;
         var contentW = 210 - margin * 2;
         var contentH = 297 - margin * 2;
-        var pageHeightPx = Math.floor((contentH / contentW) * canvas.width);
-        var y = 0;
-        var page = 0;
+        var gap = 3;
+        var chunks = Array.prototype.slice.call(doc.querySelectorAll(".pdf-chunk"));
+        var y = margin;
+        var pageNum = 0;
 
-        while (y < canvas.height) {
-          var sliceH = Math.min(pageHeightPx, canvas.height - y);
-          var slice = document.createElement("canvas");
-          slice.width = canvas.width;
-          slice.height = sliceH;
-          var ctx = slice.getContext("2d");
-          ctx.fillStyle = "#ffffff";
-          ctx.fillRect(0, 0, slice.width, slice.height);
-          ctx.drawImage(canvas, 0, y, canvas.width, sliceH, 0, 0, canvas.width, sliceH);
-          var imgH = (sliceH * contentW) / canvas.width;
-          if (page > 0) pdf.addPage();
-          pdf.addImage(slice.toDataURL("image/jpeg", 0.94), "JPEG", margin, margin, contentW, imgH);
-          y += sliceH;
-          page += 1;
+        function newPage() {
+          if (pageNum > 0) pdf.addPage();
+          pageNum += 1;
+          y = margin;
         }
-        return pdf;
+
+        return chunks.reduce(function (chain, chunk, index) {
+          return chain.then(function () {
+            return captureChunkElement(chunk).then(function (canvas) {
+              if (canvas.width < 2 || canvas.height < 2) return;
+              var imgH = (canvas.height * contentW) / canvas.width;
+              if (pageNum === 0) newPage();
+              else if (y + imgH > margin + contentH) newPage();
+              pdf.addImage(
+                canvas.toDataURL("image/jpeg", 0.94),
+                "JPEG",
+                margin,
+                y,
+                contentW,
+                imgH
+              );
+              y += imgH + gap;
+            });
+          });
+        }, Promise.resolve()).then(function () {
+          pdf.save(filename);
+        });
       }
 
       function openPrintFallback() {
@@ -966,24 +994,9 @@
         doc.close();
 
         waitForExportFrame(doc)
-          .then(function (target) {
+          .then(function () {
             btn.textContent = "Сохраняем файл…";
-            return html2canvas(target, {
-              scale: 2,
-              useCORS: true,
-              allowTaint: true,
-              backgroundColor: "#ffffff",
-              logging: false,
-              width: target.scrollWidth,
-              height: target.scrollHeight,
-              windowWidth: target.scrollWidth,
-              windowHeight: target.scrollHeight,
-            });
-          })
-          .then(function (canvas) {
-            if (isCanvasBlank(canvas)) throw new Error("blank-canvas");
-            var pdf = canvasToPdf(canvas);
-            pdf.save(pdfFilename(inp.company));
+            return packChunksToPdf(doc, pdfFilename(inp.company));
           })
           .catch(function (err) {
             console.error(err);
