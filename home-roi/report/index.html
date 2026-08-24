@@ -140,17 +140,57 @@
       overflow: visible !important;
       position: static !important;
     }
+    body.is-pdf-export .report-toolbar,
+    body.is-pdf-export .panel {
+      display: none !important;
+    }
     body.is-pdf-export #report {
       width: 794px;
       max-width: 794px;
       margin: 0 auto;
       box-shadow: none;
       border: 0;
+      border-radius: 0;
+      overflow: visible;
     }
     body.is-pdf-export .page {
       border-bottom: none !important;
-      padding: 36px 44px;
-      background: #fff;
+      padding: 0 !important;
+      background: transparent;
+    }
+    /* Поля A4 на каждом чанке — html2canvas снимает wrap, не всю .page */
+    body.is-pdf-export .pdf-chunk-wrap {
+      width: 794px !important;
+      max-width: 794px !important;
+      margin: 0 0 18px !important;
+      padding: 8px 44px !important;
+      background: #fff !important;
+      box-sizing: border-box !important;
+      gap: 12px !important;
+    }
+    body.is-pdf-export .page > .pdf-chunk-wrap:first-child {
+      padding-top: 36px !important;
+    }
+    body.is-pdf-export .page > .pdf-chunk-wrap:last-child {
+      padding-bottom: 36px !important;
+      margin-bottom: 0 !important;
+    }
+    body.is-pdf-export .cover-page > .pdf-chunk-wrap {
+      background:
+        linear-gradient(135deg, rgba(253, 232, 234, 0.7), transparent 48%),
+        #fff !important;
+      min-height: 594px;
+    }
+    /* Stroke на экране утолщает Medium; в canvas даёт «смазанный»/двойной текст */
+    body.is-pdf-export .report h2,
+    body.is-pdf-export .report h3,
+    body.is-pdf-export .report .cta-button,
+    body.is-pdf-export .report .metric .v,
+    body.is-pdf-export .report strong,
+    body.is-pdf-export .report b,
+    body.is-pdf-export .report [class] {
+      -webkit-text-stroke: 0 !important;
+      paint-order: normal;
     }
     body.is-pdf-export .pdf-break { display: none !important; }
 
@@ -1322,14 +1362,17 @@
     @media print {
       @page {
         size: A4 portrait;
-        margin: 12mm 10mm;
+        margin: 10mm 9mm;
+      }
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
       html, body {
         height: auto !important;
         overflow: visible !important;
         background: #fff !important;
       }
-      body { background: #fff; }
       .studio {
         display: block !important;
         max-width: none !important;
@@ -1352,7 +1395,7 @@
       }
       .page {
         border: 0;
-        padding: 0;
+        padding: 8px 0;
         margin: 0;
         break-after: auto;
         break-inside: auto;
@@ -1363,33 +1406,26 @@
         break-before: page;
         page-break-before: always;
       }
-      h2.report-title { font-size: 22px; line-height: 1.25; }
-      h3.sec { font-size: 18px; }
-      .lead, .sec-lead { font-size: 12px; }
-      .hero-metrics { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-      .metric { padding: 12px; break-inside: avoid; page-break-inside: avoid; }
-      .metric .v { font-size: 20px; }
-      .inputs-grid { grid-template-columns: repeat(3, 1fr); }
-      .audience { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-      .aud-card, .rec, .assumptions, .inputs-box {
+      .report .pdf-chunk-wrap {
         break-inside: avoid;
         page-break-inside: avoid;
       }
-      .aud-card ul, .rec p, .assumptions { font-size: 10px; }
-      .bar-row { grid-template-columns: 110px 1fr 72px; font-size: 11px; }
-      .bar-fill {
-        background: #e30613 !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-      .metric.accent {
-        background: #fde8ea !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-      .steps li::before {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+      .cover-page,
+      .potential-hero,
+      .flow-node,
+      .money-card,
+      .total-line,
+      .confidence-bar i,
+      .next-step-card,
+      .stakeholder-card,
+      .priority-card,
+      .data-table,
+      .evidence-note,
+      .method-note,
+      .risk-card,
+      .factor-grid > div {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
       a { color: inherit; text-decoration: none; }
       a[href]::after { content: none !important; }
@@ -1408,11 +1444,11 @@
     <aside class="panel" aria-label="Параметры отчёта">
       <div class="live-badge">Онлайн-режим</div>
       <h1>Конструктор отчёта</h1>
-      <p class="hint">Введите данные клиента слева — справа сразу соберётся персональный отчёт с графикой. Его можно показать на созвоне или сохранить в PDF.</p>
+      <p class="hint">Введите данные клиента слева — справа сразу соберётся персональный отчёт. На созвон удобно скачать PowerPoint.</p>
       <ol class="hint-steps">
         <li>Заполните поля из заявки или калькулятора</li>
         <li>Проверьте отчёт справа</li>
-        <li>Нажмите «Скачать PDF» — файл сохранится автоматически</li>
+        <li>Нажмите «Скачать PowerPoint» — презентация сохранится на компьютер</li>
       </ol>
 
       <label for="company">Компания клиента (на обложке отчёта)</label>
@@ -1434,7 +1470,7 @@
       <input id="budget" type="text" inputmode="numeric" value="12 000 000" />
 
       <div class="row-btns">
-        <button type="button" class="btn btn-primary" id="btnPrint">Скачать PDF</button>
+        <button type="button" class="btn btn-primary" id="btnPrint">Скачать PowerPoint</button>
         <button type="button" class="btn btn-ghost" id="btnCopyLink">Ссылка для клиента</button>
       </div>
     </aside>
@@ -1444,7 +1480,7 @@
         <span id="toolbarCaption">Предпросмотр отчёта · <strong id="reportCompanyLabel">Компания не указана</strong></span>
         <div class="toolbar-actions">
           <span class="toolbar-live">Обновляется автоматически</span>
-          <button type="button" class="btn-save-pdf" id="btnSavePdf" hidden>Сохранить PDF</button>
+          <button type="button" class="btn-save-pdf" id="btnSavePdf" hidden>Скачать PowerPoint</button>
         </div>
       </div>
       <article class="report" id="report" aria-label="Персональный отчёт">
@@ -1453,9 +1489,9 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
   <script src="./report-engine.js?v=stakeholders-1"></script>
+  <script src="./report-pptx.js?v=1"></script>
   <script>
     (function () {
       var BRAND_SVG = '<svg width="200" height="36" viewBox="0 0 200 36" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0)"><path d="M15.8734 36H3.9943C1.79304 36 0 34.2298 0 32.0562V2.46573C0 1.10593 1.11911 0 2.49688 0H31.5426C33.7439 0 35.5334 1.77018 35.5334 3.94552V16.5698C35.5334 17.4914 35.1709 18.3591 34.5111 19.0094L18.3439 34.988C17.6823 35.6401 16.806 35.9983 15.8734 35.9983M2.49688 1.25199C1.81943 1.25199 1.26867 1.79626 1.26867 2.46573V32.0545C1.26867 33.5395 2.4916 34.7463 3.9943 34.7463H15.8734C16.4681 34.7463 17.0277 34.5167 17.4482 34.1011L33.6155 18.1226C34.036 17.707 34.2665 17.1558 34.2665 16.568V3.94552C34.2665 2.46051 33.0436 1.25373 31.5426 1.25373H2.49688V1.25199Z" fill="#DD0C29"/><path d="M56.0897 0C55.1624 0 54.2738 0.365164 53.6193 1.01029L37.452 16.9888C36.7957 17.6357 36.4297 18.5138 36.4297 19.4285V32.0545C36.4297 34.2333 38.2157 35.9983 40.4222 35.9983H69.468C70.8458 35.9983 71.9613 34.8941 71.9613 33.5343V3.94725C71.9613 1.7667 70.1754 0 67.9706 0H56.0897Z" fill="#DD0C29"/><path d="M54.8478 29.9801L58.6855 24.7183H59.9859V31.9572H58.6855V26.6954L54.8478 31.9572H53.5352V24.7183H54.8478V29.9801Z" fill="white"/><path d="M61.0703 24.7183H67.4682V25.9824H64.9203V31.9572H63.6182V25.9824H61.0703V24.7183Z" fill="white"/><path d="M89.5364 27.9873L94.1782 21.623H95.7513V30.38H94.1782V24.0157L89.5364 30.38H87.9492V21.623H89.5364V27.9873Z" fill="black"/><path d="M97.0586 21.623H104.796V23.1533H101.713V30.38H100.14V23.1533H97.0586V21.623Z" fill="black"/><path d="M115.877 21.623V30.38H114.29V24.0018L111.552 30.38H110.389L107.664 24.0018V30.38H106.078V21.623H108.272L110.996 28.0134L113.722 21.623H115.877Z" fill="black"/><path d="M120.453 23.7009C121.537 23.7009 122.392 24.0783 123.018 24.8312C123.645 25.5841 123.909 26.5231 123.812 27.6482H118.614C118.675 28.0759 118.876 28.4342 119.216 28.7263C119.555 29.0184 119.976 29.168 120.479 29.1767C120.849 29.1853 121.185 29.1141 121.484 28.961C121.783 28.808 121.999 28.6011 122.131 28.3403H123.704C123.493 29.0375 123.094 29.5818 122.508 29.9731C121.922 30.3643 121.236 30.5608 120.451 30.5608C119.411 30.5608 118.582 30.2304 117.965 29.5679C117.347 28.9054 117.039 28.0951 117.039 27.137C117.039 26.1788 117.358 25.3442 117.998 24.6869C118.637 24.0296 119.455 23.7009 120.451 23.7009M120.425 25.0868C119.974 25.0868 119.589 25.2085 119.267 25.452C118.945 25.6954 118.735 26.0189 118.639 26.4188H122.235C122.138 26.0102 121.927 25.685 121.6 25.445C121.274 25.2051 120.882 25.0851 120.423 25.0851" fill="black"/><path d="M129.761 26.3545V23.8853H131.282V30.38H129.761V27.7925H126.52V30.38H125V23.8853H126.52V26.3545H129.761Z" fill="black"/><path d="M134.91 13.2434H130.542V8.17801H134.91V13.2434ZM127.551 13.2434H123.245V8.17801H127.551V13.2434ZM133.701 5.62012H132.154L130.544 7.21293V5.62012H124.454C121.97 5.62012 119.953 7.61287 119.953 10.0682V11.3532C119.953 13.8085 121.97 15.8013 124.454 15.8013H127.553V17.4671H130.546V15.8013H133.703C136.189 15.8013 138.204 13.8102 138.204 11.3532V10.0682C138.204 7.61287 136.189 5.62012 133.703 5.62012" fill="black"/><path d="M143.638 14.8969V12.8172H150.053V10.2628H143.638V8.17792H152.339V5.62524H140.469V10.2628V12.8172V17.4548H152.568V14.8969H143.638Z" fill="black"/><path d="M187.672 5.62695V8.35699L192.252 8.35873V17.4548H195.421V8.35699H200.001V5.62695H187.672Z" fill="black"/><path d="M101.146 5.64117V5.6377L97.8594 5.64117L89.7933 13.5931H89.7194L89.7159 13.5948V5.6377H86.5486L86.5469 17.4673H89.8391L97.9016 9.51887H97.9773V17.4673H101.146V5.64117Z" fill="black"/><path d="M185.775 5.62872H185.773V5.62524L182.488 5.62872L174.42 13.5806H174.348H174.345V5.62524H171.176V17.4548H174.468L182.53 9.50642H182.606V17.4548H185.773L185.775 5.62872Z" fill="black"/><path d="M114.506 5.63916H117.675V17.467H114.506V12.8225H107.161V17.467H103.992V5.63916H107.161V10.0924H114.506V5.63916Z" fill="black"/><path d="M165.451 12.0937H158.585V8.17776H165.451V12.0937ZM164.816 5.61987H160.209L158.585 7.22486V5.61987H155.418V17.4495H158.585V14.6516H164.816C167.052 14.6516 168.867 12.8588 168.867 10.6487V9.62451C168.867 7.4144 167.054 5.61987 164.816 5.61987Z" fill="black"/></g><defs><clipPath id="clip0"><rect width="200" height="36" fill="white"/></clipPath></defs></svg>';
@@ -1718,221 +1754,28 @@
           .replace(/"/g, "&quot;");
       }
 
-      function prepareExport() {
-        var wrap = document.querySelector(".report-wrap");
-        document.body.classList.add("is-pdf-export");
-        if (wrap) {
-          wrap.dataset.prevScroll = String(wrap.scrollTop || 0);
-          wrap.scrollTop = 0;
-        }
-        window.scrollTo(0, 0);
-      }
-
-      function restoreAfterExport() {
-        var wrap = document.querySelector(".report-wrap");
-        var report = document.getElementById("report");
-        var iframe = document.getElementById("pdf-export-iframe");
-        document.body.classList.remove("is-pdf-export");
-        if (iframe) iframe.remove();
-        if (report) {
-          report.style.width = "";
-          report.style.maxWidth = "";
-        }
-        if (wrap && wrap.dataset.prevScroll) {
-          wrap.scrollTop = Number(wrap.dataset.prevScroll || 0);
-          delete wrap.dataset.prevScroll;
-        }
-      }
-
-      function pdfFilename(company) {
-        var base = "ИТМен — отчёт ROI";
-        if (company) {
-          var safe = company.replace(/[\\/:*?"<>|]/g, "").replace(/\s+/g, " ").trim().slice(0, 80);
-          if (safe) base += " — " + safe;
-        }
-        return base + ".pdf";
-      }
-
-      function getExportCssUrl() {
-        return new URL("report-pdf.css", location.href).href;
-      }
-
-      function buildExportDocument(reportHtml) {
-        return [
-          "<!DOCTYPE html><html lang=\"ru\"><head><meta charset=\"utf-8\">",
-          "<link rel=\"stylesheet\" href=\"", getExportCssUrl(), "\">",
-          "</head><body>", reportHtml, "</body></html>",
-        ].join("");
-      }
-
-      var EXPORT_W = 794;
-
-      function ensureExportFonts(doc) {
-        var win = doc.defaultView;
-        if (!win || !win.FontFace || !doc.fonts) {
-          return Promise.resolve();
-        }
-        var faces = [
-          ["Nekst Regular Web", "https://itman.ru/t/images/mosaic/fonts/Nekst%20Regular%20Web-400-normal-0.ttf", "400"],
-          ["Nekst Medium Web", "https://itman.ru/t/images/mosaic/fonts/Nekst%20Medium%20Web-500-normal-0.ttf", "500"],
-          ["Nekst SemiBold", "https://itman.ru/t/images/mosaic/fonts/Nekst%20SemiBold-600-normal-0.ttf", "600"],
-        ];
-        return Promise.all(
-          faces.map(function (f) {
-            var face = new win.FontFace(f[0], "url(" + f[1] + ")", { weight: f[2], style: "normal" });
-            return face.load().then(function (loaded) {
-              doc.fonts.add(loaded);
-            }).catch(function () {});
-          })
-        ).then(function () {
-          return doc.fonts.ready;
-        });
-      }
-
-      function waitForExportFrame(doc) {
-        return ensureExportFonts(doc).then(function () {
-          return new Promise(function (resolve, reject) {
-            var tries = 0;
-            var tick = function () {
-              var target = doc.querySelector(".report");
-              if (target && target.offsetHeight > 200 && target.offsetWidth >= EXPORT_W - 4) {
-                resolve(target);
-                return;
-              }
-              tries += 1;
-              if (tries > 60) {
-                reject(new Error("export-timeout"));
-                return;
-              }
-              window.setTimeout(tick, 120);
-            };
-            window.setTimeout(tick, 300);
-          });
-        });
-      }
-
-      function captureChunkElement(chunk, win) {
-        return html2canvas(chunk, {
-          scale: 2,
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: "#ffffff",
-          logging: false,
-          width: EXPORT_W,
-          windowWidth: EXPORT_W,
-          scrollX: 0,
-          scrollY: 0,
-          window: win,
-          onclone: function (clonedDoc, clonedNode) {
-            clonedNode.style.width = EXPORT_W + "px";
-            clonedNode.style.maxWidth = EXPORT_W + "px";
-            clonedNode.style.boxSizing = "border-box";
-            var report = clonedDoc.querySelector(".report");
-            if (report) {
-              report.style.width = EXPORT_W + "px";
-              report.style.maxWidth = EXPORT_W + "px";
-            }
-            clonedDoc.body.style.width = EXPORT_W + "px";
-            clonedDoc.body.style.margin = "0";
-          },
-        });
-      }
-
-      function packChunksToPdf(doc, filename) {
-        var jsPDF = window.jspdf.jsPDF;
-        var pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
-        var margin = 10;
-        var contentW = 210 - margin * 2;
-        var contentH = 297 - margin * 2;
-        var gap = 3;
-        var chunks = Array.prototype.slice.call(doc.querySelectorAll(".pdf-chunk-wrap"));
-        var y = margin;
-        var pageNum = 0;
-
-        function newPage() {
-          if (pageNum > 0) pdf.addPage();
-          pageNum += 1;
-          y = margin;
-        }
-
-        var win = doc.defaultView;
-        return chunks.reduce(function (chain, chunk) {
-          return chain.then(function () {
-            return captureChunkElement(chunk, win).then(function (canvas) {
-              if (canvas.width < 2 || canvas.height < 2) return;
-              var imgH = (canvas.height * contentW) / canvas.width;
-              if (pageNum === 0) newPage();
-              else if (y + imgH > margin + contentH) newPage();
-              pdf.addImage(
-                canvas.toDataURL("image/jpeg", 0.94),
-                "JPEG",
-                margin,
-                y,
-                contentW,
-                imgH
-              );
-              y += imgH + gap;
-            });
-          });
-        }, Promise.resolve()).then(function () {
-          pdf.save(filename);
-        });
-      }
-
-      function openPrintFallback() {
-        var url = buildShareUrl(false);
-        var sep = url.indexOf("?") >= 0 ? "&" : "?";
-        var w = window.open(url + sep + "print=1", "_blank");
-        if (!w) {
-          prepareExport();
-          window.print();
-          return;
-        }
-        w.addEventListener("load", function () {
-          window.setTimeout(function () {
-            w.focus();
-            w.print();
-          }, 500);
-        });
-      }
-
-      function downloadPdf() {
-        if (typeof html2canvas === "undefined" || !window.jspdf) {
-          alert("Библиотека PDF не загрузилась. Обновите страницу и попробуйте снова.");
+      function downloadPptx(ev) {
+        if (typeof PptxGenJS === "undefined" || !window.ItmenRoiPptx) {
+          alert("Библиотека PowerPoint не загрузилась. Обновите страницу и попробуйте снова.");
           return;
         }
 
-        var btn = document.getElementById("btnPrint");
+        var btn = (ev && ev.currentTarget) || document.getElementById("btnPrint");
         var inp = readInputs();
+        var model = ItmenRoiReport.buildReportModel(inp, { company: inp.company });
         var label = btn.textContent;
-        var report = document.getElementById("report");
         btn.disabled = true;
-        btn.textContent = "Генерируем PDF…";
-        prepareExport();
+        btn.textContent = "Собираем презентацию…";
 
-        var iframe = document.createElement("iframe");
-        iframe.id = "pdf-export-iframe";
-        iframe.setAttribute("aria-hidden", "true");
-        iframe.style.cssText = "position:fixed;left:0;top:0;width:" + EXPORT_W + "px;height:12000px;border:0;opacity:0.01;pointer-events:none;z-index:2147483646;";
-        document.body.appendChild(iframe);
-
-        var doc = iframe.contentDocument;
-        doc.open();
-        doc.write(buildExportDocument(report.outerHTML));
-        doc.close();
-
-        waitForExportFrame(doc)
+        Promise.resolve()
           .then(function () {
-            btn.textContent = "Сохраняем файл…";
-            return packChunksToPdf(doc, pdfFilename(inp.company));
+            return ItmenRoiPptx.download(model, { company: inp.company });
           })
           .catch(function (err) {
             console.error(err);
-            alert("Автосохранение не сработало. Откроется версия для печати — выберите «Сохранить как PDF» и снимите «Колонтитулы».");
-            openPrintFallback();
+            alert("Не удалось сохранить PowerPoint. Попробуйте ещё раз или откройте в Chrome / Edge.");
           })
           .then(function () {
-            restoreAfterExport();
             btn.disabled = false;
             btn.textContent = label;
           });
@@ -1943,8 +1786,8 @@
           document.getElementById(id).addEventListener("input", render);
           document.getElementById(id).addEventListener("change", render);
         });
-        document.getElementById("btnPrint").addEventListener("click", downloadPdf);
-        document.getElementById("btnSavePdf").addEventListener("click", printReportPdf);
+        document.getElementById("btnPrint").addEventListener("click", downloadPptx);
+        document.getElementById("btnSavePdf").addEventListener("click", downloadPptx);
         document.getElementById("btnCopyLink").addEventListener("click", function () {
           var clientUrl = buildShareUrl(true);
           var managerUrl = buildShareUrl(false);
