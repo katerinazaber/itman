@@ -144,7 +144,15 @@
       width: 794px;
       max-width: 794px;
       margin: 0 auto;
+      box-shadow: none;
+      border: 0;
     }
+    body.is-pdf-export .page {
+      border-bottom: none !important;
+      padding: 36px 44px;
+      background: #fff;
+    }
+    body.is-pdf-export .pdf-break { display: none !important; }
 
     .panel .hint-steps {
       margin: 0 0 16px;
@@ -583,7 +591,8 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
   <script src="./report-engine.js"></script>
   <script>
     (function () {
@@ -835,56 +844,98 @@
       }
 
       function downloadPdf() {
-        if (typeof html2pdf === "undefined") {
+        if (typeof html2canvas === "undefined" || !window.jspdf) {
           alert("Библиотека PDF не загрузилась. Обновите страницу и попробуйте снова.");
           return;
         }
 
+        var jsPDF = window.jspdf.jsPDF;
         var btn = document.getElementById("btnPrint");
         var inp = readInputs();
         var label = btn.textContent;
+        var sections = Array.prototype.slice.call(document.querySelectorAll("#report .page"));
+        if (!sections.length) return;
+
         btn.disabled = true;
-        btn.textContent = "Генерируем PDF…";
         prepareExport();
 
-        var report = document.getElementById("report");
-        var opt = {
-          margin: [8, 8, 10, 8],
-          filename: pdfFilename(inp.company),
-          image: { type: "jpeg", quality: 0.96 },
-          html2canvas: {
+        var margin = 10;
+        var pageW = 210;
+        var pageH = 297;
+        var contentW = pageW - margin * 2;
+        var contentH = pageH - margin * 2;
+        var pxWidth = 794;
+        var pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
+        var pageIndex = 0;
+
+        function setProgress(current, total) {
+          btn.textContent = "Генерируем PDF… " + current + "/" + total;
+        }
+
+        function addCanvasPages(canvas) {
+          var imgW = contentW;
+          var imgH = (canvas.height * imgW) / canvas.width;
+          if (imgH <= contentH) {
+            if (pageIndex > 0) pdf.addPage();
+            pageIndex += 1;
+            pdf.addImage(canvas.toDataURL("image/jpeg", 0.92), "JPEG", margin, margin, imgW, imgH);
+            return;
+          }
+
+          var sliceHeightPx = Math.floor((contentH / imgH) * canvas.height);
+          var y = 0;
+          while (y < canvas.height) {
+            var h = Math.min(sliceHeightPx, canvas.height - y);
+            var slice = document.createElement("canvas");
+            slice.width = canvas.width;
+            slice.height = h;
+            var ctx = slice.getContext("2d");
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, slice.width, slice.height);
+            ctx.drawImage(canvas, 0, y, canvas.width, h, 0, 0, canvas.width, h);
+
+            if (pageIndex > 0) pdf.addPage();
+            pageIndex += 1;
+            var sliceImgH = (h * imgW) / canvas.width;
+            pdf.addImage(slice.toDataURL("image/jpeg", 0.92), "JPEG", margin, margin, imgW, sliceImgH);
+            y += sliceHeightPx;
+          }
+        }
+
+        function captureSection(index) {
+          if (index >= sections.length) {
+            pdf.save(pdfFilename(inp.company));
+            restoreAfterExport();
+            btn.disabled = false;
+            btn.textContent = label;
+            return Promise.resolve();
+          }
+
+          setProgress(index + 1, sections.length);
+          return html2canvas(sections[index], {
             scale: 2,
             useCORS: true,
             allowTaint: true,
             backgroundColor: "#ffffff",
             logging: false,
-          },
-          jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-          pagebreak: {
-            mode: ["css", "legacy"],
-            before: ".pdf-break",
-            avoid: [".metric", ".aud-card", ".rec", ".assumptions", ".inputs-box"],
-          },
-        };
+            width: pxWidth,
+            windowWidth: pxWidth,
+          })
+            .then(function (canvas) {
+              addCanvasPages(canvas);
+              return captureSection(index + 1);
+            });
+        }
 
         window.setTimeout(function () {
-          html2pdf()
-            .set(opt)
-            .from(report)
-            .save()
-            .then(function () {
-              restoreAfterExport();
-              btn.disabled = false;
-              btn.textContent = label;
-            })
-            .catch(function (err) {
-              console.error(err);
-              restoreAfterExport();
-              btn.disabled = false;
-              btn.textContent = label;
-              alert("Не удалось сформировать PDF. Попробуйте ещё раз через несколько секунд.");
-            });
-        }, 120);
+          captureSection(0).catch(function (err) {
+            console.error(err);
+            restoreAfterExport();
+            btn.disabled = false;
+            btn.textContent = label;
+            alert("Не удалось сформировать PDF. Попробуйте ещё раз через несколько секунд.");
+          });
+        }, 150);
       }
 
       function bind() {
