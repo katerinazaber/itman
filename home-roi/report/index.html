@@ -154,6 +154,27 @@
     }
     body.is-pdf-export .pdf-break { display: none !important; }
 
+    #pdf-capture-host {
+      position: absolute;
+      left: -12000px;
+      top: 0;
+      width: 794px;
+      background: #fff;
+      pointer-events: none;
+      z-index: -1;
+    }
+    #pdf-capture-host .report,
+    #pdf-capture-host .page {
+      border: 0 !important;
+      box-shadow: none !important;
+      background: #fff !important;
+      font-family: Arial, Helvetica, sans-serif !important;
+    }
+    #pdf-capture-host .page {
+      padding: 36px 44px !important;
+    }
+    #pdf-capture-host .pdf-break { display: none !important; }
+
     .panel .hint-steps {
       margin: 0 0 16px;
       padding: 12px 12px 12px 28px;
@@ -823,7 +844,9 @@
       function restoreAfterExport() {
         var wrap = document.querySelector(".report-wrap");
         var report = document.getElementById("report");
+        var host = document.getElementById("pdf-capture-host");
         document.body.classList.remove("is-pdf-export");
+        if (host) host.innerHTML = "";
         if (report) {
           report.style.width = "";
           report.style.maxWidth = "";
@@ -843,99 +866,149 @@
         return base + ".pdf";
       }
 
+      function getCaptureHost() {
+        var host = document.getElementById("pdf-capture-host");
+        if (!host) {
+          host = document.createElement("div");
+          host.id = "pdf-capture-host";
+          host.setAttribute("aria-hidden", "true");
+          document.body.appendChild(host);
+        }
+        host.innerHTML = "";
+        return host;
+      }
+
+      function buildCaptureNode() {
+        var report = document.getElementById("report");
+        var host = getCaptureHost();
+        var clone = report.cloneNode(true);
+        clone.removeAttribute("id");
+        clone.style.width = "794px";
+        clone.style.maxWidth = "794px";
+        clone.style.margin = "0";
+        clone.style.background = "#fff";
+        clone.querySelectorAll("img").forEach(function (img) {
+          var src = img.getAttribute("src");
+          if (src) {
+            try {
+              img.src = new URL(src, location.href).href;
+            } catch (e) { /* keep */ }
+          }
+          img.setAttribute("crossorigin", "anonymous");
+        });
+        clone.querySelectorAll(".pdf-break").forEach(function (el) {
+          el.parentNode.removeChild(el);
+        });
+        host.appendChild(clone);
+        return clone;
+      }
+
+      function isCanvasBlank(canvas) {
+        var ctx = canvas.getContext("2d");
+        if (!ctx) return true;
+        var w = Math.min(80, canvas.width);
+        var h = Math.min(80, canvas.height);
+        if (!w || !h) return true;
+        var data = ctx.getImageData(0, 0, w, h).data;
+        for (var i = 0; i < data.length; i += 16) {
+          if (data[i] < 250 || data[i + 1] < 250 || data[i + 2] < 250) return false;
+        }
+        return true;
+      }
+
+      function canvasToPdf(canvas) {
+        var jsPDF = window.jspdf.jsPDF;
+        var pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
+        var margin = 10;
+        var contentW = 210 - margin * 2;
+        var contentH = 297 - margin * 2;
+        var pageHeightPx = Math.floor((contentH / contentW) * canvas.width);
+        var y = 0;
+        var page = 0;
+
+        while (y < canvas.height) {
+          var sliceH = Math.min(pageHeightPx, canvas.height - y);
+          var slice = document.createElement("canvas");
+          slice.width = canvas.width;
+          slice.height = sliceH;
+          var ctx = slice.getContext("2d");
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(0, 0, slice.width, slice.height);
+          ctx.drawImage(canvas, 0, y, canvas.width, sliceH, 0, 0, canvas.width, sliceH);
+          var imgH = (sliceH * contentW) / canvas.width;
+          if (page > 0) pdf.addPage();
+          pdf.addImage(slice.toDataURL("image/jpeg", 0.94), "JPEG", margin, margin, contentW, imgH);
+          y += sliceH;
+          page += 1;
+        }
+        return pdf;
+      }
+
+      function waitForCapture() {
+        var fontsReady = document.fonts && document.fonts.ready
+          ? document.fonts.ready
+          : Promise.resolve();
+        return fontsReady.then(function () {
+          return new Promise(function (resolve) {
+            window.setTimeout(resolve, 350);
+          });
+        });
+      }
+
       function downloadPdf() {
         if (typeof html2canvas === "undefined" || !window.jspdf) {
           alert("Библиотека PDF не загрузилась. Обновите страницу и попробуйте снова.");
           return;
         }
 
-        var jsPDF = window.jspdf.jsPDF;
         var btn = document.getElementById("btnPrint");
         var inp = readInputs();
         var label = btn.textContent;
-        var sections = Array.prototype.slice.call(document.querySelectorAll("#report .page"));
-        if (!sections.length) return;
-
         btn.disabled = true;
+        btn.textContent = "Генерируем PDF…";
         prepareExport();
 
-        var margin = 10;
-        var pageW = 210;
-        var pageH = 297;
-        var contentW = pageW - margin * 2;
-        var contentH = pageH - margin * 2;
-        var pxWidth = 794;
-        var pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
-        var pageIndex = 0;
-
-        function setProgress(current, total) {
-          btn.textContent = "Генерируем PDF… " + current + "/" + total;
-        }
-
-        function addCanvasPages(canvas) {
-          var imgW = contentW;
-          var imgH = (canvas.height * imgW) / canvas.width;
-          if (imgH <= contentH) {
-            if (pageIndex > 0) pdf.addPage();
-            pageIndex += 1;
-            pdf.addImage(canvas.toDataURL("image/jpeg", 0.92), "JPEG", margin, margin, imgW, imgH);
-            return;
-          }
-
-          var sliceHeightPx = Math.floor((contentH / imgH) * canvas.height);
-          var y = 0;
-          while (y < canvas.height) {
-            var h = Math.min(sliceHeightPx, canvas.height - y);
-            var slice = document.createElement("canvas");
-            slice.width = canvas.width;
-            slice.height = h;
-            var ctx = slice.getContext("2d");
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(0, 0, slice.width, slice.height);
-            ctx.drawImage(canvas, 0, y, canvas.width, h, 0, 0, canvas.width, h);
-
-            if (pageIndex > 0) pdf.addPage();
-            pageIndex += 1;
-            var sliceImgH = (h * imgW) / canvas.width;
-            pdf.addImage(slice.toDataURL("image/jpeg", 0.92), "JPEG", margin, margin, imgW, sliceImgH);
-            y += sliceHeightPx;
-          }
-        }
-
-        function captureSection(index) {
-          if (index >= sections.length) {
-            pdf.save(pdfFilename(inp.company));
-            restoreAfterExport();
-            btn.disabled = false;
-            btn.textContent = label;
-            return Promise.resolve();
-          }
-
-          setProgress(index + 1, sections.length);
-          return html2canvas(sections[index], {
-            scale: 2,
-            useCORS: true,
-            allowTaint: true,
-            backgroundColor: "#ffffff",
-            logging: false,
-            width: pxWidth,
-            windowWidth: pxWidth,
-          })
-            .then(function (canvas) {
-              addCanvasPages(canvas);
-              return captureSection(index + 1);
+        var captureNode;
+        waitForCapture()
+          .then(function () {
+            captureNode = buildCaptureNode();
+            return html2canvas(captureNode, {
+              scale: 2,
+              useCORS: true,
+              allowTaint: false,
+              backgroundColor: "#ffffff",
+              logging: false,
+              scrollX: 0,
+              scrollY: 0,
+              width: captureNode.scrollWidth,
+              height: captureNode.scrollHeight,
+              windowWidth: captureNode.scrollWidth,
+              windowHeight: captureNode.scrollHeight,
             });
-        }
-
-        window.setTimeout(function () {
-          captureSection(0).catch(function (err) {
+          })
+          .then(function (canvas) {
+            if (isCanvasBlank(canvas)) {
+              throw new Error("blank-canvas");
+            }
+            btn.textContent = "Сохраняем файл…";
+            var pdf = canvasToPdf(canvas);
+            pdf.save(pdfFilename(inp.company));
+          })
+          .catch(function (err) {
             console.error(err);
+            if (String(err && err.message) === "blank-canvas") {
+              alert("Не удалось снять снимок отчёта. Откроется окно печати — выберите «Сохранить как PDF» и снимите «Колонтитулы».");
+              window.print();
+            } else {
+              alert("Не удалось сформировать PDF. Попробуйте ещё раз или используйте печать браузера (Cmd+P).");
+            }
+          })
+          .then(function () {
+            getCaptureHost().innerHTML = "";
             restoreAfterExport();
             btn.disabled = false;
             btn.textContent = label;
-            alert("Не удалось сформировать PDF. Попробуйте ещё раз через несколько секунд.");
           });
-        }, 150);
       }
 
       function bind() {
