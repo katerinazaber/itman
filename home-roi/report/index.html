@@ -132,6 +132,19 @@
     .btn-primary { background: var(--red); color: #fff; }
     .btn-ghost { background: transparent; border: 1px solid #ccc; color: var(--ink); }
     .btn:hover { filter: brightness(0.97); }
+    .btn:disabled { opacity: 0.65; cursor: wait; filter: none; }
+
+    body.is-pdf-export .report-wrap {
+      max-height: none !important;
+      height: auto !important;
+      overflow: visible !important;
+      position: static !important;
+    }
+    body.is-pdf-export #report {
+      width: 794px;
+      max-width: 794px;
+      margin: 0 auto;
+    }
 
     .panel .hint-steps {
       margin: 0 0 16px;
@@ -197,6 +210,11 @@
       border-bottom: 1px dashed var(--line);
     }
     .page:last-child { border-bottom: 0; }
+    .pdf-break {
+      height: 0;
+      break-before: page;
+      page-break-before: always;
+    }
 
     .brand-row {
       display: flex;
@@ -527,7 +545,7 @@
       <ol class="hint-steps">
         <li>Заполните поля из заявки или калькулятора</li>
         <li>Проверьте отчёт справа</li>
-        <li>Нажмите «Скачать PDF» → в диалоге снимите «Колонтитулы» → «Сохранить как PDF»</li>
+        <li>Нажмите «Скачать PDF» — файл сохранится автоматически</li>
       </ol>
 
       <label for="company">Компания клиента (в заголовке отчёта)</label>
@@ -565,6 +583,7 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
   <script src="./report-engine.js"></script>
   <script>
     (function () {
@@ -673,6 +692,7 @@
         html += "</div></div>";
         html += '<p class="disclaimer" style="border:0;padding:16px 0 0;margin:0">Оценка стоимости ИТМен (ориентир): <strong>' + f.costFull + "</strong> в год при тарифе " + c.assumptions.pricePerEndpoint + " ₽ / рабочее место.</p>";
         html += "</section>";
+        html += '<div class="pdf-break"></div>';
 
         html += '<section class="page">';
         html += '<div class="kicker">Детализация</div>';
@@ -701,6 +721,7 @@
           c.assumptions.avgItSalaryMonth.toLocaleString("ru-RU") +
           " ₽/мес). В презентации «Обоснование ИТМен» ориентиры выше (до 20% / апгрейд vs замена / кратное сокращение ручного аудита) — здесь взяты осторожные доли для лид-магнита.</div>";
         html += "</section>";
+        html += '<div class="pdf-break"></div>';
 
         html += '<section class="page">';
         html += '<div class="kicker">Аргументы</div>';
@@ -712,6 +733,7 @@
         html += '<div class="aud-card"><h4>ИБ / комплаенс</h4><ul>' + li(n.forSecurity) + "</ul></div>";
         html += "</div>";
         html += "</section>";
+        html += '<div class="pdf-break"></div>';
 
         html += '<section class="page">';
         html += '<div class="kicker">ITIL 4 · РИТМ</div>';
@@ -744,6 +766,7 @@
           n.ritm.link +
           '" target="_blank" rel="noopener">Устав проекта РИТМ</a>. Карта практик — из БЗ ИТМен × ITIL 4 Foundation.</div>';
         html += "</section>";
+        html += '<div class="pdf-break"></div>';
 
         html += '<section class="page">';
         html += '<div class="kicker">Рекомендации</div>';
@@ -778,9 +801,9 @@
           .replace(/"/g, "&quot;");
       }
 
-      function preparePrint() {
+      function prepareExport() {
         var wrap = document.querySelector(".report-wrap");
-        document.body.classList.add("is-printing");
+        document.body.classList.add("is-pdf-export");
         if (wrap) {
           wrap.dataset.prevScroll = String(wrap.scrollTop || 0);
           wrap.scrollTop = 0;
@@ -788,13 +811,80 @@
         window.scrollTo(0, 0);
       }
 
-      function restoreAfterPrint() {
+      function restoreAfterExport() {
         var wrap = document.querySelector(".report-wrap");
-        document.body.classList.remove("is-printing");
+        var report = document.getElementById("report");
+        document.body.classList.remove("is-pdf-export");
+        if (report) {
+          report.style.width = "";
+          report.style.maxWidth = "";
+        }
         if (wrap && wrap.dataset.prevScroll) {
           wrap.scrollTop = Number(wrap.dataset.prevScroll || 0);
           delete wrap.dataset.prevScroll;
         }
+      }
+
+      function pdfFilename(company) {
+        var base = "ИТМен — отчёт ROI";
+        if (company) {
+          var safe = company.replace(/[\\/:*?"<>|]/g, "").replace(/\s+/g, " ").trim().slice(0, 80);
+          if (safe) base += " — " + safe;
+        }
+        return base + ".pdf";
+      }
+
+      function downloadPdf() {
+        if (typeof html2pdf === "undefined") {
+          alert("Библиотека PDF не загрузилась. Обновите страницу и попробуйте снова.");
+          return;
+        }
+
+        var btn = document.getElementById("btnPrint");
+        var inp = readInputs();
+        var label = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = "Генерируем PDF…";
+        prepareExport();
+
+        var report = document.getElementById("report");
+        var opt = {
+          margin: [8, 8, 10, 8],
+          filename: pdfFilename(inp.company),
+          image: { type: "jpeg", quality: 0.96 },
+          html2canvas: {
+            scale: 2,
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: "#ffffff",
+            logging: false,
+          },
+          jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+          pagebreak: {
+            mode: ["css", "legacy"],
+            before: ".pdf-break",
+            avoid: [".metric", ".aud-card", ".rec", ".assumptions", ".inputs-box"],
+          },
+        };
+
+        window.setTimeout(function () {
+          html2pdf()
+            .set(opt)
+            .from(report)
+            .save()
+            .then(function () {
+              restoreAfterExport();
+              btn.disabled = false;
+              btn.textContent = label;
+            })
+            .catch(function (err) {
+              console.error(err);
+              restoreAfterExport();
+              btn.disabled = false;
+              btn.textContent = label;
+              alert("Не удалось сформировать PDF. Попробуйте ещё раз через несколько секунд.");
+            });
+        }, 120);
       }
 
       function bind() {
@@ -802,14 +892,7 @@
           document.getElementById(id).addEventListener("input", render);
           document.getElementById(id).addEventListener("change", render);
         });
-        window.addEventListener("beforeprint", preparePrint);
-        window.addEventListener("afterprint", restoreAfterPrint);
-        document.getElementById("btnPrint").addEventListener("click", function () {
-          preparePrint();
-          window.setTimeout(function () {
-            window.print();
-          }, 50);
-        });
+        document.getElementById("btnPrint").addEventListener("click", downloadPdf);
         document.getElementById("btnCopyLink").addEventListener("click", function () {
           var clientUrl = buildShareUrl(true);
           var managerUrl = buildShareUrl(false);
