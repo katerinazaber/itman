@@ -213,122 +213,9 @@
     }
     .metric .v {
       font-size: 26px;
-      font-weight: 500;
-      font-family: var(--display);
+      font-weight: 700;
       letter-spacing: -0.02em;
       line-height: 1.1;
-    }
-
-    .doc-block { margin: 28px 0; }
-    .doc-block:first-of-type { margin-top: 0; }
-    .key-lines {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 10px;
-    }
-    .key-lines li {
-      font-size: 16px;
-      line-height: 1.45;
-    }
-    .key-lines strong {
-      font-family: var(--display);
-      font-weight: 500;
-    }
-    .data-lines {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 8px;
-      font-size: 15px;
-      line-height: 1.5;
-    }
-    .bullets {
-      margin: 14px 0 18px;
-      padding-left: 20px;
-      font-size: 15px;
-      line-height: 1.55;
-    }
-    .bullets li { margin-bottom: 8px; }
-    .aud-block {
-      margin-bottom: 22px;
-    }
-    .aud-block h4 {
-      margin: 0 0 10px;
-      font-family: var(--display);
-      font-size: 17px;
-      font-weight: 500;
-    }
-    .aud-block ul {
-      margin: 0;
-      padding-left: 20px;
-      font-size: 15px;
-      line-height: 1.55;
-    }
-    .aud-block li { margin-bottom: 8px; }
-    .priority-list {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      counter-reset: pri;
-      display: grid;
-      gap: 16px;
-    }
-    .priority-list li {
-      counter-increment: pri;
-      font-size: 15px;
-      line-height: 1.55;
-      padding-left: 32px;
-      position: relative;
-    }
-    .priority-list li::before {
-      content: counter(pri) ".";
-      position: absolute;
-      left: 0;
-      top: 0;
-      font-family: var(--display);
-      font-weight: 500;
-      color: var(--red);
-    }
-    .priority-list strong {
-      font-family: var(--display);
-      font-weight: 500;
-    }
-    .steps li { margin-bottom: 10px; }
-    .cta-box {
-      margin-top: 28px;
-      padding: 22px 24px;
-      border-radius: 16px;
-      background: linear-gradient(160deg, #fff5f6, #ffffff);
-      border: 1px solid rgba(227, 6, 19, 0.22);
-    }
-    .cta-box p {
-      margin: 0 0 12px;
-      font-size: 15px;
-      line-height: 1.55;
-    }
-    .cta-box .cta-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 48px;
-      padding: 0 18px;
-      border-radius: 10px;
-      background: var(--red);
-      color: #fff;
-      font-family: var(--display);
-      font-weight: 500;
-      text-decoration: none;
-      margin-top: 8px;
-    }
-    .footnote {
-      margin-top: 24px;
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.45;
-      font-style: italic;
     }
 
     .inputs-box {
@@ -509,14 +396,14 @@
       <label for="endpoints">Рабочие места</label>
       <select id="endpoints">
         <option value="100">до 100</option>
-        <option value="300">100–500</option>
+        <option value="300" selected>100–500</option>
         <option value="750">500–1000</option>
-        <option value="2500" selected>1000–5000</option>
+        <option value="2500">1000–5000</option>
         <option value="7500">5000+</option>
       </select>
 
       <label for="itStaff">Сотрудники ИТ</label>
-      <input id="itStaff" type="number" min="1" max="500" value="70" />
+      <input id="itStaff" type="number" min="1" max="500" value="35" />
 
       <label for="budget">Годовой бюджет на ПО, ₽</label>
       <input id="budget" type="text" inputmode="numeric" value="12 000 000" />
@@ -574,8 +461,13 @@
         };
       }
 
+      function pct(part, total) {
+        if (!total) return 0;
+        return Math.max(4, Math.round((part / total) * 100));
+      }
+
       function li(list) {
-        return list.map(function (t) { return "<li>" + escapeHtml(t) + "</li>"; }).join("");
+        return list.map(function (t) { return "<li>" + t + "</li>"; }).join("");
       }
 
       function render() {
@@ -589,71 +481,114 @@
           month: "long",
           year: "numeric",
         });
-        var companyTitle = inp.company ? escapeHtml(inp.company) : "Компания";
+        var company = inp.company || "вашей компании";
 
         var html = "";
         html += '<section class="page">';
         html += '<div class="brand-row"><a class="brand" href="https://itman.ru/" target="_blank" rel="noopener"><img src="assets/brand.svg" alt="Инферит ИТМен" width="200" height="36" /></a>';
         html += '<div class="meta">Персональный экономический отчёт<br>' + when + "<br>Конфиденциально</div></div>";
-        html += '<h2 class="report-title">Обоснование экономического эффекта для ' + companyTitle + "</h2>";
-        html += '<p class="lead">Расчёт экономии и окупаемости «Инферит ИТМен» и обоснование внедрения для руководства, финансов и ИБ на базе ваших данных.</p>';
-
-        html += '<div class="doc-block"><h3 class="sec">Что получит компания</h3>';
-        html += '<ul class="key-lines">';
-        html += "<li><strong>Экономия в год:</strong> " + f.save + "</li>";
-        html += "<li><strong>ROI за первый год:</strong> " + f.roi + "</li>";
-        html += "<li><strong>Окупается за:</strong> " + f.pay + "</li>";
-        html += "</ul></div>";
-
-        html += '<div class="doc-block"><h3 class="sec">Ваши данные</h3>';
-        html += '<ul class="data-lines">';
-        html += "<li>Рабочие места: <strong>" + c.inputs.endpoints.toLocaleString("ru-RU") + "</strong></li>";
-        html += "<li>Сотрудники ИТ: <strong>" + c.inputs.itStaff + "</strong></li>";
-        html += "<li>Бюджет на ПО в год: <strong>" + f.budget + "</strong></li>";
-        html += "</ul>";
-        html += '<p class="sec-lead" style="margin-top:14px;margin-bottom:0">Стоимость Инферит ИТМен по этим данным: около <strong>' + f.costFull + "</strong> в год (" + c.assumptions.pricePerEndpoint.toLocaleString("ru-RU") + " ₽ за рабочее место).</p>";
-        html += "</div></section>";
+        html += '<h2 class="report-title">Экономический эффект от внедрения «Инферит ИТМен» и обоснование для руководства</h2>';
+        html += '<p class="lead">Ориентировочный расчёт потенциальной экономии и окупаемости внедрения ИТМен на основе ваших ответов. Аргументы для руководства, финансов и ИБ — ниже.</p>';
+        html += '<div class="hero-metrics">';
+        html += '<div class="metric accent"><div class="l">Потенциальная экономия в год</div><div class="v">' + f.save + "</div></div>";
+        html += '<div class="metric"><div class="l">Ориентировочный ROI (год 1)</div><div class="v">' + f.roi + "</div></div>";
+        html += '<div class="metric"><div class="l">Срок окупаемости</div><div class="v">' + f.pay + "</div></div>";
+        html += "</div>";
+        html += '<div class="inputs-box"><h3>Ваши вводные</h3><div class="inputs-grid">';
+        html += "<div>Рабочие места<b>" + c.inputs.endpoints.toLocaleString("ru-RU") + "</b></div>";
+        html += "<div>Сотрудники ИТ<b>" + c.inputs.itStaff + "</b></div>";
+        html += "<div>Бюджет на ПО / год<b>" + f.budget + "</b></div>";
+        html += "</div></div>";
+        html += '<p class="disclaimer" style="border:0;padding:16px 0 0;margin:0">Оценка стоимости ИТМен (ориентир): <strong>' + f.costFull + "</strong> в год при тарифе " + c.assumptions.pricePerEndpoint + " ₽ / рабочее место.</p>";
+        html += "</section>";
 
         html += '<section class="page">';
-        html += '<div class="doc-block"><h3 class="sec">Где экономия</h3>';
-        html += '<p class="sec-lead">' + escapeHtml(n.savingsIntro) + "</p>";
-        html += '<ul class="bullets">';
-        n.savingsBullets.forEach(function (line) {
-          html += "<li>" + escapeHtml(line) + "</li>";
+        html += '<div class="kicker">Детализация</div>';
+        html += '<h3 class="sec">Экономия по трём направлениям</h3>';
+        html += '<p class="sec-lead">' + n.driverLine + " " + n.scaleLine + "</p>";
+        html += '<div class="bars">';
+        [
+          { key: "licenses", label: "ПО и лицензии", val: c.breakdown.licenses, tip: Math.round(c.assumptions.pctLicenses * 100) + "% от бюджета на ПО" },
+          { key: "assets", label: "Оборудование", val: c.breakdown.assets, tip: Math.round(c.assumptions.pctAssets * 100) + "% от оценочной стоимости парка" },
+          { key: "labor", label: "Трудозатраты ИТ", val: c.breakdown.labor, tip: (c.assumptions.pctIt * 100).toFixed(1).replace(".", ",") + "% от ФОТ ИТ" },
+        ].forEach(function (row) {
+          html += '<div class="bar-row"><span>' + row.label + '<br><small style="color:#888">' + row.tip + "</small></span>";
+          html += '<div class="bar-track"><div class="bar-fill" style="width:' + pct(row.val, c.savingsTotal) + '%"></div></div>';
+          html += "<strong>" + ItmenRoiReport.fmtRubShort(row.val) + "</strong></div>";
         });
-        html += "</ul>";
-        html += '<p class="sec-lead">' + escapeHtml(n.assumptionsNote) + "</p>";
-        html += "</div></section>";
+        html += "</div>";
+        html += '<div class="assumptions"><strong>Допущения модели (консервативно):</strong> экономия на ПО — ' +
+          Math.round(c.assumptions.pctLicenses * 100) +
+          "% годового бюджета лицензий; на оборудовании — " +
+          Math.round(c.assumptions.pctAssets * 100) +
+          "% от оценки " +
+          c.assumptions.assetCostPerEndpoint.toLocaleString("ru-RU") +
+          " ₽ / РМ в год; на трудозатратах — " +
+          String(c.assumptions.pctIt * 100).replace(".", ",") +
+          "% ФОТ ИТ (ставка " +
+          c.assumptions.avgItSalaryMonth.toLocaleString("ru-RU") +
+          " ₽/мес). В презентации «Обоснование ИТМен» ориентиры выше (до 20% / апгрейд vs замена / кратное сокращение ручного аудита) — здесь взяты осторожные доли для лид-магнита.</div>";
+        html += "</section>";
 
         html += '<section class="page">';
-        html += '<div class="doc-block"><h3 class="sec">Обоснование внедрения</h3>';
-        html += '<div class="aud-block"><h4>Для руководства</h4><ul>' + li(n.forExec) + "</ul></div>";
-        html += '<div class="aud-block"><h4>Для финансистов</h4><ul>' + li(n.forFinance) + "</ul></div>";
-        html += '<div class="aud-block"><h4>Для ИБ и комплаенса</h4><ul>' + li(n.forSecurity) + "</ul></div>";
-        html += "</div></section>";
+        html += '<div class="kicker">Аргументы</div>';
+        html += '<h3 class="sec">Для руководства, финансов и ИБ</h3>';
+        html += '<p class="sec-lead">Один отчёт — три угла зрения. Формулировки подобраны под масштаб парка и доминирующий рычаг экономии.</p>';
+        html += '<div class="audience">';
+        html += '<div class="aud-card"><h4>Руководство</h4><ul>' + li(n.forExec) + "</ul></div>";
+        html += '<div class="aud-card"><h4>Финансисты</h4><ul>' + li(n.forFinance) + "</ul></div>";
+        html += '<div class="aud-card"><h4>ИБ / комплаенс</h4><ul>' + li(n.forSecurity) + "</ul></div>";
+        html += "</div></div>";
+        html += "</section>";
 
         html += '<section class="page">';
-        html += '<div class="doc-block"><h3 class="sec">Что сделать в первую очередь</h3>';
-        html += '<ol class="priority-list">';
+        html += '<div class="kicker">ITIL 4 · РИТМ</div>';
+        html += '<h3 class="sec">Соответствие практикам управления ИТ</h3>';
+        html += '<p class="sec-lead">ИТМен даёт фактический контур данных под практики ITIL 4 Foundation. Набор ниже подобран под ваш доминирующий рычаг экономии и масштаб. Рядом — контекст российского проекта РИТМ.</p>';
+        html += '<div class="recs">';
+        n.itilFocus.forEach(function (p) {
+          html +=
+            '<div class="rec"><strong>' +
+            escapeHtml(p.ru) +
+            ' <span style="color:#888;font-weight:500">(' +
+            escapeHtml(p.practice) +
+            ")</span></strong><p>" +
+            escapeHtml(p.why) +
+            "</p></div>";
+        });
+        html += "</div>";
+        html +=
+          '<div class="assumptions" style="margin-top:18px"><strong>' +
+          escapeHtml(n.ritm.title) +
+          "</strong><br>" +
+          escapeHtml(n.ritm.blurb) +
+          "<ul style=\"margin:10px 0 8px 18px;padding:0\">" +
+          n.ritm.points
+            .map(function (t) {
+              return "<li style=\"margin-bottom:4px\">" + escapeHtml(t) + "</li>";
+            })
+            .join("") +
+          '</ul>Источник: <a href="' +
+          n.ritm.link +
+          '" target="_blank" rel="noopener">Устав проекта РИТМ</a>. Карта практик — из БЗ ИТМен × ITIL 4 Foundation.</div>';
+        html += "</section>";
+
+        html += '<section class="page">';
+        html += '<div class="kicker">Рекомендации</div>';
+        html += '<h3 class="sec">Что сделать в первую очередь</h3>';
+        html += '<p class="sec-lead">Набор зависит от ваших ответов: масштаб, размер ИТ-команды и бюджет на ПО.</p>';
+        html += '<div class="recs">';
         n.recommendations.forEach(function (r) {
-          html += "<li><strong>" + escapeHtml(r.title) + ".</strong> " + escapeHtml(r.text) + "</li>";
+          html += '<div class="rec"><strong>' + escapeHtml(r.title) + "</strong><p>" + escapeHtml(r.text) + "</p></div>";
         });
-        html += "</ol></div>";
-
-        html += '<div class="doc-block"><h3 class="sec">Что делать дальше?</h3>';
+        html += "</div>";
+        html += '<h3 class="sec" style="margin-top:28px">Следующие шаги</h3>';
         html += '<ol class="steps">';
         n.nextSteps.forEach(function (s) {
           html += "<li>" + escapeHtml(s) + "</li>";
         });
-        html += "</ol></div>";
-
-        html += '<div class="cta-box">';
-        html += "<p><strong>Хотите проверить «Инферит ИТМен» на практике? Дарим сертификат на лицензии ИТМен −30%.</strong></p>";
-        html += "<p>Этот расчёт построен на средних показателях. Реальные цифры зависят от вашей инфраструктуры, структуры лицензий и текущего состояния учёта. За 20 минут созвона наш эксперт посмотрит на ваш контур и уточнит расчёт, а заодно подготовит аргументы под вашу презентацию для руководства.</p>";
-        html += '<a class="cta-btn" href="https://itman.ru/" target="_blank" rel="noopener">Записаться на созвон с экспертом</a>';
-        html += "</div>";
-
-        html += '<p class="footnote">Отчёт носит оценочный характер и не является офертой. Реальный эффект зависит от текущего состояния учёта активов, структуры лицензий и периметра пилота. Подробнее о продукте на <a href="https://itman.ru" target="_blank" rel="noopener">itman.ru</a>.</p>';
+        html += "</ol>";
+        html += '<p class="disclaimer">Отчёт носит оценочный характер и не является офертой. Фактический эффект зависит от текущего уровня зрелости учёта активов, структуры лицензий и периметра пилота. Источники формулировок: материалы обоснования ИТМен, кейсы экономии по трём направлениям, БЗ (ITAM/SAM × ITIL 4), контекст проекта РИТМ. Подробнее о продукте: <a href="https://itman.ru" target="_blank" rel="noopener">itman.ru</a>.</p>';
         html += "</section>";
 
         document.getElementById("report").innerHTML = html;
