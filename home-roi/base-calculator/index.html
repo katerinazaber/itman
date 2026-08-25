@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>ИТМен — калькулятор ROI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #13231c;
+      --ink-soft: #3a4f46;
+      --muted: #6b7f74;
+      --line: rgba(19, 35, 28, 0.12);
+      --paper: #f3efe6;
+      --surface: rgba(255, 252, 246, 0.86);
+      --accent: #0f7a5a;
+      --accent-deep: #0a5c44;
+      --warn: #b45309;
+      --shadow: 0 18px 50px rgba(19, 35, 28, 0.08);
+      --radius: 18px;
+      --mono: "Manrope", system-ui, sans-serif;
+      --display: "Instrument Serif", Georgia, serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--mono);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(15, 122, 90, 0.16), transparent 55%),
+        radial-gradient(900px 500px at 100% 0%, rgba(180, 83, 9, 0.10), transparent 50%),
+        linear-gradient(180deg, #efe9db 0%, var(--paper) 42%, #e7e1d2 100%);
+      min-height: 100vh;
+    }
+    .wrap { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 64px; }
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      margin-bottom: 28px; animation: rise 0.7s ease both;
+    }
+    .brand { display: flex; align-items: baseline; gap: 10px; }
+    .brand strong { font-size: 1.05rem; }
+    .brand span { color: var(--muted); font-size: 0.86rem; }
+    .badge {
+      font-size: 0.75rem; color: var(--accent-deep);
+      background: rgba(15, 122, 90, 0.1); border: 1px solid rgba(15, 122, 90, 0.22);
+      padding: 6px 10px; border-radius: 999px; white-space: nowrap;
+    }
+    .badge-warn {
+      color: #9a3412;
+      background: rgba(180, 83, 9, 0.1);
+      border-color: rgba(180, 83, 9, 0.25);
+    }
+    .disclaimer {
+      margin: 0 0 18px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: rgba(180, 83, 9, 0.08);
+      border: 1px solid rgba(180, 83, 9, 0.2);
+      color: var(--ink-soft);
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+    .disclaimer strong { color: var(--warn); }
+    .warn-box {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(159, 18, 57, 0.06);
+      border: 1px solid rgba(159, 18, 57, 0.18);
+      color: var(--ink-soft);
+      font-size: 0.82rem;
+      line-height: 1.45;
+      display: none;
+    }
+    .warn-box.show { display: block; }
+    .hero {
+      display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 28px; align-items: end;
+      margin-bottom: 28px; animation: rise 0.8s 0.05s ease both;
+    }
+    .hero h1 {
+      margin: 0 0 12px; font-family: var(--display); font-weight: 400;
+      font-size: clamp(2.3rem, 5vw, 3.5rem); line-height: 0.95; letter-spacing: -0.02em;
+    }
+    .hero h1 em { font-style: italic; color: var(--accent-deep); }
+    .hero p { margin: 0; max-width: 40ch; color: var(--ink-soft); font-size: 1.02rem; line-height: 1.5; }
+    .hero-aside {
+      background: linear-gradient(145deg, rgba(15, 122, 90, 0.12), rgba(255,252,246,0.55));
+      border: 1px solid rgba(15, 122, 90, 0.18); border-radius: var(--radius);
+      padding: 18px; box-shadow: var(--shadow);
+    }
+    .hero-aside .kicker {
+      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--muted); margin-bottom: 8px;
+    }
+    .hero-aside .big { font-family: var(--display); font-size: 1.85rem; line-height: 1.05; margin-bottom: 8px; }
+    .hero-aside .note { font-size: 0.86rem; color: var(--ink-soft); line-height: 1.4; }
+    .layout { display: grid; grid-template-columns: 1.02fr 0.98fr; gap: 20px; align-items: start; }
+    .panel, .metric {
+      background: var(--surface); backdrop-filter: blur(10px);
+      border: 1px solid var(--line); border-radius: calc(var(--radius) + 2px);
+      box-shadow: var(--shadow);
+    }
+    .panel { padding: 22px; animation: rise 0.75s 0.1s ease both; }
+    .panel h2 { margin: 0 0 6px; font-size: 1.05rem; }
+    .panel .sub { margin: 0 0 18px; color: var(--muted); font-size: 0.9rem; line-height: 1.45; }
+    .q { display: grid; gap: 6px; margin-bottom: 14px; }
+    .q label { font-size: 0.88rem; font-weight: 600; }
+    .q .hint { font-size: 0.78rem; color: var(--muted); line-height: 1.4; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    input, select {
+      width: 100%; border: 1px solid var(--line); background: #fffcf6;
+      border-radius: 12px; padding: 11px 12px; font: inherit; color: var(--ink); outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus, select:focus {
+      border-color: rgba(15, 122, 90, 0.55); box-shadow: 0 0 0 3px rgba(15, 122, 90, 0.12);
+    }
+    .pct-wrap { position: relative; }
+    .pct-wrap input { padding-right: 36px; }
+    .pct-wrap::after {
+      content: "%"; position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      color: var(--muted); font-weight: 600;
+    }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+    .btn {
+      appearance: none; border: none; border-radius: 12px; padding: 12px 16px;
+      font: inherit; font-weight: 700; cursor: pointer; transition: transform 0.15s;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      background: linear-gradient(180deg, #14956e, var(--accent-deep)); color: #fff;
+      box-shadow: 0 10px 24px rgba(15, 122, 90, 0.28);
+    }
+    .btn-ghost { background: transparent; border: 1px solid var(--line); color: var(--ink-soft); }
+    .results { display: grid; gap: 12px; animation: rise 0.75s 0.16s ease both; }
+    .metric { padding: 16px; position: relative; overflow: hidden; }
+    .metric::before {
+      content: ""; position: absolute; inset: 0 auto 0 0; width: 4px;
+      background: var(--accent); opacity: 0.85;
+    }
+    .metric .label {
+      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--muted); margin-bottom: 6px;
+    }
+    .metric .value { font-family: var(--display); font-size: 2rem; line-height: 1; margin-bottom: 8px; }
+    .metric .meta { font-size: 0.86rem; color: var(--ink-soft); line-height: 1.45; }
+    .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 8px; }
+    .mini {
+      background: rgba(255,252,246,0.7); border: 1px solid var(--line);
+      border-radius: 14px; padding: 12px;
+    }
+    .mini .t { font-size: 0.75rem; color: var(--muted); margin-bottom: 4px; }
+    .mini .v { font-weight: 700; font-size: 1.02rem; }
+    .bar-wrap { margin-top: 10px; }
+    .bar-track { height: 10px; border-radius: 999px; background: rgba(19,35,28,0.08); overflow: hidden; }
+    .bar-fill {
+      height: 100%; width: 0%; border-radius: inherit;
+      background: linear-gradient(90deg, #0f7a5a, #c2781a);
+      transition: width 0.55s cubic-bezier(.2,.8,.2,1);
+    }
+    .bar-labels {
+      display: flex; justify-content: space-between; margin-top: 6px;
+      font-size: 0.75rem; color: var(--muted);
+    }
+    .footer-note { margin-top: 16px; font-size: 0.78rem; color: var(--muted); line-height: 1.45; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: none; }
+    }
+    @media (max-width: 900px) {
+      .hero, .layout, .row2, .grid3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <strong>Инферит ИТМен</strong>
+        <span>калькулятор ROI · сценарий Base</span>
+      </div>
+      <div class="badge badge-warn">Расчёты ориентировочные</div>
+    </div>
+
+    <section class="hero">
+      <div>
+        <h1>Окупаемость <em>без сказок</em></h1>
+        <p>Несколько понятных вопросов → ориентировочная экономия → срок окупаемости. Это оценка для разговора, не оферта и не финальный ТЭО.</p>
+      </div>
+      <aside class="hero-aside">
+        <div class="kicker">Как читать результат</div>
+        <div class="big">Сначала срок, потом «из чего сложилось»</div>
+        <div class="note">Считаем только то, что ИТМен реалистично конвертирует в деньги: меньше ручной сверки и аккуратнее продления/докупки ПО.</div>
+      </aside>
+    </section>
+
+    <div class="layout">
+      <section class="panel">
+        <h2>Вопросы клиенту</h2>
+        <p class="sub">Достаточно ответов «с запасом». Пустые поля подставятся оценкой — в итоге будет видно, что именно оценили.</p>
+        <div class="disclaimer"><strong>Важно:</strong> все цифры ниже — ориентировочный расчёт для пресейла. Для КП нужны данные клиента и коммерческое предложение.</div>
+
+        <div class="q">
+          <label for="devices">Сколько устройств будет опрашивать ИТМен?</label>
+          <div class="hint">ПК, ноутбуки, серверы, тонкие клиенты и другое ИТ-оборудование в периметре инвентаризации. От этого считается стоимость лицензий.</div>
+          <input id="devices" type="number" min="0" step="1" value="2000" />
+        </div>
+
+        <div class="q">
+          <label for="compute">Из них ПК и серверы (для оценки экономии на ПО)</label>
+          <div class="hint">Именно ПК/серверы дают экономию на лицензиях ПО. Остальные устройства входят в стоимость одинаково, но в экономию — через упрощение учёта всего парка. Если не знаете долю — оставьте 0 (~80%).</div>
+          <input id="compute" type="number" min="0" step="1" value="0" />
+        </div>
+
+        <div class="q">
+          <label for="virt">Насколько виртуализированы серверы?</label>
+          <div class="hint">Рынок mid/enterprise: чаще 70–90% серверов на VM. Влияет на ориентировочный норматив затрат SW/HW.</div>
+          <select id="virt">
+            <option value="low">Меньше 30% серверов на VM (почти «железо»)</option>
+            <option value="mid">30–70% на VM (смешанный контур)</option>
+            <option value="high" selected>Больше 70% на VM (типичный рынок)</option>
+          </select>
+        </div>
+
+        <div class="q">
+          <label for="fte">Сколько FTE занято учётом техники и лицензий?</label>
+          <div class="hint">
+            FTE = полные ставки, не «головы». Excel-сверки, ручной inventory, подготовка к закупкам/аудиту.
+            Полставки = 0,5; человек 1–2 дня в неделю ≈ 0,3–0,4. Если 0 — ориентировочно оценим по размеру парка ПК/серверов.
+          </div>
+          <input id="fte" type="number" min="0" step="0.1" value="1.0" />
+        </div>
+
+        <div class="row2">
+          <div class="q">
+            <label for="extendPct">Доля лицензий/подписок к продлению в этом году</label>
+            <div class="hint">Что уже куплено и будет продлеваться.</div>
+            <div class="pct-wrap">
+              <input id="extendPct" type="number" min="0" max="100" step="5" value="30" />
+            </div>
+          </div>
+          <div class="q">
+            <label for="buyPct">Доля бюджета ПО на докупку в этом году</label>
+            <div class="hint">Новые лицензии и расширение.</div>
+            <div class="pct-wrap">
+              <input id="buyPct" type="number" min="0" max="100" step="5" value="10" />
+            </div>
+          </div>
+        </div>
+        <p class="hint" style="margin:-6px 0 14px; font-size:0.78rem; color:var(--muted); line-height:1.4;">
+          Экономия на ПО становится деньгами только там, где в этом году есть продление или докупка. Сумма двух долей в модели ограничена 100%.
+        </p>
+
+        <div class="actions">
+          <button class="btn btn-primary" id="calcBtn" type="button">Пересчитать</button>
+          <button class="btn btn-ghost" id="resetBtn" type="button">Сбросить к примеру</button>
+        </div>
+        <p class="footer-note">
+          Под капотом (ориентиры): единая цена ИТМен на все устройства; экономия на ПО — только от ПК/серверов;
+          экономия на учёте — от всего опрашиваемого парка; ЗП 200&nbsp;000 ₽ GROSS; «мертвое» ПО 10%;
+          сопровождение со 2-го года ≈ 30% от лицензий; внедрение ≈ 3 чел.-мес.
+        </p>
+      </section>
+
+      <section class="results">
+        <div class="disclaimer"><strong>Ориентировочно.</strong> Ниже — модель Base для разговора с клиентом, не гарантия экономии.</div>
+
+        <article class="metric">
+          <div class="label">Срок окупаемости · ориентировочно</div>
+          <div class="value" id="payback">—</div>
+          <div class="meta" id="paybackMeta">—</div>
+          <div class="warn-box" id="mixWarn"></div>
+          <div class="bar-wrap">
+            <div class="bar-track"><div class="bar-fill" id="paybackBar"></div></div>
+            <div class="bar-labels"><span>быстрее</span><span>цель 12–24 мес</span><span>дольше</span></div>
+          </div>
+        </article>
+
+        <article class="metric">
+          <div class="label">Экономия в год 1 · ориентировочно</div>
+          <div class="value" id="saveY1Main">—</div>
+          <div class="meta" id="saveY1Meta">—</div>
+        </article>
+
+        <article class="metric">
+          <div class="label">Реализуемая экономия по годам · ориентировочно</div>
+          <div class="grid3">
+            <div class="mini"><div class="t">Год 1</div><div class="v" id="saveY1">—</div></div>
+            <div class="mini"><div class="t">Год 2</div><div class="v" id="saveY2">—</div></div>
+            <div class="mini"><div class="t">За 3 года</div><div class="v" id="save3y">—</div></div>
+          </div>
+          <div class="meta" style="margin-top:10px" id="saveYearsMeta">—</div>
+        </article>
+
+        <article class="metric">
+          <div class="label">Инвестиции · ориентировочно</div>
+          <div class="grid3">
+            <div class="mini"><div class="t">Год 1</div><div class="v" id="investY1">—</div></div>
+            <div class="mini"><div class="t">Год 2</div><div class="v" id="investY2">—</div></div>
+            <div class="mini"><div class="t">Год 3</div><div class="v" id="investY3">—</div></div>
+          </div>
+          <div class="meta" style="margin-top:10px" id="investMeta">—</div>
+        </article>
+
+        <article class="metric">
+          <div class="label">Откуда взялись цифры · ориентировочно</div>
+          <div class="grid3">
+            <div class="mini"><div class="t">Устройств в опросе</div><div class="v" id="devOut">—</div></div>
+            <div class="mini"><div class="t">ПК и серверы</div><div class="v" id="compOut">—</div></div>
+            <div class="mini"><div class="t">Оценка бюджета ПО</div><div class="v" id="swOut">—</div></div>
+          </div>
+          <div class="meta" style="margin-top:10px" id="baseMeta">—</div>
+        </article>
+      </section>
+    </div>
+  </div>
+
+  <script>
+/* ===== Служебные константы (под капотом) ===== */
+const CONST = {
+  pricePerDevice: 2000, // единая цена на любое опрашиваемое устройство
+  salaryGross: 200000,
+  unusedRate: 0.10,
+  opexShareFromY2: 0.30,
+  implPersonMonths: 3,
+  computeShareDefault: 0.80,
+  addressableShare: 0.50,
+  laborCapture: 0.25,
+  hwCapture: 0.03,
+  licY2ShareOfAddressable: 0.70,
+  laborY2Mult: 1.60,
+  hwY2Mult: 1.67,
+  // экономия на инвентаризации/учёте с каждого устройства (не лицензии ПО)
+  inventoryBenefitPerDevice: 900,
+  inventoryCaptureY1: 0.35,
+  inventoryCaptureY2: 0.50,
+  otherFteWeight: 0.35,
+};
+
+const COSTS = {
+  "100-1000": { noVirt: { sw: 24000, hw: 32000 }, virt: { sw: 27000, hw: 27000 } },
+  "1000-5000": { noVirt: { sw: 21500, hw: 29000 }, virt: { sw: 24000, hw: 24500 } },
+  "5000-20000": { noVirt: { sw: 19000, hw: 26000 }, virt: { sw: 21500, hw: 22000 } },
+  "20000+": { noVirt: { sw: 16500, hw: 22500 }, virt: { sw: 19000, hw: 19000 } },
+};
+
+const $ = (id) => document.getElementById(id);
+const money = (n) => {
+  if (!isFinite(n)) return "—";
+  const abs = Math.abs(n);
+  if (abs >= 1e9) return (n / 1e9).toFixed(2).replace(".", ",") + " млрд ₽";
+  if (abs >= 1e6) return (n / 1e6).toFixed(1).replace(".", ",") + " млн ₽";
+  return Math.round(n).toLocaleString("ru-RU") + " ₽";
+};
+const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+const band = (n) => {
+  if (n >= 20000) return "20000+";
+  if (n >= 5000) return "5000-20000";
+  if (n >= 1000) return "1000-5000";
+  return "100-1000";
+};
+
+function estimateFte(computeEp, otherEp) {
+  const weighted = computeEp + otherEp * CONST.otherFteWeight;
+  return Math.round(clamp(0.3 + weighted / 8000, 0.3, 3) * 10) / 10;
+}
+
+function unitCosts(computeEp, virtMode) {
+  const b = band(Math.max(computeEp, 1));
+  const row = COSTS[b] || COSTS["100-1000"];
+  if (virtMode === "low") return row.noVirt;
+  if (virtMode === "high") return row.virt;
+  return {
+    sw: Math.round((row.noVirt.sw + row.virt.sw) / 2),
+    hw: Math.round((row.noVirt.hw + row.virt.hw) / 2),
+  };
+}
+
+function compute() {
+  const devices = Math.max(0, +$("devices").value || 0);
+  let computeEp = +$("compute").value || 0;
+  let computeSynth = false;
+  if (computeEp <= 0 && devices > 0) {
+    computeEp = Math.round(devices * CONST.computeShareDefault);
+    computeSynth = true;
+  }
+  computeEp = Math.min(computeEp, devices || computeEp);
+  const otherEp = Math.max(0, devices - computeEp);
+
+  const virtMode = $("virt").value;
+  const units = unitCosts(computeEp, virtMode);
+  const swBudget = Math.round(computeEp * units.sw);
+  const hwBudget = Math.round(computeEp * units.hw);
+
+  let fte = +$("fte").value;
+  let fteSynth = false;
+  if (!isFinite(fte) || fte < 0) fte = 0;
+  if (fte === 0) {
+    fte = estimateFte(computeEp, otherEp);
+    fteSynth = true;
+  }
+
+  const extendPct = clamp(+$("extendPct").value || 0, 0, 100);
+  const buyPct = clamp(+$("buyPct").value || 0, 0, 100);
+  const cashEventPct = clamp(extendPct + buyPct, 0, 100);
+  const cashEventShare = cashEventPct / 100;
+
+  // А: лицензии ПО — только ПК/серверы
+  const unusedPool = swBudget * CONST.unusedRate;
+  const addressable = unusedPool * CONST.addressableShare;
+  const licY1 = addressable * cashEventShare;
+  const licY2 = addressable * CONST.licY2ShareOfAddressable;
+  const hwY1 = hwBudget * CONST.hwCapture;
+  const hwY2 = hwY1 * CONST.hwY2Mult;
+
+  // Б: труд FTE
+  const laborY1 = fte * CONST.salaryGross * 12 * CONST.laborCapture;
+  const laborY2 = laborY1 * CONST.laborY2Mult;
+
+  // В: инвентаризация всего опрашиваемого парка
+  const invPool = devices * CONST.inventoryBenefitPerDevice;
+  const invY1 = invPool * CONST.inventoryCaptureY1;
+  const invY2 = invPool * CONST.inventoryCaptureY2;
+
+  const saveY1 = licY1 + laborY1 + hwY1 + invY1;
+  const saveY2 = licY2 + laborY2 + hwY2 + invY2;
+  const saveY3 = saveY2 * 1.05;
+  const save3y = saveY1 + saveY2 + saveY3;
+
+  // Цена единая
+  const capex = devices * CONST.pricePerDevice;
+  const opexY1 = (CONST.implPersonMonths / 12) * CONST.salaryGross;
+  const opexY2 = capex * CONST.opexShareFromY2;
+  const opexY3 = capex * CONST.opexShareFromY2;
+  const investY1 = capex + opexY1;
+  const investY2 = opexY2;
+  const investY3 = opexY3;
+
+  const monthly = saveY1 / 12;
+  const paybackMonths = monthly > 0 ? investY1 / monthly : Infinity;
+
+  $("devOut").textContent = devices.toLocaleString("ru-RU");
+  $("compOut").textContent = computeEp.toLocaleString("ru-RU");
+  $("swOut").textContent = money(swBudget);
+
+  const virtLabel =
+    virtMode === "low"
+      ? "низкая виртуализация"
+      : virtMode === "mid"
+        ? "смешанный контур"
+        : "высокая виртуализация";
+  $("baseMeta").textContent =
+    "Ориентировочная база. Цена — одинаковая на все устройства. " +
+    (computeSynth ? "ПК/серверы оценены как ~80% парка. " : "ПК/серверы — как указано. ") +
+    (otherEp > 0
+      ? "Прочих в опросе: " +
+        otherEp.toLocaleString("ru-RU") +
+        " (дают экономию учёта, не лицензий ПО). "
+      : "") +
+    (fteSynth ? "FTE учёта оценён как " + fte + ". " : "FTE учёта: " + fte + ". ") +
+    "Продление " +
+    extendPct +
+    "% + докупка " +
+    buyPct +
+    "% (в расчёте " +
+    cashEventPct +
+    "%). Профиль: " +
+    virtLabel +
+    ".";
+
+  $("saveY1Main").textContent = money(saveY1);
+  $("saveY1Meta").textContent =
+    "Ориентировочно из разных эффектов: меньше ручного учёта всего парка, " +
+    "аккуратнее продления и докупки ПО на компьютерном контуре, меньше хаоса в инвентаризации. " +
+    "Это не весь ИТ-бюджет, а только то, что модель считает реалистичным в первый год.";
+
+  $("saveY1").textContent = money(saveY1);
+  $("saveY2").textContent = money(saveY2);
+  $("save3y").textContent = money(save3y);
+  $("saveYearsMeta").textContent =
+    "Ориентировочно: в первый год — запуск, учёт парка и первые продления/докупки; " +
+    "со второго — процесс уже работает и эффект обычно выше; " +
+    "третий год — осторожный прирост к уровню второго.";
+
+  $("investY1").textContent = money(investY1);
+  $("investY2").textContent = money(investY2);
+  $("investY3").textContent = money(investY3);
+  $("investMeta").textContent =
+    "Ориентировочно. Год 1: лицензии ИТМен по единой цене на все опрашиваемые устройства плюс внедрение. " +
+    "Годы 2–3: сопровождение как доля от стоимости лицензий, без повторного внедрения. " +
+    "Суммы в коммерческом КП могут отличаться.";
+
+  const mixWarn = $("mixWarn");
+  const ratio = devices > 0 ? computeEp / devices : 1;
+  if (!computeSynth && devices >= 100 && ratio <= 0.15) {
+    mixWarn.classList.add("show");
+    mixWarn.innerHTML =
+      "<strong>Структура парка:</strong> ПК/серверов мало. " +
+      "Экономия на лицензиях ПО будет скромной — её дают компьютеры. " +
+      "Окупаемость в такой конфигурации опирается больше на упрощение учёта всего опрашиваемого парка. " +
+      "Цена ИТМен при этом одинаковая для всех типов устройств.";
+  } else {
+    mixWarn.classList.remove("show");
+    mixWarn.innerHTML = "";
+  }
+
+  let paybackText = "—";
+  let paybackMeta = "";
+  if (!isFinite(paybackMonths)) {
+    paybackText = "не сходится";
+    paybackMeta =
+      "Ориентировочно: экономия первого года не покрывает старт. Имеет смысл уточнить FTE, долю продлений/докупки или состав ПК/серверов.";
+  } else if (paybackMonths < 12) {
+    paybackText = Math.round(paybackMonths) + " мес.";
+    paybackMeta =
+      "Ориентировочно: вложения первого года делим на среднемесячную экономию первого года. Меньше года — выглядит агрессивно; перепроверьте вводы.";
+  } else {
+    const years = paybackMonths / 12;
+    paybackText = years.toFixed(1).replace(".", ",") + " года";
+    paybackMeta =
+      "Ориентировочно: вложения первого года ÷ среднемесячная экономия первого года. " +
+      (paybackMonths <= 24
+        ? "Около рабочего коридора 12–24 мес."
+        : "Дольше двух лет — сузьте периметр или уточните ПК/серверы и продления.");
+  }
+  $("payback").textContent = paybackText;
+  $("paybackMeta").textContent = paybackMeta;
+  const bar = clamp(100 - ((paybackMonths - 6) / 30) * 100, 8, 100);
+  $("paybackBar").style.width = (isFinite(paybackMonths) ? bar : 8) + "%";
+}
+
+$("calcBtn").addEventListener("click", compute);
+["devices", "compute", "virt", "fte", "extendPct", "buyPct"].forEach((id) => {
+  $(id).addEventListener("input", compute);
+  $(id).addEventListener("change", compute);
+});
+$("resetBtn").addEventListener("click", () => {
+  $("devices").value = 2000;
+  $("compute").value = 0;
+  $("virt").value = "high";
+  $("fte").value = 1.0;
+  $("extendPct").value = 30;
+  $("buyPct").value = 10;
+  compute();
+});
+
+compute();
+
+  </script>
+</body>
+</html>
