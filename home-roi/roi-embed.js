@@ -1,6 +1,7 @@
 /* ROI embed for Taptop — resilient init (event delegation + retry) */
 (function () {
-  var ROI_VER = 22;
+  var ROI_VER = 23;
+  // v23: сотрудники учёта — целые числа (1, 2, 3…)
   // v22: понятные формулировки вопросов для сайта; устройства — числом
   // v21: модель Base 2026 (devices/compute/virt/fte/extend/buy) — как index.html + Excel
   // v20: nbsp before «персональных» in consent label
@@ -126,6 +127,8 @@
       if (virt !== "low" && virt !== "mid" && virt !== "high") virt = "high";
       var fte = Number(el("roiFte")?.value);
       if (!isFinite(fte)) fte = Number(el("roiIt")?.value || 0);
+      /* На сайте считаем целыми людьми; 0 = автооценка в модели */
+      if (fte > 0) fte = Math.round(fte);
       var extendPct = Number(el("roiExtend")?.value || 0);
       var buyPct = Number(el("roiBuy")?.value || 0);
       return {
