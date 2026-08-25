@@ -1,0 +1,1015 @@
+<style>
+/* ROI lead-magnet — ITMen brand; Nekst from site (already loaded on Taptop page) */
+
+.itman-roi {
+  --roi-red: #e30613;
+  --roi-red-hover: #c50510;
+  --roi-black: #121212;
+  --roi-bg: #0d0d0d;
+  --roi-card: #161616;
+  --roi-border: #2a2a2a;
+  --roi-muted: rgba(255, 255, 255, 0.58);
+  --roi-muted-2: rgba(255, 255, 255, 0.42);
+  --roi-white: #fff;
+  /* Medium = headings; Regular/Nekst 400 = body; Regular = "light" (Light нет на сайте) */
+  --roi-font: "Nekst", "Nekst Regular Web", Arial, Helvetica, sans-serif;
+  --roi-font-medium: "Nekst Medium Web", "Nekst SemiBold", "Nekst", Arial, Helvetica, sans-serif;
+  --roi-font-light: "Nekst Regular Web", "Nekst", Arial, Helvetica, sans-serif;
+  font-family: var(--roi-font);
+  font-weight: 400;
+  background: var(--roi-bg);
+  color: var(--roi-white);
+  padding: 72px 0 0;
+  box-sizing: border-box;
+}
+
+.itman-roi *,
+.itman-roi *::before,
+.itman-roi *::after { box-sizing: border-box; }
+
+.itman-roi__inner {
+  width: min(100% - 48px, 1180px);
+  margin: 0 auto;
+}
+
+.itman-roi__head {
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto 40px;
+}
+
+.itman-roi__title {
+  margin: 0 0 14px;
+  font-family: var(--roi-font-medium);
+  font-size: clamp(26px, 3.4vw, 40px);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--roi-white);
+}
+
+.itman-roi__lead {
+  margin: 0;
+  font-family: var(--roi-font-light);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--roi-muted);
+}
+
+.itman-roi__grid {
+  display: grid;
+  grid-template-columns: 1.12fr 0.88fr;
+  gap: 20px;
+  align-items: stretch;
+  margin-bottom: 24px;
+}
+
+.itman-roi__form-card,
+.itman-roi__preview {
+  background: var(--roi-card);
+  border: 1px solid var(--roi-border);
+  border-radius: 24px;
+  padding: 28px;
+}
+
+.itman-roi__steps {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 0;
+  margin: 0 0 28px;
+  padding: 0;
+  align-items: center;
+}
+
+.itman-roi__steps li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--roi-font);
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.38);
+  position: relative;
+  padding-right: 18px;
+  margin-right: 6px;
+}
+
+.itman-roi__steps li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  width: 10px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.22);
+  transform: translateY(-50%);
+}
+
+.itman-roi__steps span {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--roi-font-medium);
+  font-size: 13px;
+  font-weight: 500;
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  color: rgba(255, 255, 255, 0.5);
+  background: transparent;
+}
+
+.itman-roi__steps li.is-active {
+  color: var(--roi-white);
+}
+
+.itman-roi__steps li.is-active span {
+  background: var(--roi-red);
+  color: #fff;
+  border-color: var(--roi-red);
+}
+
+.itman-roi__steps li.is-done {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.itman-roi__steps li.is-done span {
+  background: var(--roi-red);
+  border-color: var(--roi-red);
+  color: #fff;
+}
+
+.itman-roi__q {
+  margin: 0 0 14px;
+  font-family: var(--roi-font-medium);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--roi-white);
+}
+
+.itman-roi__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.itman-roi__pill {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
+  border-radius: 999px;
+  min-height: 40px;
+  padding: 0 16px;
+  font-family: var(--roi-font);
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: .15s ease;
+}
+
+.itman-roi__pill:hover {
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.itman-roi__pill.is-active {
+  background: var(--roi-red);
+  color: #fff;
+  border-color: var(--roi-red);
+}
+
+.itman-roi__field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 14px;
+  padding: 0 14px;
+  min-height: 52px;
+  background: rgba(255, 255, 255, 0.03);
+  margin-bottom: 4px;
+}
+
+.itman-roi__field input {
+  flex: 1;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--roi-white);
+  font-family: var(--roi-font-medium);
+  font-size: 20px;
+  font-weight: 500;
+  min-width: 0;
+  width: 100%;
+  color-scheme: dark;
+}
+
+/* Стрелки number — светло-серые на тёмном поле */
+.itman-roi__field input[type="number"]::-webkit-outer-spin-button,
+.itman-roi__field input[type="number"]::-webkit-inner-spin-button {
+  opacity: 1;
+  filter: invert(0.82) brightness(1.35);
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+.itman-roi__field span {
+  color: var(--roi-muted);
+  font-family: var(--roi-font);
+  font-size: 15px;
+  font-weight: 400;
+  flex: none;
+}
+
+.itman-roi__field-hint {
+  margin: 0 0 14px;
+  font-family: var(--roi-font-light);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--roi-muted-2);
+}
+
+.itman-roi__q--sub {
+  margin-top: 22px;
+  font-size: 18px; /* как у .itman-roi__q */
+  font-weight: 500;
+  font-family: var(--roi-font-medium);
+  line-height: 1.35;
+  color: var(--roi-white);
+}
+
+.itman-roi__row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+@media (max-width: 560px) {
+  .itman-roi__row2 { grid-template-columns: 1fr; }
+}
+
+.itman-roi__btn {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 28px;
+  border-radius: 12px;
+  background: var(--roi-red);
+  color: #fff;
+  font-family: var(--roi-font-medium);
+  font-size: 16px;
+  font-weight: 500;
+  width: 100%;
+  margin-top: 24px;
+  transition: background .15s ease;
+  text-decoration: none;
+}
+
+.itman-roi__btn:hover { background: var(--roi-red-hover); }
+
+.itman-roi__btn--ghost {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #fff;
+  margin-top: 12px;
+}
+
+.itman-roi__btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.itman-roi__nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.itman-roi__nav .itman-roi__btn { margin-top: 0; }
+
+.itman-roi__footnotes {
+  margin-top: 18px;
+  display: grid;
+  gap: 10px;
+}
+
+.itman-roi__hint,
+.itman-roi__lock {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin: 0;
+  font-family: var(--roi-font-light);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--roi-muted-2);
+  text-align: left;
+}
+
+.itman-roi__hint { margin-top: 14px; }
+.itman-roi__lock { margin-top: 18px; }
+
+.itman-roi__hint svg,
+.itman-roi__lock svg {
+  flex: none;
+  margin-top: 1px;
+  opacity: 0.85;
+}
+
+.itman-roi__preview-head h3 {
+  margin: 0 0 14px;
+  font-family: var(--roi-font-medium);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.itman-roi__preview-head p {
+  margin: 0 0 20px;
+  font-family: var(--roi-font-light);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--roi-muted);
+}
+
+.itman-roi__cta-box--solo > p {
+  margin: 0 0 18px;
+}
+
+.itman-roi__metric {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid transparent;
+}
+
+.itman-roi__metric span {
+  display: block;
+  font-family: var(--roi-font-light);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--roi-muted);
+  margin-bottom: 4px;
+}
+
+.itman-roi__metric strong {
+  font-family: var(--roi-font-medium);
+  font-size: clamp(24px, 2.4vw, 30px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.itman-roi__metric-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-family: var(--roi-font-medium);
+  font-weight: 500;
+  flex: none;
+}
+
+.itman-roi__metric--save {
+  background: rgba(227, 6, 19, 0.14);
+  border-color: rgba(227, 6, 19, 0.28);
+}
+.itman-roi__metric--save strong { color: #ff6b73; }
+.itman-roi__metric--save .itman-roi__metric-icon {
+  background: rgba(227, 6, 19, 0.2);
+  color: #ff6b73;
+}
+
+.itman-roi__metric--roi {
+  background: rgba(79, 110, 247, 0.14);
+  border-color: rgba(79, 110, 247, 0.28);
+}
+.itman-roi__metric--roi strong { color: #a8b6ff; }
+.itman-roi__metric--roi .itman-roi__metric-icon {
+  background: rgba(79, 110, 247, 0.2);
+  color: #a8b6ff;
+}
+
+.itman-roi__metric--pay {
+  background: rgba(214, 154, 46, 0.14);
+  border-color: rgba(214, 154, 46, 0.3);
+}
+.itman-roi__metric--pay strong { color: #f0c36a; }
+.itman-roi__metric--pay .itman-roi__metric-icon {
+  background: rgba(214, 154, 46, 0.2);
+  color: #f0c36a;
+}
+
+.itman-roi__preview-note {
+  margin: 8px 0 0;
+  font-family: var(--roi-font-light);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--roi-muted);
+}
+
+.itman-roi__summary-label {
+  margin: 0 0 16px;
+  font-family: var(--roi-font-medium);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--roi-muted);
+}
+
+.itman-roi__cta-box--solo p {
+  margin: 0 0 16px;
+  font-family: var(--roi-font);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--roi-muted);
+}
+
+.itman-roi__cta-box--solo .itman-roi__checklist {
+  margin-bottom: 22px;
+}
+
+.itman-roi__cta-box h4 {
+  margin: 0 0 10px;
+  font-family: var(--roi-font-medium);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--roi-white);
+}
+
+.itman-roi__cta-box p {
+  margin: 0 0 16px;
+  font-family: var(--roi-font);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--roi-muted);
+}
+
+.itman-roi__lead-title {
+  margin: 0 0 10px;
+  font-family: var(--roi-font-medium);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--roi-white);
+}
+
+.itman-roi__lead-text {
+  margin: 0 0 14px;
+  font-family: var(--roi-font);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--roi-muted);
+}
+
+.itman-roi__checklist {
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.itman-roi__checklist li {
+  position: relative;
+  padding-left: 22px;
+  font-family: var(--roi-font);
+  font-size: 14px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.itman-roi__checklist li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--roi-red);
+  font-weight: 700;
+}
+
+.itman-roi__done-kicker {
+  margin: 0 0 8px;
+  font-family: var(--roi-font-medium);
+  font-size: 28px;
+  font-weight: 500;
+  color: #ff6b73;
+  letter-spacing: -.02em;
+}
+
+.itman-roi__done-soft {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--roi-border);
+}
+
+.itman-roi__done-soft p {
+  margin: 0 0 12px;
+  font-family: var(--roi-font);
+  font-size: 14px;
+  color: var(--roi-muted);
+}
+
+.itman-roi__preview a.itman-roi__btn {
+  text-decoration: none;
+  margin-top: 8px;
+}
+
+.itman-roi__benefits {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  background: #fff;
+  color: var(--roi-black);
+  border-radius: 24px;
+  padding: 28px 24px 32px;
+  margin-top: 8px;
+}
+
+.itman-roi__benefit {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.itman-roi__benefit-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(227, 6, 19, 0.35);
+  color: var(--roi-red);
+  display: grid;
+  place-items: center;
+  flex: none;
+  background: rgba(227, 6, 19, 0.06);
+}
+
+.itman-roi__benefit strong {
+  display: block;
+  font-family: var(--roi-font-medium);
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  line-height: 1.3;
+  color: #121212;
+}
+
+.itman-roi__benefit p {
+  margin: 0;
+  font-family: var(--roi-font-light);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #6b7280;
+}
+
+@media (max-width: 960px) {
+  .itman-roi__grid { grid-template-columns: 1fr; }
+  .itman-roi__benefits { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .itman-roi { padding-top: 48px; }
+  .itman-roi__form-card,
+  .itman-roi__preview { padding: 20px; }
+  .itman-roi__benefits {
+    grid-template-columns: 1fr;
+    border-radius: 16px;
+  }
+  .itman-roi__nav { grid-template-columns: 1fr; }
+}
+
+/* Taptop Embed tweaks */
+.itman-roi { padding: 48px 16px 48px; width: 100%; max-width: 100%; }
+.itman-roi [hidden] { display: none !important; }
+.itman-roi__inner { width: min(100%, 1180px); }
+
+.itman-roi__taptop-mount { margin-top: 8px; }
+#roiTaptopMount .form,
+#roiTaptopMount form {
+  position: static !important;
+  left: auto !important;
+  bottom: auto !important;
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+  pointer-events: auto !important;
+  z-index: 1 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+#roiTaptopMount .text-title { display: none !important; }
+#roiTaptopMount .text-subtitle,
+#roiTaptopMount .text-subtitle span,
+#roiTaptopMount .form__field {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-family: var(--roi-font) !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+}
+#roiTaptopMount .form__field {
+  margin: 0 0 12px !important;
+  display: grid !important;
+  gap: 6px !important;
+}
+#roiTaptopMount .form__input,
+#roiTaptopMount input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]) {
+  width: 100% !important;
+  min-height: 48px !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: #fff !important;
+  padding: 0 14px !important;
+  font-family: var(--roi-font) !important;
+  font-size: 14px !important;
+  box-sizing: border-box !important;
+}
+#roiTaptopMount [data-type-field="checkbox_group"],
+#roiTaptopMount .itman-roi-consent {
+  display: block !important;
+  margin: 4px 0 14px !important;
+}
+#roiTaptopMount [data-type-field="checkbox_group"] .text-subtitle {
+  display: none !important;
+}
+#roiTaptopMount .form__widget-item,
+#roiTaptopMount .itman-roi-consent label {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 10px !important;
+  cursor: pointer !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+  font-family: var(--roi-font) !important;
+}
+#roiTaptopMount input[type="checkbox"].form__checkbox,
+#roiTaptopMount .itman-roi-consent input[type="checkbox"] {
+  position: absolute !important;
+  opacity: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  pointer-events: none !important;
+}
+#roiTaptopMount .form__checkbox-styled,
+#roiTaptopMount .itman-roi-consent-box {
+  flex: 0 0 18px !important;
+  width: 18px !important;
+  height: 18px !important;
+  min-height: 18px !important;
+  margin-top: 1px !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.85) !important;
+  border-radius: 3px !important;
+  background: transparent !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+}
+#roiTaptopMount input[type="checkbox"]:checked + .form__checkbox-styled,
+#roiTaptopMount input[type="checkbox"]:checked + .itman-roi-consent-box,
+#roiTaptopMount .form__widget-item:has(input:checked) .form__checkbox-styled,
+#roiTaptopMount .itman-roi-consent label:has(input:checked) .itman-roi-consent-box {
+  background: #fff !important;
+  border-color: #fff !important;
+}
+#roiTaptopMount input[type="checkbox"]:checked + .form__checkbox-styled::after,
+#roiTaptopMount input[type="checkbox"]:checked + .itman-roi-consent-box::after,
+#roiTaptopMount .form__widget-item:has(input:checked) .form__checkbox-styled::after,
+#roiTaptopMount .itman-roi-consent label:has(input:checked) .itman-roi-consent-box::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 5px !important;
+  top: 2px !important;
+  width: 5px !important;
+  height: 9px !important;
+  border: solid #0d0d0d !important;
+  border-width: 0 2px 2px 0 !important;
+  transform: rotate(45deg) !important;
+}
+#roiTaptopMount .form__label-text,
+#roiTaptopMount .form__label-text a,
+#roiTaptopMount .itman-roi-consent a {
+  color: #fff !important;
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+}
+#roiTaptopMount .form__label-text a,
+#roiTaptopMount .itman-roi-consent a {
+  text-decoration: underline !important;
+  text-underline-offset: 2px !important;
+}
+#roiTaptopMount .itman-roi-consent-error {
+  color: #ff6b73 !important;
+  font-size: 12px !important;
+  margin: 6px 0 0 !important;
+  display: none;
+}
+#roiTaptopMount .itman-roi-consent-error.is-visible {
+  display: block !important;
+}
+#roiTaptopMount .submit_button,
+#roiTaptopMount button[type="submit"] {
+  width: 100% !important;
+  min-height: 52px !important;
+  margin-top: 8px !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  background: #e30613 !important;
+  color: #fff !important;
+  font-family: var(--roi-font-medium) !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+}
+#roiTaptopMount .form__state-success,
+#roiTaptopMount .form__state-error {
+  color: #fff !important;
+  margin-top: 12px !important;
+  font-family: var(--roi-font) !important;
+}
+#roiTaptopMount .form__field-error {
+  color: #ff6b73 !important;
+  font-size: 12px !important;
+}
+#roiTaptopMount .itman-roi-meta-field {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  pointer-events: none !important;
+}
+#roiTaptopMount,
+.itman-roi__taptop-mount,
+.itman-roi__preview {
+  overflow: visible !important;
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 20 !important;
+}
+#roiTaptopMount smart-captcha,
+#roiTaptopMount iframe {
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 100 !important;
+}
+</style>
+<section class="itman-roi" id="roi-calculator" aria-label="ROI-калькулятор" data-phase="input" data-input-step="1">
+  <div class="itman-roi__inner">
+    <header class="itman-roi__head">
+      <h2 class="itman-roi__title">Какой экономический эффект может получить ваша компания?</h2>
+      <p class="itman-roi__lead">Рассчитайте потенциальную экономию и окупаемость внедрения ИТМен за 2 минуты</p>
+    </header>
+
+    <div class="itman-roi__grid">
+      <!-- LEFT -->
+      <div class="itman-roi__form-card">
+        <div data-view="input">
+          <ol class="itman-roi__steps" aria-label="Шаги расчёта">
+            <li class="is-active" data-step-dot="1"><span>1</span>Парк</li>
+            <li data-step-dot="2"><span>2</span>Состав</li>
+            <li data-step-dot="3"><span>3</span>Учёт и ПО</li>
+            <li data-step-dot="4"><span>4</span>Результат</li>
+          </ol>
+
+          <div class="itman-roi__panel" data-input-panel="1">
+            <p class="itman-roi__q">Сколько устройств в вашей ИТ-инфраструктуре?</p>
+            <p class="itman-roi__field-hint">Укажите примерное количество компьютеров, ноутбуков, серверов и другого оборудования</p>
+            <label class="itman-roi__field">
+              <input type="number" id="roiDevices" min="1" step="1" value="2000" />
+              <span>шт.</span>
+            </label>
+            <input type="hidden" id="roiWp" value="2000" />
+            <button type="button" class="itman-roi__btn" data-go-input="2">Далее →</button>
+            <p class="itman-roi__lock">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              Расчёт ориентировочный и основан на введённых вами данных
+            </p>
+          </div>
+
+          <div class="itman-roi__panel" data-input-panel="2" hidden>
+            <p class="itman-roi__q">Сколько из них — компьютеры и серверы?</p>
+            <p class="itman-roi__field-hint">Укажите примерное количество компьютеров и серверов. Если не знаете точную цифру, укажите 0</p>
+            <label class="itman-roi__field">
+              <input type="number" id="roiCompute" min="0" step="1" value="0" />
+              <span>шт.</span>
+            </label>
+            <p class="itman-roi__q itman-roi__q--sub">Какая часть серверов работает виртуально?</p>
+            <p class="itman-roi__field-hint">Укажите, какая часть серверов работает на виртуальных машинах</p>
+            <div class="itman-roi__pills" role="group" aria-label="Виртуализация">
+              <button type="button" class="itman-roi__pill" data-virt="low">Небольшая часть</button>
+              <button type="button" class="itman-roi__pill" data-virt="mid">Примерно половина</button>
+              <button type="button" class="itman-roi__pill is-active" data-virt="high">Большинство</button>
+            </div>
+            <input type="hidden" id="roiVirt" value="high" />
+            <div class="itman-roi__nav">
+              <button type="button" class="itman-roi__btn itman-roi__btn--ghost" data-go-input="1">← Назад</button>
+              <button type="button" class="itman-roi__btn" data-go-input="3">Далее →</button>
+            </div>
+          </div>
+
+          <div class="itman-roi__panel" data-input-panel="3" hidden>
+            <p class="itman-roi__q">Сколько сотрудников занимаются учётом техники и лицензий?</p>
+            <p class="itman-roi__field-hint">Укажите примерное количество сотрудников, которые тратят время на учёт техники, лицензий и поддержание актуальных данных</p>
+            <label class="itman-roi__field">
+              <input type="number" id="roiFte" min="0" max="100" step="1" value="1" />
+              <span>чел.</span>
+            </label>
+            <input type="hidden" id="roiIt" value="1" />
+
+            <p class="itman-roi__q itman-roi__q--sub">Какую часть лицензий и подписок вы планируете продлить в этом году?</p>
+            <p class="itman-roi__field-hint">Укажите примерный % лицензий и подписок, которые планируете продлить</p>
+            <label class="itman-roi__field">
+              <input type="number" id="roiExtend" min="0" max="100" step="5" value="30" />
+              <span>%</span>
+            </label>
+
+            <p class="itman-roi__q itman-roi__q--sub">На сколько % вы планируете увеличить расходы на ПО в этом году?</p>
+            <p class="itman-roi__field-hint">Новые лицензии, подписки и расширение текущего ПО</p>
+            <label class="itman-roi__field">
+              <input type="number" id="roiBuy" min="0" max="100" step="5" value="10" />
+              <span>%</span>
+            </label>
+            <input type="hidden" id="roiBudget" value="0" />
+
+            <div class="itman-roi__nav">
+              <button type="button" class="itman-roi__btn itman-roi__btn--ghost" data-go-input="2">← Назад</button>
+              <button type="button" class="itman-roi__btn" id="roiCalcBtn">Рассчитать →</button>
+            </div>
+          </div>
+
+        </div>
+
+        <div data-view="summary" hidden>
+          <p class="itman-roi__summary-label">Ваш примерный расчёт</p>
+          <div class="itman-roi__metric itman-roi__metric--save">
+            <div class="itman-roi__metric-icon" aria-hidden="true">₽</div>
+            <div>
+              <span>Экономия в год 1 · ориентировочно</span>
+              <strong data-bind="save">—</strong>
+            </div>
+          </div>
+          <div class="itman-roi__metric itman-roi__metric--roi">
+            <div class="itman-roi__metric-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <span>ROI за 3 года · ориентировочно</span>
+              <strong data-bind="roi">—</strong>
+            </div>
+          </div>
+          <div class="itman-roi__metric itman-roi__metric--pay">
+            <div class="itman-roi__metric-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <span>Срок окупаемости · ориентировочно</span>
+              <strong data-bind="pay">—</strong>
+            </div>
+          </div>
+          <button type="button" class="itman-roi__btn itman-roi__btn--ghost" id="roiEditBtn">← Изменить данные</button>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <aside class="itman-roi__preview" aria-live="polite">
+        <div data-view="preview">
+          <div class="itman-roi__preview-head">
+            <h3>Ваш предварительный результат</h3>
+            <p>Ориентировочный расчёт · сценарий Base</p>
+          </div>
+          <div class="itman-roi__metric itman-roi__metric--save">
+            <div class="itman-roi__metric-icon" aria-hidden="true">₽</div>
+            <div>
+              <span>Экономия в год 1 · ориентировочно</span>
+              <strong data-bind="save">—</strong>
+            </div>
+          </div>
+          <div class="itman-roi__metric itman-roi__metric--roi">
+            <div class="itman-roi__metric-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <span>ROI за 3 года · ориентировочно</span>
+              <strong data-bind="roi">—</strong>
+            </div>
+          </div>
+          <div class="itman-roi__metric itman-roi__metric--pay">
+            <div class="itman-roi__metric-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <span>Срок окупаемости · ориентировочно</span>
+              <strong data-bind="pay">—</strong>
+            </div>
+          </div>
+          <p class="itman-roi__preview-note" id="roiPreviewNote">Заполните ещё 3 шага, чтобы получить персональный расчёт с детализацией</p>
+        </div>
+
+        <div data-view="cta" hidden>
+          <div class="itman-roi__preview-head">
+            <h3>Получите полный расчет и обоснование для руководства</h3>
+          </div>
+          <div class="itman-roi__cta-box itman-roi__cta-box--solo">
+            <p>На основе ваших данных подготовим отчет с расчетом экономии и аргументами для руководства, ИБ и финансистов.</p>
+            <ul class="itman-roi__checklist">
+              <li>расчет потенциальной экономии</li>
+              <li>срок окупаемости</li>
+              <li>детализация экономии по направлениям</li>
+            </ul>
+            <button type="button" class="itman-roi__btn" id="roiGetReportBtn">Получить полный отчет ▸</button>
+          </div>
+        </div>
+
+        <div data-view="lead" hidden>
+          <h3 class="itman-roi__lead-title">Получите полный расчет и обоснование для руководства</h3>
+          <p class="itman-roi__lead-text">На основе ваших данных подготовим отчет с расчетом экономии и аргументами для руководства, ИБ и финансистов.</p>
+          <ul class="itman-roi__checklist">
+            <li>расчет потенциальной экономии</li>
+            <li>срок окупаемости</li>
+            <li>детализация экономии по направлениям</li>
+          </ul>
+          <!-- Сюда JS переносит настоящую форму Taptop «Лид-магнит Главная» -->
+          <div id="roiTaptopMount" class="itman-roi__taptop-mount" aria-live="polite"></div>
+          <p class="itman-roi__lock">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            Ваши данные конфиденциальны и используются только для подготовки расчёта.
+          </p>
+        </div>
+
+        <div data-view="done" hidden>
+          <p class="itman-roi__done-kicker">Готово!</p>
+          <h3 class="itman-roi__lead-title">Мы уже готовим ваш персональный отчёт. Менеджер свяжется с вами в ближайшее время.</h3>
+        </div>
+      </aside>
+    </div>
+
+    <div class="itman-roi__benefits">
+      <div class="itman-roi__benefit">
+        <div class="itman-roi__benefit-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 19V5M4 19h16M7 14l3-4 3 2 4-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <strong>Персональный расчёт</strong>
+          <p>Учитываем особенности вашей инфраструктуры и реальные затраты</p>
+        </div>
+      </div>
+      <div class="itman-roi__benefit">
+        <div class="itman-roi__benefit-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6l7-3z" stroke="currentColor" stroke-width="1.6"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <strong>Обоснование для руководства</strong>
+          <p>Получите аргументы и цифры для принятия решения о внедрении</p>
+        </div>
+      </div>
+      <div class="itman-roi__benefit">
+        <div class="itman-roi__benefit-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 4v10M8 10l4 4 4-4M5 18h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <strong>Детальный отчёт</strong>
+          <p>Подробная расшифровка экономии по статьям затрат на ваш e-mail</p>
+        </div>
+      </div>
+      <div class="itman-roi__benefit">
+        <div class="itman-roi__benefit-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.6"/><path d="M12 8v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <strong>Быстрый результат</strong>
+          <p>Получите примерный расчёт за 2 минуты</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
