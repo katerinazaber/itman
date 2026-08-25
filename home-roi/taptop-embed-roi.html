@@ -209,13 +209,19 @@
   color-scheme: dark;
 }
 
-/* Стрелки number — светло-серые на тёмном поле */
+/* Стрелки number — тонкие, приглушённые, без «белой плашки» */
 .itman-roi__field input[type="number"]::-webkit-outer-spin-button,
 .itman-roi__field input[type="number"]::-webkit-inner-spin-button {
-  opacity: 1;
-  filter: invert(0.82) brightness(1.35);
+  opacity: 0.42;
+  filter: brightness(1.55) contrast(0.85);
+  transform: scale(0.82);
+  transform-origin: center right;
   cursor: pointer;
-  margin-left: 4px;
+  margin-left: 2px;
+}
+.itman-roi__field input[type="number"]:hover::-webkit-outer-spin-button,
+.itman-roi__field input[type="number"]:hover::-webkit-inner-spin-button {
+  opacity: 0.62;
 }
 
 .itman-roi__field span {
