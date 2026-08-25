@@ -1,6 +1,7 @@
 /* ROI embed for Taptop — resilient init (event delegation + retry) */
 (function () {
-  var ROI_VER = 21;
+  var ROI_VER = 22;
+  // v22: понятные формулировки вопросов для сайта; устройства — числом
   // v21: модель Base 2026 (devices/compute/virt/fte/extend/buy) — как index.html + Excel
   // v20: nbsp before «персональных» in consent label
   // v19: consent checkbox (ПДн) + block submit until checked; link → itman.ru/soglasie
@@ -329,16 +330,17 @@
         }
         pill.classList.add("is-active");
 
+        if (pill.dataset.virt != null) {
+          var virt = el("roiVirt");
+          if (virt) virt.value = pill.dataset.virt;
+        }
+        // старые pill-диапазоны устройств (если остались в другой вёрстке)
         if (pill.dataset.devices != null || pill.dataset.wp != null) {
           var n = pill.dataset.devices || pill.dataset.wp || "2000";
           var devices = el("roiDevices");
           var wp = el("roiWp");
           if (devices) devices.value = n;
           if (wp) wp.value = n;
-        }
-        if (pill.dataset.virt != null) {
-          var virt = el("roiVirt");
-          if (virt) virt.value = pill.dataset.virt;
         }
         refreshNumbers();
         return;
@@ -511,10 +513,10 @@
       var r = calculate();
       var virtLabel =
         inp.virt === "low"
-          ? "низкая виртуализация (<30% VM)"
+          ? "небольшая часть"
           : inp.virt === "mid"
-            ? "смешанный контур (30–70% VM)"
-            : "высокая виртуализация (>70% VM)";
+            ? "примерно половина"
+            : "большинство";
       return [
         "Устройств в опросе: " + r.devices.toLocaleString("ru-RU"),
         "ПК и серверы: " +
