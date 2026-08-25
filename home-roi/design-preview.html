@@ -237,6 +237,16 @@ html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
   font-weight: 500;
   min-width: 0;
   width: 100%;
+  color-scheme: dark;
+}
+
+/* Стрелки number — светло-серые на тёмном поле */
+.itman-roi__field input[type="number"]::-webkit-outer-spin-button,
+.itman-roi__field input[type="number"]::-webkit-inner-spin-button {
+  opacity: 1;
+  filter: invert(0.82) brightness(1.35);
+  cursor: pointer;
+  margin-left: 4px;
 }
 
 .itman-roi__field span {
