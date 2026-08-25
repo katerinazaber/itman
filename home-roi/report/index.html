@@ -193,6 +193,18 @@
       paint-order: normal;
     }
     body.is-pdf-export .pdf-break { display: none !important; }
+    body.is-pdf-export {
+      background: #fff !important;
+    }
+    body.is-pdf-export .studio {
+      display: block !important;
+      max-width: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    body.is-pdf-export .page + .page {
+      break-before: page;
+    }
 
     .panel .hint-steps {
       margin: 0 0 16px;
@@ -1444,11 +1456,11 @@
     <aside class="panel" aria-label="Параметры отчёта">
       <div class="live-badge">Онлайн-режим</div>
       <h1>Конструктор отчёта</h1>
-      <p class="hint">Введите данные клиента слева — справа сразу соберётся персональный отчёт. На созвон удобно скачать PowerPoint.</p>
+      <p class="hint">Введите данные клиента слева — справа сразу соберётся персональный отчёт формата A4. Его можно сохранить в PDF или PowerPoint.</p>
       <ol class="hint-steps">
         <li>Заполните поля из заявки или калькулятора</li>
         <li>Проверьте отчёт справа</li>
-        <li>Нажмите «Скачать PowerPoint» — презентация сохранится на компьютер</li>
+        <li>Нажмите «Скачать PDF» — отчёт сохранится в формате A4</li>
       </ol>
 
       <label for="company">Компания клиента (на обложке отчёта)</label>
@@ -1470,7 +1482,8 @@
       <input id="budget" type="text" inputmode="numeric" value="12 000 000" />
 
       <div class="row-btns">
-        <button type="button" class="btn btn-primary" id="btnPrint">Скачать PowerPoint</button>
+        <button type="button" class="btn btn-primary" id="btnPdf">Скачать PDF</button>
+        <button type="button" class="btn btn-ghost" id="btnPptx">PowerPoint</button>
         <button type="button" class="btn btn-ghost" id="btnCopyLink">Ссылка для клиента</button>
       </div>
     </aside>
@@ -1480,7 +1493,7 @@
         <span id="toolbarCaption">Предпросмотр отчёта · <strong id="reportCompanyLabel">Компания не указана</strong></span>
         <div class="toolbar-actions">
           <span class="toolbar-live">Обновляется автоматически</span>
-          <button type="button" class="btn-save-pdf" id="btnSavePdf" hidden>Скачать PowerPoint</button>
+          <button type="button" class="btn-save-pdf" id="btnSavePdf" hidden>Сохранить PDF</button>
         </div>
       </div>
       <article class="report" id="report" aria-label="Персональный отчёт">
@@ -1489,8 +1502,11 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
   <script src="./report-engine.js?v=stakeholders-1"></script>
+  <script src="./report-pdf.js?v=1"></script>
   <script src="./report-pptx.js?v=1"></script>
   <script>
     (function () {
@@ -1754,31 +1770,48 @@
           .replace(/"/g, "&quot;");
       }
 
+      function withButton(ev, fallbackId, busyText, work) {
+        var btn = (ev && ev.currentTarget) || document.getElementById(fallbackId);
+        var label = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = busyText;
+        return Promise.resolve()
+          .then(work)
+          .catch(function (err) {
+            console.error(err);
+            throw err;
+          })
+          .finally(function () {
+            btn.disabled = false;
+            btn.textContent = label;
+          });
+      }
+
+      function downloadPdf(ev) {
+        if (!window.ItmenRoiPdf) {
+          alert("Модуль PDF не загрузился. Обновите страницу и попробуйте снова.");
+          return;
+        }
+        var inp = readInputs();
+        withButton(ev, "btnPdf", "Собираем PDF…", function () {
+          return ItmenRoiPdf.download({ company: inp.company });
+        }).catch(function () {
+          alert("Не удалось сохранить PDF. Попробуйте в Chrome или Edge и обновите страницу.");
+        });
+      }
+
       function downloadPptx(ev) {
         if (typeof PptxGenJS === "undefined" || !window.ItmenRoiPptx) {
           alert("Библиотека PowerPoint не загрузилась. Обновите страницу и попробуйте снова.");
           return;
         }
-
-        var btn = (ev && ev.currentTarget) || document.getElementById("btnPrint");
         var inp = readInputs();
         var model = ItmenRoiReport.buildReportModel(inp, { company: inp.company });
-        var label = btn.textContent;
-        btn.disabled = true;
-        btn.textContent = "Собираем презентацию…";
-
-        Promise.resolve()
-          .then(function () {
-            return ItmenRoiPptx.download(model, { company: inp.company });
-          })
-          .catch(function (err) {
-            console.error(err);
-            alert("Не удалось сохранить PowerPoint. Попробуйте ещё раз или откройте в Chrome / Edge.");
-          })
-          .then(function () {
-            btn.disabled = false;
-            btn.textContent = label;
-          });
+        withButton(ev, "btnPptx", "Собираем презентацию…", function () {
+          return ItmenRoiPptx.download(model, { company: inp.company });
+        }).catch(function () {
+          alert("Не удалось сохранить PowerPoint. Попробуйте ещё раз или откройте в Chrome / Edge.");
+        });
       }
 
       function bind() {
@@ -1786,8 +1819,9 @@
           document.getElementById(id).addEventListener("input", render);
           document.getElementById(id).addEventListener("change", render);
         });
-        document.getElementById("btnPrint").addEventListener("click", downloadPptx);
-        document.getElementById("btnSavePdf").addEventListener("click", downloadPptx);
+        document.getElementById("btnPdf").addEventListener("click", downloadPdf);
+        document.getElementById("btnPptx").addEventListener("click", downloadPptx);
+        document.getElementById("btnSavePdf").addEventListener("click", downloadPdf);
         document.getElementById("btnCopyLink").addEventListener("click", function () {
           var clientUrl = buildShareUrl(true);
           var managerUrl = buildShareUrl(false);
