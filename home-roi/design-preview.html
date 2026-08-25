@@ -247,6 +247,31 @@ html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
   flex: none;
 }
 
+.itman-roi__field-hint {
+  margin: 0 0 14px;
+  font-family: var(--roi-font-light);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--roi-muted-2);
+}
+
+.itman-roi__q--sub {
+  margin-top: 22px;
+  font-size: 16px;
+}
+
+.itman-roi__row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+@media (max-width: 560px) {
+  .itman-roi__row2 { grid-template-columns: 1fr; }
+}
+
 .itman-roi__btn {
   appearance: none;
   border: 0;
@@ -787,35 +812,46 @@ html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
       <div class="itman-roi__form-card">
         <div data-view="input">
           <ol class="itman-roi__steps" aria-label="Шаги расчёта">
-            <li class="is-active" data-step-dot="1"><span>1</span>Компания</li>
-            <li data-step-dot="2"><span>2</span>ИТ-команда</li>
-            <li data-step-dot="3"><span>3</span>Лицензии</li>
+            <li class="is-active" data-step-dot="1"><span>1</span>Устройства</li>
+            <li data-step-dot="2"><span>2</span>Контур</li>
+            <li data-step-dot="3"><span>3</span>Учёт и ПО</li>
             <li data-step-dot="4"><span>4</span>Результат</li>
           </ol>
 
           <div class="itman-roi__panel" data-input-panel="1">
-            <p class="itman-roi__q">Сколько рабочих мест в вашей компании?</p>
-            <div class="itman-roi__pills" role="group" aria-label="Рабочие места">
-              <button type="button" class="itman-roi__pill" data-wp="100">до 100</button>
-              <button type="button" class="itman-roi__pill is-active" data-wp="300">100–500</button>
-              <button type="button" class="itman-roi__pill" data-wp="750">500–1000</button>
-              <button type="button" class="itman-roi__pill" data-wp="2500">1000–5000</button>
-              <button type="button" class="itman-roi__pill" data-wp="7500">5000+</button>
+            <p class="itman-roi__q">Сколько устройств будет опрашивать ИТМен?</p>
+            <p class="itman-roi__field-hint">ПК, ноутбуки, серверы, тонкие клиенты и другое ИТ-оборудование в периметре. От этого считается стоимость лицензий.</p>
+            <div class="itman-roi__pills" role="group" aria-label="Устройства">
+              <button type="button" class="itman-roi__pill" data-devices="100">до 100</button>
+              <button type="button" class="itman-roi__pill" data-devices="500">100–1000</button>
+              <button type="button" class="itman-roi__pill is-active" data-devices="2000">1000–5000</button>
+              <button type="button" class="itman-roi__pill" data-devices="7500">5000–20000</button>
+              <button type="button" class="itman-roi__pill" data-devices="25000">20000+</button>
             </div>
-            <input type="hidden" id="roiWp" value="300" />
+            <input type="hidden" id="roiDevices" value="2000" />
+            <!-- совместимость со старыми селекторами -->
+            <input type="hidden" id="roiWp" value="2000" />
             <button type="button" class="itman-roi__btn" data-go-input="2">Далее →</button>
             <p class="itman-roi__lock">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-              Все данные остаются конфиденциальными и используются только для расчёта экономического эффекта
+              Расчёт ориентировочный — для разговора, не оферта и не финальное ТЭО
             </p>
           </div>
 
           <div class="itman-roi__panel" data-input-panel="2" hidden>
-            <p class="itman-roi__q">Сколько сотрудников работает в ИТ?</p>
+            <p class="itman-roi__q">Из них ПК и серверы</p>
+            <p class="itman-roi__field-hint">Именно ПК/серверы дают экономию на лицензиях ПО. Если не знаете — оставьте 0 (~80% парка).</p>
             <label class="itman-roi__field">
-              <input type="number" id="roiIt" min="1" max="500" value="35" />
-              <span>чел.</span>
+              <input type="number" id="roiCompute" min="0" step="1" value="0" />
+              <span>шт.</span>
             </label>
+            <p class="itman-roi__q itman-roi__q--sub">Насколько виртуализированы серверы?</p>
+            <div class="itman-roi__pills" role="group" aria-label="Виртуализация">
+              <button type="button" class="itman-roi__pill" data-virt="low">&lt;30% VM</button>
+              <button type="button" class="itman-roi__pill" data-virt="mid">30–70% VM</button>
+              <button type="button" class="itman-roi__pill is-active" data-virt="high">&gt;70% VM</button>
+            </div>
+            <input type="hidden" id="roiVirt" value="high" />
             <div class="itman-roi__nav">
               <button type="button" class="itman-roi__btn itman-roi__btn--ghost" data-go-input="1">← Назад</button>
               <button type="button" class="itman-roi__btn" data-go-input="3">Далее →</button>
@@ -823,11 +859,32 @@ html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
           </div>
 
           <div class="itman-roi__panel" data-input-panel="3" hidden>
-            <p class="itman-roi__q">Какой примерный годовой бюджет на ПО и лицензии?</p>
+            <p class="itman-roi__q">Сколько FTE занято учётом техники и лицензий?</p>
+            <p class="itman-roi__field-hint">Полные ставки, не «головы». Полставки = 0,5. Если 0 — оценим по размеру парка.</p>
             <label class="itman-roi__field">
-              <input type="text" id="roiBudget" inputmode="numeric" value="12 000 000" />
-              <span>₽</span>
+              <input type="number" id="roiFte" min="0" max="20" step="0.1" value="1" />
+              <span>FTE</span>
             </label>
+            <!-- совместимость -->
+            <input type="hidden" id="roiIt" value="1" />
+            <p class="itman-roi__q itman-roi__q--sub">Доли бюджета ПО в этом году</p>
+            <div class="itman-roi__row2">
+              <div>
+                <p class="itman-roi__field-hint" style="margin-bottom:8px">К продлению</p>
+                <label class="itman-roi__field">
+                  <input type="number" id="roiExtend" min="0" max="100" step="5" value="30" />
+                  <span>%</span>
+                </label>
+              </div>
+              <div>
+                <p class="itman-roi__field-hint" style="margin-bottom:8px">На докупку</p>
+                <label class="itman-roi__field">
+                  <input type="number" id="roiBuy" min="0" max="100" step="5" value="10" />
+                  <span>%</span>
+                </label>
+              </div>
+            </div>
+            <input type="hidden" id="roiBudget" value="0" />
             <div class="itman-roi__nav">
               <button type="button" class="itman-roi__btn itman-roi__btn--ghost" data-go-input="2">← Назад</button>
               <button type="button" class="itman-roi__btn" id="roiCalcBtn">Рассчитать →</button>
@@ -841,7 +898,7 @@ html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
           <div class="itman-roi__metric itman-roi__metric--save">
             <div class="itman-roi__metric-icon" aria-hidden="true">₽</div>
             <div>
-              <span>Потенциальная экономия в год</span>
+              <span>Экономия в год 1 · ориентировочно</span>
               <strong data-bind="save">—</strong>
             </div>
           </div>
@@ -850,7 +907,7 @@ html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
             <div>
-              <span>Ориентировочный ROI</span>
+              <span>ROI за 3 года · ориентировочно</span>
               <strong data-bind="roi">—</strong>
             </div>
           </div>
@@ -859,7 +916,7 @@ html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
             <div>
-              <span>Срок окупаемости</span>
+              <span>Срок окупаемости · ориентировочно</span>
               <strong data-bind="pay">—</strong>
             </div>
           </div>
@@ -872,12 +929,12 @@ html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
         <div data-view="preview">
           <div class="itman-roi__preview-head">
             <h3>Ваш предварительный результат</h3>
-            <p>На основе введённых данных</p>
+            <p>Ориентировочный расчёт · сценарий Base</p>
           </div>
           <div class="itman-roi__metric itman-roi__metric--save">
             <div class="itman-roi__metric-icon" aria-hidden="true">₽</div>
             <div>
-              <span>Потенциальная экономия в год</span>
+              <span>Экономия в год 1 · ориентировочно</span>
               <strong data-bind="save">—</strong>
             </div>
           </div>
@@ -886,7 +943,7 @@ html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
             <div>
-              <span>Ориентировочный ROI</span>
+              <span>ROI за 3 года · ориентировочно</span>
               <strong data-bind="roi">—</strong>
             </div>
           </div>
@@ -895,7 +952,7 @@ html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
             <div>
-              <span>Срок окупаемости</span>
+              <span>Срок окупаемости · ориентировочно</span>
               <strong data-bind="pay">—</strong>
             </div>
           </div>
@@ -982,6 +1039,6 @@ html, body { margin: 0; padding: 0; background: #0d0d0d; min-height: 100%; }
 </section>
 
 
-<script src="./roi-embed.js?v=19"></script>
+<script src="./roi-embed.js?v=21"></script>
 </body>
 </html>

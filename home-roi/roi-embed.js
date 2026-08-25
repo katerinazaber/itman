@@ -1,6 +1,7 @@
 /* ROI embed for Taptop — resilient init (event delegation + retry) */
 (function () {
-  var ROI_VER = 20;
+  var ROI_VER = 21;
+  // v21: модель Base 2026 (devices/compute/virt/fte/extend/buy) — как index.html + Excel
   // v20: nbsp before «персональных» in consent label
   // v19: consent checkbox (ПДн) + block submit until checked; link → itman.ru/soglasie
   // v18: unlock pointer-events for Yandex SmartCaptcha inside mounted form.
@@ -9,51 +10,83 @@
   window.__itmenRoiInit = true;
   var SOGLASIE_URL = "https://itman.ru/soglasie";
 
-  const PCT_LICENSES = 0.1;
-  const PCT_ASSETS = 0.05;
-  const PCT_IT = 0.01;
-  const ASSET_COST_PER_ENDPOINT_PER_YEAR = 3000;
-  const AVG_IT_SALARY_PER_MONTH = 200000;
-  const ITMEN_12_PRICING = [
-    { max: 5000, perEndpoint: 1050 },
-    { max: 25000, perEndpoint: 950 },
-    { max: 50000, perEndpoint: 850 },
-  ];
+  /* ===== Модель Base 2026 (синхрон с ITMen_ROI_Model_2026.xlsx / index.html) ===== */
+  var CONST = {
+    pricePerDevice: 2000,
+    salaryGross: 200000,
+    unusedRate: 0.1,
+    opexShareFromY2: 0.3,
+    implPersonMonths: 3,
+    computeShareDefault: 0.8,
+    addressableShare: 0.5,
+    laborCapture: 0.25,
+    hwCapture: 0.03,
+    licY2ShareOfAddressable: 0.7,
+    laborY2Mult: 1.6,
+    hwY2Mult: 1.67,
+    inventoryBenefitPerDevice: 900,
+    inventoryCaptureY1: 0.35,
+    inventoryCaptureY2: 0.5,
+    otherFteWeight: 0.35,
+  };
 
-  function clamp01(x) {
-    return Math.max(0, Math.min(1, x));
+  var COSTS = {
+    "100-1000": { noVirt: { sw: 24000, hw: 32000 }, virt: { sw: 27000, hw: 27000 } },
+    "1000-5000": { noVirt: { sw: 21500, hw: 29000 }, virt: { sw: 24000, hw: 24500 } },
+    "5000-20000": { noVirt: { sw: 19000, hw: 26000 }, virt: { sw: 21500, hw: 22000 } },
+    "20000+": { noVirt: { sw: 16500, hw: 22500 }, virt: { sw: 19000, hw: 19000 } },
+  };
+
+  function clamp(n, a, b) {
+    return Math.max(a, Math.min(b, n));
   }
-  function smoothstep(t) {
-    t = clamp01(t);
-    return t * t * (3 - 2 * t);
+  function band(n) {
+    if (n >= 20000) return "20000+";
+    if (n >= 5000) return "5000-20000";
+    if (n >= 1000) return "1000-5000";
+    return "100-1000";
   }
-  function getItmenPerEndpointPrice(endpoints) {
-    const n = Math.max(0, Number(endpoints || 0));
-    for (const tier of ITMEN_12_PRICING) {
-      if (n <= tier.max) return tier.perEndpoint;
-    }
-    return ITMEN_12_PRICING[ITMEN_12_PRICING.length - 1].perEndpoint;
+  function estimateFte(computeEp, otherEp) {
+    var weighted = computeEp + otherEp * CONST.otherFteWeight;
+    return Math.round(clamp(0.3 + weighted / 8000, 0.3, 3) * 10) / 10;
   }
-  function parseBudget(raw) {
-    const n = Number(String(raw || "").replace(/\D/g, ""));
-    return isFinite(n) ? n : 0;
+  function unitCosts(computeEp, virtMode) {
+    var b = band(Math.max(computeEp, 1));
+    var row = COSTS[b] || COSTS["100-1000"];
+    if (virtMode === "low") return row.noVirt;
+    if (virtMode === "high") return row.virt;
+    return {
+      sw: Math.round((row.noVirt.sw + row.virt.sw) / 2),
+      hw: Math.round((row.noVirt.hw + row.virt.hw) / 2),
+    };
   }
   function fmtRubShort(n) {
     if (!isFinite(n)) return "—";
-    if (n >= 1_000_000) {
-      return (Math.round((n / 1_000_000) * 10) / 10).toString().replace(".", ",") + " млн ₽";
+    if (Math.abs(n) >= 1e9) {
+      return (n / 1e9).toFixed(2).replace(".", ",") + " млрд ₽";
     }
-    if (n >= 1_000) return Math.round(n / 1_000) + " тыс. ₽";
+    if (Math.abs(n) >= 1e6) {
+      return (Math.round((n / 1e6) * 10) / 10).toString().replace(".", ",") + " млн ₽";
+    }
+    if (Math.abs(n) >= 1e3) return Math.round(n / 1e3).toLocaleString("ru-RU") + " тыс. ₽";
     return Math.round(n) + " ₽";
   }
-  function fmtNum(n, digits = 1) {
+  function fmtNum(n, digits) {
     if (!isFinite(n)) return "—";
+    digits = digits == null ? 1 : digits;
     return (Math.round(n * 10 ** digits) / 10 ** digits).toString().replace(".", ",");
   }
-  function paybackLabel(years) {
-    if (!isFinite(years)) return "—";
-    const v = fmtNum(years, 1);
-    const n = Number(String(v).replace(",", "."));
+  function paybackLabel(months) {
+    if (!isFinite(months) || months <= 0) return "—";
+    if (months < 12) {
+      var m = Math.max(1, Math.round(months));
+      if (m === 1) return "около 1 мес.";
+      if (m < 5) return "около " + m + " мес.";
+      return Math.round(months) + " мес.";
+    }
+    var years = months / 12;
+    var v = fmtNum(years, 1);
+    var n = Number(String(v).replace(",", "."));
     if (n === 1) return v + " год";
     if (n >= 2 && n < 5) return v + " года";
     return v + " лет";
@@ -85,46 +118,121 @@
     }
 
     function getInputs() {
+      var devices =
+        Number(el("roiDevices")?.value || el("roiWp")?.value || 0) || 0;
+      var compute = Number(el("roiCompute")?.value || 0);
+      var virt = (el("roiVirt")?.value || "high").toLowerCase();
+      if (virt !== "low" && virt !== "mid" && virt !== "high") virt = "high";
+      var fte = Number(el("roiFte")?.value);
+      if (!isFinite(fte)) fte = Number(el("roiIt")?.value || 0);
+      var extendPct = Number(el("roiExtend")?.value || 0);
+      var buyPct = Number(el("roiBuy")?.value || 0);
       return {
-        endpoints: Number(el("roiWp")?.value || 0),
-        itStaff: Number(el("roiIt")?.value || 0),
-        currentLicenses: parseBudget(el("roiBudget")?.value),
+        devices: devices,
+        compute: compute,
+        virt: virt,
+        fte: fte,
+        extendPct: extendPct,
+        buyPct: buyPct,
+        // legacy aliases for form fill
+        endpoints: devices,
+        itStaff: fte,
+        currentLicenses: 0,
       };
     }
 
     function calculate() {
-      const { endpoints, itStaff, currentLicenses } = getInputs();
-      const savingsLicensesBase = currentLicenses * PCT_LICENSES;
-      const assetsCurrent = Math.max(0, endpoints) * ASSET_COST_PER_ENDPOINT_PER_YEAR;
-      const savingsAssetsBase = assetsCurrent * PCT_ASSETS;
-      const itPayrollBase = Math.max(0, itStaff) * AVG_IT_SALARY_PER_MONTH * 12;
-      const savingsItBase = itPayrollBase * PCT_IT;
-      const savingsBase = savingsLicensesBase + savingsAssetsBase + savingsItBase;
-      const itmenCost = Math.max(0, endpoints) * getItmenPerEndpointPrice(endpoints);
+      var inp = getInputs();
+      var devices = Math.max(0, inp.devices || 0);
+      var computeEp = Math.max(0, inp.compute || 0);
+      var computeSynth = false;
+      if (computeEp <= 0 && devices > 0) {
+        computeEp = Math.round(devices * CONST.computeShareDefault);
+        computeSynth = true;
+      }
+      computeEp = Math.min(computeEp, devices || computeEp);
+      var otherEp = Math.max(0, devices - computeEp);
 
-      let roi = NaN;
-      let paybackYears = NaN;
-      let savingsTotal = 0;
+      var units = unitCosts(computeEp, inp.virt);
+      var swBudget = Math.round(computeEp * units.sw);
+      var hwBudget = Math.round(computeEp * units.hw);
 
-      if (itmenCost > 0) {
-        const ratio = savingsBase / itmenCost;
-        const ratioScore = clamp01((ratio - 0.3) / (2.5 - 0.3));
-        const scaleScore = clamp01(Math.log10(Math.max(1, endpoints)) / 4);
-        const orgScore = clamp01(Math.log10(Math.max(1, itStaff)) / 4);
-        const score = 0.55 * ratioScore + 0.25 * scaleScore + 0.2 * orgScore;
-        roi = 30 + 120 * smoothstep(score);
-        savingsTotal = itmenCost * (1 + roi / 100);
-        paybackYears = itmenCost / savingsTotal;
+      var fte = inp.fte;
+      var fteSynth = false;
+      if (!isFinite(fte) || fte < 0) fte = 0;
+      if (fte === 0) {
+        fte = estimateFte(computeEp, otherEp);
+        fteSynth = true;
       }
 
-      return { savingsTotal, roi, paybackYears };
+      var extendPct = clamp(inp.extendPct || 0, 0, 100);
+      var buyPct = clamp(inp.buyPct || 0, 0, 100);
+      var cashEventPct = clamp(extendPct + buyPct, 0, 100);
+      var cashEventShare = cashEventPct / 100;
+
+      var unusedPool = swBudget * CONST.unusedRate;
+      var addressable = unusedPool * CONST.addressableShare;
+      var licY1 = addressable * cashEventShare;
+      var licY2 = addressable * CONST.licY2ShareOfAddressable;
+      var hwY1 = hwBudget * CONST.hwCapture;
+      var hwY2 = hwY1 * CONST.hwY2Mult;
+
+      var laborY1 = fte * CONST.salaryGross * 12 * CONST.laborCapture;
+      var laborY2 = laborY1 * CONST.laborY2Mult;
+
+      var invPool = devices * CONST.inventoryBenefitPerDevice;
+      var invY1 = invPool * CONST.inventoryCaptureY1;
+      var invY2 = invPool * CONST.inventoryCaptureY2;
+
+      var saveY1 = licY1 + laborY1 + hwY1 + invY1;
+      var saveY2 = licY2 + laborY2 + hwY2 + invY2;
+      var saveY3 = saveY2 * 1.05;
+      var save3y = saveY1 + saveY2 + saveY3;
+
+      var capex = devices * CONST.pricePerDevice;
+      var opexY1 = (CONST.implPersonMonths / 12) * CONST.salaryGross;
+      var opexY2 = capex * CONST.opexShareFromY2;
+      var opexY3 = capex * CONST.opexShareFromY2;
+      var investY1 = capex + opexY1;
+      var investY2 = opexY2;
+      var investY3 = opexY3;
+      var invest3y = investY1 + investY2 + investY3;
+
+      var monthly = saveY1 / 12;
+      var paybackMonths = monthly > 0 ? investY1 / monthly : Infinity;
+      var paybackYears = isFinite(paybackMonths) ? paybackMonths / 12 : NaN;
+      var roi3y =
+        investY1 > 0 ? ((save3y - invest3y) / investY1) * 100 : NaN;
+
+      return {
+        savingsTotal: saveY1,
+        saveY1: saveY1,
+        saveY2: saveY2,
+        saveY3: saveY3,
+        save3y: save3y,
+        investY1: investY1,
+        investY2: investY2,
+        investY3: investY3,
+        roi: roi3y,
+        paybackMonths: paybackMonths,
+        paybackYears: paybackYears,
+        devices: devices,
+        computeEp: computeEp,
+        otherEp: otherEp,
+        swBudget: swBudget,
+        fte: fte,
+        computeSynth: computeSynth,
+        fteSynth: fteSynth,
+        extendPct: extendPct,
+        buyPct: buyPct,
+      };
     }
 
     function refreshNumbers() {
       const r = calculate();
       const save = fmtRubShort(r.savingsTotal);
       const roi = isFinite(r.roi) ? fmtNum(r.roi, 0) + "%" : "—";
-      const pay = paybackLabel(r.paybackYears);
+      const pay = paybackLabel(r.paybackMonths);
       root.querySelectorAll('[data-bind="save"]').forEach(function (node) {
         node.textContent = save;
       });
@@ -196,9 +304,13 @@
       refreshNumbers();
     }
 
-    function formatBudgetInput(node) {
-      const digits = String(node.value || "").replace(/\D/g, "");
-      node.value = digits ? digits.replace(/\B(?=(\d{3})+(?!\d))/g, " ") : "";
+    function syncLegacyHidden() {
+      var devices = el("roiDevices");
+      var wp = el("roiWp");
+      if (devices && wp) wp.value = devices.value;
+      var fte = el("roiFte");
+      var it = el("roiIt");
+      if (fte && it) it.value = fte.value;
     }
 
     // Event delegation — works even if Taptop re-wraps nodes
@@ -209,12 +321,25 @@
       if (t.classList.contains("itman-roi__pill") || t.closest(".itman-roi__pill")) {
         const pill = t.classList.contains("itman-roi__pill") ? t : t.closest(".itman-roi__pill");
         e.preventDefault();
-        root.querySelectorAll(".itman-roi__pill").forEach(function (b) {
-          b.classList.remove("is-active");
-        });
+        var group = pill.parentElement;
+        if (group) {
+          group.querySelectorAll(".itman-roi__pill").forEach(function (b) {
+            b.classList.remove("is-active");
+          });
+        }
         pill.classList.add("is-active");
-        const wp = el("roiWp");
-        if (wp) wp.value = pill.dataset.wp || "300";
+
+        if (pill.dataset.devices != null || pill.dataset.wp != null) {
+          var n = pill.dataset.devices || pill.dataset.wp || "2000";
+          var devices = el("roiDevices");
+          var wp = el("roiWp");
+          if (devices) devices.value = n;
+          if (wp) wp.value = n;
+        }
+        if (pill.dataset.virt != null) {
+          var virt = el("roiVirt");
+          if (virt) virt.value = pill.dataset.virt;
+        }
         refreshNumbers();
         return;
       }
@@ -250,10 +375,21 @@
 
     root.addEventListener("input", function (e) {
       const t = e.target;
-      if (t && t.id === "roiIt") refreshNumbers();
-      if (t && t.id === "roiBudget") {
-        formatBudgetInput(t);
+      if (!t) return;
+      if (
+        t.id === "roiIt" ||
+        t.id === "roiFte" ||
+        t.id === "roiCompute" ||
+        t.id === "roiExtend" ||
+        t.id === "roiBuy" ||
+        t.id === "roiDevices" ||
+        t.id === "roiWp"
+      ) {
+        syncLegacyHidden();
         refreshNumbers();
+      }
+      if (t.id === "roiBudget") {
+        /* budget больше не вход модели Base — игнор */
       }
     });
 
@@ -373,27 +509,26 @@
     function buildRoiSummary() {
       var inp = getInputs();
       var r = calculate();
-      var wpLabel =
-        inp.endpoints <= 100
-          ? "до 100"
-          : inp.endpoints <= 500
-            ? "100–500"
-            : inp.endpoints <= 1000
-              ? "500–1000"
-              : inp.endpoints <= 5000
-                ? "1000–5000"
-                : "5000+";
+      var virtLabel =
+        inp.virt === "low"
+          ? "низкая виртуализация (<30% VM)"
+          : inp.virt === "mid"
+            ? "смешанный контур (30–70% VM)"
+            : "высокая виртуализация (>70% VM)";
       return [
-        "Рабочие места: " + wpLabel + " (ориентир " + inp.endpoints + ")",
-        "Сотрудников в ИТ: " + inp.itStaff,
-        "Бюджет на ПО/лицензии в год: " +
-          (inp.currentLicenses
-            ? inp.currentLicenses.toLocaleString("ru-RU") + " ₽"
-            : "—"),
-        "Потенциальная экономия в год: " + fmtRubShort(r.savingsTotal),
-        "Ориентировочный ROI: " +
-          (isFinite(r.roi) ? fmtNum(r.roi, 0) + "%" : "—"),
-        "Срок окупаемости: " + paybackLabel(r.paybackYears),
+        "Устройств в опросе: " + r.devices.toLocaleString("ru-RU"),
+        "ПК и серверы: " +
+          r.computeEp.toLocaleString("ru-RU") +
+          (r.computeSynth ? " (оценка ~80%)" : ""),
+        "Виртуализация: " + virtLabel,
+        "FTE учёта: " +
+          r.fte +
+          (r.fteSynth ? " (оценка)" : ""),
+        "Продление / докупка: " + r.extendPct + "% / " + r.buyPct + "%",
+        "Экономия год 1: " + fmtRubShort(r.saveY1),
+        "ROI за 3 года: " + (isFinite(r.roi) ? fmtNum(r.roi, 0) + "%" : "—"),
+        "Окупаемость: " + paybackLabel(r.paybackMonths),
+        "Инвестиции год 1: " + fmtRubShort(r.investY1),
       ].join("\n");
     }
 
@@ -492,15 +627,18 @@
       ].forEach(hideMetaField);
 
       setNativeValue(summaryField, summary);
-      setNativeValue(wpField, String(inp.endpoints));
-      setNativeValue(itField, String(inp.itStaff));
-      setNativeValue(budgetField, String(inp.currentLicenses || ""));
+      setNativeValue(wpField, String(r.devices));
+      setNativeValue(itField, String(r.fte));
+      setNativeValue(
+        budgetField,
+        String(Math.round(r.swBudget || 0))
+      );
       setNativeValue(saveField, fmtRubShort(r.savingsTotal));
       setNativeValue(
         roiField,
         isFinite(r.roi) ? fmtNum(r.roi, 0) + "%" : ""
       );
-      setNativeValue(payField, paybackLabel(r.paybackYears));
+      setNativeValue(payField, paybackLabel(r.paybackMonths));
 
       console.info("[ROI] v" + ROI_VER + " filled calc meta", {
         hasSummary: !!(summaryField && summaryField.value),
