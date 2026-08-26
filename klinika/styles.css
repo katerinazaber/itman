@@ -111,28 +111,33 @@ a { color: inherit; text-decoration: none; }
 /* HERO — full background image with bear */
 .hero {
   position: relative;
-  min-height: 760px;
-  padding: 96px 0 48px;
+  min-height: 640px;
+  padding: 96px 0 32px;
   overflow: hidden;
-  background: #f5f9fc;
+  background: #f7fafc;
 }
 
 .hero__bg {
   position: absolute;
-  inset: 0;
+  top: 50%;
+  right: max(12px, calc((100% - var(--container-width)) / 2));
   z-index: 0;
-  background:
-    url("assets/hero-bg.png") right center / cover no-repeat;
+  width: min(480px, 44vw);
+  height: auto;
+  max-width: 480px;
+  transform: translateY(-48%);
+  object-fit: contain;
+  pointer-events: none;
 }
 
 .hero__grid {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-columns: 1.2fr 0.8fr;
   align-items: center;
   gap: 12px;
-  min-height: 640px;
+  min-height: 520px;
 }
 
 .hero__content { position: relative; z-index: 5; padding-bottom: 24px; }
@@ -580,11 +585,14 @@ a { color: inherit; text-decoration: none; }
   .container { width: min(var(--container-width), calc(100% - 40px)); }
   .hero {
     min-height: auto;
-    padding-bottom: 320px;
+    padding-bottom: 240px;
   }
   .hero__bg {
-    background-position: 70% bottom;
-    background-size: auto 360px;
+    top: auto;
+    bottom: 8px;
+    right: 50%;
+    transform: translateX(50%);
+    width: min(380px, 88vw);
   }
   .hero__grid {
     grid-template-columns: 1fr;
@@ -600,11 +608,10 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 600px) {
   :root { --section-padding: 64px; }
   .hero {
-    padding-bottom: 280px;
+    padding-bottom: 210px;
   }
   .hero__bg {
-    background-size: auto 300px;
-    background-position: center bottom;
+    width: min(320px, 90vw);
   }
   .hero__title { font-size: 30px; }
   .hero__actions,
