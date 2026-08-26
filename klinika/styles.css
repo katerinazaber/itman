@@ -162,13 +162,17 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.5;
 }
 
-/* HERO — provided scene as background, text on left */
+/* HERO — contain: крест сверху и кроссовки снизу не обрезаются */
 .hero {
   position: relative;
-  min-height: 640px;
-  padding: 88px 0 40px;
+  aspect-ratio: 1536 / 1024;
+  min-height: 560px;
+  max-height: min(92vh, 900px);
+  padding: 0;
   overflow: hidden;
-  background: #ffffff;
+  background: #f3f7fb;
+  display: flex;
+  align-items: center;
 }
 
 .hero__bg {
@@ -177,10 +181,9 @@ a { color: inherit; text-decoration: none; }
   z-index: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: 72% center;
+  object-fit: contain;
+  object-position: center center;
   pointer-events: none;
-  image-rendering: auto;
 }
 
 .hero__grid {
@@ -190,7 +193,11 @@ a { color: inherit; text-decoration: none; }
   grid-template-columns: minmax(320px, 520px) 1fr;
   align-items: center;
   gap: 24px;
-  min-height: 560px;
+  width: min(var(--container-width), calc(100% - 64px));
+  margin: 0 auto;
+  padding: 88px 0 40px;
+  min-height: 0;
+  height: 100%;
 }
 
 .hero__content {
@@ -548,16 +555,39 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 900px) {
   .container { width: min(var(--container-width), calc(100% - 40px)); }
   .hero {
+    aspect-ratio: auto;
+    max-height: none;
     min-height: auto;
-    padding: 88px 0 280px;
+    display: block;
+    padding: 88px 0 24px;
   }
   .hero__bg {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    max-height: none;
     object-fit: contain;
-    object-position: center bottom;
+    object-position: center;
+    display: block;
+    order: 2;
   }
   .hero__grid {
+    width: min(var(--container-width), calc(100% - 40px));
     grid-template-columns: 1fr;
     min-height: auto;
+    height: auto;
+    padding: 0 0 16px;
+  }
+  .hero {
+    display: flex;
+    flex-direction: column;
+  }
+  .hero__bg {
+    order: 2;
+  }
+  .hero__grid {
+    order: 1;
   }
   .hero__spacer { display: none; }
   .diagnostics__grid,
@@ -570,7 +600,7 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 600px) {
   :root { --section-padding: 64px; }
   .hero {
-    padding-bottom: 240px;
+    padding-top: 80px;
   }
   .hero__title { font-size: 28px; }
   .hero__actions,
