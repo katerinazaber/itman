@@ -162,41 +162,41 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.5;
 }
 
-/* HERO — растёт с шириной экрана, без голубых полей */
+/* HERO — высота = картинка, без голубых полей */
 .hero {
   position: relative;
   width: 100%;
-  aspect-ratio: 1608 / 978;
   padding: 0;
   overflow: hidden;
-  background: #fff;
-  display: flex;
-  align-items: center;
+  background: #e9eff8;
+  line-height: 0;
 }
 
 .hero__bg {
-  position: absolute;
-  inset: 0;
+  position: relative;
   z-index: 0;
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
+  max-width: none;
+  height: auto;
+  margin: 0;
   pointer-events: none;
 }
 
 .hero__grid {
-  position: relative;
+  position: absolute;
+  inset: 0;
   z-index: 2;
   display: grid;
   grid-template-columns: minmax(320px, 520px) 1fr;
   align-items: center;
   gap: 24px;
   width: min(var(--container-width), calc(100% - 64px));
+  height: auto;
   margin: 0 auto;
   padding: 88px 0 40px;
-  min-height: 0;
-  height: 100%;
+  line-height: 1.55;
+  box-sizing: border-box;
 }
 
 .hero__content {
@@ -554,39 +554,23 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 900px) {
   .container { width: min(var(--container-width), calc(100% - 40px)); }
   .hero {
-    aspect-ratio: auto;
-    max-height: none;
-    min-height: auto;
-    display: block;
-    padding: 88px 0 24px;
-  }
-  .hero__bg {
-    position: relative;
-    inset: auto;
-    width: 100%;
-    height: auto;
-    max-height: none;
-    object-fit: contain;
-    object-position: center;
-    display: block;
-    order: 2;
-  }
-  .hero__grid {
-    width: min(var(--container-width), calc(100% - 40px));
-    grid-template-columns: 1fr;
-    min-height: auto;
-    height: auto;
-    padding: 0 0 16px;
-  }
-  .hero {
     display: flex;
     flex-direction: column;
+    line-height: 1.55;
+    background: #e9eff8;
   }
   .hero__bg {
     order: 2;
+    width: 100%;
+    height: auto;
   }
   .hero__grid {
+    position: relative;
+    inset: auto;
     order: 1;
+    width: min(var(--container-width), calc(100% - 40px));
+    grid-template-columns: 1fr;
+    padding: 88px 0 16px;
   }
   .hero__spacer { display: none; }
   .diagnostics__grid,
@@ -598,7 +582,7 @@ a { color: inherit; text-decoration: none; }
 
 @media (max-width: 600px) {
   :root { --section-padding: 64px; }
-  .hero {
+  .hero__grid {
     padding-top: 80px;
   }
   .hero__title { font-size: 28px; }
