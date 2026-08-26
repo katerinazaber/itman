@@ -162,15 +162,14 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.5;
 }
 
-/* HERO — contain: крест сверху и кроссовки снизу не обрезаются */
+/* HERO — растёт с шириной экрана, без голубых полей */
 .hero {
   position: relative;
+  width: 100%;
   aspect-ratio: 1608 / 978;
-  min-height: 560px;
-  max-height: min(92vh, 900px);
   padding: 0;
   overflow: hidden;
-  background: #f3f7fb;
+  background: #fff;
   display: flex;
   align-items: center;
 }
@@ -181,7 +180,7 @@ a { color: inherit; text-decoration: none; }
   z-index: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center center;
   pointer-events: none;
 }
