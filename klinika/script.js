@@ -2,7 +2,7 @@
   const targets = [
     ".diagnostics__text",
     ".chaos",
-    ".knowledge__card",
+    ".tile",
     ".day",
     ".final__content",
     ".clinic",
