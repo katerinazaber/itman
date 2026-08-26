@@ -86,31 +86,12 @@ a { color: inherit; text-decoration: none; }
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-weight: 800;
-  font-size: 20px;
-  color: var(--dark-blue);
 }
-.logo__mark {
-  width: 28px;
-  height: 28px;
-  border-radius: 7px;
-  background: var(--red);
-  position: relative;
+.logo__img {
+  display: block;
+  height: 32px;
+  width: auto;
 }
-.logo__mark::before,
-.logo__mark::after {
-  content: "";
-  position: absolute;
-  background: #fff;
-  border-radius: 2px;
-  width: 5px;
-  height: 16px;
-  top: 6px;
-}
-.logo__mark::before { left: 8px; transform: rotate(28deg); }
-.logo__mark::after { right: 8px; transform: rotate(-28deg); }
-.logo__text { text-transform: lowercase; }
 
 /* BUTTONS — как на itman.ru: 48px / radius 12 */
 .btn {
