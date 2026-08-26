@@ -1,318 +1,362 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex,nofollow">
-  <title>Клиника чистых данных — ИТМен</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --red:#CB2E33; --red2:#B62B31; --ink:#151515; --text:#17191c;
-      --muted:#666b72; --line:#e6e7e9; --bg:#F5F7F9; --card:#fff;
-      --pink:#F8E8EA; --neutral:#C6CDD4;
-      --radius:18px; --shadow:0 8px 28px rgba(17,24,39,.08);
-      --max:1180px;
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;font-family:Inter,Arial,sans-serif;color:var(--text);background:#fff}
-    a{text-decoration:none;color:inherit}
-    img{max-width:100%;display:block}
-    .container{width:min(var(--max),calc(100% - 48px));margin:auto}
-
-    header{height:76px;background:var(--ink);color:#fff;border-bottom:1px solid rgba(255,255,255,.08)}
-    .nav{height:100%;display:flex;align-items:center;justify-content:space-between;gap:30px}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;white-space:nowrap}
-    .brand-grid{width:26px;height:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
-    .brand-grid i{display:block;background:var(--red);border-radius:50%}
-    .menu{display:flex;gap:34px;font-size:14px;color:#e8e9eb}
-    .actions{display:flex;gap:12px;align-items:center}
-    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 23px;border-radius:7px;border:1px solid #5c6269;color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s}
-    .btn.red{background:var(--red);border-color:var(--red)}
-    .btn.red:hover{background:var(--red2)}
-    .btn.ghost:hover{background:#222}
-    .btn.outline{border:2px solid var(--red);color:var(--red);background:transparent}
-    .btn.outline:hover{background:var(--red);color:#fff}
-    .btn svg{width:18px;height:18px;margin-right:8px;fill:currentColor}
-
-    .hero{background:
-      radial-gradient(circle at 78% 35%,rgba(203,46,51,.18),transparent 30%),
-      linear-gradient(110deg,var(--ink) 0%,#0e1217 56%,#111820 100%);
-      color:#fff;overflow:hidden}
-    .hero-inner{min-height:620px;display:grid;grid-template-columns:1fr 1fr;align-items:center}
-    .eyebrow{color:var(--red);font-size:16px;font-weight:800;margin-bottom:10px}
-    h1{font-size:40px;line-height:1.05;letter-spacing:-1.5px;margin:0 0 20px;max-width:620px}
-    h1 span{color:var(--red)}
-    .hero-copy{position:relative;z-index:2}
-    .benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:0 0 30px;max-width:700px}
-    .benefit{display:flex;align-items:center;gap:10px;font-size:13px;line-height:1.25;color:#e9eaec}
-    .benefit-icon{width:42px;height:42px;border:1px solid #555c64;border-radius:6px;display:grid;place-items:center;flex:0 0 auto}
-    .benefit-icon svg{width:22px;height:22px;stroke:var(--red);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-    .hero-buttons{display:flex;gap:14px;flex-wrap:wrap}
-    .start{margin-top:22px;color:#d7d9dc;font-size:13px;display:flex;align-items:center;gap:8px}
-    .start svg{width:16px;height:16px;stroke:#d7d9dc;fill:none;stroke-width:1.5}
-    .bear-wrap{height:100%;position:relative;display:flex;align-items:flex-end;justify-content:center;overflow:visible}
-    .hero-bear{width:160%;max-width:none;max-height:none;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 22px 30px rgba(0,0,0,.32));position:relative;z-index:1;margin-left:-30%}
-
-    .program{padding:56px 0 42px;background:#fff}
-    .section-title{text-align:center;font-size:32px;letter-spacing:-.7px;margin:0 0 32px}
-    .days{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-    .day{border:1px solid #e1e2e4;border-radius:14px;background:#fff;padding:22px 18px 16px;box-shadow:var(--shadow);min-width:0}
-    .day.featured{border-color:var(--red);box-shadow:0 8px 30px rgba(203,46,51,.1)}
-    .day-num{color:var(--red);font-size:13px;font-weight:800;text-transform:uppercase;margin-bottom:12px}
-    .day h3{font-size:17px;line-height:1.12;margin:0 0 10px}
-    .day>p{font-size:12px;line-height:1.4;color:#555b62;margin:0 0 6px}
-    .day-icon{height:80px;display:grid;place-items:center;margin:6px 0}
-    .day-icon svg{width:64px;height:64px;stroke:var(--ink);fill:none;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
-    .bullets{padding:0;margin:8px 0 14px;list-style:none}
-    .bullets li{font-size:11.5px;line-height:1.35;margin:0 0 9px;padding-left:14px;position:relative}
-    .bullets li:before{content:"";position:absolute;left:0;top:5px;width:5px;height:5px;background:var(--red);border-radius:50%}
-    .material{border:1px solid #efc4c6;background:#fff7f7;border-radius:9px;padding:11px;display:flex;gap:9px;align-items:flex-start}
-    .material svg{width:20px;height:20px;stroke:var(--red);fill:none;stroke-width:1.5;flex:0 0 auto;margin-top:1px}
-    .material b{display:block;font-size:10px;margin-bottom:3px}.material span{font-size:10px;line-height:1.25;color:#555}
-
-    .results{padding:24px 0 50px}
-    .result-grid{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid #e3e4e5}
-    .result{text-align:center;padding:28px 12px;border-right:1px solid #e3e4e5}
-    .result:last-child{border-right:0}
-    .result-icon{height:50px;display:grid;place-items:center;margin-bottom:10px}
-    .result-icon svg{width:36px;height:36px;stroke:var(--red);fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
-    .result p{font-size:12px;line-height:1.35;margin:0}
-
-    .cta{padding:0 0 28px}
-    .cta-box{min-height:290px;border-radius:18px;background:
-      radial-gradient(circle at 78% 50%,rgba(203,46,51,.22),transparent 28%),
-      linear-gradient(100deg,var(--ink),#161c22);color:#fff;display:grid;grid-template-columns:1.05fr .95fr;overflow:hidden;position:relative}
-    .cta-copy{padding:44px 34px 44px 44px;position:relative;z-index:2}
-    .cta-copy h2{font-size:30px;line-height:1.08;margin:0 0 14px}
-    .cta-copy>p{color:#d5d7d9;font-size:13px;margin:0 0 22px}
-    .cta-buttons{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
-    .cta-date{font-size:12px;color:#d5d7d9;margin-top:14px;display:flex;align-items:center;gap:8px}
-    .cta-date svg{width:14px;height:14px;stroke:#d5d7d9;fill:none;stroke-width:1.5}
-    .cta-art{min-height:290px}
-    .cta-art img{width:100%;height:100%;object-fit:cover;object-position:center}
-
-    footer{background:var(--ink);color:#fff;padding:24px 0}
-    .footer-inner{display:flex;align-items:center;justify-content:space-between;gap:25px}
-    .footer-desc{font-size:11px;color:#b8bdc2}.footer-nav{display:flex;gap:28px;font-size:11px;color:#cdd0d3}
-
-    @media(max-width:1000px){
-      h1{font-size:34px}.hero-inner{grid-template-columns:1fr .9fr}.days{grid-template-columns:repeat(2,1fr)}
-      .result-grid{grid-template-columns:repeat(3,1fr)}.result:nth-child(3){border-right:0}
-    }
-    @media(max-width:720px){
-      header{height:auto}.nav{padding:15px 0;flex-wrap:wrap}.menu{order:3;width:100%;justify-content:center;gap:18px}.actions .ghost{display:none}
-      .container{width:min(var(--max),calc(100% - 28px))}
-      .hero-inner{display:flex;flex-direction:column;min-height:0}.hero-copy{padding:52px 0 10px}.hero-bear{width:100%;max-height:480px}
-      h1{font-size:30px;letter-spacing:-1px}.benefits{grid-template-columns:1fr}.hero-buttons{flex-direction:column}.btn{width:100%}
-      .days{grid-template-columns:1fr}.section-title{font-size:27px}.result-grid{grid-template-columns:1fr 1fr}.result{border-bottom:1px solid #e3e4e5}.result:nth-child(odd){border-right:1px solid #e3e4e5}.result:nth-child(even){border-right:0}
-      .cta-box{grid-template-columns:1fr}.cta-copy{padding:30px 25px}.cta-art{min-height:180px}
-      .footer-inner{flex-direction:column;align-items:flex-start}.footer-nav{flex-wrap:wrap}
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Клиника чистых данных — бесплатный 4-дневный марафон</title>
+    <meta
+        name="description"
+        content="Бесплатный 4-дневный марафон «Клиника чистых данных». Разберёмся, откуда берётся хаос в данных о ПО и лицензиях и как превратить их в структурированный каталог."
+    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header>
-  <div class="container nav">
-    <a class="brand" href="https://itman.ru" target="_blank" rel="noopener">
-      <span class="brand-grid" aria-hidden="true">
-        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-      </span>
-      ИТМен
-    </a>
-    <nav class="menu">
-      <a href="https://itman.ru/o-produkte/" target="_blank" rel="noopener">О продукте</a>
-      <a href="#program">Программа</a>
-      <a href="#results">Результат</a>
-      <a href="#footer">Компания</a>
-    </nav>
-    <div class="actions">
-      <a class="btn ghost" href="https://itman.ru/kontakty/" target="_blank" rel="noopener">Связаться с нами</a>
-      <a class="btn red" href="https://t.me/klinika_dannyh_bot" target="_blank" rel="noopener">Записаться на марафон</a>
+
+<header class="header">
+    <div class="container header__inner">
+        <a href="https://itman.ru" class="logo" target="_blank" rel="noopener">
+            <span class="logo__mark"><span></span><span></span></span>
+            <span class="logo__text">ИТМЕН</span>
+        </a>
+        <nav class="header__nav">
+            <a href="#about">О марафоне</a>
+            <a href="#program">Программа</a>
+            <a href="#join">Участие</a>
+        </nav>
+        <a href="#join" class="header__button">Участвовать</a>
     </div>
-  </div>
 </header>
 
 <main>
-  <section class="hero">
-    <div class="container hero-inner">
-      <div class="hero-copy">
-        <div class="eyebrow">4-дневный онлайн-интенсив</div>
-        <h1>Клиника чистых данных: <span>как поставить диагноз своей базе лицензий и вылечить хаос в ПО</span></h1>
-        <div class="benefits">
-          <div class="benefit">
-            <span class="benefit-icon"><svg viewBox="0 0 24 24"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg></span>
-            <span>Находим скрытые потери в лицензиях</span>
-          </div>
-          <div class="benefit">
-            <span class="benefit-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
-            <span>Снижаем финансовые и юридические риски</span>
-          </div>
-          <div class="benefit">
-            <span class="benefit-icon"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
-            <span>Экономим до 25% ИТ-бюджета</span>
-          </div>
-        </div>
-        <div class="hero-buttons">
-          <a class="btn red" href="https://t.me/klinika_dannyh_bot" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24"><path d="M21.2 4.4L2.4 10.8c-.6.2-.6 1.1 0 1.3l4.3 1.6 1.6 5.1c.2.5.8.7 1.2.4l2.3-1.9 4.5 3.3c.5.3 1.1 0 1.2-.5L21.9 5.4c.2-.7-.3-1.2-.7-1z"/></svg>
-            Участвовать в Телеграм
-          </a>
-          <a class="btn outline" href="https://max.ai" target="_blank" rel="noopener">Участвовать в MAX</a>
-          <a class="btn ghost" href="#program">Посмотреть программу</a>
-        </div>
-        <div class="start">
-          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          12–15 октября 2026
-        </div>
-      </div>
-      <div class="bear-wrap">
-        <img class="hero-bear" src="assets/hero-bear-doctor.png" alt="Медведь ИТМен — доктор с планшетом">
-      </div>
-    </div>
-  </section>
 
-  <section class="program" id="program">
-    <div class="container">
-      <h2 class="section-title">4 дня к здоровой базе лицензий</h2>
-      <div class="days">
+    <section class="hero">
+        <div class="hero__glow hero__glow--one"></div>
+        <div class="hero__glow hero__glow--two"></div>
 
-        <article class="day">
-          <div class="day-num">День 1</div>
-          <h3>Приемный покой в клинике</h3>
-          <p>Симптомы бардака в базе ПО и во что он обходится бизнесу.</p>
-          <div class="day-icon"><svg viewBox="0 0 64 64"><rect x="14" y="8" width="36" height="48" rx="4"/><line x1="22" y1="20" x2="42" y2="20"/><line x1="22" y1="28" x2="38" y2="28"/><line x1="22" y1="36" x2="34" y2="36"/><circle cx="48" cy="48" r="10"/><line x1="48" y1="43" x2="48" y2="53"/><line x1="43" y1="48" x2="53" y2="48"/></svg></div>
-          <ul class="bullets">
-            <li>Симптомы бардака в базе ПО, которые обычно остаются незамеченными</li>
-            <li>Как одна программа под десятком разных имен создает дыры в ИТ-бюджете</li>
-            <li>Хронический Shadow IT: почему данные из разных источников не сходятся</li>
-          </ul>
-          <div class="material">
-            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-            <div><b>МАТЕРИАЛ:</b><span>Чек-лист «10 симптомов того, что базе ПО нужна срочная нормализация»</span></div>
-          </div>
-        </article>
+        <div class="container hero__container">
+            <div class="hero__content">
+                <div class="eyebrow">
+                    <span class="eyebrow__dot"></span>
+                    Бесплатный 4-дневный марафон
+                </div>
 
-        <article class="day">
-          <div class="day-num">День 2</div>
-          <h3>Сложные диагнозы и лицензионные риски</h3>
-          <p>Юридические и финансовые осложнения. Учимся точно ставить диагноз инфраструктуре.</p>
-          <div class="day-icon"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22"/><path d="M32 18v14l10 6"/><circle cx="32" cy="32" r="4"/></svg></div>
-          <ul class="bullets">
-            <li>Мини-викторина «Экспресс-тест врача-SAM»</li>
-            <li>Как не потерять лицензионную чистоту при импортозамещении</li>
-            <li>Народная медицина против интенсивной терапии: Excel и автоматизация</li>
-          </ul>
-          <div class="material">
-            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="10" y1="9" x2="10" y2="21"/></svg>
-            <div><b>МАТЕРИАЛ:</b><span>Калькулятор экономии бюджета и рисков</span></div>
-          </div>
-        </article>
+                <h1 class="hero__title">
+                    «КЛИНИКА<br>
+                    ЧИСТЫХ ДАННЫХ»:
+                    <span>ВЫЛЕЧИТЕ БАЗУ ПО<br>
+                    И ЛИЦЕНЗИЙ ОТ ХАОСА</span>
+                </h1>
 
-        <article class="day featured">
-          <div class="day-num">День 3</div>
-          <h3>ML-хирургия в прямом эфире</h3>
-          <p>Убираем дубли и наводим порядок в базе ПО.</p>
-          <div class="day-icon"><svg viewBox="0 0 64 64"><rect x="10" y="6" width="44" height="36" rx="3"/><line x1="32" y1="42" x2="32" y2="50"/><line x1="22" y1="50" x2="42" y2="50"/><polyline points="18 32 26 22 34 28 46 14"/><circle cx="46" cy="14" r="3"/></svg></div>
-          <ul class="bullets">
-            <li>Присылаете CSV или Excel с текущей выгрузкой заранее</li>
-            <li>Разбор алгоритма на примере Призмы данных, живые кейсы клиентов</li>
-            <li>Ваши данные обрабатываем в эфире и показываем результат до и после</li>
-            <li>Бесплатная консультация и эталонный каталог ПО для вашей компании</li>
-          </ul>
-          <div class="material">
-            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="10" y1="9" x2="10" y2="21"/></svg>
-            <div><b>МАТЕРИАЛ:</b><span>Калькулятор экономии бюджета на ПО</span></div>
-          </div>
-        </article>
+                <div class="hero__date">
+                    <span class="hero__date-icon">
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </span>
+                    <span>12–15 октября 2026</span>
+                </div>
 
-        <article class="day">
-          <div class="day-num">День 4</div>
-          <h3>Выписка и дорожная карта</h3>
-          <p>Закрепляем результат, чтобы не откатиться к хаосу.</p>
-          <div class="day-icon"><svg viewBox="0 0 64 64"><path d="M32 10l6 12h14l-11 8 4 14-13-9-13 9 4-14L12 22h14z"/></svg></div>
-          <ul class="bullets">
-            <li>Мини-викторина по итогам вебинара</li>
-            <li>Запись эфира и презентация</li>
-            <li>Специальные условия на Призму данных для участников марафона</li>
-          </ul>
-          <div class="material">
-            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-            <div><b>МАТЕРИАЛ:</b><span>Шаблон дорожной карты внедрения SAM на 30 дней</span></div>
-          </div>
-        </article>
+                <p class="hero__description">
+                    За 4 дня разберёмся, откуда берётся хаос в данных
+                    о ПО и лицензиях, и как превратить разрозненные
+                    записи в структурированный каталог программных активов
+                </p>
 
-      </div>
-    </div>
-  </section>
+                <div class="hero__actions">
+                    <a href="https://t.me/klinika_dannyh_bot" class="button button--red" target="_blank" rel="noopener">
+                        <span class="button__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M21.2 4.4L2.4 10.8c-.6.2-.6 1.1 0 1.3l4.3 1.6 1.6 5.1c.2.5.8.7 1.2.4l2.3-1.9 4.5 3.3c.5.3 1.1 0 1.2-.5L21.9 5.4c.2-.7-.3-1.2-.7-1z"/></svg>
+                        </span>
+                        Участвовать в Telegram
+                    </a>
+                    <a href="#join" class="button button--dark">
+                        <span class="button__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3.5" fill="currentColor"/></svg>
+                        </span>
+                        Участвовать в MAX
+                    </a>
+                    <a href="#program" class="button button--white">
+                        Посмотреть программу
+                        <span class="button__arrow">↓</span>
+                    </a>
+                </div>
+            </div>
 
-  <section class="results" id="results">
-    <div class="container">
-      <h2 class="section-title">Что вы получите</h2>
-      <div class="result-grid">
-        <div class="result">
-          <div class="result-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
-          <p>Точный диагноз<br>ИТ-инфраструктуры</p>
+            <div class="hero__visual">
+                <div class="medical-cross">+</div>
+                <div class="pulse-line">
+                    <svg viewBox="0 0 300 80" preserveAspectRatio="none" aria-hidden="true">
+                        <path d="M0 40 L60 40 L80 40 L95 20 L110 62 L128 40 L190 40 L205 40 L220 28 L235 52 L250 40 L300 40"/>
+                    </svg>
+                </div>
+                <img
+                    src="assets/bear-doctor.png"
+                    alt="Медведь ИТМен в образе врача"
+                    class="hero__bear"
+                >
+                <div class="floating-card floating-card--top">
+                    <div class="floating-card__icon">
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </div>
+                    <div>
+                        <strong>4 дня</strong>
+                        <span>практики</span>
+                    </div>
+                </div>
+                <div class="floating-card floating-card--bottom">
+                    <div class="floating-card__icon">
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <div>
+                        <strong>Эксперты</strong>
+                        <span>ИТМен</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="result">
-          <div class="result-icon"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
-          <p>Чистая база ПО<br>без дублей и ошибок</p>
-        </div>
-        <div class="result">
-          <div class="result-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
-          <p>Экономия бюджета<br>до 25%</p>
-        </div>
-        <div class="result">
-          <div class="result-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-          <p>Меньше юридических<br>и лицензионных рисков</p>
-        </div>
-        <div class="result">
-          <div class="result-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-          <p>Готовая дорожная карта<br>для здоровых ИТ-процессов</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="cta">
-    <div class="container">
-      <div class="cta-box">
-        <div class="cta-copy">
-          <h2>Присоединяйтесь к «Клинике<br>чистых данных»</h2>
-          <p>4 дня практики и инструментов, чтобы вылечить хаос в базе лицензий.</p>
-          <div class="cta-buttons">
-            <a class="btn red" href="https://t.me/klinika_dannyh_bot" target="_blank" rel="noopener">Участвовать в Телеграм</a>
-            <a class="btn outline" href="https://max.ai" target="_blank" rel="noopener">Участвовать в MAX</a>
-          </div>
-          <div class="cta-date">
-            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            12–15 октября 2026
-          </div>
+    <section class="about section" id="about">
+        <div class="container">
+            <div class="about__grid">
+                <div class="about__content">
+                    <div class="section-label">ДИАГНОСТИКА</div>
+                    <h2 class="section-title">
+                        Проверьте, насколько
+                        <span>«здоровы»</span>
+                        ваши данные
+                    </h2>
+                    <p>
+                        В крупных ИТ-инфраструктурах одно и то же
+                        программное обеспечение может быть записано
+                        под десятками разных названий.
+                    </p>
+                    <p>
+                        Например, архиватор может встречаться в базе
+                        как «7-Zip», «7zip» и «7-Zip 19.00 (x64 edition)» —
+                        для системы инвентаризации это разные записи,
+                        хотя для бизнеса это один и тот же продукт.
+                    </p>
+                    <p>
+                        Добавьте к этому данные из нескольких систем,
+                        ручные записи и неучтённые установки —
+                        и вы получаете базу недостоверных сведений.
+                    </p>
+                </div>
+
+                <div class="data-visual">
+                    <div class="software-list">
+                        <div class="software-item">
+                            <span class="software-item__icon">
+                                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                            </span>
+                            <span>7-Zip</span>
+                        </div>
+                        <div class="software-item">
+                            <span class="software-item__icon">
+                                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                            </span>
+                            <span>7zip</span>
+                        </div>
+                        <div class="software-item">
+                            <span class="software-item__icon">
+                                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                            </span>
+                            <span>7-Zip 19.00 (x64 edition)</span>
+                        </div>
+                    </div>
+                    <div class="data-lines"><span></span><span></span><span></span></div>
+                    <div class="data-warning"><span>!</span></div>
+                    <div class="data-caption">
+                        <strong>Один продукт</strong>
+                        <span>три разных записи</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="learn-card">
+                <div class="learn-card__header">
+                    <div class="learn-card__icon">
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.8 2.3A.25.25 0 0 0 5 2.5v1.8"/><path d="M19.2 2.3a.25.25 0 0 1 .2.2v1.8"/><path d="M12 14v8"/><path d="M6 12h12"/><circle cx="12" cy="8" r="6"/></svg>
+                    </div>
+                    <h3>На марафоне вы узнаете:</h3>
+                </div>
+                <div class="learn-card__list">
+                    <div class="learn-item"><span class="check">✓</span><span>как распознать проблемы в своей базе ПО;</span></div>
+                    <div class="learn-item"><span class="check">✓</span><span>где появляются дубли и несопоставимые названия;</span></div>
+                    <div class="learn-item"><span class="check">✓</span><span>как повысить точность данных о программных активах;</span></div>
+                    <div class="learn-item"><span class="check">✓</span><span>как подготовить основу для управления лицензиями и лицензионного соответствия;</span></div>
+                    <div class="learn-item"><span class="check">✓</span><span>как использовать нормализацию данных для задач импортозамещения.</span></div>
+                </div>
+                <div class="learn-card__decor" aria-hidden="true">
+                    <svg class="icon" viewBox="0 0 24 24" style="width:1em;height:1em"><path d="M4.8 2.3A.25.25 0 0 0 5 2.5v1.8"/><path d="M19.2 2.3a.25.25 0 0 1 .2.2v1.8"/><path d="M12 14v8"/><path d="M6 12h12"/><circle cx="12" cy="8" r="6"/></svg>
+                </div>
+            </div>
         </div>
-        <div class="cta-art">
-          <img src="assets/cta-visual.jpg" alt="Клиника чистых данных">
+    </section>
+
+    <section class="program section" id="program">
+        <div class="container">
+            <div class="program__heading">
+                <div class="section-label">4 ДНЯ · 4 ШАГА</div>
+                <h2 class="section-title">Программа марафона</h2>
+                <p>От диагностики хаоса — к понятной системе управления программными активами.</p>
+            </div>
+
+            <div class="program__list">
+                <article class="day-card">
+                    <div class="day-card__number">01</div>
+                    <div class="day-card__icon">
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.8 2.3A.25.25 0 0 0 5 2.5v1.8"/><path d="M19.2 2.3a.25.25 0 0 1 .2.2v1.8"/><path d="M12 14v8"/><path d="M6 12h12"/><circle cx="12" cy="8" r="6"/></svg>
+                    </div>
+                    <div class="day-card__title">
+                        <span class="day-card__label">День 1</span>
+                        <h3>Приёмный покой:<br>диагностируем симптомы хаоса</h3>
+                    </div>
+                    <div class="day-card__content">
+                        <p>Поймём, почему база ПО со временем превращается в набор несопоставимых записей и чем это мешает управлять программными активами.</p>
+                        <ul>
+                            <li>разберём основные «симптомы» неупорядоченных данных;</li>
+                            <li>покажем, как одно ПО оказывается записано под разными названиями;</li>
+                            <li>разберём, почему без нормализации невозможно сформировать корректный каталог программных активов;</li>
+                            <li>дадим чек-лист для самостоятельной диагностики.</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="day-card">
+                    <div class="day-card__number">02</div>
+                    <div class="day-card__icon">
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="m9 14 2 2 4-4"/></svg>
+                    </div>
+                    <div class="day-card__title">
+                        <span class="day-card__label">День 2</span>
+                        <h3>Выявляем диагнозы:<br>проверяем готовность к лицензионному аудиту</h3>
+                    </div>
+                    <div class="day-card__content">
+                        <p>Проведём диагностику и поймём, насколько ваши данные готовы к задачам управления лицензиями и импортозамещению.</p>
+                        <ul>
+                            <li>проведём экспресс-тест и оценим готовность к лицензионному аудиту;</li>
+                            <li>разберём, какие проблемы в данных мешают управлению программными активами;</li>
+                            <li>обсудим, что важно учитывать при переходе на новую номенклатуру ПО;</li>
+                            <li>сравним ручной учёт с автоматизированной библиотекой знаний о ПО.</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="day-card day-card--featured">
+                    <div class="day-card__number">03</div>
+                    <div class="day-card__icon">
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+                    </div>
+                    <div class="day-card__title">
+                        <span class="day-card__label">День 3 · ПРАКТИКА</span>
+                        <h3>ML-хирургия в прямом эфире:<br>превращаем хаос данных в эталонный каталог ПО</h3>
+                    </div>
+                    <div class="day-card__content">
+                        <p>Проведём практический вебинар и покажем, как работает нормализация инвентаризационных данных.</p>
+                        <ul>
+                            <li>покажем алгоритм нормализации базы ПО от А до Я;</li>
+                            <li>разберём, как распознаются разные названия одного продукта и объединяются дубли;</li>
+                            <li>покажем, как из разрозненных данных формируется единый каталог программных продуктов;</li>
+                            <li>сделаем живой разбор и преобразование реальных выгрузок ПО.</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="day-card">
+                    <div class="day-card__number">04</div>
+                    <div class="day-card__icon">
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg>
+                    </div>
+                    <div class="day-card__title">
+                        <span class="day-card__label">День 4</span>
+                        <h3>Выписка:<br>подводим итоги и планируем следующие шаги</h3>
+                    </div>
+                    <div class="day-card__content">
+                        <p>После диагностики и практического разбора важно понимать не только, что не так, но и что делать дальше.</p>
+                        <ul>
+                            <li>закрепим материал мини-викториной;</li>
+                            <li>дадим запись вебинара, презентацию и материалы;</li>
+                            <li>покажем следующие шаги по наведению порядка в базе ПО;</li>
+                            <li>расскажем о специальных условиях для участников марафона.</li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
+
+    <section class="join section" id="join">
+        <div class="container">
+            <div class="join-card">
+                <div class="join-card__content">
+                    <div class="section-label">ФИНАЛЬНАЯ ДИАГНОСТИКА</div>
+                    <h2>
+                        А ваша база ПО
+                        и лицензий
+                        <span>«здорова»?</span>
+                    </h2>
+                    <p>
+                        Подключайтесь к «Клинике чистых данных»
+                        и за 4 дня разберитесь, что происходит
+                        с данными о вашем программном обеспечении.
+                    </p>
+                    <p>
+                        Присоединяйтесь к закрытому каналу
+                        марафона в Telegram или MAX!
+                    </p>
+                    <div class="join-card__buttons">
+                        <a href="https://t.me/klinika_dannyh_bot" class="button button--red button--large" target="_blank" rel="noopener">
+                            <span class="button__icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24"><path d="M21.2 4.4L2.4 10.8c-.6.2-.6 1.1 0 1.3l4.3 1.6 1.6 5.1c.2.5.8.7 1.2.4l2.3-1.9 4.5 3.3c.5.3 1.1 0 1.2-.5L21.9 5.4c.2-.7-.3-1.2-.7-1z"/></svg>
+                            </span>
+                            Присоединиться в Telegram
+                        </a>
+                        <a href="#join" class="button button--dark button--large">
+                            <span class="button__icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3.5" fill="currentColor"/></svg>
+                            </span>
+                            Присоединиться в MAX
+                        </a>
+                    </div>
+                </div>
+
+                <div class="clinic-illustration" aria-hidden="true">
+                    <div class="clinic-cross">+</div>
+                    <div class="clinic-building">
+                        <div class="clinic-roof">
+                            КЛИНИКА
+                            <span>чистых данных</span>
+                        </div>
+                        <div class="clinic-front">
+                            <div class="clinic-door"></div>
+                            <div class="clinic-window"></div>
+                            <div class="clinic-window"></div>
+                        </div>
+                    </div>
+                    <div class="clinic-tree clinic-tree--left"></div>
+                    <div class="clinic-tree clinic-tree--right"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </main>
 
-<footer id="footer">
-  <div class="container footer-inner">
-    <div style="display:flex;align-items:center;gap:14px">
-      <a class="brand" href="https://itman.ru" target="_blank" rel="noopener"><span class="brand-grid"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>ИТМен</a>
-      <div class="footer-desc">Российская система учёта, инвентаризации<br>и контроля ИТ-активов</div>
+<footer class="footer">
+    <div class="container footer__inner">
+        <a href="https://itman.ru" class="logo" target="_blank" rel="noopener">
+            <span class="logo__mark"><span></span><span></span></span>
+            <span class="logo__text">ИТМЕН</span>
+        </a>
+        <span>© 2026 ИТМен</span>
+        <a href="https://itman.ru" target="_blank" rel="noopener">itman.ru</a>
     </div>
-    <div class="footer-nav">
-      <a href="https://itman.ru/o-produkte/" target="_blank" rel="noopener">О продукте</a>
-      <a href="#program">Программа</a>
-      <a href="https://t.me/klinika_dannyh_bot" target="_blank" rel="noopener">Бот марафона</a>
-    </div>
-    <a class="btn ghost" href="mailto:info@itman.ru">Связаться с нами</a>
-  </div>
 </footer>
+
+<script src="script.js"></script>
 </body>
 </html>
