@@ -1,28 +1,28 @@
 (() => {
-  const revealSelectors = [
-    ".about__content",
-    ".data-visual",
-    ".learn-card",
-    ".day-card",
-    ".join-card",
-    ".program__heading",
+  const targets = [
+    ".diagnostics__text",
+    ".chaos",
+    ".knowledge__card",
+    ".day",
+    ".final__content",
+    ".clinic",
   ];
 
-  document.querySelectorAll(revealSelectors.join(",")).forEach((el) => {
+  document.querySelectorAll(targets.join(",")).forEach((el) => {
     el.classList.add("reveal");
   });
 
-  const observer = new IntersectionObserver(
+  const io = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
+          io.unobserve(entry.target);
         }
       });
     },
-    { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+    { threshold: 0.12, rootMargin: "0px 0px -30px 0px" }
   );
 
-  document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
 })();
