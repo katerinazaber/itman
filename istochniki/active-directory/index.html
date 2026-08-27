@@ -575,43 +575,61 @@
       line-height: 1.55;
     }
 
-    /* Fit cards */
-    .fit { background: var(--white); }
+    /* Fit — стиль как на itman.ru/cmdb */
+    .fit {
+      background: #f5f7f9;
+      padding: 100px 0;
+    }
+    .fit .container {
+      width: min(100% - 96px, 1400px);
+    }
+    .fit .section-title {
+      margin-bottom: 64px;
+    }
     .fit__grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
     }
     .fit-card {
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px 20px;
-      min-height: 210px;
+      background: #fff;
+      border: none;
+      border-radius: 24px;
+      padding: 32px;
+      min-height: 232px;
+      height: 100%;
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      transition: transform .2s, box-shadow .2s, border-color .2s;
+      align-items: flex-start;
+      gap: 44px;
+      box-shadow: none;
     }
     .fit-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
-      border-color: #f0c4c7;
+      transform: none;
+      box-shadow: none;
+      border-color: transparent;
     }
     .fit-card__icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      background: rgba(227,6,19,.08);
-      color: var(--red);
-      display: grid;
-      place-items: center;
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: transparent;
+      color: inherit;
+      display: block;
+      padding: 0;
     }
-    .fit-card__icon svg { width: 24px; height: 24px; }
+    .fit-card__icon img {
+      width: 64px;
+      height: 64px;
+      display: block;
+    }
+    .fit-card__icon svg { display: none; }
     .fit-card p {
-      font-size: 15px;
-      line-height: 1.45;
-      font-weight: 500;
-      color: var(--black);
+      font-family: var(--font-text);
+      font-size: 20px;
+      line-height: 1.4;
+      font-weight: 400;
+      color: #000000;
     }
 
     /* How it works */
@@ -916,7 +934,11 @@
         grid-template-columns: repeat(3, 1fr);
         gap: 24px;
       }
-      .fit__grid { grid-template-columns: repeat(2, 1fr); }
+      .fit { padding: 80px 0; }
+      .fit .container { width: min(100% - 48px, 1400px); }
+      .fit .section-title { margin-bottom: 40px; }
+      .fit__grid { grid-template-columns: 1fr 1fr; }
+      .fit-card { min-height: auto; gap: 24px; padding: 24px; }
       .security__grid { grid-template-columns: repeat(3, 1fr); }
       .how__grid,
       .hero__grid,
@@ -939,7 +961,10 @@
         grid-template-columns: 1fr;
         display: grid;
       }
-      .fit__grid,
+      .fit__grid { grid-template-columns: 1fr; }
+      .fit .container { width: min(100% - 32px, 1400px); }
+      .fit { padding: 56px 0; }
+      .fit-card p { font-size: 16px; }
       .security__grid,
       .form__row { grid-template-columns: 1fr; }
       .cta__box { padding: 24px; }
@@ -1177,29 +1202,29 @@
       <div class="container">
         <h2 class="section-title section-title--center">Вам подойдет решение, если:</h2>
         <div class="fit__grid">
-          <article class="fit-card" data-frame="1000007730">
+          <article class="fit-card">
             <div class="fit-card__icon">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="18" cy="12" r="2.2" stroke="currentColor" stroke-width="1.8"/></svg>
+              <img src="assets/fit/icon-1.svg" alt="" width="64" height="64" />
             </div>
-            <p>Нужно автоматически получать актуальный список компьютеров и пользователей из домена — учёт компьютеров в домене без ручной сверки</p>
+            <p>Нужно автоматически получать актуальный список компьютеров и пользователей из домена</p>
           </article>
-          <article class="fit-card" data-frame="1000007730-1">
+          <article class="fit-card">
             <div class="fit-card__icon">
-              <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="8.5" y="13" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><path d="M10 7.5h4M12 11v2" stroke="currentColor" stroke-width="1.8"/></svg>
+              <img src="assets/fit/icon-2.svg" alt="" width="64" height="64" />
             </div>
             <p>Инфраструктура состоит из нескольких доменов или филиалов, а учёт нужен единый</p>
           </article>
-          <article class="fit-card" data-frame="1000007730-2">
+          <article class="fit-card">
             <div class="fit-card__icon">
-              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M5 19l2.5-2.5M19 19l-2.5-2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <img src="assets/fit/icon-3.svg" alt="" width="64" height="64" />
             </div>
             <p>Важно видеть не только то, что заведено в AD, но и устройства вне домена</p>
           </article>
-          <article class="fit-card" data-frame="1000007730-3">
+          <article class="fit-card">
             <div class="fit-card__icon">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M7 7h10v10H7z" stroke="currentColor" stroke-width="1.8"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <img src="assets/fit/icon-4.svg" alt="" width="64" height="64" />
             </div>
-            <p>Данные из AD нужно передавать в CMDB/ITSM без дублей и расхождений — инвентаризация ИТ-активов домена</p>
+            <p>Данные из AD нужно объединять с данными из других источников и можно передавать в CMDB/ITSM</p>
           </article>
         </div>
       </div>
