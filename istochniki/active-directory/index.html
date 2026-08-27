@@ -741,34 +741,58 @@
     .collect-card--light li::before { background: var(--red); opacity: 1; }
 
     /* Security */
-    .security { background: var(--bg-soft); }
+    /* Security — тёмный стиль как на itman.ru */
+    .security {
+      padding: 100px 0;
+      background-color: #0a0a0a;
+      background-image:
+        linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
+        url("assets/security-bg.png");
+      background-size: auto, cover;
+      background-position: center, center;
+      background-repeat: no-repeat;
+    }
+    .security .section-title {
+      color: #fff;
+      margin-bottom: 48px;
+    }
     .security__grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 14px;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 20px;
     }
     .sec-item {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 22px 16px;
-      text-align: center;
+      background: #282828;
+      border: none;
+      border-radius: 24px;
+      padding: 32px 24px;
+      text-align: left;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      min-height: 168px;
+      align-items: flex-start;
+      gap: 24px;
+      min-height: 220px;
+    }
+    .sec-item__icon-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--red);
+      display: grid;
+      place-items: center;
+      flex: none;
     }
     .sec-item__icon {
       width: 24px;
       height: 24px;
-      color: var(--red);
+      color: #fff;
     }
     .sec-item p {
-      font-size: 13px;
-      line-height: 1.4;
-      font-weight: 500;
-      color: var(--black);
+      font-family: var(--font-text);
+      font-size: 15px;
+      line-height: 1.45;
+      font-weight: 400;
+      color: #fff;
     }
 
     /* FAQ */
@@ -927,7 +951,9 @@
         gap: 12px;
       }
       .fit__grid { grid-template-columns: repeat(2, 1fr); }
-      .security__grid { grid-template-columns: repeat(3, 1fr); }
+      .security { padding: 80px 0; }
+      .security__grid { grid-template-columns: repeat(2, 1fr); }
+      .sec-item { min-height: auto; }
       .how__grid,
       .hero__grid,
       .cta__box,
@@ -1337,23 +1363,33 @@
         <h2 class="section-title section-title--center">Соответствие требованиям информационной безопасности</h2>
         <div class="security__grid">
           <article class="sec-item">
-            <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 4v5c0 5-3.4 8.4-8 9-4.6-.6-8-4-8-9V7l8-4z" stroke="currentColor" stroke-width="1.7"/><path d="M9.5 12l2 2 3.5-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="sec-item__icon-wrap">
+              <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 4v5c0 5-3.4 8.4-8 9-4.6-.6-8-4-8-9V7l8-4z" stroke="currentColor" stroke-width="1.7"/><path d="M9.5 12l2 2 3.5-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
             <p>Работает в закрытых периметрах, без выхода инфраструктуры в интернет</p>
           </article>
           <article class="sec-item">
-            <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V8a4 4 0 018 0v2" stroke="currentColor" stroke-width="1.7"/></svg>
+            <div class="sec-item__icon-wrap">
+              <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V8a4 4 0 018 0v2" stroke="currentColor" stroke-width="1.7"/></svg>
+            </div>
             <p>Подключение к каталогу по защищённому каналу, включая LDAPS</p>
           </article>
           <article class="sec-item">
-            <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.7"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            <div class="sec-item__icon-wrap">
+              <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.7"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            </div>
             <p>Поддержка протоколов шифрования по ГОСТ</p>
           </article>
           <article class="sec-item">
-            <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.7"/><path d="M8 12.5l2.5 2.5L16 9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="sec-item__icon-wrap">
+              <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.7"/><path d="M8 12.5l2.5 2.5L16 9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
             <p>В реестре российского ПО: №2016662248, запись №12289 от 14.12.2021</p>
           </article>
           <article class="sec-item">
-            <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><path d="M4 18V6h6v12H4zm10 0V9h6v9h-6z" stroke="currentColor" stroke-width="1.7"/></svg>
+            <div class="sec-item__icon-wrap">
+              <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><path d="M4 18V6h6v12H4zm10 0V9h6v9h-6z" stroke="currentColor" stroke-width="1.7"/></svg>
+            </div>
             <p>Разработка без Open source, вся команда и инфраструктура в России</p>
           </article>
         </div>
