@@ -623,9 +623,9 @@
     .how { background: var(--white); }
     .how__grid {
       display: grid;
-      grid-template-columns: 1fr 1.05fr;
-      gap: 28px;
-      align-items: stretch;
+      grid-template-columns: 1.15fr minmax(240px, 340px);
+      gap: 32px;
+      align-items: start;
     }
     .steps { display: grid; gap: 16px; }
     .step {
@@ -681,20 +681,20 @@
     }
 
     .schema {
-      background: #f5f7f9;
+      background: #fff;
       border: none;
-      border-radius: 24px;
-      padding: 20px;
-      display: grid;
-      place-items: center;
-      min-height: 100%;
-      overflow: hidden;
+      border-radius: 0;
+      padding: 0;
+      display: block;
+      min-height: 0;
+      overflow: visible;
     }
     .schema img {
       width: 100%;
+      max-width: 340px;
       height: auto;
       display: block;
-      border-radius: 12px;
+      margin: 0 auto;
     }
 
     /* Collect */
@@ -1301,7 +1301,7 @@
           </div>
 
           <div class="schema">
-            <img src="assets/ad-how-schema.jpg" alt="Схема сбора данных: Active Directory и устройства → LDAP-сбор и локальная/сетевая инвентаризация → Инферит ИТМен → результат" width="1024" height="546" loading="lazy" />
+            <img src="assets/ad-how-schema.jpg" alt="Схема сбора данных: Active Directory и устройства → LDAP-сбор и локальная/сетевая инвентаризация → Инферит ИТМен → результат" width="568" height="1024" loading="lazy" />
           </div>
         </div>
       </div>
