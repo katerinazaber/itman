@@ -694,40 +694,35 @@
       margin-top: 24px;
       display: flex;
       gap: 18px;
-      align-items: center;
-      justify-content: center;
-      position: relative;
+      align-items: flex-start;
       background: linear-gradient(135deg, #fff5f5 0%, #ffe8ea 100%);
       border: 1px solid #f5c2c6;
       border-radius: 20px;
-      padding: 22px 40px 22px 40px;
+      padding: 22px 26px;
       box-shadow: 0 8px 24px rgba(227, 6, 19, 0.06);
     }
     .collect-note__mark {
-      position: absolute;
-      left: 26px;
-      top: 22px;
-      bottom: 22px;
+      flex: none;
       width: 4px;
+      align-self: stretch;
       border-radius: 4px;
       background: var(--red);
+      min-height: 48px;
     }
     .collect-note__body {
       min-width: 0;
       display: flex;
       flex-direction: column;
-      align-items: center;
       gap: 0;
-      width: 100%;
-      padding: 0 12px;
+      padding-top: 2px;
     }
     .collect-note__text {
       margin: 0;
       font-size: 16px;
       line-height: 1.5;
       color: var(--black);
-      max-width: 52rem;
-      text-align: center;
+      max-width: none;
+      text-align: left;
     }
 
     /* Security — темный стиль как на itman.ru, типографика как на странице */
