@@ -683,11 +683,11 @@
     .schema {
       background: #f5f7f9;
       border-radius: 24px;
-      padding: 22px 12px 22px 12px;
+      padding: 20px 16px 20px 12px;
       min-height: 0;
       height: 100%;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: stretch;
       box-sizing: border-box;
       overflow: visible;
@@ -699,13 +699,14 @@
       display: flex;
       justify-content: flex-start;
       align-items: stretch;
-      padding-right: 150px;
+      padding-left: 8px;
+      padding-right: 8px;
       box-sizing: border-box;
     }
-    /* одна вертикальная «ось» как на референсе */
+    /* ось левее — место под крупный Результат ближе к центру */
     .sch-spine {
-      width: min(72%, 250px);
-      margin: 0 auto;
+      width: min(58%, 230px);
+      margin: 0 0 0 4%;
       display: flex;
       flex-direction: column;
       align-items: stretch;
@@ -784,8 +785,8 @@
       background: var(--red);
     }
     .sch-card--hub {
-      min-height: 64px;
-      padding: 14px 16px;
+      min-height: 70px;
+      padding: 16px 18px;
       background: var(--red);
       border: none;
       border-radius: 16px;
@@ -794,7 +795,7 @@
     }
     .sch-hub-logo {
       display: block;
-      height: 30px;
+      height: 36px;
       width: auto;
       max-width: 100%;
     }
@@ -805,24 +806,31 @@
     }
     .sch-card--result {
       position: absolute;
-      left: calc(100% + 26px);
+      left: calc(100% + 22px);
       top: 50%;
       transform: translateY(-50%);
-      width: 148px;
+      width: 188px;
       border: 1.5px solid var(--red);
       background: #fff;
       box-shadow: 0 4px 14px rgba(26, 26, 26, 0.07);
       align-items: flex-start;
-      padding: 12px;
+      padding: 14px 14px;
       border-radius: 14px;
       z-index: 2;
     }
-    .sch-card--result .sch-card__icon { color: var(--red); margin-top: 1px; }
+    .sch-card--result .sch-card__icon {
+      color: var(--red);
+      margin-top: 1px;
+      width: 26px;
+      height: 26px;
+    }
+    .sch-card--result .sch-card__icon svg { width: 24px; height: 24px; }
     .sch-card--result .sch-card__title {
       color: var(--red);
-      font-size: 12.5px;
+      font-size: 14px;
     }
     .sch-card--result .sch-card__line { background: #f0c8cb; }
+    .sch-card--result .sch-card__list li { font-size: 12.5px; }
     .sch-arrow {
       flex: none;
       color: #b0b5bd;
@@ -837,7 +845,7 @@
       left: 100%;
       top: 50%;
       transform: translateY(-50%);
-      width: 26px;
+      width: 22px;
       height: 24px;
       color: #b0b5bd;
       display: flex;
@@ -1132,11 +1140,12 @@
       .sch-spine {
         width: min(78%, 280px);
         min-height: 560px;
+        margin: 0 auto;
       }
       .sch-card--result {
         position: static;
         transform: none;
-        width: min(100%, 180px);
+        width: min(100%, 220px);
         margin: 8px auto 0;
       }
       .sch-arrow--side {
