@@ -4,11 +4,45 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
-  <title>Инвентаризация FreeIPA: учёт пользователей, хостов и сертификатов | ИТМен</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <title>Инвентаризация FreeIPA: учет пользователей и устройств | ИТМен</title>
   <style>
+    /* Nekst — как на itman.ru */
+    @font-face {
+      font-family: "Nekst Medium Web";
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+      src: url("assets/fonts/Nekst-Medium-Web-500.ttf") format("truetype");
+    }
+    @font-face {
+      font-family: "Nekst Regular Web";
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+      src: url("assets/fonts/Nekst-Regular-Web-400.ttf") format("truetype");
+    }
+    @font-face {
+      font-family: "Nekst";
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+      src: url("assets/fonts/Nekst-400.woff") format("woff");
+    }
+    @font-face {
+      font-family: "Nekst";
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+      src: url("assets/fonts/Nekst-600.woff") format("woff");
+    }
+    @font-face {
+      font-family: "Nekst SemiBold";
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+      src: url("assets/fonts/Nekst-SemiBold-600.ttf") format("truetype");
+    }
+
     :root {
       --red: #e30613;
       --red-hover: #c50510;
@@ -23,16 +57,36 @@
       --radius-btn: 10px;
       --container: 1180px;
       --shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+      --font-text: "Nekst Regular Web", "Nekst", Arial, Helvetica, sans-serif;
+      --font-medium: "Nekst Medium Web", "Nekst SemiBold", "Nekst", Arial, Helvetica, sans-serif;
+      --font-semibold: "Nekst SemiBold", "Nekst", Arial, Helvetica, sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: Manrope, Arial, Helvetica, sans-serif;
+      font-family: var(--font-text);
+      font-weight: 400;
       color: var(--text);
       background: var(--white);
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3,
+    .hero__title,
+    .section-title,
+    .step h3,
+    .collect-card h3,
+    .faq summary,
+    .logo__text {
+      font-family: var(--font-semibold);
+    }
+    .btn,
+    .btn-phone,
+    .nav,
+    .nav-h,
+    .step__num {
+      font-family: var(--font-semibold);
     }
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; display: block; }
@@ -97,14 +151,10 @@
       flex-wrap: nowrap;
     }
     .nav a { opacity: .85; }
-    .nav a:hover { opacity: 1; color: var(--red); }
-    .nav__item { display: inline-flex; align-items: center; gap: 4px; }
-    .nav__item svg { opacity: .45; }
+    
     .nav-drop{position:relative;}
     .nav-drop>a{cursor:pointer;}
-    .nav-menu{position:absolute;top:calc(100% + 14px);left:-20px;display:grid;grid-template-columns:repeat(3,minmax(180px,1fr));gap:8px 30px;
-      background:#fff;border:1px solid #ECEEF1;border-radius:16px;padding:24px 28px;box-shadow:0 24px 60px -24px rgba(20,23,26,0.25);
-      opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .2s ease,transform .2s ease,visibility .2s;z-index:60;}
+    .nav-menu{position:absolute;top:calc(100% + 14px);left:-20px;display:grid;grid-template-columns:repeat(3,minmax(180px,1fr));gap:8px 30px;background:#fff;border:1px solid #ECEEF1;border-radius:16px;padding:24px 28px;box-shadow:0 24px 60px -24px rgba(20,23,26,0.25);opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .2s ease,transform .2s ease,visibility .2s;z-index:60;}
     .nav-drop:hover .nav-menu{opacity:1;visibility:visible;transform:translateY(0);}
     .nav-menu::before{content:"";position:absolute;top:-14px;left:0;right:0;height:14px;}
     .nav-col{display:flex;flex-direction:column;gap:4px;}
@@ -117,6 +167,9 @@
     .nav-menu a.planned{color:#8a5a00;}
     .nav-menu a.planned span{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#B45309;background:#FFF4E5;border-radius:5px;padding:2px 6px;}
     .nav-menu a.is-live{font-weight:600;}
+    .nav a:hover { opacity: 1; color: var(--red); }
+    .nav__item { display: inline-flex; align-items: center; gap: 4px; }
+    .nav__item svg { opacity: .45; }
     .header__actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
     .btn-phone {
       width: 42px;
@@ -162,7 +215,7 @@
     .btn--lg { min-height: 52px; padding: 0 26px; }
 
     /* Hero */
-    .hero { padding: 28px 0 12px; overflow: hidden; }
+    .hero { padding: 28px 0 48px; overflow: hidden; }
     .breadcrumbs {
       display: flex;
       flex-wrap: wrap;
@@ -181,18 +234,18 @@
       align-items: center;
     }
     .hero__title {
-      font-size: clamp(30px, 3.6vw, 44px);
-      font-weight: 800;
-      line-height: 1.12;
-      letter-spacing: -0.03em;
-      color: var(--black);
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: #000000;
       margin-bottom: 22px;
-      max-width: 14ch;
+      max-width: none;
     }
     .hero__title em {
       font-style: normal;
       color: var(--red);
-      white-space: nowrap;
+      white-space: normal;
     }
     .hero__list {
       display: grid;
@@ -203,10 +256,11 @@
       display: flex;
       align-items: flex-start;
       gap: 12px;
+      font-family: var(--font-text);
       font-size: 15.5px;
       line-height: 1.45;
-      color: var(--text);
-      font-weight: 500;
+      color: #000000;
+      font-weight: 400;
     }
     .hero__check {
       flex: none;
@@ -224,288 +278,66 @@
 
     .hero__visual {
       position: relative;
-      min-height: 420px;
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      padding: 20px 0 40px;
+      padding: 8px 0 0;
     }
-    .hero__blob {
-      position: absolute;
-      right: -8%;
-      top: 4%;
-      width: 78%;
-      height: 86%;
-      background: linear-gradient(145deg, #5ba8ff 0%, #1a6fd4 42%, #0d4fa3 100%);
-      border-radius: 48px;
-      z-index: 0;
-      box-shadow: 0 28px 60px rgba(227, 6, 19, 0.28);
-    }
-    .hero__blob::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.22), transparent 55%);
-      pointer-events: none;
+    .hero__img {
+      width: min(100%, 560px);
+      height: auto;
     }
 
-    .product-ui {
-      position: relative;
-      z-index: 1;
-      width: min(100%, 520px);
-      display: grid;
-      grid-template-columns: 118px 1fr;
-      background: #fff;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 28px 70px rgba(20, 23, 26, 0.22), 0 2px 0 rgba(255,255,255,.4) inset;
-      border: 1px solid rgba(255,255,255,.55);
-      min-height: 340px;
-      transform: translateX(-4%);
-    }
-    .product-ui__side {
-      background: #1a1d24;
-      color: #c8ccd4;
-      padding: 14px 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-size: 10px;
-      font-weight: 600;
-    }
-    .product-ui__brand {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      color: #fff;
-      font-size: 11px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      padding: 0 4px 10px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }
-    .product-ui__brand-mark {
-      width: 18px;
-      height: 18px;
-      border-radius: 4px;
-      background: var(--red);
-      display: grid;
-      place-items: center;
-      font-size: 8px;
-      font-weight: 800;
-    }
-    .product-ui__nav {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 8px 8px;
-      border-radius: 8px;
-      color: #aeb4bf;
-      line-height: 1.2;
-    }
-    .product-ui__nav.is-active {
-      background: rgba(227, 6, 19, 0.22);
-      color: #fff;
-    }
-    .product-ui__nav svg { flex: none; opacity: .9; }
-    .product-ui__main {
-      background: #f4f6f8;
-      padding: 14px 14px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      min-width: 0;
-    }
-    .product-ui__head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-    .product-ui__head h3 {
-      font-size: 15px;
-      font-weight: 800;
-      color: var(--black);
-      letter-spacing: -.02em;
-    }
-    .product-ui__tabs {
-      display: flex;
-      gap: 4px;
-      background: #e8ebef;
-      border-radius: 8px;
-      padding: 3px;
-    }
-    .product-ui__tab {
-      font-size: 9.5px;
-      font-weight: 650;
-      color: #6b7280;
-      padding: 4px 8px;
-      border-radius: 6px;
-    }
-    .product-ui__tab.is-active {
-      background: #fff;
-      color: var(--black);
-      box-shadow: 0 1px 3px rgba(0,0,0,.08);
-    }
-    .product-ui__kpis {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 6px;
-    }
-    .kpi {
-      background: #fff;
-      border: 1px solid #e6e9ee;
-      border-radius: 8px;
-      padding: 8px 6px;
-      text-align: center;
-    }
-    .kpi__label {
-      font-size: 8.5px;
-      font-weight: 700;
-      color: var(--red);
-      text-transform: uppercase;
-      letter-spacing: .02em;
-      margin-bottom: 3px;
-    }
-    .kpi__value {
-      font-size: 14px;
-      font-weight: 800;
-      color: var(--black);
-      letter-spacing: -.02em;
-    }
-    .product-ui__panel {
-      background: #fff;
-      border: 1px solid #e6e9ee;
-      border-radius: 10px;
-      overflow: hidden;
-      flex: 1;
-    }
-    .product-ui__panel-title {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--black);
-      padding: 10px 12px 8px;
-      border-bottom: 1px solid #eef0f3;
-    }
-    .sync-row {
-      display: grid;
-      grid-template-columns: 1.1fr .7fr .85fr .7fr;
-      gap: 6px;
-      padding: 7px 12px;
-      font-size: 9.5px;
-      color: #4b5563;
-      border-top: 1px solid #f0f2f5;
-      align-items: center;
-    }
-    .sync-row:first-of-type {
-      border-top: none;
-      background: #fafbfc;
-      color: #9aa1a9;
-      font-weight: 700;
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: .03em;
-    }
-    .sync-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-weight: 650;
-      color: #059669;
-    }
-    .sync-status::before {
-      content: "";
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #10b981;
-    }
-
-    .badge-ipa {
-      position: absolute;
-      right: 2%;
-      bottom: 6%;
-      z-index: 3;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: linear-gradient(160deg, #4a9eff 0%, #1a6fd4 48%, #0d4fa3 100%);
-      color: #fff;
-      border-radius: 999px;
-      padding: 14px 22px 14px 16px;
-      box-shadow:
-        0 18px 36px rgba(26, 111, 212, 0.38),
-        0 2px 0 rgba(255,255,255,.35) inset,
-        0 -2px 0 rgba(0,0,0,.12) inset;
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: -.01em;
-      transform: rotate(-3deg);
-      white-space: nowrap;
-    }
-    .badge-ipa__icon {
-      width: 28px;
-      height: 28px;
-      display: grid;
-      place-items: center;
-      filter: drop-shadow(0 1px 1px rgba(0,0,0,.2));
-    }
-    .badge-ipa__icon svg { width: 22px; height: 22px; }
-
-    /* Trust */
-    .trust { padding: 36px 0 20px; }
+    /* Trust — шире по пропорциям, в ширину контента hero */
     .trust__grid {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 12px;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      align-items: stretch;
+      gap: 16px;
+      width: 100%;
     }
     .trust-card {
+      background: #fff;
       border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 18px 12px;
-      text-align: center;
-      min-height: 132px;
+      border-radius: 12px;
+      padding: 18px 12px 16px;
+      min-height: 0;
+      height: 118px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      transition: border-color .2s, box-shadow .2s;
-    }
-    .trust-card:hover {
-      border-color: #f0b0b4;
-      box-shadow: var(--shadow);
+      gap: 10px;
+      text-align: center;
     }
     .trust-card__icon {
-      width: 40px;
-      height: 40px;
-      color: var(--red);
+      width: 48px;
+      height: 48px;
+      flex: none;
       display: grid;
       place-items: center;
     }
-    .trust-card__icon svg { width: 32px; height: 32px; }
-    .trust-card__year {
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--red);
-      letter-spacing: -.03em;
-      line-height: 1;
+    .trust-card__icon img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
     }
     .trust-card p {
+      font-family: var(--font-text);
       font-size: 13px;
-      line-height: 1.35;
-      color: var(--black);
-      font-weight: 500;
+      line-height: 1.3;
+      color: #000000;
+      font-weight: 400;
+      text-align: center;
     }
 
     /* Sections */
-    section { padding: 64px 0; }
+    section { padding: 80px 0; }
     .section-title {
-      font-size: clamp(26px, 3vw, 36px);
-      font-weight: 700;
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 600;
       letter-spacing: -.02em;
-      color: var(--black);
+      color: #000000;
       line-height: 1.2;
       margin-bottom: 28px;
     }
@@ -519,14 +351,17 @@
       line-height: 1.55;
     }
 
-    /* Fit cards */
-    .fit { background: var(--white); }
+    /* Fit */
+    .fit {
+      background: #f5f7f9;
+    }
     .fit__grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 16px;
     }
     .fit-card {
+      background: #fff;
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 24px 20px;
@@ -551,53 +386,64 @@
       place-items: center;
     }
     .fit-card__icon svg { width: 24px; height: 24px; }
+    .fit-card__icon img { display: none; }
     .fit-card p {
+      font-family: var(--font-text);
       font-size: 15px;
       line-height: 1.45;
-      font-weight: 500;
-      color: var(--black);
+      font-weight: 400;
+      color: #000000;
     }
 
-    /* How it works */
-    .how { background: var(--bg-soft); }
+    /* How it works — плашки как на itman.ru (#f5f7f9) */
+    .how { background: var(--white); }
     .how__grid {
       display: grid;
-      grid-template-columns: 1fr 1.05fr;
+      grid-template-columns: 1fr 1fr;
       gap: 28px;
       align-items: stretch;
     }
-    .steps { display: grid; gap: 14px; }
+    .steps { display: grid; gap: 16px; }
     .step {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 22px 22px 20px;
+      background: #f5f7f9;
+      border: none;
+      border-radius: 24px;
+      padding: 28px 28px 26px;
+    }
+    .step__head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
     }
     .step__num {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
       background: var(--red);
       color: #fff;
-      font-size: 13px;
+      font-family: var(--font);
+      font-size: 18px;
       font-weight: 700;
-      margin-bottom: 12px;
+      flex: none;
     }
     .step h3 {
       font-size: 18px;
       font-weight: 700;
-      margin-bottom: 10px;
+      margin: 0;
       color: var(--black);
+      line-height: 1.3;
     }
-    .step ul { display: grid; gap: 6px; }
+    .step ul { display: grid; gap: 8px; }
     .step li {
       position: relative;
       padding-left: 14px;
-      font-size: 14px;
-      color: #444;
+      font-size: 15px;
+      line-height: 1.45;
+      color: #1a1a1a;
     }
     .step li::before {
       content: "";
@@ -611,19 +457,183 @@
     }
 
     .schema {
+      background: #f5f7f9;
+      border-radius: 24px;
+      padding: 20px 16px 20px 12px;
+      min-height: 0;
+      height: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: stretch;
+      box-sizing: border-box;
+      overflow: visible;
+    }
+    .schema-diagram {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      display: flex;
+      justify-content: flex-start;
+      align-items: stretch;
+      padding-left: 8px;
+      padding-right: 8px;
+      box-sizing: border-box;
+    }
+    /* ось левее — место под крупный Результат ближе к центру */
+    .sch-spine {
+      width: min(58%, 230px);
+      margin: 0 0 0 4%;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: space-evenly;
+      gap: 0;
+      position: relative;
+      height: 100%;
+    }
+    .sch-card {
+      flex: none;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px 20px;
+      border: 1px solid #e1e4ea;
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(26, 26, 26, 0.06);
+      padding: 12px 14px;
+    }
+    .sch-card__icon {
+      flex: none;
+      width: 24px;
+      height: 24px;
+      color: var(--red);
       display: grid;
       place-items: center;
-      min-height: 100%;
     }
-    .schema svg { width: min(100%, 420px); height: auto; }
+    .sch-card__icon svg { width: 22px; height: 22px; }
+    .sch-card__body {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .sch-card__title {
+      font-family: var(--font-semibold);
+      font-size: 12.5px;
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--black);
+    }
+    .sch-card__line {
+      height: 1px;
+      background: #e8eaee;
+      width: 100%;
+      margin: 2px 0;
+    }
+    .sch-card__sub {
+      font-size: 11.5px;
+      line-height: 1.3;
+      color: #666;
+    }
+    .sch-card__list {
+      display: grid;
+      gap: 2px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .sch-card__list li {
+      position: relative;
+      padding-left: 10px;
+      font-size: 11.5px;
+      line-height: 1.3;
+      color: #1a1a1a;
+    }
+    .sch-card__list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: .45em;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--red);
+    }
+    .sch-card--hub {
+      min-height: 70px;
+      padding: 16px 18px;
+      background: var(--red);
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(227, 6, 19, 0.25);
+      justify-content: center;
+    }
+    .sch-hub-logo {
+      display: block;
+      height: 38px;
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+    }
+    .sch-hub-wrap {
+      position: relative;
+      width: 100%;
+      flex: none;
+    }
+    .sch-card--result {
+      position: absolute;
+      left: calc(100% + 56px);
+      top: 50%;
+      transform: translateY(-50%);
+      width: 188px;
+      border: 1.5px solid var(--red);
+      background: #fff;
+      box-shadow: 0 4px 14px rgba(26, 26, 26, 0.07);
+      align-items: flex-start;
+      padding: 14px 14px;
+      border-radius: 14px;
+      z-index: 2;
+    }
+    .sch-card--result .sch-card__icon {
+      color: var(--red);
+      margin-top: 1px;
+      width: 26px;
+      height: 26px;
+    }
+    .sch-card--result .sch-card__icon svg { width: 24px; height: 24px; }
+    .sch-card--result .sch-card__title {
+      color: var(--red);
+      font-size: 14px;
+    }
+    .sch-card--result .sch-card__line { background: #f0c8cb; }
+    .sch-card--result .sch-card__list li { font-size: 12.5px; }
+    .sch-arrow {
+      flex: none;
+      color: #b0b5bd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 20px;
+    }
+    .sch-arrow svg { display: block; overflow: visible; }
+    .sch-arrow--side {
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 56px;
+      height: 24px;
+      color: #b0b5bd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
     /* Collect */
     .collect__intro {
-      max-width: 760px;
+      max-width: none;
+      width: 100%;
       font-size: 17px;
       color: #444;
       margin-bottom: 28px;
@@ -679,35 +689,104 @@
     }
     .collect-card--light li::before { background: var(--red); opacity: 1; }
 
-    /* Security */
-    .security { background: var(--bg-soft); }
-    .security__grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 14px;
+    /* Яркая врезка под карточками */
+    .collect-note {
+      margin-top: 24px;
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      background: linear-gradient(135deg, #fff5f5 0%, #ffe8ea 100%);
+      border: 1px solid #f5c2c6;
+      border-radius: 20px;
+      padding: 22px 26px;
+      box-shadow: 0 8px 24px rgba(227, 6, 19, 0.06);
     }
-    .sec-item {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 22px 16px;
-      text-align: center;
+    .collect-note__mark {
+      flex: none;
+      width: 4px;
+      align-self: stretch;
+      border-radius: 4px;
+      background: var(--red);
+      min-height: 48px;
+    }
+    .collect-note__body {
+      min-width: 0;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      min-height: 168px;
+      gap: 0;
+      padding-top: 2px;
+    }
+    .collect-note__text {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--black);
+      max-width: none;
+    }
+
+    /* Security — темный стиль как на itman.ru, типографика как на странице */
+    .security {
+      background-color: #0a0a0a;
+      background-image:
+        linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
+        url("assets/security-bg.png");
+      background-size: auto, cover;
+      background-position: center, center;
+      background-repeat: no-repeat;
+    }
+    .security .section-title {
+      color: #fff;
+      margin-bottom: 28px;
+    }
+    .security__grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 20px;
+    }
+    .security__grid--3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .sec-item {
+      background: #282828;
+      border: none;
+      border-radius: 24px;
+      padding: 32px 24px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      min-height: 240px;
+    }
+    .sec-item__icon-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--red);
+      display: grid;
+      place-items: center;
+      flex: none;
     }
     .sec-item__icon {
       width: 24px;
       height: 24px;
-      color: var(--red);
+      color: #fff;
+    }
+    .sec-item h3 {
+      font-family: var(--font-semibold);
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.3;
+      color: #fff;
+      margin: 0;
     }
     .sec-item p {
-      font-size: 13px;
-      line-height: 1.4;
-      font-weight: 500;
-      color: var(--black);
+      font-family: var(--font-text);
+      font-size: 15px;
+      line-height: 1.45;
+      font-weight: 400;
+      color: #fff;
+      margin: 0;
     }
 
     /* FAQ */
@@ -753,88 +832,228 @@
       max-width: 720px;
     }
 
-    /* CTA */
+    /* CTA — темный блок как на itman.ru, типографика лендинга */
     .cta {
-      background: linear-gradient(180deg, #fff 0%, #fafafa 100%);
+      background: #000;
+      color: #fff;
     }
-    .cta__box {
+    .cta__grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 40px;
+      gap: 48px;
       align-items: start;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 40px;
-      background: #fff;
-      box-shadow: var(--shadow);
     }
     .cta__title {
-      font-size: clamp(24px, 2.6vw, 32px);
-      font-weight: 700;
+      font-family: var(--font-semibold);
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 600;
       letter-spacing: -.02em;
-      margin-bottom: 12px;
       line-height: 1.2;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+    .cta__title em {
+      font-style: normal;
+      color: #dd0c29;
     }
     .cta__text {
-      color: #555;
-      font-size: 15px;
-      margin-bottom: 24px;
+      font-size: 17px;
       line-height: 1.55;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 28px;
+      max-width: 520px;
     }
-    .cta__contacts { display: grid; gap: 10px; }
-    .cta__contacts a {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 600;
-      font-size: 16px;
+    .cta__visual {
+      width: min(100%, 462px);
+      border-radius: 16px;
+      overflow: hidden;
     }
-    .cta__contacts a:hover { color: var(--red); }
-    .form { display: grid; gap: 12px; }
+    .cta__visual img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .form {
+      display: grid;
+      gap: 12px;
+    }
     .form input,
     .form textarea,
     .form select {
       width: 100%;
-      border: 1px solid var(--border);
+      border: 1px solid #2a2a2a;
       border-radius: 10px;
-      padding: 14px 14px;
+      padding: 14px 16px;
       font: inherit;
       font-size: 14px;
-      background: #fff;
-      color: var(--black);
+      background: #151515;
+      color: #fff;
       outline: none;
-      transition: border-color .15s;
+      transition: border-color .15s, background .15s;
     }
+    .form input::placeholder,
+    .form textarea::placeholder {
+      color: #868b8f;
+    }
+    .form select {
+      color: #868b8f;
+      background: #191919;
+      cursor: pointer;
+    }
+    .form select option { color: #fff; background: #191919; }
     .form input:focus,
     .form textarea:focus,
-    .form select:focus { border-color: #f0a0a5; }
-    .form textarea { min-height: 96px; resize: vertical; }
+    .form select:focus {
+      border-color: #444;
+      background: #1a1a1a;
+    }
+    .form textarea { min-height: 110px; resize: vertical; }
     .form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .form__check {
       display: flex;
       gap: 10px;
       align-items: flex-start;
-      font-size: 12px;
-      color: var(--muted);
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.72);
       line-height: 1.4;
     }
-    .form__check input { margin-top: 2px; accent-color: var(--red); }
-    .form__check a { color: var(--red); text-decoration: underline; }
-
-    /* Footer */
-    .footer {
-      border-top: 1px solid var(--border);
-      padding: 28px 0 40px;
-      color: var(--muted);
-      font-size: 13px;
+    .form__check input {
+      width: 18px;
+      height: 18px;
+      margin-top: 1px;
+      flex: none;
+      accent-color: var(--red);
+      border: none;
+      padding: 0;
+      background: transparent;
     }
-    .footer__inner {
+    .form__check a {
+      color: #fff;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .form .btn {
+      width: 100%;
+      margin-top: 4px;
+    }
+
+    /* Footer — темный, как на itman.ru */
+    .footer {
+      background: #000;
+      color: #868b8f;
+      padding: 0 0 40px;
+      border-top: none;
+      font-size: 14px;
+    }
+    .footer__top {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.9fr) 1.6fr;
+      gap: 40px;
+      padding-top: 8px;
+      padding-bottom: 48px;
+    }
+    .footer__brand {
       display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .footer__logo {
+      height: 40px;
+      width: auto;
+      max-width: 220px;
+    }
+    .footer__note {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.45;
+      color: #868b8f;
+      max-width: 280px;
+    }
+    .footer__cols {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 24px;
+    }
+    .footer__col-title {
+      font-family: var(--font-medium);
+      font-size: 15px;
+      font-weight: 500;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    .footer__col {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .footer__col a,
+    .footer__col span {
+      color: #868b8f;
+      font-size: 14px;
+      line-height: 1.4;
+      transition: color .15s;
+    }
+    .footer__col a:hover { color: #fff; }
+    .footer__legal {
+      margin: 0 0 24px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #868b8f;
+      max-width: 100%;
+    }
+    .footer__legal a {
+      color: #868b8f;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .footer__legal a:hover { color: #fff; }
+    .footer__rule {
+      height: 1px;
+      background: #282828;
+      border: 0;
+      margin: 0 0 28px;
+    }
+    .footer__bottom {
+      display: flex;
+      align-items: center;
       justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .footer__copy {
+      display: flex;
+      align-items: center;
       gap: 20px;
       flex-wrap: wrap;
     }
-    .footer a:hover { color: var(--red); }
+    .footer__softline {
+      height: 22px;
+      width: auto;
+    }
+    .footer__copy p {
+      margin: 0;
+      font-size: 14px;
+      color: #868b8f;
+    }
+    .footer__socials {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .footer__socials a {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      opacity: .9;
+      transition: opacity .15s;
+    }
+    .footer__socials a:hover { opacity: 1; }
+    .footer__socials img {
+      width: 32px;
+      height: 32px;
+    }
 
     .to-top {
       position: fixed;
@@ -843,54 +1062,97 @@
       width: 44px;
       height: 44px;
       border-radius: 50%;
-      border: 1px solid var(--border);
-      background: #fff;
+      border: 1px solid #333;
+      background: #1a1a1a;
       display: grid;
       place-items: center;
       box-shadow: var(--shadow);
-      color: #777;
+      color: #bbb;
       z-index: 40;
     }
-    .to-top:hover { color: var(--red); border-color: #f0c4c7; }
+    .to-top:hover { color: #fff; border-color: var(--red); }
 
     @media (max-width: 1100px) {
       .nav { display: none; }
-      .nav-menu{grid-template-columns:1fr;left:0;}
-      .trust__grid { grid-template-columns: repeat(3, 1fr); }
+      .trust__grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .trust-card {
+        height: auto;
+        min-height: 120px;
+        padding: 20px 14px;
+        gap: 12px;
+      }
       .fit__grid { grid-template-columns: repeat(2, 1fr); }
-      .security__grid { grid-template-columns: repeat(3, 1fr); }
+      .security__grid,
+      .security__grid--3 { grid-template-columns: repeat(2, 1fr); }
+      .footer__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .footer__top { grid-template-columns: 1fr; }
+      .sec-item { min-height: auto; }
       .how__grid,
       .hero__grid,
-      .cta__box,
+      .cta__grid,
       .collect__grid { grid-template-columns: 1fr; }
+      .schema {
+        height: auto;
+        max-width: 520px;
+        margin-inline: auto;
+        width: 100%;
+        overflow: visible;
+      }
+      .schema-diagram { min-height: 560px; }
+      .sch-spine {
+        width: min(78%, 280px);
+        min-height: 560px;
+        margin: 0 auto;
+      }
+      .sch-card--result {
+        position: static;
+        transform: none;
+        width: min(100%, 220px);
+        margin: 8px auto 0;
+      }
+      .sch-arrow--side {
+        position: static;
+        transform: rotate(90deg);
+        margin: 6px auto;
+        width: 26px;
+      }
+      .sch-hub-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
       .hero__title { max-width: none; }
       .hero__visual {
-        min-height: 360px;
         justify-content: center;
-        padding-bottom: 56px;
+        padding-bottom: 0;
       }
-      .product-ui { transform: none; width: min(100%, 560px); }
-      .hero__blob { right: 4%; width: 88%; }
-      .badge-ipa { right: 8%; bottom: 0; }
+      .hero__img { width: min(100%, 560px); }
     }
     @media (max-width: 720px) {
       .container { width: min(100% - 32px, var(--container)); }
       section { padding: 48px 0; }
-      .trust__grid,
-      .fit__grid,
+      .trust__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .trust-card {
+        height: auto;
+        min-height: 112px;
+        padding: 16px 12px;
+      }
+      .fit__grid { grid-template-columns: 1fr; }
       .security__grid,
+      .security__grid--3,
       .form__row { grid-template-columns: 1fr; }
-      .cta__box { padding: 24px; }
+      .cta__visual { display: none; }
+      .footer__top,
+      .footer__cols { grid-template-columns: 1fr; }
+      .footer__cols { gap: 28px; }
       .header__inner { min-height: 64px; }
       .btn--dark { display: none; }
-      .product-ui { grid-template-columns: 1fr; }
-      .product-ui__side { display: none; }
-      .product-ui__kpis { grid-template-columns: repeat(3, 1fr); }
-      .product-ui__kpis .kpi:nth-child(4),
-      .product-ui__kpis .kpi:nth-child(5) { display: none; }
-      .badge-ipa { font-size: 13px; padding: 12px 16px 12px 12px; }
-      .sync-row { grid-template-columns: 1.2fr .7fr .8fr; }
-      .sync-row span:nth-child(3) { display: none; }
     }
   </style>
 </head>
@@ -904,7 +1166,7 @@
         <div class="nav-drop"><a href="#" class="nav__item">Технологии
           <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5"/></svg>
         </a>
-          
+
           
           
           <div class="nav-menu">
@@ -974,25 +1236,25 @@
 
         <div class="hero__grid">
           <div>
-            <h1 class="hero__title">Инвентаризация FreeIPA: учёт активов Linux-домена, хостов и сертификатов PKI</h1>
+            <h1 class="hero__title">Инвентаризация FreeIPA: учет пользователей и устройств</h1>
             <ul class="hero__list">
               <li>
                 <span class="hero__check" aria-hidden="true">
                   <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
-                Единый учёт активов Linux-домена FreeIPA для инфраструктуры, построенной изначально на Linux
+                Единый учет активов для домена на Linux
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true">
                   <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
-                Сертификаты и хосты из PKI FreeIPA в одном контуре с пользователями и узлами
+                Данные пользователей и устройств FreeIPA в одном контуре с результатами инвентаризации узлов
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true">
                   <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
-                Сверка с сетью: устройства вне домена и единый контур для CMDB/ITSM/ITAM
+                Учет устройств вне домена и создание единого контура для CMDB/ITSM/ITAM
               </li>
             </ul>
             <div class="hero__cta">
@@ -1001,70 +1263,16 @@
             </div>
           </div>
 
-          <div class="hero__visual" role="img" aria-label="Инвентаризация FreeIPA в ИТМен: Linux-домен, пользователи, хосты и сертификаты PKI">
-            <div class="hero__blob"></div>
-            <div class="product-ui" aria-hidden="true">
-              <aside class="product-ui__side">
-                <div class="product-ui__brand">
-                  <span class="product-ui__brand-mark">ИТ</span>
-                  ИТМен
-                </div>
-                <div class="product-ui__nav">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/></svg>
-                  Дашборд
-                </div>
-                <div class="product-ui__nav">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 9h8M8 13h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                  Устройства
-                </div>
-                <div class="product-ui__nav">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="2"/><path d="M5 19c1.5-3.2 4-4.8 7-4.8S17.5 15.8 19 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                  Пользователи
-                </div>
-                <div class="product-ui__nav is-active">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                  Источники данных
-                </div>
-                <div class="product-ui__nav">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M4 19V5h4v14H4zm6 0V9h4v10h-4zm6 0v-6h4v6h-4z" stroke="currentColor" stroke-width="2"/></svg>
-                  Отчёты
-                </div>
-              </aside>
-              <div class="product-ui__main">
-                <div class="product-ui__head">
-                  <h3>FreeIPA</h3>
-                  <div class="product-ui__tabs">
-                    <span class="product-ui__tab is-active">Сводка</span>
-                    <span class="product-ui__tab">Объекты</span>
-                    <span class="product-ui__tab">Синхронизация</span>
-                  </div>
-                </div>
-                <div class="product-ui__kpis">
-                  <div class="kpi"><div class="kpi__label">Хосты</div><div class="kpi__value">1 840</div></div>
-                  <div class="kpi"><div class="kpi__label">Пользователи</div><div class="kpi__value">3 120</div></div>
-                  <div class="kpi"><div class="kpi__label">Сертификаты</div><div class="kpi__value">412</div></div>
-                  <div class="kpi"><div class="kpi__label">Группы</div><div class="kpi__value">286</div></div>
-                  <div class="kpi"><div class="kpi__label">Вне домена</div><div class="kpi__value">38</div></div>
-                </div>
-                <div class="product-ui__panel">
-                  <div class="product-ui__panel-title">Последняя синхронизация</div>
-                  <div class="sync-row"><span>Источник</span><span>Объекты</span><span>Время</span><span>Статус</span></div>
-                  <div class="sync-row"><span>ipa.corp.local</span><span>3 120</span><span>сегодня, 09:14</span><span class="sync-status">OK</span></div>
-                  <div class="sync-row"><span>Хосты · LDAP</span><span>1 840</span><span>сегодня, 09:15</span><span class="sync-status">OK</span></div>
-                  <div class="sync-row"><span>PKI · сертификаты</span><span>412</span><span>сегодня, 09:16</span><span class="sync-status">OK</span></div>
-                  <div class="sync-row"><span>вне домена (сеть)</span><span>38</span><span>сегодня, 09:18</span><span class="sync-status">OK</span></div>
-                </div>
-              </div>
-            </div>
-            <div class="badge-ipa">
-              <span class="badge-ipa__icon">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M12 3l8 4v5c0 5-3.4 8.4-8 9-4.6-.6-8-4-8-9V7l8-4z" stroke="#fff" stroke-width="1.6"/>
-                  <path d="M9.5 12.2l1.8 1.8 3.4-3.6" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              FreeIPA · LDAP · PKI
-            </div>
+          <div class="hero__visual">
+            <img
+              class="hero__img"
+              src="assets/hero-freeipa.png?v=1"
+              width="1352"
+              height="980"
+              alt="Инвентаризация FreeIPA в ИТМен: пользователи и устройства"
+              decoding="async"
+              fetchpriority="high"
+            />
           </div>
         </div>
       </div>
@@ -1075,33 +1283,37 @@
         <div class="trust__grid">
           <article class="trust-card">
             <div class="trust-card__icon">
-              <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="2"/><path d="M11 16.5l3 3 7-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <img src="assets/trust/registry.svg" alt="" width="48" height="48" />
             </div>
-            <p>В реестре российского ПО</p>
+            <p>В реестре российского&nbsp;ПО</p>
           </article>
           <article class="trust-card">
-            <div class="trust-card__year">2011</div>
+            <div class="trust-card__icon">
+              <img src="assets/trust/2011.svg" alt="" width="48" height="48" />
+            </div>
             <p>Применяется в бизнесе с 2011 года</p>
           </article>
           <article class="trust-card">
             <div class="trust-card__icon">
-              <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="11" stroke="currentColor" stroke-width="2"/><path d="M16 10v7l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <img src="assets/trust/8h.svg" alt="" width="48" height="48" />
             </div>
             <p>Запуск за 8 часов</p>
           </article>
           <article class="trust-card">
             <div class="trust-card__icon">
-              <svg viewBox="0 0 32 32" fill="none"><path d="M8 22V10h6v12H8zm10 0V14h6v8h-6z" stroke="currentColor" stroke-width="2"/><path d="M6 24h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <img src="assets/trust/scale.svg" alt="" width="48" height="48" />
             </div>
-            <p>Масштабируется без затрат</p>
-          </article>
-          <article class="trust-card">
-            <div class="trust-card__icon" style="font-weight:800;font-size:18px;">API</div>
-            <p>Открытое API для интеграции</p>
+            <p>Масштабируется<br>без затрат</p>
           </article>
           <article class="trust-card">
             <div class="trust-card__icon">
-              <svg viewBox="0 0 32 32" fill="none"><path d="M8 18a5 5 0 019.6-2M16 22a5 5 0 109.5-2.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M11 24h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <img src="assets/trust/api.svg" alt="" width="48" height="48" />
+            </div>
+            <p>Открытое API<br>для интеграции</p>
+          </article>
+          <article class="trust-card">
+            <div class="trust-card__icon">
+              <img src="assets/trust/support.svg" alt="" width="48" height="48" />
             </div>
             <p>Год бесплатной техподдержки</p>
           </article>
@@ -1113,29 +1325,29 @@
       <div class="container">
         <h2 class="section-title section-title--center">Вам подойдет решение, если:</h2>
         <div class="fit__grid">
-          <article class="fit-card" data-frame="1000007730">
+          <article class="fit-card">
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="18" cy="12" r="2.2" stroke="currentColor" stroke-width="1.8"/></svg>
             </div>
-            <p>Домен изначально построен на FreeIPA, а не мигрировал с Windows AD</p>
+            <p>Домен изначально построен на FreeIPA, а не только как этап миграции с Windows AD</p>
           </article>
-          <article class="fit-card" data-frame="1000007730-1">
+          <article class="fit-card">
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="8.5" y="13" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><path d="M10 7.5h4M12 11v2" stroke="currentColor" stroke-width="1.8"/></svg>
             </div>
-            <p>Инфраструктура полностью или почти полностью на Linux</p>
+            <p>Инфраструктура полностью или частично на Linux</p>
           </article>
-          <article class="fit-card" data-frame="1000007730-2">
+          <article class="fit-card">
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M5 19l2.5-2.5M19 19l-2.5-2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Нужно учитывать не только пользователей и узлы, но и сертификаты, выпущенные внутренним удостоверяющим центром FreeIPA</p>
+            <p>Нужно получать данные о пользователях и устройствах из FreeIPA и дополнять их фактическими данными инвентаризации</p>
           </article>
-          <article class="fit-card" data-frame="1000007730-3">
+          <article class="fit-card">
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M7 7h10v10H7z" stroke="currentColor" stroke-width="1.8"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Данные из FreeIPA нужно передавать в CMDB/ITSM без дублей и расхождений</p>
+            <p>Данные из FreeIPA нужно объединять с данными из других источников и использовать для наполнения CMDB/ITSM</p>
           </article>
         </div>
       </div>
@@ -1143,74 +1355,127 @@
 
     <section class="how" id="how">
       <div class="container">
-        <h2 class="section-title">Инвентаризация FreeIPA: как работает сбор данных</h2>
+        <h2 class="section-title">Как это работает</h2>
         <div class="how__grid">
           <div class="steps">
             <article class="step">
-              <div class="step__num">1</div>
-              <h3>Подключение к FreeIPA</h3>
+              <div class="step__head">
+                <div class="step__num">1</div>
+                <h3>Подключение к FreeIPA</h3>
+              </div>
               <ul>
-                <li>Подключение к серверу FreeIPA по LDAP (389 Directory Server) для сбора данных каталога</li>
-                <li>Загрузка состава каталога: пользователи, хосты, группы</li>
-                <li>Загрузка данных о сертификатах и хостовых политиках</li>
+                <li>Подключение к серверу FreeIPA по LDAP</li>
+                <li>Сбор данных о пользователях и устройствах FreeIPA</li>
               </ul>
             </article>
             <article class="step">
-              <div class="step__num">2</div>
-              <h3>Сбор и нормализация</h3>
+              <div class="step__head">
+                <div class="step__num">2</div>
+                <h3>Сбор и нормализация</h3>
+              </div>
               <ul>
                 <li>Сбор карточек из каталога</li>
-                <li>Дополнительный сбор данных с самих узлов</li>
-                <li>Сверка с сетью</li>
+                <li>Дополнительная локальная или сетевая инвентаризация устройств</li>
                 <li>Приведение всех данных к единому формату</li>
               </ul>
             </article>
             <article class="step">
-              <div class="step__num">3</div>
-              <h3>Передача данных</h3>
+              <div class="step__head">
+                <div class="step__num">3</div>
+                <h3>Передача данных</h3>
+              </div>
               <ul>
                 <li>Готовые очищенные данные уходят в CMDB, ITSM, ITAM или SAM</li>
               </ul>
             </article>
           </div>
 
-          <div class="schema" aria-hidden="true">
-            <svg viewBox="0 0 420 360" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="24" y="28" width="110" height="72" rx="12" stroke="#1a6fd4" stroke-width="1.8" fill="#eef5fc"/>
-              <text x="79" y="54" text-anchor="middle" fill="#1a6fd4" font-family="Manrope, Arial" font-size="12" font-weight="700">FreeIPA</text>
-              <text x="79" y="72" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="11" font-weight="600">LDAP · 389 DS</text>
-              <text x="79" y="88" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="10">Kerberos · Linux</text>
+          <div class="schema" aria-label="Схема сбора данных из FreeIPA">
+            <div class="schema-diagram">
+              <div class="sch-spine">
+                <article class="sch-card">
+                  <div class="sch-card__icon" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" fill="none"><rect x="5" y="6" width="8" height="20" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="15" y="6" width="8" height="20" rx="1.5" stroke="currentColor" stroke-width="1.7"/><path d="M7.5 10h3M7.5 14h3M7.5 18h3M17.5 10h3M17.5 14h3M17.5 18h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M25 12h3v8h-3" stroke="currentColor" stroke-width="1.6"/><path d="M24 14h2M24 18h2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                  </div>
+                  <div class="sch-card__body">
+                    <div class="sch-card__title">FreeIPA LDAP-каталог</div>
+                    <div class="sch-card__line"></div>
+                    <div class="sch-card__sub">Пользователи, устройства</div>
+                  </div>
+                </article>
 
-              <rect x="155" y="28" width="110" height="72" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
-              <text x="210" y="54" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">Linux-узлы</text>
-              <text x="210" y="72" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">SSH · инвентаризация</text>
-              <text x="210" y="88" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">железо · ПО</text>
+                <div class="sch-arrow" aria-hidden="true">
+                  <svg width="12" height="22" viewBox="0 0 12 22" fill="none"><path d="M6 1v14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M2.5 12.5L6 18l3.5-5.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
 
-              <rect x="286" y="28" width="110" height="72" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
-              <text x="341" y="54" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">Дискаверинг</text>
-              <text x="341" y="72" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">вне домена</text>
-              <text x="341" y="88" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">SSH · сеть</text>
+                <article class="sch-card">
+                  <div class="sch-card__icon" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" fill="none"><rect x="4" y="6" width="7" height="18" rx="1.4" stroke="currentColor" stroke-width="1.7"/><rect x="12.5" y="6" width="7" height="18" rx="1.4" stroke="currentColor" stroke-width="1.7"/><circle cx="23" cy="20" r="5" stroke="currentColor" stroke-width="1.7"/><path d="M26.5 23.5L29 26" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M6 10.5h3M6 14.5h3M6 18.5h3M14.5 10.5h3M14.5 14.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                  </div>
+                  <div class="sch-card__body">
+                    <div class="sch-card__title">LDAP-сбор</div>
+                  </div>
+                </article>
 
-              <path d="M79 100v36M210 100v36M341 100v36" stroke="#D8D8D8" stroke-width="1.5"/>
-              <path d="M79 136h262" stroke="#D8D8D8" stroke-width="1.5"/>
-              <path d="M210 136v28" stroke="#E30613" stroke-width="2"/>
+                <div class="sch-arrow" aria-hidden="true">
+                  <svg width="12" height="22" viewBox="0 0 12 22" fill="none"><path d="M6 1v14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M2.5 12.5L6 18l3.5-5.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
 
-              <rect x="135" y="164" width="150" height="78" rx="14" fill="#E30613"/>
-              <text x="210" y="194" text-anchor="middle" fill="#fff" font-family="Manrope, Arial" font-size="14" font-weight="700">Инферит ИТМен</text>
-              <text x="210" y="214" text-anchor="middle" fill="#ffd0d3" font-family="Manrope, Arial" font-size="11">единая база · сверка</text>
-              <text x="210" y="228" text-anchor="middle" fill="#ffd0d3" font-family="Manrope, Arial" font-size="10">FreeIPA + PKI + узлы</text>
+                <div class="sch-hub-wrap">
+                  <article class="sch-card sch-card--hub">
+                    <img class="sch-hub-logo" src="assets/logo-itman-white.png?v=3" alt="Инферит ИТМен" width="220" height="40" />
+                  </article>
+                  <div class="sch-arrow sch-arrow--side" aria-hidden="true">
+                    <svg width="56" height="20" viewBox="0 0 56 20" fill="none">
+                      <path d="M4 10 H44" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                      <path d="M40 5.5 L48 10 L40 14.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <article class="sch-card sch-card--result">
+                    <div class="sch-card__icon" aria-hidden="true">
+                      <svg viewBox="0 0 32 32" fill="none"><rect x="8" y="4" width="16" height="24" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M12 4.5h8v3h-8z" stroke="currentColor" stroke-width="1.5"/><path d="M12 14l2 2 4-4M12 20l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <div class="sch-card__body">
+                      <div class="sch-card__title">Результат</div>
+                      <div class="sch-card__line"></div>
+                      <ul class="sch-card__list">
+                        <li>Пользователи</li>
+                        <li>Устройства</li>
+                        <li>Связь данных</li>
+                      </ul>
+                    </div>
+                  </article>
+                </div>
 
-              <path d="M210 242v28" stroke="#E30613" stroke-width="2"/>
-              <path d="M80 270h260" stroke="#D8D8D8" stroke-width="1.5"/>
-              <path d="M80 270v18M210 270v18M340 270v18" stroke="#D8D8D8" stroke-width="1.5"/>
+                <div class="sch-arrow" aria-hidden="true">
+                  <svg width="12" height="22" viewBox="0 0 12 22" fill="none"><path d="M6 21V7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M2.5 9.5L6 4l3.5 5.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
 
-              <rect x="30" y="288" width="100" height="48" rx="10" stroke="#1a1a1a" stroke-width="1.6"/>
-              <text x="80" y="317" text-anchor="middle" fill="#1a1a1a" font-family="Manrope, Arial" font-size="13" font-weight="650">CMDB</text>
-              <rect x="160" y="288" width="100" height="48" rx="10" stroke="#1a1a1a" stroke-width="1.6"/>
-              <text x="210" y="317" text-anchor="middle" fill="#1a1a1a" font-family="Manrope, Arial" font-size="13" font-weight="650">ITSM</text>
-              <rect x="290" y="288" width="100" height="48" rx="10" stroke="#1a1a1a" stroke-width="1.6"/>
-              <text x="340" y="317" text-anchor="middle" fill="#1a1a1a" font-family="Manrope, Arial" font-size="13" font-weight="650">ITAM / SAM</text>
-            </svg>
+                <article class="sch-card">
+                  <div class="sch-card__icon" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" fill="none"><rect x="4" y="6" width="7" height="18" rx="1.4" stroke="currentColor" stroke-width="1.7"/><rect x="12.5" y="6" width="7" height="18" rx="1.4" stroke="currentColor" stroke-width="1.7"/><circle cx="24" cy="21" r="5" stroke="currentColor" stroke-width="1.7"/><path d="M22.2 21h3.6M24 19.2v3.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M6 10.5h3M6 14.5h3M14.5 10.5h3M14.5 14.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                  </div>
+                  <div class="sch-card__body">
+                    <div class="sch-card__title">Локальная/сетевая инвентаризация</div>
+                  </div>
+                </article>
+
+                <div class="sch-arrow" aria-hidden="true">
+                  <svg width="12" height="22" viewBox="0 0 12 22" fill="none"><path d="M6 21V7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M2.5 9.5L6 4l3.5 5.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+
+                <article class="sch-card">
+                  <div class="sch-card__icon" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" fill="none"><rect x="5" y="8" width="22" height="15" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M10 26h12M16 23v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M9 12h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  </div>
+                  <div class="sch-card__body">
+                    <div class="sch-card__title">Устройства</div>
+                    <div class="sch-card__line"></div>
+                    <div class="sch-card__sub">Linux/Windows</div>
+                  </div>
+                </article>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1219,7 +1484,7 @@
     <section class="collect" id="collect">
       <div class="container">
         <h2 class="section-title">Что ИТМен собирает из FreeIPA</h2>
-        <p class="collect__intro">Каталог FreeIPA даёт состав домена и данные удостоверяющего центра. Этого мало для полной инвентаризации ИТ-активов, поэтому ИТМен дополнительно опрашивает сами узлы.</p>
+        <p class="collect__intro">Через LDAP ИТМен получает данные о пользователях FreeIPA и устройствах, доступных им под своими учетными записями. Для более полной инвентаризации ИТМен может дополнительно собирать данные с самих устройств.</p>
         <div class="collect__grid">
           <article class="collect-card collect-card--dark">
             <div class="collect-card__icon">
@@ -1227,9 +1492,8 @@
             </div>
             <h3>Из каталога FreeIPA</h3>
             <ul>
-              <li>Пользователи, хосты и группы домена FreeIPA</li>
-              <li>Связь учётной записи пользователя с конкретным устройством</li>
-              <li>Сертификаты и хосты, зарегистрированные в удостоверяющем центре FreeIPA</li>
+              <li>Пользователи и устройства — учет пользователей и хостов в FreeIPA</li>
+              <li>Информация о LDAP-пользователях, имеющих доступ к устройству</li>
             </ul>
           </article>
           <article class="collect-card collect-card--red">
@@ -1239,8 +1503,7 @@
             <h3>С самих узлов</h3>
             <ul>
               <li>Конфигурация: процессор, память, диски, сетевые адаптеры (IP, MAC, DNS-имя)</li>
-              <li>Инвентаризация ПО на Linux-узлах домена FreeIPA и версии для контроля лицензий и учёта ITAM/SAM</li>
-              <li>Устройства, которые есть в сети, но не заведены в домене, и наоборот</li>
+              <li>Инвентаризация ПО и его версии на инвентаризируемых Linux-устройствах</li>
             </ul>
           </article>
           <article class="collect-card collect-card--light">
@@ -1250,35 +1513,42 @@
             <h3>Работа с Linux-инфраструктурой</h3>
             <ul>
               <li>Домены и хосты на разных Linux-дистрибутивах в одной нормализованной базе</li>
-              <li>Безагентный сбор по SSH, агентный сбор там, где нужна более глубокая детализация</li>
+              <li>Удаленная инвентаризация Linux-устройств по SSH или локальная инвентаризация с помощью агента</li>
             </ul>
           </article>
         </div>
+        <aside class="collect-note" aria-label="Сетевая инвентаризация">
+          <div class="collect-note__mark" aria-hidden="true"></div>
+          <div class="collect-note__body">
+            <p class="collect-note__text">Сетевая инвентаризация позволяет обнаруживать устройства независимо от их наличия в каталоге FreeIPA.</p>
+          </div>
+        </aside>
       </div>
     </section>
 
     <section class="security" id="security">
       <div class="container">
-        <h2 class="section-title section-title--center">Соответствие требованиям информационной безопасности</h2>
-        <div class="security__grid">
+        <h2 class="section-title section-title--center">Инферит ИТМен соответствует требованиям информационной безопасности</h2>
+        <div class="security__grid security__grid--3">
           <article class="sec-item">
-            <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 4v5c0 5-3.4 8.4-8 9-4.6-.6-8-4-8-9V7l8-4z" stroke="currentColor" stroke-width="1.7"/><path d="M9.5 12l2 2 3.5-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="sec-item__icon-wrap">
+              <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 4v5c0 5-3.4 8.4-8 9-4.6-.6-8-4-8-9V7l8-4z" stroke="currentColor" stroke-width="1.7"/><path d="M9.5 12l2 2 3.5-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3>Сбор данных при ограничениях</h3>
             <p>Работает в закрытых периметрах, без выхода инфраструктуры в интернет</p>
           </article>
           <article class="sec-item">
-            <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V8a4 4 0 018 0v2" stroke="currentColor" stroke-width="1.7"/></svg>
-            <p>Подключение к каталогу по защищённому каналу</p>
-          </article>
-          <article class="sec-item">
-            <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.7"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-            <p>Поддержка протоколов шифрования по ГОСТ</p>
-          </article>
-          <article class="sec-item">
-            <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.7"/><path d="M8 12.5l2.5 2.5L16 9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="sec-item__icon-wrap">
+              <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.7"/><path d="M8 12.5l2.5 2.5L16 9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3>В реестре российского ПО</h3>
             <p>В реестре российского ПО: №2016662248, запись №12289 от 14.12.2021</p>
           </article>
           <article class="sec-item">
-            <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><path d="M4 18V6h6v12H4zm10 0V9h6v9h-6z" stroke="currentColor" stroke-width="1.7"/></svg>
+            <div class="sec-item__icon-wrap">
+              <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><path d="M4 18V6h6v12H4zm10 0V9h6v9h-6z" stroke="currentColor" stroke-width="1.7"/></svg>
+            </div>
+            <h3>Сделано в России</h3>
             <p>Разработка без Open source, вся команда и инфраструктура в России</p>
           </article>
         </div>
@@ -1291,27 +1561,23 @@
         <div class="faq__list">
           <details open>
             <summary>Чем FreeIPA отличается от Samba и Active Directory?</summary>
-            <p>FreeIPA изначально строится как Linux-домен, а не как аналог Windows AD. Помимо LDAP-каталога и Kerberos, в нем есть собственный удостоверяющий центр для сертификатов, поэтому ИТМен дополнительно собирает данные о сертификатах и хостах из PKI.</p>
+            <p>Со стороны ИТМен принцип одинаковый: для Active Directory, FreeIPA и Samba AD используется задача сбора данных по LDAP. Полученная информация может дополнительно обогащаться результатами локальной и сетевой инвентаризации.</p>
           </details>
           <details>
-            <summary>Можно ли одновременно вести учёт по FreeIPA и Windows AD?</summary>
-            <p>Да. Если часть инфраструктуры работает на FreeIPA, а часть на Windows AD или Samba, ИТМен сводит данные из всех источников в одну базу.</p>
+            <summary>Можно ли одновременно вести учет по FreeIPA и Windows AD?</summary>
+            <p>Да. ИТМен поддерживает получение данных из Active Directory, FreeIPA и Samba AD по LDAP. Для LDAP-задачи можно настроить несколько целей инвентаризации.</p>
           </details>
           <details>
             <summary>Нужны ли агенты для сбора?</summary>
-            <p>Поддерживается и агентный, и безагентный сбор, в зависимости от инфраструктуры и политик.</p>
+            <p>Для выполнения LDAP-задачи используется агент ИТМен с функцией сетевой инвентаризации. Устанавливать агент на каждое устройство, данные о котором получаются из каталога, не требуется.</p>
           </details>
           <details>
             <summary>Видит ли ИТМен устройства вне домена?</summary>
-            <p>Да. Дискаверинг находит и неучтённые устройства, которые не заведены в каталоге.</p>
+            <p>Да. Сетевая инвентаризация позволяет сканировать заданные подсети и IP-диапазоны и обнаруживать устройства независимо от данных FreeIPA.</p>
           </details>
           <details>
-            <summary>Является ли Инферит ИТМен системой CMDB?</summary>
-            <p>Нет. ИТМен собирает и нормализует данные, а затем наполняет ими CMDB и ITSM. Он не заменяет эти системы.</p>
-          </details>
-          <details>
-            <summary>Работает ли сбор в закрытом контуре без выхода в интернет?</summary>
-            <p>Да. ИТМен разворачивается внутри периметра и собирает данные без внешнего подключения, с передачей по защищённым каналам. Это российская программа для инвентаризации FreeIPA из реестра ПО. Удобна для закрытого Linux-контура.</p>
+            <summary>Работает ли сбор в закрытом контуре?</summary>
+            <p>Да. ИТМен разворачивается внутри периметра и собирает данные без внешнего подключения, с передачей по защищенным каналам.</p>
           </details>
         </div>
       </div>
@@ -1319,19 +1585,12 @@
 
     <section class="cta" id="cta">
       <div class="container">
-        <div class="cta__box">
+        <div class="cta__grid">
           <div>
-            <h2 class="cta__title">Есть вопросы по продукту или хотите записаться на демо?</h2>
-            <p class="cta__text">Отправьте заявку. Ответим на вопросы и покажем возможности продукта с учётом ваших бизнес-задач и отраслевой специфики.</p>
-            <div class="cta__contacts">
-              <a href="tel:88007078553">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.5 3 3.6 5.1 6.6 6.6l2.2-2.2a1.2 1.2 0 011.2-.3c1.3.4 2.7.7 4.1.7a1.2 1.2 0 011.2 1.2V20a1.2 1.2 0 01-1.2 1.2A17.2 17.2 0 012.8 4.2 1.2 1.2 0 014 3h3.2A1.2 1.2 0 018.4 4.2c0 1.4.2 2.8.7 4.1a1.2 1.2 0 01-.3 1.2L6.6 10.8z" fill="currentColor"/></svg>
-                8 800 707 85 53
-              </a>
-              <a href="mailto:info@itman.ru">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-                info@itman.ru
-              </a>
+            <h2 class="cta__title">Есть вопросы по продукту или хотите<em> записаться на демо?</em></h2>
+            <p class="cta__text">Отправьте заявку! Ответим на вопросы и покажем возможности продукта с учетом ваших бизнес-задач и отраслевой специфики</p>
+            <div class="cta__visual">
+              <img src="assets/cta-demo.png" width="1386" height="840" alt="Инферит ИТМен — демо интерфейса" decoding="async" loading="lazy" />
             </div>
           </div>
           <form class="form" action="#" method="post" onsubmit="event.preventDefault(); alert('Это макет страницы. Форма не отправляется.');">
@@ -1352,7 +1611,7 @@
             <textarea name="comment" placeholder="Комментарий"></textarea>
             <label class="form__check">
               <input type="checkbox" required />
-              <span>Я даю согласие на обработку <a href="https://itman.ru/" target="_blank" rel="noopener">персональных данных</a></span>
+              <span>Я даю согласие на обработку <a href="https://itman.ru/soglasie" target="_blank" rel="noopener">персональных данных</a></span>
             </label>
             <button class="btn btn--red btn--lg" type="submit">Оставить заявку</button>
           </form>
@@ -1362,9 +1621,80 @@
   </main>
 
   <footer class="footer">
-    <div class="container footer__inner">
-      <p>© 2011–2026 ООО «НЦПР». Макет страницы «Инвентаризация FreeIPA».</p>
-      <p><a href="https://itman.ru/">itman.ru</a> · Отдел продаж: <a href="tel:88007078553">8 800 707 85 53</a></p>
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <a href="https://itman.ru/" aria-label="Инферит ИТМен">
+            <img class="footer__logo" src="assets/footer/logo-itman.svg" alt="Инферит ИТМен" width="220" height="40" />
+          </a>
+          <p class="footer__note">В реестре российского ПО: №12289 от 14.12.2021</p>
+          <p class="footer__note">Маркетинговое название «Инферит ИТМен» соответствует itman discovery</p>
+        </div>
+        <div class="footer__cols">
+          <div>
+            <div class="footer__col-title">Продукты и поддержка</div>
+            <div class="footer__col">
+              <a href="https://itman.ru/modules" target="_blank" rel="noopener">Модули продукта</a>
+              <a href="https://itman.ru/inventory" target="_blank" rel="noopener">Инвентаризация</a>
+              <a href="https://itman.ru/cmdb" target="_blank" rel="noopener">Поставка данных в CMDB</a>
+              <a href="https://itman.ru/support-center" target="_blank" rel="noopener">Техническая поддержка</a>
+              <a href="https://itman.ru/cases" target="_blank" rel="noopener">Кейсы</a>
+            </div>
+          </div>
+          <div>
+            <div class="footer__col-title">Полезная информация</div>
+            <div class="footer__col">
+              <a href="https://itman.ru/support-center" target="_blank" rel="noopener">Техническая документация</a>
+              <a href="https://itman.ru/support-center" target="_blank" rel="noopener">FAQ</a>
+              <a href="https://partners.inferit.ru/" target="_blank" rel="noopener">Партнерам</a>
+              <a href="https://itman.ru/support-center" target="_blank" rel="noopener">Техническая поддержка</a>
+            </div>
+          </div>
+          <div>
+            <div class="footer__col-title">Документы и соглашения</div>
+            <div class="footer__col">
+              <a href="https://itman.ru/privacy-policy" target="_blank" rel="noopener">Политика конфиденциальности</a>
+              <a href="https://itman.ru/soglasie" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
+              <a href="https://itman.ru/usloviya" target="_blank" rel="noopener">Условия использования сайта</a>
+            </div>
+          </div>
+          <div>
+            <div class="footer__col-title">Отдел продаж</div>
+            <div class="footer__col">
+              <a href="tel:88007078553">8 800 707 85 53</a>
+              <a href="mailto:info@itman.ru">info@itman.ru</a>
+            </div>
+            <div class="footer__col-title" style="margin-top:20px">Техническая поддержка</div>
+            <div class="footer__col">
+              <a href="mailto:support@inferit.ru">support@inferit.ru</a>
+            </div>
+            <div class="footer__col-title" style="margin-top:20px">Адрес</div>
+            <div class="footer__col">
+              <span>Москва, 2-й Южнопортовый проезд, 20с4</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="footer__legal">
+        Информация, представленная на сайте, носит исключительно справочный и ознакомительный характер, не предназначена для личных, семейных, домашних и иных нужд, не связанных с осуществлением предпринимательской деятельности и не ориентирована на потребителей по смыслу Федерального закона от 24.06.2025 №&nbsp;168-ФЗ. Указанные цены и комплектации продуктов не являются окончательными и не могут служить основанием для коммерческих расчетов. Данные сведения не представляют собой публичную оферту по смыслу ст.&nbsp;437 ГК&nbsp;РФ. Для получения точных и актуальных данных обращайтесь к официальным представителям ООО&nbsp;«НЦПР».
+        <a href="https://crmindex.ru/services/itman24" target="_blank" rel="noopener">https://crmindex.ru/services/itman24</a>
+      </p>
+      <hr class="footer__rule" />
+      <div class="footer__bottom">
+        <div class="footer__copy">
+          <img class="footer__softline" src="assets/footer/logo-softline.svg" alt="Softline" width="133" height="24" />
+          <p>© 2011–2026 ООО «НЦПР». Все права защищены.</p>
+        </div>
+        <div class="footer__socials" aria-label="Социальные сети">
+          <a href="https://t.me/Inferit_official" target="_blank" rel="noopener" aria-label="Telegram"><img src="assets/footer/social_icon.svg" alt="" width="32" height="32" /></a>
+          <a href="https://vk.com/inferit_official" target="_blank" rel="noopener" aria-label="VK"><img src="assets/footer/social_icon-1.svg" alt="" width="32" height="32" /></a>
+          <a href="https://companies.rbc.ru/id/1225000052661-inferit/" target="_blank" rel="noopener" aria-label="РБК"><img src="assets/footer/social_icon-2.svg" alt="" width="32" height="32" /></a>
+          <a href="https://habr.com/ru/companies/inferit/articles/" target="_blank" rel="noopener" aria-label="Хабр"><img src="assets/footer/social_icon-3.svg" alt="" width="32" height="32" /></a>
+          <a href="https://rutube.ru/channel/36395261/" target="_blank" rel="noopener" aria-label="Rutube"><img src="assets/footer/social_icon-4.svg" alt="" width="32" height="32" /></a>
+          <a href="https://www.computerra.ru/author/inferit/" target="_blank" rel="noopener" aria-label="Computerra"><img src="assets/footer/social_icon-5.svg" alt="" width="32" height="32" /></a>
+        </div>
+      </div>
     </div>
   </footer>
 
