@@ -683,7 +683,7 @@
     .schema {
       background: #f5f7f9;
       border-radius: 24px;
-      padding: 18px 14px 18px 18px;
+      padding: 22px 12px 22px 12px;
       min-height: 0;
       height: 100%;
       display: flex;
@@ -694,28 +694,37 @@
     }
     .schema-diagram {
       width: 100%;
-      min-height: 0;
       height: 100%;
+      min-height: 0;
+      display: flex;
+      justify-content: flex-start;
+      align-items: stretch;
+      padding-right: 150px;
+      box-sizing: border-box;
+    }
+    /* одна вертикальная «ось» как на референсе */
+    .sch-spine {
+      width: min(72%, 250px);
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: stretch;
       justify-content: space-evenly;
       gap: 0;
       position: relative;
+      height: 100%;
     }
-    /* компактные «висящие» плашки как на призме */
     .sch-card {
       flex: none;
-      width: min(72%, 248px);
+      width: 100%;
       display: flex;
       align-items: center;
       gap: 10px;
       background: #fff;
-      border: 1px solid #d8dce3;
-      border-radius: 18px;
-      box-shadow: 0 6px 18px rgba(26, 26, 26, 0.06);
-      padding: 11px 14px;
-      min-height: 0;
+      border: 1px solid #e1e4ea;
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(26, 26, 26, 0.06);
+      padding: 12px 14px;
     }
     .sch-card__icon {
       flex: none;
@@ -725,10 +734,7 @@
       display: grid;
       place-items: center;
     }
-    .sch-card__icon svg {
-      width: 22px;
-      height: 22px;
-    }
+    .sch-card__icon svg { width: 22px; height: 22px; }
     .sch-card__body {
       min-width: 0;
       display: flex;
@@ -751,7 +757,7 @@
     .sch-card__sub {
       font-size: 11.5px;
       line-height: 1.3;
-      color: #555;
+      color: #666;
     }
     .sch-card__list {
       display: grid;
@@ -777,34 +783,39 @@
       border-radius: 50%;
       background: var(--red);
     }
-    /* центральный блок — шире, с логотипом как на /data-prism */
     .sch-card--hub {
-      width: min(88%, 310px);
-      min-height: 72px;
-      padding: 16px 20px;
+      min-height: 64px;
+      padding: 14px 16px;
       background: var(--red);
       border: none;
-      border-radius: 18px;
-      box-shadow: 0 8px 22px rgba(227, 6, 19, 0.28);
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(227, 6, 19, 0.25);
       justify-content: center;
-      gap: 0;
     }
     .sch-hub-logo {
       display: block;
-      height: 34px;
+      height: 30px;
       width: auto;
       max-width: 100%;
     }
-    /* Результат — как ITSM: белый + красная обводка, вынесен вправо */
-    .sch-card--result {
-      width: 148px;
+    .sch-hub-wrap {
+      position: relative;
+      width: 100%;
       flex: none;
+    }
+    .sch-card--result {
+      position: absolute;
+      left: calc(100% + 26px);
+      top: 50%;
+      transform: translateY(-50%);
+      width: 148px;
       border: 1.5px solid var(--red);
       background: #fff;
-      box-shadow: 0 6px 18px rgba(26, 26, 26, 0.07);
+      box-shadow: 0 4px 14px rgba(26, 26, 26, 0.07);
       align-items: flex-start;
-      padding: 12px 12px 12px 12px;
-      border-radius: 16px;
+      padding: 12px;
+      border-radius: 14px;
+      z-index: 2;
     }
     .sch-card--result .sch-card__icon { color: var(--red); margin-top: 1px; }
     .sch-card--result .sch-card__title {
@@ -812,43 +823,26 @@
       font-size: 12.5px;
     }
     .sch-card--result .sch-card__line { background: #f0c8cb; }
-    .sch-mid {
-      flex: none;
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1fr auto minmax(148px, 158px);
-      align-items: center;
-      column-gap: 2px;
-      padding-right: 0;
-      margin-right: -6px;
-    }
-    .sch-mid .sch-card--hub {
-      justify-self: end;
-      width: min(100%, 310px);
-      margin-right: 0;
-    }
-    .sch-mid .sch-card--result {
-      justify-self: start;
-    }
-    /* стрелки в духе призмы: тонкая линия + наконечник */
     .sch-arrow {
       flex: none;
-      color: var(--red);
+      color: #b0b5bd;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 22px;
-      opacity: 0.95;
+      height: 20px;
     }
-    .sch-arrow svg {
-      display: block;
-      overflow: visible;
-    }
+    .sch-arrow svg { display: block; overflow: visible; }
     .sch-arrow--side {
-      width: 36px;
-      height: 40px;
-      align-self: center;
-      justify-self: center;
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 26px;
+      height: 24px;
+      color: #b0b5bd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     /* Collect */
@@ -1129,30 +1123,32 @@
       .collect__grid { grid-template-columns: 1fr; }
       .schema {
         height: auto;
-        max-width: 480px;
+        max-width: 520px;
         margin-inline: auto;
         width: 100%;
         overflow: visible;
       }
-      .schema-diagram {
-        min-height: 540px;
-        max-width: 100%;
-      }
-      .sch-mid {
-        grid-template-columns: 1fr;
-        justify-items: center;
-        row-gap: 8px;
-        margin-right: 0;
-      }
-      .sch-mid .sch-card--hub {
-        justify-self: center;
-        width: min(92%, 310px);
-      }
-      .sch-arrow--side {
-        transform: rotate(90deg);
+      .schema-diagram { min-height: 560px; }
+      .sch-spine {
+        width: min(78%, 280px);
+        min-height: 560px;
       }
       .sch-card--result {
-        width: min(70%, 180px);
+        position: static;
+        transform: none;
+        width: min(100%, 180px);
+        margin: 8px auto 0;
+      }
+      .sch-arrow--side {
+        position: static;
+        transform: rotate(90deg);
+        margin: 6px auto;
+        width: 26px;
+      }
+      .sch-hub-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
       .hero__title { max-width: none; }
       .hero__visual {
