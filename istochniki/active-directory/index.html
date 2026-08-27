@@ -4,12 +4,45 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
-  <meta name="description" content="Актуальный список компьютеров в домене из Active Directory по LDAP/LDAPS, сверка с сетью и нормализованные данные для CMDB, ITSM и ITAM." />
-  <title>Список компьютеров в домене Active Directory | ИТМен</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <title>Инвентаризация Active Directory: учёт компьютеров, пользователей и ПО домена | ИТМен</title>
   <style>
+    /* Nekst — как на itman.ru */
+    @font-face {
+      font-family: "Nekst Medium Web";
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+      src: url("assets/fonts/Nekst-Medium-Web-500.ttf") format("truetype");
+    }
+    @font-face {
+      font-family: "Nekst Regular Web";
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+      src: url("assets/fonts/Nekst-Regular-Web-400.ttf") format("truetype");
+    }
+    @font-face {
+      font-family: "Nekst";
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+      src: url("assets/fonts/Nekst-400.woff") format("woff");
+    }
+    @font-face {
+      font-family: "Nekst";
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+      src: url("assets/fonts/Nekst-600.woff") format("woff");
+    }
+    @font-face {
+      font-family: "Nekst SemiBold";
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+      src: url("assets/fonts/Nekst-SemiBold-600.ttf") format("truetype");
+    }
+
     :root {
       --red: #e30613;
       --red-hover: #c50510;
@@ -24,16 +57,40 @@
       --radius-btn: 10px;
       --container: 1180px;
       --shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+      --font-text: "Nekst Regular Web", "Nekst", Arial, Helvetica, sans-serif;
+      --font-medium: "Nekst Medium Web", "Nekst SemiBold", "Nekst", Arial, Helvetica, sans-serif;
+      --font-semibold: "Nekst SemiBold", "Nekst", Arial, Helvetica, sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: Manrope, Arial, Helvetica, sans-serif;
+      font-family: var(--font-text);
+      font-weight: 400;
       color: var(--text);
       background: var(--white);
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3,
+    .hero__title,
+    .section-title,
+    .step h3,
+    .collect-card h3,
+    .faq summary,
+    .logo__text,
+    .product-ui__head h3 {
+      font-family: var(--font-medium);
+    }
+    .btn,
+    .btn-phone,
+    .nav,
+    .nav-h,
+    .badge-ad,
+    .trust-card__year,
+    .step__num,
+    .kpi__value {
+      font-family: var(--font-semibold);
     }
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; display: block; }
@@ -182,19 +239,12 @@
     }
     .hero__title {
       font-size: clamp(26px, 3.2vw, 38px);
-      font-weight: 800;
+      font-weight: 500;
       line-height: 1.15;
       letter-spacing: -0.03em;
       color: var(--black);
-      margin-bottom: 16px;
+      margin-bottom: 22px;
       max-width: none;
-    }
-    .hero__lead {
-      margin: 0 0 22px;
-      max-width: 540px;
-      font-size: 16px;
-      line-height: 1.55;
-      color: var(--muted);
     }
     .hero__title em {
       font-style: normal;
@@ -510,7 +560,7 @@
     section { padding: 64px 0; }
     .section-title {
       font-size: clamp(26px, 3vw, 36px);
-      font-weight: 700;
+      font-weight: 500;
       letter-spacing: -.02em;
       color: var(--black);
       line-height: 1.2;
@@ -980,20 +1030,19 @@
 
         <div class="hero__grid">
           <div>
-            <h1 class="hero__title">Инвентаризация Active Directory: список компьютеров в домене</h1>
-            <p class="hero__lead">Инферит ИТМен собирает актуальный список компьютеров в домене из Active Directory: подключается к контроллеру по LDAP/LDAPS, выгружает компьютеры, пользователей, OU и группы, затем дополняет каталог инвентаризацией узлов — железо, ПО, сеть. На выходе — очищенные, нормализованные данные для <a href="https://itman.ru/cmdb">CMDB</a>, ITSM и ITAM, без дублей и «теневого» ИТ.</p>
+            <h1 class="hero__title">Инвентаризация Active Directory: учёт компьютеров, пользователей и ПО домена</h1>
             <ul class="hero__list">
               <li>
                 <span class="hero__check" aria-hidden="true">
                   <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
-                Актуальный список компьютеров в домене: пользователи, OU и группы по LDAP/LDAPS
+                Актуальный состав домена: компьютеры, пользователи, OU и группы по LDAP/LDAPS — сбор данных по LDAP/LDAPS
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true">
                   <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.4 2.4 4.6-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
-                Инвентаризация узлов поверх каталога: железо, ПО, сетевые параметры
+                Инвентаризация узлов поверх каталога: железо, ПО, сетевые параметры — учёт ПО в Active Directory
               </li>
               <li>
                 <span class="hero__check" aria-hidden="true">
@@ -1008,7 +1057,7 @@
             </div>
           </div>
 
-          <div class="hero__visual" role="img" aria-label="Список компьютеров в домене Active Directory в системе ИТМен">
+          <div class="hero__visual" role="img" aria-label="Инвентаризация Active Directory в ИТМен — компьютеры, пользователи и ПО домена">
             <div class="hero__blob"></div>
             <div class="product-ui" aria-hidden="true">
               <aside class="product-ui__side">
@@ -1122,7 +1171,7 @@
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="18" cy="12" r="2.2" stroke="currentColor" stroke-width="1.8"/></svg>
             </div>
-            <p>Нужно автоматически получать актуальный список компьютеров в домене</p>
+            <p>Нужно автоматически получать актуальный список компьютеров и пользователей из домена — учёт компьютеров в домене без ручной сверки</p>
           </article>
           <article class="fit-card" data-frame="1000007730-1">
             <div class="fit-card__icon">
@@ -1140,7 +1189,7 @@
             <div class="fit-card__icon">
               <svg viewBox="0 0 24 24" fill="none"><path d="M7 7h10v10H7z" stroke="currentColor" stroke-width="1.8"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
-            <p>Данные из AD нужно передавать в <a href="https://itman.ru/cmdb">CMDB</a>/ITSM без дублей и расхождений</p>
+            <p>Данные из AD нужно передавать в CMDB/ITSM без дублей и расхождений — инвентаризация ИТ-активов домена</p>
           </article>
         </div>
       </div>
@@ -1148,14 +1197,14 @@
 
     <section class="how" id="how">
       <div class="container">
-        <h2 class="section-title">Как работает сбор данных из Active Directory</h2>
+        <h2 class="section-title">Инвентаризация Active Directory: как работает сбор данных</h2>
         <div class="how__grid">
           <div class="steps">
             <article class="step">
               <div class="step__num">1</div>
               <h3>Подключение к Active Directory</h3>
               <ul>
-                <li>Подключение к контроллеру домена по LDAP или LDAPS</li>
+                <li>Подключение к контроллеру домена по LDAP или LDAPS — сбор данных по LDAP/LDAPS</li>
                 <li>Выбор нужных OU (можно синхронизировать не весь домен, а отдельные организационные единицы)</li>
                 <li>Загрузка состава каталога и связей учётных записей с устройствами</li>
               </ul>
@@ -1174,7 +1223,7 @@
               <div class="step__num">3</div>
               <h3>Передача данных</h3>
               <ul>
-                <li>Готовые очищенные данные уходят в <a href="https://itman.ru/cmdb">CMDB</a>, ITSM, ITAM или SAM</li>
+                <li>Готовые очищенные данные уходят в CMDB, ITSM, ITAM или SAM</li>
               </ul>
             </article>
           </div>
@@ -1182,35 +1231,35 @@
           <div class="schema" aria-hidden="true">
             <svg viewBox="0 0 420 360" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="24" y="28" width="110" height="72" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
-              <text x="79" y="60" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">Domain Controller</text>
-              <text x="79" y="78" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">LDAP / LDAPS</text>
+              <text x="79" y="60" text-anchor="middle" fill="#666" font-family="Nekst Regular Web, Nekst, Arial" font-size="12" font-weight="600">Domain Controller</text>
+              <text x="79" y="78" text-anchor="middle" fill="#999" font-family="Nekst Regular Web, Nekst, Arial" font-size="11">LDAP / LDAPS</text>
 
               <rect x="155" y="28" width="110" height="72" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
-              <text x="210" y="60" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">Пользователи</text>
-              <text x="210" y="78" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">Устройства · SID</text>
+              <text x="210" y="60" text-anchor="middle" fill="#666" font-family="Nekst Regular Web, Nekst, Arial" font-size="12" font-weight="600">Пользователи</text>
+              <text x="210" y="78" text-anchor="middle" fill="#999" font-family="Nekst Regular Web, Nekst, Arial" font-size="11">Устройства · SID</text>
 
               <rect x="286" y="28" width="110" height="72" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
-              <text x="341" y="60" text-anchor="middle" fill="#666" font-family="Manrope, Arial" font-size="12" font-weight="600">Network scan</text>
-              <text x="341" y="78" text-anchor="middle" fill="#999" font-family="Manrope, Arial" font-size="11">вне AD</text>
+              <text x="341" y="60" text-anchor="middle" fill="#666" font-family="Nekst Regular Web, Nekst, Arial" font-size="12" font-weight="600">Network scan</text>
+              <text x="341" y="78" text-anchor="middle" fill="#999" font-family="Nekst Regular Web, Nekst, Arial" font-size="11">вне AD</text>
 
               <path d="M79 100v36M210 100v36M341 100v36" stroke="#D8D8D8" stroke-width="1.5"/>
               <path d="M79 136h262" stroke="#D8D8D8" stroke-width="1.5"/>
               <path d="M210 136v28" stroke="#E30613" stroke-width="2"/>
 
               <rect x="135" y="164" width="150" height="78" rx="14" fill="#E30613"/>
-              <text x="210" y="198" text-anchor="middle" fill="#fff" font-family="Manrope, Arial" font-size="14" font-weight="700">Инферит ИТМен</text>
-              <text x="210" y="218" text-anchor="middle" fill="#ffd0d3" font-family="Manrope, Arial" font-size="11">нормализация · сверка</text>
+              <text x="210" y="198" text-anchor="middle" fill="#fff" font-family="Nekst Regular Web, Nekst, Arial" font-size="14" font-weight="700">Инферит ИТМен</text>
+              <text x="210" y="218" text-anchor="middle" fill="#ffd0d3" font-family="Nekst Regular Web, Nekst, Arial" font-size="11">нормализация · сверка</text>
 
               <path d="M210 242v28" stroke="#E30613" stroke-width="2"/>
               <path d="M80 270h260" stroke="#D8D8D8" stroke-width="1.5"/>
               <path d="M80 270v18M210 270v18M340 270v18" stroke="#D8D8D8" stroke-width="1.5"/>
 
               <rect x="30" y="288" width="100" height="48" rx="10" stroke="#1a1a1a" stroke-width="1.6"/>
-              <text x="80" y="317" text-anchor="middle" fill="#1a1a1a" font-family="Manrope, Arial" font-size="13" font-weight="650">CMDB</text>
+              <text x="80" y="317" text-anchor="middle" fill="#1a1a1a" font-family="Nekst Regular Web, Nekst, Arial" font-size="13" font-weight="650">CMDB</text>
               <rect x="160" y="288" width="100" height="48" rx="10" stroke="#1a1a1a" stroke-width="1.6"/>
-              <text x="210" y="317" text-anchor="middle" fill="#1a1a1a" font-family="Manrope, Arial" font-size="13" font-weight="650">ITSM</text>
+              <text x="210" y="317" text-anchor="middle" fill="#1a1a1a" font-family="Nekst Regular Web, Nekst, Arial" font-size="13" font-weight="650">ITSM</text>
               <rect x="290" y="288" width="100" height="48" rx="10" stroke="#1a1a1a" stroke-width="1.6"/>
-              <text x="340" y="317" text-anchor="middle" fill="#1a1a1a" font-family="Manrope, Arial" font-size="13" font-weight="650">ITAM / SAM</text>
+              <text x="340" y="317" text-anchor="middle" fill="#1a1a1a" font-family="Nekst Regular Web, Nekst, Arial" font-size="13" font-weight="650">ITAM / SAM</text>
             </svg>
           </div>
         </div>
@@ -1220,7 +1269,7 @@
     <section class="collect" id="collect">
       <div class="container">
         <h2 class="section-title">Что ИТМен собирает из Active Directory</h2>
-        <p class="collect__intro">Каталог AD даёт актуальный список компьютеров в домене, пользователей и структуру OU. Этого мало для полной <a href="https://itman.ru/inventory">инвентаризации ИТ-активов</a>, поэтому ИТМен дополнительно опрашивает сами узлы.</p>
+        <p class="collect__intro">Каталог AD даёт список компьютеров, пользователей и структуру домена. Этого мало для полной инвентаризации ИТ-активов, поэтому ИТМен дополнительно опрашивает сами узлы.</p>
         <div class="collect__grid">
           <article class="collect-card collect-card--dark">
             <div class="collect-card__icon">
@@ -1228,7 +1277,7 @@
             </div>
             <h3>Из каталога Active Directory</h3>
             <ul>
-              <li>Компьютеры, пользователи, организационные единицы (OU) и группы</li>
+              <li>Компьютеры, пользователи, организационные единицы (OU) и группы — учёт компьютеров и пользователей в Active Directory</li>
               <li>Связь учётной записи пользователя с конкретным устройством</li>
               <li>Расположение, описание, базовая информация об ОС</li>
             </ul>
@@ -1240,7 +1289,7 @@
             <h3>С самих узлов</h3>
             <ul>
               <li>Конфигурация: процессор, память, диски, сетевые адаптеры (IP, MAC, DNS-имя)</li>
-              <li>Установленное ПО и версии — для контроля лицензий и учёта ITAM/SAM</li>
+              <li>Инвентаризация ПО на компьютерах домена и версии — для контроля лицензий и учёта ITAM/SAM</li>
               <li>Устройства, которые есть в сети, но не заведены в AD, и наоборот</li>
             </ul>
           </article>
@@ -1308,7 +1357,7 @@
           </details>
           <details>
             <summary>Является ли Инферит ИТМен системой CMDB?</summary>
-            <p>Нет. ИТМен собирает и нормализует данные, а затем наполняет ими CMDB и ITSM. Он не заменяет эти системы. Подробнее: <a href="https://itman.ru/cmdb">поставка данных в CMDB</a>.</p>
+            <p>Нет. ИТМен собирает и нормализует данные, а затем наполняет ими CMDB и ITSM. Он не заменяет эти системы.</p>
           </details>
           <details>
             <summary>Можно ли синхронизировать не весь домен, а отдельные OU?</summary>
@@ -1324,7 +1373,7 @@
           </details>
           <details>
             <summary>Чем ИТМен отличается от зарубежных программ инвентаризации?</summary>
-            <p>Это российское решение из реестра ПО — аналог Lansweeper и Total Network Inventory, работающий в закрытом контуре и без Open source-компонентов.</p>
+            <p>Это российская программа для инвентаризации Active Directory из реестра ПО — аналог Lansweeper и Total Network Inventory, работающий в закрытом контуре и без Open source-компонентов.</p>
           </details>
         </div>
       </div>
