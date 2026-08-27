@@ -684,12 +684,18 @@
       background: #f5f7f9;
       border: none;
       border-radius: 24px;
-      padding: 28px 20px;
+      padding: 20px;
       display: grid;
       place-items: center;
       min-height: 100%;
+      overflow: hidden;
     }
-    .schema svg { width: min(100%, 420px); height: auto; }
+    .schema img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+    }
 
     /* Collect */
     .collect__intro {
@@ -1257,7 +1263,7 @@
 
     <section class="how" id="how">
       <div class="container">
-        <h2 class="section-title">Инвентаризация Active Directory: как работает сбор данных</h2>
+        <h2 class="section-title">Как работает сбор данных из Active Directory</h2>
         <div class="how__grid">
           <div class="steps">
             <article class="step">
@@ -1266,9 +1272,9 @@
                 <h3>Подключение к Active Directory</h3>
               </div>
               <ul>
-                <li>Подключение к контроллеру домена по LDAP или LDAPS — сбор данных по LDAP/LDAPS</li>
-                <li>Выбор нужных OU (можно синхронизировать не весь домен, а отдельные организационные единицы)</li>
-                <li>Загрузка состава каталога и связей учётных записей с устройствами</li>
+                <li>Подключение к контроллеру домена по LDAP или LDAPS</li>
+                <li>Настройка фильтров для ограничения области сбора, в том числе по нужным организационным единицам (OU)</li>
+                <li>Получение объектов и доступных атрибутов Active Directory</li>
               </ul>
             </article>
             <article class="step">
@@ -1277,10 +1283,10 @@
                 <h3>Сбор и нормализация</h3>
               </div>
               <ul>
-                <li>Сбор карточек из каталога</li>
+                <li>Сбор данных из Active Directory</li>
                 <li>Дополнительный сбор данных с самих узлов</li>
-                <li>Сверка с сетью</li>
-                <li>Приведение всех данных к единому формату</li>
+                <li>Идентификация и объединение данных из разных источников</li>
+                <li>Приведение данных к единому формату</li>
               </ul>
             </article>
             <article class="step">
@@ -1289,44 +1295,13 @@
                 <h3>Передача данных</h3>
               </div>
               <ul>
-                <li>Готовые очищенные данные уходят в CMDB, ITSM, ITAM или SAM</li>
+                <li>Готовые данные могут передаваться в CMDB, ITSM, ITAM, SAM и другие внешние системы</li>
               </ul>
             </article>
           </div>
 
-          <div class="schema" aria-hidden="true">
-            <svg viewBox="0 0 420 360" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="24" y="28" width="110" height="72" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
-              <text x="79" y="60" text-anchor="middle" fill="#666" font-family="Nekst Regular Web, Nekst, Arial" font-size="12" font-weight="600">Domain Controller</text>
-              <text x="79" y="78" text-anchor="middle" fill="#999" font-family="Nekst Regular Web, Nekst, Arial" font-size="11">LDAP / LDAPS</text>
-
-              <rect x="155" y="28" width="110" height="72" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
-              <text x="210" y="60" text-anchor="middle" fill="#666" font-family="Nekst Regular Web, Nekst, Arial" font-size="12" font-weight="600">Пользователи</text>
-              <text x="210" y="78" text-anchor="middle" fill="#999" font-family="Nekst Regular Web, Nekst, Arial" font-size="11">Устройства · SID</text>
-
-              <rect x="286" y="28" width="110" height="72" rx="12" stroke="#D0D0D0" stroke-width="1.5"/>
-              <text x="341" y="60" text-anchor="middle" fill="#666" font-family="Nekst Regular Web, Nekst, Arial" font-size="12" font-weight="600">Network scan</text>
-              <text x="341" y="78" text-anchor="middle" fill="#999" font-family="Nekst Regular Web, Nekst, Arial" font-size="11">вне AD</text>
-
-              <path d="M79 100v36M210 100v36M341 100v36" stroke="#D8D8D8" stroke-width="1.5"/>
-              <path d="M79 136h262" stroke="#D8D8D8" stroke-width="1.5"/>
-              <path d="M210 136v28" stroke="#E30613" stroke-width="2"/>
-
-              <rect x="135" y="164" width="150" height="78" rx="14" fill="#E30613"/>
-              <text x="210" y="198" text-anchor="middle" fill="#fff" font-family="Nekst Regular Web, Nekst, Arial" font-size="14" font-weight="700">Инферит ИТМен</text>
-              <text x="210" y="218" text-anchor="middle" fill="#ffd0d3" font-family="Nekst Regular Web, Nekst, Arial" font-size="11">нормализация · сверка</text>
-
-              <path d="M210 242v28" stroke="#E30613" stroke-width="2"/>
-              <path d="M80 270h260" stroke="#D8D8D8" stroke-width="1.5"/>
-              <path d="M80 270v18M210 270v18M340 270v18" stroke="#D8D8D8" stroke-width="1.5"/>
-
-              <rect x="30" y="288" width="100" height="48" rx="10" stroke="#1a1a1a" stroke-width="1.6"/>
-              <text x="80" y="317" text-anchor="middle" fill="#1a1a1a" font-family="Nekst Regular Web, Nekst, Arial" font-size="13" font-weight="650">CMDB</text>
-              <rect x="160" y="288" width="100" height="48" rx="10" stroke="#1a1a1a" stroke-width="1.6"/>
-              <text x="210" y="317" text-anchor="middle" fill="#1a1a1a" font-family="Nekst Regular Web, Nekst, Arial" font-size="13" font-weight="650">ITSM</text>
-              <rect x="290" y="288" width="100" height="48" rx="10" stroke="#1a1a1a" stroke-width="1.6"/>
-              <text x="340" y="317" text-anchor="middle" fill="#1a1a1a" font-family="Nekst Regular Web, Nekst, Arial" font-size="13" font-weight="650">ITAM / SAM</text>
-            </svg>
+          <div class="schema">
+            <img src="assets/ad-how-schema.jpg" alt="Схема сбора данных: Active Directory и устройства → LDAP-сбор и локальная/сетевая инвентаризация → Инферит ИТМен → результат" width="1024" height="546" loading="lazy" />
           </div>
         </div>
       </div>
