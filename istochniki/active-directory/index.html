@@ -855,7 +855,8 @@
 
     /* Collect */
     .collect__intro {
-      max-width: 760px;
+      max-width: none;
+      width: 100%;
       font-size: 17px;
       color: #444;
       margin-bottom: 28px;
@@ -935,22 +936,15 @@
       min-width: 0;
       display: flex;
       flex-direction: column;
-      gap: 6px;
-    }
-    .collect-note__label {
-      font-family: var(--font-semibold);
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--red);
+      gap: 0;
+      padding-top: 2px;
     }
     .collect-note__text {
       margin: 0;
       font-size: 16px;
       line-height: 1.5;
       color: var(--black);
-      max-width: 920px;
+      max-width: none;
     }
 
     /* Security */
@@ -1656,10 +1650,9 @@
             </ul>
           </article>
         </div>
-        <aside class="collect-note" aria-label="Важное уточнение">
+        <aside class="collect-note" aria-label="Сопоставление данных">
           <div class="collect-note__mark" aria-hidden="true"></div>
           <div class="collect-note__body">
-            <div class="collect-note__label">Важно</div>
             <p class="collect-note__text">Сопоставление данных из разных источников позволяет учитывать как устройства из Active Directory, так и оборудование, обнаруженное в инфраструктуре другими способами.</p>
           </div>
         </aside>
