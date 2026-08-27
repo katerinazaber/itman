@@ -204,9 +204,11 @@
       );
 
       var rows = [
-        ["Рабочие места", c.inputs.endpoints.toLocaleString("ru-RU")],
-        ["Сотрудники ИТ", c.inputs.itStaff.toLocaleString("ru-RU")],
-        ["Бюджет на ПО и лицензии", f.budget + " / год"],
+        ["Устройств в инфраструктуре", c.inputs.devices.toLocaleString("ru-RU")],
+        ["Из них ПК и серверы", c.computed.computeEp.toLocaleString("ru-RU")],
+        ["Виртуализация серверов", c.computed.virtLabel],
+        ["Сотрудники учёта (FTE)", f.fte],
+        ["Продление / докупка ПО", c.inputs.extendPct + "% / " + c.inputs.buyPct + "%"],
       ];
       rows.forEach(function (row, i) {
         var y = 1.7 + i * 0.55;
@@ -321,16 +323,16 @@
         {
           t: "Ваши исходные данные",
           v:
-            c.inputs.endpoints.toLocaleString("ru-RU") +
-            " РМ · " +
-            c.inputs.itStaff +
-            " ИТ · " +
+            c.inputs.devices.toLocaleString("ru-RU") +
+            " устройств · " +
+            f.fte +
+            " FTE · " +
             f.budget,
           fill: WHITE,
         },
         {
-          t: "Модель эффекта ITAM",
-          v: "3 направления оптимизации",
+          t: "Модель эффекта ITAM (Base 2026)",
+          v: "4 направления оптимизации",
           fill: PAPER,
         },
         {
@@ -384,9 +386,9 @@
       });
 
       var factors = [
-        ["01", "Масштаб инфраструктуры", c.inputs.endpoints.toLocaleString("ru-RU") + " рабочих мест"],
-        ["02", "Ресурсы ИТ-команды", c.inputs.itStaff + " сотрудников"],
-        ["03", "Текущие расходы на ПО", f.budget + " / год"],
+        ["01", "Масштаб инфраструктуры", c.inputs.devices.toLocaleString("ru-RU") + " устройств"],
+        ["02", "Ресурсы команды учёта", f.fte + " FTE"],
+        ["03", "Оценённый бюджет на ПО", f.budget + " / год"],
       ];
       factors.forEach(function (item, i) {
         var x = 0.5 + i * 4.2;
@@ -423,7 +425,7 @@
       });
 
       s.addText(
-        "Итог складывается из трёх направлений оптимизации; точные значения определяются после инвентаризации.",
+        "Итог складывается из четырёх направлений оптимизации; точные значения определяются после инвентаризации.",
         {
           x: 0.5,
           y: 5.6,
@@ -448,34 +450,34 @@
       );
 
       n.directions.forEach(function (d, i) {
-        var y = 1.65 + i * 1.55;
-        addCard(pptx, s, { x: 0.5, y: y, w: 12.3, h: 1.4, fill: WHITE, line: LINE });
+        var y = 1.5 + i * 1.28;
+        addCard(pptx, s, { x: 0.5, y: y, w: 12.3, h: 1.15, fill: WHITE, line: LINE });
         s.addText("0" + (i + 1), {
           x: 0.7,
-          y: y + 0.2,
+          y: y + 0.13,
           w: 0.6,
-          h: 0.3,
-          fontSize: 14,
+          h: 0.28,
+          fontSize: 13,
           bold: true,
           color: RED,
           fontFace: "Arial",
         });
         s.addText(d.title, {
           x: 1.4,
-          y: y + 0.15,
+          y: y + 0.1,
           w: 7.5,
-          h: 0.35,
-          fontSize: 16,
+          h: 0.32,
+          fontSize: 15,
           bold: true,
           color: INK,
           fontFace: "Arial",
         });
         s.addText(d.formatted + " / год", {
           x: 9.2,
-          y: y + 0.15,
+          y: y + 0.1,
           w: 3.3,
-          h: 0.35,
-          fontSize: 18,
+          h: 0.32,
+          fontSize: 17,
           bold: true,
           color: RED,
           fontFace: "Arial",
@@ -483,19 +485,19 @@
         });
         s.addText(d.formula, {
           x: 1.4,
-          y: y + 0.55,
+          y: y + 0.45,
           w: 11,
-          h: 0.3,
-          fontSize: 12,
+          h: 0.32,
+          fontSize: 10.5,
           color: MUTED,
           fontFace: "Arial",
         });
         s.addText(d.verification, {
           x: 1.4,
-          y: y + 0.9,
+          y: y + 0.78,
           w: 11,
-          h: 0.3,
-          fontSize: 12,
+          h: 0.32,
+          fontSize: 11,
           color: INK,
           fontFace: "Arial",
         });
