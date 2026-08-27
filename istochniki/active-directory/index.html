@@ -947,7 +947,6 @@
       max-width: none;
     }
 
-    /* Security */
     /* Security — тёмный стиль как на itman.ru */
     .security {
       padding: 80px 0;
@@ -962,10 +961,13 @@
     .security .section-title {
       color: #fff;
       margin-bottom: 48px;
+      max-width: 820px;
+      margin-left: auto;
+      margin-right: auto;
     }
     .security__grid {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 20px;
     }
     .sec-item {
@@ -977,29 +979,30 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 24px;
-      min-height: 220px;
-    }
-    .sec-item__icon-wrap {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      background: var(--red);
-      display: grid;
-      place-items: center;
-      flex: none;
+      gap: 20px;
+      min-height: 260px;
     }
     .sec-item__icon {
-      width: 24px;
-      height: 24px;
+      width: 48px;
+      height: 48px;
+      display: block;
+      flex: none;
+    }
+    .sec-item h3 {
+      font-family: var(--font-semibold);
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.3;
       color: #fff;
+      margin: 0;
     }
     .sec-item p {
       font-family: var(--font-text);
-      font-size: 15px;
+      font-size: 16px;
       line-height: 1.45;
       font-weight: 400;
       color: #fff;
+      margin: 0;
     }
 
     /* FAQ */
@@ -1660,37 +1663,27 @@
 
     <section class="security" id="security">
       <div class="container">
-        <h2 class="section-title section-title--center">Соответствие требованиям информационной безопасности</h2>
+        <h2 class="section-title section-title--center">Инферит ИТМен соответствует требованиям<br>информационной безопасности</h2>
         <div class="security__grid">
           <article class="sec-item">
-            <div class="sec-item__icon-wrap">
-              <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 4v5c0 5-3.4 8.4-8 9-4.6-.6-8-4-8-9V7l8-4z" stroke="currentColor" stroke-width="1.7"/><path d="M9.5 12l2 2 3.5-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <p>Работает в закрытых периметрах, без выхода инфраструктуры в интернет</p>
+            <img class="sec-item__icon" src="assets/security/icon-restrictions.svg" alt="" width="48" height="48" />
+            <h3>Сбор данных при ограничениях</h3>
+            <p>Работает в условиях закрытых периметров, с соблюдением строгих политик Заказчиков<br>в области информационной безопасности</p>
           </article>
           <article class="sec-item">
-            <div class="sec-item__icon-wrap">
-              <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V8a4 4 0 018 0v2" stroke="currentColor" stroke-width="1.7"/></svg>
-            </div>
-            <p>Подключение к каталогу по защищённому каналу, включая LDAPS</p>
+            <img class="sec-item__icon" src="assets/security/icon-protect.svg" alt="" width="48" height="48" />
+            <h3>Защита данных</h3>
+            <p>Поддержка защищенных протоколов шифрования по ГОСТ для безопасной передачи данных</p>
           </article>
           <article class="sec-item">
-            <div class="sec-item__icon-wrap">
-              <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.7"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-            </div>
-            <p>Поддержка протоколов шифрования по ГОСТ</p>
+            <img class="sec-item__icon" src="assets/security/icon-registry.svg" alt="" width="48" height="48" />
+            <h3>В реестре Российского ПО</h3>
+            <p>Зарегистрирован<br>в государственном реестре программ для ЭВМ (№2016662248)<br>и включен в реестр российского ПО (Реестровая запись №12289<br>от 14.12.2021)</p>
           </article>
           <article class="sec-item">
-            <div class="sec-item__icon-wrap">
-              <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.7"/><path d="M8 12.5l2.5 2.5L16 9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <p>В реестре российского ПО: №2016662248, запись №12289 от 14.12.2021</p>
-          </article>
-          <article class="sec-item">
-            <div class="sec-item__icon-wrap">
-              <svg class="sec-item__icon" viewBox="0 0 24 24" fill="none"><path d="M4 18V6h6v12H4zm10 0V9h6v9h-6z" stroke="currentColor" stroke-width="1.7"/></svg>
-            </div>
-            <p>Разработка без Open source, вся команда и инфраструктура в России</p>
+            <img class="sec-item__icon" src="assets/security/icon-russia.svg" alt="" width="48" height="48" />
+            <h3>Сделано в России</h3>
+            <p>Решение без использования<br>Open source, команда разработки, серверная архитектура и средства хранения и компиляции кода<br>в России</p>
           </article>
         </div>
       </div>
