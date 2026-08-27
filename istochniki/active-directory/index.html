@@ -681,20 +681,127 @@
     }
 
     .schema {
-      position: relative;
       background: #fff;
       min-height: 0;
-      /* только abspos внутри — высота ряда = колонка шагов */
-      overflow: hidden;
-    }
-    .schema img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
       height: 100%;
-      object-fit: contain;
-      object-position: top center;
+      display: flex;
+      flex-direction: column;
+    }
+    .schema-diagram {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 4px;
+      height: 100%;
+    }
+    .sch-card {
+      flex: 1 1 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+      border: 1px solid #e4e7ec;
+      border-radius: 14px;
+      box-shadow: 0 2px 10px rgba(26, 26, 26, 0.06);
+      padding: 12px 14px;
+      min-height: 0;
+    }
+    .sch-card__icon {
+      flex: none;
+      width: 36px;
+      height: 36px;
+      color: var(--red);
+      display: grid;
+      place-items: center;
+    }
+    .sch-card__icon svg {
+      width: 32px;
+      height: 32px;
+    }
+    .sch-card__body {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .sch-card__title {
+      font-family: var(--font-semibold);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--black);
+    }
+    .sch-card__line {
+      height: 1px;
+      background: #e8eaee;
+      width: 100%;
+    }
+    .sch-card__sub {
+      font-size: 13px;
+      line-height: 1.3;
+      color: #333;
+    }
+    .sch-card__list {
+      display: grid;
+      gap: 3px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .sch-card__list li {
+      position: relative;
+      padding-left: 12px;
+      font-size: 13px;
+      line-height: 1.3;
+      color: #1a1a1a;
+    }
+    .sch-card__list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: .45em;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--red);
+    }
+    .sch-card--hub {
+      background: var(--red);
+      border-color: var(--red);
+      box-shadow: 0 4px 14px rgba(227, 6, 19, 0.25);
+      color: #fff;
+    }
+    .sch-card--hub .sch-card__icon { color: #fff; }
+    .sch-card--hub .sch-card__title {
+      color: #fff;
+      font-size: 15px;
+    }
+    .sch-hub-row {
+      flex: 1.15 1 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) 22px minmax(0, 1fr);
+      align-items: stretch;
+      gap: 6px;
+      min-height: 0;
+    }
+    .sch-hub-row .sch-card { flex: none; height: 100%; }
+    .sch-arrow {
+      flex: 0 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #b0b5bd;
+    }
+    .sch-arrow svg {
+      width: 14px;
+      height: 14px;
       display: block;
+    }
+    .sch-arrow--side {
+      flex: none;
+      align-self: center;
     }
 
     /* Collect */
@@ -974,19 +1081,13 @@
       .cta__box,
       .collect__grid { grid-template-columns: 1fr; }
       .schema {
-        position: relative;
-        overflow: visible;
-        min-height: 0;
-        aspect-ratio: 568 / 1024;
-        max-width: 420px;
+        height: auto;
+        max-width: 520px;
         margin-inline: auto;
         width: 100%;
       }
-      .schema img {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
+      .schema-diagram {
+        min-height: 560px;
       }
       .hero__title { max-width: none; }
       .hero__visual {
@@ -1315,8 +1416,92 @@
             </article>
           </div>
 
-          <div class="schema">
-            <img src="assets/ad-how-schema.jpg?v=4" alt="Схема сбора данных: Active Directory и устройства → LDAP-сбор и локальная/сетевая инвентаризация → Инферит ИТМен → результат" width="568" height="1024" loading="lazy" />
+          <div class="schema" aria-label="Схема сбора данных из Active Directory">
+            <div class="schema-diagram">
+              <article class="sch-card">
+                <div class="sch-card__icon" aria-hidden="true">
+                  <svg viewBox="0 0 32 32" fill="none"><rect x="5" y="6" width="8" height="20" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="15" y="6" width="8" height="20" rx="1.5" stroke="currentColor" stroke-width="1.7"/><path d="M7.5 10h3M7.5 14h3M7.5 18h3M17.5 10h3M17.5 14h3M17.5 18h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M25 12h3v8h-3" stroke="currentColor" stroke-width="1.6"/><path d="M24 14h2M24 18h2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                </div>
+                <div class="sch-card__body">
+                  <div class="sch-card__title">Active Directory LDAP-каталог</div>
+                  <div class="sch-card__line"></div>
+                  <div class="sch-card__sub">Пользователи, устройства</div>
+                </div>
+              </article>
+
+              <div class="sch-arrow" aria-hidden="true">
+                <svg viewBox="0 0 14 14" fill="none"><path d="M7 2v9M3.5 8.5L7 12l3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+
+              <article class="sch-card">
+                <div class="sch-card__icon" aria-hidden="true">
+                  <svg viewBox="0 0 32 32" fill="none"><rect x="4" y="6" width="7" height="18" rx="1.4" stroke="currentColor" stroke-width="1.7"/><rect x="12.5" y="6" width="7" height="18" rx="1.4" stroke="currentColor" stroke-width="1.7"/><circle cx="23" cy="20" r="5" stroke="currentColor" stroke-width="1.7"/><path d="M26.5 23.5L29 26" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M6 10.5h3M6 14.5h3M6 18.5h3M14.5 10.5h3M14.5 14.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                </div>
+                <div class="sch-card__body">
+                  <div class="sch-card__title">LDAP-сбор</div>
+                </div>
+              </article>
+
+              <div class="sch-arrow" aria-hidden="true">
+                <svg viewBox="0 0 14 14" fill="none"><path d="M7 2v9M3.5 8.5L7 12l3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+
+              <div class="sch-hub-row">
+                <article class="sch-card sch-card--hub">
+                  <div class="sch-card__icon" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="8" r="3.2" stroke="currentColor" stroke-width="1.7"/><circle cx="8" cy="23" r="3.2" stroke="currentColor" stroke-width="1.7"/><circle cx="24" cy="23" r="3.2" stroke="currentColor" stroke-width="1.7"/><path d="M14 10.5L10 20.5M18 10.5l4 10M11.2 23h9.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                  </div>
+                  <div class="sch-card__body">
+                    <div class="sch-card__title">Инферит ИТМен</div>
+                  </div>
+                </article>
+                <div class="sch-arrow sch-arrow--side" aria-hidden="true">
+                  <svg viewBox="0 0 14 14" fill="none"><path d="M2 7h9M8.5 3.5L12 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <article class="sch-card sch-card--result">
+                  <div class="sch-card__icon" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" fill="none"><rect x="8" y="4" width="16" height="24" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M12 4.5h8v3h-8z" stroke="currentColor" stroke-width="1.5"/><path d="M12 14l2 2 4-4M12 20l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <div class="sch-card__body">
+                    <div class="sch-card__title">Результат</div>
+                    <div class="sch-card__line"></div>
+                    <ul class="sch-card__list">
+                      <li>Пользователи</li>
+                      <li>Устройства</li>
+                      <li>Связь данных</li>
+                    </ul>
+                  </div>
+                </article>
+              </div>
+
+              <div class="sch-arrow" aria-hidden="true">
+                <svg viewBox="0 0 14 14" fill="none"><path d="M7 12V3M3.5 5.5L7 2l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+
+              <article class="sch-card">
+                <div class="sch-card__icon" aria-hidden="true">
+                  <svg viewBox="0 0 32 32" fill="none"><rect x="4" y="6" width="7" height="18" rx="1.4" stroke="currentColor" stroke-width="1.7"/><rect x="12.5" y="6" width="7" height="18" rx="1.4" stroke="currentColor" stroke-width="1.7"/><circle cx="24" cy="21" r="5" stroke="currentColor" stroke-width="1.7"/><path d="M22.2 21h3.6M24 19.2v3.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M6 10.5h3M6 14.5h3M14.5 10.5h3M14.5 14.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                </div>
+                <div class="sch-card__body">
+                  <div class="sch-card__title">Локальная/сетевая инвентаризация</div>
+                </div>
+              </article>
+
+              <div class="sch-arrow" aria-hidden="true">
+                <svg viewBox="0 0 14 14" fill="none"><path d="M7 12V3M3.5 5.5L7 2l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+
+              <article class="sch-card">
+                <div class="sch-card__icon" aria-hidden="true">
+                  <svg viewBox="0 0 32 32" fill="none"><rect x="5" y="8" width="22" height="15" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M10 26h12M16 23v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M9 12h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </div>
+                <div class="sch-card__body">
+                  <div class="sch-card__title">Устройства</div>
+                  <div class="sch-card__line"></div>
+                  <div class="sch-card__sub">Linux/Windows</div>
+                </div>
+              </article>
+            </div>
           </div>
         </div>
       </div>
