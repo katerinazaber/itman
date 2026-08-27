@@ -911,6 +911,48 @@
     }
     .collect-card--light li::before { background: var(--red); opacity: 1; }
 
+    /* Яркая врезка под карточками */
+    .collect-note {
+      margin-top: 24px;
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      background: linear-gradient(135deg, #fff5f5 0%, #ffe8ea 100%);
+      border: 1px solid #f5c2c6;
+      border-radius: 20px;
+      padding: 22px 26px;
+      box-shadow: 0 8px 24px rgba(227, 6, 19, 0.06);
+    }
+    .collect-note__mark {
+      flex: none;
+      width: 4px;
+      align-self: stretch;
+      border-radius: 4px;
+      background: var(--red);
+      min-height: 48px;
+    }
+    .collect-note__body {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .collect-note__label {
+      font-family: var(--font-semibold);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+    .collect-note__text {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--black);
+      max-width: 920px;
+    }
+
     /* Security */
     /* Security — тёмный стиль как на itman.ru */
     .security {
@@ -1519,7 +1561,7 @@
 
                 <div class="sch-hub-wrap">
                   <article class="sch-card sch-card--hub">
-                    <img class="sch-hub-logo" src="assets/logo-itman-white.svg" alt="Инферит ИТМен" width="220" height="40" />
+                    <img class="sch-hub-logo" src="assets/logo-itman-white.svg?v=2" alt="Инферит ИТМен" width="220" height="40" />
                   </article>
                   <div class="sch-arrow sch-arrow--side" aria-hidden="true">
                     <svg width="26" height="20" viewBox="0 0 26 20" fill="none">
@@ -1580,7 +1622,7 @@
     <section class="collect" id="collect">
       <div class="container">
         <h2 class="section-title">Что ИТМен собирает из Active Directory</h2>
-        <p class="collect__intro">Каталог AD даёт список компьютеров, пользователей и структуру домена. Этого мало для полной инвентаризации ИТ-активов, поэтому ИТМен дополнительно опрашивает сами узлы.</p>
+        <p class="collect__intro">Каталог AD предоставляет список компьютеров, пользователей и структуру домена. Этого мало для полной инвентаризации ИТ-активов, поэтому ИТМен дополнительно опрашивает сами узлы.</p>
         <div class="collect__grid">
           <article class="collect-card collect-card--dark">
             <div class="collect-card__icon">
@@ -1588,9 +1630,9 @@
             </div>
             <h3>Из каталога Active Directory</h3>
             <ul>
-              <li>Компьютеры, пользователи, организационные единицы (OU) и группы — учёт компьютеров и пользователей в Active Directory</li>
-              <li>Связь учётной записи пользователя с конкретным устройством</li>
-              <li>Расположение, описание, базовая информация об ОС</li>
+              <li>Компьютеры, пользователи и доступные сведения каталога, включая OU и группы</li>
+              <li>Доступные атрибуты пользователей, компьютеров и других объектов Active Directory</li>
+              <li>Расположение, описание, информация об ОС и другие доступные атрибуты, если они заполнены в Active Directory</li>
             </ul>
           </article>
           <article class="collect-card collect-card--red">
@@ -1600,8 +1642,7 @@
             <h3>С самих узлов</h3>
             <ul>
               <li>Конфигурация: процессор, память, диски, сетевые адаптеры (IP, MAC, DNS-имя)</li>
-              <li>Инвентаризация ПО на компьютерах домена и версии — для контроля лицензий и учёта ITAM/SAM</li>
-              <li>Устройства, которые есть в сети, но не заведены в AD, и наоборот</li>
+              <li>Установленное ПО и версии — для контроля лицензий и учёта ITAM/SAM</li>
             </ul>
           </article>
           <article class="collect-card collect-card--light">
@@ -1611,10 +1652,17 @@
             <h3>Работа с масштабом</h3>
             <ul>
               <li>Несколько доменов и лесов одновременно, в единой базе</li>
-              <li>Агентный и безагентный сбор: WinRM, WMI, SSH, SNMP</li>
+              <li>Дополнительная агентская и сетевая инвентаризация устройств, включая использование WinRM, WMI, SSH и SNMP</li>
             </ul>
           </article>
         </div>
+        <aside class="collect-note" aria-label="Важное уточнение">
+          <div class="collect-note__mark" aria-hidden="true"></div>
+          <div class="collect-note__body">
+            <div class="collect-note__label">Важно</div>
+            <p class="collect-note__text">Сопоставление данных из разных источников позволяет учитывать как устройства из Active Directory, так и оборудование, обнаруженное в инфраструктуре другими способами.</p>
+          </div>
+        </aside>
       </div>
     </section>
 
