@@ -625,7 +625,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 28px;
-      align-items: start;
+      align-items: stretch;
     }
     .steps { display: grid; gap: 16px; }
     .step {
@@ -681,15 +681,19 @@
     }
 
     .schema {
+      position: relative;
       background: #fff;
-      border: none;
-      border-radius: 0;
-      padding: 0;
-      display: block;
+      min-height: 0;
+      /* только abspos внутри — высота ряда = колонка шагов */
+      overflow: hidden;
     }
     .schema img {
+      position: absolute;
+      inset: 0;
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: contain;
+      object-position: top center;
       display: block;
     }
 
@@ -969,6 +973,21 @@
       .hero__grid,
       .cta__box,
       .collect__grid { grid-template-columns: 1fr; }
+      .schema {
+        position: relative;
+        overflow: visible;
+        min-height: 0;
+        aspect-ratio: 568 / 1024;
+        max-width: 420px;
+        margin-inline: auto;
+        width: 100%;
+      }
+      .schema img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
       .hero__title { max-width: none; }
       .hero__visual {
         min-height: 360px;
@@ -1297,7 +1316,7 @@
           </div>
 
           <div class="schema">
-            <img src="assets/ad-how-schema.jpg?v=3" alt="Схема сбора данных: Active Directory и устройства → LDAP-сбор и локальная/сетевая инвентаризация → Инферит ИТМен → результат" width="568" height="1024" loading="lazy" />
+            <img src="assets/ad-how-schema.jpg?v=4" alt="Схема сбора данных: Active Directory и устройства → LDAP-сбор и локальная/сетевая инвентаризация → Инферит ИТМен → результат" width="568" height="1024" loading="lazy" />
           </div>
         </div>
       </div>
