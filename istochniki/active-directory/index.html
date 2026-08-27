@@ -829,88 +829,228 @@
       max-width: 720px;
     }
 
-    /* CTA */
+    /* CTA — темный блок как на itman.ru, типографика лендинга */
     .cta {
-      background: linear-gradient(180deg, #fff 0%, #fafafa 100%);
+      background: #000;
+      color: #fff;
     }
-    .cta__box {
+    .cta__grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 40px;
+      gap: 48px;
       align-items: start;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 40px;
-      background: #fff;
-      box-shadow: var(--shadow);
     }
     .cta__title {
-      font-size: clamp(24px, 2.6vw, 32px);
-      font-weight: 700;
+      font-family: var(--font-semibold);
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 600;
       letter-spacing: -.02em;
-      margin-bottom: 12px;
       line-height: 1.2;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+    .cta__title em {
+      font-style: normal;
+      color: #dd0c29;
     }
     .cta__text {
-      color: #555;
-      font-size: 15px;
-      margin-bottom: 24px;
+      font-size: 17px;
       line-height: 1.55;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 28px;
+      max-width: 520px;
     }
-    .cta__contacts { display: grid; gap: 10px; }
-    .cta__contacts a {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 600;
-      font-size: 16px;
+    .cta__visual {
+      width: min(100%, 462px);
+      border-radius: 16px;
+      overflow: hidden;
     }
-    .cta__contacts a:hover { color: var(--red); }
-    .form { display: grid; gap: 12px; }
+    .cta__visual img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .form {
+      display: grid;
+      gap: 12px;
+    }
     .form input,
     .form textarea,
     .form select {
       width: 100%;
-      border: 1px solid var(--border);
+      border: 1px solid #2a2a2a;
       border-radius: 10px;
-      padding: 14px 14px;
+      padding: 14px 16px;
       font: inherit;
       font-size: 14px;
-      background: #fff;
-      color: var(--black);
+      background: #151515;
+      color: #fff;
       outline: none;
-      transition: border-color .15s;
+      transition: border-color .15s, background .15s;
     }
+    .form input::placeholder,
+    .form textarea::placeholder {
+      color: #868b8f;
+    }
+    .form select {
+      color: #868b8f;
+      background: #191919;
+      cursor: pointer;
+    }
+    .form select option { color: #fff; background: #191919; }
     .form input:focus,
     .form textarea:focus,
-    .form select:focus { border-color: #f0a0a5; }
-    .form textarea { min-height: 96px; resize: vertical; }
+    .form select:focus {
+      border-color: #444;
+      background: #1a1a1a;
+    }
+    .form textarea { min-height: 110px; resize: vertical; }
     .form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .form__check {
       display: flex;
       gap: 10px;
       align-items: flex-start;
-      font-size: 12px;
-      color: var(--muted);
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.72);
       line-height: 1.4;
     }
-    .form__check input { margin-top: 2px; accent-color: var(--red); }
-    .form__check a { color: var(--red); text-decoration: underline; }
-
-    /* Footer */
-    .footer {
-      border-top: 1px solid var(--border);
-      padding: 28px 0 40px;
-      color: var(--muted);
-      font-size: 13px;
+    .form__check input {
+      width: 18px;
+      height: 18px;
+      margin-top: 1px;
+      flex: none;
+      accent-color: var(--red);
+      border: none;
+      padding: 0;
+      background: transparent;
     }
-    .footer__inner {
+    .form__check a {
+      color: #fff;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .form .btn {
+      width: 100%;
+      margin-top: 4px;
+    }
+
+    /* Footer — темный, как на itman.ru */
+    .footer {
+      background: #000;
+      color: #868b8f;
+      padding: 0 0 40px;
+      border-top: none;
+      font-size: 14px;
+    }
+    .footer__top {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.9fr) 1.6fr;
+      gap: 40px;
+      padding-top: 8px;
+      padding-bottom: 48px;
+    }
+    .footer__brand {
       display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .footer__logo {
+      height: 40px;
+      width: auto;
+      max-width: 220px;
+    }
+    .footer__note {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.45;
+      color: #868b8f;
+      max-width: 280px;
+    }
+    .footer__cols {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 24px;
+    }
+    .footer__col-title {
+      font-family: var(--font-medium);
+      font-size: 15px;
+      font-weight: 500;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    .footer__col {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .footer__col a,
+    .footer__col span {
+      color: #868b8f;
+      font-size: 14px;
+      line-height: 1.4;
+      transition: color .15s;
+    }
+    .footer__col a:hover { color: #fff; }
+    .footer__legal {
+      margin: 0 0 24px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #868b8f;
+      max-width: 100%;
+    }
+    .footer__legal a {
+      color: #868b8f;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .footer__legal a:hover { color: #fff; }
+    .footer__rule {
+      height: 1px;
+      background: #282828;
+      border: 0;
+      margin: 0 0 28px;
+    }
+    .footer__bottom {
+      display: flex;
+      align-items: center;
       justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .footer__copy {
+      display: flex;
+      align-items: center;
       gap: 20px;
       flex-wrap: wrap;
     }
-    .footer a:hover { color: var(--red); }
+    .footer__softline {
+      height: 22px;
+      width: auto;
+    }
+    .footer__copy p {
+      margin: 0;
+      font-size: 14px;
+      color: #868b8f;
+    }
+    .footer__socials {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .footer__socials a {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      opacity: .9;
+      transition: opacity .15s;
+    }
+    .footer__socials a:hover { opacity: 1; }
+    .footer__socials img {
+      width: 32px;
+      height: 32px;
+    }
 
     .to-top {
       position: fixed;
@@ -919,15 +1059,15 @@
       width: 44px;
       height: 44px;
       border-radius: 50%;
-      border: 1px solid var(--border);
-      background: #fff;
+      border: 1px solid #333;
+      background: #1a1a1a;
       display: grid;
       place-items: center;
       box-shadow: var(--shadow);
-      color: #777;
+      color: #bbb;
       z-index: 40;
     }
-    .to-top:hover { color: var(--red); border-color: #f0c4c7; }
+    .to-top:hover { color: #fff; border-color: var(--red); }
 
     @media (max-width: 1100px) {
       .nav { display: none; }
@@ -943,10 +1083,12 @@
       }
       .fit__grid { grid-template-columns: repeat(2, 1fr); }
       .security__grid { grid-template-columns: repeat(2, 1fr); }
+      .footer__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .footer__top { grid-template-columns: 1fr; }
       .sec-item { min-height: auto; }
       .how__grid,
       .hero__grid,
-      .cta__box,
+      .cta__grid,
       .collect__grid { grid-template-columns: 1fr; }
       .schema {
         height: auto;
@@ -1000,7 +1142,10 @@
       .fit__grid { grid-template-columns: 1fr; }
       .security__grid,
       .form__row { grid-template-columns: 1fr; }
-      .cta__box { padding: 24px; }
+      .cta__visual { display: none; }
+      .footer__top,
+      .footer__cols { grid-template-columns: 1fr; }
+      .footer__cols { gap: 28px; }
       .header__inner { min-height: 64px; }
       .btn--dark { display: none; }
     }
@@ -1461,19 +1606,12 @@
 
     <section class="cta" id="cta">
       <div class="container">
-        <div class="cta__box">
+        <div class="cta__grid">
           <div>
-            <h2 class="cta__title">Есть вопросы по продукту или хотите записаться на демо?</h2>
-            <p class="cta__text">Отправьте заявку. Ответим на вопросы и покажем возможности продукта с учетом ваших бизнес-задач и отраслевой специфики.</p>
-            <div class="cta__contacts">
-              <a href="tel:88007078553">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.5 3 3.6 5.1 6.6 6.6l2.2-2.2a1.2 1.2 0 011.2-.3c1.3.4 2.7.7 4.1.7a1.2 1.2 0 011.2 1.2V20a1.2 1.2 0 01-1.2 1.2A17.2 17.2 0 012.8 4.2 1.2 1.2 0 014 3h3.2A1.2 1.2 0 018.4 4.2c0 1.4.2 2.8.7 4.1a1.2 1.2 0 01-.3 1.2L6.6 10.8z" fill="currentColor"/></svg>
-                8 800 707 85 53
-              </a>
-              <a href="mailto:info@itman.ru">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-                info@itman.ru
-              </a>
+            <h2 class="cta__title">Есть вопросы по продукту или хотите<em> записаться на демо?</em></h2>
+            <p class="cta__text">Отправьте заявку! Ответим на вопросы и покажем возможности продукта с учетом ваших бизнес-задач и отраслевой специфики</p>
+            <div class="cta__visual">
+              <img src="assets/cta-demo.png" width="1386" height="840" alt="Инферит ИТМен — демо интерфейса" decoding="async" loading="lazy" />
             </div>
           </div>
           <form class="form" action="#" method="post" onsubmit="event.preventDefault(); alert('Это макет страницы. Форма не отправляется.');">
@@ -1494,7 +1632,7 @@
             <textarea name="comment" placeholder="Комментарий"></textarea>
             <label class="form__check">
               <input type="checkbox" required />
-              <span>Я даю согласие на обработку <a href="https://itman.ru/" target="_blank" rel="noopener">персональных данных</a></span>
+              <span>Я даю согласие на обработку <a href="https://itman.ru/soglasie" target="_blank" rel="noopener">персональных данных</a></span>
             </label>
             <button class="btn btn--red btn--lg" type="submit">Оставить заявку</button>
           </form>
@@ -1504,9 +1642,80 @@
   </main>
 
   <footer class="footer">
-    <div class="container footer__inner">
-      <p>© 2011–2026 ООО «НЦПР». Макет страницы «Инвентаризация Active Directory».</p>
-      <p><a href="https://itman.ru/">itman.ru</a> · Отдел продаж: <a href="tel:88007078553">8 800 707 85 53</a></p>
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <a href="https://itman.ru/" aria-label="Инферит ИТМен">
+            <img class="footer__logo" src="assets/footer/logo-itman.svg" alt="Инферит ИТМен" width="220" height="40" />
+          </a>
+          <p class="footer__note">В реестре российского ПО: №12289 от 14.12.2021</p>
+          <p class="footer__note">Маркетинговое название «Инферит ИТМен» соответствует itman discovery</p>
+        </div>
+        <div class="footer__cols">
+          <div>
+            <div class="footer__col-title">Продукты и поддержка</div>
+            <div class="footer__col">
+              <a href="https://itman.ru/modules" target="_blank" rel="noopener">Модули продукта</a>
+              <a href="https://itman.ru/inventory" target="_blank" rel="noopener">Инвентаризация</a>
+              <a href="https://itman.ru/cmdb" target="_blank" rel="noopener">Поставка данных в CMDB</a>
+              <a href="https://itman.ru/support-center" target="_blank" rel="noopener">Техническая поддержка</a>
+              <a href="https://itman.ru/cases" target="_blank" rel="noopener">Кейсы</a>
+            </div>
+          </div>
+          <div>
+            <div class="footer__col-title">Полезная информация</div>
+            <div class="footer__col">
+              <a href="https://itman.ru/support-center" target="_blank" rel="noopener">Техническая документация</a>
+              <a href="https://itman.ru/support-center" target="_blank" rel="noopener">FAQ</a>
+              <a href="https://partners.inferit.ru/" target="_blank" rel="noopener">Партнерам</a>
+              <a href="https://itman.ru/support-center" target="_blank" rel="noopener">Техническая поддержка</a>
+            </div>
+          </div>
+          <div>
+            <div class="footer__col-title">Документы и соглашения</div>
+            <div class="footer__col">
+              <a href="https://itman.ru/privacy-policy" target="_blank" rel="noopener">Политика конфиденциальности</a>
+              <a href="https://itman.ru/soglasie" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
+              <a href="https://itman.ru/usloviya" target="_blank" rel="noopener">Условия использования сайта</a>
+            </div>
+          </div>
+          <div>
+            <div class="footer__col-title">Отдел продаж</div>
+            <div class="footer__col">
+              <a href="tel:88007078553">8 800 707 85 53</a>
+              <a href="mailto:info@itman.ru">info@itman.ru</a>
+            </div>
+            <div class="footer__col-title" style="margin-top:20px">Техническая поддержка</div>
+            <div class="footer__col">
+              <a href="mailto:support@inferit.ru">support@inferit.ru</a>
+            </div>
+            <div class="footer__col-title" style="margin-top:20px">Адрес</div>
+            <div class="footer__col">
+              <span>Москва, 2-й Южнопортовый проезд, 20с4</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="footer__legal">
+        Информация, представленная на сайте, носит исключительно справочный и ознакомительный характер, не предназначена для личных, семейных, домашних и иных нужд, не связанных с осуществлением предпринимательской деятельности и не ориентирована на потребителей по смыслу Федерального закона от 24.06.2025 №&nbsp;168-ФЗ. Указанные цены и комплектации продуктов не являются окончательными и не могут служить основанием для коммерческих расчетов. Данные сведения не представляют собой публичную оферту по смыслу ст.&nbsp;437 ГК&nbsp;РФ. Для получения точных и актуальных данных обращайтесь к официальным представителям ООО&nbsp;«НЦПР».
+        <a href="https://crmindex.ru/services/itman24" target="_blank" rel="noopener">https://crmindex.ru/services/itman24</a>
+      </p>
+      <hr class="footer__rule" />
+      <div class="footer__bottom">
+        <div class="footer__copy">
+          <img class="footer__softline" src="assets/footer/logo-softline.svg" alt="Softline" width="133" height="24" />
+          <p>© 2011–2026 ООО «НЦПР». Все права защищены.</p>
+        </div>
+        <div class="footer__socials" aria-label="Социальные сети">
+          <a href="https://t.me/Inferit_official" target="_blank" rel="noopener" aria-label="Telegram"><img src="assets/footer/social_icon.svg" alt="" width="32" height="32" /></a>
+          <a href="https://vk.com/inferit_official" target="_blank" rel="noopener" aria-label="VK"><img src="assets/footer/social_icon-1.svg" alt="" width="32" height="32" /></a>
+          <a href="https://companies.rbc.ru/id/1225000052661-inferit/" target="_blank" rel="noopener" aria-label="РБК"><img src="assets/footer/social_icon-2.svg" alt="" width="32" height="32" /></a>
+          <a href="https://habr.com/ru/companies/inferit/articles/" target="_blank" rel="noopener" aria-label="Хабр"><img src="assets/footer/social_icon-3.svg" alt="" width="32" height="32" /></a>
+          <a href="https://rutube.ru/channel/36395261/" target="_blank" rel="noopener" aria-label="Rutube"><img src="assets/footer/social_icon-4.svg" alt="" width="32" height="32" /></a>
+          <a href="https://www.computerra.ru/author/inferit/" target="_blank" rel="noopener" aria-label="Computerra"><img src="assets/footer/social_icon-5.svg" alt="" width="32" height="32" /></a>
+        </div>
+      </div>
     </div>
   </footer>
 
