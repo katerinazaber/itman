@@ -673,8 +673,16 @@
     .collect-card li {
       position: relative;
       padding-left: 16px;
-      font-size: 14px;
-      line-height: 1.4;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .collect-card--dark li,
+    .collect-card--red li {
+      font-family: var(--font-medium);
+      font-weight: 500;
+      color: #fff;
+    }
+    .collect-card--light li {
       opacity: .92;
     }
     .collect-card li::before {
@@ -687,6 +695,11 @@
       border-radius: 50%;
       background: currentColor;
       opacity: .55;
+    }
+    .collect-card--dark li::before,
+    .collect-card--red li::before {
+      background: #fff;
+      opacity: 1;
     }
     .collect-card--light li::before { background: var(--red); opacity: 1; }
 
