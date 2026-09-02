@@ -431,22 +431,20 @@ a { color: inherit; text-decoration: none; }
   margin-bottom: 40px;
 }
 .program__list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-width: 920px;
-  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
 }
 .day {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: 18px;
-  width: 100%;
+  height: 100%;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 28px 32px;
+  padding: 28px;
   transition: box-shadow var(--transition), border-color var(--transition);
 }
 .day:hover {
@@ -609,7 +607,7 @@ a { color: inherit; text-decoration: none; }
     padding: 20px;
   }
   .checkup-callout__body { padding: 0; }
-  .program__list { max-width: none; }
+  .program__list { grid-template-columns: 1fr; }
   .day { padding: 24px 20px; }
   .chaos { min-height: 280px; max-width: 480px; }
   .final__panel { padding: 32px 24px; }
