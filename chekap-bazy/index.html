@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Чекап базы лицензий и ПО | Инферит ИТМен</title>
+  <meta name="description" content="Бесплатный инструмент самодиагностики базы ПО и лицензий. Загрузите выгрузку — получите индекс качества и список проблем за минуту.">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header__inner">
+      <a class="header__logo" href="https://katerinazaber.github.io/itman/klinika-b/" aria-label="Инферит ИТМен">
+        <img src="assets/logo.svg" alt="Инферит ИТМен" width="180" height="36">
+      </a>
+      <nav class="header__nav" aria-label="Навигация">
+        <a href="https://katerinazaber.github.io/itman/klinika-b/#program">Программа марафона</a>
+        <a href="https://katerinazaber.github.io/itman/klinika-b/#speakers">Спикеры</a>
+        <a href="https://katerinazaber.github.io/itman/klinika-b/#bonuses">Бонусы</a>
+        <a href="https://katerinazaber.github.io/itman/klinika-b/#faq">FAQ</a>
+      </nav>
+      <a class="btn" href="https://t.me/klinika_dannyh_bot" target="_blank" rel="noopener">Участвовать в марафоне</a>
+    </div>
+  </header>
+
+  <main id="checkup-app">
+
+    <section class="hero">
+      <div class="container hero__grid">
+        <div class="hero__content">
+          <p class="badge">Лид-магнит марафона</p>
+          <h1 class="hero__title">Чекап базы лицензий и ПО</h1>
+          <p class="hero__lead">Бесплатный инструмент самодиагностики: загрузите фрагмент выгрузки из вашей системы учета ПО и за минуту получите индекс качества базы и список типовых проблем.</p>
+          <ul class="hero__checks">
+            <li>
+              <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.5 5.5L8 14l-4.5-4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Работает локально в браузере — данные никуда не отправляются
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.5 5.5L8 14l-4.5-4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Поддерживает .xlsx, .csv и .xml до 200 строк
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.5 5.5L8 14l-4.5-4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Показывает дубли, разнобой названий, версий и дефекты записей
+            </li>
+          </ul>
+          <div class="hero__cta-row">
+            <button type="button" class="btn btn--lg" id="btnStartCheckup">Запустить чекап</button>
+            <p class="hero__privacy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              Данные обрабатываются локально
+            </p>
+          </div>
+        </div>
+        <div class="hero__visual">
+          <img src="assets/hero-illustration.png" alt="Анализ базы ПО на ноутбуке" width="540" height="400">
+        </div>
+      </div>
+    </section>
+
+    <section class="step-section" id="step-upload">
+      <div class="container">
+        <p class="step-label">Шаг 1</p>
+        <h2 class="step-title">Загрузите данные</h2>
+        <div class="step-grid">
+          <div>
+            <div class="upload-zone" id="checkupDropzone" tabindex="0" role="button" aria-label="Загрузить файл">
+              <svg class="upload-zone__icon" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <path d="M24 32V16M24 16l-8 8M24 16l8 8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 36h32" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+              <p class="upload-zone__title">Перетащите файл сюда или нажмите для выбора</p>
+              <p class="upload-zone__sub">Фрагмент выгрузки из системы учета ПО</p>
+              <p class="upload-zone__formats">.xlsx · .csv · .xml · до 200 строк</p>
+              <p class="upload-zone__file" id="checkupFileName" hidden></p>
+              <p class="upload-zone__error" id="checkupFileError" hidden></p>
+            </div>
+            <input type="file" class="file-input" id="checkupFileInput" accept=".csv,.xlsx,.xls,.xml,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/xml,application/xml">
+            <p class="upload-note">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              Данные обрабатываются локально в вашем браузере и никуда не передаются.
+            </p>
+          </div>
+          <aside class="info-card">
+            <h3 class="info-card__title">Что можно загрузить</h3>
+            <ul>
+              <li>Выгрузку из ИТМен, SCCM, Altiris и других систем учета ПО</li>
+              <li>Таблицу Excel с колонками: название ПО, версия, издатель</li>
+              <li>CSV-файл из CMDB, ITSM или SAM-системы</li>
+              <li>Фрагмент до 200 строк — достаточно для экспресс-оценки</li>
+            </ul>
+            <div class="tip-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7V17h8v-2.3A7 7 0 0012 2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              <span><strong>Совет:</strong> если в файле нет заголовков колонок, первые три столбца будут считаться названием, версией и издателем.</span>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="step-section analyzing" id="step-analyzing" hidden>
+      <div class="container">
+        <p class="step-label">Анализ</p>
+        <h2 class="step-title">Анализируем вашу выгрузку</h2>
+        <ul class="analyzing__steps" id="checkupSteps">
+          <li data-step="recognize">Распознаем ПО</li>
+          <li data-step="duplicates">Ищем дубли</li>
+          <li data-step="names">Нормализуем названия</li>
+          <li data-step="versions">Проверяем версии</li>
+          <li data-step="catalog">Формируем каталог</li>
+        </ul>
+        <div class="progress-bar"><span class="progress-bar__fill" id="checkupProgressFill"></span></div>
+        <p class="analyzing__label" id="checkupProgressLabel">Обработано 0 из 0 строк</p>
+      </div>
+    </section>
+
+    <section class="step-section" id="step-results" hidden>
+      <div class="container">
+        <div class="results-head">
+          <div>
+            <p class="step-label">Шаг 2</p>
+            <h2 class="step-title" style="margin-bottom:0">Результаты вашего чекапа</h2>
+          </div>
+          <div class="results-actions">
+            <button type="button" class="btn btn--outline" id="btnDownloadReport">Скачать отчет</button>
+            <button type="button" class="btn" id="btnRestart">Пройти чекап снова</button>
+          </div>
+        </div>
+
+        <div class="metrics-row">
+          <div class="metric-card metric-card--score">
+            <div class="score-ring" id="scoreRing" aria-hidden="true">
+              <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="#e5e7eb" stroke-width="10"/><circle id="scoreArc" cx="60" cy="60" r="52" fill="none" stroke="#dd0c29" stroke-width="10" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="98"/></svg>
+              <div class="score-ring__value"><span id="scoreValue">70</span><span>из 100</span></div>
+            </div>
+            <p class="metric-card__status" id="scoreStatus">База требует внимания</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-card__label">Всего строк</p>
+            <p class="metric-card__value" data-metric="total">—</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-card__label">Уникальных продуктов</p>
+            <p class="metric-card__value" data-metric="unique">—</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-card__label">Потенциальных проблем</p>
+            <p class="metric-card__value" data-metric="problems">—</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-card__label">Среднее время анализа</p>
+            <p class="metric-card__value" data-metric="time">—</p>
+          </div>
+        </div>
+
+        <div class="chips-row">
+          <div class="chip-card chip-card--blue">
+            <span class="chip-card__count" data-chip="duplicates">—</span>
+            <span class="chip-card__label">Дубли записей</span>
+          </div>
+          <div class="chip-card chip-card--orange">
+            <span class="chip-card__count" data-chip="versions">—</span>
+            <span class="chip-card__label">Несколько версий</span>
+          </div>
+          <div class="chip-card chip-card--green">
+            <span class="chip-card__count" data-chip="missing">—</span>
+            <span class="chip-card__label">Без версии</span>
+          </div>
+          <div class="chip-card chip-card--purple">
+            <span class="chip-card__count" data-chip="defects">—</span>
+            <span class="chip-card__label">С дефектами</span>
+          </div>
+          <div class="chip-card chip-card--red">
+            <span class="chip-card__count" data-chip="unlicensed">—</span>
+            <span class="chip-card__label">Без лицензии</span>
+          </div>
+        </div>
+
+        <button type="button" class="details-toggle" id="detailsToggle" aria-expanded="true">
+          <span id="detailsToggleText">Скрыть детали</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path id="detailsChevron" d="M4 10l4-4 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+
+        <div class="details-grid" id="detailsGrid">
+          <article class="detail-card">
+            <h3 class="detail-card__title">Разнобой в названиях ПО</h3>
+            <div class="tags" id="tagsNames">
+              <span class="tag">7-Zip</span>
+              <span class="tag">7zip</span>
+              <span class="tag">7 zip</span>
+              <span class="tag">MS Office 2019</span>
+              <span class="tag">Microsoft Office 2019</span>
+              <span class="tag">Office 19</span>
+            </div>
+          </article>
+          <article class="detail-card">
+            <h3 class="detail-card__title">Разнобой в названиях издателей</h3>
+            <div class="tags" id="tagsVendors">
+              <span class="tag">Adobe</span>
+              <span class="tag">Adobe Systems</span>
+              <span class="tag">Microsoft</span>
+              <span class="tag">Microsoft Corp.</span>
+              <span class="tag">Autodesk</span>
+              <span class="tag">Autodesk Inc.</span>
+            </div>
+          </article>
+          <article class="detail-card">
+            <h3 class="detail-card__title">Разброс версий</h3>
+            <table class="detail-table">
+              <thead><tr><th>Продукт</th><th>Найденные версии</th></tr></thead>
+              <tbody id="versionsTable">
+                <tr><td>Visual C++</td><td><span class="tag tag--orange">14.0</span> <span class="tag tag--orange">14.29</span> <span class="tag tag--orange">14.36</span></td></tr>
+                <tr><td>Google Chrome</td><td><span class="tag tag--orange">122.0</span> <span class="tag tag--orange">124.0</span></td></tr>
+                <tr><td>Java</td><td><span class="tag tag--orange">8.0</span> <span class="tag tag--orange">11.0</span> <span class="tag tag--orange">17.0</span></td></tr>
+              </tbody>
+            </table>
+          </article>
+          <article class="detail-card">
+            <h3 class="detail-card__title">Дефекты записей</h3>
+            <table class="detail-table">
+              <thead><tr><th>Тип дефекта</th><th>Записей</th></tr></thead>
+              <tbody id="defectsTable">
+                <tr><td>Битая кодировка</td><td>3</td></tr>
+                <tr><td>GUID в названии</td><td>2</td></tr>
+                <tr><td>Пустой издатель</td><td>5</td></tr>
+                <tr><td>Некорректная версия</td><td>4</td></tr>
+              </tbody>
+            </table>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="cta-banner">
+        <svg class="cta-banner__icon" viewBox="0 0 56 56" fill="none" aria-hidden="true">
+          <path d="M28 8l4 10h10l-8 6 3 10-9-6-9 6 3-10-8-6h10l4-10z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+        <div class="cta-banner__text">
+          <h3>Хотите навести порядок в базе ПО?</h3>
+          <p>На марафоне «Клиника чистых данных» покажем, как нормализовать данные и автоматизировать учет лицензий.</p>
+        </div>
+        <a class="btn btn--lg" href="https://katerinazaber.github.io/itman/klinika-b/">Узнать на марафоне</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="footer__privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        Ваши данные никуда не передаются — весь анализ выполняется локально в браузере.
+      </p>
+    </div>
+  </footer>
+
+  <script src="checkup-app.js"></script>
+</body>
+</html>
