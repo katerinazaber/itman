@@ -451,9 +451,13 @@ a { color: inherit; text-decoration: none; }
   box-shadow: 0 0 0 1px var(--ring);
 }
 .day--featured {
-  border-color: transparent;
-  box-shadow: 0 0 0 1px var(--red);
+  border: 2px solid var(--red);
+  box-shadow: none;
   background: #fffafb;
+}
+.day--featured:hover {
+  border-color: var(--red);
+  box-shadow: none;
 }
 .day__left {
   display: flex;
