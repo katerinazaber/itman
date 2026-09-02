@@ -3,7 +3,7 @@
 (function () {
   const MAX_ROWS = 200;
   const STEP_KEYS = ["recognize", "duplicates", "names", "versions", "catalog"];
-  const CIRC = 326.7;
+  const SCORE_ARC = 263.89;
 
   let analysisResult = null;
 
@@ -24,13 +24,49 @@
 
   const DEMO_ROWS = [
     { name: "Microsoft Office 2019", version: "16.0.10396", vendor: "Microsoft" },
-    { name: "ms office 2019", version: "16.0.10396", vendor: "Microsoft" },
+    { name: "ms office 2019", version: "16.0.10396", vendor: "Microsoft Corp." },
     { name: "Office 19", version: "16.0", vendor: "Microsoft" },
     { name: "7-Zip", version: "19.00", vendor: "Igor Pavlov" },
     { name: "7zip", version: "19.0", vendor: "Igor Pavlov" },
+    { name: "7 zip", version: "19.00", vendor: "Igor Pavlov" },
     { name: "Adobe Acrobat Reader", version: "23.001.20174", vendor: "Adobe" },
+    { name: "Adobe Acrobat Reader DC", version: "23.001", vendor: "Adobe Systems" },
     { name: "Google Chrome", version: "124.0.6367", vendor: "Google" },
+    { name: "Google Chrome", version: "122.0.6261", vendor: "Google LLC" },
     { name: "Notepad++", version: "8.6.5", vendor: "Notepad++ Team" },
+    { name: "Microsoft Visual C++ 2015-2022", version: "14.36", vendor: "Microsoft" },
+    { name: "Microsoft Visual C++ 2015-2022", version: "14.29", vendor: "Microsoft Corp." },
+    { name: "Microsoft Visual C++ 2015-2022", version: "14.0", vendor: "Microsoft" },
+    { name: "Java 8 Update 381", version: "8.0.381", vendor: "Oracle" },
+    { name: "Java(TM) SE Development Kit", version: "11.0.20", vendor: "Oracle Corporation" },
+    { name: "Java(TM) SE Development Kit", version: "17.0.8", vendor: "Oracle" },
+    { name: "Autodesk AutoCAD", version: "2024.1", vendor: "Autodesk" },
+    { name: "Autodesk AutoCAD 2024", version: "2024.1", vendor: "Autodesk Inc." },
+    { name: "K-Lite Codec Pack", version: "", vendor: "KL Software" },
+    { name: "Realtek Audio Driver", version: "6.0.9239", vendor: "Realtek" },
+    { name: "Intel(R) Graphics Driver", version: "31.0.101", vendor: "Intel" },
+    { name: "Python 3.11.5", version: "3.11.5150", vendor: "Python Software Foundation" },
+    { name: "Python 3.11.5 (64-bit)", version: "3.11.5", vendor: "Python Software Foundation" },
+    { name: "TeamViewer", version: "15.45.4", vendor: "TeamViewer" },
+    { name: "Zoom", version: "5.16.10", vendor: "Zoom Video Communications" },
+    { name: "Zoom Workplace", version: "6.0.0", vendor: "Zoom Video Communications, Inc." },
+    { name: "Slack", version: "4.35.131", vendor: "Slack Technologies" },
+    { name: "Slack (Machine - MSI)", version: "4.35", vendor: "Slack Technologies, LLC" },
+    { name: "WinRAR 6.24 (64-bit)", version: "6.24.0", vendor: "win.rar GmbH" },
+    { name: "WinRAR", version: "6.24", vendor: "win.rar GmbH" },
+    { name: "Microsoft Edge", version: "124.0.2478", vendor: "Microsoft" },
+    { name: "Microsoft Edge WebView2 Runtime", version: "124.0.2478.97", vendor: "Microsoft Corporation" },
+    { name: "Mozilla Firefox (x64 ru)", version: "124.0.2", vendor: "Mozilla" },
+    { name: "Mozilla Firefox", version: "124.0", vendor: "Mozilla Foundation" },
+    { name: "VLC media player", version: "3.0.20", vendor: "VideoLAN" },
+    { name: "VLC media player 3.0.20", version: "3.0.20", vendor: "VideoLAN Team" },
+    { name: "Git", version: "2.44.0", vendor: "The Git Development Community" },
+    { name: "Git version 2.44.0", version: "2.44.0", vendor: "Git Development Community" },
+    { name: "PostgreSQL 15", version: "15.6", vendor: "PostgreSQL Global Development Group" },
+    { name: "PostgreSQL 15.6", version: "15.6.0", vendor: "PostgreSQL Global Development Group" },
+    { name: "Node.js", version: "20.11.1", vendor: "Node.js Foundation" },
+    { name: "Node.js v20.11.1", version: "20.11.1", vendor: "OpenJS Foundation" },
+    { name: "{B3F8F0AA-3A47-4F6E-B91E-8B3F8F0AA3A4}", version: "1.0.0", vendor: "" },
   ];
 
   function esc(s) {
@@ -294,7 +330,7 @@
   }
 
   function setScoreRing(score) {
-    const offset = CIRC * (1 - score / 100);
+    const offset = SCORE_ARC * (1 - score / 100);
     const arc = $("#scoreArc");
     if (arc) arc.setAttribute("stroke-dashoffset", String(offset));
     const val = $("#scoreValue");
@@ -348,7 +384,7 @@
     $('[data-metric="total"]').textContent = String(r.total);
     $('[data-metric="unique"]').textContent = String(r.unique);
     $('[data-metric="problems"]').textContent = String(r.problems);
-    $('[data-metric="time"]').textContent = `${r.analysisMin} min`;
+    $('[data-metric="time"]').textContent = `${r.analysisMin} мин`;
 
     $('[data-chip="duplicates"]').textContent = String(r.duplicates);
     $('[data-chip="versions"]').textContent = String(r.multiVersions);
@@ -362,15 +398,13 @@
     renderDefectsTable(r.defectBreakdown);
   }
 
-  function showSection(id) {
-    ["#step-upload", "#step-analyzing", "#step-results"].forEach((sel) => {
-      const el = $(sel);
-      if (el) el.hidden = sel !== id;
-    });
+  function setAnalyzing(visible) {
+    const el = $("#step-analyzing");
+    if (el) el.hidden = !visible;
   }
 
   async function runAnalysisAnimation(total) {
-    showSection("#step-analyzing");
+    setAnalyzing(true);
     $("#step-analyzing")?.scrollIntoView({ behavior: "smooth", block: "start" });
 
     const fill = $("#checkupProgressFill");
@@ -416,8 +450,8 @@
       if (!rows.length) rows = DEMO_ROWS;
       const result = analyzeRows(rows);
       await runAnalysisAnimation(result.total);
+      setAnalyzing(false);
       renderResult(result);
-      showSection("#step-results");
       $("#step-results")?.scrollIntoView({ behavior: "smooth", block: "start" });
     } catch (e) {
       if (errEl) {
@@ -460,14 +494,13 @@
   }
 
   function restart() {
-    analysisResult = null;
     const input = $("#checkupFileInput");
     if (input) input.value = "";
     const nameEl = $("#checkupFileName");
     if (nameEl) { nameEl.hidden = true; nameEl.textContent = ""; }
     const errEl = $("#checkupFileError");
     if (errEl) errEl.hidden = true;
-    showSection("#step-upload");
+    renderResult(analyzeRows(DEMO_ROWS));
     $("#step-upload")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
@@ -513,4 +546,6 @@
     if (chevron) chevron.setAttribute("d", detailsOpen ? "M4 10l4-4 4 4" : "M4 6l4 4 4-4");
     $("#detailsToggle")?.setAttribute("aria-expanded", String(detailsOpen));
   });
+
+  renderResult(analyzeRows(DEMO_ROWS));
 })();

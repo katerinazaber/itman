@@ -117,74 +117,117 @@
       </div>
     </section>
 
-    <section class="step-section" id="step-results" hidden>
+    <section class="step-section" id="step-results">
       <div class="container">
-        <div class="results-head">
-          <div>
-            <p class="step-label">Шаг 2</p>
-            <h2 class="step-title" style="margin-bottom:0">Результаты вашего чекапа</h2>
-          </div>
-          <div class="results-actions">
-            <button type="button" class="btn btn--outline" id="btnDownloadReport">Скачать отчет</button>
-            <button type="button" class="btn" id="btnRestart">Пройти чекап снова</button>
-          </div>
-        </div>
-
-        <div class="metrics-row">
-          <div class="metric-card metric-card--score">
-            <div class="score-ring" id="scoreRing" aria-hidden="true">
-              <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="#e5e7eb" stroke-width="10"/><circle id="scoreArc" cx="60" cy="60" r="52" fill="none" stroke="#dd0c29" stroke-width="10" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="98"/></svg>
-              <div class="score-ring__value"><span id="scoreValue">70</span><span>из 100</span></div>
+        <div class="results-panel">
+          <div class="results-head">
+            <div>
+              <p class="step-label">Шаг 2</p>
+              <h2 class="step-title results-panel__title">Результаты вашего чекапа</h2>
+              <p class="results-panel__lead">Обзор качества и рисков вашей базы лицензий и ПО.</p>
             </div>
-            <p class="metric-card__status" id="scoreStatus">База требует внимания</p>
+            <div class="results-actions">
+              <button type="button" class="btn btn--outline btn--icon" id="btnDownloadReport">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0l4-4m-4 4l-4-4M5 19h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Скачать отчет
+              </button>
+              <button type="button" class="btn" id="btnRestart">Пройти чекап снова</button>
+            </div>
           </div>
-          <div class="metric-card">
-            <p class="metric-card__label">Всего строк</p>
-            <p class="metric-card__value" data-metric="total">—</p>
-          </div>
-          <div class="metric-card">
-            <p class="metric-card__label">Уникальных продуктов</p>
-            <p class="metric-card__value" data-metric="unique">—</p>
-          </div>
-          <div class="metric-card">
-            <p class="metric-card__label">Потенциальных проблем</p>
-            <p class="metric-card__value" data-metric="problems">—</p>
-          </div>
-          <div class="metric-card">
-            <p class="metric-card__label">Среднее время анализа</p>
-            <p class="metric-card__value" data-metric="time">—</p>
-          </div>
-        </div>
 
-        <div class="chips-row">
-          <div class="chip-card chip-card--blue">
-            <span class="chip-card__count" data-chip="duplicates">—</span>
-            <span class="chip-card__label">Дубли записей</span>
+          <div class="metrics-row">
+            <div class="metric-card metric-card--score">
+              <p class="metric-card__kicker">Индекс чистоты</p>
+              <div class="score-gauge" id="scoreRing" aria-hidden="true">
+                <svg viewBox="0 0 200 118" fill="none">
+                  <path d="M16 100 A84 84 0 0 1 184 100" stroke="#eceef2" stroke-width="14" stroke-linecap="round"/>
+                  <path id="scoreArc" d="M16 100 A84 84 0 0 1 184 100" stroke="#dd0c29" stroke-width="14" stroke-linecap="round" stroke-dasharray="263.89" stroke-dashoffset="79.17"/>
+                </svg>
+                <div class="score-gauge__value"><span id="scoreValue">70</span><span>из 100</span></div>
+              </div>
+              <p class="metric-card__status" id="scoreStatus">База требует внимания</p>
+            </div>
+            <div class="metric-card">
+              <p class="metric-card__label">Всего строк</p>
+              <p class="metric-card__value" data-metric="total">44</p>
+              <p class="metric-card__sub">проанализировано</p>
+            </div>
+            <div class="metric-card">
+              <p class="metric-card__label">Уникальных продуктов</p>
+              <p class="metric-card__value" data-metric="unique">30</p>
+              <p class="metric-card__sub">найдено</p>
+            </div>
+            <div class="metric-card">
+              <p class="metric-card__label">Потенциальных проблем</p>
+              <p class="metric-card__value" data-metric="problems">29</p>
+              <p class="metric-card__sub">обнаружено</p>
+            </div>
+            <div class="metric-card">
+              <p class="metric-card__label">Среднее время анализа</p>
+              <p class="metric-card__value" data-metric="time">32 мин</p>
+              <p class="metric-card__sub">на вашей машине</p>
+            </div>
           </div>
-          <div class="chip-card chip-card--orange">
-            <span class="chip-card__count" data-chip="versions">—</span>
-            <span class="chip-card__label">Несколько версий</span>
-          </div>
-          <div class="chip-card chip-card--green">
-            <span class="chip-card__count" data-chip="missing">—</span>
-            <span class="chip-card__label">Без версии</span>
-          </div>
-          <div class="chip-card chip-card--purple">
-            <span class="chip-card__count" data-chip="defects">—</span>
-            <span class="chip-card__label">С дефектами</span>
-          </div>
-          <div class="chip-card chip-card--red">
-            <span class="chip-card__count" data-chip="unlicensed">—</span>
-            <span class="chip-card__label">Без лицензии</span>
-          </div>
-        </div>
 
-        <button type="button" class="details-toggle" id="detailsToggle" aria-expanded="true">
-          <span id="detailsToggleText">Скрыть детали</span>
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path id="detailsChevron" d="M4 10l4-4 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </button>
+          <div class="issues-row">
+            <article class="issue-card issue-card--blue">
+              <div class="issue-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+              <div class="issue-card__body">
+                <p class="issue-card__title">Дубликаты</p>
+                <p class="issue-card__count" data-chip="duplicates">8</p>
+                <p class="issue-card__sub">лишних форм записей</p>
+              </div>
+            </article>
+            <article class="issue-card issue-card--orange">
+              <div class="issue-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M12 3c2 4 4 6 9 9-5 3-7 5-9 9-2-4-4-6-9-9 5-3 7-5 9-9z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="issue-card__body">
+                <p class="issue-card__title">Несколько версий</p>
+                <p class="issue-card__count" data-chip="versions">5</p>
+                <p class="issue-card__sub">одного продукта</p>
+              </div>
+            </article>
+            <article class="issue-card issue-card--green">
+              <div class="issue-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M8 12h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+              <div class="issue-card__body">
+                <p class="issue-card__title">Без версий</p>
+                <p class="issue-card__count" data-chip="missing">4</p>
+                <p class="issue-card__sub">записи без версии</p>
+              </div>
+            </article>
+            <article class="issue-card issue-card--purple">
+              <div class="issue-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+              <div class="issue-card__body">
+                <p class="issue-card__title">С дефектами</p>
+                <p class="issue-card__count" data-chip="defects">3</p>
+                <p class="issue-card__sub">битая кодировка, пути, GUID</p>
+              </div>
+            </article>
+            <article class="issue-card issue-card--red">
+              <div class="issue-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 4v5c0 5-3.5 8.5-7 9-3.5-.5-7-4-7-9V7l7-4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="issue-card__body">
+                <p class="issue-card__title">Без лицензирования</p>
+                <p class="issue-card__count" data-chip="unlicensed">9</p>
+                <p class="issue-card__sub">библиотеки, драйверы, патчи</p>
+              </div>
+            </article>
+          </div>
 
-        <div class="details-grid" id="detailsGrid">
+          <button type="button" class="details-toggle" id="detailsToggle" aria-expanded="true">
+            <span id="detailsToggleText">Скрыть детали</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path id="detailsChevron" d="M4 10l4-4 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+
+          <div class="details-grid" id="detailsGrid">
           <article class="detail-card">
             <h3 class="detail-card__title">Разнобой в названиях ПО</h3>
             <div class="tags" id="tagsNames">
@@ -230,6 +273,7 @@
               </tbody>
             </table>
           </article>
+        </div>
         </div>
       </div>
     </section>
