@@ -73,6 +73,67 @@ button{font:inherit}
       transparent 42%,
       rgba(245,246,248,.22) 100%);
 }
+/* Чёткие надписи поверх фото (не в JPEG) */
+.hero__decor{position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden}
+.hero__wall-note{
+  position:absolute;
+  left: clamp(46%, 52vw, 56%);
+  top: clamp(26%, 30vh, 34%);
+  margin:0;
+  max-width: 280px;
+  font-family: "Segoe Script","Bradley Hand","Apple Chancery","Comic Sans MS",cursive;
+  font-size: clamp(20px, 2.15vw, 30px);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: .01em;
+  color: #3a78c2;
+  text-shadow: 0 1px 0 rgba(255,255,255,.55);
+  transform: rotate(-2deg);
+  -webkit-font-smoothing: antialiased;
+}
+.hero__wall-note::after{
+  content:"";
+  display:block;
+  width: 42%;
+  height: 2px;
+  margin-top: 4px;
+  background: currentColor;
+  border-radius: 2px;
+  opacity: .85;
+  transform: rotate(-1deg);
+}
+.hero__heart{font-size: .7em; color:#3a78c2; vertical-align: .05em}
+.hero__door-sign{
+  position:absolute;
+  left: clamp(62%, 68vw, 74%);
+  top: clamp(22%, 26vh, 32%);
+  width: clamp(148px, 14vw, 196px);
+  padding: 18px 14px 14px;
+  display:flex; flex-direction:column; align-items:center; gap: 4px;
+  background: rgba(255,255,255,.88);
+  border: 1px solid rgba(255,255,255,.95);
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(16,20,30,.10);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  text-align:center;
+  color: var(--ink);
+}
+.hero__door-sign__k{
+  font-size: 11px; font-weight: 600; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-2);
+}
+.hero__door-sign strong{
+  font-size: clamp(15px, 1.35vw, 19px);
+  font-weight: 800; letter-spacing: -.01em; line-height: 1.15;
+  text-transform: uppercase;
+}
+.hero__door-sign__s{
+  font-size: clamp(13px, 1.15vw, 16px);
+  font-weight: 700; letter-spacing: -.01em;
+  text-transform: uppercase;
+}
+.hero__steth{margin-top: 8px; display:block}
 .hero__content{
   position:relative;
   width: min(680px, 100%);
@@ -188,6 +249,7 @@ textarea:focus{outline:2px solid rgba(221,12,41,.25);border-color:var(--red)}
   .wrap{padding:0 16px}
   .hero{min-height:0;padding:12px 0 120px}
   .hero__bg{object-position:72% 40%}
+  .hero__decor{display:none}
   .hero__veil{
     background:
       linear-gradient(180deg,
