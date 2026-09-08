@@ -77,47 +77,48 @@ button{font:inherit}
 .hero__decor{position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden}
 .hero__wall-note{
   position:absolute;
-  left: clamp(46%, 52vw, 56%);
-  top: clamp(26%, 30vh, 34%);
+  left: 50%;
+  top: 18%;
   margin:0;
-  max-width: 280px;
-  font-family: "Segoe Script","Bradley Hand","Apple Chancery","Comic Sans MS",cursive;
-  font-size: clamp(20px, 2.15vw, 30px);
-  font-weight: 600;
-  line-height: 1.25;
+  max-width: 220px;
+  font-family: "Caveat", "Segoe Script", "Bradley Hand", cursive;
+  font-size: clamp(26px, 2.6vw, 36px);
+  font-weight: 700;
+  line-height: 1.15;
   letter-spacing: .01em;
-  color: #3a78c2;
-  text-shadow: 0 1px 0 rgba(255,255,255,.55);
-  transform: rotate(-2deg);
+  color: #2f6db8;
+  text-shadow: 0 1px 0 rgba(255,255,255,.65);
+  transform: translateX(-8%) rotate(-2deg);
   -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
 }
 .hero__wall-note::after{
   content:"";
   display:block;
-  width: 42%;
+  width: 48%;
   height: 2px;
-  margin-top: 4px;
+  margin-top: 2px;
   background: currentColor;
   border-radius: 2px;
-  opacity: .85;
+  opacity: .9;
   transform: rotate(-1deg);
 }
-.hero__heart{font-size: .7em; color:#3a78c2; vertical-align: .05em}
+.hero__heart{font-size: .72em; color:#2f6db8; vertical-align: .05em}
 .hero__door-sign{
   position:absolute;
-  left: clamp(62%, 68vw, 74%);
-  top: clamp(22%, 26vh, 32%);
-  width: clamp(148px, 14vw, 196px);
+  left: 69%;
+  top: 20%;
+  width: clamp(156px, 13.5vw, 200px);
   padding: 18px 14px 14px;
   display:flex; flex-direction:column; align-items:center; gap: 4px;
-  background: rgba(255,255,255,.88);
-  border: 1px solid rgba(255,255,255,.95);
+  background: rgba(255,255,255,.92);
+  border: 1px solid rgba(255,255,255,.98);
   border-radius: 10px;
   box-shadow: 0 8px 28px rgba(16,20,30,.10);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
   text-align:center;
   color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
 }
 .hero__door-sign__k{
   font-size: 11px; font-weight: 600; letter-spacing: .14em;
