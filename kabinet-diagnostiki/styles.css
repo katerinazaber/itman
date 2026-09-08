@@ -27,46 +27,72 @@ h1,h2,h3{margin:0;letter-spacing:-.02em;line-height:1.15}
 p{margin:0}
 button{font:inherit}
 
-/* ---------- шапка (как klinika-b) ---------- */
-.top{background:var(--surface);border-bottom:1px solid var(--line);color:var(--ink)}
+/* ---------- шапка поверх героя ---------- */
+.top{
+  position:absolute; inset:0 0 auto; z-index:20;
+  background:transparent; border-bottom:0; color:var(--ink);
+}
 .top .wrap{display:flex;align-items:center;gap:16px;height:72px}
 .logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.01em}
-.logo img{height:32px;width:auto;display:block}
+.logo img{height:32px;width:auto;display:block;filter:drop-shadow(0 1px 2px rgba(255,255,255,.8))}
 .logo .mark{width:26px;height:26px;border-radius:6px;background:var(--red);position:relative;flex:0 0 auto}
 .logo .mark::before,.logo .mark::after{content:"";position:absolute;background:#fff;border-radius:1px}
 .logo .mark::before{left:11.5px;top:6px;width:3px;height:14px}
 .logo .mark::after{left:6px;top:11.5px;width:14px;height:3px}
-.top .sep{width:1px;height:22px;background:var(--line)}
-.top .sub{font-size:14px;color:var(--ink-2);font-weight:500}
+.top .sep{width:1px;height:22px;background:rgba(21,23,28,.18)}
+.top .sub{font-size:14px;color:var(--ink-2);font-weight:500;text-shadow:0 1px 0 rgba(255,255,255,.65)}
 .top .right{margin-left:auto;font-size:13px;color:var(--ink-3);font-weight:600}
-.top .nav-link{margin-left:auto;font-size:14px;font-weight:600;color:var(--red)}
-.top .nav-link:hover{text-decoration:underline}
+.top .nav-link{
+  margin-left:auto;font-size:14px;font-weight:650;color:var(--ink);
+  background:rgba(255,255,255,.78);border:1px solid rgba(255,255,255,.9);
+  padding:8px 14px;border-radius:999px;backdrop-filter:blur(8px);
+  box-shadow:0 4px 16px rgba(16,20,30,.06);
+}
+.top .nav-link:hover{background:#fff;color:var(--red)}
 
-/* ---------- герой (светлый, клиника) ---------- */
-.hero{background:linear-gradient(180deg,#fff 0%,#f5f7f9 100%);color:var(--ink);padding:40px 0 100px;position:relative;overflow:hidden}
-.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:1px;background:var(--line)}
-.pulse{position:absolute;right:-40px;top:20px;width:520px;height:260px;opacity:.18;pointer-events:none}
+/* ---------- герой: фото клиники на весь первый экран ---------- */
+.hero{
+  position:relative; overflow:hidden; color:var(--ink);
+  min-height: clamp(420px, 62vw, 560px);
+  padding:108px 0 120px;
+  display:flex; align-items:flex-start;
+}
+.hero__bg{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; object-position:62% center;
+  z-index:0; pointer-events:none;
+}
+.hero__veil{
+  position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.88) 0%, rgba(255,255,255,.72) 38%, rgba(255,255,255,.28) 62%, rgba(255,255,255,.08) 100%),
+    linear-gradient(180deg, rgba(245,247,249,.35) 0%, rgba(245,246,248,.55) 100%);
+}
+.hero__content{position:relative; z-index:2; max-width:560px}
 .badge{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;
-  background:var(--red-l);color:var(--red);border:1px solid rgba(221,12,41,.22);
-  padding:6px 12px;border-radius:100px}
-.hero h1{font-size:clamp(30px,4.6vw,44px);font-weight:800;margin:16px 0 12px;max-width:18ch;color:var(--ink)}
+  background:rgba(255,240,242,.95);color:var(--red);border:1px solid rgba(221,12,41,.22);
+  padding:6px 12px;border-radius:100px;box-shadow:0 4px 14px rgba(16,20,30,.05)}
+.hero h1{font-size:clamp(30px,4.6vw,44px);font-weight:800;margin:16px 0 12px;max-width:14ch;color:var(--ink);text-shadow:0 1px 0 rgba(255,255,255,.5)}
 .hero h1 em{font-style:normal;color:var(--red)}
-.hero .lead{color:var(--ink-2);font-size:17px;max-width:56ch}
+.hero .lead{color:var(--ink-2);font-size:17px;max-width:48ch;text-shadow:0 1px 0 rgba(255,255,255,.4)}
 .assure{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
-.assure span{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;color:var(--ink-2);
-  background:var(--surface);border:1px solid var(--line);padding:7px 12px;border-radius:8px}
+.assure span{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink-2);
+  background:rgba(255,255,255,.86);border:1px solid rgba(227,230,235,.95);padding:8px 12px;border-radius:10px;
+  backdrop-filter:blur(6px);box-shadow:0 4px 16px rgba(16,20,30,.04)}
+.assure svg{flex:0 0 auto;color:var(--red)}
 .assure b{color:var(--ink);font-weight:600}
 
 /* ---------- карточки ---------- */
-.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh)}
-.stage{margin-top:-64px;position:relative;z-index:2;padding:26px}
-.stage h2{font-size:19px;font-weight:700;margin-bottom:6px}
-.hint{color:var(--ink-3);font-size:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--sh)}
+.stage{margin-top:-72px;position:relative;z-index:2;padding:28px 28px 24px}
+.stage__head{margin-bottom:4px}
+.stage h2{font-size:20px;font-weight:750;margin-bottom:6px}
+.hint{color:var(--ink-3);font-size:14px;max-width:70ch}
 
-.drop{margin-top:18px;border:2px dashed #D3D8E0;border-radius:12px;background:#FBFCFD;
-  padding:34px 20px;text-align:center;transition:.15s;cursor:pointer}
+.drop{margin-top:18px;border:2px dashed #D3D8E0;border-radius:14px;background:#FBFCFD;
+  padding:36px 20px;text-align:center;transition:.15s;cursor:pointer}
 .drop:hover,.drop.over{border-color:var(--red);background:var(--red-l)}
-.drop .ico{width:46px;height:46px;margin:0 auto 12px;border-radius:12px;background:var(--red-l);
+.drop .ico{width:48px;height:48px;margin:0 auto 12px;border-radius:12px;background:var(--red-l);
   display:grid;place-items:center;color:var(--red)}
 .drop b{display:block;font-size:16px}
 .drop small{color:var(--ink-3);font-size:13px}
@@ -76,9 +102,12 @@ button{font:inherit}
 
 textarea{width:100%;min-height:110px;resize:vertical;padding:12px 14px;border:1px solid var(--line);
   border-radius:10px;font:13px/1.5 var(--mono);color:var(--ink);background:#FBFCFD}
-textarea:focus{outline:2px solid rgba(225,35,42,.25);border-color:var(--red)}
+textarea:focus{outline:2px solid rgba(221,12,41,.25);border-color:var(--red)}
 
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.row--actions{gap:14px}
+.privacy-note{display:inline-flex;align-items:center;gap:6px;margin:0;font-size:13px;color:var(--ink-3)}
+.privacy-note svg{flex:0 0 auto;color:var(--ink-3)}
 .btn{border:0;border-radius:10px;padding:12px 20px;font-weight:650;cursor:pointer;transition:.15s;
   display:inline-flex;align-items:center;gap:8px}
 .btn-p{background:var(--red);color:#fff}
@@ -88,6 +117,18 @@ textarea:focus{outline:2px solid rgba(225,35,42,.25);border-color:var(--red)}
 .btn-s:hover{border-color:var(--ink-3)}
 .btn-g{background:transparent;color:var(--red);padding:12px 6px}
 .btn-g:hover{text-decoration:underline}
+
+@media (max-width:760px){
+  .hero{min-height:380px;padding:96px 0 96px}
+  .hero__bg{object-position:72% center}
+  .hero__veil{
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.82) 0%, rgba(255,255,255,.78) 55%, rgba(245,246,248,.9) 100%);
+  }
+  .hero h1{max-width:none}
+  .stage{margin-top:-56px;padding:22px 18px}
+  .top .sub{display:none}
+}
 
 /* ---------- сопоставление колонок ---------- */
 .map{margin-top:18px;padding:16px;border:1px solid var(--line-2);border-radius:12px;background:#FBFCFD;display:none}

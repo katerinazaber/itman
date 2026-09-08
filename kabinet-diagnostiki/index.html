@@ -18,23 +18,30 @@
     </a>
     <div class="sep" aria-hidden="true"></div>
     <div class="sub">Клиника чистых данных</div>
-    <a class="nav-link" href="https://katerinazaber.github.io/itman/klinika-b/">К марафону</a>
+    <a class="nav-link" href="https://katerinazaber.github.io/itman/klinika-b/">К марафону →</a>
   </div>
 </header>
 
 <section class="hero">
-  <svg class="pulse" viewBox="0 0 520 260" fill="none" aria-hidden="true">
-    <path d="M0 150h120l18-52 22 104 20-78 18 26h60l16-40 20 80 18-66 16 26h172"
-          stroke="#dd0c29" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
-  </svg>
-  <div class="wrap">
+  <img class="hero__bg" src="assets/hero-clinic.jpg" alt="" aria-hidden="true">
+  <div class="hero__veil" aria-hidden="true"></div>
+  <div class="wrap hero__content">
     <span class="badge">Кабинет диагностики · бесплатно, без регистрации</span>
     <h1>Поставим <em>диагноз</em> вашей базе ПО</h1>
     <p class="lead">Загрузите выгрузку установленного ПО — получите карту состояния базы: сколько записей описывают одно и то же, где потеряны версии, сколько строк вообще не подлежит лицензированию.</p>
     <div class="assure">
-      <span>Файл не покидает ваш компьютер. Разбор идёт в браузере</span>
-      <span><b>20 секунд</b> на 20 000 строк</span>
-      <span><b>Методика открыта</b> — показываем, как считаем</span>
+      <span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 10-14h-7l0-6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        Файл не покидает ваш компьютер
+      </span>
+      <span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <b>20 секунд</b> на 20 000 строк
+      </span>
+      <span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        Методика открыта — показываем, как считаем
+      </span>
     </div>
   </div>
 </section>
@@ -42,8 +49,12 @@
 <main class="wrap">
 
   <div class="card stage">
-    <h2>Приём начат. Что у пациента?</h2>
-    <p class="hint">Подойдёт любая выгрузка со столбцом наименования ПО: SCCM, ИТМен, Kaspersky Security Center, «Астра», 1С, реестр установленных программ, обычная таблица из Excel.</p>
+    <div class="stage__head">
+      <div>
+        <h2>Приём начат. Что у пациента?</h2>
+        <p class="hint">Подойдёт любая выгрузка со столбцом наименования ПО: SCCM, ИТМен, Kaspersky Security Center, «Астра», 1С, реестр установленных программ, обычная таблица из Excel.</p>
+      </div>
+    </div>
 
     <div class="drop" id="drop" tabindex="0" role="button" aria-label="Выбрать файл">
       <div class="ico">
@@ -69,9 +80,13 @@
 
     <div class="err-box" id="err"></div>
 
-    <div class="row">
-      <button class="btn btn-p" id="go" disabled>Поставить диагноз</button>
+    <div class="row row--actions">
+      <button class="btn btn-p" id="go" disabled>Поставить диагноз →</button>
       <button class="btn btn-g" id="reset" style="display:none">Сбросить</button>
+      <p class="privacy-note">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        Данные обрабатываются локально в браузере
+      </p>
     </div>
 
     <div class="demos">
