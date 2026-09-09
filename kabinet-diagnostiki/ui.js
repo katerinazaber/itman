@@ -111,6 +111,33 @@ function tile(n, label, sub, cls) {
   return `<div class="tile ${cls || ''}"><div class="n">${n}</div><div class="l">${label}</div>${sub ? `<div class="s">${sub}</div>` : ''}</div>`;
 }
 
+function blockFold(bodyHtml, openText = 'Посмотреть подробнее', closeText = 'Скрыть') {
+  return `<div class="block-fold">
+    <button type="button" class="block-fold__btn" aria-expanded="false">
+      <span class="block-fold__open">${openText}</span>
+      <span class="block-fold__close">${closeText}</span>
+      <svg class="block-fold__chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="block-fold__body" hidden>${bodyHtml}</div>
+  </div>`;
+}
+
+function bindReportFolds(root) {
+  if (!root || root.dataset.foldsBound === '1') return;
+  root.dataset.foldsBound = '1';
+  root.addEventListener('click', e => {
+    const btn = e.target.closest('.block-fold__btn');
+    if (!btn || !root.contains(btn)) return;
+    const wrap = btn.closest('.block-fold');
+    const body = wrap && wrap.querySelector('.block-fold__body');
+    if (!body) return;
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+    body.hidden = open;
+    wrap.classList.toggle('is-open', !open);
+  });
+}
+
 function renderFindings(a) {
   let h = '';
 
@@ -125,22 +152,24 @@ function renderFindings(a) {
           <div class="forms">${b.forms.map(f => `<span class="chip dup">${esc(f)}</span>`).join('')}</div></div>`);
       }
     }
+    const body = `${items.join('')}
+      ${a.spellGroups.length > 25 ? `<div class="find"><div class="k">…и еще ${a.spellGroups.length - 25} ${plural(a.spellGroups.length - 25, 'продукт', 'продукта', 'продуктов')}</div></div>` : ''}`;
     h += `<div class="card sect">
       <h3>Одно и то же ПО записано по-разному</h3>
       <div class="sh">Одинаковый продукт, одинаковая версия — но в базе это разные записи. Для отчета по лицензиям каждая из них считается отдельно.</div>
-      ${items.join('')}
-      ${a.spellGroups.length > 25 ? `<div class="find"><div class="k">…и еще ${a.spellGroups.length - 25} ${plural(a.spellGroups.length - 25, 'продукт', 'продукта', 'продуктов')}</div></div>` : ''}
+      ${blockFold(body, 'Посмотреть подробнее')}
     </div>`;
   }
 
   /* издатели */
   if (a.vendorGroups.length) {
+    const body = `${a.vendorGroups.slice(0, 15).map(v => `<div class="find">
+        <div class="forms">${v.forms.map(f => `<span class="chip dup">${esc(f)}</span>`).join('')}</div></div>`).join('')}
+      ${a.vendorGroups.length > 15 ? `<div class="find"><div class="k">…и еще ${a.vendorGroups.length - 15}</div></div>` : ''}`;
     h += `<div class="card sect">
       <h3>Один издатель — несколько написаний</h3>
       <div class="sh">Пока издатель пишется по-разному, любая группировка по вендору и любой запрос «что у нас от этого производителя» дает неполный ответ.</div>
-      ${a.vendorGroups.slice(0, 15).map(v => `<div class="find">
-        <div class="forms">${v.forms.map(f => `<span class="chip dup">${esc(f)}</span>`).join('')}</div></div>`).join('')}
-      ${a.vendorGroups.length > 15 ? `<div class="find"><div class="k">…и еще ${a.vendorGroups.length - 15}</div></div>` : ''}
+      ${blockFold(body, 'Посмотреть подробнее')}
     </div>`;
   }
 
@@ -183,11 +212,11 @@ function methodology(a) {
   const w = a.weights, r = a.ratios;
   const line = (label, ratio, weight) =>
     `<tr><td>${label}</td><td class="num">${(ratio * 100).toFixed(1)}%</td><td class="num">×${weight}</td><td class="num">−${(ratio * weight).toFixed(1)}</td></tr>`;
-  return `<details>
-    <summary>Как считается индекс чистоты — открытая методика</summary>
+  return `<details class="method">
+    <summary>Как считается индекс чистоты? Открытая методика</summary>
     <div class="body">
       <p style="margin-bottom:12px">Мы не просим верить на слово. Индекс — это 100 минус штрафы по шести показателям. Веса подобраны нами и заданы явно, чтобы вы могли с ними спорить.</p>
-      <div class="scroll"><table>
+      <div class="scroll"><table class="method-table">
         <thead><tr><th>Показатель</th><th class="num">Доля</th><th class="num">Вес</th><th class="num">Штраф</th></tr></thead>
         <tbody>
           ${line('Разнописания и полные дубли', r.spell, w.spell)}
@@ -284,6 +313,7 @@ function render(a) {
   const out = $('#out');
   out.innerHTML = html;
   out.classList.add('on');
+  bindReportFolds(out);
 
   /* пересчет масштаба */
   const inp = $('#scaleN'), o = $('#scaleOut');

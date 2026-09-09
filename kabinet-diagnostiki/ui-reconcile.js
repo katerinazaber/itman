@@ -119,7 +119,7 @@ function renderReconcile(rec, core) {
     <h4 class="blk">Что запись получает после нормализации</h4>
     <div class="sh">Выше — только наименование. На деле нормализованная запись несет весь набор атрибутов каталога: по ним и строятся отчеты, а не по строке из инвентаря. Вот ваши собственные записи целиком.</div>
     <div class="sc-row">${rec.showcase.map(a => `<div class="sc-card">
-        <div class="sc-raw"><span class="k">БЫЛО</span>
+        <div class="sc-raw"><span class="k">Было</span>
           <code>${esc(a.raw.name)}</code>
           <span class="dim">${esc(a.raw.version || '—')} · ${esc(a.raw.publisher || '—')}</span></div>
         <div class="sc-fields">
@@ -175,11 +175,13 @@ function renderReconcile(rec, core) {
 
     ${rec.rows.length ? `
     <h4 class="blk">Что удалось привести к эталону</h4>
+    ${blockFold(`
     <div class="scroll"><table class="ba">
       <thead><tr><th colspan="3">Ваша запись</th><th></th><th>Эталонное наименование</th></tr></thead>
       <tbody>${beforeAfter}</tbody>
     </table></div>
     ${rec.rows.length > 40 ? `<div class="more">…и еще ${(rec.rows.length - 40).toLocaleString('ru')} ${plural(rec.rows.length - 40, 'запись', 'записи', 'записей')}</div>` : ''}
+    `, 'Посмотреть подробнее')}
 
     ${showcase}
 
@@ -198,6 +200,7 @@ function renderReconcile(rec, core) {
       Лицензии у вас могут быть — и при этом не давать права на ту версию, которая реально стоит на машинах.
       Мы не видим ваших закупок и не знаем типа договора, поэтому не говорим, есть право или нет. Мы считаем, сколько установок окажется «не той версии» в каждом из двух возможных случаев.</div>
 
+    ${blockFold(`
     ${lf.length ? `
     <div class="lic-fact">
       <b>Почему вопрос не праздный.</b> В каталоге «Призмы данных» ${md.skus.toLocaleString('ru')} ${plural(md.skus, 'артикул', 'артикула', 'артикулов')} с условиями прав.
@@ -233,10 +236,12 @@ function renderReconcile(rec, core) {
       ${rec.licBlurred.length ? `<div class="ln"><b>${rec.licBlurred.length}</b> ${plural(rec.licBlurred.length, 'продукт', 'продукта', 'продуктов')} отложено: каталог не дает версию хотя бы для двух позиций, а без версии вопрос поставить нельзя. Делать вид, что можно, мы не будем.</div>` : ''}
       <div class="ln"><b>Главное ограничение.</b> Вопрос поставлен по ${lf.length} ${plural(lf.length, 'продукту', 'продуктам', 'продуктам')}. Еще по ${unknown.toLocaleString('ru')} ${plural(unknown, 'лицензируемой записи', 'лицензируемым записям', 'лицензируемым записям')} он не ставился вовсе — этих позиций нет в демонстрационном ядре, а это ${pct(md.masks / md.libMasks)} каталога. В полном каталоге ${md.libCommercial.toLocaleString('ru')} коммерческих продуктов против ${md.libFree.toLocaleString('ru')} бесплатных и ${md.libComponent.toLocaleString('ru')} компонентов — и по каждому коммерческому вопрос ставится так же.</div>
     </div>
+    `, 'Посмотреть подробнее · продукты')}
     ` : ''}
 
     ${(rec.examples[3].length || rec.examples[4].length) ? `
     <h4 class="blk">Почти сошлось — и что именно помешало</h4>
+    ${blockFold(`
     ${rec.examples[3].length ? `<div class="find"><div class="k">ВЕНДОР ЗАПИСАН ИНАЧЕ, ЧЕМ ЖДЕТ КАТАЛОГ</div>
       ${rec.examples[3].map(e => `<div class="cmp"><span class="chip dup">${esc(e.it.publisher || '(пусто)')}</span>
         <span class="arrow">каталог ждет</span><span class="chip ver">${esc(e.vmask)}</span>
@@ -245,7 +250,9 @@ function renderReconcile(rec, core) {
       ${rec.examples[4].map(e => `<div class="cmp"><span class="chip dup">${esc(e.it.version || '(пусто)')}</span>
         <span class="arrow">каталог ждет</span><span class="chip ver">${esc(e.rmask)}</span>
         <span class="dim">→ ${esc(e.app)}</span></div>`).join('')}</div>` : ''}
-    <div class="sh" style="margin-top:10px">Это самая дешевая часть работы: здесь наименование уже опознано, поправить нужно только запись вендора или формат версии.</div>` : ''}
+    <div class="sh" style="margin-top:10px">Это самая дешевая часть работы: здесь наименование уже опознано, поправить нужно только запись вендора или формат версии.</div>
+    `, 'Посмотреть подробнее')}
+    ` : ''}
     ` : ''}
   </div>`;
 }
