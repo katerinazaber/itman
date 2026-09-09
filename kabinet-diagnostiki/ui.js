@@ -111,6 +111,36 @@ function tile(n, label, sub, cls) {
   return `<div class="tile ${cls || ''}"><div class="n">${n}</div><div class="l">${label}</div>${sub ? `<div class="s">${sub}</div>` : ''}</div>`;
 }
 
+function findFold(label, bodyHtml) {
+  return `<div class="find find--fold">
+    <button type="button" class="find-toggle" aria-expanded="false">
+      <span class="find-toggle__label">${label}</span>
+      <span class="find-toggle__action">
+        <span class="find-toggle__open">Подробнее</span>
+        <span class="find-toggle__close">Скрыть</span>
+        <svg class="find-toggle__chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </button>
+    <div class="find-body" hidden>${bodyHtml}</div>
+  </div>`;
+}
+
+function bindReportFolds(root) {
+  if (!root || root.dataset.foldsBound === '1') return;
+  root.dataset.foldsBound = '1';
+  root.addEventListener('click', e => {
+    const btn = e.target.closest('.find-toggle');
+    if (!btn || !root.contains(btn)) return;
+    const wrap = btn.closest('.find--fold');
+    const body = wrap && wrap.querySelector('.find-body');
+    if (!body) return;
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+    body.hidden = open;
+    wrap.classList.toggle('is-open', !open);
+  });
+}
+
 function renderFindings(a) {
   let h = '';
 
@@ -120,9 +150,9 @@ function renderFindings(a) {
     for (const g of a.spellGroups.slice(0, 25)) {
       for (const b of g.buckets) {
         if (b.excess <= 0) continue;
-        items.push(`<div class="find">
-          <div class="k">ВЕРСИЯ ${esc(verLabel(b.ver)).toUpperCase()} · ${b.forms.length} ${plural(b.forms.length, 'написание', 'написания', 'написаний')} одной записи</div>
-          <div class="forms">${b.forms.map(f => `<span class="chip dup">${esc(f)}</span>`).join('')}</div></div>`);
+        const label = `Версия ${esc(verLabel(b.ver))} · ${b.forms.length} ${plural(b.forms.length, 'написание', 'написания', 'написаний')} одной записи`;
+        const chips = `<div class="forms">${b.forms.map(f => `<span class="chip dup">${esc(f)}</span>`).join('')}</div>`;
+        items.push(findFold(label, chips));
       }
     }
     h += `<div class="card sect">
@@ -135,11 +165,15 @@ function renderFindings(a) {
 
   /* издатели */
   if (a.vendorGroups.length) {
+    const items = a.vendorGroups.slice(0, 15).map(v => {
+      const label = `${v.forms.length} ${plural(v.forms.length, 'написание', 'написания', 'написаний')} одного издателя`;
+      const chips = `<div class="forms">${v.forms.map(f => `<span class="chip dup">${esc(f)}</span>`).join('')}</div>`;
+      return findFold(label, chips);
+    });
     h += `<div class="card sect">
       <h3>Один издатель — несколько написаний</h3>
       <div class="sh">Пока издатель пишется по-разному, любая группировка по вендору и любой запрос «что у нас от этого производителя» дает неполный ответ.</div>
-      ${a.vendorGroups.slice(0, 15).map(v => `<div class="find">
-        <div class="forms">${v.forms.map(f => `<span class="chip dup">${esc(f)}</span>`).join('')}</div></div>`).join('')}
+      ${items.join('')}
       ${a.vendorGroups.length > 15 ? `<div class="find"><div class="k">…и еще ${a.vendorGroups.length - 15}</div></div>` : ''}
     </div>`;
   }
@@ -153,26 +187,31 @@ function renderFindings(a) {
   /* дефекты */
   const jb = Object.entries(a.junkBreakdown).sort((x, y) => y[1] - x[1]);
   if (jb.length) {
+    const table = `<div class="scroll"><table>
+        <thead><tr><th>Что не так</th><th class="num">Строк</th></tr></thead>
+        <tbody>${jb.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="num">${v}</td></tr>`).join('')}</tbody></table></div>`;
+    const examples = a.junkItems.length
+      ? findFold(`Примеры · ${Math.min(6, a.junkItems.length)} ${plural(Math.min(6, a.junkItems.length), 'запись', 'записи', 'записей')}`,
+          `<div class="forms">${a.junkItems.slice(0, 6).map(i => `<span class="chip dup">${esc(i.name.slice(0, 70))}</span>`).join('')}</div>`)
+      : '';
     h += `<div class="card sect">
       <h3>Дефекты записей</h3>
       <div class="sh">Строки, которые не сопоставятся ни с одним справочником, пока их не почистить.</div>
-      <div class="scroll"><table>
-        <thead><tr><th>Что не так</th><th class="num">Строк</th></tr></thead>
-        <tbody>${jb.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="num">${v}</td></tr>`).join('')}</tbody></table></div>
-      <div class="find"><div class="k">ПРИМЕРЫ</div><div class="forms">
-        ${a.junkItems.slice(0, 6).map(i => `<span class="chip dup">${esc(i.name.slice(0, 70))}</span>`).join('')}</div></div>
+      ${table}
+      ${examples}
     </div>`;
   }
 
   /* шум */
   const nb = Object.entries(a.noiseBreakdown).sort((x, y) => y[1] - x[1]);
   if (nb.length) {
+    const table = `<div class="scroll"><table>
+        <thead><tr><th>Категория</th><th class="num">Строк</th></tr></thead>
+        <tbody>${nb.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="num">${v}</td></tr>`).join('')}</tbody></table></div>`;
     h += `<div class="card sect">
       <h3>Не подлежит лицензированию</h3>
       <div class="sh">Эти строки занимают место в отчетах и в голове у аналитика, но лицензий не требуют. Их нужно отсекать до начала учета, а не после.</div>
-      <div class="scroll"><table>
-        <thead><tr><th>Категория</th><th class="num">Строк</th></tr></thead>
-        <tbody>${nb.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="num">${v}</td></tr>`).join('')}</tbody></table></div>
+      ${findFold(`Категории · ${nb.length}`, table)}
     </div>`;
   }
 
@@ -284,6 +323,7 @@ function render(a) {
   const out = $('#out');
   out.innerHTML = html;
   out.classList.add('on');
+  bindReportFolds(out);
 
   /* пересчет масштаба */
   const inp = $('#scaleN'), o = $('#scaleOut');
