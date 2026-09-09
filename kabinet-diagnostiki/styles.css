@@ -207,7 +207,7 @@ textarea:focus{outline:2px solid rgba(221,12,41,.25);border-color:var(--red)}
 .btn{border:0;border-radius:10px;padding:12px 20px;font-weight:650;cursor:pointer;transition:.15s;
   display:inline-flex;align-items:center;gap:8px}
 .btn-p{background:var(--red);color:#fff}
-.btn-p:hover{background:var(--red-d)}
+.btn-p:hover:not(:disabled){background:#111318;color:#fff}
 .btn-p:disabled{background:#D9DDE4;color:#fff;cursor:default}
 .btn-s{background:#fff;color:var(--ink);border:1px solid var(--line)}
 .btn-s:hover{border-color:var(--ink-3)}
