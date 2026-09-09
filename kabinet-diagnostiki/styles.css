@@ -181,19 +181,22 @@ button{font:inherit}
 /* ---------- карточки ---------- */
 .card{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 32px rgba(16,20,30,.07)}
 .stage{margin-top:-48px;position:relative;z-index:3;padding:28px 28px 24px}
-.stage__head{margin-bottom:4px}
-.stage h2{font-size:20px;font-weight:750;margin-bottom:6px}
-.hint{color:var(--ink-3);font-size:14px;max-width:none;text-align:justify}
+.stage__head{margin-bottom:8px}
+.stage h2{font-size:clamp(24px, 2.4vw, 28px);font-weight:750;margin-bottom:10px;letter-spacing:-.02em;color:var(--ink)}
+.hint,.demos-h,.drop small,.or,.privacy-note,footer{
+  color:var(--ink-2);
+}
+.hint{font-size:16px;line-height:1.55;max-width:none;text-align:justify}
 
 .drop{margin-top:18px;border:2px dashed #D3D8E0;border-radius:14px;background:#FBFCFD;
   padding:36px 20px;text-align:center;transition:.15s;cursor:pointer}
 .drop:hover,.drop.over{border-color:var(--red);background:var(--red-l)}
 .drop .ico{width:48px;height:48px;margin:0 auto 12px;border-radius:12px;background:var(--red-l);
   display:grid;place-items:center;color:var(--red)}
-.drop b{display:block;font-size:16px}
-.drop small{color:var(--ink-3);font-size:13px}
+.drop b{display:block;font-size:16px;color:var(--ink)}
+.drop small{font-size:14.5px}
 
-.or{display:flex;align-items:center;gap:14px;margin:18px 0;color:var(--ink-3);font-size:13px}
+.or{display:flex;align-items:center;gap:14px;margin:18px 0;font-size:14.5px}
 .or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
 
 textarea{width:100%;min-height:110px;resize:vertical;padding:12px 14px;border:1px solid var(--line);
@@ -202,8 +205,8 @@ textarea:focus{outline:2px solid rgba(221,12,41,.25);border-color:var(--red)}
 
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
 .row--actions{gap:14px}
-.privacy-note{display:inline-flex;align-items:center;gap:6px;margin:0;font-size:13px;color:var(--ink-3)}
-.privacy-note svg{flex:0 0 auto;color:var(--ink-3)}
+.privacy-note{display:inline-flex;align-items:center;gap:6px;margin:0;font-size:14.5px}
+.privacy-note svg{flex:0 0 auto;color:var(--ink-2)}
 .btn{border:0;border-radius:12px;min-height:48px;padding:0 24px;font-size:15px;font-weight:600;cursor:pointer;
   transition:background .15s,color .15s,border-color .15s;
   display:inline-flex;align-items:center;justify-content:center;gap:10px;white-space:nowrap}
@@ -308,7 +311,7 @@ img,svg{max-width:100%;height:auto}
   .hero h1{font-size:26px;margin:12px 0 10px}
   .badge{font-size:12px;padding:6px 12px}
   .stage{margin-top:12px;padding:18px 14px}
-  .stage h2{font-size:18px}
+  .stage h2{font-size:22px}
   .verdict{padding:18px 14px}
   .verdict h2{font-size:22px}
   .sect{padding:16px}
@@ -408,7 +411,7 @@ details .body code{font:12.5px var(--mono);background:#EEF0F4;padding:2px 5px;bo
 .form .err{font-size:12.5px;color:#FF8A8E;margin:-4px 0 8px;display:none}
 .form.done{text-align:center;padding:34px 18px}
 
-footer{padding:48px 0 44px;color:var(--ink-3);font-size:13px;text-align:center}
+footer{padding:48px 0 44px;font-size:14.5px;text-align:center}
 footer a{color:var(--red);font-weight:600}
 footer a:hover{text-decoration:underline}
 .foot p+p{margin-top:10px}
@@ -465,7 +468,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 @media print{.top,.hero,.stage,.cta,footer,.btn{display:none!important}#out{display:block!important}}
 
 .demos{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
-.demos-h{font-size:12.5px;color:var(--ink-3);line-height:1.5;margin-bottom:10px;max-width:none;text-align:justify}
+.demos-h{font-size:15px;line-height:1.55;margin-bottom:10px;max-width:none;text-align:justify}
 .demos-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-start}
 .demo-b{display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:#fff;
   border-radius:9px;padding:6px 10px;cursor:pointer;font:inherit;font-size:12.5px;color:var(--ink);
