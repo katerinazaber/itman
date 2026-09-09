@@ -208,7 +208,7 @@ textarea:focus{outline:2px solid rgba(221,12,41,.25);border-color:var(--red)}
   transition:background .15s,color .15s,border-color .15s;
   display:inline-flex;align-items:center;justify-content:center;gap:10px;white-space:nowrap}
 .btn-p{background:#DD202A;color:#fff}
-.btn-p:hover:not(:disabled){background:#111318;color:#fff}
+.btn-p:hover:not(:disabled){background:#EBEFF9;color:var(--ink)}
 .btn-p:disabled{background:#DD202A;color:#fff;opacity:1;cursor:default}
 .btn-s{background:#fff;color:var(--ink);border:1px solid var(--line)}
 .btn-s:hover{border-color:var(--ink-3)}
