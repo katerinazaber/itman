@@ -183,7 +183,7 @@ button{font:inherit}
 .stage{margin-top:-48px;position:relative;z-index:3;padding:28px 28px 24px}
 .stage__head{margin-bottom:4px}
 .stage h2{font-size:20px;font-weight:750;margin-bottom:6px}
-.hint{color:var(--ink-3);font-size:14px;max-width:70ch}
+.hint{color:var(--ink-3);font-size:14px;max-width:none;text-align:justify}
 
 .drop{margin-top:18px;border:2px dashed #D3D8E0;border-radius:14px;background:#FBFCFD;
   padding:36px 20px;text-align:center;transition:.15s;cursor:pointer}
