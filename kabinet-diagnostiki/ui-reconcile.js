@@ -51,12 +51,12 @@ function renderReconcile(rec, core) {
     return '<span class="risk lic-unk">Тип не указан в каталоге</span>';
   };
   /* Метку «новейшая» здесь не ставим: это сырые строки версий из вашего
-     инвентаря, и упорядочить их надёжно нельзя — «77.27» (это 1С 7.7)
+     инвентаря, и упорядочить их надежно нельзя — «77.27» (это 1С 7.7)
      арифметически больше, чем «8.3.24». Порядок версий, за который можно
-     отвечать, берётся из каталога — он ниже, в блоке о правах. */
+     отвечать, берется из каталога — он ниже, в блоке о правах. */
   const verCell = f => `<div class="vers">${f.versions.slice(0, 8).map(v =>
       `<span class="chip ver">${esc(v.label)}${v.rows > 1 ? `<i>×${v.rows}</i>` : ''}</span>`).join('')}${
-      f.versions.length > 8 ? `<span class="chip">…ещё ${f.versions.length - 8}</span>` : ''}</div>`;
+      f.versions.length > 8 ? `<span class="chip">…еще ${f.versions.length - 8}</span>` : ''}</div>`;
 
   const famRow = f => `<tr>
       <td>${f.source === 'catalog'
@@ -85,7 +85,7 @@ function renderReconcile(rec, core) {
     const cells = P.length <= 5
       ? P.map((p, i) => step(p, i === 0 ? 'old' : i === last ? 'new' : ''))
       : [step(P[0], 'old'), step(P[1]),
-         `<span class="pos gap">…ещё ${P.length - 4}</span>`,
+         `<span class="pos gap">…еще ${P.length - 4}</span>`,
          step(P[last - 1]), step(P[last], 'new')];
     return `<div class="ladder">${cells.join('<span class="lad-arr">→</span>')}</div>`;
   };
@@ -117,7 +117,7 @@ function renderReconcile(rec, core) {
   const scField = (k, v) => `<div class="sc-f"><span>${k}</span><b>${v ? esc(v) : '—'}</b></div>`;
   const showcase = rec.showcase.length ? `
     <h4 class="blk">Что запись получает после нормализации</h4>
-    <div class="sh">Выше — только наименование. На деле нормализованная запись несёт весь набор атрибутов каталога: по ним и строятся отчёты, а не по строке из инвентаря. Вот ваши собственные записи целиком.</div>
+    <div class="sh">Выше — только наименование. На деле нормализованная запись несет весь набор атрибутов каталога: по ним и строятся отчеты, а не по строке из инвентаря. Вот ваши собственные записи целиком.</div>
     <div class="sc-row">${rec.showcase.map(a => `<div class="sc-card">
         <div class="sc-raw"><span class="k">БЫЛО</span>
           <code>${esc(a.raw.name)}</code>
@@ -136,7 +136,7 @@ function renderReconcile(rec, core) {
           ${scField('Окончание поддержки вендором', a.eol)}
         </div>
       </div>`).join('')}</div>
-    <div class="sh" style="margin-top:12px">Прочерк — не наша недоработка, а честное состояние каталога: этого атрибута у позиции нет. Из этих полей и собирается лицензионная модель: тип лицензирования решает, нужен ли учёт вообще, версия и редакция — какая именно лицензия, категория — в чей бюджет.</div>` : '';
+    <div class="sh" style="margin-top:12px">Прочерк — не наша недоработка, а честное состояние каталога: этого атрибута у позиции нет. Из этих полей и собирается лицензионная модель: тип лицензирования решает, нужен ли учет вообще, версия и редакция — какая именно лицензия, категория — в чей бюджет.</div>` : '';
 
   /* ---- причины ---- */
   const reasonRow = (n, title, note, cls) => n ? `<div class="rz ${cls}">
@@ -169,7 +169,7 @@ function renderReconcile(rec, core) {
       <b>Честная оговорка.</b> В эту страницу встроено демонстрационное ядро: <b>${meta.masks.toLocaleString('ru')}</b> ${plMask(meta.masks)} распознавания
       на <b>${meta.apps.toLocaleString('ru')}</b> эталонных продуктов. Полный каталог «Призмы данных» —
       <b>${meta.libMasks.toLocaleString('ru')}</b> ${plMask(meta.libMasks)} на <b>${meta.libApps.toLocaleString('ru')}</b> продуктов,
-      то есть в ${Math.round(meta.libMasks / meta.masks)} ${plTimes(Math.round(meta.libMasks / meta.masks))} больше. Всё, что вы видите ниже как «не опознано»,
+      то есть в ${Math.round(meta.libMasks / meta.masks)} ${plTimes(Math.round(meta.libMasks / meta.masks))} больше. Все, что вы видите ниже как «не опознано»,
       делится на две части: то, чего нет и в полном каталоге, и то, что там есть. Разбираем это на третий день марафона.
     </div>
 
@@ -179,13 +179,13 @@ function renderReconcile(rec, core) {
       <thead><tr><th colspan="3">Ваша запись</th><th></th><th>Эталонное наименование</th></tr></thead>
       <tbody>${beforeAfter}</tbody>
     </table></div>
-    ${rec.rows.length > 40 ? `<div class="more">…и ещё ${(rec.rows.length - 40).toLocaleString('ru')} ${plural(rec.rows.length - 40, 'запись', 'записи', 'записей')}</div>` : ''}
+    ${rec.rows.length > 40 ? `<div class="more">…и еще ${(rec.rows.length - 40).toLocaleString('ru')} ${plural(rec.rows.length - 40, 'запись', 'записи', 'записей')}</div>` : ''}
 
     ${showcase}
 
     ${rec.spellings.length ? `
     <h4 class="blk">Разные записи ведут на одну эталонную позицию</h4>
-    <div class="sh">Это не наша догадка о похожести строк, а факт каталога: перечисленные записи сопоставлены с одной и той же позицией. Для отчёта по лицензиям каждая из них сейчас считается отдельно.</div>
+    <div class="sh">Это не наша догадка о похожести строк, а факт каталога: перечисленные записи сопоставлены с одной и той же позицией. Для отчета по лицензиям каждая из них сейчас считается отдельно.</div>
     <div class="scroll"><table>
       <thead><tr><th>Эталонная позиция</th><th>Вендор</th><th>Как записано у вас</th><th class="num">Строк</th></tr></thead>
       <tbody>${spell}</tbody>
@@ -193,8 +193,8 @@ function renderReconcile(rec, core) {
 
     ${(lf.length || cat.length || rec.heuristic.length) ? `
     <h4 class="blk">Один продукт — несколько версий в парке</h4>
-    <div class="sh">Само по себе это не дефект данных, а факт инфраструктуры. Но для лицензионного учёта это ровно то место, где данные превращаются в деньги:
-      <b>разные версии — это, возможно, разные лицензии</b>. Право использовать конкретную версию даёт не сам факт покупки, а условия артикула, по которому её купили.
+    <div class="sh">Само по себе это не дефект данных, а факт инфраструктуры. Но для лицензионного учета это ровно то место, где данные превращаются в деньги:
+      <b>разные версии — это, возможно, разные лицензии</b>. Право использовать конкретную версию дает не сам факт покупки, а условия артикула, по которому ее купили.
       Лицензии у вас могут быть — и при этом не давать права на ту версию, которая реально стоит на машинах.
       Мы не видим ваших закупок и не знаем типа договора, поэтому не говорим, есть право или нет. Мы считаем, сколько установок окажется «не той версии» в каждом из двух возможных случаев.</div>
 
@@ -203,21 +203,21 @@ function renderReconcile(rec, core) {
       <b>Почему вопрос не праздный.</b> В каталоге «Призмы данных» ${md.skus.toLocaleString('ru')} ${plural(md.skus, 'артикул', 'артикула', 'артикулов')} с условиями прав.
       Право на <b>понижение</b> версии заполнено у ${dgTot.toLocaleString('ru')} из них и дано в ${md.dgYes.toLocaleString('ru')} случаях — ${pct(md.dgYes / dgTot)}.
       Право на <b>повышение</b> заполнено у ${ugTot.toLocaleString('ru')} и дано только в ${md.ugYes.toLocaleString('ru')} — ${pct(md.ugYes / ugTot)}.
-      Старая версия в парке обычно не проблема. Новая — проблема примерно в четырёх случаях из десяти.
+      Старая версия в парке обычно не проблема. Новая — проблема примерно в четырех случаях из десяти.
     </div>
 
     <div class="src-lb ok">Лицензируемое по каталогу — родство позиций и тип лицензирования взяты оттуда</div>
     ${lf.slice(0, 8).map(licCard).join('')}
-    ${lf.length > 8 ? `<div class="more">…и ещё ${(lf.length - 8).toLocaleString('ru')} ${plural(lf.length - 8, 'продукт', 'продукта', 'продуктов')}</div>` : ''}` : ''}
+    ${lf.length > 8 ? `<div class="more">…и еще ${(lf.length - 8).toLocaleString('ru')} ${plural(lf.length - 8, 'продукт', 'продукта', 'продуктов')}</div>` : ''}` : ''}
 
     ${other.length ? `
     <div class="src-lb ok">Остальное по каталогу — лицензионного вопроса здесь нет</div>
-    <div class="sh">Каталог отсекает это за вас: бесплатное, компоненты и случаи, где позиция одна, а различаются только сборки. Без каталога в инвентаре всё это выглядит так же, как находки выше.</div>
+    <div class="sh">Каталог отсекает это за вас: бесплатное, компоненты и случаи, где позиция одна, а различаются только сборки. Без каталога в инвентаре все это выглядит так же, как находки выше.</div>
     <div class="scroll"><table>
       <thead><tr><th>Позиции каталога</th><th>Версии, как записаны у вас</th><th>Что это</th><th class="num">Строк</th></tr></thead>
       <tbody>${otherRows}</tbody>
     </table></div>
-    ${otherMore > 0 ? `<div class="more">…и ещё ${otherMore.toLocaleString('ru')}</div>` : ''}` : ''}
+    ${otherMore > 0 ? `<div class="more">…и еще ${otherMore.toLocaleString('ru')}</div>` : ''}` : ''}
 
     ${rec.heuristic.length ? `
     <div class="src-lb warn">По совпадению наименования и издателя — среди записей, которых нет в демонстрационном ядре.
@@ -226,26 +226,26 @@ function renderReconcile(rec, core) {
       <thead><tr><th>Продукт и издатель, как записаны у вас</th><th>Версии, как записаны у вас</th><th>Что это значит</th><th class="num">Строк</th></tr></thead>
       <tbody>${heur}</tbody>
     </table></div>
-    ${rec.heuristic.length > 12 ? `<div class="more">…и ещё ${(rec.heuristic.length - 12).toLocaleString('ru')}</div>` : ''}` : ''}
+    ${rec.heuristic.length > 12 ? `<div class="more">…и еще ${(rec.heuristic.length - 12).toLocaleString('ru')}</div>` : ''}` : ''}
 
     <div class="lic-notes">
       ${rec.licSkippedFree ? `<div class="ln"><b>${rec.licSkippedFree}</b> ${plural(rec.licSkippedFree, 'продукт', 'продукта', 'продуктов')} в нескольких версиях отсеяно как бесплатное или компоненты — ${rec.licSkippedFreeRows.toLocaleString('ru')} ${plural(rec.licSkippedFreeRows, 'строка', 'строки', 'строк')}. Это работа, которую вам не нужно делать.</div>` : ''}
-      ${rec.licBlurred.length ? `<div class="ln"><b>${rec.licBlurred.length}</b> ${plural(rec.licBlurred.length, 'продукт', 'продукта', 'продуктов')} отложено: каталог не даёт версию хотя бы для двух позиций, а без версии вопрос поставить нельзя. Делать вид, что можно, мы не будем.</div>` : ''}
-      <div class="ln"><b>Главное ограничение.</b> Вопрос поставлен по ${lf.length} ${plural(lf.length, 'продукту', 'продуктам', 'продуктам')}. Ещё по ${unknown.toLocaleString('ru')} ${plural(unknown, 'лицензируемой записи', 'лицензируемым записям', 'лицензируемым записям')} он не ставился вовсе — этих позиций нет в демонстрационном ядре, а это ${pct(md.masks / md.libMasks)} каталога. В полном каталоге ${md.libCommercial.toLocaleString('ru')} коммерческих продуктов против ${md.libFree.toLocaleString('ru')} бесплатных и ${md.libComponent.toLocaleString('ru')} компонентов — и по каждому коммерческому вопрос ставится так же.</div>
+      ${rec.licBlurred.length ? `<div class="ln"><b>${rec.licBlurred.length}</b> ${plural(rec.licBlurred.length, 'продукт', 'продукта', 'продуктов')} отложено: каталог не дает версию хотя бы для двух позиций, а без версии вопрос поставить нельзя. Делать вид, что можно, мы не будем.</div>` : ''}
+      <div class="ln"><b>Главное ограничение.</b> Вопрос поставлен по ${lf.length} ${plural(lf.length, 'продукту', 'продуктам', 'продуктам')}. Еще по ${unknown.toLocaleString('ru')} ${plural(unknown, 'лицензируемой записи', 'лицензируемым записям', 'лицензируемым записям')} он не ставился вовсе — этих позиций нет в демонстрационном ядре, а это ${pct(md.masks / md.libMasks)} каталога. В полном каталоге ${md.libCommercial.toLocaleString('ru')} коммерческих продуктов против ${md.libFree.toLocaleString('ru')} бесплатных и ${md.libComponent.toLocaleString('ru')} компонентов — и по каждому коммерческому вопрос ставится так же.</div>
     </div>
     ` : ''}
 
     ${(rec.examples[3].length || rec.examples[4].length) ? `
     <h4 class="blk">Почти сошлось — и что именно помешало</h4>
-    ${rec.examples[3].length ? `<div class="find"><div class="k">ВЕНДОР ЗАПИСАН ИНАЧЕ, ЧЕМ ЖДЁТ КАТАЛОГ</div>
+    ${rec.examples[3].length ? `<div class="find"><div class="k">ВЕНДОР ЗАПИСАН ИНАЧЕ, ЧЕМ ЖДЕТ КАТАЛОГ</div>
       ${rec.examples[3].map(e => `<div class="cmp"><span class="chip dup">${esc(e.it.publisher || '(пусто)')}</span>
-        <span class="arrow">каталог ждёт</span><span class="chip ver">${esc(e.vmask)}</span>
+        <span class="arrow">каталог ждет</span><span class="chip ver">${esc(e.vmask)}</span>
         <span class="dim">→ ${esc(e.app)}</span></div>`).join('')}</div>` : ''}
     ${rec.examples[4].length ? `<div class="find"><div class="k">ВЕРСИЯ НЕ ПОПАЛА В ОЖИДАЕМЫЙ ФОРМАТ</div>
       ${rec.examples[4].map(e => `<div class="cmp"><span class="chip dup">${esc(e.it.version || '(пусто)')}</span>
-        <span class="arrow">каталог ждёт</span><span class="chip ver">${esc(e.rmask)}</span>
+        <span class="arrow">каталог ждет</span><span class="chip ver">${esc(e.rmask)}</span>
         <span class="dim">→ ${esc(e.app)}</span></div>`).join('')}</div>` : ''}
-    <div class="sh" style="margin-top:10px">Это самая дешёвая часть работы: здесь наименование уже опознано, поправить нужно только запись вендора или формат версии.</div>` : ''}
+    <div class="sh" style="margin-top:10px">Это самая дешевая часть работы: здесь наименование уже опознано, поправить нужно только запись вендора или формат версии.</div>` : ''}
     ` : ''}
   </div>`;
 }

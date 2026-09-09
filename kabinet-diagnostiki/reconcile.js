@@ -150,7 +150,7 @@ function nameCandidates(core, name) {
 }
 
 /** Конкретность записи: версия важнее вендора, дальше — длина литерала версии. */
-/* Приоритет при выборе эталона. Первым идёт конкретность маски НАИМЕНОВАНИЯ:
+/* Приоритет при выборе эталона. Первым идет конкретность маски НАИМЕНОВАНИЯ:
    точная маска всегда сильнее маски с подстановкой. Иначе «Microsoft Visual
    Studio%» перебивает точную «Microsoft Visual Studio Professional», и ответ
    теряет редакцию — а редакция это отдельная лицензия, а не оформление имени.
@@ -244,11 +244,11 @@ function versionSummary(items) {
 }
 
 /* ---------- атрибуты эталонной позиции из справочников «Призмы данных» ----------
-   Всё, что ниже, читается из ядра как есть. Ни тип лицензирования, ни версия
+   Все, что ниже, читается из ядра как есть. Ни тип лицензирования, ни версия
    каталога не выводятся из инвентарных данных — они взяты из справочника
    «Приложение» и подставлены на сборке. */
 
-/** Тип лицензирования эталонной позиции по её индексу в core.apps. */
+/** Тип лицензирования эталонной позиции по ее индексу в core.apps. */
 function appLicense(core, ai) {
   if (!core.appLic || !core.licTypes) return null;
   const t = core.licTypes[core.appLic[ai]];
@@ -324,7 +324,7 @@ function reconcile(analysis, core) {
         const key = rec[2];                       // индекс эталонной позиции
         if (!products.has(key)) products.set(key, {
           ai: rec[2], app: core.apps[rec[2]], vendor: core.vendors[rec[3]],
-          /* семейство берём из справочника «Приложение», а не из маски:
+          /* семейство берем из справочника «Приложение», а не из маски:
              каталог сам знает, что AutoCAD 2019 и AutoCAD 2022 — один продукт */
           afam: core.appFam ? core.appFam[rec[2]] : -1,
           lic: appLicense(core, rec[2]),
@@ -351,11 +351,11 @@ function reconcile(analysis, core) {
   const spellings = prodList.filter(p => p.forms.size > 1);
 
   /* Несколько эталонных позиций ОДНОГО семейства приложений — то есть один
-     продукт, учтённый в парке в разных версиях. Семейство берётся из
+     продукт, учтенный в парке в разных версиях. Семейство берется из
      справочника «Приложение», а не из похожести строк. */
   /* У безверсионных «родовых» позиций каталога («Acrobat», «TeamViewer»)
      Семейство приложений не заполнено. Если имя такой позиции дословно
-     совпадает с именем семейства, привязываем её туда — иначе один продукт
+     совпадает с именем семейства, привязываем ее туда — иначе один продукт
      двоится: часть версий в лестнице, родовая позиция отдельной строкой. */
   const famByName = new Map();
   if (core.famNames) core.famNames.forEach((n, i) => famByName.set(n, i));
@@ -376,7 +376,7 @@ function reconcile(analysis, core) {
       /* Риск здесь определяет НЕ наша арифметика над строками версий, а сам
          каталог: если записи легли на разные эталонные позиции, значит каталог
          считает их разными продуктами — это вопрос прав. Если позиция одна,
-         а версии в инвентаре разные, то различие ниже уровня учёта: вопрос
+         а версии в инвентаре разные, то различие ниже уровня учета: вопрос
          обновлений, не лицензий. */
       const risk = list.length > 1 ? 'major' : 'patch';
       const main = list.slice().sort((x, y) => y.rows.length - x.rows.length)[0];
@@ -463,7 +463,7 @@ function reconcile(analysis, core) {
     const main = list.slice().sort((a, b) => b.rows.length - a.rows.length)[0];
     /* Лицензионным считаем семейство, если лицензируемые позиции держат
        большинство строк. Одной коммерческой позиции в хвосте недостаточно:
-       иначе в список попадёт бесплатный продукт из-за случайной привязки. */
+       иначе в список попадет бесплатный продукт из-за случайной привязки. */
     const licRows = list.reduce((s2, p) => s2 + (LICENSABLE[p.lic] ? p.rows.length : 0), 0);
     if (licRows * 2 <= rowsTotal) {
       licSkippedFree++; licSkippedFreeRows += rowsTotal;
@@ -472,7 +472,7 @@ function reconcile(analysis, core) {
         rows: rowsTotal, versions: versionSummary(list.flatMap(p => p.rows)).versions });
       continue;
     }
-    /* Имя семейства даёт каталог; если его нет, подписываемся позицией. */
+    /* Имя семейства дает каталог; если его нет, подписываемся позицией. */
     const famName = (core.famNames && main.afam >= 0 && core.famNames[main.afam]) || main.app;
     const licMain = LICENSABLE[main.lic] ? main.lic
                   : (list.find(p => LICENSABLE[p.lic]) || main).lic;
@@ -484,7 +484,7 @@ function reconcile(analysis, core) {
     const pos = p => ({ app: p.app, ver: p.catVer, red: p.red, rows: p.rows.length, lic: p.lic });
 
     if (dated.length < 2) {
-      /* Версию хотя бы двух позиций каталог не даёт — вопрос поставить
+      /* Версию хотя бы двух позиций каталог не дает — вопрос поставить
          нельзя, и делать вид, что можно, мы не будем. */
       licBlurred.push({
         family: famName, vendor: main.vendor, rows: rowsTotal,
@@ -499,10 +499,10 @@ function reconcile(analysis, core) {
       positions: dated.map(pos),
       oldest: pos(oldest), newest: pos(newest),
       rows: rowsTotal,
-      /* если лицензии куплены на МЛАДШУЮ версию — всё, что новее её,
+      /* если лицензии куплены на МЛАДШУЮ версию — все, что новее ее,
          требует права на повышение */
       needUpgrade: rowsTotal - oldest.rows.length,
-      /* если на СТАРШУЮ — всё, что старее, требует права на понижение */
+      /* если на СТАРШУЮ — все, что старее, требует права на понижение */
       needDowngrade: rowsTotal - newest.rows.length,
       undatedRows,
       editions: eds
@@ -520,8 +520,8 @@ function reconcile(analysis, core) {
       if (it.noise) continue;
       if (it.m && (it.m.code <= 2 || it.m.code === 6)) continue;   // опознанные уже учтены
       if (it.junk && it.junk.length) continue;                      // битые строки не группируем
-      /* Ключ берём СТРОГИЙ (tkey самой записи), а не ключ группы первого акта:
-         там работает нечёткое слияние по токенам, и оно склеивает, например,
+      /* Ключ берем СТРОГИЙ (tkey самой записи), а не ключ группы первого акта:
+         там работает нечеткое слияние по токенам, и оно склеивает, например,
          «.NET Host» с «.NET Core Host». В блоке без опоры на каталог догадка
          поверх догадки недопустима. */
       const key = (it.tkey || it.key || '') + '\u0000' + (it.publisher || '').trim().toLowerCase();
