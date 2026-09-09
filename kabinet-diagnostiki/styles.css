@@ -160,7 +160,7 @@ button{font:inherit}
   position: relative;
   z-index: 4;
 }
-.assure span{
+.assure > span{
   display:flex;align-items:flex-start;gap:10px;
   font-size:13px; line-height:1.35; color:var(--ink-2);
   background:rgba(255,255,255,.95);border:1px solid rgba(227,230,235,.95);
@@ -168,9 +168,15 @@ button{font:inherit}
   box-shadow:0 6px 22px rgba(16,20,30,.07);
   box-sizing:border-box;
   min-height: 0;
+  min-width: 0;
+}
+.assure > span > span{
+  display:block;
+  min-width:0;
+  flex:1 1 auto;
 }
 .assure svg{flex:0 0 auto;color:var(--red);margin-top:1px}
-.assure b{color:var(--ink);font-weight:600}
+.assure b{color:var(--ink);font-weight:700}
 
 /* ---------- карточки ---------- */
 .card{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 32px rgba(16,20,30,.07)}
@@ -271,7 +277,7 @@ img,svg{max-width:100%;height:auto}
     grid-template-columns:1fr;
     margin-top:16px;
   }
-  .assure span{min-height:0}
+  .assure > span{min-height:0}
   .stage{
     margin-top:16px;
     padding:22px 18px;
