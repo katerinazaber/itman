@@ -378,33 +378,6 @@ select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:9p
 .find{border-top:1px solid var(--line-2);padding:12px 0}
 .find:first-of-type{border-top:0}
 .find .k{font-size:12px;font-weight:700;color:var(--ink-3);letter-spacing:.04em;margin-bottom:6px}
-.find--fold{padding:0}
-.find-toggle{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-  width:100%;margin:0;padding:12px 0;border:0;border-top:1px solid var(--line-2);
-  background:transparent;cursor:pointer;text-align:left;font:inherit;color:inherit;
-}
-.find--fold:first-child .find-toggle,
-.sect > .find--fold:first-of-type .find-toggle,
-.sh + .find--fold .find-toggle,
-.scroll + .find--fold .find-toggle{border-top:0}
-.find-toggle__label{
-  flex:1 1 auto;min-width:0;
-  font-size:12.5px;font-weight:700;color:var(--ink-2);
-  letter-spacing:.02em;line-height:1.4;text-transform:uppercase;
-}
-.find-toggle__action{
-  flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;
-  font-size:13px;font-weight:650;color:var(--red);white-space:nowrap;
-}
-.find-toggle__close{display:none}
-.find-toggle__chev{transition:transform .2s ease;color:var(--red)}
-.find--fold.is-open .find-toggle__open{display:none}
-.find--fold.is-open .find-toggle__close{display:inline}
-.find--fold.is-open .find-toggle__chev{transform:rotate(180deg)}
-.find-toggle:hover .find-toggle__action{color:var(--red-d)}
-.find-body{padding:0 0 14px}
-.find-body .forms{margin-top:2px}
 .forms{display:flex;flex-wrap:wrap;gap:7px}
 .chip{font:12.5px/1.4 var(--mono);background:#F3F5F8;border:1px solid var(--line);
   border-radius:7px;padding:5px 9px;word-break:break-word;max-width:100%}
@@ -509,8 +482,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .src-lb.ok{background:var(--ok-l);border-color:var(--ok);color:#0B6136}
 .src-lb.warn{background:var(--warn-l);border-color:var(--warn);color:#6F4400}
 .dim.sm{font-size:12px;color:var(--ink-3);margin-top:3px}
-@media print{.top,.hero,.stage,.cta,.site-footer,.after-stage,.btn{display:none!important}#out{display:block!important}
-  .find-body{display:block!important} .find-toggle__action{display:none!important}}
+@media print{.top,.hero,.stage,.cta,.site-footer,.after-stage,.btn{display:none!important}#out{display:block!important}}
 
 .demos{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
 .demos-h{font-size:15px;line-height:1.55;margin-bottom:10px;max-width:none;text-align:justify}
