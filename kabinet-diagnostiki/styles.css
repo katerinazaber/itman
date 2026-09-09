@@ -303,7 +303,6 @@ img,svg{max-width:100%;height:auto}
   .rc-big{text-align:left}
   .rz-row{grid-template-columns:1fr}
   .after-stage{padding:22px 20px}
-  .site-footer__inner{gap:12px}
 }
 
 @media (max-width:760px){
@@ -421,7 +420,7 @@ details .body code{font:12.5px var(--mono);background:#EEF0F4;padding:2px 5px;bo
 }
 .local-note{margin:0;padding:0;text-align:center;font-size:14.5px;line-height:1.55;max-width:900px}
 .site-footer{background:#fff;border-top:1px solid var(--line);padding:24px 0}
-.site-footer__inner{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;color:#8a96a3;font-size:12px}
+.site-footer__inner{display:flex;align-items:center;justify-content:space-between;gap:16px;color:#8a96a3;font-size:12px}
 .site-footer .logo{display:flex;align-items:center}
 .site-footer .logo img{height:32px;width:auto;display:block}
 .err-box{margin-top:14px;padding:12px 15px;border-radius:10px;background:var(--bad-l);
