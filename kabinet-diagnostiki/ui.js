@@ -200,7 +200,17 @@ function methodology(a) {
 
 function render(a) {
   const compression = a.productsN ? (a.rowsN / a.productsN) : 1;
-  const hrs = m => {
+  const hrsLong = m => {
+    const h = m / 60;
+    if (h < 1) {
+      const mm = Math.round(m);
+      return `${mm} ${plural(mm, 'минута', 'минуты', 'минут')}`;
+    }
+    if (h < 10) return `${h.toFixed(1).replace('.', ',')} часа`;
+    const hh = Math.round(h);
+    return `${hh} ${plural(hh, 'час', 'часа', 'часов')}`;
+  };
+  const hrsShort = m => {
     const h = m / 60;
     return h < 1 ? `${Math.round(m)} мин` : h < 10 ? `${h.toFixed(1).replace('.', ',')} ч` : `${Math.round(h)} ч`;
   };
@@ -213,14 +223,14 @@ function render(a) {
       <h2>${esc(a.diag.t)}</h2>
       <p>${esc(a.diag.d)}</p>
       <div class="cost">
-        Мы разобрали <b>${a.rowsN.toLocaleString('ru')}</b> ${plural(a.rowsN, 'строку', 'строки', 'строк')} и нашли в них
+        Мы разобрали <b>${a.rowsN.toLocaleString('ru')}</b> ${plural(a.rowsN, 'строку', 'строки', 'строк')} и нашли среди них
         <b>${a.productsN.toLocaleString('ru')}</b> ${plural(a.productsN, 'реальный продукт', 'реальных продукта', 'реальных продуктов')}.
-        Свести найденное вручную — примерно <b>${hrs(a.manualMinutes)}</b> работы аналитика.
+        Если бы аналитик сводил это вручную, у него ушло бы примерно <b>${hrsLong(a.manualMinutes)}</b>.
         <label style="display:block;margin-top:10px;font-size:13.5px">
           А если во всей вашей базе
           <input id="scaleN" type="number" min="1" step="1000" value="${a.rowsN}"
                  style="width:120px;padding:5px 8px;border:1px solid var(--line);border-radius:7px;font:inherit;font-size:13.5px">
-          <span id="scaleWord">${plural(a.rowsN, 'запись', 'записи', 'записей')}</span> — это <b id="scaleOut">${hrs(a.manualMinutes)}</b>.
+          <span id="scaleWord">${plural(a.rowsN, 'запись', 'записи', 'записей')}</span>, это <b id="scaleOut">${hrsShort(a.manualMinutes)}</b>.
         </label>
       </div>
     </div>
@@ -273,7 +283,7 @@ function render(a) {
   const inp = $('#scaleN'), o = $('#scaleOut');
   if (inp) inp.addEventListener('input', () => {
     const n = Math.max(1, +inp.value || a.rowsN);
-    o.textContent = hrs(a.manualMinutes * n / a.rowsN);
+    o.textContent = hrsShort(a.manualMinutes * n / a.rowsN);
     const w = document.getElementById('scaleWord');
     if (w) w.textContent = plural(n, 'запись', 'записи', 'записей');
   });

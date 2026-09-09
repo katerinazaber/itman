@@ -7,12 +7,12 @@
   <title>Кабинет диагностики — Клиника чистых данных | ИТМен</title>
   <meta name="description" content="Бесплатный кабинет диагностики базы ПО и лицензий: загрузите выгрузку, получите карту состояния базы. Данные не покидают ваш компьютер.">
   <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=29">
+  <link rel="stylesheet" href="styles.css?v=30">
 </head>
 <body>
 
 <section class="hero">
-  <img class="hero__bg" src="assets/hero-clinic.png?v=29" alt="" width="1670" height="725" decoding="async" aria-hidden="true">
+  <img class="hero__bg" src="assets/hero-clinic.png?v=30" alt="" width="1670" height="725" decoding="async" aria-hidden="true">
   <div class="hero__veil" aria-hidden="true"></div>
 
   <div class="wrap hero__inner">
@@ -29,20 +29,20 @@
           <span class="badge">Бесплатно, без регистрации</span>
         </div>
         <h1>Узнайте <em>диагноз</em><br>вашей базы ПО и лицензий</h1>
-        <p class="lead">Загрузите выгрузку установленного ПО. Получите актуальную карту состояния базы: сколько записей дублируют друг друга, где потеряны версии, сколько строк не подлежит лицензированию.</p>
+        <p class="lead">Загрузите выгрузку установленного ПО. Получите актуальную карту состояния базы: сколько записей дублируют друг друга, где потеряны версии, сколько строк не подлежит лицензированию</p>
       </div>
       <div class="assure">
         <span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 10-14h-7l0-6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-          Файл не покидает ваш компьютер. Обработка проходит в браузере
+          <span><b>Файл не покидает ваш компьютер</b>. Обработка проходит в браузере</span>
         </span>
         <span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          Результат за <b>20 секунд</b>
+          <span>Результат за&nbsp;<b>20 секунд</b></span>
         </span>
         <span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          Все расчеты прозрачны. Показываем, как получен результат
+          <span><b>Расчеты прозрачны</b>. Показываем, как получен результат</span>
         </span>
       </div>
     </div>
@@ -55,7 +55,7 @@
     <div class="stage__head">
       <div>
         <h2>Прием начат. Что у пациента?</h2>
-        <p class="hint">Подойдет любая выгрузка со столбцом наименования ПО: SCCM, ИТМен, Kaspersky Security Center, «Астра», 1С, реестр установленных программ, обычная таблица из Excel.</p>
+        <p class="hint">Подойдет любая выгрузка со столбцом наименования ПО: SCCM, ITMen, Kaspersky Security Center, «Астра», 1С, реестр установленных программ, обычная таблица из Excel.</p>
       </div>
     </div>
 
@@ -70,7 +70,7 @@
     </div>
 
     <div class="or">или вставьте столбец прямо из Excel</div>
-    <textarea id="paste" spellcheck="false" placeholder="Скопируйте нужные столбцы в Excel (Ctrl+C) и вставьте сюда (Ctrl+V).&#10;&#10;Microsoft Office Professional Plus 2019&#9;16.0.10396&#9;Microsoft&#10;7-Zip 19.00 (x64 edition)&#9;19.00&#9;Igor Pavlov"></textarea>
+    <textarea id="paste" spellcheck="false" placeholder="Скопируйте нужные столбцы в Excel (Ctrl+C) и вставьте сюда (Ctrl+V)."></textarea>
 
     <div class="map card" id="map" style="box-shadow:none">
       <h3>Проверьте, что мы правильно поняли столбцы</h3>
@@ -84,7 +84,7 @@
     <div class="err-box" id="err"></div>
 
     <div class="row row--actions">
-      <button class="btn btn-p" id="go" disabled>Поставить диагноз →</button>
+      <button class="btn btn-p" id="go" disabled>Поставить диагноз</button>
       <button class="btn btn-g" id="reset" style="display:none">Сбросить</button>
       <p class="privacy-note">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
@@ -93,7 +93,7 @@
     </div>
 
     <div class="demos">
-      <div class="demos-h">Нет файла под рукой — возьмите готовый образец. Все строки в них подлинные: это записи из реальных выгрузок, а не придуманные примеры.</div>
+      <div class="demos-h">Нет файла под рукой? Возьмите готовый образец. Все строки в них подлинные: это записи из реальных выгрузок.</div>
       <div class="demos-row" id="demos"></div>
     </div>
   </div>
