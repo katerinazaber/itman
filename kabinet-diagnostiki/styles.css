@@ -209,7 +209,7 @@ textarea:focus{outline:2px solid rgba(221,12,41,.25);border-color:var(--red)}
   display:inline-flex;align-items:center;justify-content:center;gap:10px;white-space:nowrap}
 .btn-p{background:var(--red);color:#fff}
 .btn-p:hover:not(:disabled){background:var(--red-d);color:#fff}
-.btn-p:disabled{background:#D9DDE4;color:#fff;cursor:default}
+.btn-p:disabled{background:var(--red);color:#fff;opacity:.45;cursor:default}
 .btn-s{background:#fff;color:var(--ink);border:1px solid var(--line)}
 .btn-s:hover{border-color:var(--ink-3)}
 .btn-g{background:transparent;color:var(--red);padding:12px 6px;min-height:auto;white-space:normal}
