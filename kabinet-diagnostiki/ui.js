@@ -29,6 +29,12 @@ const DEMOS = [{"band": "Практически здоров", "tone": "#0a8f4d"
 function showError(msg) { const e = $('#err'); e.textContent = msg; e.classList.add('on'); }
 function clearError() { $('#err').classList.remove('on'); }
 
+function setGoReady(on) {
+  const b = $('#go');
+  b.classList.toggle('is-disabled', !on);
+  b.setAttribute('aria-disabled', on ? 'false' : 'true');
+}
+
 function ingest(text) {
   clearError();
   const parsed = parseInput(text);
@@ -41,7 +47,7 @@ function ingest(text) {
   STATE.cols = guessColumns(parsed.rows);
   fillSelects();
   $('#map').classList.add('on');
-  $('#go').disabled = false;
+  setGoReady(true);
   $('#reset').style.display = '';
   $('#go').scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
@@ -387,21 +393,21 @@ $('#reset').addEventListener('click', () => {
   $('#paste').value = ''; $('#file').value = '';
   $('#map').classList.remove('on');
   $('#out').classList.remove('on'); $('#out').innerHTML = '';
-  $('#go').disabled = true; $('#reset').style.display = 'none';
+  setGoReady(false); $('#reset').style.display = 'none';
   $('#drop').querySelector('b').textContent = 'Перетащите файл или нажмите для выбора';
   clearError();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
 $('#go').addEventListener('click', () => {
-  if (!STATE.rows) return;
+  if ($('#go').classList.contains('is-disabled') || !STATE.rows) return;
   const c = STATE.cols;
   c.name = +$('#cName').value;
   c.version = +$('#cVer').value;
   c.publisher = +$('#cPub').value;
   if (c.name === c.version || c.name === c.publisher) return showError('Наименование и версия (или издатель) не могут быть одним столбцом.');
   clearError();
-  $('#go').textContent = 'Считаем…'; $('#go').disabled = true;
+  $('#go').textContent = 'Считаем…'; setGoReady(false);
   setTimeout(() => {
     try {
       STATE.result = analyze(STATE.rows, c);
@@ -410,7 +416,7 @@ $('#go').addEventListener('click', () => {
     } catch (ex) {
       showError('Не получилось разобрать эти данные: ' + ex.message);
     }
-    $('#go').textContent = 'Поставить диагноз'; $('#go').disabled = false;
+    $('#go').textContent = 'Поставить диагноз'; setGoReady(true);
   }, 30);
 });
 

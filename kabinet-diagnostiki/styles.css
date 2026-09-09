@@ -207,15 +207,15 @@ textarea:focus{outline:2px solid rgba(221,12,41,.25);border-color:var(--red)}
 .row--actions{gap:14px}
 .privacy-note{display:inline-flex;align-items:center;gap:6px;margin:0;font-size:14.5px}
 .privacy-note svg{flex:0 0 auto;color:var(--ink-2)}
-.btn{border:0;border-radius:12px;min-height:48px;padding:0 24px;font-size:15px;font-weight:600;cursor:pointer;
+.btn{border:0;border-radius:12px;min-height:48px;padding:0 24px;font-size:15px;font-weight:700;cursor:pointer;
   transition:background .25s ease,color .25s ease,border-color .25s ease;
   display:inline-flex;align-items:center;justify-content:center;gap:10px;white-space:nowrap}
 .btn-p{background:#DD202A;color:#fff}
-.btn-p:hover:not(:disabled){background:#c10a24;color:#fff}
-.btn-p:disabled{background:#DD202A;color:#fff;opacity:1;cursor:default}
-.btn-s{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn-p:hover{background:#c10a24;color:#fff}
+.btn-p.is-disabled{cursor:default}
+.btn-s{background:#fff;color:var(--ink);border:1px solid var(--line);font-weight:600}
 .btn-s:hover{border-color:var(--ink-3)}
-.btn-g{background:transparent;color:var(--red);padding:12px 6px;min-height:auto;white-space:normal}
+.btn-g{background:transparent;color:var(--red);padding:12px 6px;min-height:auto;white-space:normal;font-weight:600}
 .btn-g:hover{text-decoration:underline}
 
 html{overflow-x:hidden}
