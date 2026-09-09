@@ -371,7 +371,7 @@ $('#paste').addEventListener('input', e => {
   if (!box) return;
   box.innerHTML = DEMOS.map((d, i) => `<button class="demo-b" data-i="${i}">
       <i style="background:${d.tone}1a;color:${d.tone}">${d.index}</i>
-      <span><b>${esc(d.band)}</b><br><span class="n">${d.rows} строк</span></span>
+      <span class="demo-b__txt"><b>${esc(d.band)}</b><span class="n">${d.rows} строк</span></span>
     </button>`).join('');
   box.addEventListener('click', e => {
     const b = e.target.closest('.demo-b'); if (!b) return;
