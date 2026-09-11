@@ -32,3 +32,6 @@ Disallow: /infra-control/
 
 User-agent: *
 Disallow: /checklist/
+
+User-agent: *
+Disallow: /itam-business-case/
