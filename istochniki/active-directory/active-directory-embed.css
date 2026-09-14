@@ -375,6 +375,21 @@
 
     /* Sections */
     .itman-ad section{ padding: 80px 0; }
+    .itman-ad .collect{
+      padding-top: 48px;
+      padding-bottom: 28px;
+    }
+    .itman-ad .faq{
+      padding-top: 36px;
+      padding-bottom: 36px;
+    }
+    .itman-ad .faq .section-title{
+      margin-bottom: 20px;
+    }
+    #itman-ad-faq{
+      margin: 0;
+      padding: 0;
+    }
     .itman-ad .section-title{
       font-size: clamp(28px, 4vw, 40px);
       font-weight: 600;
@@ -442,7 +457,6 @@
 
     /* How it works — плашки как на itman.ru (#f5f7f9) */
     .itman-ad .how{ background: var(--white); padding-bottom: 48px; }
-    .itman-ad .collect{ padding-top: 48px; }
     .itman-ad .how__grid{
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1252,6 +1266,8 @@
     @media (max-width: 720px) {
       .itman-ad .container{ width: 100%; max-width: var(--container); padding-left: 16px; padding-right: 16px; }
       .itman-ad section{ padding: 48px 0; }
+      .itman-ad .collect{ padding-top: 36px; padding-bottom: 20px; }
+      .itman-ad .faq{ padding-top: 28px; padding-bottom: 28px; }
       .itman-ad .trust__grid{
         grid-template-columns: 1fr 1fr;
         gap: 12px;
