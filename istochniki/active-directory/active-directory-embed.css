@@ -50,7 +50,7 @@
   position: relative;
   left: auto;
   right: auto;
-  overflow-x: clip;
+  overflow-x: visible;
   box-sizing: border-box;
 }
 .itman-ad *, .itman-ad *::before, .itman-ad *::after { box-sizing: border-box; }
@@ -363,9 +363,12 @@
       line-height: 1.55;
     }
 
-    /* Fit */
+    /* Fit — серый фон на всю ширину экрана (как секции на /inventory) */
     .itman-ad .fit{
+      position: relative;
       background: #f5f7f9;
+      box-shadow: 0 0 0 100vmax #f5f7f9;
+      clip-path: inset(0 -100vmax);
     }
     .itman-ad .fit__grid{
       display: grid;
