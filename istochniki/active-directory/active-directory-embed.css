@@ -263,8 +263,8 @@
     .itman-ad .breadcrumbs__sep{ opacity: .5; }
     .itman-ad .hero__grid{
       display: grid;
-      grid-template-columns: 1fr 1.05fr;
-      gap: 36px;
+      grid-template-columns: 0.95fr 1.2fr;
+      gap: 28px;
       align-items: center;
     }
     .itman-ad .hero__title{
@@ -318,7 +318,7 @@
       padding: 8px 0 0;
     }
     .itman-ad .hero__img{
-      width: min(100%, 560px);
+      width: min(100%, 680px);
       height: auto;
     }
 
@@ -1182,7 +1182,7 @@
         justify-content: center;
         padding-bottom: 0;
       }
-      .itman-ad .hero__img{ width: min(100%, 560px); }
+      .itman-ad .hero__img{ width: min(100%, 640px); }
     }
     @media (max-width: 720px) {
       .itman-ad .container{ width: 100%; max-width: var(--container); padding-left: 16px; padding-right: 16px; }
