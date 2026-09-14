@@ -62,16 +62,14 @@
     
 
     .itman-ad{
-      /* цвета как на itman.ru /inventory */
-      --red: #dd0d29;
-      --red-hover: #c7102a;
-      --black: #000000;
-      --text: #000000;
-      --text-secondary: #282828;
-      --muted: #868b8f;
-      --border: #e7e7e7;
-      --bg-soft: #f5f7f9;
-      --white: #ffffff;
+      --red: #e30613;
+      --red-hover: #c50510;
+      --black: #1a1a1a;
+      --text: #222;
+      --muted: #6b6b6b;
+      --border: #e6e6e6;
+      --bg-soft: #f7f7f7;
+      --white: #fff;
       --radius: 16px;
       --radius-sm: 12px;
       --radius-btn: 10px;
@@ -203,12 +201,10 @@
       justify-content: center;
       gap: 8px;
       min-height: 48px;
-      padding: 0 24px;
+      padding: 0 22px;
       border-radius: var(--radius-btn);
-      font-family: var(--font-semibold);
       font-weight: 600;
-      font-size: 18px;
-      line-height: 1;
+      font-size: 15px;
       transition: .2s ease;
       white-space: nowrap;
     }
@@ -237,8 +233,7 @@
       flex-wrap: wrap;
       gap: 8px;
       align-items: center;
-      font-family: var(--font-text);
-      font-size: 14px;
+      font-size: 13px;
       color: var(--muted);
       margin-bottom: 28px;
     }
@@ -251,11 +246,10 @@
       align-items: center;
     }
     .itman-ad .hero__title{
-      font-family: var(--font-semibold);
-      font-size: 40px;
+      font-size: clamp(28px, 4vw, 40px);
       font-weight: 600;
-      line-height: 1.1;
-      letter-spacing: 0;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
       color: #000000;
       margin-bottom: 22px;
       max-width: none;
@@ -275,8 +269,8 @@
       align-items: flex-start;
       gap: 12px;
       font-family: var(--font-text);
-      font-size: 18px;
-      line-height: 1.4;
+      font-size: 15.5px;
+      line-height: 1.45;
       color: #000000;
       font-weight: 400;
     }
@@ -342,8 +336,7 @@
     }
     .itman-ad .trust-card p{
       font-family: var(--font-text);
-      font-size: 14px;
-      line-height: 1.4;
+      font-size: 13px;
       line-height: 1.3;
       color: #000000;
       font-weight: 400;
@@ -353,30 +346,28 @@
     /* Sections */
     .itman-ad section{ padding: 80px 0; }
     .itman-ad .section-title{
-      font-family: var(--font-semibold);
-      font-size: 40px;
+      font-size: clamp(28px, 4vw, 40px);
       font-weight: 600;
-      letter-spacing: 0;
+      letter-spacing: -.02em;
       color: #000000;
-      line-height: 1.1;
+      line-height: 1.2;
       margin-bottom: 28px;
     }
     .itman-ad .section-title--center{ text-align: center; }
     .itman-ad .section-lead{
-      font-family: var(--font-text);
-      font-size: 18px;
+      font-size: 17px;
       color: var(--muted);
       max-width: 720px;
       margin: -12px auto 36px;
       text-align: center;
-      line-height: 1.4;
+      line-height: 1.55;
     }
 
     /* Fit — серый фон на всю ширину экрана (как секции на /inventory) */
     .itman-ad .fit{
       position: relative;
-      background: var(--bg-soft);
-      box-shadow: 0 0 0 100vmax var(--bg-soft);
+      background: #f5f7f9;
+      box-shadow: 0 0 0 100vmax #f5f7f9;
       clip-path: inset(0 -100vmax);
     }
     .itman-ad .fit__grid{
@@ -404,7 +395,7 @@
       width: 48px;
       height: 48px;
       border-radius: 12px;
-      background: rgba(221,13,41,.08);
+      background: rgba(227,6,19,.08);
       color: var(--red);
       display: grid;
       place-items: center;
@@ -413,10 +404,7 @@
     .itman-ad .fit-card__icon img{ display: none; }
     .itman-ad .fit-card p{
       font-family: var(--font-text);
-      font-size: 20px;
-      line-height: 1.35;
-      color: var(--text);
-    }
+      font-size: 15px;
       line-height: 1.45;
       font-weight: 400;
       color: #000000;
@@ -459,21 +447,19 @@
       flex: none;
     }
     .itman-ad .step h3{
-      font-family: var(--font-semibold);
-      font-size: 20px;
-      font-weight: 600;
+      font-size: 18px;
+      font-weight: 700;
       margin: 0;
       color: var(--black);
-      line-height: 1.2;
+      line-height: 1.3;
     }
     .itman-ad .step ul{ display: grid; gap: 8px; }
     .itman-ad .step li{
       position: relative;
       padding-left: 14px;
-      font-family: var(--font-text);
-      font-size: 16px;
-      line-height: 1.4;
-      color: var(--text);
+      font-size: 15px;
+      line-height: 1.45;
+      color: #1a1a1a;
     }
     .itman-ad .step li::before{
       content: "";
@@ -664,10 +650,8 @@
     .itman-ad .collect__intro{
       max-width: none;
       width: 100%;
-      font-family: var(--font-text);
-      font-size: 18px;
-      color: var(--text-secondary);
-      line-height: 1.4;
+      font-size: 17px;
+      color: #444;
       margin-bottom: 28px;
       line-height: 1.55;
     }
@@ -695,20 +679,17 @@
       opacity: .95;
     }
     .itman-ad .collect-card h3{
-      font-family: var(--font-semibold);
       font-size: 20px;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 14px;
-      letter-spacing: 0;
+      letter-spacing: -.01em;
     }
     .itman-ad .collect-card ul{ display: grid; gap: 10px; }
     .itman-ad .collect-card li{
       position: relative;
       padding-left: 16px;
-      font-family: var(--font-text);
-      font-size: 16px;
-      line-height: 1.4;
-      color: var(--text);
+      font-size: 15px;
+      line-height: 1.5;
     }
     .itman-ad .collect-card--dark li, .itman-ad .collect-card--red li{
       font-family: var(--font-medium);
@@ -772,10 +753,9 @@
 
     .itman-ad .related{ padding: 0 0 48px; background: var(--white); }
     .itman-ad .related__text{
-      font-family: var(--font-text);
-      font-size: 16px;
-      line-height: 1.4;
-      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.55;
+      color: #555;
       text-align: center;
       max-width: 760px;
       margin: 0 auto;
@@ -794,10 +774,6 @@
       background-repeat: no-repeat;
     }
     .itman-ad .security .section-title{
-      font-family: var(--font-semibold);
-      font-size: 40px;
-      font-weight: 600;
-      line-height: 1.1;
       color: #fff;
       margin-bottom: 28px;
     }
@@ -834,16 +810,16 @@
     }
     .itman-ad .sec-item h3{
       font-family: var(--font-semibold);
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 600;
-      line-height: 1.2;
+      line-height: 1.3;
       color: #fff;
       margin: 0;
     }
     .itman-ad .sec-item p{
       font-family: var(--font-text);
-      font-size: 16px;
-      line-height: 1.4;
+      font-size: 15px;
+      line-height: 1.45;
       font-weight: 400;
       color: #fff;
       margin: 0;
@@ -862,12 +838,11 @@
       list-style: none;
       cursor: pointer;
       padding: 20px 36px 20px 0;
-      font-family: var(--font-semibold);
-      font-size: 18px;
-      font-weight: 600;
+      font-size: 17px;
+      font-weight: 650;
       color: var(--black);
       position: relative;
-      line-height: 1.3;
+      line-height: 1.35;
     }
     .itman-ad summary::-webkit-details-marker{ display: none; }
     .itman-ad summary::after{
@@ -887,10 +862,9 @@
     }
     .itman-ad details p{
       padding: 0 0 20px;
-      color: var(--text-secondary);
-      font-family: var(--font-text);
-      font-size: 16px;
-      line-height: 1.4;
+      color: #555;
+      font-size: 15px;
+      line-height: 1.55;
       max-width: 720px;
     }
 
@@ -1130,19 +1104,6 @@
 
     @media (max-width: 1100px) {
       .itman-ad .nav{ display: none; }
-      .itman-ad .hero__title,
-      .itman-ad .section-title,
-      .itman-ad .security .section-title{
-        font-size: 32px;
-      }
-      .itman-ad .hero__list li{
-        font-size: 16px;
-      }
-      .itman-ad .fit-card p{
-        font-size: 16px;
-      }
-      .itman-ad .sec-item h3{ font-size: 16px; }
-      .itman-ad .sec-item p{ font-size: 14px; }
       .itman-ad .trust__grid{
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 16px;
