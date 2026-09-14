@@ -1174,67 +1174,72 @@
       .itman-ad .how__grid, .itman-ad .hero__grid, .itman-ad .cta__grid, .itman-ad .collect__grid{ grid-template-columns: 1fr; }
       .itman-ad .schema{
         height: auto;
-        max-width: 520px;
+        max-width: 560px;
         margin-inline: auto;
         width: 100%;
         overflow: visible;
       }
-      .itman-ad .schema-diagram{ min-height: 0; }
-      .itman-ad .sch-spine{
-        width: min(100%, 340px);
+      .itman-ad .schema-diagram{
         min-height: 0;
-        margin: 0 auto;
+        justify-content: flex-start;
+        padding-left: 8px;
+        padding-right: 176px; /* место под Результат справа от оси */
+        box-sizing: border-box;
+      }
+      .itman-ad .sch-spine{
+        width: min(100%, 260px);
+        min-height: 0;
+        margin: 0;
         gap: 0;
       }
-      /* Адаптив: ИТМен → Результат сбоку; снизу Устройства → инвентаризация → ИТМен */
+      /*
+        ИТМен остаётся на вертикальной оси (как AD / LDAP / инвентаризация),
+        Результат — абсолютно справа: стрелки сверху/снизу бьют в ИТМен, не в Результат.
+      */
       .itman-ad .sch-hub-wrap{
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        align-items: center;
-        justify-content: center;
-        gap: 0;
-        width: calc(100% + 48px);
+        display: block;
+        position: relative;
+        width: 100%;
+        margin: 0;
         max-width: none;
-        margin-left: -24px;
-        margin-right: -24px;
       }
       .itman-ad .sch-card--hub{
-        flex: 0 1 auto;
-        min-width: 0;
-        max-width: 190px;
+        width: 100%;
+        max-width: none;
+        flex: none;
         padding: 14px 12px;
       }
       .itman-ad .sch-hub-logo{
         height: 34px;
       }
       .itman-ad .sch-out{
-        position: static;
-        transform: none;
-        order: unset;
+        position: absolute;
+        left: calc(100% + 6px);
+        top: 50%;
+        transform: translateY(-50%);
         margin: 0;
         flex-direction: row;
         align-items: center;
-        flex: 0 0 auto;
-        min-width: 0;
+        flex: none;
+        z-index: 3;
       }
       .itman-ad .sch-card--result{
-        position: static;
+        position: relative;
         transform: none;
-        width: 196px;
+        width: 168px;
         margin: 0;
         padding: 12px 12px 12px 14px;
       }
       .itman-ad .sch-arrow--side{
         position: static;
         transform: none;
-        margin: 0 2px 0 0;
-        width: 22px;
+        margin: 0;
+        width: 28px;
         height: 24px;
         flex: none;
       }
       .itman-ad .sch-arrow--side svg{
-        width: 22px;
+        width: 28px;
         height: 16px;
       }
       .itman-ad .hero__title{ max-width: none; }
@@ -1263,4 +1268,11 @@
       .itman-ad .footer__cols{ gap: 28px; }
       .itman-ad .header__inner{ min-height: 64px; }
       .itman-ad .btn--dark{ display: none; }
+      .itman-ad .schema-diagram{
+        padding-right: 148px;
+      }
+      .itman-ad .sch-spine{ width: min(100%, 220px); }
+      .itman-ad .sch-card--result{ width: 148px; padding: 10px 10px 10px 12px; }
+      .itman-ad .sch-card--result .sch-card__title{ font-size: 14px; }
+      .itman-ad .sch-card--result .sch-card__list li{ font-size: 13px; }
     }
