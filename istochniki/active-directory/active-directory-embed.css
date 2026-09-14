@@ -1173,7 +1173,7 @@
       }
       .itman-ad .schema-diagram{ min-height: 0; }
       .itman-ad .sch-spine{
-        width: min(88%, 300px);
+        width: min(100%, 340px);
         min-height: 0;
         margin: 0 auto;
         gap: 0;
@@ -1186,13 +1186,15 @@
         align-items: center;
         justify-content: center;
         gap: 0;
-        width: 100%;
-        max-width: 100%;
+        width: calc(100% + 48px);
+        max-width: none;
+        margin-left: -24px;
+        margin-right: -24px;
       }
       .itman-ad .sch-card--hub{
-        flex: 1 1 auto;
+        flex: 0 1 auto;
         min-width: 0;
-        max-width: 200px;
+        max-width: 190px;
         padding: 14px 12px;
       }
       .itman-ad .sch-hub-logo{
@@ -1205,26 +1207,26 @@
         margin: 0;
         flex-direction: row;
         align-items: center;
-        flex: 0 1 auto;
+        flex: 0 0 auto;
         min-width: 0;
       }
       .itman-ad .sch-card--result{
         position: static;
         transform: none;
-        width: min(46vw, 168px);
+        width: 196px;
         margin: 0;
-        padding: 12px 10px;
+        padding: 12px 12px 12px 14px;
       }
       .itman-ad .sch-arrow--side{
         position: static;
         transform: none;
-        margin: 0;
-        width: 28px;
+        margin: 0 2px 0 0;
+        width: 22px;
         height: 24px;
         flex: none;
       }
       .itman-ad .sch-arrow--side svg{
-        width: 28px;
+        width: 22px;
         height: 16px;
       }
       .itman-ad .hero__title{ max-width: none; }
