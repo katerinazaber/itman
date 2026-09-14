@@ -16,7 +16,7 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const plural = (n, a, b, c) => { const m = n % 100, k = n % 10; return m > 10 && m < 20 ? c : k === 1 ? a : k > 1 && k < 5 ? b : c; };
 
-let STATE = { rows: null, cols: null, result: null, recon: null };
+let STATE = { rows: null, cols: null, result: null, recon: null, demo: false };
 
 /* ---------- образцы ----------
    Пять выгрузок, по одной на каждый диагноз. Каждая строка в них —
@@ -26,14 +26,16 @@ const DEMOS = [{"band": "Практически здоров", "tone": "#0a8f4d"
 
 /* ---------- загрузка данных ---------- */
 
-function showError(msg) { const e = $('#err'); e.textContent = msg; e.classList.add('on'); }
-function clearError() { $('#err').classList.remove('on'); }
 
 function setGoReady(on) {
   const b = $('#go');
+  if (!b) return;
   b.classList.toggle('is-disabled', !on);
   b.setAttribute('aria-disabled', on ? 'false' : 'true');
 }
+
+function showError(msg) { const e = $('#err'); e.textContent = msg; e.classList.add('on'); }
+function clearError() { $('#err').classList.remove('on'); }
 
 function ingest(text) {
   clearError();
@@ -111,32 +113,31 @@ function tile(n, label, sub, cls) {
   return `<div class="tile ${cls || ''}"><div class="n">${n}</div><div class="l">${label}</div>${sub ? `<div class="s">${sub}</div>` : ''}</div>`;
 }
 
-function blockFold(bodyHtml, openText = 'Посмотреть подробнее', closeText = 'Скрыть') {
-  return `<div class="block-fold">
-    <button type="button" class="block-fold__btn" aria-expanded="false">
-      <span class="block-fold__open">${openText}</span>
-      <span class="block-fold__close">${closeText}</span>
-      <svg class="block-fold__chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="block-fold__body" hidden>${bodyHtml}</div>
-  </div>`;
-}
+/* Две разные вещи, и их нельзя мешать.
+   pain() — коротко: что эти разрозненные данные порождают и чем это кончается.
+   Говорим на языке ITAM/SAM-менеджера, про продукт — ни слова.
+   prism() — тихая справочная сноска: как это закрыто в «Призме данных».
+   Отдельным окошком со знаком продукта, чтобы диагностика не превращалась
+   в рекламу. */
+const whrs = m => { const h = m / 60;
+  return h < 1 ? `${Math.round(m)} мин` : h < 10 ? `${h.toFixed(1).replace('.', ',')} ч` : `${Math.round(h)} ч`; };
 
-function bindReportFolds(root) {
-  if (!root || root.dataset.foldsBound === '1') return;
-  root.dataset.foldsBound = '1';
-  root.addEventListener('click', e => {
-    const btn = e.target.closest('.block-fold__btn');
-    if (!btn || !root.contains(btn)) return;
-    const wrap = btn.closest('.block-fold');
-    const body = wrap && wrap.querySelector('.block-fold__body');
-    if (!body) return;
-    const open = btn.getAttribute('aria-expanded') === 'true';
-    btn.setAttribute('aria-expanded', open ? 'false' : 'true');
-    body.hidden = open;
-    wrap.classList.toggle('is-open', !open);
-  });
-}
+/* Блок последствий: что эти данные значат для практик SAM и ITAM и на что
+   из-за них тратятся деньги. Разделяем два кошелька, потому что в организации
+   они разные: закупка лицензий и операционные трудозатраты. */
+const pain = (what, spend) => `<div class="pain">
+  <div>${what}</div>
+  ${spend ? `<div class="money">${spend.map(([k, v, cls]) =>
+    `<span class="mchip ${cls}"><i>${k}</i>${v}</span>`).join('')}</div>` : ''}
+</div>`;
+
+const PRISM_LOGO = 'data:image/png;base64,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';
+const prism = html => `<div class="prism">
+  <img class="prism-logo" src="${PRISM_LOGO}" alt="Призма данных" width="150">
+  <div>${html}</div>
+</div>`;
+const CM = (typeof CORE !== 'undefined' && CORE && CORE.meta) ? CORE.meta : null;
+const nfmt = n => Number(n).toLocaleString('ru');
 
 function renderFindings(a) {
   let h = '';
@@ -148,28 +149,40 @@ function renderFindings(a) {
       for (const b of g.buckets) {
         if (b.excess <= 0) continue;
         items.push(`<div class="find">
-          <div class="k">ВЕРСИЯ ${esc(verLabel(b.ver)).toUpperCase()} · ${b.forms.length} ${plural(b.forms.length, 'написание', 'написания', 'написаний')} одной записи</div>
+          <div class="k">ВЕРСИЯ ${esc(verLabel(b.ver)).toUpperCase()}${b.ed ? ' · РЕДАКЦИЯ ' + esc(b.ed).toUpperCase() : ''} · ${b.forms.length} ${plural(b.forms.length, 'написание', 'написания', 'написаний')} одной записи</div>
           <div class="forms">${b.forms.map(f => `<span class="chip dup">${esc(f)}</span>`).join('')}</div></div>`);
       }
     }
-    const body = `${items.join('')}
-      ${a.spellGroups.length > 25 ? `<div class="find"><div class="k">…и еще ${a.spellGroups.length - 25} ${plural(a.spellGroups.length - 25, 'продукт', 'продукта', 'продуктов')}</div></div>` : ''}`;
     h += `<div class="card sect">
       <h3>Одно и то же ПО записано по-разному</h3>
-      <div class="sh">Одинаковый продукт, одинаковая версия — но в базе это разные записи. Для отчета по лицензиям каждая из них считается отдельно.</div>
-      ${blockFold(body, 'Посмотреть подробнее')}
+      <div class="sh">Одинаковый продукт, одинаковая версия — но в выгрузке это разные строки. Пока их не свели, каждая уйдёт в учет как отдельная позиция.</div>
+      ${pain(
+        `Оценка <b>лицензионного соответствия</b> строится на учетных позициях, а не на строках инвентаря — значит эти записи сначала нужно свести.
+         <b>${nfmt(a.spellExcess + a.exactDup)}</b> ${plural(a.spellExcess + a.exactDup, 'лишняя форма', 'лишние формы', 'лишних форм')} записи — ровно тот объём работы, который придется закрыть до загрузки данных в SAM-систему.
+         Сведут неверно — потребление окажется завышенным, а реальная нехватка прав так и не будет видна.`,
+        [['Лицензии', `если разнописания уйдут в учет как есть, бюджет закладывается на ${nfmt(a.spellExcess + a.exactDup)} ${plural(a.spellExcess + a.exactDup, 'позицию', 'позиции', 'позиций')}, которых в парке нет, — а недостающие права останутся незакрытыми`, 'cap'],
+         ['Трудозатраты', `${whrs(a.spellGroups.length * 3)} на сведение, и это не разовая работа: инвентаризация выгружается заново каждый цикл`, 'op']])}
+      ${prism('Написания сводятся к одной учетной позиции автоматически, при каждой загрузке — потребление считается по продуктам, а не по строкам реестра.')}
+      ${items.join('')}
+      ${a.spellGroups.length > 25 ? `<div class="find"><div class="k">…и еще ${a.spellGroups.length - 25} ${plural(a.spellGroups.length - 25, 'продукт', 'продукта', 'продуктов')}</div></div>` : ''}
     </div>`;
   }
 
   /* издатели */
   if (a.vendorGroups.length) {
-    const body = `${a.vendorGroups.slice(0, 15).map(v => `<div class="find">
-        <div class="forms">${v.forms.map(f => `<span class="chip dup">${esc(f)}</span>`).join('')}</div></div>`).join('')}
-      ${a.vendorGroups.length > 15 ? `<div class="find"><div class="k">…и еще ${a.vendorGroups.length - 15}</div></div>` : ''}`;
     h += `<div class="card sect">
       <h3>Один издатель — несколько написаний</h3>
       <div class="sh">Пока издатель пишется по-разному, любая группировка по вендору и любой запрос «что у нас от этого производителя» дает неполный ответ.</div>
-      ${blockFold(body, 'Посмотреть подробнее')}
+      ${pain(
+        `Правообладатель — единица лицензионного договора и предмет <b>управления поставщиками</b>. Но в инвентаре он записан так, как его вернул агент:
+         у вас <b>${a.vendorGroups.length}</b> ${plural(a.vendorGroups.length, 'издатель', 'издателя', 'издателей')} в нескольких вариантах написания.
+         Прежде чем строить любой срез по вендору, эти написания придется свести к одной карточке — вручную, если этого не делает система.`,
+        [['Лицензии', 'без сведения потребность по правообладателю собирается из нескольких кусков: часть установок не попадёт в его карточку и останется вне расчёта прав', 'cap'],
+         ['Отчётность', 'доля отечественного ПО и структура парка по вендорам считаются от той же неполной группировки', 'op']])}
+      ${prism('Издатель сводится к единой карточке вендора со страной производителя — группировка по правообладателю и срез по импортозамещению собираются из каталога.')}
+      ${a.vendorGroups.slice(0, 15).map(v => `<div class="find">
+        <div class="forms">${v.forms.map(f => `<span class="chip dup">${esc(f)}</span>`).join('')}</div></div>`).join('')}
+      ${a.vendorGroups.length > 15 ? `<div class="find"><div class="k">…и еще ${a.vendorGroups.length - 15}</div></div>` : ''}
     </div>`;
   }
 
@@ -185,6 +198,12 @@ function renderFindings(a) {
     h += `<div class="card sect">
       <h3>Дефекты записей</h3>
       <div class="sh">Строки, которые не сопоставятся ни с одним справочником, пока их не почистить.</div>
+      ${pain(
+        `<b>${nfmt(a.junkItems.length)}</b> ${plural(a.junkItems.length, 'такая строка', 'такие строки', 'таких строк')} не пройдёт нормализацию ни в каком виде: опознаваемого наименования в ней нет, связать ее с активом не по чему.
+         Значит и <b>конфигурационной единицей</b> она не станет — ни в реестре активов, ни в CMDB, — пока ее не разберут руками. Сама она не чинится.`,
+        [['Лицензии', 'слепая зона: под битой строкой может стоять коммерческий продукт — установка в парке есть, а в расчёте прав ее нет', 'cap'],
+         ['Трудозатраты', `${whrs(a.junkItems.length * 1)} на разбор этих строк — и заново в каждой следующей выгрузке, пока не устранён источник`, 'op']])}
+      ${prism('Такие записи отделяются на входе и не попадают в лицензионный отчёт — они собираются конечным списком на разбор.')}
       <div class="scroll"><table>
         <thead><tr><th>Что не так</th><th class="num">Строк</th></tr></thead>
         <tbody>${jb.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="num">${v}</td></tr>`).join('')}</tbody></table></div>
@@ -198,7 +217,14 @@ function renderFindings(a) {
   if (nb.length) {
     h += `<div class="card sect">
       <h3>Не подлежит лицензированию</h3>
-      <div class="sh">Эти строки занимают место в отчетах и в голове у аналитика, но лицензий не требуют. Их нужно отсекать до начала учета, а не после.</div>
+      <div class="sh">Эти строки занимают место в отчётах и в голове у аналитика, но лицензий не требуют. Их нужно отсекать до начала учета, а не после.</div>
+      ${pain(
+        `Инвентаризация возвращает все, что нашла на машине. Отделить то, что подлежит лицензионному учету, от библиотек, драйверов и компонентов ОС — отдельный шаг <b>перед</b> загрузкой в ITAM- или SAM-систему.
+         <b>${nfmt(a.noiseItems.length)}</b> ${plural(a.noiseItems.length, 'строка', 'строки', 'строк')} из ${nfmt(a.rowsN)} — ${(a.noiseItems.length / a.rowsN * 100).toFixed(0)}% выгрузки — в учет не идут, но проходят через аналитика наравне с остальными.
+         Пока <b>периметр учета</b> не задан данными, его определяют построчно и по памяти.`,
+        [['Трудозатраты', `${whrs(Math.round(a.noiseItems.length * 0.5))} на разбор того, что учитывать не нужно`, 'op'],
+         ['Управление', 'метрики вроде стоимости ПО на рабочее место считаются от разной базы в разных отчётах — сравнивать периоды и планировать бюджет не на чем', 'op']])}
+      ${prism(`Периметр задает каталог, а не память аналитика: тип лицензирования проставлен у ${CM ? nfmt(CM.libApps) : '324 590'} эталонных продуктов — коммерческое, бесплатное, компонент.`)}
       <div class="scroll"><table>
         <thead><tr><th>Категория</th><th class="num">Строк</th></tr></thead>
         <tbody>${nb.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="num">${v}</td></tr>`).join('')}</tbody></table></div>
@@ -212,11 +238,11 @@ function methodology(a) {
   const w = a.weights, r = a.ratios;
   const line = (label, ratio, weight) =>
     `<tr><td>${label}</td><td class="num">${(ratio * 100).toFixed(1)}%</td><td class="num">×${weight}</td><td class="num">−${(ratio * weight).toFixed(1)}</td></tr>`;
-  return `<details class="method">
-    <summary>Как считается индекс чистоты? Открытая методика</summary>
+  return `<details>
+    <summary>Как считается индекс чистоты — открытая методика</summary>
     <div class="body">
       <p style="margin-bottom:12px">Мы не просим верить на слово. Индекс — это 100 минус штрафы по шести показателям. Веса подобраны нами и заданы явно, чтобы вы могли с ними спорить.</p>
-      <div class="scroll"><table class="method-table">
+      <div class="scroll"><table>
         <thead><tr><th>Показатель</th><th class="num">Доля</th><th class="num">Вес</th><th class="num">Штраф</th></tr></thead>
         <tbody>
           ${line('Разнописания и полные дубли', r.spell, w.spell)}
@@ -235,22 +261,19 @@ function methodology(a) {
 
 function render(a) {
   const compression = a.productsN ? (a.rowsN / a.productsN) : 1;
-  const hrsLong = m => {
-    const h = m / 60;
-    if (h < 1) {
-      const mm = Math.round(m);
-      return `${mm} ${plural(mm, 'минута', 'минуты', 'минут')}`;
-    }
-    if (h < 10) return `${h.toFixed(1).replace('.', ',')} часа`;
-    const hh = Math.round(h);
-    return `${hh} ${plural(hh, 'час', 'часа', 'часов')}`;
-  };
-  const hrsShort = m => {
+  const hrs = m => {
     const h = m / 60;
     return h < 1 ? `${Math.round(m)} мин` : h < 10 ? `${h.toFixed(1).replace('.', ',')} ч` : `${Math.round(h)} ч`;
   };
 
   const html = `
+  ${STATE.demo ? `<div class="demo-warn">
+    <div class="dw-i">!</div>
+    <div><b>Это тестовый набор данных, а не ваша база.</b>
+      Строки взяты из реальной инфраструктуры и подобраны так, чтобы показать все типы находок.
+      Диагноз, доля опознанного и оценка трудозатрат относятся к этому файлу и ничего не говорят о состоянии вашего учета.
+      <span class="dw-cta">Чтобы получить точный диагноз, загрузите свою выгрузку — она останется в браузере и никуда не уйдёт.</span></div>
+  </div>` : ''}
   <div class="card verdict">
     ${gauge(a.index)}
     <div>
@@ -258,14 +281,18 @@ function render(a) {
       <h2>${esc(a.diag.t)}</h2>
       <p>${esc(a.diag.d)}</p>
       <div class="cost">
-        Мы разобрали <b>${a.rowsN.toLocaleString('ru')}</b> ${plural(a.rowsN, 'строку', 'строки', 'строк')} и нашли среди них
+        Мы разобрали <b>${a.rowsN.toLocaleString('ru')}</b> ${plural(a.rowsN, 'строку', 'строки', 'строк')} и нашли в них
         <b>${a.productsN.toLocaleString('ru')}</b> ${plural(a.productsN, 'реальный продукт', 'реальных продукта', 'реальных продуктов')}.
-        Если бы аналитик сводил это вручную, у него ушло бы примерно <b>${hrsLong(a.manualMinutes)}</b>.
+        <div class="cost-note">Важно: это <b>инвентарные данные</b> — то, что вернули агенты, а не учетные записи.
+          Напрямую в отчёт по лицензионному соответствию и в ITSM-, ITAM- или SAM-систему они не идут: между ними стоит
+          <b>нормализация</b> — приведение строк к эталонным учетным позициям. Все, что найдено ниже, — это ее объём.
+          Пока нормализации нет, ее выполняет аналитик вручную.</div>
+        Свести найденное вручную — примерно <b>${hrs(a.manualMinutes)}</b> работы аналитика.
         <label style="display:block;margin-top:10px;font-size:13.5px">
           А если во всей вашей базе
           <input id="scaleN" type="number" min="1" step="1000" value="${a.rowsN}"
                  style="width:120px;padding:5px 8px;border:1px solid var(--line);border-radius:7px;font:inherit;font-size:13.5px">
-          <span id="scaleWord">${plural(a.rowsN, 'запись', 'записи', 'записей')}</span>, это <b id="scaleOut">${hrsShort(a.manualMinutes)}</b>.
+          <span id="scaleWord">${plural(a.rowsN, 'запись', 'записи', 'записей')}</span> — это <b id="scaleOut">${hrs(a.manualMinutes)}</b>.
         </label>
       </div>
     </div>
@@ -289,7 +316,7 @@ function render(a) {
   <div class="cta" id="cta">
     <div>
       <h3>Это была диагностика. Дальше — лечение</h3>
-      <p>Инструмент выше показал, <b>что</b> с базой не так. Он сознательно не делает главного — не сопоставляет ваши записи с эталонным каталогом ПО и не определяет модель лицензирования. Это и есть работа «Призмы данных», и ее мы разбираем на марафоне.</p>
+      <p>Инструмент выше сравнил ваши записи с демонстрационным срезом каталога и показал, <b>что</b> с базой не так. Он сознательно не делает главного — не подтягивает ваши закупки и артикулы, не определяет модель лицензирования и не считает нехватку или избыток лицензий. Это и есть работа «Призмы данных», и ее мы разбираем на марафоне.</p>
       <ul>
         <li>Выписка по вашему файлу в PDF — с находками и порядком действий</li>
         <li>Чек-лист «10 симптомов того, что базе нужна нормализация»</li>
@@ -313,13 +340,12 @@ function render(a) {
   const out = $('#out');
   out.innerHTML = html;
   out.classList.add('on');
-  bindReportFolds(out);
 
   /* пересчет масштаба */
   const inp = $('#scaleN'), o = $('#scaleOut');
   if (inp) inp.addEventListener('input', () => {
     const n = Math.max(1, +inp.value || a.rowsN);
-    o.textContent = hrsShort(a.manualMinutes * n / a.rowsN);
+    o.textContent = hrs(a.manualMinutes * n / a.rowsN);
     const w = document.getElementById('scaleWord');
     if (w) w.textContent = plural(n, 'запись', 'записи', 'записей');
   });
@@ -388,6 +414,7 @@ function readFile(f) {
   const r = new FileReader();
   r.onload = () => {
     $('#drop').querySelector('b').textContent = f.name;
+    STATE.demo = false;
     ingest(r.result);
   };
   r.onerror = () => showError('Не удалось прочитать файл.');
@@ -398,7 +425,7 @@ let pasteTimer;
 $('#paste').addEventListener('input', e => {
   clearTimeout(pasteTimer);
   const v = e.target.value;
-  pasteTimer = setTimeout(() => { if (v.trim().length > 10) ingest(v); }, 400);
+  pasteTimer = setTimeout(() => { if (v.trim().length > 10) { STATE.demo = false; ingest(v); } }, 400);
 });
 
 /* кнопки образцов */
@@ -407,19 +434,20 @@ $('#paste').addEventListener('input', e => {
   if (!box) return;
   box.innerHTML = DEMOS.map((d, i) => `<button class="demo-b" data-i="${i}">
       <i style="background:${d.tone}1a;color:${d.tone}">${d.index}</i>
-      <span class="demo-b__txt"><b>${esc(d.band)}</b><span class="n">${d.rows} строк</span></span>
+      <span><b>Загрузить тестовый набор</b><br><span class="n">${d.rows} строк · диагноз «${esc(d.band)}»</span></span>
     </button>`).join('');
   box.addEventListener('click', e => {
     const b = e.target.closest('.demo-b'); if (!b) return;
     const d = DEMOS[+b.dataset.i];
     $('#paste').value = d.csv;
+    STATE.demo = true;
     ingest(d.csv);
     $('#go').click();
   });
 })();
 
 $('#reset').addEventListener('click', () => {
-  STATE = { rows: null, cols: null, result: null, recon: null };
+  STATE = { rows: null, cols: null, result: null, recon: null, demo: false };
   $('#paste').value = ''; $('#file').value = '';
   $('#map').classList.remove('on');
   $('#out').classList.remove('on'); $('#out').innerHTML = '';

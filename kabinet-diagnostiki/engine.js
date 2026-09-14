@@ -144,7 +144,7 @@ function buildTag(name) {
    и Enterprise — разные продукты с разными лицензиями, и склеивать их как
    разнописания одной записи нельзя. Словарь общеязыковой (английские и
    русские названия изданий), никаких выдуманных наименований продуктов. */
-const EDITIONS = /(?<![\p{L}\p{N}])(community|professional|enterprise|ultimate|premium|standard|starter|express|datacenter|corporate|business|education|essentials|home\s*(?:basic|premium)?|basic|personal|trial|preview|beta|профессиональн[\p{L}]*|корпоративн[\p{L}]*|стандартн[\p{L}]*|базов[\p{L}]*|домашн[\p{L}]*|расширенн[\p{L}]*|начальн[\p{L}]*|пробн[\p{L}]*)(?![\p{L}\p{N}])/giu;
+const EDITIONS = /(?<![:\p{L}\p{N}])(community|professional|enterprise|ultimate|premium|standard|starter|express|datacenter|corporate|business|education|essentials|home\s*(?:basic|premium)?|basic|personal|trial|preview|beta|профессиональн[\p{L}]*|корпоративн[\p{L}]*|стандартн[\p{L}]*|базов[\p{L}]*|домашн[\p{L}]*|расширенн[\p{L}]*|начальн[\p{L}]*|пробн[\p{L}]*)(?![\p{L}\p{N}])/giu;
 function editionTag(name) {
   const found = String(name).match(EDITIONS);
   if (!found) return '';
@@ -177,7 +177,7 @@ function normalizeName(raw) {
   s = s.replace(LANGWORDS, ' ');
   s = s.replace(EDITIONWORDS, ' ');
   s = s.replace(VERSIONTOK, ' ');
-  // Ни год, ни одиночное число из наименования НЕ вычеркиваем: для
+  // Ни год, ни одиночное число из наименования НЕ вычёркиваем: для
   // AutoCAD 2019/2022, Office 2013/2016, Visual C++ 2013 / 2015-2022 и Java 8/11
   // это часть названия продукта. Лучше не склеить одинаковое, чем склеить разное.
   s = s.replace(/[®™©]/g, ' ');
@@ -248,7 +248,7 @@ function junkFlags(name, version, publisher) {
   if (CTRLCHARS.test(all)) f.push('Управляющие символы');
   if (PATHLIKE.test(name)) f.push('Путь вместо наименования');
   if (GUIDLIKE.test(name)) f.push('GUID в наименовании');
-  if (name && name.trim().length < 3) f.push('Наименование короче трех символов');
+  if (name && name.trim().length < 3) f.push('Наименование короче трёх символов');
   if (/^\s|\s$/.test(String(name))) f.push('Краевые пробелы');
   if (/\s{2,}/.test(String(name))) f.push('Двойные пробелы');
   return f;
@@ -293,7 +293,7 @@ function analyze(rows, cols, opts) {
     });
   }
 
-  /* --- группировка по продуктам (без учета версии) --- */
+  /* --- группировка по продуктам (без учёта версии) --- */
   const byKey = new Map();
   for (const it of items) {
     const k = it.tkey || it.key || '(пусто)';
@@ -302,7 +302,7 @@ function analyze(rows, cols, opts) {
   }
   let groups = [...byKey.entries()].map(([key, members]) => ({ key, members, toks: members[0].toks }));
 
-  // нечеткое слияние близких групп
+  // нечёткое слияние близких групп
   groups.sort((a, b) => b.members.length - a.members.length);
   const merged = [];
   const byToken = new Map();   // инвертированный индекс: токен -> индексы групп в merged
@@ -341,10 +341,12 @@ function analyze(rows, cols, opts) {
       if (!buckets.has(k)) buckets.set(k, []);
       buckets.get(k).push(m);
     }
-    g.buckets = [...buckets.entries()].map(([ver, ms]) => {
+    g.buckets = [...buckets.entries()].map(([key, ms]) => {
       const forms = [...new Set(ms.map(m => m.name.trim()))];
       const exactDup = ms.length - forms.length;   // строка в строку
-      return { ver, members: ms, forms, excess: forms.length - 1, exactDup };
+      // подпись корзины: версия и, отдельно, редакция — внутренний ключ наружу не показываем
+      const ver = ms[0].nver + (ms[0].btag ? '·' + ms[0].btag : '');
+      return { key, ver, ed: ms[0].etag || '', members: ms, forms, excess: forms.length - 1, exactDup };
     }).sort((a, b) => b.members.length - a.members.length);
 
     g.spellExcess = g.buckets.reduce((s, b) => s + b.excess, 0);      // разнописания
@@ -412,11 +414,11 @@ function analyze(rows, cols, opts) {
   index = Math.max(0, Math.min(100, Math.round(index)));
 
   const DIAG = [
-    { min: 88, t: 'Практически здоров', d: 'База в хорошем состоянии. Профилактический осмотр раз в квартал не помешает: расхождения накапливаются незаметно.' },
-    { min: 72, t: 'Легкая форма дублитоза', d: 'Единичные разнописания и пропуски. Лечится амбулаторно: единые правила ввода плюс разовая нормализация.' },
-    { min: 52, t: 'Дублитоз средней тяжести', d: 'Одно и то же ПО живет в базе под несколькими именами. Отчет по лицензиям на таких данных уже повышает потребность в более глубоком аудите.' },
-    { min: 30, t: 'Хроническая форма', d: 'Данные непригодны для лицензионного учета без нормализации. Ручная сверка на этом объеме экономически не окупается.' },
-    { min: 0, t: 'Требуется срочное вмешательство', d: 'Любые отчеты по лицензиям на этих данных недостоверны. Начинать нужно с нормализации, а не с закупки лицензий.' }
+    { min: 88, t: 'Практически здоров', d: 'База в хорошем состоянии. Рекомендован профилактический осмотр раз в квартал — расхождения накапливаются незаметно.' },
+    { min: 72, t: 'Лёгкая форма дублитоза', d: 'Единичные разнописания и пропуски. Лечится амбулаторно: единые правила ввода плюс разовая нормализация.' },
+    { min: 52, t: 'Дублитоз средней тяжести', d: 'Одно и то же ПО живёт в выгрузке под несколькими именами. Без нормализации такие данные завысят потребность в любом отчёте, куда их загрузят.' },
+    { min: 30, t: 'Хроническая форма', d: 'Данные непригодны для лицензионного учёта без нормализации. Ручная сверка на этом объёме экономически не окупается.' },
+    { min: 0, t: 'Требуется срочное вмешательство', d: 'Любые отчёты по лицензиям на этих данных недостоверны. Начинать нужно с нормализации, а не с закупки лицензий.' }
   ];
   const diag = DIAG.find(x => index >= x.min);
 
