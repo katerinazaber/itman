@@ -269,7 +269,7 @@
       align-items: flex-start;
       gap: 12px;
       font-family: var(--font-text);
-      font-size: 15.5px;
+      font-size: 18px;
       line-height: 1.45;
       color: #000000;
       font-weight: 400;
@@ -404,7 +404,7 @@
     .itman-ad .fit-card__icon img{ display: none; }
     .itman-ad .fit-card p{
       font-family: var(--font-text);
-      font-size: 15px;
+      font-size: 18px;
       line-height: 1.45;
       font-weight: 400;
       color: #000000;
@@ -446,8 +446,13 @@
       font-weight: 700;
       flex: none;
     }
+    .itman-ad .how .section-title,
+    .itman-ad .collect .section-title,
+    .itman-ad .fit .section-title{
+      font-size: clamp(30px, 4vw, 40px);
+    }
     .itman-ad .step h3{
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
       margin: 0;
       color: var(--black);
@@ -457,7 +462,7 @@
     .itman-ad .step li{
       position: relative;
       padding-left: 14px;
-      font-size: 15px;
+      font-size: 17px;
       line-height: 1.45;
       color: #1a1a1a;
     }
@@ -650,7 +655,7 @@
     .itman-ad .collect__intro{
       max-width: none;
       width: 100%;
-      font-size: 17px;
+      font-size: 18px;
       color: #444;
       margin-bottom: 28px;
       line-height: 1.55;
@@ -679,7 +684,7 @@
       opacity: .95;
     }
     .itman-ad .collect-card h3{
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 700;
       margin-bottom: 14px;
       letter-spacing: -.01em;
@@ -688,7 +693,7 @@
     .itman-ad .collect-card li{
       position: relative;
       padding-left: 16px;
-      font-size: 15px;
+      font-size: 17px;
       line-height: 1.5;
     }
     .itman-ad .collect-card--dark li, .itman-ad .collect-card--red li{
