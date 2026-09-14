@@ -470,7 +470,8 @@
     }
     .itman-ad .how .section-title,
     .itman-ad .collect .section-title,
-    .itman-ad .fit .section-title{
+    .itman-ad .fit .section-title,
+    .itman-ad .faq .section-title{
       font-size: clamp(30px, 4vw, 40px);
     }
     .itman-ad .step h3{
@@ -863,7 +864,7 @@
       margin: 0;
     }
 
-    /* FAQ */
+    /* FAQ — Nekst как в Embed 1 (заголовок SemiBold, текст 18) */
     .itman-ad .faq__list{
       max-width: 860px;
       margin: 0 auto;
@@ -876,11 +877,13 @@
       list-style: none;
       cursor: pointer;
       padding: 20px 36px 20px 0;
-      font-size: 17px;
-      font-weight: 650;
+      font-family: var(--font-semibold);
+      font-size: 18px;
+      font-weight: 600;
       color: var(--black);
       position: relative;
       line-height: 1.35;
+      -webkit-font-smoothing: antialiased;
     }
     .itman-ad summary::-webkit-details-marker{ display: none; }
     .itman-ad summary::after{
@@ -900,10 +903,13 @@
     }
     .itman-ad details p{
       padding: 0 0 20px;
-      color: #555;
-      font-size: 15px;
+      font-family: var(--font-text);
+      color: #444;
+      font-size: 18px;
       line-height: 1.55;
+      font-weight: 400;
       max-width: 720px;
+      -webkit-font-smoothing: antialiased;
     }
 
     /* CTA — темный блок как на itman.ru, типографика лендинга */
