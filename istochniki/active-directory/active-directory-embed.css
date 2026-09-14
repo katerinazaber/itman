@@ -283,7 +283,7 @@
       color: #fff;
       display: grid;
       place-items: center;
-      margin-top: 1px;
+      margin-top: 4px;
     }
     .itman-ad .hero__check svg{ width: 12px; height: 12px; }
     .itman-ad .hero__cta{ display: flex; flex-wrap: wrap; gap: 12px; }
