@@ -255,12 +255,20 @@
       flex-wrap: wrap;
       gap: 8px;
       align-items: center;
-      font-size: 13px;
-      color: var(--muted);
+      font-family: var(--font-text);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.2;
+      color: #000;
       margin-bottom: 28px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .itman-ad .breadcrumbs a{
+      color: #000;
+      text-decoration: none;
     }
     .itman-ad .breadcrumbs a:hover{ color: var(--red); }
-    .itman-ad .breadcrumbs__sep{ opacity: .5; }
+    .itman-ad .breadcrumbs__sep{ opacity: .5; color: #000; }
     .itman-ad .hero__grid{
       display: grid;
       grid-template-columns: 0.95fr 1.2fr;
