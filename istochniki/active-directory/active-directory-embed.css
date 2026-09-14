@@ -194,24 +194,34 @@
     }
     .itman-ad .btn-phone:hover{ background: var(--red-hover); }
 
-    /* Buttons */
+    /* Buttons — как на /inventory (Nekst 18 SemiBold, #dd0d29 → hover #000) */
     .itman-ad .btn{
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       min-height: 48px;
-      padding: 0 22px;
-      border-radius: var(--radius-btn);
-      font-family: var(--font-semibold);
+      padding: 13px 24px;
+      border-radius: 12px;
+      font-family: "Nekst SemiBold", var(--font-semibold);
       font-weight: 600;
       font-size: 18px;
       line-height: 1;
+      letter-spacing: 0;
       transition: .2s ease;
       white-space: nowrap;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
     }
-    .itman-ad .btn--red{ background: var(--red); color: #fff; }
-    .itman-ad .btn--red:hover{ background: var(--red-hover); }
+    .itman-ad .btn--red{
+      background: #dd0d29;
+      color: #fff;
+      border: none;
+    }
+    .itman-ad .btn--red:hover{
+      background: #000;
+      color: #fff;
+    }
     .itman-ad .btn--dark{
       background: var(--black);
       color: #fff;
@@ -222,11 +232,21 @@
     .itman-ad .btn--dark:hover{ background: #000; }
     .itman-ad .btn--outline{
       background: #fff;
-      color: var(--black);
-      border: 1.5px solid var(--black);
+      color: #000;
+      border: 1px solid #000;
     }
-    .itman-ad .btn--outline:hover{ background: var(--black); color: #fff; }
-    .itman-ad .btn--lg{ min-height: 52px; padding: 0 26px; font-size: 18px; font-weight: 600; }
+    .itman-ad .btn--outline:hover{ background: #000; color: #fff; }
+    .itman-ad .btn--lg{
+      min-height: 48px;
+      padding: 13px 24px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .itman-ad .hero__cta .btn{
+      font-family: "Nekst SemiBold", "Nekst Medium Web", Arial, sans-serif;
+      font-weight: 600;
+      font-size: 18px;
+    }
 
     /* Hero */
     .itman-ad .hero{ padding: 28px 0 48px; overflow: hidden; }
