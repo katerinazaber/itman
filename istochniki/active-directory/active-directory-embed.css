@@ -203,8 +203,10 @@
       min-height: 48px;
       padding: 0 22px;
       border-radius: var(--radius-btn);
+      font-family: var(--font-semibold);
       font-weight: 600;
-      font-size: 15px;
+      font-size: 18px;
+      line-height: 1;
       transition: .2s ease;
       white-space: nowrap;
     }
@@ -224,7 +226,7 @@
       border: 1.5px solid var(--black);
     }
     .itman-ad .btn--outline:hover{ background: var(--black); color: #fff; }
-    .itman-ad .btn--lg{ min-height: 52px; padding: 0 26px; }
+    .itman-ad .btn--lg{ min-height: 52px; padding: 0 26px; font-size: 18px; font-weight: 600; }
 
     /* Hero */
     .itman-ad .hero{ padding: 28px 0 48px; overflow: hidden; }
