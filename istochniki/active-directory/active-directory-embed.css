@@ -1172,35 +1172,54 @@
         margin: 0 auto;
         gap: 0;
       }
-      /* Результат уходит в конец оси: Устройства → инвентаризация → ИТМен, потом Результат */
+      /* Адаптив: ИТМен → Результат сбоку; снизу Устройства → инвентаризация → ИТМен */
       .itman-ad .sch-hub-wrap{
-        display: contents;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        width: 100%;
+        max-width: 100%;
+      }
+      .itman-ad .sch-card--hub{
+        flex: 1 1 auto;
+        min-width: 0;
+        max-width: 200px;
+        padding: 14px 12px;
+      }
+      .itman-ad .sch-hub-logo{
+        height: 34px;
       }
       .itman-ad .sch-out{
         position: static;
         transform: none;
-        order: 100;
-        width: 100%;
-        margin-top: 10px;
-        flex-direction: column;
+        order: unset;
+        margin: 0;
+        flex-direction: row;
         align-items: center;
-        gap: 6px;
-      }
-      .itman-ad .sch-card--hub{
-        width: 100%;
+        flex: 0 1 auto;
+        min-width: 0;
       }
       .itman-ad .sch-card--result{
         position: static;
         transform: none;
-        width: min(100%, 240px);
+        width: min(46vw, 168px);
         margin: 0;
+        padding: 12px 10px;
       }
       .itman-ad .sch-arrow--side{
         position: static;
-        transform: rotate(90deg);
-        margin: 4px auto;
-        width: 26px;
-        height: 28px;
+        transform: none;
+        margin: 0;
+        width: 28px;
+        height: 24px;
+        flex: none;
+      }
+      .itman-ad .sch-arrow--side svg{
+        width: 28px;
+        height: 16px;
       }
       .itman-ad .hero__title{ max-width: none; }
       .itman-ad .hero__visual{
