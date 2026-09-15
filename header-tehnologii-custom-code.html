@@ -1,0 +1,205 @@
+<!--
+  Мега-меню «Технологии» — Custom Code (если Embed нельзя вложить в Menu).
+
+  Куда в Taptop:
+  1. Настройки сайта / страницы → Custom Code → перед </body>
+     ИЛИ блок Embed в любом месте Header (хоть внизу слоёв — не важно).
+  2. В пункте «Технологии» оставь нативный Menu Lvl 2 как есть
+     ИЛИ спрячь его Display:none — панель откроется поверх.
+  3. Publish.
+
+  SEO: живые <a> только на существующие URL; «скоро» без href.
+-->
+<style>
+  .itm-teh-portal {
+    --itm-teh-red: #dd0d29;
+    --itm-teh-text: #2b2f35;
+    --itm-teh-muted: #9aa1a9;
+    --itm-teh-border: #eceef1;
+    font-family: "Golos Text", Manrope, "Segoe UI", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    position: fixed;
+    z-index: 99999;
+    display: none;
+    box-sizing: border-box;
+  }
+  .itm-teh-portal.is-open { display: block; }
+  .itm-teh-portal *,
+  .itm-teh-portal *::before,
+  .itm-teh-portal *::after { box-sizing: border-box; }
+
+  .itm-teh-portal__panel {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
+    gap: 8px 36px;
+    background: #fff;
+    border: 1px solid var(--itm-teh-border);
+    border-radius: 16px;
+    padding: 24px 28px 26px;
+    box-shadow: 0 24px 60px -24px rgba(20, 23, 26, 0.25);
+    min-width: min(920px, calc(100vw - 32px));
+  }
+  .itm-teh-portal__col { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .itm-teh-portal__h {
+    font-size: 12px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.6px; color: var(--itm-teh-red); margin-bottom: 8px; line-height: 1.3;
+  }
+  .itm-teh-portal__sub {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.5px; color: var(--itm-teh-muted); margin: 12px 0 4px; line-height: 1.3;
+  }
+  .itm-teh-portal__sub--first { margin-top: 0; }
+  .itm-teh-portal__col > .itm-teh-portal__h + .itm-teh-portal__sub { margin-top: 0; }
+
+  .itm-teh-portal__link,
+  .itm-teh-portal__soon {
+    font-size: 14px; line-height: 1.35; padding: 5px 0;
+    display: flex; align-items: center; gap: 8px; white-space: nowrap;
+    text-decoration: none; color: var(--itm-teh-text);
+  }
+  .itm-teh-portal__link.is-live { font-weight: 600; }
+  .itm-teh-portal__link:hover { color: var(--itm-teh-red); }
+  .itm-teh-portal__soon { color: var(--itm-teh-muted); cursor: default; user-select: none; }
+  .itm-teh-portal__soon i {
+    font-style: normal; font-size: 9.5px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.4px; color: var(--itm-teh-muted); background: #f0f2f4;
+    border-radius: 5px; padding: 2px 6px;
+  }
+
+  @media (max-width: 820px) {
+    .itm-teh-portal { left: 16px !important; right: 16px; width: auto !important; }
+    .itm-teh-portal__panel {
+      grid-template-columns: 1fr; min-width: 0; width: 100%; gap: 18px;
+      padding: 18px 16px; max-height: min(70vh, 520px); overflow: auto;
+    }
+    .itm-teh-portal__link, .itm-teh-portal__soon { white-space: normal; }
+  }
+</style>
+
+<div class="itm-teh-portal" id="itmTehPortal" hidden>
+  <div class="itm-teh-portal__panel" role="navigation" aria-label="Технологии">
+    <div class="itm-teh-portal__col">
+      <div class="itm-teh-portal__h">Источники данных</div>
+      <div class="itm-teh-portal__sub">Гипервизоры</div>
+      <span class="itm-teh-portal__soon">VMware (vCenter) <i>скоро</i></span>
+      <span class="itm-teh-portal__soon">SCVMM (Hyper-V) <i>скоро</i></span>
+      <span class="itm-teh-portal__soon">zVirt <i>скоро</i></span>
+      <span class="itm-teh-portal__soon">RedVirt <i>скоро</i></span>
+      <div class="itm-teh-portal__sub">Службы каталогов</div>
+      <a class="itm-teh-portal__link is-live" href="https://itman.ru/active-directory">Active Directory</a>
+      <span class="itm-teh-portal__soon">Samba <i>скоро</i></span>
+      <span class="itm-teh-portal__soon">FreeIPA <i>скоро</i></span>
+    </div>
+    <div class="itm-teh-portal__col">
+      <div class="itm-teh-portal__sub itm-teh-portal__sub--first">Антивирусы</div>
+      <span class="itm-teh-portal__soon">Kaspersky Security Center <i>скоро</i></span>
+      <div class="itm-teh-portal__sub">Системы управления</div>
+      <span class="itm-teh-portal__soon">SCCM <i>скоро</i></span>
+      <span class="itm-teh-portal__soon">SolarWinds <i>скоро</i></span>
+      <div class="itm-teh-portal__sub">Системы мониторинга</div>
+      <span class="itm-teh-portal__soon">Zabbix <i>скоро</i></span>
+    </div>
+    <div class="itm-teh-portal__col">
+      <div class="itm-teh-portal__h">Интеграции с ITSM / ITAM</div>
+      <span class="itm-teh-portal__soon">Интеграция с SimpleOne <i>скоро</i></span>
+      <span class="itm-teh-portal__soon">Интеграция с Naumen <i>скоро</i></span>
+      <span class="itm-teh-portal__soon">Интеграция с ITSMbox <i>скоро</i></span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  if (window.__itmTehPortalInit) return;
+  window.__itmTehPortalInit = true;
+
+  function ready(fn) {
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fn);
+    else fn();
+  }
+
+  function findTehTrigger() {
+    var nodes = document.querySelectorAll("a, button, [role='button'], span, div, p");
+    for (var i = 0; i < nodes.length; i++) {
+      var el = nodes[i];
+      if (!el || !el.closest) continue;
+      var header = el.closest("header") || el.closest("[class*='Header']") || el.closest("[class*='header']");
+      if (!header && !el.closest("[class*='Menu']")) continue;
+      var text = (el.textContent || "").replace(/\s+/g, " ").trim();
+      if (text === "Технологии" || text.indexOf("Технологии") === 0 && text.length < 24) {
+        return el.closest("[class*='Menu Item'], [class*='menu-item'], li, div") || el;
+      }
+    }
+    return null;
+  }
+
+  ready(function () {
+    var portal = document.getElementById("itmTehPortal");
+    if (!portal) return;
+    portal.hidden = false;
+
+    var trigger = findTehTrigger();
+    if (!trigger) {
+      console.warn("[itm-teh] Не найден пункт «Технологии» в шапке");
+      return;
+    }
+
+    var hideTimer = null;
+    var open = false;
+
+    function place() {
+      var r = trigger.getBoundingClientRect();
+      var panelW = Math.min(920, window.innerWidth - 32);
+      var left = Math.min(Math.max(16, r.left), window.innerWidth - panelW - 16);
+      portal.style.left = left + "px";
+      portal.style.top = Math.round(r.bottom + 12) + "px";
+    }
+
+    function show() {
+      clearTimeout(hideTimer);
+      place();
+      portal.classList.add("is-open");
+      open = true;
+    }
+
+    function hide() {
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(function () {
+        portal.classList.remove("is-open");
+        open = false;
+      }, 160);
+    }
+
+    trigger.addEventListener("mouseenter", show);
+    trigger.addEventListener("mouseleave", hide);
+    trigger.addEventListener("focusin", show);
+    trigger.addEventListener("focusout", hide);
+    portal.addEventListener("mouseenter", function () {
+      clearTimeout(hideTimer);
+      portal.classList.add("is-open");
+      open = true;
+    });
+    portal.addEventListener("mouseleave", hide);
+    window.addEventListener("scroll", function () { if (open) place(); }, { passive: true });
+    window.addEventListener("resize", function () { if (open) place(); });
+
+    /* Спрятать нативную узкую выпадашку «Технологии», если она мешает */
+    var nativeDrop = trigger.querySelector
+      ? null
+      : null;
+    try {
+      var item = trigger.closest ? trigger.closest("[class*='Menu Item'], [class*='menu-item']") : trigger;
+      if (item) {
+        var drops = item.querySelectorAll(":scope > div, :scope > [class*='Div']");
+        drops.forEach(function (d) {
+          if (d.querySelector && (d.textContent || "").indexOf("Active Directory") !== -1) {
+            d.style.visibility = "hidden";
+            d.style.pointerEvents = "none";
+            d.style.opacity = "0";
+          }
+        });
+      }
+    } catch (e) {}
+  });
+})();
+</script>
