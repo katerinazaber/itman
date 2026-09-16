@@ -1095,7 +1095,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rc-prism__lead:last-child{margin-bottom:0}
 .rc-hero__visual{justify-self:end;max-width:100%}
 @media(max-width:900px){.rc-hero__visual{justify-self:center}}
-.rc-monitor{display:block;width:100%;max-width:420px;height:auto;border-radius:14px}
+.rc-monitor{display:block;width:100%;max-width:420px;height:auto;background:transparent}
 
 .rc-treat{
   display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;
