@@ -376,17 +376,35 @@ function panelMissing(a) {
 }
 
 function panelJunk(a) {
-  const jb = Object.entries(a.junkBreakdown).sort((x, y) => y[1] - x[1]);
-  const rows = jb.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="num">${v}</td></tr>`);
-  return `${rxPanelHead('Ошибки в данных', `${nfmt(a.junkItems.length)} ${plural(a.junkItems.length, 'строка', 'строки', 'строк')}`, 'junk')}
+  const n = a.junkItems.length;
+  const mins = whrs(a.junkItems.length * 1);
+  const examples = a.junkItems.slice(0, 12);
+
+  return `${rxPanelNav('junk')}
+    ${rxPanelHero(
+      'Дефекты записей',
+      `${nfmt(n)} ${plural(n, 'строка', 'строки', 'строк')}`,
+      '',
+      'В этих строках нет понятного названия, поэтому их нельзя сопоставить с программой или активом. Пока записи в таком виде, они не попадут в реестр активов.',
+      ICO.junk
+    )}
+    <h4 class="rx-panel__sec-title">Чем это мешает бизнесу?</h4>
     ${rxImpact([
-      [ICO.warn, 'Чем опасно', `<b>${nfmt(a.junkItems.length)}</b> ${plural(a.junkItems.length, 'строка', 'строки', 'строк')} не пройдет нормализацию: опознаваемого наименования нет. Под битой строкой может стоять коммерческий продукт.`],
-      [ICO.clock, 'Трудозатраты на исправление', `${whrs(a.junkItems.length * 1)} на разбор — и заново в каждой выгрузке, пока не устранен источник.`],
-      [ICO.coin, 'Влияние на деньги', `Слепая зона в расчете прав: установка в парке есть, а в отчете ее нет.`]
+      [ICO.warn, 'Лицензии могут остаться вне расчета',
+        'Под битой строкой может скрываться коммерческий продукт. Установка есть, но в расчете лицензий ее нет.'],
+      [ICO.clock, 'Ручная обработка повторяется',
+        `На разбор ${nfmt(n)} ${plural(n, 'строки', 'строк', 'строк')} уйдет около ${mins}. После следующей выгрузки такую работу придется повторять.`],
+      [ICO.info, 'Данные не попадут в учет',
+        'Пока строку не исправить, система не сможет определить, что это за программа и к какому активу ее отнести.']
     ])}
-    ${rows.length ? xtable('<thead><tr><th>Что не так</th><th class="num">Строк</th></tr></thead>', rows, 6) : ''}
-    <div class="forms" style="margin-top:12px">${a.junkItems.slice(0, 6).map(i => `<span class="chip dup">${esc(i.name.slice(0, 70))}</span>`).join('')}</div>
-    ${rxSolve('Такие записи отделяются на входе и не попадают в лицензионный отчет — собираются конечным списком на разбор.')}`;
+    <div class="rx-panel__main">
+      <div class="rx-panel__sec-head">
+        <h4>Примеры</h4>
+      </div>
+      ${examples.length
+        ? `<div class="forms rx-junk-examples">${examples.map(i => `<span class="chip dup">${esc(i.name.slice(0, 90))}</span>`).join('')}</div>`
+        : '<p class="dim">Примеров нет</p>'}
+    </div>`;
 }
 
 function panelNoise(a) {
@@ -447,7 +465,7 @@ function renderSymptoms(a) {
     { id: 'spell', n: spellN, title: 'Лишние формы записи', sub: 'Одно и то же ПО записано по-разному', ico: ICO.dup, on: !!spellN, panel: panelSpell },
     { id: 'vendor', n: a.vendorGroups.length, title: 'Разнобой в издателях', sub: 'Один и тот же издатель записан по-разному', ico: ICO.vendor, on: !!a.vendorGroups.length, panel: panelVendor },
     { id: 'missing', n: a.missingVer, title: 'Версии потерялись', sub: 'Для этих записей не указана версия ПО', ico: ICO.ver, on: !!a.missingVer, panel: panelMissing },
-    { id: 'junk', n: a.junkItems.length, title: 'Ошибки в данных', sub: 'Есть неполные или некорректные записи', ico: ICO.junk, on: !!a.junkItems.length, panel: panelJunk },
+    { id: 'junk', n: a.junkItems.length, title: 'Дефекты записей', sub: 'Строки, которые не получится распознать', ico: ICO.junk, on: !!a.junkItems.length, panel: panelJunk },
     { id: 'noise', n: a.noiseItems.length, title: 'Лишние строки', sub: 'Записи, которые не относятся к лицензируемому ПО', ico: ICO.noise, on: !!a.noiseItems.length, panel: panelNoise },
     { id: 'manual', n: manualN, title: 'Ручная работа', sub: 'Столько раз данные придется проверять вручную', ico: ICO.hand, on: manualN > 0, panel: panelManual }
   ];

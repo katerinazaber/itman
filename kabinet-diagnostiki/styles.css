@@ -974,6 +974,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 }
 .rx-spell__forms .forms{gap:8px}
 .rx-spell__forms .chip{max-width:100%}
+.rx-junk-examples{margin-top:0;padding:16px;border:1px solid var(--line-2);border-radius:14px;background:#fff}
 .rx-side{list-style:none;margin:0;padding:0}
 .rx-side li{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--line-2);font-size:14px;align-items:baseline}
 .rx-side li span{color:var(--ink);min-width:0}
