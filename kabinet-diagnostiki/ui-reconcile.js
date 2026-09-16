@@ -137,10 +137,12 @@ function renderReconcile(rec, core) {
         </div>
       </div>
       <div class="rc-hero__visual">
-        <img class="rc-monitor" src="assets/prism-monitor.png?v=127" alt="Экран каталога «Призма данных»" width="1551" height="1014" decoding="async">
+        <img class="rc-monitor" src="assets/prism-monitor.png?v=128" alt="Экран каталога «Призма данных»" width="1551" height="1014" decoding="async">
       </div>
     </div>
 
+    <hr class="rc-rule">
+    <h4 class="rx-panel__sec-title">Результаты сверки</h4>
     <div class="rc-norm">
       <div class="rc-norm__card">
         <div class="rc-norm__top">
@@ -174,20 +176,23 @@ function renderReconcile(rec, core) {
       </div>
     </div>
 
-    <h4 class="rx-panel__sec-title">Что это дает бизнесу?</h4>
-    <div class="rc-biz">
-      <div class="rc-biz__i">
-        <span class="rc-biz__ico" aria-hidden="true">${ICO.clock}</span>
-        <div>
-          <b>Меньше ручной работы</b>
-          <p>${knownPhrase}</p>
+    <hr class="rc-rule">
+    <div class="rc-biz-block">
+      <h4 class="rx-panel__sec-title">Что это дает бизнесу?</h4>
+      <div class="rc-biz">
+        <div class="rc-biz__i">
+          <span class="rc-biz__ico" aria-hidden="true">${ICO.clock}</span>
+          <div>
+            <b>Меньше ручной работы</b>
+            <p>${knownPhrase}</p>
+          </div>
         </div>
-      </div>
-      <div class="rc-biz__i">
-        <span class="rc-biz__ico" aria-hidden="true">${ICO.chart}</span>
-        <div>
-          <b>Единые данные для расчета лицензий</b>
-          <p>Разные написания одного продукта сводятся к одной учетной позиции. Так проще понять, что действительно установлено и сколько лицензий нужно.</p>
+        <div class="rc-biz__i">
+          <span class="rc-biz__ico" aria-hidden="true">${ICO.chart}</span>
+          <div>
+            <b>Единые данные для расчета лицензий</b>
+            <p>Разные написания одного продукта сводятся к одной учетной позиции. Так проще понять, что действительно установлено и сколько лицензий нужно.</p>
+          </div>
         </div>
       </div>
     </div>
