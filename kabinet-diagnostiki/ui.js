@@ -413,11 +413,13 @@ function render(a) {
         <p>Чтобы свести такое количество данных вручную, аналитику нужно <b class="rx-effort__time">${whrs(a.manualMinutes)} работы.</b></p>
       </div>
       <div class="rx-scalebox">
-        <label class="rx-scalebox__row">А если во всей вашей базе
+        <div class="rx-scalebox__line">А если во всей вашей базе
           <input id="scaleN" type="number" min="1" step="1000" value="${a.rowsN}">
+        </div>
+        <div class="rx-scalebox__line">
           <span id="scaleWord">${plural(a.rowsN, 'запись', 'записи', 'записей')}</span> — это
           <b id="scaleOut" class="rx-scalebox__out">${whrs(a.manualMinutes)}</b>
-        </label>
+        </div>
       </div>
     </div>
   </section>
