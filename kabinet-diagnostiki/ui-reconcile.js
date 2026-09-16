@@ -137,46 +137,46 @@ function renderReconcile(rec, core) {
         </div>
       </div>
       <div class="rc-hero__visual">
-        <img class="rc-monitor" src="assets/prism-monitor.png?v=130" alt="Экран каталога «Призма данных»" width="1551" height="1014" decoding="async">
+        <img class="rc-monitor" src="assets/prism-monitor.png?v=131" alt="Экран каталога «Призма данных»" width="1551" height="1014" decoding="async">
       </div>
     </div>
 
-    <hr class="rc-rule">
-    <h4 class="rx-panel__sec-title">Результаты сверки</h4>
-    <div class="rc-norm">
-      <div class="rc-norm__card">
-        <div class="rc-norm__top">
-          <span class="rc-norm__ico" aria-hidden="true">${ICO.dup}</span>
-          <div class="rc-norm__n">${pct(share)}</div>
+    <div class="rc-frame">
+      <h4 class="rx-panel__sec-title">Результаты сверки</h4>
+      <div class="rc-norm">
+        <div class="rc-norm__card">
+          <div class="rc-norm__top">
+            <span class="rc-norm__ico" aria-hidden="true">${ICO.dup}</span>
+            <div class="rc-norm__n">${pct(share)}</div>
+          </div>
+          <div class="rc-norm__t">записей нашли соответствие в «Призме данных»</div>
         </div>
-        <div class="rc-norm__t">записей нашли соответствие в «Призме данных»</div>
-      </div>
-      <div class="rc-norm__card">
-        <div class="rc-norm__top">
-          <span class="rc-norm__ico" aria-hidden="true">${ICO.check}</span>
-          <div class="rc-norm__n">${nfmt(rec.known)}</div>
+        <div class="rc-norm__card">
+          <div class="rc-norm__top">
+            <span class="rc-norm__ico" aria-hidden="true">${ICO.check}</span>
+            <div class="rc-norm__n">${nfmt(rec.known)}</div>
+          </div>
+          <div class="rc-norm__t">${plural(rec.known, 'запись распознана', 'записи распознаны', 'записей распознано')}</div>
         </div>
-        <div class="rc-norm__t">${plural(rec.known, 'запись распознана', 'записи распознаны', 'записей распознано')}</div>
-      </div>
-      <div class="rc-norm__card">
-        <div class="rc-norm__top">
-          <span class="rc-norm__ico" aria-hidden="true">${ICO.vendor}</span>
-          <div class="rc-norm__n">${nfmt(nearly)}</div>
+        <div class="rc-norm__card">
+          <div class="rc-norm__top">
+            <span class="rc-norm__ico" aria-hidden="true">${ICO.vendor}</span>
+            <div class="rc-norm__n">${nfmt(nearly)}</div>
+          </div>
+          <div class="rc-norm__t">Почти сошлось</div>
+          <p class="rc-norm__p">Наименование нашлось, но помешал вендор или формат версии.</p>
         </div>
-        <div class="rc-norm__t">Почти сошлось</div>
-        <p class="rc-norm__p">Наименование нашлось, но помешал вендор или формат версии.</p>
-      </div>
-      <div class="rc-norm__card">
-        <div class="rc-norm__top">
-          <span class="rc-norm__ico" aria-hidden="true">${ICO.noise}</span>
-          <div class="rc-norm__n">${nfmt(unknown)}</div>
+        <div class="rc-norm__card">
+          <div class="rc-norm__top">
+            <span class="rc-norm__ico" aria-hidden="true">${ICO.noise}</span>
+            <div class="rc-norm__n">${nfmt(unknown)}</div>
+          </div>
+          <div class="rc-norm__t">Нет в демонстрационном срезе</div>
+          <p class="rc-norm__p">Сравнение шло с <b class="rc-hi">${nfmt(md.apps)}</b> эталонными продуктами из <b class="rc-hi">${nfmt(md.libApps)}</b>.</p>
         </div>
-        <div class="rc-norm__t">Нет в демонстрационном срезе</div>
-        <p class="rc-norm__p">Сравнение шло с <b class="rc-hi">${nfmt(md.apps)}</b> эталонными продуктами из <b class="rc-hi">${nfmt(md.libApps)}</b>.</p>
       </div>
     </div>
 
-    <hr class="rc-rule">
     <div class="rc-biz-block">
       <h4 class="rx-panel__sec-title">Что это дает бизнесу?</h4>
       <div class="rc-biz">
@@ -198,8 +198,8 @@ function renderReconcile(rec, core) {
     </div>
 
     <div class="rc-split">
-      ${showBlock}
       ${mapBlock}
+      ${showBlock}
     </div>
   </section>`;
 }
