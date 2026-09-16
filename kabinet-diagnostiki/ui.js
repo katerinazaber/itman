@@ -309,32 +309,61 @@ function panelSpell(a) {
 }
 
 function panelVendor(a) {
-  const primary = a.vendorGroups[0];
-  const rows = primary ? primary.forms.map((f, i) => `<tr>
-      <td class="num">${i + 1}</td>
-      <td class="raw">${esc(f)}</td>
-      <td>${esc(primary.key === '(пусто)' ? '—' : primary.key)}</td>
-      <td class="num">—</td></tr>`) : [];
-  const others = a.vendorGroups.slice(1, 9);
-  return `${rxPanelHead('Разнобой в издателях', `${nfmt(a.vendorGroups.length)} ${plural(a.vendorGroups.length, 'издатель', 'издателя', 'издателей')}`, 'vendor')}
+  const items = a.vendorGroups
+    .map(v => ({
+      title: v.key === '(пусто)' ? 'Без издателя' : v.key,
+      forms: v.forms,
+      formsN: v.forms.length
+    }))
+    .sort((x, y) => y.formsN - x.formsN);
+
+  const n = a.vendorGroups.length;
+  const rowHtml = (it, i) => {
+    const fid = `vf${RXSEQ}-${i}`;
+    return `<tr>
+        <td><div class="rx-spell__name">${esc(it.title)}</div></td>
+        <td class="num"><b class="rx-spell__n">${it.formsN}</b></td>
+        <td class="rx-spell__act">
+          <button type="button" class="rx-spell__toggle" data-spell-forms="${fid}" aria-expanded="false">Показать</button>
+        </td>
+      </tr>
+      <tr class="rx-spell__forms" id="${fid}" hidden>
+        <td colspan="3">
+          <div class="forms">${it.forms.map(f => `<span class="chip dup">${esc(f)}</span>`).join('')}</div>
+        </td>
+      </tr>`;
+  };
+
+  return `${rxPanelNav('vendor')}
+    ${rxPanelHero(
+      'Один издатель, несколько написаний',
+      `${nfmt(n)} ${plural(n, 'издатель', 'издателя', 'издателей')}`,
+      '',
+      'Пока один издатель записан в базе под разными названиями, группировка по вендору и запрос «что у нас от этого производителя» показывают неполную картину.',
+      ICO.vendor
+    )}
+    <h4 class="rx-panel__sec-title">Чем это мешает бизнесу?</h4>
     ${rxImpact([
-      [ICO.warn, 'Чем опасно', `Правообладатель — единица договора. Пока он пишется по-разному, любой срез «что у нас от этого производителя» неполный — риск недоучета и переплаты.`],
-      [ICO.clock, 'Трудозатраты на исправление', `${whrs(a.vendorGroups.length * 2)} на сведение написаний к одной карточке вендора.`],
-      [ICO.coin, 'Влияние на деньги', `Доля отечественного ПО и структура парка по вендорам считаются от неполной группировки.`]
+      [ICO.coin, 'Лицензии',
+        'Потребность по одному правообладателю собирается из нескольких групп. Часть установок может не попасть в его карточку и остаться вне расчета лицензий.'],
+      [ICO.chart, 'Отчетность',
+        'Доля отечественного ПО и структура парка по вендорам считаются по той же неполной группировке. В результате отчеты не показывают полную картину.'],
+      [ICO.check, 'Призма данных',
+        'Издатель сводится к единой карточке вендора со страной производителя. Группировка по правообладателю и срез по импортозамещению собираются из каталога.']
     ])}
-    <div class="rx-panel__grid">
-      <div>
-        <h4>Примеры найденных вариантов написания</h4>
-        ${rows.length ? xtable('<thead><tr><th>#</th><th>Вариант в вашей базе</th><th>Нормализованное имя</th><th class="num">Строк</th></tr></thead>', rows, 5, primary && primary.forms.length > 5 ? `Показать все ${primary.forms.length} вариантов` : '') : '<p class="dim">Примеров нет</p>'}
+    <div class="rx-panel__main">
+      <div class="rx-panel__sec-head">
+        <h4>Найденные издатели, записанные по-разному</h4>
       </div>
-      <div>
-        <h4>То же самое встречается у других издателей</h4>
-        <ul class="rx-side">
-          ${others.map(v => `<li><span>${esc(v.key)}</span><b>${v.forms.length}</b></li>`).join('') || '<li class="dim">Других групп нет</li>'}
-        </ul>
-      </div>
-    </div>
-    ${rxSolve('Издатель сводится к единой карточке вендора со страной производителя — группировка по правообладателю и срез по импортозамещению собираются из каталога.')}`;
+      ${items.length ? `<div class="scroll rx-table-wrap"><table class="rx-table rx-table--spell">
+        <thead><tr>
+          <th>Издатель</th>
+          <th class="num">Написаний</th>
+          <th></th>
+        </tr></thead>
+        <tbody>${items.map(rowHtml).join('')}</tbody>
+      </table></div>` : '<p class="dim">Примеров нет</p>'}
+    </div>`;
 }
 
 function panelMissing(a) {
@@ -418,7 +447,7 @@ function renderSymptoms(a) {
   const manualN = Math.max(0, Math.round(a.manualMinutes));
   const cards = [
     { id: 'spell', n: spellN, title: 'Лишние формы записи', sub: 'Одно и то же ПО записано по-разному', ico: ICO.dup, on: !!spellN, panel: panelSpell },
-    { id: 'vendor', n: a.vendorGroups.length, title: 'Разнобой в издателях', sub: 'Один издатель указан разными способами', ico: ICO.vendor, on: !!a.vendorGroups.length, panel: panelVendor },
+    { id: 'vendor', n: a.vendorGroups.length, title: 'Один издатель, несколько написаний', sub: 'Один и тот же издатель записан по-разному', ico: ICO.vendor, on: !!a.vendorGroups.length, panel: panelVendor },
     { id: 'missing', n: a.missingVer, title: 'Версии потерялись', sub: 'Для этих записей не указана версия ПО', ico: ICO.ver, on: !!a.missingVer, panel: panelMissing },
     { id: 'junk', n: a.junkItems.length, title: 'Ошибки в данных', sub: 'Есть неполные или некорректные записи', ico: ICO.junk, on: !!a.junkItems.length, panel: panelJunk },
     { id: 'noise', n: a.noiseItems.length, title: 'Лишние строки', sub: 'Записи, которые не относятся к лицензируемому ПО', ico: ICO.noise, on: !!a.noiseItems.length, panel: panelNoise },
