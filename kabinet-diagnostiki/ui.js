@@ -96,24 +96,47 @@ function toneColor(i) { return i >= 72 ? 'var(--ok)' : i >= 52 ? 'var(--warn)' :
 function toneBg(i) { return i >= 72 ? 'var(--ok-l)' : i >= 52 ? 'var(--warn-l)' : 'var(--bad-l)'; }
 
 function gauge(index) {
-  const R = 52, C = 2 * Math.PI * R;
-  const on = C * Math.max(0, Math.min(100, index)) / 100;
-  return `<div class="gauge gauge-ring">
-    <svg viewBox="0 0 140 140" width="140" height="140" aria-hidden="true">
-      <circle cx="70" cy="70" r="${R}" fill="none" stroke="#E8ECF1" stroke-width="12"/>
-      <circle cx="70" cy="70" r="${R}" fill="none" stroke="${toneColor(index)}" stroke-width="12"
-            stroke-linecap="round" stroke-dasharray="${on.toFixed(1)} ${C.toFixed(2)}"
-            transform="rotate(-90 70 70)"/>
+  const R = 70, CX = 90, CY = 88;
+  const LEN = Math.PI * R;
+  const on = LEN * Math.max(0, Math.min(100, index)) / 100;
+  return `<div class="gauge gauge-arc">
+    <svg viewBox="0 0 180 110" width="180" height="110" aria-hidden="true">
+      <path d="M20 ${CY} A${R} ${R} 0 0 1 ${CX * 2 - 20} ${CY}" fill="none" stroke="#E4EAF1" stroke-width="14" stroke-linecap="round"/>
+      <path d="M20 ${CY} A${R} ${R} 0 0 1 ${CX * 2 - 20} ${CY}" fill="none" stroke="var(--red)" stroke-width="14"
+            stroke-linecap="round" stroke-dasharray="${on.toFixed(1)} ${LEN.toFixed(2)}"/>
     </svg>
-    <div class="val"><div class="num" style="color:${toneColor(index)}">${index}<span class="pct">%</span></div>
-      <div class="of">ИНДЕКС ЧИСТОТЫ</div></div>
+    <div class="val">
+      <div class="num">${index}<span class="pct">%</span></div>
+      <div class="of">ИНДЕКС ЧИСТОТЫ
+        <a class="gauge-info" href="#rx-method" title="Открытая методика" aria-label="Как считается индекс чистоты">i</a>
+      </div>
+    </div>
   </div>`;
 }
 
 function indexStatus(index) {
-  if (index >= 72) return { text: 'В норме. База в хорошем состоянии', cls: 'ok' };
-  if (index >= 52) return { text: 'На грани. Нормализация желательна', cls: 'warn' };
-  return { text: 'Ниже нормы. Рекомендуется нормализация', cls: 'bad' };
+  if (index >= 72) return { title: 'В норме', sub: 'База в хорошем состоянии', cls: 'ok' };
+  if (index >= 52) return { title: 'На грани', sub: 'Нормализация желательна', cls: 'warn' };
+  return { title: 'Ниже нормы', sub: 'Рекомендуется нормализация', cls: 'bad' };
+}
+
+function diagTitleHtml(t) {
+  const s = String(t || '');
+  const pairs = [
+    [/^Дублитоз\s+(.+)$/i, m => ['Дублитоз', m[1]]],
+    [/^Легкая форма\s+(.+)$/i, m => ['Легкая форма', m[1]]],
+    [/^Хроническая\s+(.+)$/i, m => ['Хроническая', m[1]]],
+    [/^Требуется срочное\s+(.+)$/i, m => ['Требуется срочное', m[1]]],
+    [/^Практически\s+(.+)$/i, m => ['Практически', m[1]]]
+  ];
+  for (const [re, fn] of pairs) {
+    const m = s.match(re);
+    if (m) {
+      const [main, accent] = fn(m);
+      return `<span class="rx-diag-main">${esc(main)}</span><br><span class="rx-diag-accent">${esc(accent)}</span>`;
+    }
+  }
+  return `<span class="rx-diag-main">${esc(s)}</span>`;
 }
 
 function tile(n, label, sub, cls) {
@@ -309,7 +332,7 @@ function methodology(a) {
   const w = a.weights, r = a.ratios;
   const line = (label, ratio, weight) =>
     `<tr><td>${label}</td><td class="num">${(ratio * 100).toFixed(1)}%</td><td class="num">×${weight}</td><td class="num">−${(ratio * weight).toFixed(1)}</td></tr>`;
-  return `<details class="rx-method">
+  return `<details class="rx-method" id="rx-method">
     <summary>Открытая методика</summary>
     <div class="body">
       <p style="margin-bottom:12px">Индекс — это 100 минус штрафы по шести показателям. Веса заданы явно, чтобы с ними можно было спорить.</p>
@@ -404,22 +427,22 @@ function render(a) {
   <section class="rx-hero">
     <div class="rx-hero__gauge">
       ${gauge(a.index)}
-      <div class="rx-status rx-status--${st.cls}">${st.text}</div>
+      <div class="rx-status rx-status--${st.cls}">
+        <b>${st.title}</b>
+        <span>${st.sub}</span>
+      </div>
     </div>
     <div class="rx-hero__diag">
-      <span class="dx-tag" style="background:${toneBg(a.index)};color:${toneColor(a.index)}">
+      <span class="dx-tag">
         <span class="dx-tag__ico" aria-hidden="true">${ICO.pulse}</span> Диагноз поставлен
       </span>
-      <h2>${esc(a.diag.t)}</h2>
+      <h2>${diagTitleHtml(a.diag.t)}</h2>
       <p>${esc(a.diag.d)}</p>
-      <p class="rx-hero__meta">Разобрали <b>${a.rowsN.toLocaleString('ru')}</b> ${plural(a.rowsN, 'строку', 'строки', 'строк')} →
-        <b>${a.productsN.toLocaleString('ru')}</b> ${plural(a.productsN, 'реальный продукт', 'реальных продукта', 'реальных продуктов')}.
-        Это инвентарные данные: между ними и учетом стоит нормализация.</p>
     </div>
     <div class="rx-hero__treat">
       <span class="rx-hero__treat-ico" aria-hidden="true">${ICO.steth}</span>
       <b>База поддается лечению</b>
-      <p>После нормализации данные будут чистыми и готовыми к учету лицензий.</p>
+      <p>После нормализации вы получите чистые и согласованные данные, готовые для точного учета и отчетности.</p>
     </div>
   </section>
 
