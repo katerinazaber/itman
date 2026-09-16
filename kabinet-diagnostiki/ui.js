@@ -252,10 +252,6 @@ function panelSpell(a) {
 
   const n = a.spellExcess + a.exactDup;
   const hrs = whrs(a.spellGroups.length * 3);
-  const preview = 8;
-  const tid = 'x' + (++RXSEQ);
-  const rest = items.slice(preview);
-  const moreLabel = `Показать все ${items.length.toLocaleString('ru')} ${plural(items.length, 'позицию', 'позиции', 'позиций')} →`;
 
   const rowHtml = (it, i) => {
     const fid = `sf${RXSEQ}-${i}`;
@@ -268,8 +264,7 @@ function panelSpell(a) {
           <div class="rx-spell__name">${esc(it.title)}</div>
           ${meta ? `<div class="rx-spell__meta">${esc(meta)}</div>` : ''}
         </td>
-        <td class="num"><b class="rx-spell__n">${it.formsN}</b>
-          <span class="rx-spell__u">${plural(it.formsN, 'написание', 'написания', 'написаний')}</span></td>
+        <td class="num"><b class="rx-spell__n">${it.formsN}</b></td>
         <td class="rx-spell__act">
           <button type="button" class="rx-spell__toggle" data-spell-forms="${fid}" aria-expanded="false">Показать</button>
         </td>
@@ -280,9 +275,6 @@ function panelSpell(a) {
         </td>
       </tr>`;
   };
-
-  const headRows = items.slice(0, preview).map(rowHtml).join('');
-  const restRows = rest.map((it, i) => rowHtml(it, preview + i)).join('');
 
   return `${rxPanelNav('spell')}
     ${rxPanelHero(
@@ -306,7 +298,6 @@ function panelSpell(a) {
           <h4>Где одно ПО записано несколькими способами</h4>
           <p class="rx-panel__sec-sh">Каждая строка — одна учетная позиция (продукт и версия). «Написаний» — сколько разных формулировок нашлось в выгрузке.</p>
         </div>
-        ${rest.length ? `<button type="button" class="rx-panel__more xtoggle" data-x="${tid}" data-n="${rest.length}" data-open-label="${esc(moreLabel)}" data-close-label="Свернуть список">Показать все ${items.length.toLocaleString('ru')} ${plural(items.length, 'позицию', 'позиции', 'позиций')} →</button>` : ''}
       </div>
       ${items.length ? `<div class="scroll rx-table-wrap"><table class="rx-table rx-table--spell">
         <thead><tr>
@@ -314,8 +305,7 @@ function panelSpell(a) {
           <th class="num">Написаний</th>
           <th></th>
         </tr></thead>
-        <tbody>${headRows}</tbody>
-        ${rest.length ? `<tbody class="xmore" id="${tid}" hidden>${restRows}</tbody>` : ''}
+        <tbody>${items.map(rowHtml).join('')}</tbody>
       </table></div>` : '<p class="dim">Примеров нет</p>'}
     </div>`;
 }
