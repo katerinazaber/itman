@@ -389,7 +389,6 @@ function renderSymptoms(a) {
 }
 
 function render(a) {
-  const st = indexStatus(a.index);
   RXSEQ = 0;
 
   const html = `
@@ -398,19 +397,15 @@ function render(a) {
   <section class="rx-hero">
     <div class="rx-hero__gauge">
       ${gauge(a.index)}
-      <div class="rx-status rx-status--${st.cls}">
-        <b>${st.title}</b>
-        <span>${st.sub}</span>
-      </div>
     </div>
     <div class="rx-hero__diag">
       <span class="dx-tag">
         <span class="dx-tag__ico" aria-hidden="true">${ICO.pulse}</span> Диагноз поставлен
       </span>
       <h2>${diagTitleHtml(a.diag.t)}</h2>
-      <p class="rx-hero__stats">Мы разобрали <b>${nfmt(a.rowsN)}</b> ${plural(a.rowsN, 'строку', 'строки', 'строк')} и нашли в них
-        <b>${nfmt(a.productsN)}</b> ${plural(a.productsN, 'реальный продукт', 'реальных продукта', 'реальных продуктов')}.</p>
-      <p>${esc(a.diag.d)}</p>
+      <p class="rx-hero__copy">Мы разобрали <b>${nfmt(a.rowsN)}</b> ${plural(a.rowsN, 'строку', 'строки', 'строк')} и нашли в них
+        <b>${nfmt(a.productsN)}</b> ${plural(a.productsN, 'реальный продукт', 'реальных продукта', 'реальных продуктов')}.
+        ${esc(a.diag.d)}</p>
     </div>
     <div class="rx-hero__effort">
       <div class="rx-effort">
@@ -418,7 +413,6 @@ function render(a) {
         <p>Чтобы свести такое количество данных вручную, аналитику нужно <b class="rx-effort__time">${whrs(a.manualMinutes)} работы.</b></p>
       </div>
       <div class="rx-scalebox">
-        <div class="rx-scalebox__h">Посчитайте для своей базы</div>
         <label class="rx-scalebox__row">А если во всей вашей базе
           <input id="scaleN" type="number" min="1" step="1000" value="${a.rowsN}">
           <span id="scaleWord">${plural(a.rowsN, 'запись', 'записи', 'записей')}</span> — это
