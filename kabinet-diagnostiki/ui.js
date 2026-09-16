@@ -447,7 +447,7 @@ function renderSymptoms(a) {
   const manualN = Math.max(0, Math.round(a.manualMinutes));
   const cards = [
     { id: 'spell', n: spellN, title: 'Лишние формы записи', sub: 'Одно и то же ПО записано по-разному', ico: ICO.dup, on: !!spellN, panel: panelSpell },
-    { id: 'vendor', n: a.vendorGroups.length, title: 'Один издатель, несколько написаний', sub: 'Один и тот же издатель записан по-разному', ico: ICO.vendor, on: !!a.vendorGroups.length, panel: panelVendor },
+    { id: 'vendor', n: a.vendorGroups.length, title: 'Разнобой в издателях', sub: 'Один и тот же издатель записан по-разному', ico: ICO.vendor, on: !!a.vendorGroups.length, panel: panelVendor },
     { id: 'missing', n: a.missingVer, title: 'Версии потерялись', sub: 'Для этих записей не указана версия ПО', ico: ICO.ver, on: !!a.missingVer, panel: panelMissing },
     { id: 'junk', n: a.junkItems.length, title: 'Ошибки в данных', sub: 'Есть неполные или некорректные записи', ico: ICO.junk, on: !!a.junkItems.length, panel: panelJunk },
     { id: 'noise', n: a.noiseItems.length, title: 'Лишние строки', sub: 'Записи, которые не относятся к лицензируемому ПО', ico: ICO.noise, on: !!a.noiseItems.length, panel: panelNoise },
