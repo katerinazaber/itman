@@ -96,20 +96,20 @@ function toneColor(i) { return i >= 72 ? 'var(--ok)' : i >= 52 ? 'var(--warn)' :
 function toneBg(i) { return i >= 72 ? 'var(--ok-l)' : i >= 52 ? 'var(--warn-l)' : 'var(--bad-l)'; }
 
 function gauge(index) {
-  const R = 105, CX = 130, CY = 126;
+  const R = 118, CX = 145, CY = 138;
   const LEN = Math.PI * R;
   const on = LEN * Math.max(0, Math.min(100, index)) / 100;
   const left = CX - R, right = CX + R;
   return `<div class="gauge gauge-arc">
-    <svg viewBox="0 0 260 150" width="260" height="150" aria-hidden="true">
-      <path d="M${left} ${CY} A${R} ${R} 0 0 1 ${right} ${CY}" fill="none" stroke="#E4EAF1" stroke-width="18" stroke-linecap="round"/>
-      <path d="M${left} ${CY} A${R} ${R} 0 0 1 ${right} ${CY}" fill="none" stroke="var(--red)" stroke-width="18"
+    <svg viewBox="0 0 290 168" width="290" height="168" aria-hidden="true">
+      <path d="M${left} ${CY} A${R} ${R} 0 0 1 ${right} ${CY}" fill="none" stroke="#E4EAF1" stroke-width="20" stroke-linecap="round"/>
+      <path d="M${left} ${CY} A${R} ${R} 0 0 1 ${right} ${CY}" fill="none" stroke="var(--red)" stroke-width="20"
             stroke-linecap="round" stroke-dasharray="${on.toFixed(1)} ${LEN.toFixed(2)}"/>
     </svg>
     <div class="val">
       <div class="num">${index}<span class="pct">%</span></div>
       <div class="of">ИНДЕКС ЧИСТОТЫ БАЗЫ
-        <a class="gauge-info" href="#rx-method" title="Открытая методика" aria-label="Как считается индекс чистоты базы">i</a>
+        <a class="gauge-info" href="#rx-method" title="Открытая методика" aria-label="Как считается индекс чистоты базы">!</a>
       </div>
     </div>
   </div>`;
@@ -134,7 +134,7 @@ function diagTitleHtml(t) {
     const m = s.match(re);
     if (m) {
       const [main, accent] = fn(m);
-      return `<span class="rx-diag-main">${esc(main)}</span><br><span class="rx-diag-accent">${esc(accent)}</span>`;
+      return `<span class="rx-diag-main">${esc(main)}</span> <span class="rx-diag-accent">${esc(accent)}</span>`;
     }
   }
   return `<span class="rx-diag-main">${esc(s)}</span>`;

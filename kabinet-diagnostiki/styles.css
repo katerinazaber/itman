@@ -717,12 +717,12 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rx-block{margin-top:28px}
 
 .rx-hero{
-  display:grid;grid-template-columns:260px minmax(0,1fr) minmax(320px,380px);gap:0 0;align-items:center;
+  display:grid;grid-template-columns:300px minmax(0,1.35fr) minmax(300px,340px);gap:0;align-items:center;
   padding:28px 32px;background:#FFFFFF;border:1px solid var(--line-2);border-radius:18px;
   box-shadow:var(--sh);
 }
 @media(max-width:1100px){
-  .rx-hero{grid-template-columns:240px minmax(0,1fr);padding:24px 24px}
+  .rx-hero{grid-template-columns:280px minmax(0,1fr);padding:24px 24px}
   .rx-hero__effort{grid-column:1 / -1;border-left:none;border-top:1px solid #E5EAF0;padding:22px 0 0;margin-top:8px}
   .rx-hero__diag{border-right:none;padding-right:0}
 }
@@ -735,40 +735,41 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 
 .rx-hero__gauge{
   display:flex;flex-direction:column;align-items:center;width:100%;
-  padding:0 12px 0 0;box-sizing:border-box;
+  padding:0 8px 0 0;box-sizing:border-box;
 }
 
-.gauge-arc{position:relative;width:240px;height:140px;margin:0 auto}
-.gauge-arc .val{position:absolute;left:0;right:0;bottom:6px;text-align:center;pointer-events:none}
+.gauge-arc{position:relative;width:290px;height:168px;margin:0 auto}
+.gauge-arc .val{position:absolute;left:0;right:0;bottom:10px;text-align:center;pointer-events:none}
 .gauge-arc .val .gauge-info{pointer-events:auto}
-.gauge-arc .num{font-size:48px;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--ink)}
-.gauge-arc .num .pct{font-size:24px;font-weight:700;margin-left:1px}
+.gauge-arc .num{font-size:52px;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--ink)}
+.gauge-arc .num .pct{font-size:26px;font-weight:700;margin-left:1px}
 .gauge-arc .of{
-  display:inline-flex;align-items:center;justify-content:center;gap:5px;
-  font-size:10px;color:var(--ink-3);font-weight:700;letter-spacing:.08em;margin-top:8px
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  font-size:10px;color:var(--ink-3);font-weight:700;letter-spacing:.08em;margin-top:12px
 }
 .gauge-info{
   display:inline-flex;align-items:center;justify-content:center;
-  width:14px;height:14px;border-radius:50%;border:1.5px solid #B8C0CC;color:#8A93A3;
-  font-size:9px;font-weight:700;letter-spacing:0;text-decoration:none;line-height:1;
+  width:15px;height:15px;border-radius:50%;border:1.5px solid #B8C0CC;color:#8A93A3;
+  font-size:10px;font-weight:700;letter-spacing:0;text-decoration:none;line-height:1;
+  flex:0 0 auto;
 }
 .gauge-info:hover{border-color:var(--red);color:var(--red)}
 
 .rx-hero__diag{
   min-width:0;width:100%;height:100%;
   display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
-  text-align:left;padding:4px 28px 4px 16px;
+  text-align:left;padding:4px 20px 4px 8px;
   border-right:1px solid #E5EAF0;
 }
 .rx-hero__diag h2{
-  font-size:clamp(26px, 2.8vw, 34px);font-weight:800;margin:12px 0 12px;letter-spacing:-.03em;line-height:1.12;
-  width:100%;
+  font-size:clamp(26px, 2.6vw, 32px);font-weight:800;margin:12px 0 12px;letter-spacing:-.03em;line-height:1.15;
+  width:100%;white-space:nowrap;
 }
 .rx-diag-main{color:var(--ink)}
 .rx-diag-accent{color:var(--red)}
 .rx-hero__copy{
   color:var(--ink);font-size:15.5px;line-height:1.55;margin:0;
-  width:100%;max-width:54ch;text-align:left;text-wrap:pretty;
+  width:100%;max-width:none;text-align:left;text-wrap:pretty;
 }
 .rx-hero__copy b{font-weight:750}
 .dx-tag{
