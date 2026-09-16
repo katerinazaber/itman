@@ -270,13 +270,12 @@ function panelSpell(a) {
         </td>
         <td class="num"><b class="rx-spell__n">${it.formsN}</b>
           <span class="rx-spell__u">${plural(it.formsN, 'написание', 'написания', 'написаний')}</span></td>
-        <td class="num">${nfmt(it.rowsN)}</td>
         <td class="rx-spell__act">
           <button type="button" class="rx-spell__toggle" data-spell-forms="${fid}" aria-expanded="false">Показать</button>
         </td>
       </tr>
       <tr class="rx-spell__forms" id="${fid}" hidden>
-        <td colspan="4">
+        <td colspan="3">
           <div class="forms">${it.forms.map(f => `<span class="chip dup">${esc(f)}</span>`).join('')}</div>
         </td>
       </tr>`;
@@ -305,7 +304,7 @@ function panelSpell(a) {
       <div class="rx-panel__sec-head">
         <div>
           <h4>Где одно ПО записано несколькими способами</h4>
-          <p class="rx-panel__sec-sh">Каждая строка — одна учетная позиция (продукт и версия). «Написаний» — сколько разных формулировок нашлось; «Строк» — сколько раз они встречаются в выгрузке.</p>
+          <p class="rx-panel__sec-sh">Каждая строка — одна учетная позиция (продукт и версия). «Написаний» — сколько разных формулировок нашлось в выгрузке.</p>
         </div>
         ${rest.length ? `<button type="button" class="rx-panel__more xtoggle" data-x="${tid}" data-n="${rest.length}" data-open-label="${esc(moreLabel)}" data-close-label="Свернуть список">Показать все ${items.length.toLocaleString('ru')} ${plural(items.length, 'позицию', 'позиции', 'позиций')} →</button>` : ''}
       </div>
@@ -313,7 +312,6 @@ function panelSpell(a) {
         <thead><tr>
           <th>Учетная позиция</th>
           <th class="num">Написаний</th>
-          <th class="num">Строк</th>
           <th></th>
         </tr></thead>
         <tbody>${headRows}</tbody>
@@ -456,7 +454,7 @@ function renderSymptoms(a) {
     <div class="rx-symptom__head">
       <div>
         <h3 class="rx-h">Симптомы диагноза</h3>
-        <p class="rx-sh">Вот что мы нашли в вашей базе. Нажмите «Подробнее», чтобы разобраться.</p>
+        <p class="rx-sh">Вот что мы нашли в вашей базе. Нажмите «Подробнее», чтобы посмотреть детали.</p>
       </div>
     </div>
     <div class="rx-sym-grid">${grid}</div>
