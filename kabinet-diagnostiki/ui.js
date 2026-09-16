@@ -96,14 +96,14 @@ function toneColor(i) { return i >= 72 ? 'var(--ok)' : i >= 52 ? 'var(--warn)' :
 function toneBg(i) { return i >= 72 ? 'var(--ok-l)' : i >= 52 ? 'var(--warn-l)' : 'var(--bad-l)'; }
 
 function gauge(index) {
-  const R = 88, CX = 110, CY = 108;
+  const R = 105, CX = 130, CY = 126;
   const LEN = Math.PI * R;
   const on = LEN * Math.max(0, Math.min(100, index)) / 100;
   const left = CX - R, right = CX + R;
   return `<div class="gauge gauge-arc">
-    <svg viewBox="0 0 220 130" width="220" height="130" aria-hidden="true">
-      <path d="M${left} ${CY} A${R} ${R} 0 0 1 ${right} ${CY}" fill="none" stroke="#E4EAF1" stroke-width="16" stroke-linecap="round"/>
-      <path d="M${left} ${CY} A${R} ${R} 0 0 1 ${right} ${CY}" fill="none" stroke="var(--red)" stroke-width="16"
+    <svg viewBox="0 0 260 150" width="260" height="150" aria-hidden="true">
+      <path d="M${left} ${CY} A${R} ${R} 0 0 1 ${right} ${CY}" fill="none" stroke="#E4EAF1" stroke-width="18" stroke-linecap="round"/>
+      <path d="M${left} ${CY} A${R} ${R} 0 0 1 ${right} ${CY}" fill="none" stroke="var(--red)" stroke-width="18"
             stroke-linecap="round" stroke-dasharray="${on.toFixed(1)} ${LEN.toFixed(2)}"/>
     </svg>
     <div class="val">
