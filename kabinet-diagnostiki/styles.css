@@ -1164,7 +1164,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rc-biz__ico{
   flex:0 0 auto;width:44px;height:44px;border-radius:50%;
   display:inline-flex;align-items:center;justify-content:center;
-  background:var(--red);color:#fff;
+  background:#FFF0F2;color:var(--red);
 }
 .rc-biz__ico svg{width:22px;height:22px}
 .rc-biz__i b{display:block;font-size:16px;font-weight:750;margin-bottom:6px;color:var(--ink);line-height:1.35}
