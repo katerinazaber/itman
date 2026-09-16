@@ -813,10 +813,10 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rx-sym__top{display:flex;align-items:center;gap:14px;width:100%;margin-bottom:10px}
 .rx-sym__ico{
   display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;
-  width:48px;height:48px;border-radius:12px;background:#FFF0F2;color:var(--red);
+  width:44px;height:44px;border-radius:11px;background:#FFF0F2;color:var(--red);
 }
-.rx-sym__ico svg{width:26px;height:26px}
-.rx-sym__n{font-size:48px;font-weight:800;letter-spacing:-.04em;color:var(--red);line-height:48px;height:48px}
+.rx-sym__ico svg{width:24px;height:24px}
+.rx-sym__n{font-size:36px;font-weight:800;letter-spacing:-.03em;color:var(--red);line-height:1}
 .rx-sym.is-ok .rx-sym__n{color:var(--ok)}
 .rx-sym__t{font-size:16px;font-weight:750;color:var(--ink);line-height:1.25;margin:0 0 6px}
 .rx-sym__s{font-size:13.5px;color:#7A8494;line-height:1.4;margin:0;flex:1 1 auto}
