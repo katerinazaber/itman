@@ -952,6 +952,8 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rx-table td:nth-child(3){color:var(--ink-2);width:34%}
 .rx-table .dim{color:var(--ink-3)}
 .rx-table--spell{table-layout:fixed}
+.rx-table--cats th:nth-child(2),
+.rx-table--cats td:nth-child(2){width:120px;text-align:center}
 .rx-table--spell th:first-child,
 .rx-table--spell td:first-child{width:auto}
 .rx-table--spell th:nth-child(2),

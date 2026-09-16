@@ -364,17 +364,6 @@ function panelVendor(a) {
     </div>`;
 }
 
-function panelMissing(a) {
-  return `${rxPanelHead('Версии потерялись', `${nfmt(a.missingVer)} ${plural(a.missingVer, 'запись', 'записи', 'записей')}`, 'missing')}
-    ${rxImpact([
-      [ICO.warn, 'Чем опасно', `Без версии нельзя понять, какая лицензия нужна: право на использование конкретной сборки дает артикул, а не факт установки.`],
-      [ICO.clock, 'Трудозатраты', a.messyVer ? `Плюс ${nfmt(a.messyVer)} с неразборчивой версией — их тоже придется разбирать.` : 'Версию нужно добирать из других источников или переустанавливать агент.'],
-      [ICO.coin, 'Влияние на деньги', `Нельзя проверить соответствие закупок установленным версиям — ни upgrade, ни downgrade.`]
-    ])}
-    <p class="rx-panel__note">Во втором шаге версии уточняются по эталонному каталогу там, где запись опознана.</p>
-    ${rxSolve('Каталог подставляет каноническую версию и редакцию для опознанных позиций — отчет строится на учетных полях, а не на пустых ячейках инвентаря.')}`;
-}
-
 function panelJunk(a) {
   const n = a.junkItems.length;
   const mins = whrs(a.junkItems.length * 1);
@@ -408,27 +397,46 @@ function panelJunk(a) {
 }
 
 function panelNoise(a) {
-  const nb = Object.entries(a.noiseBreakdown).sort((x, y) => y[1] - x[1]);
-  const rows = nb.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="num">${v}</td></tr>`);
-  const share = a.rowsN ? (a.noiseItems.length / a.rowsN * 100).toFixed(0) : 0;
-  return `${rxPanelHead('Лишние строки', `${nfmt(a.noiseItems.length)} ${plural(a.noiseItems.length, 'строка', 'строки', 'строк')}`, 'noise')}
-    ${rxImpact([
-      [ICO.warn, 'Чем опасно', `<b>${nfmt(a.noiseItems.length)}</b> из ${nfmt(a.rowsN)} (${share}%) — библиотеки, драйверы, патчи. Они занимают отчеты, но лицензий не требуют.`],
-      [ICO.clock, 'Трудозатраты', `${whrs(Math.round(a.noiseItems.length * 0.5))} на разбор того, что учитывать не нужно.`],
-      [ICO.chart, 'Влияние на управление', `Метрики вроде стоимости ПО на рабочее место считаются от разной базы — сравнивать периоды не на чем.`]
-    ])}
-    ${rows.length ? xtable('<thead><tr><th>Категория</th><th class="num">Строк</th></tr></thead>', rows, 8) : ''}
-    ${rxSolve(`Периметр задает каталог: тип лицензирования проставлен у ${CM ? nfmt(CM.libApps) : '324 590'} эталонных продуктов.`)}`;
-}
+  const n = a.noiseItems.length;
+  const share = a.rowsN ? (n / a.rowsN * 100).toFixed(0) : 0;
+  const hrs = whrs(Math.round(n * 0.5));
+  const cats = Object.entries(a.noiseBreakdown).sort((x, y) => y[1] - x[1]);
 
-function panelManual(a) {
-  return `${rxPanelHead('Ручная работа', whrs(a.manualMinutes), 'manual')}
+  const rowHtml = (it) => {
+    const [label, count] = it;
+    return `<tr>
+        <td><div class="rx-spell__name">${esc(label)}</div></td>
+        <td class="num"><b class="rx-spell__n">${nfmt(count)}</b></td>
+      </tr>`;
+  };
+
+  return `${rxPanelNav('noise')}
+    ${rxPanelHero(
+      'Не подлежит лицензированию',
+      `${nfmt(n)} ${plural(n, 'строка', 'строки', 'строк')}`,
+      '',
+      `Эти строки занимают место в отчетах, но лицензий не требуют. Их нужно отсекать до начала учета. Сейчас это ${nfmt(n)} ${plural(n, 'строка', 'строки', 'строк')} из ${nfmt(a.rowsN)} — ${share}% выгрузки.`,
+      ICO.noise
+    )}
+    <h4 class="rx-panel__sec-title">Чем это мешает бизнесу?</h4>
     ${rxImpact([
-      [ICO.warn, 'Что это значит', `Свести найденное вручную — примерно <b>${whrs(a.manualMinutes)}</b> работы аналитика на этом объеме выгрузки.`],
-      [ICO.clock, 'Из чего складывается', `${a.spellGroups.length} ${plural(a.spellGroups.length, 'группа', 'группы', 'групп')} разнописаний × 3 мин + ${a.vendorGroups.length} издателей × 2 мин + ${a.junkItems.length} дефектов × 1 мин.`],
-      [ICO.coin, 'Повторяемость', `Инвентаризация выгружается регулярно — без нормализации эти часы тратятся снова и снова.`]
+      [ICO.clock, 'Ручные трудозатраты сотрудников',
+        `Около ${hrs} уходит на разбор того, что учитывать не нужно.`],
+      [ICO.chart, 'Отчеты становятся несравнимыми',
+        'Метрики вроде стоимости ПО на рабочее место считаются от разной базы. Сравнивать периоды и планировать бюджет не на чем.']
     ])}
-    ${rxSolve('В «Призме данных» нормализация выполняется при каждой загрузке без участия человека — экономия повторяется цикл за циклом.')}`;
+    <div class="rx-panel__main">
+      <div class="rx-panel__sec-head">
+        <h4>Какие категории нашлись</h4>
+      </div>
+      ${cats.length ? `<div class="scroll rx-table-wrap"><table class="rx-table rx-table--spell">
+        <thead><tr>
+          <th>Категория</th>
+          <th class="num">Строк</th>
+        </tr></thead>
+        <tbody>${cats.map(rowHtml).join('')}</tbody>
+      </table></div>` : '<p class="dim">Примеров нет</p>'}
+    </div>`;
 }
 
 function renderFindings(a) { return ''; }
@@ -460,14 +468,13 @@ function methodology(a) {
 
 function renderSymptoms(a) {
   const spellN = a.spellExcess + a.exactDup;
-  const manualN = Math.max(0, Math.round(a.manualMinutes));
+  /* Как у Альберта в renderFindings: 4 подробных блока.
+     «Записи без версии» и «Ручная работа» — только плитки/методика, без отдельной карточки. */
   const cards = [
     { id: 'spell', n: spellN, title: 'Лишние формы записи', sub: 'Одно и то же ПО записано по-разному', ico: ICO.dup, on: !!spellN, panel: panelSpell },
     { id: 'vendor', n: a.vendorGroups.length, title: 'Разнобой в издателях', sub: 'Один и тот же издатель записан по-разному', ico: ICO.vendor, on: !!a.vendorGroups.length, panel: panelVendor },
-    { id: 'missing', n: a.missingVer, title: 'Версии потерялись', sub: 'Для этих записей не указана версия ПО', ico: ICO.ver, on: !!a.missingVer, panel: panelMissing },
     { id: 'junk', n: a.junkItems.length, title: 'Дефекты записей', sub: 'Строки, которые не получится распознать', ico: ICO.junk, on: !!a.junkItems.length, panel: panelJunk },
-    { id: 'noise', n: a.noiseItems.length, title: 'Лишние строки', sub: 'Записи, которые не относятся к лицензируемому ПО', ico: ICO.noise, on: !!a.noiseItems.length, panel: panelNoise },
-    { id: 'manual', n: manualN, title: 'Ручная работа', sub: 'Столько раз данные придется проверять вручную', ico: ICO.hand, on: manualN > 0, panel: panelManual }
+    { id: 'noise', n: a.noiseItems.length, title: 'Не подлежит лицензированию', sub: 'Библиотеки, драйверы, патчи — лицензий не требуют', ico: ICO.noise, on: !!a.noiseItems.length, panel: panelNoise }
   ];
 
   const grid = cards.map(c => `<button type="button" class="rx-sym${c.on ? '' : ' is-ok'}" data-rx="${c.id}" ${c.on ? '' : 'disabled'}>
