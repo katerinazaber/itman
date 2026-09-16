@@ -108,8 +108,8 @@ function gauge(index) {
     </svg>
     <div class="val">
       <div class="num">${index}<span class="pct">%</span></div>
-      <div class="of">ИНДЕКС ЧИСТОТЫ
-        <a class="gauge-info" href="#rx-method" title="Открытая методика" aria-label="Как считается индекс чистоты">i</a>
+      <div class="of">ИНДЕКС ЧИСТОТЫ БАЗЫ
+        <a class="gauge-info" href="#rx-method" title="Открытая методика" aria-label="Как считается индекс чистоты базы">i</a>
       </div>
     </div>
   </div>`;
