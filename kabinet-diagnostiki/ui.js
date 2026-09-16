@@ -162,19 +162,20 @@ const CM = (typeof CORE !== 'undefined' && CORE && CORE.meta) ? CORE.meta : null
 const nfmt = n => Number(n).toLocaleString('ru');
 
 const ICO = {
-  dup: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M5 16V6a2 2 0 0 1 2-2h10"/></svg>',
-  vendor: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6"/></svg>',
-  ver: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>',
-  junk: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 8v5"/><circle cx="12" cy="16.5" r=".8" fill="currentColor"/><path d="M10.2 4.5h3.6L19 19H5L10.2 4.5z"/></svg>',
-  noise: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h10M4 17h14"/></svg>',
-  hand: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 13V7a1.5 1.5 0 0 1 3 0v4"/><path d="M11 11V6a1.5 1.5 0 0 1 3 0v5"/><path d="M14 11V7.5a1.5 1.5 0 0 1 3 0V14c0 3.5-2.5 6-6 6H9a4 4 0 0 1-4-4v-3a1.5 1.5 0 0 1 3 0v2"/></svg>',
+  dup: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M8 4h7l3 3v13H8V4z"/><path d="M15 4v3h3"/><path d="M11 11h4M11 15h4"/></svg>',
+  vendor: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="2.5"/><circle cx="16" cy="9" r="2"/><path d="M4.5 18c.5-2.5 2.4-4 4.5-4s4 1.5 4.5 4"/><path d="M13 18c.3-1.8 1.5-3 3-3 1.2 0 2.2.7 2.7 2"/></svg>',
+  ver: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M8 8l-3 4 3 4M16 8l3 4-3 4M13 6l-2 12"/></svg>',
+  junk: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4L3.5 19h17L12 4z"/><path d="M12 10v4"/><circle cx="12" cy="16.5" r=".8" fill="currentColor" stroke="none"/></svg>',
+  noise: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M8 4h7l3 3v13H8V4z"/><path d="M15 4v3h3"/><circle cx="12" cy="14" r="3.2"/><path d="M9.8 11.8l4.4 4.4"/></svg>',
+  hand: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2M6.2 6.2l1.6 1.6M16.2 16.2l1.6 1.6M17.8 6.2l-1.6 1.6M7.8 16.2l-1.6 1.6"/></svg>',
   steth: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 4v6a6 6 0 0 0 12 0V4"/><path d="M6 4H4m16 0h-2"/><circle cx="18" cy="18" r="2.5"/><path d="M18 15.5V12a4 4 0 0 0-4-4"/></svg>',
   pulse: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h3l2-5 3 10 2-5h6"/></svg>',
   coin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 7v10M9.5 9.5c.6-1 1.5-1.5 2.5-1.5s2 .6 2 1.8c0 2.2-4 1.4-4 3.6 0 1 .8 1.6 2 1.6s1.8-.4 2.4-1.2"/></svg>',
   clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>',
   chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19h16M7 16V9m5 7V5m5 11v-4"/></svg>',
   warn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 8v5"/><circle cx="12" cy="16.5" r=".8" fill="currentColor"/><path d="M10.2 4.5h3.6L19 19H5L10.2 4.5z"/></svg>',
-  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.5l4.5 4.5L19 7"/></svg>'
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.5l4.5 4.5L19 7"/></svg>',
+  chev: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3.5L10.5 8 6 12.5"/></svg>'
 };
 
 function rxImpact(items) {
@@ -356,29 +357,37 @@ function methodology(a) {
 
 function renderSymptoms(a) {
   const spellN = a.spellExcess + a.exactDup;
+  const manualN = Math.max(0, Math.round(a.manualMinutes));
   const cards = [
-    { id: 'spell', n: spellN, title: 'Лишние формы записи', sub: 'Одно и то же ПО записано по-разному', ico: ICO.dup, on: !!spellN, panel: panelSpell },
-    { id: 'vendor', n: a.vendorGroups.length, title: 'Издатели с разнобоем', sub: 'Один вендор — несколько написаний', ico: ICO.vendor, on: !!a.vendorGroups.length, panel: panelVendor },
-    { id: 'missing', n: a.missingVer, title: 'Записи без версии', sub: a.messyVer ? `+${a.messyVer} с неразборчивой` : 'Версия не проставлена', ico: ICO.ver, on: !!a.missingVer, panel: panelMissing },
-    { id: 'junk', n: a.junkItems.length, title: 'Дефекты записей', sub: 'Битая кодировка, пути, GUID', ico: ICO.junk, on: !!a.junkItems.length, panel: panelJunk },
-    { id: 'noise', n: a.noiseItems.length, title: 'Строки вне лицензирования', sub: 'Библиотеки, драйверы, патчи', ico: ICO.noise, on: !!a.noiseItems.length, panel: panelNoise },
-    { id: 'manual', n: Math.max(1, Math.round(a.manualMinutes)), title: 'Ручная работа', sub: `${whrs(a.manualMinutes)} работы аналитика`, ico: ICO.hand, on: a.manualMinutes > 0, panel: panelManual, fmt: whrs(a.manualMinutes) }
+    { id: 'spell', n: spellN, title: 'Лишние формы записи', sub: 'Одинаковое ПО с разными вариантами названия', ico: ICO.dup, on: !!spellN, panel: panelSpell },
+    { id: 'vendor', n: a.vendorGroups.length, title: 'Издатели с разнобоем', sub: 'Один и тот же издатель указан по-разному', ico: ICO.vendor, on: !!a.vendorGroups.length, panel: panelVendor },
+    { id: 'missing', n: a.missingVer, title: 'Записи без версии', sub: 'Нет информации о версии ПО', ico: ICO.ver, on: !!a.missingVer, panel: panelMissing },
+    { id: 'junk', n: a.junkItems.length, title: 'Дефекты записей', sub: 'Неполные или некорректные данные', ico: ICO.junk, on: !!a.junkItems.length, panel: panelJunk },
+    { id: 'noise', n: a.noiseItems.length, title: 'Строки вне лицензирования', sub: 'Системные, тестовые и прочие записи', ico: ICO.noise, on: !!a.noiseItems.length, panel: panelNoise },
+    { id: 'manual', n: manualN, title: 'Ручная работа', sub: 'Требуют проверки и обработки вручную', ico: ICO.hand, on: manualN > 0, panel: panelManual }
   ];
 
   const grid = cards.map(c => `<button type="button" class="rx-sym${c.on ? '' : ' is-ok'}" data-rx="${c.id}" ${c.on ? '' : 'disabled'}>
-      <span class="rx-sym__ico" aria-hidden="true">${c.ico}</span>
-      <span class="rx-sym__n">${c.fmt || nfmt(c.n)}</span>
+      <span class="rx-sym__top">
+        <span class="rx-sym__ico" aria-hidden="true">${c.ico}</span>
+        <span class="rx-sym__n">${nfmt(c.n)}</span>
+      </span>
       <span class="rx-sym__t">${c.title}</span>
       <span class="rx-sym__s">${c.sub}</span>
-      ${c.on ? '<span class="rx-sym__more">Подробнее →</span>' : '<span class="rx-sym__more is-muted">В норме</span>'}
+      <span class="rx-sym__more">${c.on ? `Подробнее <i aria-hidden="true">${ICO.chev}</i>` : 'В норме'}</span>
     </button>`).join('');
 
   const panels = cards.filter(c => c.on).map(c =>
     `<div class="rx-panel" id="rx-panel-${c.id}" hidden data-rx-panel="${c.id}">${c.panel(a)}</div>`).join('');
 
-  return `<section class="rx-block">
-    <h3 class="rx-h">Симптомы болезни базы</h3>
-    <p class="rx-sh">Шесть признаков, по которым видно, сколько нормализации еще впереди.</p>
+  return `<section class="rx-symptom">
+    <div class="rx-symptom__head">
+      <div>
+        <h3 class="rx-h">Симптомы базы</h3>
+        <p class="rx-sh">Ключевые проблемы, которые мы обнаружили в ваших данных</p>
+      </div>
+      <p class="rx-symptom__hint">Показаны основные метрики. Нажмите «Подробнее» для деталей.</p>
+    </div>
     <div class="rx-sym-grid">${grid}</div>
     <div class="rx-panels">${panels}</div>
   </section>`;
