@@ -916,9 +916,11 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rx-panel__grid{display:grid;grid-template-columns:1.55fr .95fr;gap:28px;margin-bottom:8px;align-items:start}
 @media(max-width:900px){.rx-panel__grid{grid-template-columns:1fr}}
 .rx-panel h4{font-size:16px;font-weight:750;margin:0 0 6px;color:var(--ink-2);letter-spacing:0;line-height:1.55}
+.rx-panel__sec-title{margin:0 0 12px;font-size:16px;font-weight:750;color:var(--ink);line-height:1.55}
 .rx-panel__sec-head{
   display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px;
 }
+.rx-panel__sec-head h4{margin:0;color:var(--ink)}
 .rx-panel__sec-sh{margin:0;font-size:16px;color:var(--ink-2);line-height:1.55}
 .rx-panel__more{
   flex:0 0 auto;border:0;background:transparent;padding:0;cursor:pointer;white-space:nowrap;
