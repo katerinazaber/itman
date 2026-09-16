@@ -1095,8 +1095,8 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rc-hero{
   display:grid;grid-template-columns:minmax(0,1.05fr) minmax(260px,.95fr);
   gap:24px 32px;align-items:start;margin-bottom:28px;
-  padding:22px 22px;border-radius:14px;background:#fff;
-  border:1px solid #E5EAF0;box-shadow:0 1px 2px rgba(16,20,30,.03);
+  padding:22px 22px;border-radius:14px;background:#FBFCFD;
+  border:1px solid var(--line-2);box-shadow:none;
 }
 .rc-results{margin:0 0 28px}
 .rc-results > .rx-panel__sec-title{margin-bottom:14px}
