@@ -16,15 +16,15 @@ function workHours(minutes) {
 }
 
 function rcDonut(share) {
-  const R = 40, C = 2 * Math.PI * R;
+  const R = 41, C = 2 * Math.PI * R;
   const on = C * Math.max(0, Math.min(1, share));
   const label = pct(share);
-  return `<svg class="rc-donut" viewBox="0 0 100 100" width="148" height="148" aria-hidden="true">
-    <circle cx="50" cy="50" r="${R}" fill="none" stroke="#F0D4D8" stroke-width="8"/>
-    <circle cx="50" cy="50" r="${R}" fill="none" stroke="var(--red)" stroke-width="8"
+  return `<svg class="rc-donut" viewBox="0 0 100 100" width="168" height="168" aria-hidden="true">
+    <circle cx="50" cy="50" r="${R}" fill="none" stroke="#F0D4D8" stroke-width="7.5"/>
+    <circle cx="50" cy="50" r="${R}" fill="none" stroke="var(--red)" stroke-width="7.5"
       stroke-linecap="round" transform="rotate(-90 50 50)"
       stroke-dasharray="${on.toFixed(1)} ${C.toFixed(2)}"/>
-    <text x="50" y="55" text-anchor="middle" fill="var(--ink)" font-size="16" font-weight="800"
+    <text x="50" y="55" text-anchor="middle" fill="var(--ink)" font-size="15" font-weight="800"
       font-family="Nekst,system-ui,sans-serif">${label}</text>
   </svg>`;
 }
@@ -64,8 +64,6 @@ function renderReconcile(rec, core) {
   const unknown = rec.reasons[5];
   const share = rec.licensable ? rec.known / rec.licensable : 0;
   const hours = workHours(rec.known * MIN_PER_ROW);
-  const scale = Math.max(1, Math.round(md.libApps / md.apps));
-  const direct = Math.max(0, rec.known - (rec.propagated || 0));
 
   const PREVIEW = 5;
   const tid = 'rc-ba-' + (++RXSEQ);
@@ -85,39 +83,37 @@ function renderReconcile(rec, core) {
   const show = rec.showcase || [];
   const scId = 'rc-sc-' + RXSEQ;
 
+  const knownPhrase = `${nfmt(rec.known)}&nbsp;${plural(rec.known, 'запись не требует', 'записи не требуют', 'записей не требуют')} ручного разбора аналитиком.&nbsp;Это около ${hours} работы.`;
+
   return `
   <section class="card sect recon" id="rx-recon">
     <div class="rc-hero">
       <div class="rc-hero__text">
         <span class="dx-tag"><span class="dx-tag__ico" aria-hidden="true">${ICO.pulse}</span> Диагноз поставлен. Назначение лечения</span>
-        <h3 class="rx-h rc-title">Сверка с эталонным каталогом «Призма данных»</h3>
+        <h3 class="rx-h rc-title">Сверка с эталонным каталогом ПО «Призма данных»</h3>
         <div class="rc-prism">
-          <p class="rx-sh rc-prism__lead">Крупнейшая в России интеллектуальная база знаний о программном обеспечении и лицензиях:
+          <p class="rx-sh rc-prism__lead">«Призма данных» — крупнейшая в России интеллектуальная база знаний о программном обеспечении и лицензиях:
             более <b>300&nbsp;000</b> наименований ПО и <b>45&nbsp;000</b> артикулов (SKU).</p>
-          <p class="rx-sh rc-prism__lead">«Призма данных» проводит ML-нормализацию, приводит данные о ПО и лицензиях к единому виду и создает эталонный каталог ИТ-активов.</p>
+          <p class="rx-sh rc-prism__lead">Решение проводит ML-нормализацию, приводит данные о ПО и лицензиях к единому виду, создает эталонный каталог ИТ-активов.</p>
         </div>
       </div>
       <div class="rc-hero__visual">
-        <img class="rc-monitor" src="assets/prism-monitor.png?v=123" alt="Экран каталога «Призма данных»" width="1551" height="1014" decoding="async">
+        <img class="rc-monitor" src="assets/prism-monitor.png?v=124" alt="Экран каталога «Призма данных»" width="1551" height="1014" decoding="async">
       </div>
     </div>
 
     <div class="rc-norm">
       <div class="rc-norm__card rc-norm__card--pct">
         ${rcDonut(share)}
-        <div>
-          <div class="rc-norm__n">${pct(share)} записей</div>
+        <div class="rc-norm__copy">
+          <div class="rc-norm__word">записи</div>
           <div class="rc-norm__t">нашли соответствие в «Призме данных»</div>
-          <p class="rc-norm__p"><b>${nfmt(rec.known)}</b> из <b>${nfmt(rec.licensable)}</b> лицензируемых записей найдено автоматически.</p>
         </div>
       </div>
       <div class="rc-norm__card">
         <span class="rc-norm__ico" aria-hidden="true">${ICO.check}</span>
         <div class="rc-norm__n">${nfmt(rec.known)}</div>
-        <div class="rc-norm__t">Опознано</div>
-        <p class="rc-norm__p">${rec.propagated
-          ? `<b>${nfmt(direct)}</b> напрямую, <b>${nfmt(rec.propagated)}</b> перенесено на другие написания той же записи`
-          : 'сопоставлено с эталонным продуктом'}</p>
+        <div class="rc-norm__t">${plural(rec.known, 'запись распознана', 'записи распознаны', 'записей распознано')}</div>
       </div>
       <div class="rc-norm__card">
         <span class="rc-norm__ico" aria-hidden="true">${ICO.vendor}</span>
@@ -125,7 +121,7 @@ function renderReconcile(rec, core) {
         <div class="rc-norm__t">Почти сошлось</div>
         <p class="rc-norm__p">Наименование нашлось, но помешал вендор или формат версии. Это чинится правилом.</p>
       </div>
-      <div class="rc-norm__card rc-norm__card--wide">
+      <div class="rc-norm__card">
         <span class="rc-norm__ico" aria-hidden="true">${ICO.noise}</span>
         <div class="rc-norm__n">${nfmt(unknown)}</div>
         <div class="rc-norm__t">Нет в демонстрационном срезе</div>
@@ -139,7 +135,7 @@ function renderReconcile(rec, core) {
         <span class="rx-impact__ico" aria-hidden="true">${ICO.clock}</span>
         <div>
           <b>Меньше ручной работы</b>
-          <p><b>${nfmt(rec.known)}</b> ${plural(rec.known, 'запись не требует', 'записи не требуют', 'записей не требуют')} ручного разбора аналитиком. Это около <b>${hours}</b> работы.</p>
+          <p>${knownPhrase}</p>
         </div>
       </div>
       <div class="rx-impact__i">
@@ -148,18 +144,6 @@ function renderReconcile(rec, core) {
           <b>Единые данные для расчета лицензий</b>
           <p>Разные написания одного продукта сводятся к одной учетной позиции. Так проще понять, что действительно установлено и сколько лицензий нужно.</p>
         </div>
-      </div>
-    </div>
-
-    <div class="rc-compare">
-      <div class="rc-compare__text">
-        <h4 class="rx-panel__sec-title">С чем сравнивали</h4>
-        <p class="rx-sh">Сравнение проведено с <b>${nfmt(md.apps)}</b> ${plural(md.apps, 'эталонным продуктом', 'эталонными продуктами', 'эталонными продуктами')} — это демонстрационный срез каталога «Призмы данных».
-          В полном каталоге <b>${nfmt(md.libApps)}</b> эталонных продуктов.</p>
-      </div>
-      <div class="rc-compare__box">
-        <span class="rc-compare__ico" aria-hidden="true">${ICO.chev}</span>
-        <p>В полном каталоге в <b>${nfmt(scale)}</b> ${plural(scale, 'раз', 'раза', 'раз')} больше эталонных продуктов.</p>
       </div>
     </div>
 
