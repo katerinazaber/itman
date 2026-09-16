@@ -83,7 +83,7 @@ function renderReconcile(rec, core) {
   const show = rec.showcase || [];
   const scId = 'rc-sc-' + RXSEQ;
 
-  const knownPhrase = `${nfmt(rec.known)}&nbsp;${plural(rec.known, 'запись не требует', 'записи не требуют', 'записей не требуют')} ручного разбора аналитиком.&nbsp;Это около ${hours} работы.`;
+  const knownPhrase = `${nfmt(rec.known)}&nbsp;${plural(rec.known, 'запись не требует', 'записи не требуют', 'записей не требуют')} ручного разбора аналитиком.&nbsp;Это около <b class="rc-hi">${hours}</b> работы.`;
 
   const mapBlock = `
       <div class="rc-split__col">
@@ -129,50 +129,54 @@ function renderReconcile(rec, core) {
     <div class="rc-hero">
       <div class="rc-hero__text">
         <span class="dx-tag"><span class="dx-tag__ico" aria-hidden="true">${ICO.pulse}</span> Диагноз поставлен. Назначение лечения</span>
-        <h3 class="rx-h rc-title">Сверка с эталонным каталогом ПО «Призма данных»</h3>
+        <h3 class="rx-h rc-title">Сверка с эталонным каталогом ПО <span class="rc-title__hi">«Призма данных»</span></h3>
         <div class="rc-prism">
-          <p class="rx-sh rc-prism__lead">«Призма данных» — крупнейшая в России интеллектуальная база знаний о программном обеспечении и лицензиях:
-            более <b>300&nbsp;000</b> наименований ПО и <b>45&nbsp;000</b> артикулов (SKU).</p>
+          <p class="rx-sh rc-prism__lead"><b class="rc-hi">«Призма данных»</b> — крупнейшая в России интеллектуальная база знаний о программном обеспечении и лицензиях:
+            более <b class="rc-hi">300&nbsp;000</b> наименований ПО и <b class="rc-hi">45&nbsp;000</b> артикулов (SKU).</p>
           <p class="rx-sh rc-prism__lead">Решение проводит ML-нормализацию, приводит данные о ПО и лицензиях к единому виду, создает эталонный каталог ИТ-активов.</p>
         </div>
       </div>
       <div class="rc-hero__visual">
-        <img class="rc-monitor" src="assets/prism-monitor.png?v=125" alt="Экран каталога «Призма данных»" width="1551" height="1014" decoding="async">
+        <img class="rc-monitor" src="assets/prism-monitor.png?v=126" alt="Экран каталога «Призма данных»" width="1551" height="1014" decoding="async">
       </div>
     </div>
 
     <div class="rc-norm">
       <div class="rc-norm__card">
+        <span class="rc-norm__ico" aria-hidden="true">${ICO.dup}</span>
         <div class="rc-norm__n">${pct(share)}</div>
         <div class="rc-norm__t">записей нашли соответствие в «Призме данных»</div>
       </div>
       <div class="rc-norm__card">
+        <span class="rc-norm__ico" aria-hidden="true">${ICO.check}</span>
         <div class="rc-norm__n">${nfmt(rec.known)}</div>
         <div class="rc-norm__t">${plural(rec.known, 'запись распознана', 'записи распознаны', 'записей распознано')}</div>
       </div>
       <div class="rc-norm__card">
+        <span class="rc-norm__ico" aria-hidden="true">${ICO.vendor}</span>
         <div class="rc-norm__n">${nfmt(nearly)}</div>
         <div class="rc-norm__t">Почти сошлось</div>
         <p class="rc-norm__p">Наименование нашлось, но помешал вендор или формат версии.</p>
       </div>
       <div class="rc-norm__card">
+        <span class="rc-norm__ico" aria-hidden="true">${ICO.noise}</span>
         <div class="rc-norm__n">${nfmt(unknown)}</div>
         <div class="rc-norm__t">Нет в демонстрационном срезе</div>
-        <p class="rc-norm__p">Сравнение шло с <b>${nfmt(md.apps)}</b> эталонными продуктами из <b>${nfmt(md.libApps)}</b>.</p>
+        <p class="rc-norm__p">Сравнение шло с <b class="rc-hi">${nfmt(md.apps)}</b> эталонными продуктами из <b class="rc-hi">${nfmt(md.libApps)}</b>.</p>
       </div>
     </div>
 
     <h4 class="rx-panel__sec-title">Что это дает бизнесу?</h4>
-    <div class="rx-impact">
-      <div class="rx-impact__i">
-        <span class="rx-impact__ico" aria-hidden="true">${ICO.clock}</span>
+    <div class="rc-biz">
+      <div class="rc-biz__i">
+        <span class="rc-biz__ico" aria-hidden="true">${ICO.clock}</span>
         <div>
           <b>Меньше ручной работы</b>
           <p>${knownPhrase}</p>
         </div>
       </div>
-      <div class="rx-impact__i">
-        <span class="rx-impact__ico" aria-hidden="true">${ICO.chart}</span>
+      <div class="rc-biz__i">
+        <span class="rc-biz__ico" aria-hidden="true">${ICO.chart}</span>
         <div>
           <b>Единые данные для расчета лицензий</b>
           <p>Разные написания одного продукта сводятся к одной учетной позиции. Так проще понять, что действительно установлено и сколько лицензий нужно.</p>
