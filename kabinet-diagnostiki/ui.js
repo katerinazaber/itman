@@ -398,8 +398,6 @@ function panelJunk(a) {
 
 function panelNoise(a) {
   const n = a.noiseItems.length;
-  const share = a.rowsN ? (n / a.rowsN * 100).toFixed(0) : 0;
-  const hrs = whrs(Math.round(n * 0.5));
   const cats = Object.entries(a.noiseBreakdown).sort((x, y) => y[1] - x[1]);
 
   const rowHtml = (it) => {
@@ -415,15 +413,17 @@ function panelNoise(a) {
       'Не подлежит лицензированию',
       `${nfmt(n)} ${plural(n, 'строка', 'строки', 'строк')}`,
       '',
-      `Эти строки занимают место в отчетах, но лицензий не требуют. Их нужно отсекать до начала учета. Сейчас это ${nfmt(n)} ${plural(n, 'строка', 'строки', 'строк')} из ${nfmt(a.rowsN)} — ${share}% выгрузки.`,
+      'Инвентаризация собирает все, что находится на компьютере: библиотеки, драйверы и компоненты ОС, которые не требуют лицензий.',
       ICO.noise
     )}
     <h4 class="rx-panel__sec-title">Чем это мешает бизнесу?</h4>
     ${rxImpact([
-      [ICO.clock, 'Ручные трудозатраты сотрудников',
-        `Около ${hrs} уходит на разбор того, что учитывать не нужно.`],
-      [ICO.chart, 'Отчеты становятся несравнимыми',
-        'Метрики вроде стоимости ПО на рабочее место считаются от разной базы. Сравнивать периоды и планировать бюджет не на чем.']
+      [ICO.clock, 'Трудозатраты аналитика',
+        'Уходит много времени на разбор того, что учитывать не нужно.'],
+      [ICO.warn, 'В отчетах появляются лишние строки',
+        'Строки, которые не требуют лицензий, проходят через аналитику вместе с остальными данными.'],
+      [ICO.chart, 'Показатели считаются от разной базы',
+        'Если каждый раз по-разному определять, что учитывать, показатели в отчетах будут отличаться.']
     ])}
     <div class="rx-panel__main">
       <div class="rx-panel__sec-head">
@@ -474,7 +474,7 @@ function renderSymptoms(a) {
     { id: 'spell', n: spellN, title: 'Лишние формы записи', sub: 'Одно и то же ПО записано по-разному', ico: ICO.dup, on: !!spellN, panel: panelSpell },
     { id: 'vendor', n: a.vendorGroups.length, title: 'Разнобой в издателях', sub: 'Один и тот же издатель записан по-разному', ico: ICO.vendor, on: !!a.vendorGroups.length, panel: panelVendor },
     { id: 'junk', n: a.junkItems.length, title: 'Дефекты записей', sub: 'Строки, которые не получится распознать', ico: ICO.junk, on: !!a.junkItems.length, panel: panelJunk },
-    { id: 'noise', n: a.noiseItems.length, title: 'Не подлежит лицензированию', sub: 'Библиотеки, драйверы, патчи — лицензий не требуют', ico: ICO.noise, on: !!a.noiseItems.length, panel: panelNoise }
+    { id: 'noise', n: a.noiseItems.length, title: 'Не подлежит лицензированию', sub: 'Строки, которые не нужно учитывать', ico: ICO.noise, on: !!a.noiseItems.length, panel: panelNoise }
   ];
 
   const grid = cards.map(c => `<button type="button" class="rx-sym${c.on ? '' : ' is-ok'}" data-rx="${c.id}" ${c.on ? '' : 'disabled'}>
