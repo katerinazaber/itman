@@ -383,10 +383,10 @@ function renderSymptoms(a) {
   return `<section class="rx-symptom">
     <div class="rx-symptom__head">
       <div>
-        <h3 class="rx-h">Симптомы базы</h3>
+        <h3 class="rx-h">Симптомы диагноза</h3>
         <p class="rx-sh">Ключевые проблемы, которые мы обнаружили в ваших данных</p>
       </div>
-      <p class="rx-symptom__hint">Показаны основные метрики. Нажмите «Подробнее» для деталей.</p>
+      <p class="rx-symptom__hint">Показаны основные метрики. Нажмите «Подробнее», чтобы посмотреть детали.</p>
     </div>
     <div class="rx-sym-grid">${grid}</div>
     <div class="rx-panels">${panels}</div>
