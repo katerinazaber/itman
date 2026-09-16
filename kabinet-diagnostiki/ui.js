@@ -96,35 +96,33 @@ function toneColor(i) { return i >= 72 ? 'var(--ok)' : i >= 52 ? 'var(--warn)' :
 function toneBg(i) { return i >= 72 ? 'var(--ok-l)' : i >= 52 ? 'var(--warn-l)' : 'var(--bad-l)'; }
 
 function gauge(index) {
-  const LEN = 282.74; // π × 90
-  const on = LEN * index / 100;
-  return `<div class="gauge">
-    <svg viewBox="0 0 212 132" width="212" height="132" aria-hidden="true">
-      <path d="M16 116 A90 90 0 0 1 196 116" fill="none" stroke="#EAEDF1" stroke-width="16" stroke-linecap="round"/>
-      <path d="M16 116 A90 90 0 0 1 196 116" fill="none" stroke="${toneColor(index)}" stroke-width="16"
-            stroke-linecap="round" stroke-dasharray="${on.toFixed(1)} ${LEN}"/>
+  const R = 52, C = 2 * Math.PI * R;
+  const on = C * Math.max(0, Math.min(100, index)) / 100;
+  return `<div class="gauge gauge-ring">
+    <svg viewBox="0 0 140 140" width="140" height="140" aria-hidden="true">
+      <circle cx="70" cy="70" r="${R}" fill="none" stroke="#E8ECF1" stroke-width="12"/>
+      <circle cx="70" cy="70" r="${R}" fill="none" stroke="${toneColor(index)}" stroke-width="12"
+            stroke-linecap="round" stroke-dasharray="${on.toFixed(1)} ${C.toFixed(2)}"
+            transform="rotate(-90 70 70)"/>
     </svg>
-    <div class="val"><div class="num" style="color:${toneColor(index)}">${index}</div>
+    <div class="val"><div class="num" style="color:${toneColor(index)}">${index}<span class="pct">%</span></div>
       <div class="of">ИНДЕКС ЧИСТОТЫ</div></div>
   </div>`;
+}
+
+function indexStatus(index) {
+  if (index >= 72) return { text: 'В норме. База в хорошем состоянии', cls: 'ok' };
+  if (index >= 52) return { text: 'На грани. Нормализация желательна', cls: 'warn' };
+  return { text: 'Ниже нормы. Рекомендуется нормализация', cls: 'bad' };
 }
 
 function tile(n, label, sub, cls) {
   return `<div class="tile ${cls || ''}"><div class="n">${n}</div><div class="l">${label}</div>${sub ? `<div class="s">${sub}</div>` : ''}</div>`;
 }
 
-/* Две разные вещи, и их нельзя мешать.
-   pain() — коротко: что эти разрозненные данные порождают и чем это кончается.
-   Говорим на языке ITAM/SAM-менеджера, про продукт — ни слова.
-   prism() — тихая справочная сноска: как это закрыто в «Призме данных».
-   Отдельным окошком со знаком продукта, чтобы диагностика не превращалась
-   в рекламу. */
 const whrs = m => { const h = m / 60;
   return h < 1 ? `${Math.round(m)} мин` : h < 10 ? `${h.toFixed(1).replace('.', ',')} ч` : `${Math.round(h)} ч`; };
 
-/* Блок последствий: что эти данные значат для практик SAM и ITAM и на что
-   из-за них тратятся деньги. Разделяем два кошелька, потому что в организации
-   они разные: закупка лицензий и операционные трудозатраты. */
 const pain = (what, spend) => `<div class="pain">
   <div>${what}</div>
   ${spend ? `<div class="money">${spend.map(([k, v, cls]) =>
@@ -139,110 +137,182 @@ const prism = html => `<div class="prism">
 const CM = (typeof CORE !== 'undefined' && CORE && CORE.meta) ? CORE.meta : null;
 const nfmt = n => Number(n).toLocaleString('ru');
 
-function renderFindings(a) {
-  let h = '';
+const ICO = {
+  dup: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M5 16V6a2 2 0 0 1 2-2h10"/></svg>',
+  vendor: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6"/></svg>',
+  ver: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>',
+  junk: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 8v5"/><circle cx="12" cy="16.5" r=".8" fill="currentColor"/><path d="M10.2 4.5h3.6L19 19H5L10.2 4.5z"/></svg>',
+  noise: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h10M4 17h14"/></svg>',
+  hand: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 13V7a1.5 1.5 0 0 1 3 0v4"/><path d="M11 11V6a1.5 1.5 0 0 1 3 0v5"/><path d="M14 11V7.5a1.5 1.5 0 0 1 3 0V14c0 3.5-2.5 6-6 6H9a4 4 0 0 1-4-4v-3a1.5 1.5 0 0 1 3 0v2"/></svg>',
+  steth: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 4v6a6 6 0 0 0 12 0V4"/><path d="M6 4H4m16 0h-2"/><circle cx="18" cy="18" r="2.5"/><path d="M18 15.5V12a4 4 0 0 0-4-4"/></svg>',
+  pulse: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h3l2-5 3 10 2-5h6"/></svg>',
+  coin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 7v10M9.5 9.5c.6-1 1.5-1.5 2.5-1.5s2 .6 2 1.8c0 2.2-4 1.4-4 3.6 0 1 .8 1.6 2 1.6s1.8-.4 2.4-1.2"/></svg>',
+  clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>',
+  chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19h16M7 16V9m5 7V5m5 11v-4"/></svg>',
+  warn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 8v5"/><circle cx="12" cy="16.5" r=".8" fill="currentColor"/><path d="M10.2 4.5h3.6L19 19H5L10.2 4.5z"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.5l4.5 4.5L19 7"/></svg>'
+};
 
-  /* разнописания */
-  if (a.spellGroups.length) {
-    const items = [];
-    for (const g of a.spellGroups.slice(0, 25)) {
-      for (const b of g.buckets) {
-        if (b.excess <= 0) continue;
-        items.push(`<div class="find">
-          <div class="k">ВЕРСИЯ ${esc(verLabel(b.ver)).toUpperCase()}${b.ed ? ' · РЕДАКЦИЯ ' + esc(b.ed).toUpperCase() : ''} · ${b.forms.length} ${plural(b.forms.length, 'написание', 'написания', 'написаний')} одной записи</div>
-          <div class="forms">${b.forms.map(f => `<span class="chip dup">${esc(f)}</span>`).join('')}</div></div>`);
-      }
-    }
-    h += `<div class="card sect">
-      <h3>Одно и то же ПО записано по-разному</h3>
-      <div class="sh">Одинаковый продукт, одинаковая версия — но в выгрузке это разные строки. Пока их не свели, каждая уйдёт в учет как отдельная позиция.</div>
-      ${pain(
-        `Оценка <b>лицензионного соответствия</b> строится на учетных позициях, а не на строках инвентаря — значит эти записи сначала нужно свести.
-         <b>${nfmt(a.spellExcess + a.exactDup)}</b> ${plural(a.spellExcess + a.exactDup, 'лишняя форма', 'лишние формы', 'лишних форм')} записи — ровно тот объём работы, который придется закрыть до загрузки данных в SAM-систему.
-         Сведут неверно — потребление окажется завышенным, а реальная нехватка прав так и не будет видна.`,
-        [['Лицензии', `если разнописания уйдут в учет как есть, бюджет закладывается на ${nfmt(a.spellExcess + a.exactDup)} ${plural(a.spellExcess + a.exactDup, 'позицию', 'позиции', 'позиций')}, которых в парке нет, — а недостающие права останутся незакрытыми`, 'cap'],
-         ['Трудозатраты', `${whrs(a.spellGroups.length * 3)} на сведение, и это не разовая работа: инвентаризация выгружается заново каждый цикл`, 'op']])}
-      ${prism('Написания сводятся к одной учетной позиции автоматически, при каждой загрузке — потребление считается по продуктам, а не по строкам реестра.')}
-      ${items.join('')}
-      ${a.spellGroups.length > 25 ? `<div class="find"><div class="k">…и еще ${a.spellGroups.length - 25} ${plural(a.spellGroups.length - 25, 'продукт', 'продукта', 'продуктов')}</div></div>` : ''}
-    </div>`;
-  }
-
-  /* издатели */
-  if (a.vendorGroups.length) {
-    h += `<div class="card sect">
-      <h3>Один издатель — несколько написаний</h3>
-      <div class="sh">Пока издатель пишется по-разному, любая группировка по вендору и любой запрос «что у нас от этого производителя» дает неполный ответ.</div>
-      ${pain(
-        `Правообладатель — единица лицензионного договора и предмет <b>управления поставщиками</b>. Но в инвентаре он записан так, как его вернул агент:
-         у вас <b>${a.vendorGroups.length}</b> ${plural(a.vendorGroups.length, 'издатель', 'издателя', 'издателей')} в нескольких вариантах написания.
-         Прежде чем строить любой срез по вендору, эти написания придется свести к одной карточке — вручную, если этого не делает система.`,
-        [['Лицензии', 'без сведения потребность по правообладателю собирается из нескольких кусков: часть установок не попадёт в его карточку и останется вне расчёта прав', 'cap'],
-         ['Отчётность', 'доля отечественного ПО и структура парка по вендорам считаются от той же неполной группировки', 'op']])}
-      ${prism('Издатель сводится к единой карточке вендора со страной производителя — группировка по правообладателю и срез по импортозамещению собираются из каталога.')}
-      ${a.vendorGroups.slice(0, 15).map(v => `<div class="find">
-        <div class="forms">${v.forms.map(f => `<span class="chip dup">${esc(f)}</span>`).join('')}</div></div>`).join('')}
-      ${a.vendorGroups.length > 15 ? `<div class="find"><div class="k">…и еще ${a.vendorGroups.length - 15}</div></div>` : ''}
-    </div>`;
-  }
-
-  /* Блок «один продукт в нескольких версиях» здесь намеренно отсутствует.
-     Без эталонного каталога отличить разные версии одного продукта от разных
-     продуктов нельзя: AutoCAD 2019 и AutoCAD 2022, Visual C++ 2013 и 2015-2022
-     по одному наименованию неразличимы. Этот вывод делается во втором акте,
-     где опорой служит каталог, а не догадка. */
-
-  /* дефекты */
-  const jb = Object.entries(a.junkBreakdown).sort((x, y) => y[1] - x[1]);
-  if (jb.length) {
-    h += `<div class="card sect">
-      <h3>Дефекты записей</h3>
-      <div class="sh">Строки, которые не сопоставятся ни с одним справочником, пока их не почистить.</div>
-      ${pain(
-        `<b>${nfmt(a.junkItems.length)}</b> ${plural(a.junkItems.length, 'такая строка', 'такие строки', 'таких строк')} не пройдёт нормализацию ни в каком виде: опознаваемого наименования в ней нет, связать ее с активом не по чему.
-         Значит и <b>конфигурационной единицей</b> она не станет — ни в реестре активов, ни в CMDB, — пока ее не разберут руками. Сама она не чинится.`,
-        [['Лицензии', 'слепая зона: под битой строкой может стоять коммерческий продукт — установка в парке есть, а в расчёте прав ее нет', 'cap'],
-         ['Трудозатраты', `${whrs(a.junkItems.length * 1)} на разбор этих строк — и заново в каждой следующей выгрузке, пока не устранён источник`, 'op']])}
-      ${prism('Такие записи отделяются на входе и не попадают в лицензионный отчёт — они собираются конечным списком на разбор.')}
-      <div class="scroll"><table>
-        <thead><tr><th>Что не так</th><th class="num">Строк</th></tr></thead>
-        <tbody>${jb.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="num">${v}</td></tr>`).join('')}</tbody></table></div>
-      <div class="find"><div class="k">ПРИМЕРЫ</div><div class="forms">
-        ${a.junkItems.slice(0, 6).map(i => `<span class="chip dup">${esc(i.name.slice(0, 70))}</span>`).join('')}</div></div>
-    </div>`;
-  }
-
-  /* шум */
-  const nb = Object.entries(a.noiseBreakdown).sort((x, y) => y[1] - x[1]);
-  if (nb.length) {
-    h += `<div class="card sect">
-      <h3>Не подлежит лицензированию</h3>
-      <div class="sh">Эти строки занимают место в отчётах и в голове у аналитика, но лицензий не требуют. Их нужно отсекать до начала учета, а не после.</div>
-      ${pain(
-        `Инвентаризация возвращает все, что нашла на машине. Отделить то, что подлежит лицензионному учету, от библиотек, драйверов и компонентов ОС — отдельный шаг <b>перед</b> загрузкой в ITAM- или SAM-систему.
-         <b>${nfmt(a.noiseItems.length)}</b> ${plural(a.noiseItems.length, 'строка', 'строки', 'строк')} из ${nfmt(a.rowsN)} — ${(a.noiseItems.length / a.rowsN * 100).toFixed(0)}% выгрузки — в учет не идут, но проходят через аналитика наравне с остальными.
-         Пока <b>периметр учета</b> не задан данными, его определяют построчно и по памяти.`,
-        [['Трудозатраты', `${whrs(Math.round(a.noiseItems.length * 0.5))} на разбор того, что учитывать не нужно`, 'op'],
-         ['Управление', 'метрики вроде стоимости ПО на рабочее место считаются от разной базы в разных отчётах — сравнивать периоды и планировать бюджет не на чем', 'op']])}
-      ${prism(`Периметр задает каталог, а не память аналитика: тип лицензирования проставлен у ${CM ? nfmt(CM.libApps) : '324 590'} эталонных продуктов — коммерческое, бесплатное, компонент.`)}
-      <div class="scroll"><table>
-        <thead><tr><th>Категория</th><th class="num">Строк</th></tr></thead>
-        <tbody>${nb.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="num">${v}</td></tr>`).join('')}</tbody></table></div>
-    </div>`;
-  }
-
-  return h;
+function rxImpact(items) {
+  return `<div class="rx-impact">${items.map(([ico, title, text]) =>
+    `<div class="rx-impact__i"><span class="rx-impact__ico" aria-hidden="true">${ico}</span>
+      <div><b>${title}</b><p>${text}</p></div></div>`).join('')}</div>`;
 }
+
+function rxSolve(text) {
+  return `<div class="rx-solve">
+    <div class="rx-solve__h"><span class="rx-solve__ok" aria-hidden="true">${ICO.check}</span><b>Как это решается?</b></div>
+    <p>${text}</p>
+    <a class="btn btn-p rx-solve__cta" href="#rx-step2">Узнать больше о нормализации →</a>
+  </div>`;
+}
+
+function rxPanelHead(title, badge, id) {
+  return `<div class="rx-panel__head">
+    <div class="rx-panel__title">${esc(title)} <span class="rx-badge">${badge}</span></div>
+    <button type="button" class="rx-collapse" data-rx-close="${id}">Свернуть</button>
+  </div>`;
+}
+
+function xtable(head, rows, preview, moreLabel) {
+  const id = 'x' + (++(window.__XSEQ = window.__XSEQ || 0));
+  const rest = rows.slice(preview);
+  return `<div class="scroll"><table class="rx-table">${head}
+      <tbody>${rows.slice(0, preview).join('')}</tbody>
+      ${rest.length ? `<tbody class="xmore" id="${id}" hidden>${rest.join('')}</tbody>` : ''}
+    </table></div>
+    ${rest.length ? `<button type="button" class="xtoggle" data-x="${id}" data-n="${rest.length}">${moreLabel || ('Показать еще ' + rest.length.toLocaleString('ru'))}</button>` : ''}`;
+}
+
+function panelSpell(a) {
+  const rows = [];
+  for (const g of a.spellGroups.slice(0, 40)) {
+    for (const b of g.buckets) {
+      if (b.excess <= 0) continue;
+      const canon = b.forms.slice().sort((x, y) => y.length - x.length)[0] || g.title;
+      b.forms.forEach((f, i) => {
+        rows.push(`<tr><td class="num">${rows.length + 1}</td>
+          <td class="raw">${esc(f)}</td>
+          <td>${i === 0 ? esc(canon) : '<span class="dim">→ то же</span>'}</td>
+          <td class="num">${b.members.filter(m => m.name.trim() === f).length || 1}</td></tr>`);
+      });
+    }
+  }
+  const n = a.spellExcess + a.exactDup;
+  return `${rxPanelHead('Лишние формы записи', `${nfmt(n)} ${plural(n, 'запись', 'записи', 'записей')}`, 'spell')}
+    ${rxImpact([
+      [ICO.warn, 'Чем опасно', `Оценка лицензионного соответствия строится на учетных позициях. ${nfmt(n)} ${plural(n, 'лишняя форма', 'лишние формы', 'лишних форм')} уйдут в учет как отдельные позиции — потребность завысится.`],
+      [ICO.clock, 'Трудозатраты на исправление', `${whrs(a.spellGroups.length * 3)} на сведение групп — и снова при каждой выгрузке.`],
+      [ICO.coin, 'Влияние на деньги', `Бюджет закладывается на позиции, которых в парке нет, а реальная нехватка прав остаётся скрытой.`]
+    ])}
+    <div class="rx-panel__grid">
+      <div>
+        <h4>Примеры найденных разнописаний</h4>
+        ${rows.length ? xtable('<thead><tr><th>#</th><th>Вариант в вашей базе</th><th>Сводится к</th><th class="num">Строк</th></tr></thead>', rows, 5, `Показать все ${rows.length.toLocaleString('ru')} вариантов`) : '<p class="dim">Примеров нет</p>'}
+      </div>
+      <div>
+        <h4>Затронутые продукты</h4>
+        <ul class="rx-side">
+          ${a.spellGroups.slice(0, 8).map(g => `<li><span>${esc((g.title || '').slice(0, 42))}</span><b>${g.spellExcess}</b></li>`).join('')}
+        </ul>
+      </div>
+    </div>
+    ${rxSolve('Написания сводятся к одной учетной позиции автоматически при каждой загрузке — потребление считается по продуктам, а не по строкам реестра.')}`;
+}
+
+function panelVendor(a) {
+  const primary = a.vendorGroups[0];
+  const rows = primary ? primary.forms.map((f, i) => `<tr>
+      <td class="num">${i + 1}</td>
+      <td class="raw">${esc(f)}</td>
+      <td>${esc(primary.key === '(пусто)' ? '—' : primary.key)}</td>
+      <td class="num">—</td></tr>`) : [];
+  const others = a.vendorGroups.slice(1, 9);
+  return `${rxPanelHead('Издатели с разнобоем', `${nfmt(a.vendorGroups.length)} ${plural(a.vendorGroups.length, 'издатель', 'издателя', 'издателей')}`, 'vendor')}
+    ${rxImpact([
+      [ICO.warn, 'Чем опасно', `Правообладатель — единица договора. Пока он пишется по-разному, любой срез «что у нас от этого производителя» неполный — риск недоучёта и переплаты.`],
+      [ICO.clock, 'Трудозатраты на исправление', `${whrs(a.vendorGroups.length * 2)} на сведение написаний к одной карточке вендора.`],
+      [ICO.coin, 'Влияние на деньги', `Доля отечественного ПО и структура парка по вендорам считаются от неполной группировки.`]
+    ])}
+    <div class="rx-panel__grid">
+      <div>
+        <h4>Примеры найденных вариантов написания</h4>
+        ${rows.length ? xtable('<thead><tr><th>#</th><th>Вариант в вашей базе</th><th>Нормализованное имя</th><th class="num">Строк</th></tr></thead>', rows, 5, primary && primary.forms.length > 5 ? `Показать все ${primary.forms.length} вариантов` : '') : '<p class="dim">Примеров нет</p>'}
+      </div>
+      <div>
+        <h4>То же самое встречается у других издателей</h4>
+        <ul class="rx-side">
+          ${others.map(v => `<li><span>${esc(v.key)}</span><b>${v.forms.length}</b></li>`).join('') || '<li class="dim">Других групп нет</li>'}
+        </ul>
+      </div>
+    </div>
+    ${rxSolve('Издатель сводится к единой карточке вендора со страной производителя — группировка по правообладателю и срез по импортозамещению собираются из каталога.')}`;
+}
+
+function panelMissing(a) {
+  return `${rxPanelHead('Записи без версии', `${nfmt(a.missingVer)} ${plural(a.missingVer, 'запись', 'записи', 'записей')}`, 'missing')}
+    ${rxImpact([
+      [ICO.warn, 'Чем опасно', `Без версии нельзя понять, какая лицензия нужна: право на использование конкретной сборки даёт артикул, а не факт установки.`],
+      [ICO.clock, 'Трудозатраты', a.messyVer ? `Плюс ${nfmt(a.messyVer)} с неразборчивой версией — их тоже придётся разбирать.` : 'Версию нужно добирать из других источников или переустанавливать агент.'],
+      [ICO.coin, 'Влияние на деньги', `Нельзя проверить соответствие закупок установленным версиям — ни upgrade, ни downgrade.`]
+    ])}
+    <p class="rx-panel__note">Во втором шаге версии уточняются по эталонному каталогу там, где запись опознана.</p>
+    ${rxSolve('Каталог подставляет каноническую версию и редакцию для опознанных позиций — отчёт строится на учетных полях, а не на пустых ячейках инвентаря.')}`;
+}
+
+function panelJunk(a) {
+  const jb = Object.entries(a.junkBreakdown).sort((x, y) => y[1] - x[1]);
+  const rows = jb.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="num">${v}</td></tr>`);
+  return `${rxPanelHead('Дефекты записей', `${nfmt(a.junkItems.length)} ${plural(a.junkItems.length, 'строка', 'строки', 'строк')}`, 'junk')}
+    ${rxImpact([
+      [ICO.warn, 'Чем опасно', `<b>${nfmt(a.junkItems.length)}</b> ${plural(a.junkItems.length, 'строка', 'строки', 'строк')} не пройдёт нормализацию: опознаваемого наименования нет. Под битой строкой может стоять коммерческий продукт.`],
+      [ICO.clock, 'Трудозатраты на исправление', `${whrs(a.junkItems.length * 1)} на разбор — и заново в каждой выгрузке, пока не устранён источник.`],
+      [ICO.coin, 'Влияние на деньги', `Слепая зона в расчёте прав: установка в парке есть, а в отчёте её нет.`]
+    ])}
+    ${rows.length ? xtable('<thead><tr><th>Что не так</th><th class="num">Строк</th></tr></thead>', rows, 6) : ''}
+    <div class="forms" style="margin-top:12px">${a.junkItems.slice(0, 6).map(i => `<span class="chip dup">${esc(i.name.slice(0, 70))}</span>`).join('')}</div>
+    ${rxSolve('Такие записи отделяются на входе и не попадают в лицензионный отчёт — собираются конечным списком на разбор.')}`;
+}
+
+function panelNoise(a) {
+  const nb = Object.entries(a.noiseBreakdown).sort((x, y) => y[1] - x[1]);
+  const rows = nb.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="num">${v}</td></tr>`);
+  const share = a.rowsN ? (a.noiseItems.length / a.rowsN * 100).toFixed(0) : 0;
+  return `${rxPanelHead('Строки вне лицензирования', `${nfmt(a.noiseItems.length)} ${plural(a.noiseItems.length, 'строка', 'строки', 'строк')}`, 'noise')}
+    ${rxImpact([
+      [ICO.warn, 'Чем опасно', `<b>${nfmt(a.noiseItems.length)}</b> из ${nfmt(a.rowsN)} (${share}%) — библиотеки, драйверы, патчи. Они занимают отчёты, но лицензий не требуют.`],
+      [ICO.clock, 'Трудозатраты', `${whrs(Math.round(a.noiseItems.length * 0.5))} на разбор того, что учитывать не нужно.`],
+      [ICO.chart, 'Влияние на управление', `Метрики вроде стоимости ПО на рабочее место считаются от разной базы — сравнивать периоды не на чем.`]
+    ])}
+    ${rows.length ? xtable('<thead><tr><th>Категория</th><th class="num">Строк</th></tr></thead>', rows, 8) : ''}
+    ${rxSolve(`Периметр задаёт каталог: тип лицензирования проставлен у ${CM ? nfmt(CM.libApps) : '324 590'} эталонных продуктов.`)}`;
+}
+
+function panelManual(a) {
+  return `${rxPanelHead('Ручная работа', whrs(a.manualMinutes), 'manual')}
+    ${rxImpact([
+      [ICO.warn, 'Что это значит', `Свести найденное вручную — примерно <b>${whrs(a.manualMinutes)}</b> работы аналитика на этом объёме выгрузки.`],
+      [ICO.clock, 'Из чего складывается', `${a.spellGroups.length} ${plural(a.spellGroups.length, 'группа', 'группы', 'групп')} разнописаний × 3 мин + ${a.vendorGroups.length} издателей × 2 мин + ${a.junkItems.length} дефектов × 1 мин.`],
+      [ICO.coin, 'Повторяемость', `Инвентаризация выгружается регулярно — без нормализации эти часы тратятся снова и снова.`]
+    ])}
+    <label class="rx-scale">А если во всей вашей базе
+      <input id="scaleN" type="number" min="1" step="1000" value="${a.rowsN}">
+      <span id="scaleWord">${plural(a.rowsN, 'запись', 'записи', 'записей')}</span> — это <b id="scaleOut">${whrs(a.manualMinutes)}</b>.
+    </label>
+    ${rxSolve('В «Призме данных» нормализация выполняется при каждой загрузке без участия человека — экономия повторяется цикл за циклом.')}`;
+}
+
+function renderFindings(a) { return ''; }
 
 function methodology(a) {
   const w = a.weights, r = a.ratios;
   const line = (label, ratio, weight) =>
     `<tr><td>${label}</td><td class="num">${(ratio * 100).toFixed(1)}%</td><td class="num">×${weight}</td><td class="num">−${(ratio * weight).toFixed(1)}</td></tr>`;
-  return `<details>
-    <summary>Как считается индекс чистоты — открытая методика</summary>
+  return `<details class="rx-method">
+    <summary>Открытая методика</summary>
     <div class="body">
-      <p style="margin-bottom:12px">Мы не просим верить на слово. Индекс — это 100 минус штрафы по шести показателям. Веса подобраны нами и заданы явно, чтобы вы могли с ними спорить.</p>
-      <div class="scroll"><table>
+      <p style="margin-bottom:12px">Индекс — это 100 минус штрафы по шести показателям. Веса заданы явно, чтобы с ними можно было спорить.</p>
+      <div class="scroll"><table class="method-table">
         <thead><tr><th>Показатель</th><th class="num">Доля</th><th class="num">Вес</th><th class="num">Штраф</th></tr></thead>
         <tbody>
           ${line('Разнописания и полные дубли', r.spell, w.spell)}
@@ -253,20 +323,75 @@ function methodology(a) {
           ${line('Строки вне лицензирования', r.noise, w.noise)}
         </tbody>
       </table></div>
-      <p style="margin-top:14px">Что инструмент делает: убирает из наименования версию, разрядность, язык, скобочные хвосты и служебные слова, после чего сравнивает то, что осталось. Совпавшие записи с <b>одинаковой версией</b> считаются разнописанием; записи с <b>разными версиями</b> разнописанием не считаются — <code>AutoCAD 2019</code> и <code>AutoCAD 2022</code> это разные версии одного продукта, а не дубль.</p>
-      <p style="margin-top:10px">Чего инструмент <b>не</b> делает: не сопоставляет ваши записи с эталонным каталогом ПО и не определяет модель лицензирования. Это уже работа «Призмы данных» — и как раз ее мы разбираем на третий день марафона.</p>
+      <p style="margin-top:14px">Что инструмент делает: убирает из наименования версию, разрядность, язык, скобочные хвосты и служебные слова, после чего сравнивает то, что осталось. Совпавшие записи с <b>одинаковой версией</b> считаются разнописанием; записи с <b>разными версиями</b> разнописанием не считаются.</p>
+      <p style="margin-top:10px">Чего инструмент <b>не</b> делает: не сопоставляет ваши записи с эталонным каталогом ПО и не определяет модель лицензирования. Это работа «Призмы данных».</p>
     </div>
   </details>`;
 }
 
+function renderSymptoms(a) {
+  const spellN = a.spellExcess + a.exactDup;
+  const cards = [
+    { id: 'spell', n: spellN, title: 'Лишние формы записи', sub: 'Одно и то же ПО записано по-разному', ico: ICO.dup, on: !!spellN, panel: panelSpell },
+    { id: 'vendor', n: a.vendorGroups.length, title: 'Издатели с разнобоем', sub: 'Один вендор — несколько написаний', ico: ICO.vendor, on: !!a.vendorGroups.length, panel: panelVendor },
+    { id: 'missing', n: a.missingVer, title: 'Записи без версии', sub: a.messyVer ? `+${a.messyVer} с неразборчивой` : 'Версия не проставлена', ico: ICO.ver, on: !!a.missingVer, panel: panelMissing },
+    { id: 'junk', n: a.junkItems.length, title: 'Дефекты записей', sub: 'Битая кодировка, пути, GUID', ico: ICO.junk, on: !!a.junkItems.length, panel: panelJunk },
+    { id: 'noise', n: a.noiseItems.length, title: 'Строки вне лицензирования', sub: 'Библиотеки, драйверы, патчи', ico: ICO.noise, on: !!a.noiseItems.length, panel: panelNoise },
+    { id: 'manual', n: Math.max(1, Math.round(a.manualMinutes)), title: 'Ручная работа', sub: `${whrs(a.manualMinutes)} работы аналитика`, ico: ICO.hand, on: a.manualMinutes > 0, panel: panelManual, fmt: whrs(a.manualMinutes) }
+  ];
+
+  const grid = cards.map(c => `<button type="button" class="rx-sym${c.on ? '' : ' is-ok'}" data-rx="${c.id}" ${c.on ? '' : 'disabled'}>
+      <span class="rx-sym__ico" aria-hidden="true">${c.ico}</span>
+      <span class="rx-sym__n">${c.fmt || nfmt(c.n)}</span>
+      <span class="rx-sym__t">${c.title}</span>
+      <span class="rx-sym__s">${c.sub}</span>
+      ${c.on ? '<span class="rx-sym__more">Подробнее →</span>' : '<span class="rx-sym__more is-muted">В норме</span>'}
+    </button>`).join('');
+
+  const panels = cards.filter(c => c.on).map(c =>
+    `<div class="rx-panel" id="rx-panel-${c.id}" hidden data-rx-panel="${c.id}">${c.panel(a)}</div>`).join('');
+
+  return `<section class="rx-block">
+    <h3 class="rx-h">Симптомы болезни базы</h3>
+    <p class="rx-sh">Шесть признаков, по которым видно, сколько нормализации ещё впереди.</p>
+    <div class="rx-sym-grid">${grid}</div>
+    <div class="rx-panels">${panels}</div>
+  </section>`;
+}
+
+function renderCost(a) {
+  const h = a.manualMinutes / 60;
+  const months = h >= 20 ? `≈ ${(h / 160).toFixed(1).replace('.', ',')} мес. работы специалиста` : 'оценка на объём этой выгрузки';
+  return `<section class="rx-cost">
+    <h3 class="rx-h">Во что обходится необработанный инвентарь</h3>
+    <div class="rx-cost__row">
+      <div class="rx-cost__main">
+        <span class="rx-cost__ico" aria-hidden="true">${ICO.coin}</span>
+        <div>
+          <div class="rx-cost__n">${whrs(a.manualMinutes)}</div>
+          <div class="rx-cost__s">${months}</div>
+        </div>
+      </div>
+      <div class="rx-cost__side">
+        <div class="rx-cost__card">
+          <span class="rx-cost__ico" aria-hidden="true">${ICO.chart}</span>
+          <div><b>${nfmt(a.spellExcess + a.exactDup)}</b> лишних форм → риск завышения потребности по лицензиям</div>
+        </div>
+        <div class="rx-cost__card">
+          <span class="rx-cost__ico" aria-hidden="true">${ICO.clock}</span>
+          <div><b>${nfmt(a.noiseItems.length)}</b> строк вне лицензирования отнимают время на отчёты</div>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
 function render(a) {
-  const compression = a.productsN ? (a.rowsN / a.productsN) : 1;
-  const hrs = m => {
-    const h = m / 60;
-    return h < 1 ? `${Math.round(m)} мин` : h < 10 ? `${h.toFixed(1).replace('.', ',')} ч` : `${Math.round(h)} ч`;
-  };
+  const st = indexStatus(a.index);
+  window.__XSEQ = 0;
 
   const html = `
+  <div class="rx">
   ${STATE.demo ? `<div class="demo-warn">
     <div class="dw-i">!</div>
     <div><b>Это тестовый набор данных, а не ваша база.</b>
@@ -274,86 +399,94 @@ function render(a) {
       Диагноз, доля опознанного и оценка трудозатрат относятся к этому файлу и ничего не говорят о состоянии вашего учета.
       <span class="dw-cta">Чтобы получить точный диагноз, загрузите свою выгрузку — она останется в браузере и никуда не уйдёт.</span></div>
   </div>` : ''}
-  <div class="card verdict">
-    ${gauge(a.index)}
-    <div>
-      <span class="dx-tag" style="background:${toneBg(a.index)};color:${toneColor(a.index)}">Диагноз поставлен</span>
+
+  <section class="rx-hero">
+    <div class="rx-hero__gauge">
+      ${gauge(a.index)}
+      <div class="rx-status rx-status--${st.cls}">${st.text}</div>
+    </div>
+    <div class="rx-hero__diag">
+      <span class="dx-tag" style="background:${toneBg(a.index)};color:${toneColor(a.index)}">
+        <span class="dx-tag__ico" aria-hidden="true">${ICO.pulse}</span> Диагноз поставлен
+      </span>
       <h2>${esc(a.diag.t)}</h2>
       <p>${esc(a.diag.d)}</p>
-      <div class="cost">
-        Мы разобрали <b>${a.rowsN.toLocaleString('ru')}</b> ${plural(a.rowsN, 'строку', 'строки', 'строк')} и нашли в них
+      <p class="rx-hero__meta">Разобрали <b>${a.rowsN.toLocaleString('ru')}</b> ${plural(a.rowsN, 'строку', 'строки', 'строк')} →
         <b>${a.productsN.toLocaleString('ru')}</b> ${plural(a.productsN, 'реальный продукт', 'реальных продукта', 'реальных продуктов')}.
-        <div class="cost-note">Важно: это <b>инвентарные данные</b> — то, что вернули агенты, а не учетные записи.
-          Напрямую в отчёт по лицензионному соответствию и в ITSM-, ITAM- или SAM-систему они не идут: между ними стоит
-          <b>нормализация</b> — приведение строк к эталонным учетным позициям. Все, что найдено ниже, — это ее объём.
-          Пока нормализации нет, ее выполняет аналитик вручную.</div>
-        Свести найденное вручную — примерно <b>${hrs(a.manualMinutes)}</b> работы аналитика.
-        <label style="display:block;margin-top:10px;font-size:13.5px">
-          А если во всей вашей базе
-          <input id="scaleN" type="number" min="1" step="1000" value="${a.rowsN}"
-                 style="width:120px;padding:5px 8px;border:1px solid var(--line);border-radius:7px;font:inherit;font-size:13.5px">
-          <span id="scaleWord">${plural(a.rowsN, 'запись', 'записи', 'записей')}</span> — это <b id="scaleOut">${hrs(a.manualMinutes)}</b>.
-        </label>
-      </div>
+        Это инвентарные данные: между ними и учётом стоит нормализация.</p>
     </div>
-  </div>
-
-  <div class="tiles">
-    ${tile(a.rowsN.toLocaleString('ru') + ' → ' + a.productsN.toLocaleString('ru'), 'Строк превращается в продуктов', 'сжатие в ' + compression.toFixed(1).replace('.', ',') + ' раза', '')}
-    ${tile(a.spellExcess + a.exactDup, 'Лишних форм записи', a.spellGroups.length + ' ' + plural(a.spellGroups.length, 'продукт затронут', 'продукта затронуто', 'продуктов затронуто'), a.spellExcess ? 'acc-bad' : 'acc-ok')}
-    ${tile(a.vendorGroups.length, 'Издателей с разнобоем', 'один вендор записан по-разному', a.vendorGroups.length ? 'acc-warn' : 'acc-ok')}
-    ${tile(a.missingVer, 'Записей без версии', a.messyVer ? '+' + a.messyVer + ' с неразборчивой' : 'версия проставлена везде', a.missingVer ? 'acc-warn' : 'acc-ok')}
-    ${tile(a.junkItems.length, 'Строк с дефектами', 'битая кодировка, пути, GUID', a.junkItems.length ? 'acc-bad' : 'acc-ok')}
-    ${tile(a.noiseItems.length, 'Строк вне лицензирования', 'библиотеки, драйверы, патчи', a.noiseItems.length ? 'acc-warn' : 'acc-ok')}
-  </div>
-
-  ${renderFindings(a)}
-
-  <div class="card sect">${methodology(a)}</div>
-
-  ${STATE.recon ? renderReconcile(STATE.recon, CORE) : ''}
-
-  <div class="cta" id="cta">
-    <div>
-      <h3>Это была диагностика. Дальше — лечение</h3>
-      <p>Инструмент выше сравнил ваши записи с демонстрационным срезом каталога и показал, <b>что</b> с базой не так. Он сознательно не делает главного — не подтягивает ваши закупки и артикулы, не определяет модель лицензирования и не считает нехватку или избыток лицензий. Это и есть работа «Призмы данных», и ее мы разбираем на марафоне.</p>
-      <ul>
-        <li>Выписка по вашему файлу в PDF — с находками и порядком действий</li>
-        <li>Чек-лист «10 симптомов того, что базе нужна нормализация»</li>
-        <li>Место в «Клинике чистых данных» — 4 дня, бесплатно</li>
-      </ul>
+    <div class="rx-hero__treat">
+      <span class="rx-hero__treat-ico" aria-hidden="true">${ICO.steth}</span>
+      <b>База поддаётся лечению</b>
+      <p>После нормализации данные будут чистыми и готовыми к учёту лицензий.</p>
     </div>
-    <form class="form" id="lead" novalidate>
-      <input id="lName" placeholder="Фамилия и имя" autocomplete="name">
-      <input id="lCompany" placeholder="Компания и должность" autocomplete="organization">
-      <input id="lEmail" type="email" placeholder="Рабочая почта" autocomplete="email">
-      <div class="err" id="lErr"></div>
-      <button type="submit" class="btn btn-p">Получить выписку</button>
-      <div class="note">Отправляем только выписку и материалы клиники. Ваш файл при этом никуда не уходит — он все это время оставался в браузере.</div>
-    </form>
-  </div>
+  </section>
 
-  <div class="row" style="justify-content:center;margin-top:16px">
-    <button class="btn btn-s" id="print">Сохранить результат в PDF</button>
+  ${renderSymptoms(a)}
+  ${methodology(a)}
+  ${renderCost(a)}
+
+  <div id="rx-step2">${STATE.recon ? renderReconcile(STATE.recon, CORE) : ''}</div>
+
+  <section class="rx-cta" id="cta">
+    <div class="rx-cta__copy">
+      <h3>Готовы вылечить базу?</h3>
+      <p>Диагностика показала объём проблемы. Лечение — нормализация в «Призме данных».</p>
+    </div>
+    <div class="rx-cta__actions">
+      <a class="btn btn-p" href="${CONFIG.clinicUrl}">Продолжить лечение с Призмой данных →</a>
+      <button type="button" class="btn btn-s" id="print">Скачать полный отчёт</button>
+    </div>
+  </section>
   </div>`;
 
   const out = $('#out');
   out.innerHTML = html;
   out.classList.add('on');
 
-  /* пересчет масштаба */
-  const inp = $('#scaleN'), o = $('#scaleOut');
-  if (inp) inp.addEventListener('input', () => {
-    const n = Math.max(1, +inp.value || a.rowsN);
-    o.textContent = hrs(a.manualMinutes * n / a.rowsN);
-    const w = document.getElementById('scaleWord');
-    if (w) w.textContent = plural(n, 'запись', 'записи', 'записей');
+  const bindScale = () => {
+    const inp = $('#scaleN'), o = $('#scaleOut');
+    if (!inp || !o) return;
+    inp.addEventListener('input', () => {
+      const n = Math.max(1, +inp.value || a.rowsN);
+      o.textContent = whrs(a.manualMinutes * n / a.rowsN);
+      const w = document.getElementById('scaleWord');
+      if (w) w.textContent = plural(n, 'запись', 'записи', 'записей');
+    });
+  };
+  bindScale();
+
+  out.querySelectorAll('[data-rx]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.rx;
+      const panel = document.getElementById('rx-panel-' + id);
+      if (!panel) return;
+      const open = !panel.hidden;
+      out.querySelectorAll('.rx-panel').forEach(p => { p.hidden = true; });
+      out.querySelectorAll('.rx-sym').forEach(b => b.classList.remove('is-open'));
+      if (!open) {
+        panel.hidden = false;
+        btn.classList.add('is-open');
+        bindScale();
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
+  });
+  out.querySelectorAll('[data-rx-close]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.rxClose;
+      const panel = document.getElementById('rx-panel-' + id);
+      if (panel) panel.hidden = true;
+      const card = out.querySelector(`[data-rx="${id}"]`);
+      if (card) card.classList.remove('is-open');
+    });
   });
 
-  $('#print').addEventListener('click', () => window.print());
-  $('#lead').addEventListener('submit', onLead);
+  const printBtn = $('#print');
+  if (printBtn) printBtn.addEventListener('click', () => window.print());
   out.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+
 
 /* ---------- заявка ---------- */
 

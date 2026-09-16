@@ -167,31 +167,42 @@ function renderReconcile(rec, core) {
     ${expandable('<thead><tr><th colspan="3">Ваша запись</th><th></th><th>Эталонное наименование</th></tr></thead>', baRows, 3)}
     ${rec.rows.length > 200 ? `<div class="more">Показаны первые 200 из ${rec.rows.length.toLocaleString('ru')}</div>` : ''}` : '';
 
+  const scBenefits = `
+    <div class="rx-benefits">
+      <h4 class="blk">Что это даёт</h4>
+      <div class="rx-benefits__row">
+        <div class="rx-benefits__i"><b>Единая учётная позиция</b><span>Вместо россыпи строк реестра — одна карточка продукта из каталога.</span></div>
+        <div class="rx-benefits__i"><b>Корректная отчётность и расчёты</b><span>Бюджет и претензии строятся по версии, редакции и типу лицензирования.</span></div>
+        <div class="rx-benefits__i"><b>Меньше ручной работы</b><span>Около ${workHours(rec.known * MIN_PER_ROW)} экономии на этом объёме — и снова при каждой выгрузке.</span></div>
+      </div>
+    </div>`;
+
   const secShowcase = rec.showcase.length ? `
-    <div class="sc-block">
+    <div class="sc-block rx-ba">
       <span class="rc-eyebrow">Бизнес-результат</span>
       <h4 class="blk sc-h">Что запись получает после нормализации</h4>
-      <div class="sh">Строка инвентаря превращается в учетную единицу. По этим полям строятся отчеты, бюджеты и претензии — не по тексту из реестра установленных программ. Вот ваши собственные записи целиком.</div>
-      <div class="sc-row">${rec.showcase.map(a => `<div class="sc-card">
-          <div class="sc-raw"><span class="k">СТРОКА ИЗ ВАШЕЙ ВЫГРУЗКИ</span>
-            <code>${esc(a.raw.name)}</code>
-            <span class="dim">${esc(a.raw.version || '—')} · ${esc(a.raw.publisher || '—')}</span></div>
-          <div class="sc-arrow">↓</div>
-          <div class="sc-fields">
-            ${scField('Наименование', a.app, 1)}
-            ${scField('Семейство приложений', a.family)}
-            ${scField('Вендор', a.vendor)}
-            ${scField('Страна производителя', a.country)}
-            ${scField('Версия', a.version, 1)}
-            ${scField('Редакция', a.edition, 1)}
-            ${scField('Тип лицензирования', a.lic, 1)}
-            ${scField('Категория', a.cat)}
-            ${scField('Подкатегория', a.sub)}
-            ${scField('Является пакетом', a.pkg)}
-            ${scField('Окончание поддержки вендором', a.eol)}
+      <div class="sh">Слева — как записано в выгрузке. Справа — учётная единица каталога.</div>
+      <div class="sc-row">${rec.showcase.map(a => `<div class="sc-card sc-card--ba">
+          <div class="sc-ba-cols">
+            <div class="sc-raw"><span class="k">Было</span>
+              <code>${esc(a.raw.name)}</code>
+              <span class="dim">${esc(a.raw.version || '—')} · ${esc(a.raw.publisher || '—')}</span></div>
+            <div class="sc-arrow" aria-hidden="true">→</div>
+            <div class="sc-fields">
+              <span class="sc-ok-badge">Из каталога</span>
+              ${scField('Наименование', a.app, 1)}
+              ${scField('Издатель', a.vendor, 1)}
+              ${scField('Версия', a.version, 1)}
+              ${scField('Тип лицензирования', a.lic, 1)}
+              ${scField('Семейство приложений', a.family)}
+              ${scField('Страна производителя', a.country)}
+              ${scField('Редакция', a.edition)}
+              ${scField('Категория', a.cat)}
+            </div>
           </div>
         </div>`).join('')}</div>
-      ${biz('gain', `Каждое из этих полей — это отчет, который сейчас собирается руками. Тип лицензирования отсекает то, что учитывать не нужно. Версия и редакция определяют, какая именно лицензия требуется. Категория и подкатегория раскладывают парк по центрам затрат. Страна производителя закрывает вопрос импортозамещения без отдельной инвентаризации.`)}
+      ${scBenefits}
+      ${biz('gain', `Каждое из этих полей — это отчёт, который сейчас собирается руками. Тип лицензирования отсекает то, что учитывать не нужно. Версия и редакция определяют, какая именно лицензия требуется.`)}
     </div>` : '';
 
   const secSpell = rec.spellings.length ? `
@@ -237,20 +248,19 @@ function renderReconcile(rec, core) {
 
   if (LAYOUT === 'problem') {
     return `
-  <div class="card sect prob">
-    <span class="rc-eyebrow warn">Во что обходится необработанный инвентарь</span>
-    <h3>Цена нормализации, которой не было</h3>
-    <div class="sh">Ниже — то, что уже сейчас стоит вам рабочих часов и искажает отчетность по лицензиям. Каждая находка получена сопоставлением ваших записей с эталонным каталогом.</div>
-    ${secSpell}
-    ${secVersions}
+  <div class="card sect recon" id="rx-recon">
+    ${secHero}
+    ${secShowcase}
+    ${secBefore}
   </div>
 
-  <div class="card sect recon">
-    <span class="rc-eyebrow">Решение</span>
-    ${secHero}
-    ${secBefore}
-    ${secShowcase}
-  </div>`;
+  ${(secSpell || secVersions) ? `<div class="card sect prob">
+    <span class="rc-eyebrow warn">Детали сопоставления с каталогом</span>
+    <h3>Что ещё видно после сверки</h3>
+    <div class="sh">Находки ниже получены сопоставлением ваших записей с эталонным каталогом — это продолжение симптомов выше.</div>
+    ${secSpell}
+    ${secVersions}
+  </div>` : ''}`;
   }
 
   return `
