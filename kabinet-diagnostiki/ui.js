@@ -304,7 +304,7 @@ function panelNoise(a) {
   const nb = Object.entries(a.noiseBreakdown).sort((x, y) => y[1] - x[1]);
   const rows = nb.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="num">${v}</td></tr>`);
   const share = a.rowsN ? (a.noiseItems.length / a.rowsN * 100).toFixed(0) : 0;
-  return `${rxPanelHead('Строки вне лицензирования', `${nfmt(a.noiseItems.length)} ${plural(a.noiseItems.length, 'строка', 'строки', 'строк')}`, 'noise')}
+  return `${rxPanelHead('Лишние строки', `${nfmt(a.noiseItems.length)} ${plural(a.noiseItems.length, 'строка', 'строки', 'строк')}`, 'noise')}
     ${rxImpact([
       [ICO.warn, 'Чем опасно', `<b>${nfmt(a.noiseItems.length)}</b> из ${nfmt(a.rowsN)} (${share}%) — библиотеки, драйверы, патчи. Они занимают отчеты, но лицензий не требуют.`],
       [ICO.clock, 'Трудозатраты', `${whrs(Math.round(a.noiseItems.length * 0.5))} на разбор того, что учитывать не нужно.`],
@@ -321,10 +321,6 @@ function panelManual(a) {
       [ICO.clock, 'Из чего складывается', `${a.spellGroups.length} ${plural(a.spellGroups.length, 'группа', 'группы', 'групп')} разнописаний × 3 мин + ${a.vendorGroups.length} издателей × 2 мин + ${a.junkItems.length} дефектов × 1 мин.`],
       [ICO.coin, 'Повторяемость', `Инвентаризация выгружается регулярно — без нормализации эти часы тратятся снова и снова.`]
     ])}
-    <label class="rx-scale">А если во всей вашей базе
-      <input id="scaleN" type="number" min="1" step="1000" value="${a.rowsN}">
-      <span id="scaleWord">${plural(a.rowsN, 'запись', 'записи', 'записей')}</span> — это <b id="scaleOut">${whrs(a.manualMinutes)}</b>.
-    </label>
     ${rxSolve('В «Призме данных» нормализация выполняется при каждой загрузке без участия человека — экономия повторяется цикл за циклом.')}`;
 }
 
@@ -392,33 +388,6 @@ function renderSymptoms(a) {
   </section>`;
 }
 
-function renderCost(a) {
-  const h = a.manualMinutes / 60;
-  const months = h >= 20 ? `≈ ${(h / 160).toFixed(1).replace('.', ',')} мес. работы специалиста` : 'оценка на объем этой выгрузки';
-  return `<section class="rx-cost">
-    <h3 class="rx-h">Во что обходится необработанный инвентарь</h3>
-    <div class="rx-cost__row">
-      <div class="rx-cost__main">
-        <span class="rx-cost__ico" aria-hidden="true">${ICO.coin}</span>
-        <div>
-          <div class="rx-cost__n">${whrs(a.manualMinutes)}</div>
-          <div class="rx-cost__s">${months}</div>
-        </div>
-      </div>
-      <div class="rx-cost__side">
-        <div class="rx-cost__card">
-          <span class="rx-cost__ico" aria-hidden="true">${ICO.chart}</span>
-          <div><b>${nfmt(a.spellExcess + a.exactDup)}</b> лишних форм → риск завышения потребности по лицензиям</div>
-        </div>
-        <div class="rx-cost__card">
-          <span class="rx-cost__ico" aria-hidden="true">${ICO.clock}</span>
-          <div><b>${nfmt(a.noiseItems.length)}</b> строк вне лицензирования отнимают время на отчеты</div>
-        </div>
-      </div>
-    </div>
-  </section>`;
-}
-
 function render(a) {
   const st = indexStatus(a.index);
   RXSEQ = 0;
@@ -439,13 +408,28 @@ function render(a) {
         <span class="dx-tag__ico" aria-hidden="true">${ICO.pulse}</span> Диагноз поставлен
       </span>
       <h2>${diagTitleHtml(a.diag.t)}</h2>
+      <p class="rx-hero__stats">Мы разобрали <b>${nfmt(a.rowsN)}</b> ${plural(a.rowsN, 'строку', 'строки', 'строк')} и нашли в них
+        <b>${nfmt(a.productsN)}</b> ${plural(a.productsN, 'реальный продукт', 'реальных продукта', 'реальных продуктов')}.</p>
       <p>${esc(a.diag.d)}</p>
+    </div>
+    <div class="rx-hero__effort">
+      <div class="rx-effort">
+        <span class="rx-effort__ico" aria-hidden="true">${ICO.clock}</span>
+        <p>Чтобы свести такое количество данных вручную, аналитику нужно <b>${whrs(a.manualMinutes)} работы</b>.</p>
+      </div>
+      <div class="rx-scalebox">
+        <div class="rx-scalebox__h">Посчитайте для своей базы</div>
+        <label class="rx-scalebox__row">А если во всей вашей базе
+          <input id="scaleN" type="number" min="1" step="1000" value="${a.rowsN}">
+          <span id="scaleWord">${plural(a.rowsN, 'запись', 'записи', 'записей')}</span> — это
+          <b id="scaleOut" class="rx-scalebox__out">${whrs(a.manualMinutes)}</b>
+        </label>
+      </div>
     </div>
   </section>
 
   ${renderSymptoms(a)}
   ${methodology(a)}
-  ${renderCost(a)}
 
   <div id="rx-step2">${STATE.recon ? renderReconcile(STATE.recon, CORE) : ''}</div>
 
@@ -465,17 +449,13 @@ function render(a) {
   out.innerHTML = html;
   out.classList.add('on');
 
-  const bindScale = () => {
-    const inp = $('#scaleN'), o = $('#scaleOut');
-    if (!inp || !o) return;
-    inp.addEventListener('input', () => {
-      const n = Math.max(1, +inp.value || a.rowsN);
-      o.textContent = whrs(a.manualMinutes * n / a.rowsN);
-      const w = document.getElementById('scaleWord');
-      if (w) w.textContent = plural(n, 'запись', 'записи', 'записей');
-    });
-  };
-  bindScale();
+  const inp = $('#scaleN'), o = $('#scaleOut');
+  if (inp && o) inp.addEventListener('input', () => {
+    const n = Math.max(1, +inp.value || a.rowsN);
+    o.textContent = whrs(a.manualMinutes * n / a.rowsN);
+    const w = document.getElementById('scaleWord');
+    if (w) w.textContent = plural(n, 'запись', 'записи', 'записей');
+  });
 
   out.querySelectorAll('[data-rx]').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -488,7 +468,6 @@ function render(a) {
       if (!open) {
         panel.hidden = false;
         btn.classList.add('is-open');
-        bindScale();
         panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
     });
