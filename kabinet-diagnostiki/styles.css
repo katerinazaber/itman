@@ -901,8 +901,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 }
 .rx-collapse:hover{color:var(--red)}
 
-.rx-impact{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px}
-@media(max-width:820px){.rx-impact{grid-template-columns:1fr}}
+.rx-impact{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:22px}
 .rx-impact__i{display:flex;gap:12px;padding:16px;border-radius:14px;background:#FBFCFD;border:1px solid var(--line-2)}
 .rx-impact__i--danger,.rx-impact__i--warn,.rx-impact__i--info{background:#FBFCFD;border-color:var(--line-2)}
 .rx-impact__i--danger .rx-impact__ico,
