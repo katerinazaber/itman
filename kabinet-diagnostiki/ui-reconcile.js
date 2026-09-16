@@ -40,13 +40,14 @@ function rcShowcaseCard(a, i, active) {
     ['Категория', a.cat],
     ['Страна производителя', a.country]
   ].filter(([, v]) => v);
+  const meta = `${esc(a.raw.version || '—')}${a.raw.publisher ? ` · ${esc(a.raw.publisher)}` : ''}`;
   return `<div class="rc-sc__slide${active ? ' is-on' : ''}" data-rc-slide="${i}" ${active ? '' : 'hidden'}>
     <div class="rc-sc__raw">
       <span class="rc-sc__raw-ico" aria-hidden="true">${ICO.dup}</span>
-      <div>
-        <div class="rc-sc__raw-k">Ваша запись</div>
-        <div class="rx-spell__name">${esc(a.raw.name)}</div>
-        <div class="rx-spell__meta">${esc(a.raw.version || '—')}${a.raw.publisher ? ` · ${esc(a.raw.publisher)}` : ''}</div>
+      <span class="rc-sc__raw-k">Ваша запись</span>
+      <div class="rc-sc__raw-main">
+        <span class="rx-spell__name">${esc(a.raw.name)}</span>
+        <span class="rx-spell__meta">${meta}</span>
       </div>
     </div>
     <div class="rc-sc__arrow" aria-hidden="true">↓</div>
