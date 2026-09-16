@@ -169,11 +169,11 @@ function renderReconcile(rec, core) {
 
   const scBenefits = `
     <div class="rx-benefits">
-      <h4 class="blk">Что это даёт</h4>
+      <h4 class="blk">Что это дает</h4>
       <div class="rx-benefits__row">
-        <div class="rx-benefits__i"><b>Единая учётная позиция</b><span>Вместо россыпи строк реестра — одна карточка продукта из каталога.</span></div>
-        <div class="rx-benefits__i"><b>Корректная отчётность и расчёты</b><span>Бюджет и претензии строятся по версии, редакции и типу лицензирования.</span></div>
-        <div class="rx-benefits__i"><b>Меньше ручной работы</b><span>Около ${workHours(rec.known * MIN_PER_ROW)} экономии на этом объёме — и снова при каждой выгрузке.</span></div>
+        <div class="rx-benefits__i"><b>Единая учетная позиция</b><span>Вместо россыпи строк реестра — одна карточка продукта из каталога.</span></div>
+        <div class="rx-benefits__i"><b>Корректная отчетность и расчеты</b><span>Бюджет и претензии строятся по версии, редакции и типу лицензирования.</span></div>
+        <div class="rx-benefits__i"><b>Меньше ручной работы</b><span>Около ${workHours(rec.known * MIN_PER_ROW)} экономии на этом объеме — и снова при каждой выгрузке.</span></div>
       </div>
     </div>`;
 
@@ -181,7 +181,7 @@ function renderReconcile(rec, core) {
     <div class="sc-block rx-ba">
       <span class="rc-eyebrow">Бизнес-результат</span>
       <h4 class="blk sc-h">Что запись получает после нормализации</h4>
-      <div class="sh">Слева — как записано в выгрузке. Справа — учётная единица каталога.</div>
+      <div class="sh">Слева — как записано в выгрузке. Справа — учетная единица каталога.</div>
       <div class="sc-row">${rec.showcase.map(a => `<div class="sc-card sc-card--ba">
           <div class="sc-ba-cols">
             <div class="sc-raw"><span class="k">Было</span>
@@ -202,7 +202,7 @@ function renderReconcile(rec, core) {
           </div>
         </div>`).join('')}</div>
       ${scBenefits}
-      ${biz('gain', `Каждое из этих полей — это отчёт, который сейчас собирается руками. Тип лицензирования отсекает то, что учитывать не нужно. Версия и редакция определяют, какая именно лицензия требуется.`)}
+      ${biz('gain', `Каждое из этих полей — это отчет, который сейчас собирается руками. Тип лицензирования отсекает то, что учитывать не нужно. Версия и редакция определяют, какая именно лицензия требуется.`)}
     </div>` : '';
 
   const secSpell = rec.spellings.length ? `
@@ -256,7 +256,7 @@ function renderReconcile(rec, core) {
 
   ${(secSpell || secVersions) ? `<div class="card sect prob">
     <span class="rc-eyebrow warn">Детали сопоставления с каталогом</span>
-    <h3>Что ещё видно после сверки</h3>
+    <h3>Что еще видно после сверки</h3>
     <div class="sh">Находки ниже получены сопоставлением ваших записей с эталонным каталогом — это продолжение симптомов выше.</div>
     ${secSpell}
     ${secVersions}
