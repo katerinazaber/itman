@@ -427,7 +427,7 @@ function panelNoise(a) {
     ])}
     <div class="rx-panel__main">
       <div class="rx-panel__sec-head">
-        <h4>Какие категории нашлись</h4>
+        <h4>Какие категории нашлись?</h4>
       </div>
       ${cats.length ? `<div class="scroll rx-table-wrap"><table class="rx-table rx-table--spell rx-table--cats">
         <thead><tr>
