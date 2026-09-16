@@ -254,7 +254,7 @@ function panelVendor(a) {
       <td>${esc(primary.key === '(пусто)' ? '—' : primary.key)}</td>
       <td class="num">—</td></tr>`) : [];
   const others = a.vendorGroups.slice(1, 9);
-  return `${rxPanelHead('Издатели с разнобоем', `${nfmt(a.vendorGroups.length)} ${plural(a.vendorGroups.length, 'издатель', 'издателя', 'издателей')}`, 'vendor')}
+  return `${rxPanelHead('Разнобой в издателях', `${nfmt(a.vendorGroups.length)} ${plural(a.vendorGroups.length, 'издатель', 'издателя', 'издателей')}`, 'vendor')}
     ${rxImpact([
       [ICO.warn, 'Чем опасно', `Правообладатель — единица договора. Пока он пишется по-разному, любой срез «что у нас от этого производителя» неполный — риск недоучета и переплаты.`],
       [ICO.clock, 'Трудозатраты на исправление', `${whrs(a.vendorGroups.length * 2)} на сведение написаний к одной карточке вендора.`],
@@ -276,7 +276,7 @@ function panelVendor(a) {
 }
 
 function panelMissing(a) {
-  return `${rxPanelHead('Записи без версии', `${nfmt(a.missingVer)} ${plural(a.missingVer, 'запись', 'записи', 'записей')}`, 'missing')}
+  return `${rxPanelHead('Версии потерялись', `${nfmt(a.missingVer)} ${plural(a.missingVer, 'запись', 'записи', 'записей')}`, 'missing')}
     ${rxImpact([
       [ICO.warn, 'Чем опасно', `Без версии нельзя понять, какая лицензия нужна: право на использование конкретной сборки дает артикул, а не факт установки.`],
       [ICO.clock, 'Трудозатраты', a.messyVer ? `Плюс ${nfmt(a.messyVer)} с неразборчивой версией — их тоже придется разбирать.` : 'Версию нужно добирать из других источников или переустанавливать агент.'],
@@ -289,7 +289,7 @@ function panelMissing(a) {
 function panelJunk(a) {
   const jb = Object.entries(a.junkBreakdown).sort((x, y) => y[1] - x[1]);
   const rows = jb.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="num">${v}</td></tr>`);
-  return `${rxPanelHead('Дефекты записей', `${nfmt(a.junkItems.length)} ${plural(a.junkItems.length, 'строка', 'строки', 'строк')}`, 'junk')}
+  return `${rxPanelHead('Ошибки в данных', `${nfmt(a.junkItems.length)} ${plural(a.junkItems.length, 'строка', 'строки', 'строк')}`, 'junk')}
     ${rxImpact([
       [ICO.warn, 'Чем опасно', `<b>${nfmt(a.junkItems.length)}</b> ${plural(a.junkItems.length, 'строка', 'строки', 'строк')} не пройдет нормализацию: опознаваемого наименования нет. Под битой строкой может стоять коммерческий продукт.`],
       [ICO.clock, 'Трудозатраты на исправление', `${whrs(a.junkItems.length * 1)} на разбор — и заново в каждой выгрузке, пока не устранен источник.`],
@@ -359,12 +359,12 @@ function renderSymptoms(a) {
   const spellN = a.spellExcess + a.exactDup;
   const manualN = Math.max(0, Math.round(a.manualMinutes));
   const cards = [
-    { id: 'spell', n: spellN, title: 'Лишние формы записи', sub: 'Одинаковое ПО с разными вариантами названия', ico: ICO.dup, on: !!spellN, panel: panelSpell },
-    { id: 'vendor', n: a.vendorGroups.length, title: 'Издатели с разнобоем', sub: 'Один и тот же издатель указан по-разному', ico: ICO.vendor, on: !!a.vendorGroups.length, panel: panelVendor },
-    { id: 'missing', n: a.missingVer, title: 'Записи без версии', sub: 'Нет информации о версии ПО', ico: ICO.ver, on: !!a.missingVer, panel: panelMissing },
-    { id: 'junk', n: a.junkItems.length, title: 'Дефекты записей', sub: 'Неполные или некорректные данные', ico: ICO.junk, on: !!a.junkItems.length, panel: panelJunk },
-    { id: 'noise', n: a.noiseItems.length, title: 'Строки вне лицензирования', sub: 'Системные, тестовые и прочие записи', ico: ICO.noise, on: !!a.noiseItems.length, panel: panelNoise },
-    { id: 'manual', n: manualN, title: 'Ручная работа', sub: 'Требуют проверки и обработки вручную', ico: ICO.hand, on: manualN > 0, panel: panelManual }
+    { id: 'spell', n: spellN, title: 'Лишние формы записи', sub: 'Одно и то же ПО записано по-разному', ico: ICO.dup, on: !!spellN, panel: panelSpell },
+    { id: 'vendor', n: a.vendorGroups.length, title: 'Разнобой в издателях', sub: 'Один издатель указан разными способами', ico: ICO.vendor, on: !!a.vendorGroups.length, panel: panelVendor },
+    { id: 'missing', n: a.missingVer, title: 'Версии потерялись', sub: 'Для этих записей не указана версия ПО', ico: ICO.ver, on: !!a.missingVer, panel: panelMissing },
+    { id: 'junk', n: a.junkItems.length, title: 'Ошибки в данных', sub: 'Есть неполные или некорректные записи', ico: ICO.junk, on: !!a.junkItems.length, panel: panelJunk },
+    { id: 'noise', n: a.noiseItems.length, title: 'Лишние строки', sub: 'Записи, которые не относятся к лицензируемому ПО', ico: ICO.noise, on: !!a.noiseItems.length, panel: panelNoise },
+    { id: 'manual', n: manualN, title: 'Ручная работа', sub: 'Столько раз данные придется проверять вручную', ico: ICO.hand, on: manualN > 0, panel: panelManual }
   ];
 
   const grid = cards.map(c => `<button type="button" class="rx-sym${c.on ? '' : ' is-ok'}" data-rx="${c.id}" ${c.on ? '' : 'disabled'}>
@@ -384,7 +384,7 @@ function renderSymptoms(a) {
     <div class="rx-symptom__head">
       <div>
         <h3 class="rx-h">Симптомы диагноза</h3>
-        <p class="rx-sh">Ключевые проблемы, которые мы обнаружили в ваших данных. Нажмите «Подробнее», чтобы посмотреть детали.</p>
+        <p class="rx-sh">Вот что мы нашли в вашей базе. Нажмите «Подробнее», чтобы разобраться.</p>
       </div>
     </div>
     <div class="rx-sym-grid">${grid}</div>
