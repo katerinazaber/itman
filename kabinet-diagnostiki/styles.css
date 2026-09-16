@@ -932,14 +932,28 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rx-panel__more:hover{color:var(--red-d)}
 .rx-panel__note{font-size:13.5px;color:var(--ink-2);margin:0 0 14px}
 .rx-panel__aside .rx-panel__sec-sh{margin-bottom:12px}
+.rx-table-wrap{
+  border:1px solid var(--line-2);border-radius:14px;overflow:auto;background:#fff;
+}
 .rx-table{width:100%;border-collapse:collapse}
 .rx-table th{
-  background:transparent;color:var(--red);padding:8px 10px 10px 0;border-bottom:1px solid rgba(221,12,41,.18);
-  font-size:12.5px;font-weight:750;text-align:left;
+  background:#FFF5F6;color:var(--red);padding:12px 16px;border-bottom:1px solid rgba(221,12,41,.14);
+  font-size:12.5px;font-weight:750;text-align:left;white-space:nowrap;
 }
-.rx-table th.num,.rx-table td.num{text-align:right}
-.rx-table td{padding:11px 10px 11px 0;border-bottom:1px solid var(--line-2);font-size:13.5px;vertical-align:top}
-.rx-table td.raw{font-family:var(--mono);font-size:12.5px;color:var(--ink)}
+.rx-table th.num,.rx-table td.num{text-align:right;width:1%;white-space:nowrap}
+.rx-table th:first-child,.rx-table td:first-child{width:1%;padding-left:16px}
+.rx-table th:last-child,.rx-table td:last-child{padding-right:16px}
+.rx-table td{
+  padding:13px 16px;border-bottom:1px solid var(--line-2);font-size:13.5px;vertical-align:middle;
+  color:var(--ink);
+}
+.rx-table tbody tr:last-child td{border-bottom:0}
+.rx-table tbody tr:hover td{background:#FAFBFD}
+.rx-table td.raw{
+  font-family:var(--mono);font-size:12.5px;color:var(--ink);
+  word-break:break-word;max-width:0;width:52%;
+}
+.rx-table td:nth-child(3){color:var(--ink-2);width:34%}
 .rx-table .dim{color:var(--ink-3)}
 .rx-side{list-style:none;margin:0;padding:0}
 .rx-side li{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--line-2);font-size:14px;align-items:baseline}

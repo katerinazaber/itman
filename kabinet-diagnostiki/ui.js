@@ -272,31 +272,19 @@ function panelSpell(a) {
         'Когда один продукт записан по-разному, сложнее понять, сколько его действительно используется и хватает ли на всю компанию.',
         'info']
     ])}
-    <div class="rx-panel__grid">
-      <div class="rx-panel__main">
-        <div class="rx-panel__sec-head">
-          <div>
-            <h4>Как один продукт выглядит в базе по-разному</h4>
-            <p class="rx-panel__sec-sh">Примеры записей, которые относятся к одной и той же учетной позиции.</p>
-          </div>
-          ${rest.length ? `<button type="button" class="rx-panel__more xtoggle" data-x="${tid}" data-n="${rest.length}" data-open-label="${esc(moreLabel)}" data-close-label="Свернуть варианты">Показать все ${rows.length.toLocaleString('ru')} вариантов →</button>` : ''}
+    <div class="rx-panel__main">
+      <div class="rx-panel__sec-head">
+        <div>
+          <h4>Как один продукт выглядит в базе по-разному</h4>
+          <p class="rx-panel__sec-sh">Примеры записей, которые относятся к одной и той же учетной позиции.</p>
         </div>
-        ${rows.length ? `<div class="scroll"><table class="rx-table">
-          <thead><tr><th>#</th><th>Вариант в вашей базе</th><th>Сводится к</th><th class="num">Строк</th></tr></thead>
-          <tbody>${rows.slice(0, preview).join('')}</tbody>
-          ${rest.length ? `<tbody class="xmore" id="${tid}" hidden>${rest.join('')}</tbody>` : ''}
-        </table></div>` : '<p class="dim">Примеров нет</p>'}
+        ${rest.length ? `<button type="button" class="rx-panel__more xtoggle" data-x="${tid}" data-n="${rest.length}" data-open-label="${esc(moreLabel)}" data-close-label="Свернуть варианты">Показать все ${rows.length.toLocaleString('ru')} вариантов →</button>` : ''}
       </div>
-      <div class="rx-panel__aside">
-        <h4>Какие продукты задублировались</h4>
-        <p class="rx-panel__sec-sh">Топ продуктовых групп с наибольшим числом разнописаний.</p>
-        <ul class="rx-side">
-          ${a.spellGroups.slice(0, 7).map(g => {
-            const v = g.forms ? g.forms.size : (g.spellExcess + 1);
-            return `<li><span>${esc((g.title || '').slice(0, 48))}</span><b>${v} <i>${plural(v, 'вариант', 'варианта', 'вариантов')}</i></b></li>`;
-          }).join('')}
-        </ul>
-      </div>
+      ${rows.length ? `<div class="scroll rx-table-wrap"><table class="rx-table">
+        <thead><tr><th class="num">#</th><th>Вариант в вашей базе</th><th>Сводится к</th><th class="num">Строк</th></tr></thead>
+        <tbody>${rows.slice(0, preview).join('')}</tbody>
+        ${rest.length ? `<tbody class="xmore" id="${tid}" hidden>${rest.join('')}</tbody>` : ''}
+      </table></div>` : '<p class="dim">Примеров нет</p>'}
     </div>`;
 }
 
