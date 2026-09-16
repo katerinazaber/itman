@@ -280,6 +280,9 @@ document.addEventListener('click', e => {
   const t = document.getElementById(b.dataset.x);
   if (!t) return;
   t.hidden = !t.hidden;
-  b.textContent = t.hidden ? `Показать еще ${(+b.dataset.n).toLocaleString('ru')}` : 'Свернуть';
+  const openL = b.dataset.openLabel;
+  const closeL = b.dataset.closeLabel || 'Свернуть';
+  if (openL) b.textContent = t.hidden ? openL : closeL;
+  else b.textContent = t.hidden ? `Показать еще ${(+b.dataset.n).toLocaleString('ru')}` : 'Свернуть';
 });
 

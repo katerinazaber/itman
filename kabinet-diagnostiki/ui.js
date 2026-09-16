@@ -174,13 +174,14 @@ const ICO = {
   clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>',
   chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19h16M7 16V9m5 7V5m5 11v-4"/></svg>',
   warn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 8v5"/><circle cx="12" cy="16.5" r=".8" fill="currentColor"/><path d="M10.2 4.5h3.6L19 19H5L10.2 4.5z"/></svg>',
+  info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 11v5"/><circle cx="12" cy="8" r=".9" fill="currentColor" stroke="none"/></svg>',
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.5l4.5 4.5L19 7"/></svg>',
   chev: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3.5L10.5 8 6 12.5"/></svg>'
 };
 
 function rxImpact(items) {
-  return `<div class="rx-impact">${items.map(([ico, title, text]) =>
-    `<div class="rx-impact__i"><span class="rx-impact__ico" aria-hidden="true">${ico}</span>
+  return `<div class="rx-impact">${items.map(([ico, title, text, tone]) =>
+    `<div class="rx-impact__i${tone ? ` rx-impact__i--${tone}` : ''}"><span class="rx-impact__ico" aria-hidden="true">${ico}</span>
       <div><b>${title}</b><p>${text}</p></div></div>`).join('')}</div>`;
 }
 
@@ -192,10 +193,31 @@ function rxSolve(text) {
   </div>`;
 }
 
+function rxPanelNav(id) {
+  return `<div class="rx-panel__nav">
+    <button type="button" class="rx-panel__back" data-rx-close="${id}">← К результатам диагностики</button>
+    <button type="button" class="rx-collapse" data-rx-close="${id}">Свернуть <span aria-hidden="true">∧</span></button>
+  </div>`;
+}
+
 function rxPanelHead(title, badge, id) {
-  return `<div class="rx-panel__head">
-    <div class="rx-panel__title">${esc(title)} <span class="rx-badge">${badge}</span></div>
-    <button type="button" class="rx-collapse" data-rx-close="${id}">Свернуть</button>
+  return `${rxPanelNav(id)}
+    <div class="rx-panel__head">
+      <div class="rx-panel__title">${esc(title)} <span class="rx-badge">${badge}</span></div>
+    </div>`;
+}
+
+function rxPanelHero(title, badge, lead, desc, ico) {
+  return `<div class="rx-panel__hero">
+    <span class="rx-panel__ico" aria-hidden="true">${ico}</span>
+    <div class="rx-panel__hero-body">
+      <div class="rx-panel__title-row">
+        <h3 class="rx-panel__h">${esc(title)}</h3>
+        <span class="rx-badge">${badge}</span>
+      </div>
+      ${lead ? `<p class="rx-panel__lead">${esc(lead)}</p>` : ''}
+      ${desc ? `<p class="rx-panel__desc">${desc}</p>` : ''}
+    </div>
   </div>`;
 }
 
@@ -225,25 +247,57 @@ function panelSpell(a) {
     }
   }
   const n = a.spellExcess + a.exactDup;
-  return `${rxPanelHead('Лишние формы записи', `${nfmt(n)} ${plural(n, 'запись', 'записи', 'записей')}`, 'spell')}
+  const hrs = whrs(a.spellGroups.length * 3);
+  const preview = 5;
+  const tid = 'x' + (++RXSEQ);
+  const rest = rows.slice(preview);
+  const moreLabel = `Показать все ${rows.length.toLocaleString('ru')} вариантов →`;
+
+  return `${rxPanelNav('spell')}
+    ${rxPanelHero(
+      'Лишние формы записи',
+      `${nfmt(n)} ${plural(n, 'запись', 'записи', 'записей')}`,
+      'Одно и то же ПО записано по-разному',
+      'Это значит, что один и тот же продукт записан в базе по-разному. Если дубли не объединить, они будут считаться разными позициями.',
+      ICO.dup
+    )}
     ${rxImpact([
-      [ICO.warn, 'Чем опасно', `Оценка лицензионного соответствия строится на учетных позициях. ${nfmt(n)} ${plural(n, 'лишняя форма', 'лишние формы', 'лишних форм')} уйдут в учет как отдельные позиции — потребность завысится.`],
-      [ICO.clock, 'Трудозатраты на исправление', `${whrs(a.spellGroups.length * 3)} на сведение групп — и снова при каждой выгрузке.`],
-      [ICO.coin, 'Влияние на деньги', `Бюджет закладывается на позиции, которых в парке нет, а реальная нехватка прав остается скрытой.`]
+      [ICO.warn, 'Можно завысить потребление',
+        `${nfmt(n)} ${plural(n, 'лишняя запись', 'лишние записи', 'лишних записей')} могут попасть в учет как отдельные позиции. В итоге лицензий может понадобиться больше, чем есть на самом деле.`,
+        'danger'],
+      [ICO.clock, 'Это нужно исправлять вручную',
+        `Чтобы свести эти записи, аналитику понадобится около ${hrs}. И такую работу придется повторять при каждой новой выгрузке.`,
+        'warn'],
+      [ICO.info, 'Реальная нехватка лицензий может остаться незаметной',
+        'Когда один продукт записан по-разному, сложнее понять, сколько его действительно используется и хватает ли на всю компанию.',
+        'info']
     ])}
     <div class="rx-panel__grid">
-      <div>
-        <h4>Примеры найденных разнописаний</h4>
-        ${rows.length ? xtable('<thead><tr><th>#</th><th>Вариант в вашей базе</th><th>Сводится к</th><th class="num">Строк</th></tr></thead>', rows, 5, `Показать все ${rows.length.toLocaleString('ru')} вариантов`) : '<p class="dim">Примеров нет</p>'}
+      <div class="rx-panel__main">
+        <div class="rx-panel__sec-head">
+          <div>
+            <h4>Как один продукт выглядит в базе по-разному</h4>
+            <p class="rx-panel__sec-sh">Примеры записей, которые относятся к одной и той же учетной позиции.</p>
+          </div>
+          ${rest.length ? `<button type="button" class="rx-panel__more xtoggle" data-x="${tid}" data-n="${rest.length}" data-open-label="${esc(moreLabel)}" data-close-label="Свернуть варианты">Показать все ${rows.length.toLocaleString('ru')} вариантов →</button>` : ''}
+        </div>
+        ${rows.length ? `<div class="scroll"><table class="rx-table">
+          <thead><tr><th>#</th><th>Вариант в вашей базе</th><th>Сводится к</th><th class="num">Строк</th></tr></thead>
+          <tbody>${rows.slice(0, preview).join('')}</tbody>
+          ${rest.length ? `<tbody class="xmore" id="${tid}" hidden>${rest.join('')}</tbody>` : ''}
+        </table></div>` : '<p class="dim">Примеров нет</p>'}
       </div>
-      <div>
-        <h4>Затронутые продукты</h4>
+      <div class="rx-panel__aside">
+        <h4>Какие продукты задублировались</h4>
+        <p class="rx-panel__sec-sh">Топ продуктовых групп с наибольшим числом разнописаний.</p>
         <ul class="rx-side">
-          ${a.spellGroups.slice(0, 8).map(g => `<li><span>${esc((g.title || '').slice(0, 42))}</span><b>${g.spellExcess}</b></li>`).join('')}
+          ${a.spellGroups.slice(0, 7).map(g => {
+            const v = g.forms ? g.forms.size : (g.spellExcess + 1);
+            return `<li><span>${esc((g.title || '').slice(0, 48))}</span><b>${v} <i>${plural(v, 'вариант', 'варианта', 'вариантов')}</i></b></li>`;
+          }).join('')}
         </ul>
       </div>
-    </div>
-    ${rxSolve('Написания сводятся к одной учетной позиции автоматически при каждой загрузке — потребление считается по продуктам, а не по строкам реестра.')}`;
+    </div>`;
 }
 
 function panelVendor(a) {

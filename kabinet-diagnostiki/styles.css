@@ -868,36 +868,84 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rx-sym.is-ok .rx-sym__more{color:#9AA3B0}
 .rx-panels{margin-top:14px}
 .rx-panel{
-  padding:22px 24px;background:#fff;border:1px solid rgba(221,12,41,.28);border-radius:14px;
-  box-shadow:0 8px 28px rgba(16,20,30,.06);
+  padding:26px 28px 28px;background:#fff;border:1px solid var(--line-2);border-radius:18px;
+  box-shadow:var(--sh);
 }
+.rx-panel__nav{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px;flex-wrap:wrap;
+}
+.rx-panel__back{
+  border:0;background:transparent;padding:0;cursor:pointer;
+  font:650 13.5px/1.3 "Nekst",system-ui,sans-serif;color:var(--ink-3);
+}
+.rx-panel__back:hover{color:var(--red)}
 .rx-panel__head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px;flex-wrap:wrap}
 .rx-panel__title{font-size:18px;font-weight:750;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.rx-badge{display:inline-block;padding:4px 10px;border-radius:999px;background:var(--red);color:#fff;font-size:12px;font-weight:700}
-.rx-collapse{
-  border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px 14px;
-  font:650 13px/1 "Nekst",system-ui,sans-serif;color:var(--ink-2);cursor:pointer;
+.rx-panel__hero{
+  display:flex;gap:16px;align-items:flex-start;margin-bottom:20px;
 }
-.rx-collapse:hover{border-color:var(--red);color:var(--red)}
+.rx-panel__ico{
+  flex:0 0 auto;width:52px;height:52px;border-radius:14px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--red-l);color:var(--red);
+}
+.rx-panel__ico svg{width:28px;height:28px}
+.rx-panel__hero-body{min-width:0;flex:1}
+.rx-panel__title-row{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px;
+}
+.rx-panel__h{margin:0;font-size:clamp(22px,2.2vw,28px);font-weight:800;letter-spacing:-.03em;line-height:1.15;color:var(--ink)}
+.rx-badge{display:inline-block;padding:5px 12px;border-radius:999px;background:var(--red);color:#fff;font-size:12.5px;font-weight:700}
+.rx-panel__lead{margin:0 0 6px;font-size:15.5px;font-weight:700;color:var(--ink-2);line-height:1.4}
+.rx-panel__desc{margin:0;font-size:14.5px;color:var(--ink-3);line-height:1.5;max-width:72ch}
+.rx-collapse{
+  border:0;background:transparent;padding:0;cursor:pointer;
+  font:650 13.5px/1.3 "Nekst",system-ui,sans-serif;color:var(--ink-3);
+}
+.rx-collapse:hover{color:var(--red)}
 
-.rx-impact{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.rx-impact{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px}
 @media(max-width:820px){.rx-impact{grid-template-columns:1fr}}
-.rx-impact__i{display:flex;gap:12px;padding:14px;border-radius:12px;background:#FAFBFC;border:1px solid var(--line-2)}
+.rx-impact__i{display:flex;gap:12px;padding:16px;border-radius:14px;background:#FAFBFC;border:1px solid var(--line-2)}
+.rx-impact__i--danger{background:var(--red-l);border-color:rgba(221,12,41,.12)}
+.rx-impact__i--danger .rx-impact__ico{color:var(--red)}
+.rx-impact__i--warn{background:var(--warn-l);border-color:rgba(179,107,0,.14)}
+.rx-impact__i--warn .rx-impact__ico{color:var(--red)}
+.rx-impact__i--info{background:#EEF5FC;border-color:#D5E4F2}
+.rx-impact__i--info .rx-impact__ico{color:#2F6AA3}
 .rx-impact__ico{flex:0 0 auto;width:22px;height:22px;color:var(--red);margin-top:2px}
 .rx-impact__ico svg{width:100%;height:100%}
-.rx-impact__i b{display:block;font-size:13.5px;margin-bottom:4px}
-.rx-impact__i p{margin:0;font-size:12.5px;color:var(--ink-2);line-height:1.45}
+.rx-impact__i b{display:block;font-size:14.5px;margin-bottom:6px;line-height:1.3;color:var(--ink)}
+.rx-impact__i p{margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.45}
 
-.rx-panel__grid{display:grid;grid-template-columns:1.4fr 1fr;gap:22px;margin-bottom:16px}
-@media(max-width:820px){.rx-panel__grid{grid-template-columns:1fr}}
-.rx-panel h4{font-size:13.5px;font-weight:700;margin:0 0 10px}
+.rx-panel__grid{display:grid;grid-template-columns:1.55fr .95fr;gap:28px;margin-bottom:8px;align-items:start}
+@media(max-width:900px){.rx-panel__grid{grid-template-columns:1fr}}
+.rx-panel h4{font-size:16px;font-weight:750;margin:0 0 6px;color:var(--ink);letter-spacing:-.01em}
+.rx-panel__sec-head{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px;
+}
+.rx-panel__sec-sh{margin:0;font-size:13.5px;color:var(--ink-3);line-height:1.45}
+.rx-panel__more{
+  flex:0 0 auto;border:0;background:transparent;padding:0;cursor:pointer;white-space:nowrap;
+  font:650 13.5px/1.3 "Nekst",system-ui,sans-serif;color:var(--red);
+}
+.rx-panel__more:hover{color:var(--red-d)}
 .rx-panel__note{font-size:13.5px;color:var(--ink-2);margin:0 0 14px}
-.rx-table th{background:var(--red-l);color:var(--red);padding:10px 12px;border-bottom:1px solid rgba(221,12,41,.2)}
-.rx-table td{padding:10px 12px;border-bottom:1px solid var(--line-2);font-size:13.5px}
-.rx-table td.raw{font-family:var(--mono);font-size:12.5px}
+.rx-panel__aside .rx-panel__sec-sh{margin-bottom:12px}
+.rx-table{width:100%;border-collapse:collapse}
+.rx-table th{
+  background:transparent;color:var(--red);padding:8px 10px 10px 0;border-bottom:1px solid rgba(221,12,41,.18);
+  font-size:12.5px;font-weight:750;text-align:left;
+}
+.rx-table th.num,.rx-table td.num{text-align:right}
+.rx-table td{padding:11px 10px 11px 0;border-bottom:1px solid var(--line-2);font-size:13.5px;vertical-align:top}
+.rx-table td.raw{font-family:var(--mono);font-size:12.5px;color:var(--ink)}
+.rx-table .dim{color:var(--ink-3)}
 .rx-side{list-style:none;margin:0;padding:0}
-.rx-side li{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line-2);font-size:13.5px}
-.rx-side li b{color:var(--red);font-variant-numeric:tabular-nums}
+.rx-side li{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--line-2);font-size:14px;align-items:baseline}
+.rx-side li span{color:var(--ink);min-width:0}
+.rx-side li b{color:var(--red);font-variant-numeric:tabular-nums;font-weight:800;white-space:nowrap;font-size:15px}
+.rx-side li b i{font-style:normal;font-weight:600;font-size:12.5px;color:var(--ink-3);margin-left:2px}
 .rx-side .dim{color:var(--ink-3)}
 
 .rx-solve{margin-top:8px;padding:16px 18px;border-radius:12px;background:var(--ok-l);border:1px solid #c8e6d5}
