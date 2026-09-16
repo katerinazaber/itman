@@ -66,7 +66,6 @@ function renderReconcile(rec, core) {
   const hours = workHours(rec.known * MIN_PER_ROW);
   const scale = Math.max(1, Math.round(md.libApps / md.apps));
   const direct = Math.max(0, rec.known - (rec.propagated || 0));
-  const logo = (typeof PRISM_LOGO !== 'undefined') ? PRISM_LOGO : '';
 
   const PREVIEW = 5;
   const tid = 'rc-ba-' + (++RXSEQ);
@@ -91,18 +90,15 @@ function renderReconcile(rec, core) {
     <div class="rc-hero">
       <div class="rc-hero__text">
         <span class="dx-tag"><span class="dx-tag__ico" aria-hidden="true">${ICO.pulse}</span> Диагноз поставлен. Назначение лечения</span>
-        <h3 class="rx-h rc-title">Сверка с эталонным каталогом</h3>
+        <h3 class="rx-h rc-title">Сверка с эталонным каталогом «Призма данных»</h3>
         <div class="rc-prism">
-          ${logo
-            ? `<img class="rc-prism__logo" src="${logo}" alt="Призма данных" width="150" height="36">`
-            : '<b class="rc-prism__name">Призма данных</b>'}
           <p class="rx-sh rc-prism__lead">Крупнейшая в России интеллектуальная база знаний о программном обеспечении и лицензиях:
             более <b>300&nbsp;000</b> наименований ПО и <b>45&nbsp;000</b> артикулов (SKU).</p>
           <p class="rx-sh rc-prism__lead">«Призма данных» проводит ML-нормализацию, приводит данные о ПО и лицензиях к единому виду и создает эталонный каталог ИТ-активов.</p>
         </div>
       </div>
       <div class="rc-hero__visual">
-        <img class="rc-monitor" src="assets/prism-monitor.png?v=122" alt="Экран каталога «Призма данных»" width="640" height="460" decoding="async">
+        <img class="rc-monitor" src="assets/prism-monitor.png?v=123" alt="Экран каталога «Призма данных»" width="1551" height="1014" decoding="async">
       </div>
     </div>
 

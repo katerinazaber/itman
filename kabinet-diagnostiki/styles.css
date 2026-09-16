@@ -1095,20 +1095,23 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rc-hero{
   display:grid;grid-template-columns:minmax(0,1.05fr) minmax(260px,.95fr);
   gap:28px 32px;align-items:center;margin-bottom:28px;
+  padding:22px 22px;border-radius:14px;background:#fff;
+  border:1px solid #E5EAF0;box-shadow:0 1px 2px rgba(16,20,30,.03);
 }
 @media(max-width:900px){.rc-hero{grid-template-columns:1fr}}
 .rc-title.rx-h{
   margin:14px 0 0;
   font-size:clamp(24px, 2.4vw, 28px);font-weight:750;letter-spacing:-.02em;line-height:1.15;color:var(--ink);
 }
-.rc-prism{margin-top:22px}
-.rc-prism__logo{display:block;width:150px;height:auto;margin:0 0 18px}
-.rc-prism__name{display:block;font-size:18px;font-weight:800;color:var(--red);margin:0 0 18px}
+.rc-prism{margin-top:18px}
 .rc-prism__lead{margin:0 0 12px!important;max-width:58ch}
 .rc-prism__lead:last-child{margin-bottom:0!important}
 .rc-hero__visual{justify-self:end;max-width:100%}
 @media(max-width:900px){.rc-hero__visual{justify-self:center}}
-.rc-monitor{display:block;width:100%;max-width:560px;height:auto;background:transparent}
+.rc-monitor{
+  display:block;width:100%;max-width:580px;height:auto;background:transparent;
+  image-rendering:auto;-webkit-font-smoothing:antialiased;
+}
 
 .rc-norm{
   display:grid;grid-template-columns:1.5fr 1fr 1fr;
