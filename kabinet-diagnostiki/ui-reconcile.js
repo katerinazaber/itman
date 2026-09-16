@@ -275,6 +275,16 @@ function renderReconcile(rec, core) {
 
 /* Раскрытие длинных таблиц */
 document.addEventListener('click', e => {
+  const spellBtn = e.target.closest('.rx-spell__toggle');
+  if (spellBtn) {
+    const t = document.getElementById(spellBtn.dataset.spellForms);
+    if (!t) return;
+    const open = t.hidden;
+    t.hidden = !open;
+    spellBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    spellBtn.textContent = open ? 'Скрыть' : 'Показать';
+    return;
+  }
   const b = e.target.closest('.xtoggle');
   if (!b) return;
   const t = document.getElementById(b.dataset.x);

@@ -233,25 +233,57 @@ function xtable(head, rows, preview, moreLabel) {
 }
 
 function panelSpell(a) {
-  const rows = [];
-  for (const g of a.spellGroups.slice(0, 40)) {
+  const items = [];
+  for (const g of a.spellGroups) {
     for (const b of g.buckets) {
       if (b.excess <= 0) continue;
-      const canon = b.forms.slice().sort((x, y) => y.length - x.length)[0] || g.title;
-      b.forms.forEach((f, i) => {
-        rows.push(`<tr><td class="num">${rows.length + 1}</td>
-          <td class="raw">${esc(f)}</td>
-          <td>${esc(canon)}</td>
-          <td class="num">${b.members.filter(m => m.name.trim() === f).length || 1}</td></tr>`);
+      const title = b.forms.slice().sort((x, y) => y.length - x.length)[0] || g.title;
+      items.push({
+        title,
+        ver: b.ver,
+        ed: b.ed || '',
+        forms: b.forms,
+        formsN: b.forms.length,
+        rowsN: b.members.length
       });
     }
   }
+  items.sort((x, y) => (y.formsN - x.formsN) || (y.rowsN - x.rowsN));
+
   const n = a.spellExcess + a.exactDup;
   const hrs = whrs(a.spellGroups.length * 3);
-  const preview = 5;
+  const preview = 8;
   const tid = 'x' + (++RXSEQ);
-  const rest = rows.slice(preview);
-  const moreLabel = `Показать все ${rows.length.toLocaleString('ru')} вариантов →`;
+  const rest = items.slice(preview);
+  const moreLabel = `Показать все ${items.length.toLocaleString('ru')} ${plural(items.length, 'позицию', 'позиции', 'позиций')} →`;
+
+  const rowHtml = (it, i) => {
+    const fid = `sf${RXSEQ}-${i}`;
+    const meta = [
+      it.ver && it.ver !== '∅' ? `версия ${verLabel(it.ver)}` : '',
+      it.ed ? `редакция ${it.ed}` : ''
+    ].filter(Boolean).join(' · ');
+    return `<tr>
+        <td>
+          <div class="rx-spell__name">${esc(it.title)}</div>
+          ${meta ? `<div class="rx-spell__meta">${esc(meta)}</div>` : ''}
+        </td>
+        <td class="num"><b class="rx-spell__n">${it.formsN}</b>
+          <span class="rx-spell__u">${plural(it.formsN, 'написание', 'написания', 'написаний')}</span></td>
+        <td class="num">${nfmt(it.rowsN)}</td>
+        <td class="rx-spell__act">
+          <button type="button" class="rx-spell__toggle" data-spell-forms="${fid}" aria-expanded="false">Показать</button>
+        </td>
+      </tr>
+      <tr class="rx-spell__forms" id="${fid}" hidden>
+        <td colspan="4">
+          <div class="forms">${it.forms.map(f => `<span class="chip dup">${esc(f)}</span>`).join('')}</div>
+        </td>
+      </tr>`;
+  };
+
+  const headRows = items.slice(0, preview).map(rowHtml).join('');
+  const restRows = rest.map((it, i) => rowHtml(it, preview + i)).join('');
 
   return `${rxPanelNav('spell')}
     ${rxPanelHero(
@@ -272,15 +304,20 @@ function panelSpell(a) {
     <div class="rx-panel__main">
       <div class="rx-panel__sec-head">
         <div>
-          <h4>Как один продукт выглядит в базе по-разному</h4>
-          <p class="rx-panel__sec-sh">Слева — как записано у вас. Справа — к какой одной учетной позиции это относится. Несколько строк с одной позицией = дубли написания.</p>
+          <h4>Где одно ПО записано несколькими способами</h4>
+          <p class="rx-panel__sec-sh">Каждая строка — одна учетная позиция (продукт и версия). «Написаний» — сколько разных формулировок нашлось; «Строк» — сколько раз они встречаются в выгрузке.</p>
         </div>
-        ${rest.length ? `<button type="button" class="rx-panel__more xtoggle" data-x="${tid}" data-n="${rest.length}" data-open-label="${esc(moreLabel)}" data-close-label="Свернуть варианты">Показать все ${rows.length.toLocaleString('ru')} вариантов →</button>` : ''}
+        ${rest.length ? `<button type="button" class="rx-panel__more xtoggle" data-x="${tid}" data-n="${rest.length}" data-open-label="${esc(moreLabel)}" data-close-label="Свернуть список">Показать все ${items.length.toLocaleString('ru')} ${plural(items.length, 'позицию', 'позиции', 'позиций')} →</button>` : ''}
       </div>
-      ${rows.length ? `<div class="scroll rx-table-wrap"><table class="rx-table">
-        <thead><tr><th class="num">#</th><th>Как записано в вашей базе</th><th>Единая учетная позиция</th><th class="num">Строк</th></tr></thead>
-        <tbody>${rows.slice(0, preview).join('')}</tbody>
-        ${rest.length ? `<tbody class="xmore" id="${tid}" hidden>${rest.join('')}</tbody>` : ''}
+      ${items.length ? `<div class="scroll rx-table-wrap"><table class="rx-table rx-table--spell">
+        <thead><tr>
+          <th>Учетная позиция</th>
+          <th class="num">Написаний</th>
+          <th class="num">Строк</th>
+          <th></th>
+        </tr></thead>
+        <tbody>${headRows}</tbody>
+        ${rest.length ? `<tbody class="xmore" id="${tid}" hidden>${restRows}</tbody>` : ''}
       </table></div>` : '<p class="dim">Примеров нет</p>'}
     </div>`;
 }
