@@ -717,30 +717,24 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rx-block{margin-top:28px}
 
 .rx-hero{
-  display:grid;grid-template-columns:200px minmax(0,1.35fr) minmax(200px,260px);gap:0 32px;align-items:center;
-  padding:28px 32px;background:#F7F8FA;border:1px solid var(--line-2);border-radius:18px;
-  box-shadow:none;
-}
-@media(max-width:960px){
-  .rx-hero{grid-template-columns:1fr 1fr;gap:22px 24px}
-  .rx-hero__treat{grid-column:1 / -1;border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:20px}
+  display:grid;grid-template-columns:240px minmax(0,1fr);gap:28px 40px;align-items:center;
+  padding:32px 40px;background:#FFFFFF;border:1px solid var(--line-2);border-radius:18px;
+  box-shadow:var(--sh);
 }
 @media(max-width:700px){
-  .rx-hero{grid-template-columns:1fr;text-align:center}
+  .rx-hero{grid-template-columns:1fr;text-align:center;padding:24px 20px;gap:20px}
   .rx-hero__diag{text-align:center}
   .dx-tag{margin-left:auto;margin-right:auto}
-  .rx-hero__treat{text-align:center}
-  .rx-hero__treat-ico{margin-left:auto;margin-right:auto}
 }
 
-.gauge-arc{position:relative;width:180px;height:110px;margin:0 auto 4px}
-.gauge-arc .val{position:absolute;left:0;right:0;bottom:2px;text-align:center;pointer-events:none}
+.gauge-arc{position:relative;width:220px;height:130px;margin:0 auto 6px}
+.gauge-arc .val{position:absolute;left:0;right:0;bottom:4px;text-align:center;pointer-events:none}
 .gauge-arc .val .gauge-info{pointer-events:auto}
-.gauge-arc .num{font-size:40px;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--ink)}
-.gauge-arc .num .pct{font-size:22px;font-weight:700;margin-left:1px}
+.gauge-arc .num{font-size:48px;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--ink)}
+.gauge-arc .num .pct{font-size:24px;font-weight:700;margin-left:1px}
 .gauge-arc .of{
   display:inline-flex;align-items:center;justify-content:center;gap:5px;
-  font-size:10px;color:var(--ink-3);font-weight:700;letter-spacing:.08em;margin-top:6px
+  font-size:11px;color:var(--ink-3);font-weight:700;letter-spacing:.08em;margin-top:8px
 }
 .gauge-info{
   display:inline-flex;align-items:center;justify-content:center;
@@ -750,7 +744,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .gauge-info:hover{border-color:var(--red);color:var(--red)}
 
 .rx-status{
-  margin-top:10px;padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.35;text-align:center;
+  margin-top:12px;padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.35;text-align:center;
   display:flex;flex-direction:column;gap:2px;
 }
 .rx-status b{font-weight:750}
@@ -758,11 +752,18 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rx-status--warn{background:var(--warn-l);color:#8a5a00}
 .rx-status--ok{background:var(--ok-l);color:#0b6136}
 
-.rx-hero__diag{min-width:0;padding-right:8px}
-.rx-hero__diag h2{font-size:clamp(26px, 2.6vw, 34px);font-weight:800;margin:10px 0 12px;letter-spacing:-.03em;line-height:1.12}
+.rx-hero__diag{
+  min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:0 12px;
+}
+.rx-hero__diag h2{
+  font-size:clamp(28px, 3vw, 36px);font-weight:800;margin:12px 0 14px;letter-spacing:-.03em;line-height:1.12;
+}
 .rx-diag-main{color:var(--ink)}
 .rx-diag-accent{color:var(--red)}
-.rx-hero__diag p{color:var(--ink-2);font-size:15px;max-width:52ch;line-height:1.5;margin:0}
+.rx-hero__diag p{
+  color:var(--ink-2);font-size:15.5px;max-width:42ch;line-height:1.55;margin:0 auto;
+}
 .dx-tag{
   display:inline-flex;align-items:center;gap:7px;
   font-size:12.5px;font-weight:700;color:var(--red);
@@ -770,15 +771,6 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 }
 .dx-tag__ico{display:inline-flex;width:16px;height:16px;color:var(--red)}
 .dx-tag__ico svg{width:100%;height:100%}
-
-.rx-hero__treat{
-  padding:4px 0 4px 28px;border-left:1px solid var(--line);background:transparent;border-radius:0;
-  text-align:left;align-self:center;
-}
-.rx-hero__treat-ico{display:flex;width:32px;height:32px;color:var(--red);margin-bottom:12px}
-.rx-hero__treat-ico svg{width:100%;height:100%}
-.rx-hero__treat b{display:block;font-size:16px;font-weight:750;margin-bottom:8px;color:var(--ink);line-height:1.25}
-.rx-hero__treat p{font-size:14px;color:var(--ink-2);line-height:1.5;margin:0}
 
 .rx-sym-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 @media(max-width:900px){.rx-sym-grid{grid-template-columns:repeat(2,1fr)}}

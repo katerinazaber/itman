@@ -96,13 +96,14 @@ function toneColor(i) { return i >= 72 ? 'var(--ok)' : i >= 52 ? 'var(--warn)' :
 function toneBg(i) { return i >= 72 ? 'var(--ok-l)' : i >= 52 ? 'var(--warn-l)' : 'var(--bad-l)'; }
 
 function gauge(index) {
-  const R = 70, CX = 90, CY = 88;
+  const R = 88, CX = 110, CY = 108;
   const LEN = Math.PI * R;
   const on = LEN * Math.max(0, Math.min(100, index)) / 100;
+  const left = CX - R, right = CX + R;
   return `<div class="gauge gauge-arc">
-    <svg viewBox="0 0 180 110" width="180" height="110" aria-hidden="true">
-      <path d="M20 ${CY} A${R} ${R} 0 0 1 ${CX * 2 - 20} ${CY}" fill="none" stroke="#E4EAF1" stroke-width="14" stroke-linecap="round"/>
-      <path d="M20 ${CY} A${R} ${R} 0 0 1 ${CX * 2 - 20} ${CY}" fill="none" stroke="var(--red)" stroke-width="14"
+    <svg viewBox="0 0 220 130" width="220" height="130" aria-hidden="true">
+      <path d="M${left} ${CY} A${R} ${R} 0 0 1 ${right} ${CY}" fill="none" stroke="#E4EAF1" stroke-width="16" stroke-linecap="round"/>
+      <path d="M${left} ${CY} A${R} ${R} 0 0 1 ${right} ${CY}" fill="none" stroke="var(--red)" stroke-width="16"
             stroke-linecap="round" stroke-dasharray="${on.toFixed(1)} ${LEN.toFixed(2)}"/>
     </svg>
     <div class="val">
@@ -438,11 +439,6 @@ function render(a) {
       </span>
       <h2>${diagTitleHtml(a.diag.t)}</h2>
       <p>${esc(a.diag.d)}</p>
-    </div>
-    <div class="rx-hero__treat">
-      <span class="rx-hero__treat-ico" aria-hidden="true">${ICO.steth}</span>
-      <b>База поддается лечению</b>
-      <p>После нормализации вы получите чистые и согласованные данные, готовые для точного учета и отчетности.</p>
     </div>
   </section>
 
