@@ -415,7 +415,7 @@ function render(a) {
     <div class="rx-hero__effort">
       <div class="rx-effort">
         <span class="rx-effort__ico" aria-hidden="true">${ICO.clock}</span>
-        <p>Чтобы свести такое количество данных вручную, аналитику нужно <b>${whrs(a.manualMinutes)} работы</b>.</p>
+        <p>Чтобы свести такое количество данных вручную, аналитику нужно <b class="rx-effort__time">${whrs(a.manualMinutes)} работы.</b></p>
       </div>
       <div class="rx-scalebox">
         <div class="rx-scalebox__h">Посчитайте для своей базы</div>
