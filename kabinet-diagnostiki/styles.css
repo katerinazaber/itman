@@ -1101,7 +1101,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 @media(max-width:900px){.rc-hero{grid-template-columns:1fr}}
 .rc-title.rx-h{
   margin:14px 0 0;
-  font-size:clamp(24px, 2.4vw, 28px);font-weight:750;letter-spacing:-.02em;line-height:1.15;color:var(--ink);
+  font-size:clamp(26px, 2.6vw, 32px);font-weight:800;letter-spacing:-.03em;line-height:1.15;color:var(--ink);
 }
 .rc-title__hi,.rc-hi{color:var(--red);font-weight:800}
 .rc-prism{margin-top:18px}

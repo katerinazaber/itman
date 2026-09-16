@@ -137,7 +137,7 @@ function renderReconcile(rec, core) {
         </div>
       </div>
       <div class="rc-hero__visual">
-        <img class="rc-monitor" src="assets/prism-monitor.png?v=129" alt="Экран каталога «Призма данных»" width="1551" height="1014" decoding="async">
+        <img class="rc-monitor" src="assets/prism-monitor.png?v=130" alt="Экран каталога «Призма данных»" width="1551" height="1014" decoding="async">
       </div>
     </div>
 
