@@ -207,17 +207,52 @@ function rxPanelHead(title, badge, id) {
     </div>`;
 }
 
-function rxPanelHero(title, badge, lead, desc, ico) {
+function rxHeroArt(kind) {
+  if (kind === 'spell') {
+    return `<div class="rx-art rx-art--spell">
+      <span class="rx-art__card">Microsoft Visual C++</span>
+      <span class="rx-art__card">MS Visual C++</span>
+      <span class="rx-art__card rx-art__card--hi">Microsoft Visual C++</span>
+    </div>`;
+  }
+  if (kind === 'vendor') {
+    return `<div class="rx-art rx-art--vendor">
+      <span class="rx-art__card">Microsoft Corporation</span>
+      <span class="rx-art__card">Microsoft Corp.</span>
+      <span class="rx-art__card rx-art__card--hi">Microsoft</span>
+    </div>`;
+  }
+  if (kind === 'junk') {
+    return `<div class="rx-art rx-art--junk">
+      <span class="rx-art__card rx-art__card--empty">—</span>
+      <span class="rx-art__card">??? / unknown</span>
+      <span class="rx-art__card rx-art__card--hi">без названия</span>
+    </div>`;
+  }
+  if (kind === 'noise') {
+    return `<div class="rx-art rx-art--noise">
+      <span class="rx-art__card">Runtime / library</span>
+      <span class="rx-art__card rx-art__card--mute">driver · OS component</span>
+      <span class="rx-art__card rx-art__card--hi">не лицензируется</span>
+    </div>`;
+  }
+  return '';
+}
+
+function rxPanelHero(title, n, unit, caption, desc, ico, artKind) {
   return `<div class="rx-panel__hero">
-    <span class="rx-panel__ico" aria-hidden="true">${ico}</span>
-    <div class="rx-panel__hero-body">
-      <div class="rx-panel__title-row">
+    <div class="rx-panel__hero-main">
+      <span class="rx-panel__ico" aria-hidden="true">${ico}</span>
+      <div class="rx-panel__hero-body">
         <h3 class="rx-panel__h">${esc(title)}</h3>
-        <span class="rx-badge">${badge}</span>
+        ${desc ? `<p class="rx-panel__desc">${desc}</p>` : ''}
       </div>
-      ${lead ? `<p class="rx-panel__lead">${esc(lead)}</p>` : ''}
-      ${desc ? `<p class="rx-panel__desc">${desc}</p>` : ''}
     </div>
+    <div class="rx-panel__hero-stat">
+      <div class="rx-panel__stat-n"><b>${nfmt(n)}</b> <span>${esc(unit)}</span></div>
+      ${caption ? `<p class="rx-panel__stat-cap">${esc(caption)}</p>` : ''}
+    </div>
+    ${artKind ? `<div class="rx-panel__hero-art" aria-hidden="true">${rxHeroArt(artKind)}</div>` : ''}
   </div>`;
 }
 
@@ -279,10 +314,12 @@ function panelSpell(a) {
   return `${rxPanelNav('spell')}
     ${rxPanelHero(
       'Лишние формы записи',
-      `${nfmt(n)} ${plural(n, 'запись', 'записи', 'записей')}`,
-      '',
-      'Это значит, что один и тот же продукт записан в базе по-разному. Если дубли не объединить, они будут считаться разными позициями.',
-      ICO.dup
+      n,
+      plural(n, 'запись', 'записи', 'записей'),
+      'с одинаковым ПО, но разным написанием',
+      'Один и тот же продукт записан в базе по-разному. Если дубли не объединить, они будут считаться разными позициями.',
+      ICO.dup,
+      'spell'
     )}
     <h4 class="rx-panel__sec-title">Чем это мешает бизнесу?</h4>
     ${rxImpact([
@@ -337,10 +374,12 @@ function panelVendor(a) {
   return `${rxPanelNav('vendor')}
     ${rxPanelHero(
       'Один издатель, несколько написаний',
-      `${nfmt(n)} ${plural(n, 'издатель', 'издателя', 'издателей')}`,
-      '',
+      n,
+      plural(n, 'издатель', 'издателя', 'издателей'),
+      'один и тот же издатель под разными названиями',
       'Пока один издатель записан в базе под разными названиями, группировка по вендору и запрос «что у нас от этого производителя» показывают неполную картину.',
-      ICO.vendor
+      ICO.vendor,
+      'vendor'
     )}
     <h4 class="rx-panel__sec-title">Чем это мешает бизнесу?</h4>
     ${rxImpact([
@@ -372,10 +411,12 @@ function panelJunk(a) {
   return `${rxPanelNav('junk')}
     ${rxPanelHero(
       'Дефекты записей',
-      `${nfmt(n)} ${plural(n, 'строка', 'строки', 'строк')}`,
-      '',
+      n,
+      plural(n, 'строка', 'строки', 'строк'),
+      'без понятного названия продукта',
       'В этих строках нет понятного названия, поэтому их нельзя сопоставить с программой или активом. Пока записи в таком виде, они не попадут в реестр активов.',
-      ICO.junk
+      ICO.junk,
+      'junk'
     )}
     <h4 class="rx-panel__sec-title">Чем это мешает бизнесу?</h4>
     ${rxImpact([
@@ -411,10 +452,12 @@ function panelNoise(a) {
   return `${rxPanelNav('noise')}
     ${rxPanelHero(
       'Не подлежит лицензированию',
-      `${nfmt(n)} ${plural(n, 'строка', 'строки', 'строк')}`,
-      '',
+      n,
+      plural(n, 'строка', 'строки', 'строк'),
+      'библиотеки, драйверы и компоненты ОС',
       'Инвентаризация собирает все, что находится на компьютере: библиотеки, драйверы и компоненты ОС, которые не требуют лицензий.',
-      ICO.noise
+      ICO.noise,
+      'noise'
     )}
     <h4 class="rx-panel__sec-title">Чем это мешает бизнесу?</h4>
     ${rxImpact([
