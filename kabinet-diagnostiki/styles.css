@@ -787,11 +787,11 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
   display:block;margin-bottom:18px;
 }
 .rx-symptom__head .rx-h{
-  margin:0 0 10px;
-  font-size:clamp(30px, 3.2vw, 40px);font-weight:800;letter-spacing:-.03em;line-height:1.12;
+  margin:0 0 8px;
+  font-size:clamp(24px, 2.4vw, 30px);font-weight:800;letter-spacing:-.03em;line-height:1.15;
 }
 .rx-symptom__head .rx-sh{
-  margin:0;color:var(--ink-2);font-size:17.5px;line-height:1.55;max-width:none;
+  margin:0;color:var(--ink-2);font-size:15px;line-height:1.5;max-width:none;
   white-space:nowrap;
 }
 @media(max-width:980px){
