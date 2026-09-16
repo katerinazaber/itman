@@ -85,6 +85,45 @@ function renderReconcile(rec, core) {
 
   const knownPhrase = `${nfmt(rec.known)}&nbsp;${plural(rec.known, 'запись не требует', 'записи не требуют', 'записей не требуют')} ручного разбора аналитиком.&nbsp;Это около ${hours} работы.`;
 
+  const mapBlock = `
+      <div class="rc-split__col">
+        <div class="rc-split__head">
+          <h4 class="rx-panel__sec-title">Что удалось привести к эталону?</h4>
+          <p class="rx-panel__sec-sh">Слева — как записано в вашей выгрузке, справа — эталонное наименование.</p>
+        </div>
+        <div class="rc-split__body">
+          ${rec.rows.length ? `<div class="scroll rx-table-wrap"><table class="rx-table rc-ba-table">
+            <thead><tr>
+              <th>Ваша запись</th>
+              <th></th>
+              <th>Эталонное наименование</th>
+            </tr></thead>
+            <tbody>${baRows.slice(0, PREVIEW).join('')}</tbody>
+            ${rest.length ? `<tbody class="xmore" id="${tid}" hidden>${rest.join('')}</tbody>` : ''}
+          </table></div>` : '<p class="dim">Примеров нет</p>'}
+        </div>
+        <div class="rc-split__foot">
+          ${rest.length ? `<button type="button" class="rx-panel__more xtoggle" data-x="${tid}" data-n="${rest.length}"
+            data-open-label="Показать больше примеров →" data-close-label="Свернуть">Показать больше примеров →</button>` : ''}
+        </div>
+      </div>`;
+
+  const showBlock = `
+      <div class="rc-split__col">
+        <div class="rc-split__head">
+          <h4 class="rx-panel__sec-title">Как выглядит запись после нормализации</h4>
+          <p class="rx-panel__sec-sh">Превращаем сырую строку в единую карточку ИТ-актива.</p>
+        </div>
+        <div class="rc-split__body">
+          ${show.length ? `<div class="rx-table-wrap rc-sc" id="${scId}" data-rc-sc="${show.length}">
+            ${show.map((a, i) => rcShowcaseCard(a, i, i === 0)).join('')}
+          </div>` : '<p class="dim">Примеров нет</p>'}
+        </div>
+        <div class="rc-split__foot">
+          ${show.length > 1 ? `<button type="button" class="rx-panel__more" data-rc-next="${scId}">Показать другие примеры →</button>` : ''}
+        </div>
+      </div>`;
+
   return `
   <section class="card sect recon" id="rx-recon">
     <div class="rc-hero">
@@ -98,31 +137,25 @@ function renderReconcile(rec, core) {
         </div>
       </div>
       <div class="rc-hero__visual">
-        <img class="rc-monitor" src="assets/prism-monitor.png?v=124" alt="Экран каталога «Призма данных»" width="1551" height="1014" decoding="async">
+        <img class="rc-monitor" src="assets/prism-monitor.png?v=125" alt="Экран каталога «Призма данных»" width="1551" height="1014" decoding="async">
       </div>
     </div>
 
     <div class="rc-norm">
-      <div class="rc-norm__card rc-norm__card--pct">
-        ${rcDonut(share)}
-        <div class="rc-norm__copy">
-          <div class="rc-norm__word">записи</div>
-          <div class="rc-norm__t">нашли соответствие в «Призме данных»</div>
-        </div>
+      <div class="rc-norm__card">
+        <div class="rc-norm__n">${pct(share)}</div>
+        <div class="rc-norm__t">записей нашли соответствие в «Призме данных»</div>
       </div>
       <div class="rc-norm__card">
-        <span class="rc-norm__ico" aria-hidden="true">${ICO.check}</span>
         <div class="rc-norm__n">${nfmt(rec.known)}</div>
         <div class="rc-norm__t">${plural(rec.known, 'запись распознана', 'записи распознаны', 'записей распознано')}</div>
       </div>
       <div class="rc-norm__card">
-        <span class="rc-norm__ico" aria-hidden="true">${ICO.vendor}</span>
         <div class="rc-norm__n">${nfmt(nearly)}</div>
         <div class="rc-norm__t">Почти сошлось</div>
-        <p class="rc-norm__p">Наименование нашлось, но помешал вендор или формат версии. Это чинится правилом.</p>
+        <p class="rc-norm__p">Наименование нашлось, но помешал вендор или формат версии.</p>
       </div>
       <div class="rc-norm__card">
-        <span class="rc-norm__ico" aria-hidden="true">${ICO.noise}</span>
         <div class="rc-norm__n">${nfmt(unknown)}</div>
         <div class="rc-norm__t">Нет в демонстрационном срезе</div>
         <p class="rc-norm__p">Сравнение шло с <b>${nfmt(md.apps)}</b> эталонными продуктами из <b>${nfmt(md.libApps)}</b>.</p>
@@ -148,38 +181,8 @@ function renderReconcile(rec, core) {
     </div>
 
     <div class="rc-split">
-      <div class="rc-split__col">
-        <h4 class="rx-panel__sec-title">Что удалось привести к эталону?</h4>
-        <p class="rx-panel__sec-sh">Слева — как записано в вашей выгрузке, справа — эталонное наименование.</p>
-        <div class="rc-split__body">
-          ${rec.rows.length ? `<div class="scroll rx-table-wrap"><table class="rx-table rc-ba-table">
-            <thead><tr>
-              <th>Ваша запись</th>
-              <th></th>
-              <th>Эталонное наименование</th>
-            </tr></thead>
-            <tbody>${baRows.slice(0, PREVIEW).join('')}</tbody>
-            ${rest.length ? `<tbody class="xmore" id="${tid}" hidden>${rest.join('')}</tbody>` : ''}
-          </table></div>` : '<p class="dim">Примеров нет</p>'}
-        </div>
-        <div class="rc-split__foot">
-          ${rest.length ? `<button type="button" class="rx-panel__more xtoggle" data-x="${tid}" data-n="${rest.length}"
-            data-open-label="Показать больше примеров →" data-close-label="Свернуть">Показать больше примеров →</button>` : ''}
-        </div>
-      </div>
-
-      <div class="rc-split__col">
-        <h4 class="rx-panel__sec-title">Как запись выглядит после нормализации</h4>
-        <p class="rx-panel__sec-sh">Превращаем сырую строку в единую карточку ИТ-актива.</p>
-        <div class="rc-split__body">
-          ${show.length ? `<div class="rx-table-wrap rc-sc" id="${scId}" data-rc-sc="${show.length}">
-            ${show.map((a, i) => rcShowcaseCard(a, i, i === 0)).join('')}
-          </div>` : '<p class="dim">Примеров нет</p>'}
-        </div>
-        <div class="rc-split__foot">
-          ${show.length > 1 ? `<button type="button" class="rx-panel__more" data-rc-next="${scId}">Показать другие примеры →</button>` : ''}
-        </div>
-      </div>
+      ${showBlock}
+      ${mapBlock}
     </div>
   </section>`;
 }
