@@ -1391,6 +1391,6 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rc-sc__k{color:var(--ink-3);width:42%;padding-right:12px!important}
 
 @media print{
-  .rx-cta,.demo-warn,.rx-sym__more,.rx-collapse,.xtoggle,.rx-panel__more{display:none!important}
+  .rx-cta,.rx-final,.demo-warn,.rx-sym__more,.rx-collapse,.xtoggle,.rx-panel__more{display:none!important}
   .rx-panel[hidden],.xmore[hidden]{display:block!important}
 }
