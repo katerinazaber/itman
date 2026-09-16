@@ -141,7 +141,7 @@ function renderReconcile(rec, core) {
       </div>
     </div>
 
-    <div class="rc-frame">
+    <div class="rc-results">
       <h4 class="rx-panel__sec-title">Результаты сверки</h4>
       <div class="rc-norm">
         <div class="rc-norm__card">
