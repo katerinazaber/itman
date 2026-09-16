@@ -964,6 +964,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rx-table th{
   background:#FFF5F6;color:var(--ink-2);padding:14px 16px;border-bottom:1px solid rgba(221,12,41,.14);
   font-size:16px;font-weight:750;text-align:left;line-height:1.55;
+  height:56px;box-sizing:border-box;vertical-align:middle;
 }
 .rx-table th.num,.rx-table td.num{text-align:right;white-space:nowrap}
 .rx-table th:first-child,.rx-table td:first-child{padding-left:16px}
@@ -1233,7 +1234,8 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rc-sc__slide[hidden]{display:none!important}
 .rc-sc__raw{
   display:flex;gap:12px;align-items:center;
-  padding:14px 16px;margin:0;box-sizing:border-box;
+  padding:0 16px;margin:0;box-sizing:border-box;
+  height:56px;min-height:56px;
   background:#FFF5F6;border:0;border-radius:0;
   border-bottom:1px solid rgba(221,12,41,.14);
 }
@@ -1244,13 +1246,15 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
   color:var(--ink-2);margin:0;line-height:1.55;white-space:nowrap;
 }
 .rc-sc__raw-main{
-  display:flex;align-items:baseline;gap:10px;min-width:0;flex:1 1 auto;
+  display:flex;align-items:baseline;gap:12px;min-width:0;flex:1 1 auto;
 }
 .rc-sc__raw-main .rx-spell__name{
   min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  line-height:1.55;
 }
 .rc-sc__raw-main .rx-spell__meta{
-  flex:0 0 auto;margin-top:0;white-space:nowrap;
+  flex:0 1 auto;margin-top:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  max-width:42%;
 }
 .rc-sc__arrow{text-align:center;color:var(--ink-3);font-size:18px;padding:8px 16px}
 .rc-sc__table{border:0;width:100%}
