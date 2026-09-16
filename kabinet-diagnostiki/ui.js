@@ -174,8 +174,9 @@ function rxPanelHead(title, badge, id) {
   </div>`;
 }
 
+let RXSEQ = 0;
 function xtable(head, rows, preview, moreLabel) {
-  const id = 'x' + (++(window.__XSEQ = window.__XSEQ || 0));
+  const id = 'x' + (++RXSEQ);
   const rest = rows.slice(preview);
   return `<div class="scroll"><table class="rx-table">${head}
       <tbody>${rows.slice(0, preview).join('')}</tbody>
@@ -388,7 +389,7 @@ function renderCost(a) {
 
 function render(a) {
   const st = indexStatus(a.index);
-  window.__XSEQ = 0;
+  RXSEQ = 0;
 
   const html = `
   <div class="rx">
