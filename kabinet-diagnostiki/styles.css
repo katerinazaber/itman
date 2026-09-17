@@ -1304,7 +1304,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
   background:var(--red-l);color:var(--red);
 }
 .rc-biz__ico svg{width:20px;height:20px;color:var(--red);stroke:var(--red)}
-.rc-biz__i p{margin:0;font-size:15px;font-weight:600;color:var(--ink);line-height:1.4}
+.rc-biz__i p{margin:0;font-size:15px;font-weight:400;color:var(--ink);line-height:1.4}
 
 .rc-split{
   display:grid;

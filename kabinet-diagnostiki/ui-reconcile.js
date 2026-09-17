@@ -167,7 +167,7 @@ function renderReconcile(rec, core) {
     </div>
 
     <div class="rc-biz-block">
-      <h4 class="rx-panel__sec-title">Это позволяет компаниям:</h4>
+      <h4 class="rx-panel__sec-title">«Призма данных» позволяет компаниям</h4>
       <div class="rc-biz">
         <div class="rc-biz__i">
           <span class="rc-biz__ico" aria-hidden="true">${ICO.db}</span>
