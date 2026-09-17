@@ -224,7 +224,8 @@ textarea:focus{outline:2px solid rgba(221,12,41,.25);border-color:var(--red)}
 
 html{overflow-x:hidden}
 body{overflow-x:hidden}
-img,svg{max-width:100%;height:auto}
+img{max-width:100%;height:auto}
+svg{max-width:100%}
 .wrap,.hero__inner,.hero__content,.hero__copy,.assure,.stage,.card{min-width:0}
 
 @media (max-width:1280px){
