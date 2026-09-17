@@ -934,7 +934,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rx-impact__i--info .rx-impact__ico{color:var(--red)}
 .rx-impact__ico{flex:0 0 auto;width:22px;height:22px;color:var(--red);margin-top:2px}
 .rx-impact__ico svg{width:100%;height:100%}
-.rx-impact__i b{display:block;font-size:16px;margin-bottom:6px;line-height:1.35;color:var(--ink);font-weight:750}
+.rx-impact__i b{display:block;font-size:16px;margin-bottom:6px;line-height:1.35;color:var(--ink);font-weight:600}
 .rx-impact__i p{margin:0;font-size:16px;color:var(--ink-2);line-height:1.55}
 
 .rx-panel__grid{display:grid;grid-template-columns:1.55fr .95fr;gap:28px;margin-bottom:8px;align-items:start}
@@ -1290,15 +1290,56 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rc-biz__i p{margin:0;font-size:16px;color:var(--ink-2);line-height:1.55}
 .rc-biz__i p .rc-hi{display:inline;font-weight:800;color:var(--red);margin:0;font-size:inherit}
 
-.rc-stack{
-  display:flex;flex-direction:column;gap:28px;
+.rc-split{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:auto minmax(360px,1fr) auto;
+  column-gap:24px;
+  row-gap:8px;
+  align-items:stretch;
 }
-.rc-stack__head{margin-bottom:12px}
-.rc-stack__head .rx-panel__sec-title{margin:0 0 8px}
-.rc-stack__head .rx-panel__sec-sh{margin:0}
-.rc-stack__foot{margin-top:12px}
-.rc-stack__foot .rx-panel__more{margin:0}
-.rc-stack .rc-sc{max-width:720px}
+@media(max-width:960px){
+  .rc-split{
+    grid-template-columns:1fr;
+    grid-template-rows:none;
+  }
+  .rc-split__col{
+    display:flex;flex-direction:column;
+    grid-row:auto;
+  }
+  .rc-split__head{margin-bottom:8px}
+  .rc-split__body{min-height:0}
+  .rc-split__foot{margin-top:12px}
+}
+.rc-split__col{
+  display:grid;
+  grid-template-rows:subgrid;
+  grid-row:1 / span 3;
+  min-width:0;
+}
+.rc-split__head{
+  grid-row:1;
+  min-height:0;
+  display:flex;flex-direction:column;justify-content:flex-start;
+}
+.rc-split__head .rx-panel__sec-title{margin:0 0 8px}
+.rc-split__head .rx-panel__sec-sh{margin:0}
+.rc-split__body{
+  grid-row:2;
+  min-height:0;min-width:0;
+  display:flex;flex-direction:column;
+}
+.rc-split__body > .rx-table-wrap,
+.rc-split__body > .rc-sc{
+  flex:1 1 auto;height:100%;min-height:100%;
+  box-sizing:border-box;
+}
+.rc-split__foot{
+  grid-row:3;
+  display:flex;align-items:center;min-height:28px;
+  margin:0;
+}
+.rc-split__foot .rx-panel__more{margin:0}
 
 .rc-ba__arr{width:36px;text-align:center;color:var(--red);font-size:16px;font-weight:700}
 .rc-ba__via{

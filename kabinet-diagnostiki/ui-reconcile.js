@@ -66,7 +66,7 @@ function renderReconcile(rec, core) {
   const share = rec.licensable ? rec.known / rec.licensable : 0;
   const hours = workHours(rec.known * MIN_PER_ROW);
 
-  const PREVIEW = 8;
+  const PREVIEW = 5;
   const tid = 'rc-ba-' + (++RXSEQ);
   const baRows = rec.rows.map(r => `<tr>
       <td>
@@ -87,12 +87,13 @@ function renderReconcile(rec, core) {
   const knownPhrase = `${nfmt(rec.known)}&nbsp;${plural(rec.known, 'запись не требует', 'записи не требуют', 'записей не требуют')} ручного разбора аналитиком.&nbsp;Это около <b class="rc-hi">${hours}</b> работы.`;
 
   const mapBlock = `
-      <div class="rc-stack__block">
-        <div class="rc-stack__head">
+      <div class="rc-split__col">
+        <div class="rc-split__head">
           <h4 class="rx-panel__sec-title">Что удалось привести к эталону?</h4>
           <p class="rx-panel__sec-sh">Слева — как записано в вашей выгрузке, справа — эталонное наименование.</p>
         </div>
-        ${rec.rows.length ? `<div class="scroll rx-table-wrap"><table class="rx-table rc-ba-table">
+        <div class="rc-split__body">
+          ${rec.rows.length ? `<div class="scroll rx-table-wrap"><table class="rx-table rc-ba-table">
             <thead><tr>
               <th>Ваша запись</th>
               <th></th>
@@ -101,24 +102,27 @@ function renderReconcile(rec, core) {
             <tbody>${baRows.slice(0, PREVIEW).join('')}</tbody>
             ${rest.length ? `<tbody class="xmore" id="${tid}" hidden>${rest.join('')}</tbody>` : ''}
           </table></div>` : '<p class="dim">Примеров нет</p>'}
-        ${rest.length ? `<div class="rc-stack__foot">
-          <button type="button" class="rx-panel__more xtoggle" data-x="${tid}" data-n="${rest.length}"
-            data-open-label="Показать больше примеров →" data-close-label="Свернуть">Показать больше примеров →</button>
-        </div>` : ''}
+        </div>
+        <div class="rc-split__foot">
+          ${rest.length ? `<button type="button" class="rx-panel__more xtoggle" data-x="${tid}" data-n="${rest.length}"
+            data-open-label="Показать больше примеров →" data-close-label="Свернуть">Показать больше примеров →</button>` : ''}
+        </div>
       </div>`;
 
   const showBlock = `
-      <div class="rc-stack__block">
-        <div class="rc-stack__head">
+      <div class="rc-split__col">
+        <div class="rc-split__head">
           <h4 class="rx-panel__sec-title">Как выглядит запись после нормализации</h4>
           <p class="rx-panel__sec-sh">Превращаем сырую строку в единую карточку ИТ-актива.</p>
         </div>
-        ${show.length ? `<div class="rx-table-wrap rc-sc" id="${scId}" data-rc-sc="${show.length}">
+        <div class="rc-split__body">
+          ${show.length ? `<div class="rx-table-wrap rc-sc" id="${scId}" data-rc-sc="${show.length}">
             ${show.map((a, i) => rcShowcaseCard(a, i, i === 0)).join('')}
           </div>` : '<p class="dim">Примеров нет</p>'}
-        ${show.length > 1 ? `<div class="rc-stack__foot">
-          <button type="button" class="rx-panel__more" data-rc-next="${scId}">Показать другие примеры →</button>
-        </div>` : ''}
+        </div>
+        <div class="rc-split__foot">
+          ${show.length > 1 ? `<button type="button" class="rx-panel__more" data-rc-next="${scId}">Показать другие примеры →</button>` : ''}
+        </div>
       </div>`;
 
   return `
@@ -134,7 +138,7 @@ function renderReconcile(rec, core) {
         </div>
       </div>
       <div class="rc-hero__visual">
-        <img class="rc-monitor" src="assets/prism-monitor.png?v=142" alt="Экран каталога «Призма данных»" width="1551" height="1014" decoding="async">
+        <img class="rc-monitor" src="assets/prism-monitor.png?v=144" alt="Экран каталога «Призма данных»" width="1551" height="1014" decoding="async">
       </div>
     </div>
 
@@ -194,7 +198,7 @@ function renderReconcile(rec, core) {
       </div>
     </div>
 
-    <div class="rc-stack">
+    <div class="rc-split">
       ${mapBlock}
       ${showBlock}
     </div>
