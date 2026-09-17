@@ -124,24 +124,15 @@ function renderReconcile(rec, core) {
         <div class="rc-feats">
           <div class="rc-feat">
             <span class="rc-feat__ico" aria-hidden="true">${ICO.db}</span>
-            <div>
-              <b>Единый каталог ПО</b>
-              <span>Все данные о ПО в едином формате</span>
-            </div>
+            <span>Единый каталог ПО</span>
           </div>
           <div class="rc-feat">
             <span class="rc-feat__ico" aria-hidden="true">${ICO.bolt}</span>
-            <div>
-              <b>ML-нормализация</b>
-              <span>Распознавание и объединение названий</span>
-            </div>
+            <span>Интеллектуальная ML-нормализация</span>
           </div>
           <div class="rc-feat">
             <span class="rc-feat__ico" aria-hidden="true">${ICO.shield}</span>
-            <div>
-              <b>Лицензионные данные</b>
-              <span>ПО, артикулы и правила лицензирования</span>
-            </div>
+            <span>Лицензии, ПО, артикулы в одном месте</span>
           </div>
         </div>
       </div>
