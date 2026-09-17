@@ -6,15 +6,6 @@ function pct(x) {
   return (x * 100).toFixed(x >= 0.995 ? 0 : 1).replace('.', ',') + '%';
 }
 
-const MIN_PER_ROW = 2;
-function workHours(minutes) {
-  const h = minutes / 60;
-  if (h < 1) return `${Math.round(minutes)} мин`;
-  if (h < 10) return `${h.toFixed(1).replace('.', ',')} часа`;
-  if (h < 80) return `${Math.round(h)} ч`;
-  return `${Math.round(h)} ч (${Math.round(h / 8)} ${plural(Math.round(h / 8), 'рабочий день', 'рабочих дня', 'рабочих дней')})`;
-}
-
 function rcDonut(share) {
   const R = 41, C = 2 * Math.PI * R;
   const on = C * Math.max(0, Math.min(1, share));
