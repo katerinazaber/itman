@@ -553,52 +553,57 @@ function render(a) {
   <div id="rx-step2">${STATE.recon ? renderReconcile(STATE.recon, CORE) : ''}</div>
 
   <section class="rx-final" id="cta">
-    <div class="rx-final__bg" aria-hidden="true"></div>
-    <div class="rx-final__veil" aria-hidden="true"></div>
-    <div class="rx-final__deco" aria-hidden="true"><span></span></div>
     <div class="rx-final__inner">
       <span class="rx-final__tag"><span class="rx-final__tag-plus" aria-hidden="true">${ICO.plus}</span> Это была диагностика. <em>Теперь лечение</em></span>
       <h3 class="rx-final__title">Хотите вылечить свою базу лицензий <span>и&nbsp;ПО?</span></h3>
       <p class="rx-final__sub">Протестируйте «Призму данных» в своей компании!</p>
       <p class="rx-final__lead">Нормализация на вашей выгрузке: единые наименования, сверка с эталонным каталогом и понятный следующий шаг по лицензиям.</p>
 
-      <div class="rx-final__cards">
-        <div class="rx-final__card">
-          <span class="rx-final__card-ico" aria-hidden="true">${ICO.dup}</span>
-          <b>Тестирование на своих данных</b>
-          <span>Прогоняем нормализацию на той же выгрузке, что вы только что разобрали.</span>
+      <div class="rx-final__main">
+        <div class="rx-final__cards">
+          <div class="rx-final__card">
+            <span class="rx-final__card-ico" aria-hidden="true">${ICO.dup}</span>
+            <div>
+              <b>Тестирование на своих данных</b>
+              <span>Прогоняем нормализацию на той же выгрузке, что вы только что разобрали.</span>
+            </div>
+          </div>
+          <div class="rx-final__card">
+            <span class="rx-final__card-ico" aria-hidden="true">${ICO.chart}</span>
+            <div>
+              <b>Понятный результат</b>
+              <span>Видно, что уже сошлось с эталоном и где ещё нужен разбор аналитика.</span>
+            </div>
+          </div>
+          <div class="rx-final__card">
+            <span class="rx-final__card-ico" aria-hidden="true">${ICO.db}</span>
+            <div>
+              <b>Каталог «Призма данных»</b>
+              <span>Сопоставление с сотнями тысяч эталонных позиций без ручной сверки.</span>
+            </div>
+          </div>
         </div>
-        <div class="rx-final__card">
-          <span class="rx-final__card-ico" aria-hidden="true">${ICO.chart}</span>
-          <b>Понятный результат</b>
-          <span>Видно, что уже сошлось с эталоном и где ещё нужен разбор аналитика.</span>
-        </div>
-        <div class="rx-final__card">
-          <span class="rx-final__card-ico" aria-hidden="true">${ICO.db}</span>
-          <b>Каталог «Призма данных»</b>
-          <span>Сопоставление с сотнями тысяч эталонных позиций без ручной сверки.</span>
-        </div>
-      </div>
 
-      <form class="rx-final__form form" id="lead" novalidate>
-        <h4 class="rx-final__form-title">Получите результаты на свою почту</h4>
-        <label class="rx-final__field">
-          <span class="rx-final__field-ico" aria-hidden="true">${ICO.user}</span>
-          <input id="lName" name="name" placeholder="Фамилия и имя" autocomplete="name">
-        </label>
-        <label class="rx-final__field">
-          <span class="rx-final__field-ico" aria-hidden="true">${ICO.building}</span>
-          <input id="lCompany" name="company" placeholder="Компания и должность" autocomplete="organization">
-        </label>
-        <label class="rx-final__field">
-          <span class="rx-final__field-ico" aria-hidden="true">${ICO.mail}</span>
-          <input id="lEmail" name="email" type="email" placeholder="Рабочая почта" autocomplete="email">
-        </label>
-        <div class="err" id="lErr"></div>
-        <button type="submit" class="btn btn-p rx-final__submit">Протестировать «Призму данных» <span aria-hidden="true">→</span></button>
-        <p class="rx-final__note"><span class="rx-final__note-ico" aria-hidden="true">${ICO.lock}</span> Исходный файл остаётся в браузере. На почту уходит только выписка по результатам диагностики.</p>
-        <button type="button" class="rx-final__print" id="print">Скачать полный отчет</button>
-      </form>
+        <form class="rx-final__form form" id="lead" novalidate>
+          <h4 class="rx-final__form-title">Получите результаты на свою почту</h4>
+          <label class="rx-final__field">
+            <span class="rx-final__field-ico" aria-hidden="true">${ICO.user}</span>
+            <input id="lName" name="name" placeholder="Фамилия и имя" autocomplete="name">
+          </label>
+          <label class="rx-final__field">
+            <span class="rx-final__field-ico" aria-hidden="true">${ICO.building}</span>
+            <input id="lCompany" name="company" placeholder="Компания и должность" autocomplete="organization">
+          </label>
+          <label class="rx-final__field">
+            <span class="rx-final__field-ico" aria-hidden="true">${ICO.mail}</span>
+            <input id="lEmail" name="email" type="email" placeholder="Рабочая почта" autocomplete="email">
+          </label>
+          <div class="err" id="lErr"></div>
+          <button type="submit" class="btn btn-p rx-final__submit">Протестировать «Призму данных» <span aria-hidden="true">→</span></button>
+          <p class="rx-final__note"><span class="rx-final__note-ico" aria-hidden="true">${ICO.lock}</span> Исходный файл остаётся в браузере. На почту уходит только выписка по результатам диагностики.</p>
+          <button type="button" class="rx-final__print" id="print">Скачать полный отчет</button>
+        </form>
+      </div>
 
       <div class="rx-final__bar">
         <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.chart}</span><div><b>Меньше хаоса</b><span>единые наименования вместо дублей</span></div></div>
