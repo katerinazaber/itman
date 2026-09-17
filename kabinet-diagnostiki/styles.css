@@ -1249,11 +1249,11 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rc-results > .rx-panel__sec-title{margin-bottom:14px}
 @media(max-width:900px){.rc-hero{grid-template-columns:1fr}}
 .rc-title.rx-h{
-  margin:14px 0 0;
+  margin:18px 0 0;
   font-size:clamp(26px, 2.6vw, 32px);font-weight:800;letter-spacing:-.03em;line-height:1.15;color:var(--ink);
 }
 .rc-title__hi,.rc-hi{color:var(--red);font-weight:800}
-.rc-prism__lead{margin:14px 0 0!important;max-width:none}
+.rc-prism__lead{margin:18px 0 0!important;max-width:none}
 .rc-feats{
   display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
   gap:12px 18px;margin:18px 0 0;width:100%;align-items:center;
