@@ -1256,7 +1256,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rc-prism__lead{margin:18px 0 0!important;max-width:none}
 .rc-feats{
   display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:12px 18px;margin:28px 0 0;width:100%;align-items:center;
+  gap:12px 18px;margin:44px 0 0;width:100%;align-items:center;
 }
 .rc-feat{
   display:grid;grid-template-columns:36px minmax(0,1fr);
