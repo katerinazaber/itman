@@ -618,12 +618,6 @@ function render(a) {
           <button type="button" class="rx-final__print" id="print" hidden>Скачать полный отчет</button>
         </form>
       </div>
-
-      <div class="rx-final__bar">
-        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.db}</span><div><b>Единый каталог ПО</b><span>Все данные о ПО в едином формате</span></div></div>
-        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.bolt}</span><div><b>ML-нормализация</b><span>Распознавание и объединение названий</span></div></div>
-        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.shield}</span><div><b>Лицензионные данные</b><span>ПО, артикулы и правила лицензирования</span></div></div>
-      </div>
     </div>
   </section>
   </div>`;
