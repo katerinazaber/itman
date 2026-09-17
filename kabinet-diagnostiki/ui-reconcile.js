@@ -124,7 +124,15 @@ function renderReconcile(rec, core) {
         <div class="rc-feats">
           <div class="rc-feat">
             <span class="rc-feat__ico" aria-hidden="true">${ICO.db}</span>
-            <span><b class="rc-hi">«Призма данных»</b> превращает хаотичные данные об установленном ПО в единый структурированный каталог программных активов.</span>
+            <span>Единый каталог ПО</span>
+          </div>
+          <div class="rc-feat">
+            <span class="rc-feat__ico" aria-hidden="true">${ICO.bolt}</span>
+            <span>Точные соответствия</span>
+          </div>
+          <div class="rc-feat">
+            <span class="rc-feat__ico" aria-hidden="true">${ICO.shield}</span>
+            <span>Порядок в данных и меньше рисков</span>
           </div>
         </div>
       </div>
