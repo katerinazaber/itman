@@ -589,7 +589,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .sect.recon{border-top:3px solid var(--red)}
 .sect.prob{border-top:3px solid #d99a1c}
 .rc-hero{display:grid;grid-template-columns:1fr 300px;gap:28px;align-items:center;
-  padding:20px 22px;margin:-4px 0 20px;border-radius:14px;background:linear-gradient(180deg,#fbfbfc,#f6f6f8)}
+  padding:0;margin:0;border-radius:0;background:transparent}
 @media(max-width:820px){.rc-hero{grid-template-columns:1fr;gap:18px}}
 .rc-hero h3{font-size:23px;margin:0 0 8px}
 .rc-hero-r{text-align:right}
@@ -637,7 +637,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .sect.recon{border-top:3px solid var(--red)}
 .sect.prob{border-top:3px solid #d99a1c}
 .rc-hero{display:grid;grid-template-columns:1fr 300px;gap:28px;align-items:center;
-  padding:20px 22px;margin:-4px 0 20px;border-radius:14px;background:linear-gradient(180deg,#fbfbfc,#f6f6f8)}
+  padding:0;margin:0;border-radius:0;background:transparent}
 @media(max-width:820px){.rc-hero{grid-template-columns:1fr;gap:18px}}
 .rc-hero h3{font-size:23px;margin:0 0 8px}
 .rc-hero-r{text-align:right}
@@ -1239,7 +1239,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 
 .rc-hero{
   display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,.9fr);
-  gap:20px 28px;align-items:center;margin-bottom:36px;
+  gap:20px 28px;align-items:center;margin:0 0 36px;
   padding:0;border-radius:0;background:transparent;border:0;box-shadow:none;
 }
 .rc-results{
