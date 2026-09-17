@@ -1237,12 +1237,14 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .sect.recon .rx-sh b{color:var(--ink);font-weight:750}
 
 .rc-hero{
-  display:grid;grid-template-columns:minmax(0,1.05fr) minmax(260px,.95fr);
-  gap:24px 32px;align-items:start;margin-bottom:28px;
-  padding:22px 22px;border-radius:14px;background:#FBFCFD;
-  border:1px solid var(--line-2);box-shadow:none;
+  display:grid;grid-template-columns:minmax(0,1.05fr) minmax(280px,1fr);
+  gap:28px 36px;align-items:center;margin-bottom:24px;
+  padding:0;border-radius:0;background:transparent;border:0;box-shadow:none;
 }
-.rc-results{margin:0 0 28px}
+.rc-results{
+  margin:0 0 28px;padding:22px 22px 20px;border-radius:14px;
+  background:#FBFCFD;border:1px solid var(--line-2);
+}
 .rc-results > .rx-panel__sec-title{margin-bottom:14px}
 @media(max-width:900px){.rc-hero{grid-template-columns:1fr}}
 .rc-title.rx-h{
@@ -1250,13 +1252,34 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
   font-size:clamp(26px, 2.6vw, 32px);font-weight:800;letter-spacing:-.03em;line-height:1.15;color:var(--ink);
 }
 .rc-title__hi,.rc-hi{color:var(--red);font-weight:800}
-.rc-prism{margin-top:18px}
-.rc-prism__lead{margin:0 0 12px!important;max-width:58ch}
-.rc-prism__lead:last-child{margin-bottom:0!important}
+.rc-prism__bullets{
+  list-style:none;margin:16px 0 0;padding:0;max-width:52ch;
+}
+.rc-prism__bullets li{
+  position:relative;padding-left:18px;margin:0;
+  font-size:16px;line-height:1.55;font-weight:400;color:var(--ink-2);
+}
+.rc-prism__bullets li::before{
+  content:"";position:absolute;left:0;top:.62em;
+  width:7px;height:7px;border-radius:50%;background:var(--red);
+}
+.rc-feats{
+  display:flex;flex-wrap:wrap;gap:18px 22px;margin-top:22px;align-items:center;
+}
+.rc-feat{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:14.5px;font-weight:400;color:var(--ink-2);line-height:1.35;
+}
+.rc-feat__ico{
+  flex:0 0 auto;width:36px;height:36px;border-radius:10px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--red-l);color:var(--red);
+}
+.rc-feat__ico svg{width:18px;height:18px;color:var(--red);stroke:var(--red)}
 .rc-hero__visual{justify-self:end;max-width:100%;margin-top:0}
 @media(max-width:900px){.rc-hero__visual{justify-self:center}}
 .rc-monitor{
-  display:block;width:100%;max-width:580px;height:auto;background:transparent;
+  display:block;width:100%;max-width:560px;height:auto;background:transparent;
   image-rendering:auto;-webkit-font-smoothing:antialiased;
 }
 
