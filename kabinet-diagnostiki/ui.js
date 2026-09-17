@@ -181,7 +181,9 @@ const ICO = {
   building: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V7l8-3 8 3v13"/><path d="M9 20v-5h6v5M9 10h.01M15 10h.01M9 14h.01M15 14h.01"/></svg>',
   mail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3.5" y="6" width="17" height="12" rx="2"/><path d="M4 7.5l8 5.5 8-5.5"/></svg>',
   lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
-  db: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><ellipse cx="12" cy="6" rx="7" ry="2.5"/><path d="M5 6v6c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5V6"/><path d="M5 12v6c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-6"/></svg>'
+  db: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><ellipse cx="12" cy="6" rx="7" ry="2.5"/><path d="M5 6v6c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5V6"/><path d="M5 12v6c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-6"/></svg>',
+  shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3.5l7 2.5v5.2c0 4.2-2.9 7.8-7 9.3-4.1-1.5-7-5.1-7-9.3V6L12 3.5z"/><path d="M9 12l2 2 4-4"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>'
 };
 
 function rxImpact(items) {
@@ -553,42 +555,32 @@ function render(a) {
   <section class="rx-final" id="cta">
     <div class="rx-final__bg" aria-hidden="true"></div>
     <div class="rx-final__veil" aria-hidden="true"></div>
+    <div class="rx-final__deco" aria-hidden="true"></div>
     <div class="rx-final__inner">
-      <div class="rx-final__grid">
-        <div class="rx-final__copy">
-          <span class="rx-final__tag">Это была диагностика. Дальше — лечение</span>
-          <h3 class="rx-final__title">Теперь протестируйте <span>«Призму данных»</span></h3>
-          <p class="rx-final__lead">Нормализация на вашей выгрузке: единые наименования, сверка с эталонным каталогом и понятный следующий шаг по лицензиям.</p>
-          <ul class="rx-final__feats">
-            <li>
-              <span class="rx-final__fico" aria-hidden="true">${ICO.db}</span>
-              <div>
-                <b>Тестирование на своих данных</b>
-                <span>Прогоняем нормализацию на той же выгрузке, что вы только что разобрали.</span>
-              </div>
-            </li>
-            <li>
-              <span class="rx-final__fico" aria-hidden="true">${ICO.chart}</span>
-              <div>
-                <b>Понятный результат</b>
-                <span>Видно, что уже сошлось с эталоном и где ещё нужен разбор аналитика.</span>
-              </div>
-            </li>
-            <li>
-              <span class="rx-final__fico" aria-hidden="true">${ICO.dup}</span>
-              <div>
-                <b>Каталог «Призма данных»</b>
-                <span>Сопоставление с сотнями тысяч эталонных позиций без ручной сверки.</span>
-              </div>
-            </li>
-          </ul>
-        </div>
+      <span class="rx-final__tag"><span class="rx-final__tag-plus" aria-hidden="true">${ICO.plus}</span> Это была диагностика. Теперь лечение</span>
+      <h3 class="rx-final__title">Хотите вылечить свою базу лицензий <span>и&nbsp;ПО?</span></h3>
+      <p class="rx-final__sub">Протестируйте «Призму данных» в своей компании!</p>
+      <p class="rx-final__lead">Нормализация на вашей выгрузке: единые наименования, сверка с эталонным каталогом и понятный следующий шаг по лицензиям.</p>
 
-        <div class="rx-final__visual" aria-hidden="true">
-          <img class="rx-final__monitor" src="assets/prism-monitor.png?v=140" alt="" width="1551" height="1014" decoding="async">
-          <p class="rx-final__hint">К единым данным — быстрее</p>
+      <div class="rx-final__cards">
+        <div class="rx-final__card">
+          <span class="rx-final__card-ico" aria-hidden="true">${ICO.dup}</span>
+          <b>Тестирование на своих данных</b>
+          <span>Прогоняем нормализацию на той же выгрузке, что вы только что разобрали.</span>
         </div>
+        <div class="rx-final__card">
+          <span class="rx-final__card-ico" aria-hidden="true">${ICO.chart}</span>
+          <b>Понятный результат</b>
+          <span>Видно, что уже сошлось с эталоном и где ещё нужен разбор аналитика.</span>
+        </div>
+        <div class="rx-final__card">
+          <span class="rx-final__card-ico" aria-hidden="true">${ICO.db}</span>
+          <b>Каталог «Призма данных»</b>
+          <span>Сопоставление с сотнями тысяч эталонных позиций без ручной сверки.</span>
+        </div>
+      </div>
 
+      <div class="rx-final__row">
         <form class="rx-final__form form" id="lead" novalidate>
           <h4 class="rx-final__form-title">Получите результаты на свою почту</h4>
           <label class="rx-final__field">
@@ -608,12 +600,15 @@ function render(a) {
           <p class="rx-final__note"><span class="rx-final__note-ico" aria-hidden="true">${ICO.lock}</span> Исходный файл остаётся в браузере. На почту уходит только выписка по результатам диагностики.</p>
           <button type="button" class="rx-final__print" id="print">Скачать полный отчет</button>
         </form>
+        <div class="rx-final__visual" aria-hidden="true">
+          <img class="rx-final__photo" src="assets/final-rx.jpg?v=149" alt="" width="989" height="1024" decoding="async">
+        </div>
       </div>
 
       <div class="rx-final__bar">
-        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.check}</span><b>Быстро</b> <span>первые результаты — за несколько минут</span></div>
-        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.check}</span><b>Удобно</b> <span>та же выгрузка, без подготовки заново</span></div>
-        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.check}</span><b>Безопасно</b> <span>данные не уходят на сервер диагностики</span></div>
+        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.chart}</span><div><b>Меньше хаоса</b><span>единые наименования вместо дублей</span></div></div>
+        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.shield}</span><div><b>Больше контроля</b><span>понятный состав установленного ПО</span></div></div>
+        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.coin}</span><div><b>Реальная экономия</b><span>лицензии считаются по эталону</span></div></div>
       </div>
     </div>
   </section>
@@ -700,7 +695,7 @@ async function onLead(e) {
   $('#lead').outerHTML = `<div class="rx-final__form form done">
     <div class="rx-final__done-ico" aria-hidden="true">✓</div>
     <h3 class="rx-final__form-title">Записали</h3>
-    <p class="rx-final__lead">Выписку и материалы отправим на ${esc(mail)}.</p>
+    <p class="rx-final__done-txt">Выписку и материалы отправим на ${esc(mail)}.</p>
     <a class="btn btn-p rx-final__submit" style="text-decoration:none;margin-top:16px" href="${CONFIG.clinicUrl}">Войти в клинику →</a>
   </div>`;
 }
