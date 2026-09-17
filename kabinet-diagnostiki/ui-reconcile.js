@@ -119,26 +119,17 @@ function renderReconcile(rec, core) {
       <div class="rc-hero__text">
         <span class="dx-tag"><span class="dx-tag__ico" aria-hidden="true">${ICO.pulse}</span> Нормализация данных</span>
         <h3 class="rx-h rc-title">Сверка с эталонным каталогом ПО <span class="rc-title__hi">«Призма данных»</span></h3>
-        <ul class="rc-prism__bullets">
-          <li><b class="rc-hi">«Призма данных»</b> превращает хаотичные данные об установленном ПО в единый структурированный каталог программных активов.</li>
-        </ul>
+        <p class="rx-sh rc-prism__lead"><b class="rc-hi">«Призма данных»</b> — крупнейшая в России интеллектуальная база знаний о программном обеспечении и лицензиях:
+          более <b class="rc-hi">300&nbsp;000</b> наименований ПО и <b class="rc-hi">45&nbsp;000</b> артикулов (SKU).</p>
         <div class="rc-feats">
           <div class="rc-feat">
             <span class="rc-feat__ico" aria-hidden="true">${ICO.db}</span>
-            <span>Единый каталог ПО</span>
-          </div>
-          <div class="rc-feat">
-            <span class="rc-feat__ico" aria-hidden="true">${ICO.bolt}</span>
-            <span>Точные соответствия</span>
-          </div>
-          <div class="rc-feat">
-            <span class="rc-feat__ico" aria-hidden="true">${ICO.shield}</span>
-            <span>Порядок в данных и меньше рисков</span>
+            <span><b class="rc-hi">«Призма данных»</b> превращает хаотичные данные об установленном ПО в единый структурированный каталог программных активов.</span>
           </div>
         </div>
       </div>
       <div class="rc-hero__visual">
-        <img class="rc-monitor" src="assets/prism-monitor.png?v=159" alt="Экран каталога «Призма данных»" width="1536" height="1024" decoding="async">
+        <img class="rc-monitor" src="assets/prism-monitor.png?v=161" alt="Экран каталога «Призма данных»" width="1536" height="1024" decoding="async">
       </div>
     </div>
 
