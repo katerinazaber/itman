@@ -66,7 +66,7 @@ function renderReconcile(rec, core) {
   const share = rec.licensable ? rec.known / rec.licensable : 0;
   const hours = workHours(rec.known * MIN_PER_ROW);
 
-  const PREVIEW = 5;
+  const PREVIEW = 8;
   const tid = 'rc-ba-' + (++RXSEQ);
   const baRows = rec.rows.map(r => `<tr>
       <td>
@@ -87,13 +87,12 @@ function renderReconcile(rec, core) {
   const knownPhrase = `${nfmt(rec.known)}&nbsp;${plural(rec.known, 'запись не требует', 'записи не требуют', 'записей не требуют')} ручного разбора аналитиком.&nbsp;Это около <b class="rc-hi">${hours}</b> работы.`;
 
   const mapBlock = `
-      <div class="rc-split__col">
-        <div class="rc-split__head">
+      <div class="rc-stack__block">
+        <div class="rc-stack__head">
           <h4 class="rx-panel__sec-title">Что удалось привести к эталону?</h4>
           <p class="rx-panel__sec-sh">Слева — как записано в вашей выгрузке, справа — эталонное наименование.</p>
         </div>
-        <div class="rc-split__body">
-          ${rec.rows.length ? `<div class="scroll rx-table-wrap"><table class="rx-table rc-ba-table">
+        ${rec.rows.length ? `<div class="scroll rx-table-wrap"><table class="rx-table rc-ba-table">
             <thead><tr>
               <th>Ваша запись</th>
               <th></th>
@@ -102,34 +101,31 @@ function renderReconcile(rec, core) {
             <tbody>${baRows.slice(0, PREVIEW).join('')}</tbody>
             ${rest.length ? `<tbody class="xmore" id="${tid}" hidden>${rest.join('')}</tbody>` : ''}
           </table></div>` : '<p class="dim">Примеров нет</p>'}
-        </div>
-        <div class="rc-split__foot">
-          ${rest.length ? `<button type="button" class="rx-panel__more xtoggle" data-x="${tid}" data-n="${rest.length}"
-            data-open-label="Показать больше примеров →" data-close-label="Свернуть">Показать больше примеров →</button>` : ''}
-        </div>
+        ${rest.length ? `<div class="rc-stack__foot">
+          <button type="button" class="rx-panel__more xtoggle" data-x="${tid}" data-n="${rest.length}"
+            data-open-label="Показать больше примеров →" data-close-label="Свернуть">Показать больше примеров →</button>
+        </div>` : ''}
       </div>`;
 
   const showBlock = `
-      <div class="rc-split__col">
-        <div class="rc-split__head">
+      <div class="rc-stack__block">
+        <div class="rc-stack__head">
           <h4 class="rx-panel__sec-title">Как выглядит запись после нормализации</h4>
           <p class="rx-panel__sec-sh">Превращаем сырую строку в единую карточку ИТ-актива.</p>
         </div>
-        <div class="rc-split__body">
-          ${show.length ? `<div class="rx-table-wrap rc-sc" id="${scId}" data-rc-sc="${show.length}">
+        ${show.length ? `<div class="rx-table-wrap rc-sc" id="${scId}" data-rc-sc="${show.length}">
             ${show.map((a, i) => rcShowcaseCard(a, i, i === 0)).join('')}
           </div>` : '<p class="dim">Примеров нет</p>'}
-        </div>
-        <div class="rc-split__foot">
-          ${show.length > 1 ? `<button type="button" class="rx-panel__more" data-rc-next="${scId}">Показать другие примеры →</button>` : ''}
-        </div>
+        ${show.length > 1 ? `<div class="rc-stack__foot">
+          <button type="button" class="rx-panel__more" data-rc-next="${scId}">Показать другие примеры →</button>
+        </div>` : ''}
       </div>`;
 
   return `
   <section class="card sect recon" id="rx-recon">
     <div class="rc-hero">
       <div class="rc-hero__text">
-        <span class="dx-tag"><span class="dx-tag__ico" aria-hidden="true">${ICO.pulse}</span> Диагноз поставлен. Назначение лечения</span>
+        <span class="dx-tag"><span class="dx-tag__ico" aria-hidden="true">${ICO.pulse}</span> Нормализация данных</span>
         <h3 class="rx-h rc-title">Сверка с эталонным каталогом ПО <span class="rc-title__hi">«Призма данных»</span></h3>
         <div class="rc-prism">
           <p class="rx-sh rc-prism__lead"><b class="rc-hi">«Призма данных»</b> — крупнейшая в России интеллектуальная база знаний о программном обеспечении и лицензиях:
@@ -138,7 +134,7 @@ function renderReconcile(rec, core) {
         </div>
       </div>
       <div class="rc-hero__visual">
-        <img class="rc-monitor" src="assets/prism-monitor.png?v=131" alt="Экран каталога «Призма данных»" width="1551" height="1014" decoding="async">
+        <img class="rc-monitor" src="assets/prism-monitor.png?v=142" alt="Экран каталога «Призма данных»" width="1551" height="1014" decoding="async">
       </div>
     </div>
 
@@ -198,7 +194,7 @@ function renderReconcile(rec, core) {
       </div>
     </div>
 
-    <div class="rc-split">
+    <div class="rc-stack">
       ${mapBlock}
       ${showBlock}
     </div>
