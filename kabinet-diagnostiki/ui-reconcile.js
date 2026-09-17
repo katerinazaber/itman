@@ -132,7 +132,7 @@ function renderReconcile(rec, core) {
           </div>
           <div class="rc-feat">
             <span class="rc-feat__ico" aria-hidden="true">${ICO.shield}</span>
-            <span>Лицензии, ПО, артикулы в одном месте</span>
+            <span>Лицензии, ПО,&nbsp;артикулы</span>
           </div>
         </div>
       </div>
