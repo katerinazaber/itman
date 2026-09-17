@@ -138,15 +138,21 @@
       position: relative;
       overflow: hidden;
       background:
-        radial-gradient(ellipse 60% 50% at 85% 40%, rgba(47,111,237,.08), transparent 60%),
+        radial-gradient(ellipse 55% 60% at 78% 45%, rgba(47,111,237,.10), transparent 62%),
         linear-gradient(180deg, #f7f9fc 0%, #eef2f7 100%);
-      padding: 72px 0 80px;
+      min-height: calc(100vh - 72px);
+      display: flex;
+      align-items: center;
+      padding: 56px 0;
     }
     .hero__grid {
       display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 40px;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: 24px;
       align-items: center;
+      width: 100%;
+      position: relative;
+      z-index: 1;
     }
     .eyebrow {
       display: inline-block;
@@ -211,15 +217,24 @@
       line-height: 1.4;
     }
     .hero__visual {
-      position: relative;
-      min-height: 360px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(54vw, 720px);
+      z-index: 0;
+      pointer-events: none;
     }
     .hero__visual img {
       width: 100%;
-      max-width: 560px;
-      margin-left: auto;
-      filter: drop-shadow(0 24px 40px rgba(15, 23, 42, 0.12));
+      height: 100%;
+      object-fit: cover;
+      object-position: center right;
+      margin: 0;
+      max-width: none;
+      filter: none;
     }
+    .hero__content { position: relative; z-index: 1; }
 
     /* Sections */
     section { padding: 88px 0; }
@@ -611,9 +626,19 @@
       .register__grid {
         grid-template-columns: 1fr;
       }
-      .hero { padding: 48px 0 56px; }
-      .hero__visual { min-height: 0; order: -1; }
-      .hero__visual img { margin: 0 auto; max-width: 420px; }
+      .hero { padding: 48px 0 56px; min-height: 0; }
+      .hero__visual {
+        position: relative;
+        width: 100%;
+        height: 280px;
+        margin-bottom: 24px;
+        order: -1;
+      }
+      .hero__grid { display: block; }
+      .hero__visual img {
+        object-fit: cover;
+        object-position: center;
+      }
       section { padding: 64px 0; }
       .footer__top,
       .footer__bottom {
@@ -645,8 +670,11 @@
   </header>
 
   <section class="hero">
+    <div class="hero__visual" aria-hidden="true">
+      <img src="assets/hero-main.jpg" alt="" />
+    </div>
     <div class="wrap hero__grid">
-      <div>
+      <div class="hero__content">
         <div class="eyebrow">Совместный вебинар</div>
         <h1>
           <span>Единый контур управления ИТ:</span>
@@ -678,9 +706,6 @@
           </a>
           <div class="hero__note">Участие бесплатное.<br />Количество мест ограничено.</div>
         </div>
-      </div>
-      <div class="hero__visual">
-        <img src="assets/hero-main.jpg" alt="Интеграция данных ИТМен и АСМО-ВТИПО" />
       </div>
     </div>
   </section>
