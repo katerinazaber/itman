@@ -1097,31 +1097,17 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 }
 @media(max-width:960px){.rx-final__main{grid-template-columns:1fr;gap:24px}}
 .rx-final__copy{min-width:0;display:flex;flex-direction:column}
-.rx-final__tag{
-  display:inline-flex;align-items:center;gap:8px;margin:0 0 16px;padding:0;
-  background:transparent;border:0;
-  color:var(--rx-ink);font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
-}
-.rx-final__tag em{font-style:normal;color:var(--red)}
-.rx-final__tag-plus{
-  width:22px;height:22px;border-radius:6px;background:var(--red);color:#fff;
-  display:inline-flex;align-items:center;justify-content:center;
-}
-.rx-final__tag-plus svg{width:13px;height:13px}
+.rx-final__copy > .dx-tag{margin:0 0 16px;align-self:flex-start}
 .rx-final__title{
-  margin:0 0 10px;font-size:clamp(26px, 2.8vw, 36px);font-weight:800;
+  margin:0 0 12px;font-size:clamp(26px, 2.8vw, 36px);font-weight:800;
   letter-spacing:-.03em;line-height:1.15;color:var(--rx-ink);max-width:none;
 }
 .rx-final__title span{color:var(--red)}
-.rx-final__accent{
-  margin:0 0 10px;font-size:13px;font-weight:800;letter-spacing:.06em;
-  text-transform:uppercase;color:var(--red);line-height:1.3;
-}
 .rx-final__sub{
   margin:0 0 28px;font-size:clamp(16px, 1.5vw, 18px);font-weight:500;line-height:1.45;color:var(--rx-muted);
   max-width:none;
 }
-.rx-final__lead{display:none}
+.rx-final__lead,.rx-final__accent,.rx-final__tag{display:none}
 .rx-final__steps{
   list-style:none;margin:0;padding:0;
   display:flex;flex-direction:column;gap:0;
@@ -1186,14 +1172,8 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
   width:100%;justify-content:center;margin-top:6px;padding:14px 18px;
   font-size:15px;font-weight:750;border-radius:10px;gap:8px;
 }
-.rx-final__note{
-  display:flex;gap:8px;align-items:flex-start;margin:14px 0 0;
-  font-size:12px;line-height:1.45;color:var(--rx-muted);
-}
-.rx-final__note-ico{flex:0 0 auto;width:14px;height:14px;margin-top:1px;color:#8A96A8}
-.rx-final__note-ico svg{width:100%;height:100%;display:block}
 .rx-final__consent{
-  display:flex;gap:8px;align-items:flex-start;margin:12px 0 0;
+  display:flex;gap:8px;align-items:flex-start;margin:14px 0 0;
   font-size:12px;line-height:1.4;color:var(--rx-muted);cursor:pointer;
 }
 .rx-final__consent input[type="checkbox"]{

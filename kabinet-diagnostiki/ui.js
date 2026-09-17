@@ -560,10 +560,9 @@ function render(a) {
     <div class="rx-final__inner">
       <div class="rx-final__main">
         <div class="rx-final__copy">
-          <span class="rx-final__tag"><span class="rx-final__tag-plus" aria-hidden="true">${ICO.plus}</span> Это была диагностика. <em>Теперь&nbsp;— тестируем решение</em></span>
-          <h3 class="rx-final__title">Хотите попробовать «Призму данных» в&nbsp;своей компании?</h3>
-          <p class="rx-final__accent">Получите тестовый доступ</p>
-          <p class="rx-final__sub">Посмотрите решение в работе на демо, а затем протестируйте его на своих задачах.</p>
+          <span class="dx-tag"><span class="dx-tag__ico" aria-hidden="true">${ICO.plus}</span> Это была диагностика. Теперь&nbsp;— тестируем решение</span>
+          <h3 class="rx-final__title">Хотите попробовать <span>«Призму данных»</span> в&nbsp;своей компании?</h3>
+          <p class="rx-final__sub">Посмотрите «Призму данных» на демо и получите доступ, чтобы попробовать решение в своей компании.</p>
 
           <ol class="rx-final__steps">
             <li class="rx-final__step">
@@ -579,7 +578,7 @@ function render(a) {
               <span class="rx-final__step-ico" aria-hidden="true">${ICO.lock}</span>
               <div>
                 <b>Получаете доступ</b>
-                <span>После демо специалист предоставит тестовый доступ.</span>
+                <span>Специалист откроет доступ к решению.</span>
               </div>
             </li>
             <li class="rx-final__step">
@@ -587,14 +586,14 @@ function render(a) {
               <span class="rx-final__step-ico" aria-hidden="true">${ICO.check}</span>
               <div>
                 <b>Тестируете решение</b>
-                <span>Проверьте «Призму данных» на задачах своей компании.</span>
+                <span>Проверьте его на задачах своей компании.</span>
               </div>
             </li>
           </ol>
         </div>
 
         <form class="rx-final__form form" id="lead" novalidate>
-          <h4 class="rx-final__form-title">Попробуйте «Призму данных»</h4>
+          <h4 class="rx-final__form-title">Получите тестовый доступ к «Призме данных»</h4>
           <p class="rx-final__form-sh">Оставьте контакты — специалист свяжется с вами, проведёт демо и предоставит тестовый доступ.</p>
           <label class="rx-final__field">
             <span class="rx-final__field-ico" aria-hidden="true">${ICO.user}</span>
@@ -610,7 +609,6 @@ function render(a) {
           </label>
           <div class="err" id="lErr"></div>
           <button type="submit" class="btn btn-p rx-final__submit">Получить тестовый доступ <span aria-hidden="true">→</span></button>
-          <p class="rx-final__note"><span class="rx-final__note-ico" aria-hidden="true">${ICO.lock}</span> Ваши данные останутся конфиденциальными.</p>
           <label class="rx-final__consent">
             <input type="checkbox" id="lConsent" name="consent" required checked>
             <span>Я даю согласие на обработку персональных данных</span>
