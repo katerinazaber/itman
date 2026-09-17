@@ -1238,11 +1238,11 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 
 .rc-hero{
   display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,.9fr);
-  gap:20px 28px;align-items:center;margin-bottom:24px;
+  gap:20px 28px;align-items:center;margin-bottom:40px;
   padding:0;border-radius:0;background:transparent;border:0;box-shadow:none;
 }
 .rc-results{
-  margin:0 0 28px;padding:22px 22px 20px;border-radius:14px;
+  margin:0 0 28px;padding:26px 24px 22px;border-radius:14px;
   background:var(--red-l);border:1px solid rgba(221,12,41,.12);
 }
 .rc-results > .rx-panel__sec-title{margin-bottom:14px}
