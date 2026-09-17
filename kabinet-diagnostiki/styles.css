@@ -1286,7 +1286,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
   background:#FFF0F2;color:var(--red);
 }
 .rc-biz__ico svg{width:22px;height:22px}
-.rc-biz__i > div > b{display:block;font-size:16px;font-weight:750;margin-bottom:6px;color:var(--ink);line-height:1.35}
+.rc-biz__i > div > b{display:block;font-size:16px;font-weight:600;margin-bottom:6px;color:var(--ink);line-height:1.35}
 .rc-biz__i p{margin:0;font-size:16px;color:var(--ink-2);line-height:1.55}
 .rc-biz__i p .rc-hi{display:inline;font-weight:800;color:var(--red);margin:0;font-size:inherit}
 
