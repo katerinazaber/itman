@@ -551,6 +551,7 @@ function render(a) {
   </section>
 
   ${renderSymptoms(a)}
+  ${STATE.recon ? renderInventoryCost(STATE.recon, CORE) : ''}
   ${methodology(a)}
 
   <div id="rx-step2">${STATE.recon ? renderReconcile(STATE.recon, CORE) : ''}</div>
