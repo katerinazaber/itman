@@ -560,42 +560,42 @@ function render(a) {
     <div class="rx-final__inner">
       <div class="rx-final__main">
         <div class="rx-final__copy">
-          <span class="rx-final__tag"><span class="rx-final__tag-plus" aria-hidden="true">${ICO.plus}</span> Это была диагностика. <em>Теперь&nbsp;— лечение</em></span>
-          <h3 class="rx-final__title">Хотите вылечить свою базу лицензий <span>и&nbsp;ПО?</span></h3>
-          <p class="rx-final__sub">Протестируйте «Призму данных» на своей выгрузке.</p>
-          <p class="rx-final__lead">Нормализуем названия <span aria-hidden="true">→</span> сверим с эталонным каталогом <span aria-hidden="true">→</span> покажем, где теряются деньги.</p>
+          <span class="rx-final__tag"><span class="rx-final__tag-plus" aria-hidden="true">${ICO.plus}</span> Это была диагностика. <em>Теперь&nbsp;— тестируем решение</em></span>
+          <h3 class="rx-final__title">Хотите попробовать «Призму данных» в&nbsp;своей компании?</h3>
+          <p class="rx-final__accent">Получите тестовый доступ</p>
+          <p class="rx-final__sub">Посмотрите решение в работе на демо, а затем протестируйте его на своих задачах.</p>
 
           <ol class="rx-final__steps">
             <li class="rx-final__step">
               <span class="rx-final__num" aria-hidden="true">01</span>
-              <span class="rx-final__step-ico" aria-hidden="true">${ICO.upload}</span>
+              <span class="rx-final__step-ico" aria-hidden="true">${ICO.pulse}</span>
               <div>
-                <b>Загружаете выгрузку</b>
-                <span>Поддерживаем XLSX, CSV и другие форматы. Файл остаётся в браузере.</span>
+                <b>Смотрите демо</b>
+                <span>Специалист покажет возможности «Призмы данных».</span>
               </div>
             </li>
             <li class="rx-final__step">
               <span class="rx-final__num" aria-hidden="true">02</span>
-              <span class="rx-final__step-ico" aria-hidden="true">${ICO.gear}</span>
+              <span class="rx-final__step-ico" aria-hidden="true">${ICO.lock}</span>
               <div>
-                <b>Мы проверяем данные</b>
-                <span>Нормализуем наименования и сопоставляем с эталонным каталогом «Призмы данных».</span>
+                <b>Получаете доступ</b>
+                <span>После демо специалист предоставит тестовый доступ.</span>
               </div>
             </li>
             <li class="rx-final__step">
               <span class="rx-final__num" aria-hidden="true">03</span>
-              <span class="rx-final__step-ico" aria-hidden="true">${ICO.chart}</span>
+              <span class="rx-final__step-ico" aria-hidden="true">${ICO.check}</span>
               <div>
-                <b>Получаете результат</b>
-                <span>Видите дубли, расхождения и потенциальные точки экономии.</span>
+                <b>Тестируете решение</b>
+                <span>Проверьте «Призму данных» на задачах своей компании.</span>
               </div>
             </li>
           </ol>
         </div>
 
         <form class="rx-final__form form" id="lead" novalidate>
-          <h4 class="rx-final__form-title">Проверьте свою базу лицензий</h4>
-          <p class="rx-final__form-sh">Загрузите выгрузку — через несколько минут увидите, что в ней не так.</p>
+          <h4 class="rx-final__form-title">Попробуйте «Призму данных»</h4>
+          <p class="rx-final__form-sh">Оставьте контакты — специалист свяжется с вами, проведёт демо и предоставит тестовый доступ.</p>
           <label class="rx-final__field">
             <span class="rx-final__field-ico" aria-hidden="true">${ICO.user}</span>
             <input id="lName" name="name" placeholder="Фамилия и имя" autocomplete="name">
@@ -609,16 +609,20 @@ function render(a) {
             <input id="lEmail" name="email" type="email" placeholder="Рабочая почта" autocomplete="email">
           </label>
           <div class="err" id="lErr"></div>
-          <button type="submit" class="btn btn-p rx-final__submit">Проверить мою базу <span aria-hidden="true">→</span></button>
-          <p class="rx-final__note"><span class="rx-final__note-ico" aria-hidden="true">${ICO.lock}</span> Исходный файл остаётся в браузере. На почту отправим только результаты диагностики.</p>
-          <button type="button" class="rx-final__print" id="print">Скачать полный отчет</button>
+          <button type="submit" class="btn btn-p rx-final__submit">Получить тестовый доступ <span aria-hidden="true">→</span></button>
+          <p class="rx-final__note"><span class="rx-final__note-ico" aria-hidden="true">${ICO.lock}</span> Ваши данные останутся конфиденциальными.</p>
+          <label class="rx-final__consent">
+            <input type="checkbox" id="lConsent" name="consent" required checked>
+            <span>Я даю согласие на обработку персональных данных</span>
+          </label>
+          <button type="button" class="rx-final__print" id="print" hidden>Скачать полный отчет</button>
         </form>
       </div>
 
       <div class="rx-final__bar">
-        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.db}</span><div><b>Меньше хаоса</b><span>Единые наименования вместо дублей</span></div></div>
-        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.shield}</span><div><b>Больше контроля</b><span>Понятный состав установленного ПО</span></div></div>
-        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.chart}</span><div><b>Меньше переплат</b><span>Лицензии считаются по эталону</span></div></div>
+        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.db}</span><div><b>Единый каталог ПО</b><span>Все данные о ПО в едином формате</span></div></div>
+        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.bolt}</span><div><b>ML-нормализация</b><span>Распознавание и объединение названий</span></div></div>
+        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.shield}</span><div><b>Лицензионные данные</b><span>ПО, артикулы и правила лицензирования</span></div></div>
       </div>
     </div>
   </section>
@@ -681,6 +685,7 @@ async function onLead(e) {
   if (name.split(/\s+/).filter(w => w.length > 1).length < 2) return fail('Укажите фамилию и имя.');
   if (comp.length < 3) return fail('Укажите компанию и должность.');
   if (!/^[^@\s]+@[^@\s]+\.[a-zа-я]{2,}$/i.test(mail)) return fail('Проверьте адрес почты.');
+  if ($('#lConsent') && !$('#lConsent').checked) return fail('Нужно согласие на обработку персональных данных.');
 
   const a = STATE.result;
   const payload = {
@@ -705,7 +710,7 @@ async function onLead(e) {
   $('#lead').outerHTML = `<div class="rx-final__form form done">
     <div class="rx-final__done-ico" aria-hidden="true">✓</div>
     <h3 class="rx-final__form-title">Записали</h3>
-    <p class="rx-final__done-txt">Выписку и материалы отправим на ${esc(mail)}.</p>
+    <p class="rx-final__done-txt">Специалист свяжется с вами по адресу ${esc(mail)} — проведёт демо и предоставит тестовый доступ.</p>
     <a class="btn btn-p rx-final__submit" style="text-decoration:none;margin-top:16px" href="${CONFIG.clinicUrl}">Войти в клинику →</a>
   </div>`;
 }

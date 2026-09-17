@@ -1109,17 +1109,19 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 }
 .rx-final__tag-plus svg{width:13px;height:13px}
 .rx-final__title{
-  margin:0 0 12px;font-size:clamp(26px, 2.8vw, 36px);font-weight:800;
-  letter-spacing:-.03em;line-height:1.15;color:var(--rx-ink);max-width:18ch;
+  margin:0 0 10px;font-size:clamp(26px, 2.8vw, 36px);font-weight:800;
+  letter-spacing:-.03em;line-height:1.15;color:var(--rx-ink);max-width:22ch;
 }
 .rx-final__title span{color:var(--red)}
+.rx-final__accent{
+  margin:0 0 10px;font-size:13px;font-weight:800;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--red);line-height:1.3;
+}
 .rx-final__sub{
-  margin:0 0 8px;font-size:clamp(17px, 1.7vw, 20px);font-weight:700;line-height:1.35;color:var(--rx-ink);
+  margin:0 0 28px;font-size:clamp(16px, 1.5vw, 18px);font-weight:500;line-height:1.45;color:var(--rx-muted);
+  max-width:42ch;
 }
-.rx-final__lead{
-  margin:0 0 28px;font-size:15px;line-height:1.55;color:var(--rx-muted);max-width:46ch;
-}
-.rx-final__lead span{color:var(--ink-3);padding:0 2px}
+.rx-final__lead{display:none}
 .rx-final__steps{
   list-style:none;margin:0;padding:0;
   display:flex;flex-direction:column;gap:0;
@@ -1166,7 +1168,12 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
   width:18px;height:18px;color:#8A96A8;pointer-events:none;
 }
 .rx-final__field-ico svg{width:100%;height:100%;display:block}
-.rx-final__form input{
+.rx-final__form input[type="text"],
+.rx-final__form input[type="email"],
+.rx-final__form input:not([type]),
+.rx-final__form input[name="name"],
+.rx-final__form input[name="company"],
+.rx-final__form input[name="email"]{
   width:100%;box-sizing:border-box;margin:0;padding:13px 14px 13px 40px;
   border-radius:10px;font:inherit;font-size:15px;
   background:#fff;border:1px solid var(--line-2);color:var(--rx-ink);
@@ -1184,11 +1191,20 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 }
 .rx-final__note-ico{flex:0 0 auto;width:14px;height:14px;margin-top:1px;color:#8A96A8}
 .rx-final__note-ico svg{width:100%;height:100%;display:block}
+.rx-final__consent{
+  display:flex;gap:8px;align-items:flex-start;margin:12px 0 0;
+  font-size:12px;line-height:1.4;color:var(--rx-muted);cursor:pointer;
+}
+.rx-final__consent input[type="checkbox"]{
+  flex:0 0 auto;width:15px;height:15px;margin:1px 0 0;padding:0;
+  border:0;background:transparent;accent-color:var(--red);cursor:pointer;
+}
 .rx-final__print{
   display:block;width:100%;margin-top:12px;padding:0;border:0;background:transparent;
   font:650 13.5px/1.4 "Nekst",system-ui,sans-serif;color:var(--red);
   cursor:pointer;text-align:center;text-decoration:underline;text-underline-offset:3px;
 }
+.rx-final__print[hidden]{display:none!important}
 .rx-final__print:hover{color:var(--red-d)}
 .rx-final__form.done{text-align:center;padding:36px 20px}
 .rx-final__done-ico{font-size:34px;line-height:1;margin-bottom:12px;color:var(--red)}
@@ -1209,7 +1225,10 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 @media(min-width:761px){
   .rx-final__bar-i:not(:last-child){border-right:1px solid var(--line-2)}
 }
-.rx-final__bar-i b{display:block;color:var(--rx-ink);font-weight:750;margin-bottom:2px}
+.rx-final__bar-i b{
+  display:block;color:var(--rx-ink);font-weight:750;margin-bottom:2px;
+  text-transform:uppercase;letter-spacing:.02em;font-size:13.5px;
+}
 .rx-final__bar-i span{display:block}
 .rx-final__ok{
   display:inline-flex;align-items:center;justify-content:center;
