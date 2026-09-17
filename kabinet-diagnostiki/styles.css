@@ -347,7 +347,7 @@ svg{max-width:100%}
 select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;font:inherit;font-size:14px}
 
 /* ---------- результат ---------- */
-#out{display:none;margin-top:22px}
+#out{display:none;margin-top:32px}
 #out.on{display:block}
 
 .verdict{display:grid;grid-template-columns:212px 1fr;gap:26px;padding:26px;align-items:center}
@@ -712,10 +712,10 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 
 
 /* ========== Результат: клиника (макет) ========== */
-.rx{margin-top:8px}
+.rx{margin-top:0}
 .rx-h{font-size:22px;font-weight:800;margin:0 0 6px;letter-spacing:-.02em}
 .rx-sh{font-size:14.5px;color:var(--ink-2);margin:0 0 18px;max-width:62ch}
-.rx-block{margin-top:28px}
+.rx-block{margin-top:32px}
 
 .rx-hero{
   display:grid;grid-template-columns:300px minmax(0,1.2fr) minmax(320px,380px);gap:0;align-items:center;
@@ -818,7 +818,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 }
 
 .rx-symptom{
-  margin-top:28px;padding:26px 28px 28px;background:#FFFFFF;border:1px solid var(--line-2);border-radius:18px;
+  margin-top:32px;padding:26px 28px 28px;background:#FFFFFF;border:1px solid var(--line-2);border-radius:18px;
   box-shadow:var(--sh);
 }
 .rx-symptom__head{
@@ -1025,7 +1025,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rx-scale{display:block;margin:12px 0 16px;font-size:13.5px;color:var(--ink-2)}
 .rx-scale input{width:120px;padding:5px 8px;border:1px solid var(--line);border-radius:7px;font:inherit;font-size:13.5px;margin:0 6px}
 
-.rx-method{margin-top:18px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.rx-method{margin-top:32px;border:1px solid var(--line);border-radius:12px;background:#fff}
 .rx-method summary{cursor:pointer;padding:14px 16px;font-size:15px;font-weight:700;list-style:none;color:var(--ink)}
 .rx-method summary::-webkit-details-marker{display:none}
 .rx-method summary::before{content:"＋";color:var(--red);font-weight:700;margin-right:9px}
@@ -1079,7 +1079,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rx-final{
   --rx-ink:var(--ink);
   --rx-muted:var(--ink-2);
-  position:relative;margin-top:28px;
+  position:relative;margin-top:32px;
   padding:32px 32px 28px;border-radius:18px;
   border:1px solid var(--line);background:#fff;box-shadow:var(--sh);
   color:var(--rx-ink);isolation:isolate;overflow:hidden;
@@ -1221,7 +1221,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 
 /* ---- сверка с эталоном ---- */
 .sect.recon{
-  margin-top:28px;padding:28px 30px 34px;border-radius:18px;
+  margin-top:32px;padding:28px 30px 34px;border-radius:18px;
   border:1px solid var(--line);background:#fff;box-shadow:var(--sh);
 }
 .sect.recon .rx-panel__sec-title{
@@ -1239,11 +1239,11 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 
 .rc-hero{
   display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,.9fr);
-  gap:20px 28px;align-items:center;margin-bottom:40px;
+  gap:20px 28px;align-items:center;margin-bottom:36px;
   padding:0;border-radius:0;background:transparent;border:0;box-shadow:none;
 }
 .rc-results{
-  margin:0 0 28px;padding:26px 24px 22px;border-radius:14px;
+  margin:0 0 36px;padding:26px 24px 22px;border-radius:14px;
   background:var(--red-l);border:1px solid rgba(221,12,41,.12);
 }
 .rc-results > .rx-panel__sec-title{margin-bottom:14px}
@@ -1315,7 +1315,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rc-norm__p{margin:0;font-size:16px;color:var(--ink-2);line-height:1.55}
 .rc-norm__p b{color:var(--ink);font-weight:750}
 
-.rc-biz-block{margin-bottom:28px}
+.rc-biz-block{margin-bottom:36px}
 .rc-biz-block > .rx-panel__sec-title{margin-bottom:14px}
 .rc-biz{
   display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:stretch;
