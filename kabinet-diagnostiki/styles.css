@@ -1076,67 +1076,89 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rx-cta__actions .btn{text-decoration:none}
 
 .rx-final{
-  --rx-blue:#2F6FE4;
   --rx-ink:var(--ink);
   --rx-muted:var(--ink-2);
   position:relative;margin-top:28px;
-  padding:28px 30px 28px;border-radius:18px;
+  padding:32px 32px 28px;border-radius:18px;
   border:1px solid var(--line);background:#fff;box-shadow:var(--sh);
-  color:var(--rx-ink);isolation:isolate;
+  color:var(--rx-ink);isolation:isolate;overflow:hidden;
+}
+.rx-final__glow{
+  position:absolute;right:-8%;top:8%;width:min(52%,520px);height:70%;
+  pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse at 60% 40%, rgba(221,12,41,.10), transparent 58%),
+    radial-gradient(ellipse at 30% 70%, rgba(221,12,41,.06), transparent 55%);
 }
 .rx-final__inner{position:relative;z-index:1;max-width:none;padding:0}
+.rx-final__main{
+  display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,400px);
+  gap:36px;align-items:start;margin:0 0 28px;
+}
+@media(max-width:960px){.rx-final__main{grid-template-columns:1fr;gap:24px}}
+.rx-final__copy{min-width:0}
 .rx-final__tag{
-  display:inline-flex;align-items:center;gap:8px;margin:0 0 18px;padding:7px 14px 7px 7px;border-radius:999px;
-  background:#FBFCFD;border:1px solid var(--line-2);
-  color:var(--rx-ink);font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:8px;margin:0 0 16px;padding:0;
+  background:transparent;border:0;
+  color:var(--rx-ink);font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
 }
 .rx-final__tag em{font-style:normal;color:var(--red)}
 .rx-final__tag-plus{
-  width:26px;height:26px;border-radius:8px;background:var(--red);color:#fff;
+  width:22px;height:22px;border-radius:6px;background:var(--red);color:#fff;
   display:inline-flex;align-items:center;justify-content:center;
 }
-.rx-final__tag-plus svg{width:14px;height:14px}
+.rx-final__tag-plus svg{width:13px;height:13px}
 .rx-final__title{
-  margin:0 0 10px;font-size:clamp(26px, 2.8vw, 36px);font-weight:800;
-  letter-spacing:-.03em;line-height:1.15;color:var(--rx-ink);max-width:20ch;
+  margin:0 0 12px;font-size:clamp(26px, 2.8vw, 36px);font-weight:800;
+  letter-spacing:-.03em;line-height:1.15;color:var(--rx-ink);max-width:18ch;
 }
 .rx-final__title span{color:var(--red)}
 .rx-final__sub{
-  margin:0 0 10px;font-size:clamp(17px, 1.8vw, 21px);font-weight:750;line-height:1.3;color:var(--rx-ink);
+  margin:0 0 8px;font-size:clamp(17px, 1.7vw, 20px);font-weight:700;line-height:1.35;color:var(--rx-ink);
 }
 .rx-final__lead{
-  margin:0 0 24px;font-size:16px;line-height:1.55;color:var(--rx-muted);max-width:56ch;
+  margin:0 0 28px;font-size:15px;line-height:1.55;color:var(--rx-muted);max-width:46ch;
 }
-.rx-final__main{
-  display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,420px);
-  gap:24px;align-items:start;margin:0 0 24px;
+.rx-final__lead span{color:var(--ink-3);padding:0 2px}
+.rx-final__steps{
+  list-style:none;margin:0;padding:0;
+  display:flex;flex-direction:column;gap:0;
+  position:relative;
 }
-@media(max-width:900px){.rx-final__main{grid-template-columns:1fr}}
-.rx-final__cards{
-  display:flex;flex-direction:column;gap:12px;margin:0;max-width:none;
+.rx-final__step{
+  display:grid;grid-template-columns:36px 44px minmax(0,1fr);
+  gap:12px;align-items:flex-start;
+  position:relative;padding:0 0 22px;
 }
-.rx-final__card{
-  display:flex;gap:14px;align-items:flex-start;
-  background:#FBFCFD;border:1px solid var(--line-2);border-radius:14px;
-  padding:16px 16px;box-shadow:none;
+.rx-final__step:last-child{padding-bottom:0}
+.rx-final__step:not(:last-child)::before{
+  content:"";position:absolute;left:17px;top:28px;bottom:0;
+  border-left:1.5px dashed #D7DCE5;pointer-events:none;
 }
-.rx-final__card-ico{
-  flex:0 0 auto;width:44px;height:44px;border-radius:11px;margin:0;
+.rx-final__num{
+  font-size:15px;font-weight:800;letter-spacing:.02em;color:var(--red);
+  line-height:44px;text-align:center;
+}
+.rx-final__step-ico{
+  width:44px;height:44px;border-radius:12px;
   display:inline-flex;align-items:center;justify-content:center;
   background:var(--red-l);color:var(--red);
 }
-.rx-final__card-ico svg{width:24px;height:24px;color:var(--red);stroke:var(--red)}
-.rx-final__card b{display:block;font-size:16px;font-weight:600;color:var(--rx-ink);margin-bottom:4px;line-height:1.3}
-.rx-final__card > div span{display:block;font-size:15px;line-height:1.5;color:var(--rx-muted)}
+.rx-final__step-ico svg{width:22px;height:22px;color:var(--red);stroke:var(--red)}
+.rx-final__step b{display:block;font-size:16px;font-weight:700;color:var(--rx-ink);margin:2px 0 4px;line-height:1.3}
+.rx-final__step span:last-child{display:block;font-size:14.5px;line-height:1.5;color:var(--rx-muted)}
 .rx-final__form{
   width:100%;max-width:none;margin:0;
-  background:#FBFCFD;border:1px solid var(--line-2);
-  border-radius:14px;padding:22px 20px 18px;
-  box-shadow:none;
+  background:#fff;border:1px solid var(--line-2);
+  border-radius:16px;padding:24px 22px 20px;
+  box-shadow:0 10px 32px rgba(16,20,30,.08);
 }
 .rx-final__form-title{
-  margin:0 0 16px;font-size:18px;font-weight:800;letter-spacing:-.02em;line-height:1.25;
+  margin:0 0 8px;font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.25;
   color:var(--ink);text-align:left;
+}
+.rx-final__form-sh{
+  margin:0 0 18px;font-size:14.5px;line-height:1.45;color:var(--rx-muted);
 }
 .rx-final__field{position:relative;display:block;margin:0 0 10px}
 .rx-final__field-ico{
@@ -1145,7 +1167,7 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 }
 .rx-final__field-ico svg{width:100%;height:100%;display:block}
 .rx-final__form input{
-  width:100%;box-sizing:border-box;margin:0;padding:12px 14px 12px 40px;
+  width:100%;box-sizing:border-box;margin:0;padding:13px 14px 13px 40px;
   border-radius:10px;font:inherit;font-size:15px;
   background:#fff;border:1px solid var(--line-2);color:var(--rx-ink);
 }
@@ -1153,11 +1175,11 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rx-final__form input:focus{outline:2px solid rgba(221,12,41,.25);border-color:var(--red)}
 .rx-final__form .err{font-size:13px;color:#C62828;margin:0 0 10px;display:none}
 .rx-final__submit{
-  width:100%;justify-content:center;margin-top:4px;padding:13px 18px;
+  width:100%;justify-content:center;margin-top:6px;padding:14px 18px;
   font-size:15px;font-weight:750;border-radius:10px;gap:8px;
 }
 .rx-final__note{
-  display:flex;gap:8px;align-items:flex-start;margin:12px 0 0;
+  display:flex;gap:8px;align-items:flex-start;margin:14px 0 0;
   font-size:12px;line-height:1.45;color:var(--rx-muted);
 }
 .rx-final__note-ico{flex:0 0 auto;width:14px;height:14px;margin-top:1px;color:#8A96A8}
@@ -1173,11 +1195,11 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rx-final__done-txt{margin:0;font-size:15px;line-height:1.5;color:var(--rx-muted)}
 .rx-final__bar{
   display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;
-  max-width:none;margin:0;padding:18px 0 0;
+  max-width:none;margin:0;padding:22px 0 0;
   background:transparent;border:0;border-top:1px solid var(--line-2);
   border-radius:0;box-shadow:none;
 }
-@media(max-width:760px){.rx-final__bar{grid-template-columns:1fr;gap:12px}}
+@media(max-width:760px){.rx-final__bar{grid-template-columns:1fr;gap:14px}}
 .rx-final__bar-i{
   display:flex;align-items:flex-start;gap:12px;
   padding:0 18px;font-size:14px;line-height:1.35;color:var(--rx-muted);
@@ -1191,10 +1213,10 @@ td.forms-cell .chip{display:inline-block;margin:0 4px 4px 0}
 .rx-final__bar-i span{display:block}
 .rx-final__ok{
   display:inline-flex;align-items:center;justify-content:center;
-  width:36px;height:36px;border-radius:11px;background:#FFF0F2;color:var(--red);flex:0 0 auto;
+  width:36px;height:36px;border-radius:50%;background:var(--red-l);color:var(--red);flex:0 0 auto;
   border:0;
 }
-.rx-final__ok svg{width:18px;height:18px}
+.rx-final__ok svg{width:18px;height:18px;color:var(--red);stroke:var(--red)}
 
 /* ---- сверка с эталоном ---- */
 .sect.recon{

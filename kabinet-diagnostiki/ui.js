@@ -183,7 +183,9 @@ const ICO = {
   lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
   db: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><ellipse cx="12" cy="6" rx="7" ry="2.5"/><path d="M5 6v6c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5V6"/><path d="M5 12v6c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-6"/></svg>',
   shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3.5l7 2.5v5.2c0 4.2-2.9 7.8-7 9.3-4.1-1.5-7-5.1-7-9.3V6L12 3.5z"/><path d="M9 12l2 2 4-4"/></svg>',
-  plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>'
+  plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>',
+  upload: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M8 4h7l3 3v13H8V4z"/><path d="M15 4v3h3"/><path d="M12 18v-7M9.5 13.5 12 11l2.5 2.5"/></svg>',
+  gear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2M6.2 6.2l1.6 1.6M16.2 16.2l1.6 1.6M17.8 6.2l-1.6 1.6M7.8 16.2l-1.6 1.6"/></svg>'
 };
 
 function rxImpact(items) {
@@ -553,39 +555,46 @@ function render(a) {
   <div id="rx-step2">${STATE.recon ? renderReconcile(STATE.recon, CORE) : ''}</div>
 
   <section class="rx-final" id="cta">
+    <div class="rx-final__glow" aria-hidden="true"></div>
     <div class="rx-final__inner">
-      <span class="rx-final__tag"><span class="rx-final__tag-plus" aria-hidden="true">${ICO.plus}</span> Это была диагностика. <em>Теперь лечение</em></span>
-      <h3 class="rx-final__title">Хотите вылечить свою базу лицензий <span>и&nbsp;ПО?</span></h3>
-      <p class="rx-final__sub">Протестируйте «Призму данных» в своей компании!</p>
-      <p class="rx-final__lead">Нормализация на вашей выгрузке: единые наименования, сверка с эталонным каталогом и понятный следующий шаг по лицензиям.</p>
-
       <div class="rx-final__main">
-        <div class="rx-final__cards">
-          <div class="rx-final__card">
-            <span class="rx-final__card-ico" aria-hidden="true">${ICO.dup}</span>
-            <div>
-              <b>Тестирование на своих данных</b>
-              <span>Прогоняем нормализацию на той же выгрузке, что вы только что разобрали.</span>
-            </div>
-          </div>
-          <div class="rx-final__card">
-            <span class="rx-final__card-ico" aria-hidden="true">${ICO.chart}</span>
-            <div>
-              <b>Понятный результат</b>
-              <span>Видно, что уже сошлось с эталоном и где ещё нужен разбор аналитика.</span>
-            </div>
-          </div>
-          <div class="rx-final__card">
-            <span class="rx-final__card-ico" aria-hidden="true">${ICO.db}</span>
-            <div>
-              <b>Каталог «Призма данных»</b>
-              <span>Сопоставление с сотнями тысяч эталонных позиций без ручной сверки.</span>
-            </div>
-          </div>
+        <div class="rx-final__copy">
+          <span class="rx-final__tag"><span class="rx-final__tag-plus" aria-hidden="true">${ICO.plus}</span> Это была диагностика. <em>Теперь&nbsp;— лечение</em></span>
+          <h3 class="rx-final__title">Хотите вылечить свою базу лицензий <span>и&nbsp;ПО?</span></h3>
+          <p class="rx-final__sub">Протестируйте «Призму данных» на своей выгрузке.</p>
+          <p class="rx-final__lead">Нормализуем названия <span aria-hidden="true">→</span> сверим с эталонным каталогом <span aria-hidden="true">→</span> покажем, где теряются деньги.</p>
+
+          <ol class="rx-final__steps">
+            <li class="rx-final__step">
+              <span class="rx-final__num" aria-hidden="true">01</span>
+              <span class="rx-final__step-ico" aria-hidden="true">${ICO.upload}</span>
+              <div>
+                <b>Загружаете выгрузку</b>
+                <span>Поддерживаем XLSX, CSV и другие форматы. Файл остаётся в браузере.</span>
+              </div>
+            </li>
+            <li class="rx-final__step">
+              <span class="rx-final__num" aria-hidden="true">02</span>
+              <span class="rx-final__step-ico" aria-hidden="true">${ICO.gear}</span>
+              <div>
+                <b>Мы проверяем данные</b>
+                <span>Нормализуем наименования и сопоставляем с эталонным каталогом «Призмы данных».</span>
+              </div>
+            </li>
+            <li class="rx-final__step">
+              <span class="rx-final__num" aria-hidden="true">03</span>
+              <span class="rx-final__step-ico" aria-hidden="true">${ICO.chart}</span>
+              <div>
+                <b>Получаете результат</b>
+                <span>Видите дубли, расхождения и потенциальные точки экономии.</span>
+              </div>
+            </li>
+          </ol>
         </div>
 
         <form class="rx-final__form form" id="lead" novalidate>
-          <h4 class="rx-final__form-title">Получите результаты на свою почту</h4>
+          <h4 class="rx-final__form-title">Проверьте свою базу лицензий</h4>
+          <p class="rx-final__form-sh">Загрузите выгрузку — через несколько минут увидите, что в ней не так.</p>
           <label class="rx-final__field">
             <span class="rx-final__field-ico" aria-hidden="true">${ICO.user}</span>
             <input id="lName" name="name" placeholder="Фамилия и имя" autocomplete="name">
@@ -599,16 +608,16 @@ function render(a) {
             <input id="lEmail" name="email" type="email" placeholder="Рабочая почта" autocomplete="email">
           </label>
           <div class="err" id="lErr"></div>
-          <button type="submit" class="btn btn-p rx-final__submit">Протестировать «Призму данных» <span aria-hidden="true">→</span></button>
-          <p class="rx-final__note"><span class="rx-final__note-ico" aria-hidden="true">${ICO.lock}</span> Исходный файл остаётся в браузере. На почту уходит только выписка по результатам диагностики.</p>
+          <button type="submit" class="btn btn-p rx-final__submit">Проверить мою базу <span aria-hidden="true">→</span></button>
+          <p class="rx-final__note"><span class="rx-final__note-ico" aria-hidden="true">${ICO.lock}</span> Исходный файл остаётся в браузере. На почту отправим только результаты диагностики.</p>
           <button type="button" class="rx-final__print" id="print">Скачать полный отчет</button>
         </form>
       </div>
 
       <div class="rx-final__bar">
-        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.chart}</span><div><b>Меньше хаоса</b><span>единые наименования вместо дублей</span></div></div>
-        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.shield}</span><div><b>Больше контроля</b><span>понятный состав установленного ПО</span></div></div>
-        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.coin}</span><div><b>Реальная экономия</b><span>лицензии считаются по эталону</span></div></div>
+        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.db}</span><div><b>Меньше хаоса</b><span>Единые наименования вместо дублей</span></div></div>
+        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.shield}</span><div><b>Больше контроля</b><span>Понятный состав установленного ПО</span></div></div>
+        <div class="rx-final__bar-i"><span class="rx-final__ok" aria-hidden="true">${ICO.chart}</span><div><b>Меньше переплат</b><span>Лицензии считаются по эталону</span></div></div>
       </div>
     </div>
   </section>
