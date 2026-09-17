@@ -35,3 +35,5 @@ Disallow: /checklist/
 
 User-agent: *
 Disallow: /itam-business-case/
+
+Disallow: /webinar-informatika/
