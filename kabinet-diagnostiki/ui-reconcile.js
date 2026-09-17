@@ -64,7 +64,6 @@ function renderReconcile(rec, core) {
   const nearly = rec.reasons[3] + rec.reasons[4];
   const unknown = rec.reasons[5];
   const share = rec.licensable ? rec.known / rec.licensable : 0;
-  const hours = workHours(rec.known * MIN_PER_ROW);
 
   const PREVIEW = 5;
   const tid = 'rc-ba-' + (++RXSEQ);
@@ -83,8 +82,6 @@ function renderReconcile(rec, core) {
   const rest = baRows.slice(PREVIEW);
   const show = rec.showcase || [];
   const scId = 'rc-sc-' + RXSEQ;
-
-  const knownPhrase = `${nfmt(rec.known)}&nbsp;${plural(rec.known, 'запись не требует', 'записи не требуют', 'записей не требуют')} ручного разбора аналитиком.&nbsp;Это около <b class="rc-hi">${hours}</b> работы.`;
 
   const mapBlock = `
       <div class="rc-split__col">
@@ -134,7 +131,7 @@ function renderReconcile(rec, core) {
         <div class="rc-prism">
           <p class="rx-sh rc-prism__lead"><b class="rc-hi">«Призма данных»</b> — крупнейшая в России интеллектуальная база знаний о программном обеспечении и лицензиях:
             более <b class="rc-hi">300&nbsp;000</b> наименований ПО и <b class="rc-hi">45&nbsp;000</b> артикулов (SKU).</p>
-          <p class="rx-sh rc-prism__lead">Решение проводит ML-нормализацию, приводит данные о ПО и лицензиях к единому виду, создает эталонный каталог ИТ-активов.</p>
+          <p class="rx-sh rc-prism__lead"><b class="rc-hi">«Призма данных»</b> превращает хаотичные данные об установленном ПО в единый структурированный каталог программных активов.</p>
         </div>
       </div>
       <div class="rc-hero__visual">
@@ -179,21 +176,31 @@ function renderReconcile(rec, core) {
     </div>
 
     <div class="rc-biz-block">
-      <h4 class="rx-panel__sec-title">Что это дает бизнесу?</h4>
+      <h4 class="rx-panel__sec-title">Это позволяет компаниям:</h4>
       <div class="rc-biz">
         <div class="rc-biz__i">
-          <span class="rc-biz__ico" aria-hidden="true">${ICO.clock}</span>
-          <div>
-            <b>Меньше ручной работы</b>
-            <p>${knownPhrase}</p>
-          </div>
+          <span class="rc-biz__ico" aria-hidden="true">${ICO.db}</span>
+          <p>получить прозрачную картину установленного ПО</p>
         </div>
         <div class="rc-biz__i">
-          <span class="rc-biz__ico" aria-hidden="true">${ICO.chart}</span>
-          <div>
-            <b>Единые данные для расчета лицензий</b>
-            <p>Разные написания одного продукта сводятся к одной учетной позиции. Так проще понять, что действительно установлено и сколько лицензий нужно.</p>
-          </div>
+          <span class="rc-biz__ico" aria-hidden="true">${ICO.warn}</span>
+          <p>выявлять неучтенные установки (Shadow&nbsp;IT)</p>
+        </div>
+        <div class="rc-biz__i">
+          <span class="rc-biz__ico" aria-hidden="true">${ICO.check}</span>
+          <p>повысить точность данных о программных активах</p>
+        </div>
+        <div class="rc-biz__i">
+          <span class="rc-biz__ico" aria-hidden="true">${ICO.shield}</span>
+          <p>создать основу для управления лицензиями и лицензионного соответствия</p>
+        </div>
+        <div class="rc-biz__i">
+          <span class="rc-biz__ico" aria-hidden="true">${ICO.building}</span>
+          <p>поддержать процессы импортозамещения</p>
+        </div>
+        <div class="rc-biz__i">
+          <span class="rc-biz__ico" aria-hidden="true">${ICO.coin}</span>
+          <p>иметь полную информацию для оптимизации закупок ПО</p>
         </div>
       </div>
     </div>
