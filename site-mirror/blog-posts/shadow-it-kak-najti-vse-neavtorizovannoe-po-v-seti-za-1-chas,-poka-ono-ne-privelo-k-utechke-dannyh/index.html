@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang='ru'>
+<head>
+  <meta name="robots" content="noindex,nofollow" />
+<link rel="stylesheet" href="https://itman.ru/g/s3/mosaic/css/constructor/redesign/tt_default_styles.css" type="text/css">
+<link rel="stylesheet" href="https://itman.ru/t/v1877/images/mosaic/designs/design-ir8mwbyln-1757222676_styles.css" type="text/css">
+<link rel="stylesheet" href="https://itman.ru/t/v1877/images/mosaic/symbols/symbol-i91xuvpq2_styles.css" type="text/css">
+<link rel="stylesheet" href="https://itman.ru/t/v1877/images/mosaic/symbols/symbol-iewdp379r_styles.css" type="text/css">
+<link rel="stylesheet" href="https://itman.ru/t/v1877/images/mosaic/symbols/symbol-ikn8epteq_styles.css" type="text/css">
+<link rel="stylesheet" href="https://itman.ru/t/v1877/images/mosaic/symbols/symbol-iyevd4hak_styles.css" type="text/css">
+<link rel="stylesheet" href="https://itman.ru/t/v1877/images/mosaic/symbols/symbol-ivmkdeopr_styles.css" type="text/css">
+<link rel="stylesheet" href="https://itman.ru/t/v1877/images/mosaic/designs/4/shared-design-styles.css" type="text/css">
+<!-- This site was created in Taptop. https://taptop.pro/ -->
+<meta content="Taptop" name="generator"> 
+<meta charset="utf-8">
+<meta name="robots" content="all">
+<title>Shadow IT: как обнаружить теневое ПО в сети | Инферит ИТМен</title>
+<!-- assets.top -->
+<meta name="yandex-verification" content="ad65cba284db7495" />
+<meta name="google-site-verification" content="LRPmiNcDBUDJrh1Ik6AQpgaV6RyD4-kzlV4xbfVB-XY" />
+
+<link rel="icon" href="https://itman.ru/favicon.svg" type="image/svg+xml">
+
+
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<!-- /assets.top -->
+
+<meta name="description" content="Чем опасно теневое ПО (Shadow IT) для бизнеса и как «Инферит ИТМен» помогает выявить неразрешённые программы, приложения и облачные сервисы в сети.">
+<meta name="keywords" content="shadow it, теневое ит, неавторизованное по, контроль программного обеспечения, информационная безопасность, dlp, утечка данных">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+
+
+<script>
+ var mapKeys = {
+     google: "",
+     yandex: ""
+ };
+ var mosaicDesignId = 27305713;
+ var mosaicDesignPrefix = 'ir8mwbyln-1757222676';
+ var mosaicTimeZone = 'Europe/London';
+</script>
+
+
+<link rel="stylesheet" href="https://itman.ru/g/s3/mosaic/css/ms_site_default.css">
+<script src="https://itman.ru/g/libs/jquery/1.10.2/jquery.min.js"></script>
+
+ 	    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+	<script>
+WebFont.load({
+	google: {
+		families: [
+			"Inter:400,500,600",
+			"Manrope:400,500,700",
+			"&display=swap"
+		]}
+	});
+</script>
+<style>@font-face {font-family: 'Nekst Medium Web'; font-weight: 500;font-style: normal;src: url('https://itman.ru/t/images/mosaic/fonts/Nekst Medium Web-500-normal-0.ttf') format('truetype');}
+@font-face {font-family: 'Nekst Regular Web'; font-weight: 400;font-style: normal;src: url('https://itman.ru/t/images/mosaic/fonts/Nekst Regular Web-400-normal-0.ttf') format('truetype');}
+@font-face {font-family: 'Nekst'; font-weight: 400;font-style: normal;src: url('https://itman.ru/t/images/mosaic/fonts/Nekst-400-normal-0.woff') format('woff');}
+@font-face {font-family: 'Nekst'; font-weight: 600;font-style: normal;src: url('https://itman.ru/t/images/mosaic/fonts/Nekst-600-normal-0.woff') format('woff');}
+@font-face {font-family: 'Nekst SemiBold'; font-weight: 600;font-style: normal;src: url('https://itman.ru/t/images/mosaic/fonts/Nekst SemiBold-600-normal-0.ttf') format('truetype');}
+</style>	
+    <script src="https://itman.ru/g/s3/mosaic/js/do/redesign/do.js?rnd=1790064427"></script>
+
+
+            <!-- 46b9544ffa2e5e73c3c971fe2ede35a5 -->
+            <script src='https://itman.ru/assets/site/s3/js/lang/ru.js'></script>
+            <script src='https://itman.ru/assets/site/s3/js/common.min.js'></script>
+        
+<!--s3_require-->
+
+<!--/s3_require-->
+
+
+
+	<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    ym(92211638, 'init', {webvisor:true, clickmap:true, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/92211638" style="position:absolute; left:-9999px;" alt="Yandex.Metrika" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<script>document.addEventListener("DOMContentLoaded",()=>{const cookies_get=name=>{const parts=("; "+document.cookie).split("; "+name+"=");if(2===parts.length)return decodeURIComponent(parts.pop().split(";").shift())},cookies_set=(name,value,options={})=>{if((options={path:"/",...options}).expires){const date=new Date;date.setTime(date.getTime()+24*options.expires*60*60*1e3),options.expires=date.toUTCString()}let updatedCookie=encodeURIComponent(name)+"="+encodeURIComponent(value);for(const[key,val]of Object.entries(options))updatedCookie+=";"+key+(!0!==val?"="+val:"");document.cookie=updatedCookie},ui={banner:document.querySelector("[data-cookie-banner]"),consentBtn:document.querySelector('[data-cookie-consent="accept"]'),rejectBtn:document.querySelector('[data-cookie-consent="reject"]'),closeBtn:document.querySelector(".pop-up__inside-close-button"),overlay:document.querySelector(".pop-up__overlay")},hideBanner=()=>{ui.banner&&ui.banner.style.setProperty("display","none","important")};void 0===cookies_get("cookieAgreement")&&ui.banner&&(ui.banner.style.display="flex",ui.closeBtn?.addEventListener("click",hideBanner),ui.overlay?.addEventListener("click",hideBanner),ui.consentBtn?.addEventListener("click",()=>{cookies_set("cookieAgreement","true",{expires:30}),hideBanner()}),ui.rejectBtn?.addEventListener("click",()=>{cookies_set("cookieAgreement","false",{expires:30}),hideBanner()}))});</script>
+<link rel='icon' href='https://itman.ru/favicon.svg' type='image/svg+xml' />
+
+<!-- Carrot quest BEGIN -->
+<script type="text/javascript">
+!function(){function t(t,e){return function(){window.carrotquestasync.push(t,arguments)}}if("undefined"==typeof carrotquest){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src="https://cdn.carrotquest.app/api.min.js",document.getElementsByTagName("head")[0].appendChild(e),window.carrotquest={},window.carrotquestasync=[],carrotquest.settings={};for(var n=["connect","track","identify","auth","onReady","addCallback","removeCallback","trackMessageInteraction"],a=0;a<n.length;a++)carrotquest[n[a]]=t(n[a])}}(),carrotquest.connect("69393-e9692d4c2d90bba162f5003c96");
+</script>
+<!-- Carrot quest END -->
+
+
+
+<!-- mosaic.head.scripts -->
+<!-- /mosaic.head.scripts --></head>
+<body>
+<div class='mosaic-wrap'>
+<div class='root' id='ir8mwbyln_0'>
+<header class='section section--u-i91xuvpq2 color--background-neutral-white' id='i91xuvpq2_0'>
+<div class='container container--u-iic08gtki' id='iic08gtki_0'>
+<div class='div div--u-inn8by9vh' id='inn8by9vh_0'>
+<a href='/itman/site-mirror/' data-action-element='' class='link link--u-itpckvgs7' id='itpckvgs7_0'>
+<span class='text-block-wrap-div'></span>
+</a>
+<div class='image image--u-ir3cob9pe' id='ir3cob9pe_0'>
+<img src='https://itman.ru/thumb/2/vnaU77qS7FufUYHEkCq_2Q/640r480/d/frame_1000007874.svg' alt='' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/vnaU77qS7FufUYHEkCq_2Q/640r480/d/frame_1000007874.svg' class='image__img image__img--s2-i6qxp0vu3' id='i6qxp0vu3_0' >
+</div>
+</div>
+<div class='div div--u-igxoo9b3o' id='igxoo9b3o_0'>
+<div class='menu menu--u-iljsfhicw menu--s2-iljsfhicw' id='iljsfhicw_0'>
+<div class='menu__fixed-wrapper menu__fixed-wrapper--s2-iuky9j62i' id='iuky9j62i_0'>
+<div class='menu__scroll-wrapper menu__scroll-wrapper--u-i3ufj7nt1 menu__scroll-wrapper--s2-i3ufj7nt1' id='i3ufj7nt1_0'>
+<div class='menu__wrapper-lvl1 menu__wrapper-lvl1--u-ivslfyd3w menu__wrapper-lvl1--s2-ivslfyd3w' id='ivslfyd3w_0'>
+<div class='div div--u-i8l3blgg2' id='i8l3blgg2_0'>
+<a href='https://itman.ru/home' data-action-element='' class='link link--u-i6bonck3m' id='i6bonck3m_0'>
+<span class='text-block-wrap-div'></span>
+</a>
+<div class='image image--u-i5d75dgob' id='i5d75dgob_0'>
+<img src='https://itman.ru/thumb/2/vnaU77qS7FufUYHEkCq_2Q/640r480/d/frame_1000007874.svg' alt='' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/vnaU77qS7FufUYHEkCq_2Q/640r480/d/frame_1000007874.svg' class='image__img image__img--s2-ij18gbx9u' id='ij18gbx9u_0' >
+</div>
+</div>
+<div class='menu__list-lvl1 menu__list-lvl1--u-il0mjcpr0 menu__list-lvl1--s2-il0mjcpr0' id='il0mjcpr0_0'>
+<div class='menu__item-lvl1 menu__item-lvl1--u-i5oytvpy3 menu__item-lvl1--s2-i5oytvpy3 ' id='i5oytvpy3_0'>
+<a href='/itman/site-mirror/modules/' target='' rel='' class='menu__link-lvl1 menu__link-lvl1--u-ie0pqxi14' id='ie0pqxi14_0'>
+<div class='menu__link-text menu__link-text--u-ino0ivzzo' id='ino0ivzzo_0'>
+<span class='text-block-wrap-div'><span style="font-size:16px">Технологии</span></span>
+</div>
+<div class='menu__icon-lvl1 menu__icon-lvl1--u-i1yitbnjb menu__icon-lvl1--s1-i1yitbnjb' id='i1yitbnjb_0'></div>
+</a>
+<div class='menu__wrapper-lvl2 menu__wrapper-lvl2--u-iktd2qnhh menu__wrapper-lvl2--s2-iktd2qnhh' id='iktd2qnhh_0'>
+<div class='menu__back-lvl2 menu__back-lvl2--u-iiq2ujnm7 menu__back-lvl2--s2-iiq2ujnm7' id='iiq2ujnm7_0'>
+<div class='menu__back-icon' id='iisxtltu7_0'></div>
+<div class='menu__back-text' id='iq627dt51_0'>
+<span class='text-block-wrap-div'><span style="font-size:16px">Технологии</span></span>
+</div>
+</div>
+<div class='menu__list-lvl2 menu__list-lvl2--s2-iirbrr6v3' id='iirbrr6v3_0'>
+<div class='menu__item-lvl2 menu__item-lvl2--s2-iqpuhgkzr ' id='iqpuhgkzr_0'>
+<a href='/itman/site-mirror/active-directory/' target='' rel='' data-goal='0' class='menu__link-lvl2 menu__link-lvl2--u-iyo7t54z3' id='iyo7t54z3_0'>
+<div class='menu__link-text menu__link-text--u-ixh4kpf2a' id='ixh4kpf2a_0'>
+<span class='text-block-wrap-div'>Active Directory</span>
+</div>
+</a>
+</div>
+<div class='menu__item-lvl2 menu__item-lvl2--s2-iqpuhgkzr ' id='iqpuhgkzr_1'>
+<a href='/itman/site-mirror/samba/' target='' rel='' data-goal='0' class='menu__link-lvl2 menu__link-lvl2--u-iyo7t54z3' id='iyo7t54z3_1'>
+<div class='menu__link-text menu__link-text--u-ixh4kpf2a' id='ixh4kpf2a_1'>
+<span class='text-block-wrap-div'>Samba</span>
+</div>
+</a>
+</div>
+<div class='menu__item-lvl2 menu__item-lvl2--s2-iqpuhgkzr ' id='iqpuhgkzr_2'>
+<a href='/itman/site-mirror/freeipa/' target='' rel='' data-goal='0' class='menu__link-lvl2 menu__link-lvl2--u-iyo7t54z3' id='iyo7t54z3_2'>
+<div class='menu__link-text menu__link-text--u-ixh4kpf2a' id='ixh4kpf2a_2'>
+<span class='text-block-wrap-div'>FreeIPA</span>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div class='menu__item-lvl1 menu__item-lvl1--u-i5oytvpy3 menu__item-lvl1--s2-i5oytvpy3 ' id='i5oytvpy3_1'>
+<a href='' target='' rel='' class='menu__link-lvl1 menu__link-lvl1--u-ie0pqxi14' id='ie0pqxi14_1'>
+<div class='menu__link-text menu__link-text--u-ino0ivzzo' id='ino0ivzzo_1'>
+<span class='text-block-wrap-div'>Готовые решения</span>
+</div>
+<div class='menu__icon-lvl1 menu__icon-lvl1--u-i1yitbnjb menu__icon-lvl1--s1-i1yitbnjb' id='i1yitbnjb_1'></div>
+</a>
+<div class='menu__wrapper-lvl2 menu__wrapper-lvl2--u-iktd2qnhh menu__wrapper-lvl2--s2-iktd2qnhh' id='iktd2qnhh_1'>
+<div class='menu__back-lvl2 menu__back-lvl2--u-iiq2ujnm7 menu__back-lvl2--s2-iiq2ujnm7' id='iiq2ujnm7_1'>
+<div class='menu__back-icon' id='iisxtltu7_1'></div>
+<div class='menu__back-text' id='iq627dt51_1'>
+<span class='text-block-wrap-div'>Готовые решения</span>
+</div>
+</div>
+<div class='menu__list-lvl2 menu__list-lvl2--s2-iirbrr6v3' id='iirbrr6v3_1'>
+<div class='menu__item-lvl2 menu__item-lvl2--s2-iqpuhgkzr ' id='iqpuhgkzr_3'>
+<a href='/itman/site-mirror/modules/' target='' rel='' data-goal='0' class='menu__link-lvl2 menu__link-lvl2--u-iyo7t54z3' id='iyo7t54z3_3'>
+<div class='menu__link-text menu__link-text--u-ixh4kpf2a' id='ixh4kpf2a_3'>
+<span class='text-block-wrap-div'>Модули</span>
+</div>
+</a>
+</div>
+<div class='menu__item-lvl2 menu__item-lvl2--s2-iqpuhgkzr ' id='iqpuhgkzr_4'>
+<a href='/itman/site-mirror/inventory/' target='' rel='' data-goal='0' class='menu__link-lvl2 menu__link-lvl2--u-iyo7t54z3' id='iyo7t54z3_4'>
+<div class='menu__link-text menu__link-text--u-ixh4kpf2a' id='ixh4kpf2a_4'>
+<span class='text-block-wrap-div'>Инвентаризация</span>
+</div>
+</a>
+</div>
+<div class='menu__item-lvl2 menu__item-lvl2--s2-iqpuhgkzr ' id='iqpuhgkzr_5'>
+<a href='/itman/site-mirror/cmdb/' target='' rel='' data-goal='0' class='menu__link-lvl2 menu__link-lvl2--u-iyo7t54z3' id='iyo7t54z3_5'>
+<div class='menu__link-text menu__link-text--u-ixh4kpf2a' id='ixh4kpf2a_5'>
+<span class='text-block-wrap-div'>Поставка данных CMDB</span>
+</div>
+</a>
+</div>
+<div class='menu__item-lvl2 menu__item-lvl2--s2-iqpuhgkzr ' id='iqpuhgkzr_6'>
+<a href='/itman/site-mirror/data-prism/' target='' rel='' data-goal='0' class='menu__link-lvl2 menu__link-lvl2--u-iyo7t54z3' id='iyo7t54z3_6'>
+<div class='menu__link-text menu__link-text--u-ixh4kpf2a' id='ixh4kpf2a_6'>
+<span class='text-block-wrap-div'>Призма данных</span>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div class='menu__item-lvl1 menu__item-lvl1--u-i5oytvpy3 menu__item-lvl1--s2-i5oytvpy3 ' id='i5oytvpy3_2'>
+<a href='' target='' rel='' class='menu__link-lvl1 menu__link-lvl1--u-ie0pqxi14' id='ie0pqxi14_2'>
+<div class='menu__link-text menu__link-text--u-ino0ivzzo' id='ino0ivzzo_2'>
+<span class='text-block-wrap-div'>Отрасли</span>
+</div>
+<div class='menu__icon-lvl1 menu__icon-lvl1--u-i1yitbnjb menu__icon-lvl1--s1-i1yitbnjb' id='i1yitbnjb_2'></div>
+</a>
+<div class='menu__wrapper-lvl2 menu__wrapper-lvl2--u-iktd2qnhh menu__wrapper-lvl2--s2-iktd2qnhh' id='iktd2qnhh_2'>
+<div class='menu__back-lvl2 menu__back-lvl2--u-iiq2ujnm7 menu__back-lvl2--s2-iiq2ujnm7' id='iiq2ujnm7_2'>
+<div class='menu__back-icon' id='iisxtltu7_2'></div>
+<div class='menu__back-text' id='iq627dt51_2'>
+<span class='text-block-wrap-div'>Отрасли</span>
+</div>
+</div>
+<div class='menu__list-lvl2 menu__list-lvl2--s2-iirbrr6v3' id='iirbrr6v3_2'>
+<div class='menu__item-lvl2 menu__item-lvl2--s2-iqpuhgkzr ' id='iqpuhgkzr_7'>
+<a href='/itman/site-mirror/sectors/finance-companies/' target='' rel='' data-goal='0' class='menu__link-lvl2 menu__link-lvl2--u-iyo7t54z3' id='iyo7t54z3_7'>
+<div class='menu__link-text menu__link-text--u-ixh4kpf2a' id='ixh4kpf2a_7'>
+<span class='text-block-wrap-div'>Финансы</span>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div class='menu__item-lvl1 menu__item-lvl1--u-i5oytvpy3 menu__item-lvl1--s2-i5oytvpy3 ' id='i5oytvpy3_3'>
+<a href='' target='' rel='' class='menu__link-lvl1 menu__link-lvl1--u-ie0pqxi14' id='ie0pqxi14_3'>
+<div class='menu__link-text menu__link-text--u-ino0ivzzo' id='ino0ivzzo_3'>
+<span class='text-block-wrap-div'>Проекты</span>
+</div>
+<div class='menu__icon-lvl1 menu__icon-lvl1--u-i1yitbnjb menu__icon-lvl1--s1-i1yitbnjb' id='i1yitbnjb_3'></div>
+</a>
+<div class='menu__wrapper-lvl2 menu__wrapper-lvl2--u-iktd2qnhh menu__wrapper-lvl2--s2-iktd2qnhh' id='iktd2qnhh_3'>
+<div class='menu__back-lvl2 menu__back-lvl2--u-iiq2ujnm7 menu__back-lvl2--s2-iiq2ujnm7' id='iiq2ujnm7_3'>
+<div class='menu__back-icon' id='iisxtltu7_3'></div>
+<div class='menu__back-text' id='iq627dt51_3'>
+<span class='text-block-wrap-div'>Проекты</span>
+</div>
+</div>
+<div class='menu__list-lvl2 menu__list-lvl2--s2-iirbrr6v3' id='iirbrr6v3_3'>
+<div class='menu__item-lvl2 menu__item-lvl2--s2-iqpuhgkzr ' id='iqpuhgkzr_8'>
+<a href='/itman/site-mirror/cases/' target='' rel='' data-goal='0' class='menu__link-lvl2 menu__link-lvl2--u-iyo7t54z3' id='iyo7t54z3_8'>
+<div class='menu__link-text menu__link-text--u-ixh4kpf2a' id='ixh4kpf2a_8'>
+<span class='text-block-wrap-div'>Кейсы</span>
+</div>
+</a>
+</div>
+<div class='menu__item-lvl2 menu__item-lvl2--s2-iqpuhgkzr ' id='iqpuhgkzr_9'>
+<a href='/itman/site-mirror/examples-of-use/' target='' rel='' data-goal='0' class='menu__link-lvl2 menu__link-lvl2--u-iyo7t54z3' id='iyo7t54z3_9'>
+<div class='menu__link-text menu__link-text--u-ixh4kpf2a' id='ixh4kpf2a_9'>
+<span class='text-block-wrap-div'>Примеры применения</span>
+</div>
+</a>
+</div>
+<div class='menu__item-lvl2 menu__item-lvl2--s2-iqpuhgkzr ' id='iqpuhgkzr_10'>
+<a href='/itman/site-mirror/all-reviews/' target='' rel='' data-goal='0' class='menu__link-lvl2 menu__link-lvl2--u-iyo7t54z3' id='iyo7t54z3_10'>
+<div class='menu__link-text menu__link-text--u-ixh4kpf2a' id='ixh4kpf2a_10'>
+<span class='text-block-wrap-div'>Отзывы</span>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div class='menu__item-lvl1 menu__item-lvl1--u-i5oytvpy3 menu__item-lvl1--s2-i5oytvpy3 ' id='i5oytvpy3_4'>
+<a href='' target='' rel='' class='menu__link-lvl1 menu__link-lvl1--u-ie0pqxi14' id='ie0pqxi14_4'>
+<div class='menu__link-text menu__link-text--u-ino0ivzzo' id='ino0ivzzo_4'>
+<span class='text-block-wrap-div'>О нас</span>
+</div>
+<div class='menu__icon-lvl1 menu__icon-lvl1--u-i1yitbnjb menu__icon-lvl1--s1-i1yitbnjb' id='i1yitbnjb_4'></div>
+</a>
+<div class='menu__wrapper-lvl2 menu__wrapper-lvl2--u-iktd2qnhh menu__wrapper-lvl2--s2-iktd2qnhh' id='iktd2qnhh_4'>
+<div class='menu__back-lvl2 menu__back-lvl2--u-iiq2ujnm7 menu__back-lvl2--s2-iiq2ujnm7' id='iiq2ujnm7_4'>
+<div class='menu__back-icon' id='iisxtltu7_4'></div>
+<div class='menu__back-text' id='iq627dt51_4'>
+<span class='text-block-wrap-div'>О нас</span>
+</div>
+</div>
+<div class='menu__list-lvl2 menu__list-lvl2--s2-iirbrr6v3' id='iirbrr6v3_4'>
+<div class='menu__item-lvl2 menu__item-lvl2--s2-iqpuhgkzr ' id='iqpuhgkzr_11'>
+<a href='/itman/site-mirror/about/' target='' rel='' data-goal='0' class='menu__link-lvl2 menu__link-lvl2--u-iyo7t54z3' id='iyo7t54z3_11'>
+<div class='menu__link-text menu__link-text--u-ixh4kpf2a' id='ixh4kpf2a_11'>
+<span class='text-block-wrap-div'>О компании</span>
+</div>
+</a>
+</div>
+<div class='menu__item-lvl2 menu__item-lvl2--s2-iqpuhgkzr ' id='iqpuhgkzr_12'>
+<a href='/itman/site-mirror/blog/' target='' rel='' data-goal='0' class='menu__link-lvl2 menu__link-lvl2--u-iyo7t54z3' id='iyo7t54z3_12'>
+<div class='menu__link-text menu__link-text--u-ixh4kpf2a' id='ixh4kpf2a_12'>
+<span class='text-block-wrap-div'>Блог</span>
+</div>
+</a>
+</div>
+<div class='menu__item-lvl2 menu__item-lvl2--s2-iqpuhgkzr ' id='iqpuhgkzr_13'>
+<a href='https://partners.inferit.ru' target='_blank' rel='' data-goal='0' class='menu__link-lvl2 menu__link-lvl2--u-iyo7t54z3' id='iyo7t54z3_13'>
+<div class='menu__link-text menu__link-text--u-ixh4kpf2a' id='ixh4kpf2a_13'>
+<span class='text-block-wrap-div'>Партнерам</span>
+</div>
+</a>
+</div>
+<div class='menu__item-lvl2 menu__item-lvl2--s2-iqpuhgkzr ' id='iqpuhgkzr_14'>
+<a href='/itman/site-mirror/contacts/' target='' rel='' data-goal='0' class='menu__link-lvl2 menu__link-lvl2--u-iyo7t54z3' id='iyo7t54z3_14'>
+<div class='menu__link-text menu__link-text--u-ixh4kpf2a' id='ixh4kpf2a_14'>
+<span class='text-block-wrap-div'>Контакты</span>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div class='menu__item-lvl1 menu__item-lvl1--u-i5oytvpy3 menu__item-lvl1--s2-i5oytvpy3 ' id='i5oytvpy3_5'>
+<a href='/itman/site-mirror/support-center/' target='' rel='' class='menu__link-lvl1 menu__link-lvl1--u-ie0pqxi14' id='ie0pqxi14_5'>
+<div class='menu__link-text menu__link-text--u-ino0ivzzo' id='ino0ivzzo_5'>
+<span class='text-block-wrap-div'>Поддержка</span>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div role='button' class='menu__close-button menu__close-button--u-io71lr7q0 menu__close-button--s2-io71lr7q0' id='io71lr7q0_0'></div>
+</div>
+<div role='button' class='menu__burger-button menu__burger-button--u-ip2dd8nw1 menu__burger-button--s2-ip2dd8nw1' id='ip2dd8nw1_0'></div>
+<div class='menu__overlay menu__overlay--u-i398vtuqd' id='i398vtuqd_0'></div>
+</div>
+<div class='embed' id='ip47pn3cu_0'></div>
+<div href='/itman/site-mirror/' data-action-element='' role='button' class='button button--u-ig84x7bx3 color--background-black button-black-default' id='ig84x7bx3_0'>
+<span class='text-button font--nekst-18-semibold' id='iz9g6lh70_0'>
+<span class='text-block-wrap-div'>Связаться</span>
+</span>
+</div>
+</div>
+<div class='div div--u-imspbbmlh' id='imspbbmlh_0'>
+<div href='' data-action-element='iyevd4hak_0' role='button' data-goal='request-callback' class='button button--u-iis3b4cc5 color--background-accent-red' id='iis3b4cc5_0'>
+<div class='image image--u-i16uh7ktr' id='i16uh7ktr_0'>
+<img src='https://itman.ru/thumb/2/RVvQJPvTZ1CkwvKEEjGdlQ/640r480/d/phone.svg' alt='phone' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/RVvQJPvTZ1CkwvKEEjGdlQ/640r480/d/phone.svg' class='image__img' id='ilesy5367_0' >
+</div>
+<div class='text text--u-igcxm9uf3' id='igcxm9uf3_0'>
+<span class='text-block-wrap-div'>Обратный звонок</span>
+</div>
+</div>
+<div href='' data-action-element='in2bw8hq2_0' role='button' data-goal='request-demo' class='button button--u-iet8iuf3o color--background-black button-black-default' id='iet8iuf3o_0'>
+<span class='text-button font--nekst-16-semibold text-button--u-iug0gqrfb' id='iug0gqrfb_0'>
+<span class='text-block-wrap-div'>Получить демо</span>
+</span>
+</div>
+</div>
+</div>
+</header><section class='section section--u-i1v0legos' id='i1v0legos_0'>
+<div class='div div--u-isu5rfcyd' id='isu5rfcyd_0'>
+<div class='div div--u-ijz2lokyo breadcrumps' id='ijz2lokyo_0'>
+<a href='https://itman.ru/home' data-action-element='' class='link link--u-ia23zexpo' id='ia23zexpo_0'>
+<span class='text-block-wrap-div'>Главная</span>
+</a>
+<div class='image image--u-iwbdqq3h3' id='iwbdqq3h3_0'>
+<img src='https://itman.ru/thumb/2/8tiG95fOmDJsJpiMuiH8mA/640r480/d/arrow_rights.svg' alt='Arrow Rights' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/8tiG95fOmDJsJpiMuiH8mA/640r480/d/arrow_rights.svg' class='image__img' id='ih9bf1sis_0' >
+</div>
+<a href='/itman/site-mirror/blog/' data-action-element='' class='link link--u-i37dylu8c' id='i37dylu8c_0'>
+<span class='text-block-wrap-div'>Блог</span>
+</a>
+<div class='image image--u-iiy2i3bpa' id='iiy2i3bpa_0'>
+<img src='https://itman.ru/thumb/2/8tiG95fOmDJsJpiMuiH8mA/640r480/d/arrow_rights.svg' alt='Arrow Rights' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/8tiG95fOmDJsJpiMuiH8mA/640r480/d/arrow_rights.svg' class='image__img' id='i9gimukmy_0' >
+</div>
+<div class='text text--u-iqy5bxhro' id='iqy5bxhro_0'>
+<span class='text-block-wrap-div'>Shadow IT: как найти все неавторизованное ПО в сети за 1 час, пока оно не привело к утечке данных</span>
+</div>
+</div>
+<div class='div div--u-ibrm4teof' id='ibrm4teof_0'>
+<h1 class='text text--u-im9s8lel1' id='im9s8lel1_0'>
+<span class='text-block-wrap-div'>Shadow IT: как найти все неавторизованное ПО в сети за 1 час, пока оно не привело к утечке данных</span>
+</h1>
+<div class='div div--u-i3mkteczo' id='i3mkteczo_0'>
+<div class='div div--u-ix9exg3wi' id='ix9exg3wi_0'>
+<div class='text text--u-iumflrzql' id='iumflrzql_0'>
+<span class='text-block-wrap-div'>Статья</span>
+</div>
+</div>
+<p class='text text--u-itdyx1qo2' id='itdyx1qo2_0'>
+<span class='text-block-wrap-div'>14.12.2025</span>
+</p>
+<div class='div div--u-ifign6znr' id='ifign6znr_0'>
+<div class='image image--u-i82jbnbtj' id='i82jbnbtj_0'>
+<img src='https://itman.ru/thumb/2/MHEacQnlNjeBiWEdcg-Rzg/640r480/d/time-gray.svg' alt='time-gray' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/MHEacQnlNjeBiWEdcg-Rzg/640r480/d/time-gray.svg' class='image__img' id='ifrg9ysv3_0' >
+</div>
+<div class='div div--u-i6auz82ix' id='i6auz82ix_0'>
+<div class='text text--u-igvf8nhe6' id='igvf8nhe6_0'>
+<span class='text-block-wrap-div'>5</span>
+</div>
+<div class='text text--u-iwu3arr0n' id='iwu3arr0n_0'>
+<span class='text-block-wrap-div'>минут на чтение</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class='div div--u-i901d8vuh' id='i901d8vuh_0'>
+<div class='image image--u-iqxqhfdbd' id='iqxqhfdbd_0'>
+<img src='https://itman.ru/thumb/2/AbqaFCxD3mznB4jIMKn3Yw/r/d/0_0_3.png' alt='' title='' class='image__img image__img--s2-i9qlsbcy0' id='i9qlsbcy0_0' >
+</div>
+</div>
+</div>
+<div class='div div--u-i3ifarnt9' id='i3ifarnt9_0'>
+<blockquote class='text text--u-ialea7yyo' id='ialea7yyo_0'>
+<span class='text-block-wrap-div'>Узнайте, чем опасно «теневое ПО» (Shadow IT) для вашего бизнеса, и как система «Инферит ИТМен» помогает выявить все неразрешенные программы, приложения, облачные сервисы.</span>
+</blockquote>
+</div>
+<div class='tt-rich-text tt-rich-text--u-iam5jxlx1' id='iam5jxlx1_0'>
+<div class='text-block-wrap-div'><h2><strong>Введение: знакомство с “невидимым врагом”</strong></h2><p>Маркетолог скачал удобный, но небезопасный графический редактор.<br>Бухгалтер переслал отчет через личный аккаунт в облачном хранилище.<br>Разработчик установил неизвестный пакет, чтобы ускорить тесты.</p><p>Все эти ситуации объединяет одно: <strong>теневое ИТ (Shadow IT)</strong> — любое программное обеспечение, облачные сервисы или устройства, которые используются без ведома IT-отдела и службы информационной безопасности.</p><p>Сотрудники действуют не из вредности. Они просто хотят работать быстрее и удобнее. Но за этим удобством скрывается бомба замедленного действия: от утечек данных до вирусных атак и юридических рисков.</p><p>Чтобы контролировать программное обеспечение и укреплять информационную безопасность, компаниям нужно видеть то, что скрыто. Именно об этом наша статья.</p><h2><strong>Почему Shadow IT — это не мелочь, а серьезная угроза</strong></h2><h3>1. Утечки конфиденциальных данных</h3><p>Личные облачные хранилища, непроверенные онлайн-редакторы, мессенджеры без шифрования — все это прямой путь к утечке данных.</p><p>Пример: сотрудник загружает договор с коммерческой тайной в бесплатный PDF-конвертер. Этот файл может оказаться на сервере третьей компании без каких-либо гарантий защиты. DLP-система не всегда способна заметить такой риск, особенно если передача происходит через зашифрованный канал.</p><p>Итог: <strong>Shadow IT превращает периметр безопасности компании в решето</strong>.</p><h3><strong>2. Вирусы и вредоносное ПО&nbsp;</strong></h3><p>Неавторизованное ПО часто скачивается с непроверенных сайтов. Вместе с удобным инструментом на компьютер попадают:</p><ul><li><p>трояны,</p></li><li><p>шпионские модули,</p></li><li><p>майнеры,</p></li><li><p>вирусы-шифровальщики.</p></li></ul><p>Одна установка зараженного приложения может парализовать работу всей компании. Именно так начинаются многие громкие инциденты — от полной остановки операционных процессов до потери критически важных данных.</p><h3>3. Юридические и финансовые потери&nbsp;</h3><p>Использование нелицензионных программ (“кряков”) — классическая часть Shadow IT.</p><p>Риски:</p><ul><li><p>многомиллионные штрафы от правообладателей;</p></li><li><p>блокировка работы по решению суда;</p></li><li><p>потеря репутации у клиентов и партнеров.</p></li></ul><p>Одно неавторизованное приложение = потенциальный финансовый провал.</p><h3>4. Проблемы с поддержкой и стабильностью&nbsp;</h3><p>Последствия “сборной солянки” из разного ПО для компании:</p><ul><li><p>увеличивается нагрузка на IT-поддержку,</p></li><li><p>возникают конфликты драйверов,</p></li><li><p>ломаются бизнес-процессы,</p></li><li><p>падает производительность сотрудников.</p></li></ul><p><strong>Теневое ИТ вредит не только безопасности, оно снижает эффективность всей инфраструктуры.</strong></p><h2><strong>Традиционные методы не работают: почему файрвол и DLP бессильны</strong></h2><p>Даже компании с развитой системой информационной безопасности сталкиваются с Shadow IT, и вот почему.</p><h3><strong>DLP-системы</strong></h3><p>DLP контролирует утечки данных, но:</p><ul><li><p>не всегда видит, какое конкретно приложение отправляет информацию;</p></li><li><p>не анализирует установленные программы;</p></li><li><p>не фиксирует portable-версии ПО;</p></li><li><p>не различает легитимный сервис от неразрешенного.</p></li></ul><p>Если трафик зашифрован, DLP становится почти бесполезной.</p><h3><strong>Firewalls (сетевые экраны)</strong></h3><p>Файрволы блокируют опасный трафик, но:</p><ul><li><p>не запрещают сотруднику использовать легитимный, но неавторизованный облачный сервис;</p></li><li><p>не контролируют сам факт установки ПО.</p></li></ul><p><strong>Вывод: нельзя защититься от того, что не видишь. Чтобы бороться с Shadow IT, его нужно сначала обнаружить.</strong></p><h2><strong>Как «Инферит ИТМен» выводит теневое ПО на чистую воду за 1 час</strong></h2><p><strong>Как превратить хаос в прозрачность? Как найти все неавторизованное ПО быстро, системно и без ручной работы?</strong></p><h3><strong>Шаг 1. Полное сканирование всей инфраструктуры</strong></h3><p>«Инферит ИТМен» проводит глубокую <a target="" rel="" class="tt-rich-link" href="/itman/site-mirror/inventory/">инвентаризацию</a>:</p><ul><li><p>рабочих станций,</p></li><li><p>серверов,</p></li><li><p>виртуальных машин.</p></li></ul><p>Система находит все установленные программы, включая portable-версии, которые обычно остаются незамеченными DLP и антивирусами. Это ключевой момент в борьбе с Shadow IT.</p><h3><strong>Шаг 2. Формирование “белого списка”</strong></h3><p>IT-специалист создает список:</p><ul><li><p>разрешенного ПО,</p></li><li><p>корпоративных лицензий,</p></li><li><p>обязательных приложений.</p></li></ul><p>Все, что не в списке — автоматически считается подозрительным.</p><h3><strong>Шаг 3. Автоматическое сравнение и отчет “Неавторизованное ПО”</strong></h3><p>На базе данных, полученных от ИТМен в п.1 в ITAM- или ITSM-системе можно сформулировать подробный актуальный отчет, включающий:</p><ul><li><p>список всех неразрешенных программ,</p></li><li><p>рабочие места, где они установлены,</p></li><li><p>дата установки,</p></li><li><p>уровень риска.</p></li></ul><p>Этот отчет — мощнейший инструмент для ИБ. Никакая DLP и никакой файрвол не дадут такого уровня детализации.</p><h3><strong>Шаг 4. Постоянный мониторинг и мгновенные уведомления</strong></h3><p>В «Инферит ИТМен» можно настроить регулярную отправку отчетов, которые помогут:</p><ul><li><p>Отследить каждую новую установку ПО.</p></li><li><p>Узнать о нарушении IT-политики.</p></li><li><p>Увидеть угрозы и оперативно на них среагировать.</p></li></ul><p>Больше нет скрытых установок, “случайных” программ и неожиданностей перед аудитом.</p><h2><strong>Заключение</strong></h2><p>Борьба с Shadow IT — это не тотальные запреты и не попытка уследить за каждым сотрудником. Это прозрачность и контроль программного обеспечения, без которых невозможно обеспечить информационную безопасность компании.</p><p>«Инферит ИТМен» превращает неизвестность в управляемую часть IT-инфраструктуры. Перестаньте гадать, что происходит в вашей сети. Узнайте это наверняка.</p><p><strong>Хотите провести экспресс-аудит вашей сети на наличие </strong><a target="" rel="" class="tt-rich-link" href="/itman/site-mirror/support-center/"><strong>Shadow IT</strong></a><strong>?</strong></p><p><strong>Оставьте заявку на демонстрацию — </strong>и наши специалисты покажут, как «Инферит ИТМен» просканирует вашу сеть и найдет установки нераспознанного ПО.</p><p><strong><br></strong></p></div>
+</div>
+<div class='div div--u-iaphn5d7y' id='iaphn5d7y_0'>
+<a data-action-element='' class='button button--u-ik9xdhx1h social-button' id='ik9xdhx1h_0'>
+<div class='image image--u-i32tfg64g' id='i32tfg64g_0'>
+<img src='https://itman.ru/thumb/2/fQ8yV5EFcgvAD5CP79e9hA/640r480/d/copy.svg' alt='copy' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/fQ8yV5EFcgvAD5CP79e9hA/640r480/d/copy.svg' class='image__img' id='im10dv5en_0' >
+</div>
+<div class='image image--u-i954cqpk2' id='i954cqpk2_0'>
+<img src='https://itman.ru/thumb/2/wMt46gQlXA3BmzxaM_rk_A/640r480/d/copy-red.svg' alt='copy-red' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/wMt46gQlXA3BmzxaM_rk_A/640r480/d/copy-red.svg' class='image__img' id='ienksr45z_0' >
+</div>
+<span class='text-button' id='iksqbj76x_0'>
+<span class='text-block-wrap-div'>Скопировать ссылку</span>
+</span>
+</a>
+<a data-action-element='' class='button button--u-isbgigc4f social-button' id='isbgigc4f_0'>
+<div class='image image--u-ibgkt5k58' id='ibgkt5k58_0'>
+<img src='https://itman.ru/thumb/2/TpAKJdNU70ZYdwoep0HXWQ/640r480/d/telegram.svg' alt='telegram' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/TpAKJdNU70ZYdwoep0HXWQ/640r480/d/telegram.svg' class='image__img' id='iyh1huef3_0' >
+</div>
+<div class='image image--u-i88bxvbct' id='i88bxvbct_0'>
+<img src='https://itman.ru/thumb/2/9gwClyZor0YXqXcayZDMeA/640r480/d/telegram-white.svg' alt='telegram-white' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/9gwClyZor0YXqXcayZDMeA/640r480/d/telegram-white.svg' class='image__img' id='ihocx8p27_0' >
+</div>
+<span class='text-button' id='ialzhdgx5_0'>
+<span class='text-block-wrap-div'>Поделиться Telegram</span>
+</span>
+</a>
+<a data-action-element='' class='button button--u-i17nh3hh5 social-button' id='i17nh3hh5_0'>
+<div class='image image--u-i1avvvpd9' id='i1avvvpd9_0'>
+<img src='https://itman.ru/thumb/2/P4tFlHeXW8DOgGwwXTzvtw/640r480/d/vk.svg' alt='VK' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/P4tFlHeXW8DOgGwwXTzvtw/640r480/d/vk.svg' class='image__img' id='i6dqmcn97_0' >
+</div>
+<div class='image image--u-i9cinay7o' id='i9cinay7o_0'>
+<img src='https://itman.ru/thumb/2/gaq4vKLKRbdlxpYDI2tm8w/640r480/d/vk-white.svg' alt='VK-White' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/gaq4vKLKRbdlxpYDI2tm8w/640r480/d/vk-white.svg' class='image__img' id='ihzbl725i_0' >
+</div>
+<span class='text-button' id='irynqtfvv_0'>
+<span class='text-block-wrap-div'>Поделиться VK</span>
+</span>
+</a>
+</div>
+<div class='div div--u-i48sw57ys' id='i48sw57ys_0'></div>
+<section class='section section--u-inhpjypzc' id='inhpjypzc_0'>
+<h2 class='text text--u-iyrrxghub' id='iyrrxghub_0'>
+<span class='text-block-wrap-div'>Свежие новости Инферит ИТМен</span>
+</h2>
+<div data-tt-widget-version='1' class='collection collection--u-is2es9m7t' id='is2es9m7t_0'>
+<div role='list' class='collection__list collection__list--u-iop8udsjb' id='iop8udsjb_0'>
+<div data-title='Акция «Яблочный Спас». Скидка 30% на лицензии «Инферит ИТМен» для новых клиентов!' role='listitem' data-tt-collection-item-id='35249116' class='collection__item collection__item--u-isfgi7bmf' id='isfgi7bmf_352491160'>
+<div class='div div--u-idrhh4zg3' id='idrhh4zg3_352491160'>
+<div class='text text--u-iphe8avpx' id='iphe8avpx_352491160'>
+<span class='text-block-wrap-div'>Праздничная акция</span>
+</div>
+</div>
+<div class='image image--u-i69zdfifu' id='i69zdfifu_352491160'>
+<img src='https://itman.ru/thumb/2/Jvgw5jN-CdMaPlZjg6aOkQ/r/d/yablochnyi_spas_1920520-5.png' alt='' title='' class='image__img image__img--s2-ie3suektt' id='ie3suektt_352491160' >
+</div>
+<div class='div div--u-ibpqgooqr' id='ibpqgooqr_352491160'>
+<div class='text text--u-iyx9n0kw0' id='iyx9n0kw0_352491160'>
+<span class='text-block-wrap-div'>10.08.2026</span>
+</div>
+<h3 class='text text--u-irtxmfbmt' id='irtxmfbmt_352491160'>
+<span class='text-block-wrap-div'>Акция «Яблочный Спас». Скидка 30% на лицензии «Инферит ИТМен» для новых клиентов!</span>
+</h3>
+</div>
+<a href='/itman/site-mirror/blog-posts/akciya-yablochnyj-spas.-skidka-30-na-licenzii-inferit-itmen-dlya-novyh-klientov-/' data-action-element='' target='_self' class='button button--u-ihsp1iv6u' id='ihsp1iv6u_352491160'>
+<span class='text-button text-button--u-ik7dk5zi8' id='ik7dk5zi8_352491160'>
+<span class='text-block-wrap-div'>Подробнее</span>
+</span>
+<div class='image image--u-i0ybp8est' id='i0ybp8est_352491160'>
+<img src='https://itman.ru/thumb/2/juarcBfGqvzV3vBR803P2g/r/d/arrow_red.svg' alt='Arrow red' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/juarcBfGqvzV3vBR803P2g/r/d/arrow_red.svg' class='image__img' id='inrpi66ek_352491160' >
+</div>
+<div class='image image--u-ie8vdnvyf' id='ie8vdnvyf_352491160'>
+<img src='https://itman.ru/thumb/2/JnNZ4odsW1HSFfwiwml-ug/r/d/arrow_black.svg' alt='Arrow black' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/JnNZ4odsW1HSFfwiwml-ug/r/d/arrow_black.svg' class='image__img' id='ia15dlzv8_352491160' >
+</div>
+</a>
+</div>
+<div data-title='«Инферит ИТМен» выпустил обновление 7.2 с самодиагностикой и упрощенной настройкой сетевого сканирования' role='listitem' data-tt-collection-item-id='33909716' class='collection__item collection__item--u-isfgi7bmf' id='isfgi7bmf_339097161'>
+<div class='div div--u-idrhh4zg3' id='idrhh4zg3_339097161'>
+<div class='text text--u-iphe8avpx' id='iphe8avpx_339097161'>
+<span class='text-block-wrap-div'>Новости</span>
+</div>
+</div>
+<div class='image image--u-i69zdfifu' id='i69zdfifu_339097161'>
+<img src='https://itman.ru/thumb/2/cn_WUtHLbFVTQXzko32nIA/r/d/inferit-itmen-vypustil-obnovlenie-72-s-samodiagnostikoj-i-uproshchennoj-nastrojkoj-setevogo-skanirovaniya1_561150.png' alt='' title='' class='image__img image__img--s2-ie3suektt' id='ie3suektt_339097161' >
+</div>
+<div class='div div--u-ibpqgooqr' id='ibpqgooqr_339097161'>
+<div class='text text--u-iyx9n0kw0' id='iyx9n0kw0_339097161'>
+<span class='text-block-wrap-div'>23.07.2026</span>
+</div>
+<h3 class='text text--u-irtxmfbmt' id='irtxmfbmt_339097161'>
+<span class='text-block-wrap-div'>«Инферит ИТМен» выпустил обновление 7.2 с самодиагностикой и упрощенной настройкой сетевого сканирования</span>
+</h3>
+</div>
+<a href='/itman/site-mirror/blog-posts/inferit-itmen-vypustil-obnovlenie-7.2-s-samodiagnostikoj-i-uproshchennoj-nastrojkoj-setevogo-skanirovaniya/' data-action-element='' target='_self' class='button button--u-ihsp1iv6u' id='ihsp1iv6u_339097161'>
+<span class='text-button text-button--u-ik7dk5zi8' id='ik7dk5zi8_339097161'>
+<span class='text-block-wrap-div'>Подробнее</span>
+</span>
+<div class='image image--u-i0ybp8est' id='i0ybp8est_339097161'>
+<img src='https://itman.ru/thumb/2/juarcBfGqvzV3vBR803P2g/r/d/arrow_red.svg' alt='Arrow red' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/juarcBfGqvzV3vBR803P2g/r/d/arrow_red.svg' class='image__img' id='inrpi66ek_339097161' >
+</div>
+<div class='image image--u-ie8vdnvyf' id='ie8vdnvyf_339097161'>
+<img src='https://itman.ru/thumb/2/JnNZ4odsW1HSFfwiwml-ug/r/d/arrow_black.svg' alt='Arrow black' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/JnNZ4odsW1HSFfwiwml-ug/r/d/arrow_black.svg' class='image__img' id='ia15dlzv8_339097161' >
+</div>
+</a>
+</div>
+<div data-title='Две службы каталогов в одной сети: как не потерять ИТ-активы при миграции с Active Directory на FreeIPA' role='listitem' data-tt-collection-item-id='30720716' class='collection__item collection__item--u-isfgi7bmf' id='isfgi7bmf_307207162'>
+<div class='div div--u-idrhh4zg3' id='idrhh4zg3_307207162'>
+<div class='text text--u-iphe8avpx' id='iphe8avpx_307207162'>
+<span class='text-block-wrap-div'>Статьи</span>
+</div>
+</div>
+<div class='image image--u-i69zdfifu' id='i69zdfifu_307207162'>
+<img src='https://itman.ru/thumb/2/I5p_hsY0xo--Qx-mo2DZoQ/r/d/migraciya-s-active-directory-na-freeipa-uchet-aktivov.png' alt='' title='' class='image__img image__img--s2-ie3suektt' id='ie3suektt_307207162' >
+</div>
+<div class='div div--u-ibpqgooqr' id='ibpqgooqr_307207162'>
+<div class='text text--u-iyx9n0kw0' id='iyx9n0kw0_307207162'>
+<span class='text-block-wrap-div'>09.07.2026</span>
+</div>
+<h3 class='text text--u-irtxmfbmt' id='irtxmfbmt_307207162'>
+<span class='text-block-wrap-div'>Две службы каталогов в одной сети: как не потерять ИТ-активы при миграции с Active Directory на FreeIPA</span>
+</h3>
+</div>
+<a href='/itman/site-mirror/blog-posts/migraciya-s-active-directory-na-freeipa-uchet-aktivov/' data-action-element='' target='_self' class='button button--u-ihsp1iv6u' id='ihsp1iv6u_307207162'>
+<span class='text-button text-button--u-ik7dk5zi8' id='ik7dk5zi8_307207162'>
+<span class='text-block-wrap-div'>Подробнее</span>
+</span>
+<div class='image image--u-i0ybp8est' id='i0ybp8est_307207162'>
+<img src='https://itman.ru/thumb/2/juarcBfGqvzV3vBR803P2g/r/d/arrow_red.svg' alt='Arrow red' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/juarcBfGqvzV3vBR803P2g/r/d/arrow_red.svg' class='image__img' id='inrpi66ek_307207162' >
+</div>
+<div class='image image--u-ie8vdnvyf' id='ie8vdnvyf_307207162'>
+<img src='https://itman.ru/thumb/2/JnNZ4odsW1HSFfwiwml-ug/r/d/arrow_black.svg' alt='Arrow black' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/JnNZ4odsW1HSFfwiwml-ug/r/d/arrow_black.svg' class='image__img' id='ia15dlzv8_307207162' >
+</div>
+</a>
+</div>
+</div>
+<div class='collection__pagination collection__pagination--u-iyma086ha' id='iyma086ha_0'>
+<div class='collection__pagination-pages' id='imhahh7m1_0'>
+<a  class='collection__pagination-button-prev carousel-arrow collection__pagination-button-prev--u-iqmg8vryo' id='iqmg8vryo_0'>
+<div class='collection__pagination-pages-image-prev collection__pagination-pages-image-prev--u-iiepdjn5l' id='iiepdjn5l_0'></div>
+<div class='image image--u-ifoznj4sh' id='ifoznj4sh_0'>
+<img src='https://itman.ru/thumb/2/giD4wne67b_uWIJrvYeWRg/r/d/left.svg' alt='left' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/giD4wne67b_uWIJrvYeWRg/r/d/left.svg' class='image__img' id='i9cxjtmth_0' >
+</div>
+<div class='image image--u-iho1etwzg' id='iho1etwzg_0'>
+<img src='https://itman.ru/thumb/2/AQ1sJvN85_5vTKxgoVUpFg/r/d/left-white.svg' alt='left-white' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/AQ1sJvN85_5vTKxgoVUpFg/r/d/left-white.svg' class='image__img' id='iv3onkx6n_0' >
+</div>
+</a>
+<a href='https://itman.ru/blog-posts/p/2' class='collection__pagination-button-next carousel-arrow collection__pagination-button-next--u-ihu31bez5' id='ihu31bez5_0'>
+<div class='image image--u-iqlvcl15w' id='iqlvcl15w_0'>
+<img src='https://itman.ru/thumb/2/JxiZ_S5yMq3i0my4WbxiDg/r/d/arrow-left_2_1_1.svg' alt='' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/JxiZ_S5yMq3i0my4WbxiDg/r/d/arrow-left_2_1_1.svg' class='image__img' id='iqlzfobay_0' >
+</div>
+<div class='image image--u-ik3tesmir' id='ik3tesmir_0'>
+<img src='https://itman.ru/thumb/2/riWVEV3ZyivQouuKnPFl0w/r/d/arrow_black_829167.svg' alt='Arrow black' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/riWVEV3ZyivQouuKnPFl0w/r/d/arrow_black_829167.svg' class='image__img' id='i92i9o1y5_0' >
+</div>
+<div class='collection__pagination-pages-image-next collection__pagination-pages-image-next--u-iao5m42rh' id='iao5m42rh_0'></div>
+</a>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section class='section section--u-iewdp379r color--background-black' id='iewdp379r_0'>
+<div class='container container--u-i55j9bk8y' id='i55j9bk8y_0'>
+<div class='div div--u-i7daj2w0x' id='i7daj2w0x_0'>
+<div class='div div--u-iejfc000m' id='iejfc000m_0'>
+<div class='div div--u-iv2t12stc color--text-neutral-white' id='iv2t12stc_0'>
+<h2 class='text text--u-ip7iss9wl' id='ip7iss9wl_0'>
+<span class='text-block-wrap-div'>Есть вопросы по продукту или хотите<span style="color:rgb(221, 12, 41)"> записаться на демо?</span></span>
+</h2>
+<p class='text text--u-ii4tjqfm5 font--nekst-20-medium' id='ii4tjqfm5_0'>
+<span class='text-block-wrap-div'>Отправьте заявку! Ответим на вопросы и покажем возможности продукта с учетом ваших бизнес-задач и отраслевой специфики</span>
+</p>
+</div>
+<div class='div div--u-intod1aah' id='intod1aah_0'></div>
+</div>
+<div class='div div--u-itwb2kpi4' id='itwb2kpi4_0'>
+<div class='form form--u-i43qjzleb' id='i43qjzleb_0'>
+<form action='#' class='form__state-default form__state-default--u-itppke49l' id='itppke49l_0' data-s3-anketa-id='172375513'>
+<div data-type-field='text' data-field-position class='form__field form__field--u-ii1yffoev' id='ii1yffoev_0'>
+<input placeholder='Имя и Фамилия *' type='text' class='form__input form__input--u-ighi9gset input-2' id='ighi9gset_0' >
+<div class='form__field-error' id='iha5eevst_0'>
+<span class='text-block-wrap-div'>Это поле обязательно для заполнения</span>
+</div>
+</div>
+<div data-type-field='phone' data-field-position='1' class='form__field form__field--u-ijkb0duap' id='ijkb0duap_0'>
+<input placeholder='Номер телефона*' type='tel' data-do-mask='+7 (___) ___-__-__' class='form__input form__input--u-ioxfjy8an input-2' id='ioxfjy8an_0' >
+<div class='form__field-error' id='imnomlb8h_0'>
+<span class='text-block-wrap-div'>Это поле обязательно для заполнения</span>
+</div>
+</div>
+<div data-type-field='text' data-field-position='2' class='form__field' id='iob3ysmyl_0'>
+<div class='text-subtitle' id='ihn7ycjvf_0'>
+<span class='text-block-wrap-div'>utm_source</span>
+</div>
+<input placeholder='' type='text' name='utm_source' class='form__input' id='i34eq1z2l_0' >
+<div class='form__field-error' id='iqafn9h8m_0'>
+<span class='text-block-wrap-div'>Это поле обязательно для заполнения</span>
+</div>
+</div>
+<div data-type-field='text' data-field-position='3' class='form__field' id='i03hogebw_0'>
+<div class='text-subtitle' id='iizvh4iwg_0'>
+<span class='text-block-wrap-div'>utm_medium</span>
+</div>
+<input placeholder='' type='text' name='utm_medium' class='form__input' id='ie77auvx6_0' >
+<div class='form__field-error' id='id6b37jsz_0'>
+<span class='text-block-wrap-div'>Это поле обязательно для заполнения</span>
+</div>
+</div>
+<div data-type-field='text' data-field-position='4' class='form__field' id='iizgcgpvg_0'>
+<div class='text-subtitle' id='icvn56g96_0'>
+<span class='text-block-wrap-div'>utm_campaign</span>
+</div>
+<input placeholder='' type='text' name='utm_campaign' class='form__input' id='ia198pwq5_0' >
+<div class='form__field-error' id='i62ilv12g_0'>
+<span class='text-block-wrap-div'>Это поле обязательно для заполнения</span>
+</div>
+</div>
+<div data-type-field='text' data-field-position='5' class='form__field' id='i8stvyvj1_0'>
+<div class='text-subtitle' id='izri6cd1l_0'>
+<span class='text-block-wrap-div'>utm_term</span>
+</div>
+<input placeholder='' type='text' name='utm_term' class='form__input' id='i191jecbp_0' >
+<div class='form__field-error' id='iuurvaa16_0'>
+<span class='text-block-wrap-div'>Это поле обязательно для заполнения</span>
+</div>
+</div>
+<div data-type-field='text' data-field-position='6' class='form__field' id='ijwx3l7nx_0'>
+<div class='text-subtitle' id='i11nx5uql_0'>
+<span class='text-block-wrap-div'>utm_content</span>
+</div>
+<input placeholder='' type='text' name='utm_content' class='form__input' id='i6pyrs7q2_0' >
+<div class='form__field-error' id='ibjenurj8_0'>
+<span class='text-block-wrap-div'>Это поле обязательно для заполнения</span>
+</div>
+</div>
+<div data-type-field='text' data-field-position='7' class='form__field' id='iu3nof9kc_0'>
+<div class='text-subtitle' id='irip2aq5i_0'>
+<span class='text-block-wrap-div'>first_visit_source</span>
+</div>
+<input placeholder='' type='text' name='first_visit_source' class='form__input' id='idtw9aybq_0' >
+<div class='form__field-error' id='im5d3xghm_0'>
+<span class='text-block-wrap-div'>Это поле обязательно для заполнения</span>
+</div>
+</div>
+<div data-type-field='email' data-field-position='8' class='form__field form__field--u-ij9or81bg' id='ij9or81bg_0'>
+<input placeholder='E-mail' type='email' class='form__input form__input--u-i3b9h806q input-2' id='i3b9h806q_0' >
+<div class='form__field-error' id='iasmufxij_0'>
+<span class='text-block-wrap-div'>Это поле обязательно для заполнения</span>
+</div>
+</div>
+<div data-type-field='select' data-field-position='9' class='form__field form__field--u-iibtbopf3' id='iibtbopf3_0'>
+<select class='form__select form__select--u-i23xj3te0 form__select--s2-i23xj3te0' id='i23xj3te0_0'>
+<option class='form__select-item' id='if2x87vqb_0'>
+Размер инфраструктуры
+</option>
+<option class='form__select-item' id='if2x87vqb_1'>
+100-1000
+</option>
+<option class='form__select-item' id='if2x87vqb_2'>
+1000-5000
+</option>
+<option class='form__select-item' id='if2x87vqb_3'>
+5000-10000
+</option>
+<option class='form__select-item' id='if2x87vqb_4'>
+10000-20000
+</option>
+<option class='form__select-item' id='if2x87vqb_5'>
+20000-50000
+</option>
+<option class='form__select-item' id='if2x87vqb_6'>
+более 50000
+</option>
+</select>
+<div class='form__field-error' id='ighxuggru_0'>
+<span class='text-block-wrap-div'>Это поле обязательно для заполнения</span>
+</div>
+</div>
+<div data-type-field='textarea' data-field-position='10' class='form__field form__field--u-i446ri8lg' id='i446ri8lg_0'>
+<textarea placeholder='Комментарий' class='form__textarea form__textarea--u-inf2u4qyv text-area-2' id='inf2u4qyv_0'></textarea>
+<div class='form__field-error' id='iqmhpvvah_0'>
+<span class='text-block-wrap-div'>Это поле обязательно для заполнения</span>
+</div>
+</div>
+<div data-type-field='checkbox_group' data-field-position='11' class='form__field form__field--u-iggth2b68 form__field--s2-iggth2b68' id='iggth2b68_0'>
+<div class='form__widget-group' id='ijfed2vyn_0'>
+<label class='form__widget-item form__widget-item--u-ir4x8gy8q' id='ir4x8gy8q_0'>
+<input value='Я даю согласие на обработку <span style="color:rgb(255, 255, 255)"><a data-url="/itman/site-mirror/soglasie/" href="/itman/site-mirror/soglasie/" target="_blank" rel="noreferrer">персональных данных</a></span>' type='checkbox' name='checkbox-ism48diqm' readOnly class='form__checkbox form__checkbox--u-ism48diqm' id='ism48diqm_0' >
+<span class='form__checkbox-styled form__checkbox-styled--u-iouoqxpgt' id='iouoqxpgt_0'></span>
+<span class='form__label-text form__label-text--u-idiswe88b' id='idiswe88b_0'>
+<span class='text-block-wrap-div'>Я даю согласие на обработку <span style="color:rgb(255, 255, 255)"><a data-url="/itman/site-mirror/soglasie/" href="/itman/site-mirror/soglasie/" target="_blank" rel="noreferrer">персональных данных</a></span></span>
+</span>
+</label>
+</div>
+<div class='form__field-error' id='i311ozarx_0'>
+<span class='text-block-wrap-div'>Это поле обязательно для заполнения</span>
+</div>
+</div>
+<button href='/itman/site-mirror/' data-action-element='' type='submit' data-goal='submit-demo' class='button button--u-ixwbm6iqq button-primary color--background-accent-red' id='ixwbm6iqq_0'>
+<span class='text-button font--nekst-18-semibold' id='iqrlnupy2_0'>
+<span class='text-block-wrap-div'>Оставить заявку</span>
+</span>
+</button>
+<smart-captcha data-captcha="smart_captcha"
+     data-name="captcha"
+     data-sitekey="ysc1_dQbmHdIQQUCaA8H9ttOxkytc0GAHSVyZxTJZ4zJm3456b093"
+     data-lang="ru"
+     data-hide-shield="0"
+     data-invisible="1"></smart-captcha></form>
+<div class='form__state-success form__state-success--u-i1uxje18z' id='i1uxje18z_0'>
+<div class='image' id='id78gqvy1_0'>
+<img src='https://itman.ru/thumb/2/2e1_3WJQ2TB1TgTT3tpqRg/640r480/d/circle-dashed-check_5_1_696300.svg' alt='circle-dashed-check (5) 1' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/2e1_3WJQ2TB1TgTT3tpqRg/640r480/d/circle-dashed-check_5_1_696300.svg' class='image__img' id='i73fnbjk4_0' >
+</div>
+<div class='text text--u-i1q0m9ied' id='i1q0m9ied_0'>
+<span class='text-block-wrap-div'>Спасибо! Форма отправлена</span>
+</div>
+</div>
+<div class='form__state-error' id='if8b07oev_0'>
+<div class='form__text-error' id='imto52las_0'>
+<span class='text-block-wrap-div'>Что-то не так. Попробуйте позже</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section><section class='section section--u-ikn8epteq color--background-black-2' id='ikn8epteq_0'>
+<div class='container container--u-i7cqh8ml2' id='i7cqh8ml2_0'>
+<div class='div div--u-i4i8tnvr5' id='i4i8tnvr5_0'>
+<div class='div div--u-itmnklms0' id='itmnklms0_0'>
+<div class='div div--u-iykiisu8v' id='iykiisu8v_0'></div>
+<div class='div div--u-iru9qx3u6' id='iru9qx3u6_0'>
+<div class='div div--u-ivnca7qba' id='ivnca7qba_0'></div>
+<p class='text text--u-iudnouhw8 font--nekst-14-regular' id='iudnouhw8_0'>
+<span class='text-block-wrap-div'>В реестре российского ПО: №12289 от 14.12.2021</span>
+</p>
+</div>
+<div class='div div--u-i6epsv9gj' id='i6epsv9gj_0'>
+<p class='text text--u-itsjv5v54 font--nekst-14-regular' id='itsjv5v54_0'>
+<span class='text-block-wrap-div'>Маркетинговое название «Инферит ИТМен» соответствует itman discovery</span>
+</p>
+</div>
+</div>
+<div class='div div--u-if70rho6v' id='if70rho6v_0'>
+<div class='div div--u-i5q6s0oih' id='i5q6s0oih_0'>
+<div class='div div--u-iswmdwjjy' id='iswmdwjjy_0'>
+<div class='text font--nekst-16-medium text--u-ij0m9geh5' id='ij0m9geh5_0'>
+<span class='text-block-wrap-div'>Продукты и поддержка</span>
+</div>
+<div class='list list--u-ir97uaqiu font--nekst-16-regular' id='ir97uaqiu_0'>
+<div class='list__item list__item--u-i921gkt5b' id='i921gkt5b_0'>
+<a href='/itman/site-mirror/modules/' data-action-element='' target='_blank' class='link link--u-i6umoy0um' id='i6umoy0um_0'>
+<span class='text-block-wrap-div'>Модули продукта</span>
+</a>
+</div>
+<div class='list__item list__item--u-if6fvjl4m' id='if6fvjl4m_0'>
+<a href='/itman/site-mirror/inventory/' data-action-element='' target='_blank' class='link link--u-itakinz01' id='itakinz01_0'>
+<span class='text-block-wrap-div'>Инвентаризация</span>
+</a>
+</div>
+<div class='list__item list__item--u-ipy1ruuzj' id='ipy1ruuzj_0'>
+<a href='/itman/site-mirror/cmdb/' data-action-element='' target='_blank' class='link link--u-iwsyhi1gk' id='iwsyhi1gk_0'>
+<span class='text-block-wrap-div'>Поставка данных в CMDB</span>
+</a>
+</div>
+<div class='list__item list__item--u-iw1o0t0p7' id='iw1o0t0p7_0'>
+<a href='/itman/site-mirror/support-center/' data-action-element='' target='_blank' class='link link--u-ixu8bcsp3' id='ixu8bcsp3_0'>
+<span class='text-block-wrap-div'>Техническая поддержка</span>
+</a>
+</div>
+<div class='list__item list__item--u-ir4hudvjr' id='ir4hudvjr_0'>
+<a href='/itman/site-mirror/cases/' data-action-element='' target='_blank' class='link link--u-i1w6mlyp6' id='i1w6mlyp6_0'>
+<span class='text-block-wrap-div'>Кейсы</span>
+</a>
+</div>
+</div>
+</div>
+<div class='div div--u-ihczywyts' id='ihczywyts_0'>
+<div class='text font--nekst-16-medium text--u-in03jx2da' id='in03jx2da_0'>
+<span class='text-block-wrap-div'>Полезная информация</span>
+</div>
+<div class='list list--u-iyw3rklqy font--nekst-16-regular' id='iyw3rklqy_0'>
+<div class='list__item list__item--u-irm4dcaxi' id='irm4dcaxi_0'>
+<a href='/itman/site-mirror/support-center/' data-action-element='' class='link link--u-i8fe5dnnf' id='i8fe5dnnf_0'>
+<span class='text-block-wrap-div'>Техническая документация</span>
+</a>
+</div>
+<div class='list__item list__item--u-i0w6w7i19' id='i0w6w7i19_0'>
+<a href='/itman/site-mirror/support-center/' data-action-element='' class='link link--u-i69y9qvws' id='i69y9qvws_0'>
+<span class='text-block-wrap-div'>FAQ</span>
+</a>
+</div>
+<div class='list__item list__item--u-i6jcwjntu' id='i6jcwjntu_0'>
+<a href='https://partners.inferit.ru/' data-action-element='' target='_blank' class='link link--u-i4f2qfygj' id='i4f2qfygj_0'>
+<span class='text-block-wrap-div'>Партнерам</span>
+</a>
+</div>
+<div class='list__item list__item--u-itvl9rzwc' id='itvl9rzwc_0'>
+<a href='/itman/site-mirror/support-center/' data-action-element='' class='link link--u-ijv43px3n' id='ijv43px3n_0'>
+<span class='text-block-wrap-div'>Техническая поддержка</span>
+</a>
+</div>
+</div>
+</div>
+<div class='div div--u-icnlgjlnk' id='icnlgjlnk_0'>
+<div class='text font--nekst-16-medium text--u-imeuyo0rw' id='imeuyo0rw_0'>
+<span class='text-block-wrap-div'>Документы и соглашения</span>
+</div>
+<div class='list list--u-i5ioz6t6n font--nekst-16-regular' id='i5ioz6t6n_0'>
+<div class='list__item list__item--u-iou9jkvbe' id='iou9jkvbe_0'>
+<a href='/itman/site-mirror/privacy-policy/' data-action-element='' target='_blank' class='link link--u-ikrgplcgs' id='ikrgplcgs_0'>
+<span class='text-block-wrap-div'>Политика конфиденциальности</span>
+</a>
+</div>
+<div class='list__item list__item--u-iou9jkvbe' id='iou9jkvbe_1'>
+<a href='/itman/site-mirror/soglasie/' data-action-element='' target='_blank' class='link link--u-ikrgplcgs' id='ikrgplcgs_1'>
+<span class='text-block-wrap-div'>Согласие на обработку<br>персональных данных</span>
+</a>
+</div>
+<div class='list__item list__item--u-iou9jkvbe' id='iou9jkvbe_2'>
+<a href='/itman/site-mirror/usloviya/' data-action-element='' target='_blank' class='link link--u-ikrgplcgs' id='ikrgplcgs_2'>
+<span class='text-block-wrap-div'>Условия использования сайта</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div class='div div--u-i3nk9335t' id='i3nk9335t_0'>
+<div class='div div--u-iu27uaui6' id='iu27uaui6_0'>
+<div class='text font--nekst-16-medium text--u-iu3b1jhoa' id='iu3b1jhoa_0'>
+<span class='text-block-wrap-div'>Отдел продаж</span>
+</div>
+<div class='list list--u-ibax3duqg font--nekst-16-regular' id='ibax3duqg_0'>
+<div class='list__item list__item--u-iwsbu7dvw' id='iwsbu7dvw_0'>
+<a href='tel:' data-action-element='' target='_self' class='link link--u-icfijpz6c' id='icfijpz6c_0'>
+<span class='text-block-wrap-div'>8 800 707 85 53</span>
+</a>
+</div>
+<div class='list__item list__item--u-iwsbu7dvw' id='iwsbu7dvw_1'>
+<a href='tel:' data-action-element='' target='_self' class='link link--u-icfijpz6c' id='icfijpz6c_1'>
+<span class='text-block-wrap-div'>info@itman.ru</span>
+</a>
+</div>
+</div>
+</div>
+<div class='div div--u-ii6e7aw7p' id='ii6e7aw7p_0'>
+<div class='text font--nekst-16-medium text--u-ihnl6f10l' id='ihnl6f10l_0'>
+<span class='text-block-wrap-div'>Техническая поддержка</span>
+</div>
+<p class='text text--u-ics8klcbi' id='ics8klcbi_0'>
+<span class='text-block-wrap-div'>support@inferit.ru</span>
+</p>
+</div>
+<div class='div div--u-idi5xhcgr' id='idi5xhcgr_0'>
+<div class='text font--nekst-16-medium text--u-ifls534er' id='ifls534er_0'>
+<span class='text-block-wrap-div'>Адрес</span>
+</div>
+<p class='text text--u-i7zxic7mg font--nekst-14-regular' id='i7zxic7mg_0'>
+<span class='text-block-wrap-div'>Москва, 2-й Южнопортовый проезд, 20с4</span>
+</p>
+</div>
+</div>
+</div>
+<div class='accordion accordion--u-iezz1wh1j' id='iezz1wh1j_0'>
+<div class='accordion__item accordion__item--u-it0y93rvm' id='it0y93rvm_0'>
+<div class='accordion__header accordion__header--u-i76l1p62r' id='i76l1p62r_0'>
+<div class='div div--u-i7655akm7' id='i7655akm7_0'>
+<div class='text-subtitle text-subtitle--u-i6w3l6oun' id='i6w3l6oun_0'>
+<span class='text-block-wrap-div'><span style="font-family:Nekst Medium Web"><span style="font-style:normal"><span style="font-weight:500">Продукты и поддержка</span></span></span></span>
+</div>
+</div>
+<div class='div div--u-i3i6bbhyn' id='i3i6bbhyn_0'></div>
+</div>
+<div class='accordion__wrapper' id='i437fr1te_0'>
+<div class='accordion__content accordion__content--u-id9fegix4' id='id9fegix4_0'>
+<div class='list list--u-i8x7zkb2b' id='i8x7zkb2b_0'>
+<div class='list__item list__item--u-ilm5a0xte' id='ilm5a0xte_0'>
+<a href='/itman/site-mirror/modules/' data-action-element='' target='_self' class='link link--u-izww75ke3' id='izww75ke3_0'>
+<span class='text-block-wrap-div'>Модули продукта</span>
+</a>
+</div>
+<div class='list__item list__item--u-i85njh906' id='i85njh906_0'>
+<a href='/itman/site-mirror/inventory/' data-action-element='' target='_self' class='link link--u-ikvkhxzwi' id='ikvkhxzwi_0'>
+<span class='text-block-wrap-div'>Инвентаризация</span>
+</a>
+</div>
+<div class='list__item list__item--u-itkx3azp0' id='itkx3azp0_0'>
+<a href='/itman/site-mirror/cmdb/' data-action-element='' target='_blank' class='link link--u-ii14tn0j1' id='ii14tn0j1_0'>
+<span class='text-block-wrap-div'>Поставка данных в CMDB</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class='accordion__item accordion__item--u-it0y93rvm' id='it0y93rvm_1'>
+<div class='accordion__header accordion__header--u-i76l1p62r' id='i76l1p62r_1'>
+<div class='div div--u-i7655akm7' id='i7655akm7_1'>
+<div class='text-subtitle text-subtitle--u-i6w3l6oun' id='i6w3l6oun_1'>
+<span class='text-block-wrap-div'><span style="font-family:&quot;Nekst Medium Web&quot;"><span style="font-style:normal"><span style="font-weight:500">Полезная информация</span></span></span></span>
+</div>
+</div>
+<div class='div div--u-i3i6bbhyn' id='i3i6bbhyn_1'></div>
+</div>
+<div class='accordion__wrapper' id='i437fr1te_1'>
+<div class='accordion__content accordion__content--u-id9fegix4' id='id9fegix4_1'>
+<div class='list list--u-i8x7zkb2b' id='i8x7zkb2b_1'>
+<div class='list__item list__item--u-ilm5a0xte' id='ilm5a0xte_1'>
+<a href='#iwoxu1mfy_0' data-action-element='' target='_self' class='link link--u-izww75ke3' id='izww75ke3_1'>
+<span class='text-block-wrap-div'>Техническая документация</span>
+</a>
+</div>
+<div class='list__item list__item--u-i85njh906' id='i85njh906_1'>
+<a href='#iahnickwh_0' data-action-element='' target='_self' class='link link--u-ikvkhxzwi' id='ikvkhxzwi_1'>
+<span class='text-block-wrap-div'>FAQ</span>
+</a>
+</div>
+<div class='list__item list__item--u-itkx3azp0' id='itkx3azp0_1'>
+<a href='/itman/site-mirror/' data-action-element='' target='_blank' class='link link--u-ii14tn0j1' id='ii14tn0j1_1'>
+<span class='text-block-wrap-div'>Партнерам</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class='accordion__item accordion__item--u-it0y93rvm' id='it0y93rvm_2'>
+<div class='accordion__header accordion__header--u-i76l1p62r' id='i76l1p62r_2'>
+<div class='div div--u-i7655akm7' id='i7655akm7_2'>
+<div class='text-subtitle text-subtitle--u-i6w3l6oun' id='i6w3l6oun_2'>
+<span class='text-block-wrap-div'>Документы и соглашения</span>
+</div>
+</div>
+<div class='div div--u-i3i6bbhyn' id='i3i6bbhyn_2'></div>
+</div>
+<div class='accordion__wrapper' id='i437fr1te_2'>
+<div class='accordion__content accordion__content--u-id9fegix4' id='id9fegix4_2'>
+<div class='list list--u-i8x7zkb2b' id='i8x7zkb2b_2'>
+<div class='list__item list__item--u-ilm5a0xte' id='ilm5a0xte_2'>
+<a href='/itman/site-mirror/privacy-policy/' data-action-element='' target='_self' class='link link--u-izww75ke3' id='izww75ke3_2'>
+<span class='text-block-wrap-div'>Политика конфиденциальности</span>
+</a>
+</div>
+<div class='list__item list__item--u-i85njh906' id='i85njh906_2'>
+<a href='/itman/site-mirror/usloviya/' data-action-element='' target='_self' class='link link--u-ikvkhxzwi' id='ikvkhxzwi_2'>
+<span class='text-block-wrap-div'>Согласие на обработку персональных данных</span>
+</a>
+</div>
+<div class='list__item list__item--u-itkx3azp0' id='itkx3azp0_2'>
+<a href='/itman/site-mirror/soglasie/' data-action-element='' target='_blank' class='link link--u-ii14tn0j1' id='ii14tn0j1_2'>
+<span class='text-block-wrap-div'>Условия использования сайта</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class='accordion__item accordion__item--u-it0y93rvm' id='it0y93rvm_3'>
+<div class='accordion__header accordion__header--u-i76l1p62r' id='i76l1p62r_3'>
+<div class='div div--u-i7655akm7' id='i7655akm7_3'>
+<div class='text-subtitle text-subtitle--u-i6w3l6oun' id='i6w3l6oun_3'>
+<span class='text-block-wrap-div'>Контакты</span>
+</div>
+</div>
+<div class='div div--u-i3i6bbhyn' id='i3i6bbhyn_3'></div>
+</div>
+<div class='accordion__wrapper' id='i437fr1te_3'>
+<div class='accordion__content accordion__content--u-id9fegix4' id='id9fegix4_3'>
+<div class='list list--u-i8x7zkb2b' id='i8x7zkb2b_3'>
+<div class='list__item list__item--u-ilm5a0xte' id='ilm5a0xte_3'>
+<a href='/itman/site-mirror/' data-action-element='' target='_self' class='link link--u-izww75ke3' id='izww75ke3_3'>
+<span class='text-block-wrap-div'>8 800 950 20 20, sales@itman.ru</span>
+</a>
+</div>
+<div class='list__item list__item--u-i85njh906' id='i85njh906_3'>
+<a href='/itman/site-mirror/' data-action-element='' target='_self' class='link link--u-ikvkhxzwi' id='ikvkhxzwi_3'>
+<span class='text-block-wrap-div'>Техническая поддержка: support@itman.ru</span>
+</a>
+</div>
+<div class='list__item list__item--u-itkx3azp0' id='itkx3azp0_3'>
+<a href='/itman/site-mirror/' data-action-element='' target='_blank' class='link link--u-ii14tn0j1' id='ii14tn0j1_3'>
+<span class='text-block-wrap-div'>Москва, 2-й Южнопортовый проезд, 20с4</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p class='text text--u-i5kcm3uha' id='i5kcm3uha_0'>
+<span class='text-block-wrap-div'>Информация, представленная на сайте, носит исключительно справочный и ознакомительный характер, не предназначена для личных, семейных, домашних и иных нужд, не связанных с осуществлением предпринимательской деятельности и не ориентирована на потребителей по смыслу Федерального закона от 24.06.2025 № 168-ФЗ. Указанные цены и комплектации продуктов не являются окончательными и не могут служить основанием для коммерческих расчетов. Данные сведения не представляют собой публичную оферту по смыслу ст. 437 ГК РФ. Для получения точных и актуальных данных обращайтесь к официальным представителям ООО «НЦПР». <a data-url="https://crmindex.ru/services/itman24" href="https://crmindex.ru/services/itman24" rel="noreferrer">https://crmindex.ru/services/itman24</a></span>
+</p>
+<div class='div div--u-irw69e67f' id='irw69e67f_0'>
+<div class='div div--u-inni92k6a' id='inni92k6a_0'></div>
+<div class='div div--u-iah1byeti' id='iah1byeti_0'>
+<div class='div div--u-iia0pq2jj' id='iia0pq2jj_0'>
+<div class='div div--u-i3p97ktcx' id='i3p97ktcx_0'></div>
+<p class='text text--u-ip2ny0d7r font--nekst-14-regular' id='ip2ny0d7r_0'>
+<span class='text-block-wrap-div'>&#xA9; 2011-2026 ООО «НЦПР». Все права защищены.</span>
+</p>
+</div>
+<div class='div div--u-idzchhkvd' id='idzchhkvd_0'>
+<div class='div div--u-id3vn5eyh' id='id3vn5eyh_0'>
+<a href='https://t.me/Inferit_official' data-action-element='' target='_blank' class='link-block link-block--u-iqzowjexj' id='iqzowjexj_0'></a>
+</div>
+<div class='div div--u-i4wrtjyjo' id='i4wrtjyjo_0'>
+<a href='https://vk.com/inferit_official' data-action-element='' target='_blank' class='link-block link-block--u-ijq6zj2vc' id='ijq6zj2vc_0'></a>
+</div>
+<div class='div div--u-iwnre5tof' id='iwnre5tof_0'>
+<a href='https://companies.rbc.ru/id/1225000052661-inferit/' data-action-element='' target='_blank' class='link-block link-block--u-icjx1vo6m' id='icjx1vo6m_0'></a>
+</div>
+<div class='div div--u-ip7gfexf2' id='ip7gfexf2_0'>
+<a href='https://habr.com/ru/companies/inferit/articles/' data-action-element='' target='_blank' class='link-block link-block--u-itjvkkr7a' id='itjvkkr7a_0'></a>
+</div>
+<div class='div div--u-iwsm0vv9z' id='iwsm0vv9z_0'>
+<a href='https://rutube.ru/channel/36395261/' data-action-element='' target='_blank' class='link-block link-block--u-ig7zu4pw3' id='ig7zu4pw3_0'></a>
+</div>
+<div class='div div--u-iyxgzlxbk' id='iyxgzlxbk_0'>
+<a href='https://www.computerra.ru/author/inferit/' data-action-element='' target='_blank' class='link-block link-block--u-inu6j2wj2' id='inu6j2wj2_0'></a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section><div data-cookie-banner class='pop-up pop-up--u-ivmkdeopr' id='ivmkdeopr_0'>
+<div class='pop-up__overlay pop-up__overlay--u-iozjrbpv3' id='iozjrbpv3_0'></div>
+<div class='pop-up__outside-close-button' id='i5acsc75s_0'>
+
+  
+</div>
+<div class='pop-up__content pop-up__content--u-ifxticiru' id='ifxticiru_0'>
+<div class='text' id='ip7isj4wp_0'>
+<span class='text-block-wrap-div'>Мы используем файлы cookie, чтобы улучшить сайт для вас</span>
+</div>
+<div data-cookie-consent='reject' class='pop-up__inside-close-button pop-up__inside-close-button--u-iiokbyn67' id='iiokbyn67_0'>
+
+    
+</div>
+<div class='div div--u-i38mrid9t' id='i38mrid9t_0'>
+<div href='/itman/site-mirror/' data-action-element='' role='button' data-cookie-consent='accept' class='button button--u-i2jeepc3g color--background-accent-red button-primary' id='i2jeepc3g_0'>
+<span class='text-button font--nekst-18-semibold' id='imskr9eh6_0'>
+<span class='text-block-wrap-div'>Подтвердить</span>
+</span>
+</div>
+<div href='/itman/site-mirror/' data-action-element='' role='button' data-cookie-consent='reject' class='button button--u-ioxfpy6km button-stroke-default color--background-neutral-white' id='ioxfpy6km_0'>
+<span class='text-button font--nekst-18-semibold color--text-black text-button--u-isuaf2jq5' id='isuaf2jq5_0'>
+<span class='text-block-wrap-div'>Отклонить</span>
+</span>
+</div>
+</div>
+</div>
+</div><button role='button' class='up-button up-button--u-ik5x8cx0n' id='ik5x8cx0n_0'>
+<div class='image image--u-irdhkcz6e' id='irdhkcz6e_0'>
+<img src='https://itman.ru/thumb/2/cU1LF3v3UP1AWYzP4AfarA/640r480/d/arrow-left_2_1_379399.svg' alt='arrow-left (2) 1' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/cU1LF3v3UP1AWYzP4AfarA/640r480/d/arrow-left_2_1_379399.svg' class='image__img' id='i820y8b7j_0' >
+</div>
+</button>
+<div class='pop-up pop-up--u-iyevd4hak' id='iyevd4hak_0'>
+<div class='pop-up__overlay' id='izueh0gix_0'></div>
+<div class='pop-up__outside-close-button' id='iehdh17ig_0'>
+
+  
+</div>
+<div class='pop-up__content pop-up__content--u-i75zha5sn' id='i75zha5sn_0'>
+<div class='div div--u-i6gzte4ob' id='i6gzte4ob_0'>
+<div class='div div--u-iws174exu' id='iws174exu_0'>
+<div class='image image--u-itne5i024' id='itne5i024_0'>
+<img src='https://itman.ru/thumb/2/7obn0rG0gHHhwQue69320g/640r480/d/alert.svg' alt='alert' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/7obn0rG0gHHhwQue69320g/640r480/d/alert.svg' class='image__img' id='iixkyrdsn_0' >
+</div>
+<div class='div div--u-iyl1oj794' id='iyl1oj794_0'>
+<div class='text text--u-if2uzyere' id='if2uzyere_0'>
+<span class='text-block-wrap-div'>Напишите свой номер телефона <br>и наши специалисты свяжутся с вами</span>
+</div>
+</div>
+</div>
+<div class='div div--u-ixfodedt4' id='ixfodedt4_0'>
+<div class='form form--u-iz7bb1icq' id='iz7bb1icq_0'>
+<form action='#' class='form__state-default form__state-default--u-ib22n44rq' id='ib22n44rq_0' data-s3-anketa-id='149042516'>
+<div data-type-field='text' data-field-position class='form__field form__field--u-iycxmnamh' id='iycxmnamh_0'>
+<input placeholder='Имя и Фамилия *' type='text' class='form__input form__input--u-idm6yr93i input-2' id='idm6yr93i_0' >
+<div class='form__field-error' id='iel48shdq_0'>
+<span class='text-block-wrap-div'>Это поле обязательно для заполнения</span>
+</div>
+</div>
+<div data-type-field='phone' data-field-position='1' class='form__field form__field--u-itsgdf0s7' id='itsgdf0s7_0'>
+<input placeholder='Номер телефона*' type='tel' data-do-mask='+7 (___) ___-__-__' class='form__input form__input--u-iig6hcna5 input-2' id='iig6hcna5_0' >
+<div class='form__field-error' id='i0khyzdtl_0'>
+<span class='text-block-wrap-div'>Это поле обязательно для заполнения</span>
+</div>
+</div>
+<div data-type-field='checkbox_group' data-field-position='2' class='form__field form__field--u-ihdpsrih4 form__field--s2-ihdpsrih4' id='ihdpsrih4_0'>
+<div class='form__widget-group form__widget-group--u-ijbmbabyk' id='ijbmbabyk_0'>
+<label class='form__widget-item form__widget-item--u-i0aaq0x90' id='i0aaq0x90_0'>
+<input value='Я даю согласие на обработку <span style="color:rgba(255, 255, 255, 1)"><a data-url="/itman/site-mirror/soglasie/" href="/itman/site-mirror/soglasie/" target="_blank" rel="noreferrer">персональных данных</a></span>' type='checkbox' name='checkbox-iin6l90cv' readOnly class='form__checkbox' id='iin6l90cv_0' >
+<span class='form__checkbox-styled form__checkbox-styled--u-iznt9ou47' id='iznt9ou47_0'></span>
+<span class='form__label-text form__label-text--u-ipjwbzl0o' id='ipjwbzl0o_0'>
+<span class='text-block-wrap-div'>Я даю согласие на обработку <span style="color:rgba(255, 255, 255, 1)"><a data-url="/itman/site-mirror/soglasie/" href="/itman/site-mirror/soglasie/" target="_blank" rel="noreferrer">персональных данных</a></span></span>
+</span>
+</label>
+</div>
+<div class='form__field-error' id='inr06t1pe_0'>
+<span class='text-block-wrap-div'>Это поле обязательно для заполнения</span>
+</div>
+</div>
+<button href='/itman/site-mirror/' data-action-element='' type='submit' data-goal='submit-callback' class='button button--u-iwqheeq9x button-primary color--background-accent-red' id='iwqheeq9x_0'>
+<span class='text-button font--nekst-18-semibold' id='itkwft288_0'>
+<span class='text-block-wrap-div'>Позвоните мне</span>
+</span>
+</button>
+<smart-captcha data-captcha="smart_captcha"
+     data-name="captcha"
+     data-sitekey="ysc1_dQbmHdIQQUCaA8H9ttOxkytc0GAHSVyZxTJZ4zJm3456b093"
+     data-lang="ru"
+     data-hide-shield="0"
+     data-invisible="1"></smart-captcha></form>
+<div class='form__state-success form__state-success--u-i2savmeax' id='i2savmeax_0'>
+<div class='image' id='i1mo56laf_0'>
+<img src='https://itman.ru/thumb/2/2e1_3WJQ2TB1TgTT3tpqRg/640r480/d/circle-dashed-check_5_1_696300.svg' alt='circle-dashed-check (5) 1' title='' data-size='0x0' data-origin-src='https://itman.ru/thumb/2/2e1_3WJQ2TB1TgTT3tpqRg/640r480/d/circle-dashed-check_5_1_696300.svg' class='image__img' id='ifgr7ns47_0' >
+</div>
+<div class='text text--u-ijyrez32m' id='ijyrez32m_0'>
+<span class='text-block-wrap-div'>Заявка отправлена</span>
+</div>
+</div>
+<div class='form__state-error' id='i3pt4yfjv_0'>
+<div class='form__text-error' id='i8gdnteq5_0'>
+<span class='text-block-wrap-div'>Что-то не так. Попробуйте позже</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class='pop-up__inside-close-button pop-up__inside-close-button--u-i8bq3rllr' id='i8bq3rllr_0'>
+
+    
+</div>
+</div>
+</div></div>
+</div>
+	<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const images = document.querySelectorAll('img');
+    images.forEach(image => {
+        image.setAttribute('loading', 'lazy');
+    });
+
+    const metrikaId = 92211638;
+    const sentGoals = new Set();
+
+    function sendGoal(goalName, context = 'unknown') {
+        const timestamp = Math.floor(Date.now() / 5000);
+        const goalKey = `${goalName}_${timestamp}`;
+
+        if (sentGoals.has(goalKey)) {
+            console.log(`⚠️ Цель "${goalName}" уже отправлена (дубликат заблокирован, контекст: ${context})`);
+            return false;
+        }
+
+        if (typeof ym === 'function') {
+            ym(metrikaId, 'reachGoal', goalName);
+            sentGoals.add(goalKey);
+            console.log(`✅ Цель отправлена: "${goalName}" (контекст: ${context})`);
+            setTimeout(() => sentGoals.delete(goalKey), 10000);
+            return true;
+        } else {
+            console.error('❌ Яндекс.Метрика не загружена');
+            return false;
+        }
+    }
+
+    document.body.addEventListener('click', function(event) {
+        const target = event.target.closest('[data-goal]');
+
+        if (target) {
+            const goalName = target.dataset.goal;
+
+            if (!goalName || goalName === '0' || goalName === 'null') {
+                console.log('⏭️ Пропускаем элемент с пустой целью');
+                return;
+            }
+
+            const isSubmitButton = target.getAttribute('type') === 'submit';
+            const isLink = target.tagName === 'A';
+            const isExternalLink = isLink && (target.getAttribute('target') === '_blank' ||
+                                             target.href.includes('http') && !target.href.includes(window.location.hostname));
+
+            if (!isSubmitButton) {
+                if (isLink) {
+                    event.preventDefault();
+                    sendGoal(goalName, isExternalLink ? 'Click (внешняя ссылка)' : 'Click (ссылка)');
+                    setTimeout(() => {
+                        if (target.getAttribute('target') === '_blank') {
+                            window.open(target.href, '_blank');
+                        } else {
+                            window.location.href = target.href;
+                        }
+                    }, 300);
+                } else {
+                    sendGoal(goalName, 'Click (кнопка)');
+                }
+            } else {
+                console.log(`⏭️ Пропускаем клик по кнопке формы "${goalName}" (цель отправится после успешной отправки)`);
+            }
+        }
+    });
+
+    let lastSubmittedForm = null;
+    let lastSubmitTime = 0;
+    let lastFormId = null;
+
+    document.addEventListener('submit', function(event) {
+        const form = event.target;
+        const formId = form.id || form.getAttribute('data-s3-anketa-id');
+
+        if (lastFormId === formId && (Date.now() - lastSubmitTime) < 2000) {
+            console.log('⚠️ Дублирующаяся отправка формы заблокирована', formId);
+            event.preventDefault();
+            return false;
+        }
+
+        lastSubmittedForm = form;
+        lastSubmitTime = Date.now();
+        lastFormId = formId;
+
+        console.log('📋 Форма отправляется (стандартное событие submit)', {
+            form: form,
+            formId: formId,
+            anketaId: form.getAttribute('data-s3-anketa-id')
+        });
+
+        const goalButton = form.querySelector('button[data-goal][type="submit"]');
+        if (goalButton) {
+            const goalName = goalButton.dataset.goal;
+            console.log(`🎯 Найдена цель в кнопке: "${goalName}"`);
+        }
+    }, true);
+
+    const originalXHROpen = XMLHttpRequest.prototype.open;
+    const originalXHRSend = XMLHttpRequest.prototype.send;
+
+    XMLHttpRequest.prototype.open = function(method, url) {
+        this._url = url;
+        this._method = method;
+        return originalXHROpen.apply(this, arguments);
+    };
+
+    XMLHttpRequest.prototype.send = function(data) {
+        this.addEventListener('load', function() {
+            if (this.status >= 200 && this.status < 300) {
+                console.log('📡 AJAX запрос успешен:', {
+                    url: this._url,
+                    method: this._method,
+                    status: this.status,
+                    response: this.responseText.substring(0, 200)
+                });
+
+                if (this._method === 'POST' && this._url && this._url.includes('form')) {
+                    console.log('📮 Обнаружена успешная отправка формы через AJAX');
+
+                    const urlFormId = this._url.match(/form_id[=\]](\d+)/)?.[1];
+                    console.log('🆔 Form ID из AJAX запроса:', urlFormId);
+
+                    if (lastSubmittedForm && (Date.now() - lastSubmitTime) < 5000) {
+                        const submittedFormId = lastSubmittedForm.getAttribute('data-s3-anketa-id');
+
+                        if (!urlFormId || urlFormId === submittedFormId) {
+                            const goalButton = lastSubmittedForm.querySelector('button[data-goal][type="submit"]');
+                            if (goalButton) {
+                                const goalName = goalButton.dataset.goal;
+                                sendGoal(goalName, `AJAX success (form_id: ${urlFormId || submittedFormId})`);
+                            }
+                            lastSubmittedForm = null;
+                            lastFormId = null;
+                        } else {
+                            console.warn(`⚠️ Form ID не совпадает: AJAX=${urlFormId}, Submitted=${submittedFormId}`);
+                        }
+                    } else {
+                        console.warn('⚠️ Не найдена последняя отправленная форма или прошло слишком много времени');
+                    }
+                }
+            }
+        });
+        return originalXHRSend.apply(this, arguments);
+    };
+
+    const originalFetch = window.fetch;
+    window.fetch = function() {
+        return originalFetch.apply(this, arguments).then(response => {
+            if (response.ok && response.url.includes('form')) {
+                console.log('📡 Fetch запрос успешен:', response.url);
+
+                if (lastSubmittedForm && (Date.now() - lastSubmitTime) < 3000) {
+                    const goalButton = lastSubmittedForm.querySelector('button[data-goal][type="submit"]');
+                    if (goalButton) {
+                        const goalName = goalButton.dataset.goal;
+                        sendGoal(goalName, 'Fetch success');
+                    }
+                    lastSubmittedForm = null;
+                } else {
+                    console.warn('⚠️ Не найдена последняя отправленная форма или прошло слишком много времени');
+                }
+            }
+            return response;
+        });
+    };
+
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1) {
+                    const successTexts = ['успешно', 'отправлен', 'благодар', 'спасибо', 'thank', 'success'];
+                    const nodeText = node.textContent.toLowerCase();
+
+                    if (successTexts.some(text => nodeText.includes(text))) {
+                        console.log('✨ Обнаружено сообщение об успехе:', nodeText.substring(0, 100));
+
+                        let form = node.closest('form');
+                        if (!form) {
+                            const forms = document.querySelectorAll('form');
+                            if (forms.length > 0) form = forms[0];
+                        }
+
+                        if (form) {
+                            const goalButton = form.querySelector('button[data-goal][type="submit"]');
+                            if (goalButton) {
+                                const goalName = goalButton.dataset.goal;
+                                sendGoal(goalName, 'Success message detected');
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+
+    const eventsToLog = ['formSuccess', 'formSubmit', 'formComplete', 'submitSuccess',
+                        'taptopFormSuccess', 'taptop:form:success', 'form:success'];
+
+    eventsToLog.forEach(eventName => {
+        document.addEventListener(eventName, function(event) {
+            console.log(`🎪 Событие обнаружено: "${eventName}"`, event);
+
+            const form = event.detail?.form || event.target;
+            if (form && form.tagName === 'FORM') {
+                const goalButton = form.querySelector('button[data-goal][type="submit"]');
+                if (goalButton) {
+                    const goalName = goalButton.dataset.goal;
+                    sendGoal(goalName, `Custom event: ${eventName}`);
+                }
+            }
+        });
+    });
+
+    console.log('🚀 Система отслеживания целей Яндекс.Метрики запущена');
+    console.log('📊 Для отладки откройте консоль разработчика');
+
+});
+</script>
+
+
+
+<script type='application/json' id='data_do_json'>
+{"data":{"section":{"i1v0legos":"2471424382","inhpjypzc":"2471424382","iuoa7tilo":"2471424382","i91xuvpq2":"2471424382","iewdp379r":"2471424382","ikn8epteq":"2471424382"},"tt_link_universal":{"ia23zexpo":"2892560938","i37dylu8c":"2892560938","ik9xdhx1h":"2318580973","isbgigc4f":"2318580973","i17nh3hh5":"2318580973","ihsp1iv6u":"3680862661","i1bxw0iui":"4184744637","itpckvgs7":"2318580973","i6bonck3m":"2892560938","ig84x7bx3":"919508355","iis3b4cc5":"3606212895","iet8iuf3o":"3606212895","ixwbm6iqq":"4184744637","i6umoy0um":"93719356","itakinz01":"93719356","iwsyhi1gk":"93719356","ixu8bcsp3":"93719356","i1w6mlyp6":"93719356","i8fe5dnnf":"684417847","i69y9qvws":"3850712614","i4f2qfygj":"2262851596","ijv43px3n":"1124049339","ikrgplcgs":"93719356","icfijpz6c":"996071440","izww75ke3":"1576953767","ikvkhxzwi":"1576953767","ii14tn0j1":"93719356","iqzowjexj":"2262851596","ijq6zj2vc":"2262851596","icjx1vo6m":"2262851596","itjvkkr7a":"2262851596","ig7zu4pw3":"2262851596","inu6j2wj2":"2262851596","i2jeepc3g":"919508355","ioxfpy6km":"919508355","iwqheeq9x":"1288475036"},"tt_image":{"iwbdqq3h3":"4226276507","iiy2i3bpa":"4226276507","iqxqhfdbd":"4226276507","i82jbnbtj":"4226276507","i32tfg64g":"4226276507","i954cqpk2":"4226276507","i88bxvbct":"4226276507","ibgkt5k58":"4226276507","i9cinay7o":"4226276507","i1avvvpd9":"4226276507","i69zdfifu":"4226276507","i0ybp8est":"4226276507","ie8vdnvyf":"4226276507","ifoznj4sh":"4226276507","iho1etwzg":"4226276507","ik3tesmir":"4226276507","iqlvcl15w":"4226276507","irdhkcz6e":"4226276507","i3i1wfswi":"4226276507","ireymekv5":"840878727","ir3cob9pe":"1352368394","i5d75dgob":"1352368394","i16uh7ktr":"4226276507","id78gqvy1":"4226276507","itne5i024":"4226276507","i1mo56laf":"4226276507"},"tt_collection":{"is2es9m7t":"1746154205"},"tt_up_button":{"ik5x8cx0n":"423353298"},"tt_form":{"imzuj5kqh":"4231993240","i43qjzleb":"1274158444","iz7bb1icq":"1318652468"},"tt_form_input":{"i2zop53u3":"3106930813","i6am5zg9p":"4076647739","icofb1plx":"814934541","ii1yffoev":"2490605072","ijkb0duap":"2027033896","iob3ysmyl":"2297110821","i03hogebw":"1340371106","iizgcgpvg":"1484501434","i8stvyvj1":"2999213541","ijwx3l7nx":"2866509325","iu3nof9kc":"2268611493","ij9or81bg":"1635259701","iycxmnamh":"2696521178","itsgdf0s7":"2306792757"},"input-mask":{"iz0va06kr":"3180515251","ioxfjy8an":"3180515251","iig6hcna5":"3180515251"},"tt_form_select":{"ii93zb64h":"2037773750","iibtbopf3":"685414228"},"tt_form_textarea":{"igr35ooax":"2797808557","i446ri8lg":"2339896777"},"tt_form_checkbox_group":{"itihxppsn":"1284733875","iggth2b68":"1312750169","ihdpsrih4":"3573628443"},"tt_menu":{"iljsfhicw":"1167348247"},"tt_accordion":{"iezz1wh1j":"2033575472"},"tt_modal":{"ivmkdeopr":"1094355956","iyevd4hak":"825693763"}},"params":{"2471424382":"{\"screen\":{\"scroll\":false,\"smooth\":true}}","2892560938":"{\"screen\":{\"type\":\"link\",\"eventName\":\"click\",\"eventElement\":\"self\",\"eventAction\":\"\",\"displayType\":\"\",\"selectedTag\":\"\",\"linkType\":\"page\",\"blank\":false}}","4226276507":"{\"screen\":{\"objectFit\":\"cover\",\"lockRatio\":true}}","2318580973":"{\"screen\":{\"type\":\"link\",\"eventName\":\"click\",\"eventElement\":\"self\",\"eventAction\":\"\",\"displayType\":\"\",\"selectedTag\":\"\",\"linkType\":\"link\",\"blank\":false}}","1746154205":"{\"screen\":{\"mode\":\"items\",\"isMain\":false,\"pagination\":true,\"paginationType\":\"pages\"}}","3680862661":"{\"screen\":{\"type\":\"link\",\"eventName\":\"click\",\"eventElement\":\"select\",\"eventAction\":\"\",\"displayType\":\"\",\"selectedTag\":\"\",\"linkType\":\"dynamic\",\"blank\":false}}","423353298":"{\"screen\":{\"speed\":200}}","4231993240":"{\"screen\":{\"mode\":\"main\",\"anketa_id\":\"338133313\",\"name\":\"Участие в акции\",\"initial_state\":\"{\\\"anketa_id\\\":\\\"338133313\\\",\\\"name\\\":\\\"Участие в акции\\\",\\\"submit_name\\\":\\\"Получить сертификат \\\",\\\"success_note\\\":\\\"* Нажимая на кнопку ниже, вы соглашаетесь на обработку <span style=\\\\\\\"color:rgb(255, 255, 255)\\\\\\\"><a data-url=\\\\\\\"/soglasie\\\\\\\" href=\\\\\\\"/soglasie\\\\\\\" rel=\\\\\\\"noreferrer\\\\\\\">персональных данных</a></span>\\\",\\\"tag_id\\\":\\\"imzuj5kqh\\\",\\\"symbol_id\\\":0,\\\"change\\\":true,\\\"dictionaries\\\":{\\\"i2zop53u3\\\":{\\\"dictionary_id\\\":1408983713,\\\"name\\\":\\\"Name\\\",\\\"type_id\\\":1,\\\"required\\\":true,\\\"alias\\\":\\\"field_1408983713\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"\\\",\\\"change\\\":false},\\\"i6am5zg9p\\\":{\\\"dictionary_id\\\":1408983913,\\\"name\\\":\\\"Номер телефона\\\",\\\"type_id\\\":15,\\\"required\\\":true,\\\"alias\\\":\\\"phone\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"__phone__\\\",\\\"change\\\":false},\\\"icofb1plx\\\":{\\\"dictionary_id\\\":1408984113,\\\"name\\\":\\\"E-mail\\\",\\\"type_id\\\":13,\\\"required\\\":false,\\\"alias\\\":\\\"email\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"__email__\\\",\\\"change\\\":false},\\\"ii93zb64h\\\":{\\\"dictionary_id\\\":1408984313,\\\"name\\\":\\\"Размер инфраструктуры\\\",\\\"type_id\\\":3,\\\"required\\\":false,\\\"alias\\\":\\\"field_1408984313\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[\\\"Размер инфраструктуры\\\",\\\"100-1000\\\",\\\"1000-5000\\\",\\\"5000-10000\\\",\\\"10000-20000\\\",\\\"20000-50000\\\",\\\"более 50000\\\"],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"\\\",\\\"change\\\":false},\\\"igr35ooax\\\":{\\\"dictionary_id\\\":1408984513,\\\"name\\\":\\\"Textarea\\\",\\\"type_id\\\":2,\\\"required\\\":false,\\\"alias\\\":\\\"field_1408984513\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"\\\",\\\"change\\\":false},\\\"itihxppsn\\\":{\\\"dictionary_id\\\":1408984713,\\\"name\\\":\\\"Checkbox group\\\",\\\"type_id\\\":5,\\\"required\\\":true,\\\"alias\\\":\\\"field_1408984713\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[\\\"Нажимая на кнопку «Оставить заявку», вы соглашаетесь на обработку&nbsp; персональных данных *\\\"],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"\\\",\\\"change\\\":false}},\\\"redirect_url\\\":\\\"\\\"}\",\"nativeStyle\":false,\"disabledNativeStyleSelect\":true}}","3106930813":"{\"screen\":{\"type_id\":1,\"type_code\":\"text\",\"name\":\"Name\",\"required\":true,\"maxlength\":256,\"dictionary_id\":1408983713,\"alias\":\"field_1408983713\",\"validator\":\"\"}}","4076647739":"{\"screen\":{\"type_id\":15,\"type_code\":\"phone\",\"name\":\"Номер телефона\",\"required\":true,\"maxlength\":256,\"dictionary_id\":1408983913,\"alias\":\"phone\",\"validator\":\"__phone__\"}}","3180515251":"+7 (___) ___-__-__","814934541":"{\"screen\":{\"type_id\":13,\"type_code\":\"email\",\"name\":\"E-mail\",\"required\":false,\"maxlength\":256,\"dictionary_id\":1408984113,\"alias\":\"email\",\"validator\":\"__email__\"}}","2037773750":"{\"screen\":{\"name\":\"Размер инфраструктуры\",\"type_id\":3,\"required\":false,\"selected\":0,\"dictionary_id\":1408984313,\"alias\":\"field_1408984313\",\"type_code\":\"select\"}}","2797808557":"{\"screen\":{\"name\":\"Textarea\",\"type_id\":2,\"type_field\":\"textarea\",\"required\":false,\"dictionary_id\":1408984513,\"alias\":\"field_1408984513\"}}","1284733875":"{\"screen\":{\"name\":\"Checkbox group\",\"type_id\":5,\"required\":true,\"dictionary_id\":1408984713,\"alias\":\"field_1408984713\"}}","4184744637":"{\"screen\":{\"type\":\"form_button\",\"eventName\":\"click\",\"eventElement\":\"select\",\"eventAction\":\"submit\",\"displayType\":\"\",\"selectedTag\":\"\",\"linkType\":\"page\",\"blank\":false}}","840878727":"{\"screen\":{\"objectFit\":\"contain\",\"lockRatio\":true,\"maxWidth\":\"1240\",\"maxHeight\":\"674\"},\"(max-width: 991px)\":{\"objectFit\":\"contain\"}}","1352368394":"{\"screen\":{\"objectFit\":\"contain\",\"lockRatio\":true},\"(max-width: 991px)\":{\"objectFit\":\"contain\"}}","1167348247":"{\"levels\":[{\"desktop\":{\"layout\":\"horizontal\",\"appearance\":\"default\",\"triggerEvent\":\"hover\",\"effect\":\"fade\",\"open\":{\"easing\":\"linear\",\"duration\":200},\"close\":{\"easing\":\"linear\",\"duration\":200},\"hideEmptyMenu\":false,\"showNextMenu\":false,\"columns\":3},\"mobile\":{\"layout\":\"vertical\",\"appearance\":\"slide\",\"triggerEvent\":\"click\",\"effect\":\"left\",\"open\":{\"easing\":\"linear\",\"duration\":200},\"close\":{\"easing\":\"linear\",\"duration\":200},\"hideEmptyMenu\":false,\"showNextMenu\":false}},{\"desktop\":{\"layout\":\"vertical\",\"appearance\":\"pop-up\",\"triggerEvent\":\"hover\",\"effect\":\"fade\",\"open\":{\"easing\":\"linear\",\"duration\":200},\"close\":{\"easing\":\"linear\",\"duration\":200},\"hideEmptyMenu\":false,\"showNextMenu\":false,\"columns\":3},\"mobile\":{\"layout\":\"vertical\",\"appearance\":\"dropdown\",\"triggerEvent\":\"click\",\"effect\":\"right\",\"open\":{\"easing\":\"linear\",\"duration\":200},\"close\":{\"easing\":\"linear\",\"duration\":200},\"hideEmptyMenu\":false,\"showNextMenu\":false}}],\"anchorDuration\":0,\"mobileBreakPoint\":\"(max-width: 991px)\",\"mobileMenuPosition\":\"left\",\"scrollLock\":true}","919508355":"{\"screen\":{\"type\":\"button\",\"eventName\":\"none\",\"eventElement\":\"self\",\"eventAction\":\"\",\"displayType\":\"\",\"selectedTag\":\"\",\"linkType\":\"link\",\"blank\":false}}","3606212895":"{\"screen\":{\"type\":\"button\",\"eventName\":\"click\",\"eventElement\":\"select\",\"eventAction\":\"show\",\"displayType\":\"block\",\"selectedTag\":\"\",\"linkType\":\"page\",\"blank\":false},\"(max-width: 991px)\":{\"speed\":300}}","1274158444":"{\"screen\":{\"mode\":\"main\",\"anketa_id\":\"172375513\",\"name\":\"Вопросы по продукту или записаться на демо\",\"initial_state\":\"{\\\"anketa_id\\\":\\\"172375513\\\",\\\"name\\\":\\\"Вопросы по продукту или записаться на демо\\\",\\\"submit_name\\\":\\\"Оставить заявку\\\",\\\"success_note\\\":\\\"Спасибо! Форма отправлена\\\",\\\"tag_id\\\":\\\"i43qjzleb\\\",\\\"symbol_id\\\":\\\"symbol-iewdp379r\\\",\\\"change\\\":false,\\\"dictionaries\\\":{\\\"ii1yffoev\\\":{\\\"dictionary_id\\\":741575713,\\\"name\\\":\\\"Name\\\",\\\"type_id\\\":1,\\\"required\\\":true,\\\"alias\\\":\\\"field_741575713\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"\\\",\\\"change\\\":false},\\\"ijkb0duap\\\":{\\\"dictionary_id\\\":1004252913,\\\"name\\\":\\\"Номер телефона\\\",\\\"type_id\\\":15,\\\"required\\\":true,\\\"alias\\\":\\\"phone\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"__phone__\\\",\\\"change\\\":false},\\\"iob3ysmyl\\\":{\\\"dictionary_id\\\":853750716,\\\"name\\\":\\\"utm_source\\\",\\\"type_id\\\":1,\\\"required\\\":false,\\\"alias\\\":\\\"field_853750716\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"\\\",\\\"change\\\":false},\\\"i03hogebw\\\":{\\\"dictionary_id\\\":853750916,\\\"name\\\":\\\"utm_medium\\\",\\\"type_id\\\":1,\\\"required\\\":false,\\\"alias\\\":\\\"field_853750916\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"\\\",\\\"change\\\":false},\\\"iizgcgpvg\\\":{\\\"dictionary_id\\\":853751116,\\\"name\\\":\\\"utm_campaign\\\",\\\"type_id\\\":1,\\\"required\\\":false,\\\"alias\\\":\\\"field_853751116\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"\\\",\\\"change\\\":false},\\\"i8stvyvj1\\\":{\\\"dictionary_id\\\":853751316,\\\"name\\\":\\\"utm_term\\\",\\\"type_id\\\":1,\\\"required\\\":false,\\\"alias\\\":\\\"field_853751316\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"\\\",\\\"change\\\":false},\\\"ijwx3l7nx\\\":{\\\"dictionary_id\\\":853751516,\\\"name\\\":\\\"utm_content\\\",\\\"type_id\\\":1,\\\"required\\\":false,\\\"alias\\\":\\\"field_853751516\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"\\\",\\\"change\\\":false},\\\"iu3nof9kc\\\":{\\\"dictionary_id\\\":853751716,\\\"name\\\":\\\"first_visit_source\\\",\\\"type_id\\\":1,\\\"required\\\":false,\\\"alias\\\":\\\"field_853751716\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"\\\",\\\"change\\\":false},\\\"ij9or81bg\\\":{\\\"dictionary_id\\\":1004253113,\\\"name\\\":\\\"E-mail\\\",\\\"type_id\\\":13,\\\"required\\\":false,\\\"alias\\\":\\\"email\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"__email__\\\",\\\"change\\\":false},\\\"iibtbopf3\\\":{\\\"dictionary_id\\\":887548513,\\\"name\\\":\\\"Размер инфраструктуры\\\",\\\"type_id\\\":3,\\\"required\\\":false,\\\"alias\\\":\\\"field_887548513\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[\\\"Размер инфраструктуры\\\",\\\"100-1000\\\",\\\"1000-5000\\\",\\\"5000-10000\\\",\\\"10000-20000\\\",\\\"20000-50000\\\",\\\"более 50000\\\"],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"\\\",\\\"change\\\":false},\\\"i446ri8lg\\\":{\\\"dictionary_id\\\":741576313,\\\"name\\\":\\\"Textarea\\\",\\\"type_id\\\":2,\\\"required\\\":false,\\\"alias\\\":\\\"field_741576313\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"\\\",\\\"change\\\":false},\\\"iggth2b68\\\":{\\\"dictionary_id\\\":116641716,\\\"name\\\":\\\"Checkbox group\\\",\\\"type_id\\\":5,\\\"required\\\":false,\\\"alias\\\":\\\"field_116641716\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[\\\"Я даю согласие на обработку <span style=\\\\\\\"color:rgb(255, 255, 255)\\\\\\\"><a data-url=\\\\\\\"/soglasie\\\\\\\" href=\\\\\\\"/soglasie\\\\\\\" target=\\\\\\\"_blank\\\\\\\" rel=\\\\\\\"noreferrer\\\\\\\">персональных данных</a></span>\\\"],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"\\\",\\\"change\\\":false}},\\\"redirect_url\\\":\\\"\\\"}\",\"nativeStyle\":false,\"disabledNativeStyleSelect\":true}}","2490605072":"{\"screen\":{\"type_id\":1,\"type_code\":\"text\",\"name\":\"Name\",\"required\":true,\"maxlength\":256,\"dictionary_id\":741575713,\"alias\":\"field_741575713\",\"validator\":\"\"}}","2027033896":"{\"screen\":{\"type_id\":15,\"type_code\":\"phone\",\"name\":\"Номер телефона\",\"required\":true,\"maxlength\":256,\"dictionary_id\":1004252913,\"alias\":\"phone\",\"validator\":\"__phone__\"}}","2297110821":"{\"screen\":{\"type_id\":1,\"type_code\":\"text\",\"name\":\"utm_source\",\"required\":false,\"maxlength\":256,\"dictionary_id\":853750716,\"alias\":\"field_853750716\"}}","1340371106":"{\"screen\":{\"type_id\":1,\"type_code\":\"text\",\"name\":\"utm_medium\",\"required\":false,\"maxlength\":256,\"dictionary_id\":853750916,\"alias\":\"field_853750916\"}}","1484501434":"{\"screen\":{\"type_id\":1,\"type_code\":\"text\",\"name\":\"utm_campaign\",\"required\":false,\"maxlength\":256,\"dictionary_id\":853751116,\"alias\":\"field_853751116\"}}","2999213541":"{\"screen\":{\"type_id\":1,\"type_code\":\"text\",\"name\":\"utm_term\",\"required\":false,\"maxlength\":256,\"dictionary_id\":853751316,\"alias\":\"field_853751316\"}}","2866509325":"{\"screen\":{\"type_id\":1,\"type_code\":\"text\",\"name\":\"utm_content\",\"required\":false,\"maxlength\":256,\"dictionary_id\":853751516,\"alias\":\"field_853751516\"}}","2268611493":"{\"screen\":{\"type_id\":1,\"type_code\":\"text\",\"name\":\"first_visit_source\",\"required\":false,\"maxlength\":256,\"dictionary_id\":853751716,\"alias\":\"field_853751716\"}}","1635259701":"{\"screen\":{\"type_id\":13,\"type_code\":\"email\",\"name\":\"E-mail\",\"required\":false,\"maxlength\":256,\"dictionary_id\":1004253113,\"alias\":\"email\",\"validator\":\"__email__\"}}","685414228":"{\"screen\":{\"name\":\"Размер инфраструктуры\",\"type_id\":3,\"required\":false,\"selected\":0,\"dictionary_id\":887548513,\"alias\":\"field_887548513\",\"type_code\":\"select\"}}","2339896777":"{\"screen\":{\"name\":\"Textarea\",\"type_id\":2,\"type_field\":\"textarea\",\"required\":false,\"dictionary_id\":741576313,\"alias\":\"field_741576313\"}}","1312750169":"{\"screen\":{\"name\":\"Checkbox group\",\"type_id\":5,\"required\":false,\"dictionary_id\":116641716,\"alias\":\"field_116641716\"}}","93719356":"{\"screen\":{\"type\":\"link\",\"eventName\":\"click\",\"eventElement\":\"self\",\"eventAction\":\"\",\"displayType\":\"\",\"selectedTag\":\"\",\"linkType\":\"page\",\"blank\":true}}","684417847":"{\"screen\":{\"type\":\"link\",\"eventName\":\"click\",\"eventElement\":\"self\",\"eventAction\":\"\",\"displayType\":\"\",\"selectedTag\":\"\",\"linkType\":\"page\",\"blank\":false,\"speed\":200}}","3850712614":"{\"screen\":{\"type\":\"link\",\"eventName\":\"click\",\"eventElement\":\"select\",\"eventAction\":\"toggle\",\"displayType\":\"\",\"selectedTag\":\"\",\"linkType\":\"page\",\"blank\":false,\"speed\":200}}","2262851596":"{\"screen\":{\"type\":\"link\",\"eventName\":\"click\",\"eventElement\":\"self\",\"eventAction\":\"\",\"displayType\":\"\",\"selectedTag\":\"\",\"linkType\":\"link\",\"blank\":true}}","1124049339":"{\"screen\":{\"type\":\"link\",\"eventName\":\"click\",\"eventElement\":\"select\",\"eventAction\":\"toggle\",\"displayType\":\"block\",\"selectedTag\":\"\",\"linkType\":\"page\",\"blank\":false}}","996071440":"{\"screen\":{\"type\":\"link\",\"eventName\":\"none\",\"eventElement\":\"self\",\"eventAction\":\"\",\"displayType\":\"\",\"selectedTag\":\"\",\"linkType\":\"phone\",\"blank\":false}}","2033575472":"{\"screen\":{\"event\":\"click\",\"animation\":{\"effect\":\"fade\",\"easing\":\"linear\",\"duration\":200},\"activeIndex\":[],\"openByDefault\":false,\"closeOther\":true,\"childrenAsync\":false}}","1576953767":"{\"screen\":{\"type\":\"link\",\"eventName\":\"click\",\"eventElement\":\"self\",\"eventAction\":\"\",\"displayType\":\"\",\"selectedTag\":\"\",\"linkType\":\"anchor\",\"blank\":true},\"(max-width: 479px)\":{\"speed\":200}}","1094355956":"{\"screen\":{\"closeOnOverlay\":false,\"scrollLock\":false,\"effect\":\"fade\",\"open\":{\"easing\":\"linear\",\"duration\":200},\"close\":{\"easing\":\"linear\",\"duration\":200}}}","825693763":"{\"screen\":{\"closeOnOverlay\":true,\"scrollLock\":true,\"effect\":\"fade\",\"open\":{\"easing\":\"linear\",\"duration\":200},\"close\":{\"easing\":\"linear\",\"duration\":200}}}","1318652468":"{\"screen\":{\"mode\":\"main\",\"anketa_id\":\"149042516\",\"name\":\"Обратный звонок\",\"initial_state\":\"{\\\"anketa_id\\\":\\\"149042516\\\",\\\"name\\\":\\\"Обратный звонок\\\",\\\"submit_name\\\":\\\"Позвоните мне\\\",\\\"success_note\\\":\\\"Заявка отправлена\\\",\\\"tag_id\\\":\\\"iz7bb1icq\\\",\\\"symbol_id\\\":\\\"symbol-iyevd4hak\\\",\\\"change\\\":false,\\\"dictionaries\\\":{\\\"iycxmnamh\\\":{\\\"dictionary_id\\\":586028516,\\\"name\\\":\\\"Name\\\",\\\"type_id\\\":1,\\\"required\\\":true,\\\"alias\\\":\\\"field_586028516\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"\\\",\\\"change\\\":false},\\\"itsgdf0s7\\\":{\\\"dictionary_id\\\":586028716,\\\"name\\\":\\\"Номер телефона*\\\",\\\"type_id\\\":15,\\\"required\\\":true,\\\"alias\\\":\\\"phone\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"__phone__\\\",\\\"change\\\":false},\\\"ihdpsrih4\\\":{\\\"dictionary_id\\\":586028916,\\\"name\\\":\\\"Checkbox group\\\",\\\"type_id\\\":5,\\\"required\\\":true,\\\"alias\\\":\\\"field_586028916\\\",\\\"note\\\":\\\"\\\",\\\"variants\\\":[\\\"Я даю согласие на обработку <span style=\\\\\\\"color:rgba(255, 255, 255, 1)\\\\\\\"><a data-url=\\\\\\\"/soglasie\\\\\\\" href=\\\\\\\"/soglasie\\\\\\\" target=\\\\\\\"_blank\\\\\\\" rel=\\\\\\\"noreferrer\\\\\\\">персональных данных</a></span>\\\"],\\\"params_value\\\":\\\"\\\",\\\"validator\\\":\\\"\\\",\\\"change\\\":false}},\\\"redirect_url\\\":\\\"\\\"}\",\"nativeStyle\":false,\"disabledNativeStyleSelect\":true,\"redirectAction\":\"none\",\"redirectPage\":\"/form-success\"}}","2696521178":"{\"screen\":{\"type_id\":1,\"type_code\":\"text\",\"name\":\"Name\",\"required\":true,\"maxlength\":256,\"dictionary_id\":586028516,\"alias\":\"field_586028516\",\"validator\":\"\"}}","2306792757":"{\"screen\":{\"type_id\":15,\"type_code\":\"phone\",\"name\":\"Номер телефона*\",\"required\":true,\"maxlength\":256,\"dictionary_id\":586028716,\"alias\":\"phone\",\"validator\":\"__phone__\"}}","3573628443":"{\"screen\":{\"name\":\"Checkbox group\",\"type_id\":5,\"required\":true,\"dictionary_id\":586028916,\"alias\":\"field_586028916\"}}","1288475036":"{\"screen\":{\"type\":\"form_button\",\"eventName\":\"click\",\"eventElement\":\"self\",\"eventAction\":\"submit\",\"displayType\":\"\",\"selectedTag\":\"\",\"linkType\":\"page\",\"blank\":false}}"}}
+</script>
+
+<!-- assets.bottom -->
+<!-- </noscript></script></style> -->
+<script src="https://itman.ru/assets/site/main.min.js?1789965888" ></script>
+<script >/*<![CDATA[*/
+var megacounter_key="253c410548813b9ab0a7f6cb3e9fd0c7";
+(function(d){
+    var s = d.createElement("script");
+    s.src = "//counter.megagroup.ru/loader.js?"+new Date().getTime();
+    s.async = true;
+    d.getElementsByTagName("head")[0].appendChild(s);
+})(document);
+/*]]>*/</script>
+<script >/*<![CDATA[*/
+$ite.start({"sid":7939480,"vid":8021673,"aid":5428303,"stid":27,"cp":21,"active":true,"domain":"itman.ru","lang":"ru","trusted":false,"debug":false,"captcha":4,"onetap":[{"provider":"vkontakte","provider_id":"54217877","code_verifier":"EzgakqusA29XVCXoy2vn6ok28_jdLZBHbLn96R31M6JuCqat0oEmYpZWC5fnUGd_odHDAMemIMGX_VThaG6ajCwKPPebyrOUBIq4rVWtRM43ssHcg5DXe"}]});
+/*]]>*/</script>
+<!-- /assets.bottom -->
+</body>
+</html>
