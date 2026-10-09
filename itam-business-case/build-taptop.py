@@ -5,6 +5,7 @@
   taptop-embed.html — вставить в Embed на странице Taptop
   taptop-embed.js   — подключить в Custom Code через jsDelivr
 """
+import json
 import re
 from pathlib import Path
 
@@ -76,21 +77,31 @@ def build_css():
     return scoped + overrides
 
 
-def build_html():
+SCRIPT_TAG = '<script src="https://cdn.jsdelivr.net/gh/katerinazaber/itman@%s/itam-business-case/taptop-embed.js"></script>'
+
+
+def build_inner_html():
     src = (HERE / "index.html").read_text(encoding="utf-8")
     main = re.search(r"<main>.*?</main>", src, flags=re.S).group(0)
     main = re.sub(r'\bid="([^"]+)"', r'id="%s\1"' % ID_PREFIX, main)
     main = re.sub(r'\bfor="([^"]+)"', r'for="%s\1"' % ID_PREFIX, main)
     header = re.search(r"<header class=\"topbar\">.*?</header>", src, flags=re.S).group(0)
     header = header.replace('src="assets/brand.svg"', 'src="%s"' % LOGO_URL)
-    fonts = re.search(r'<link href="https://fonts\.googleapis\.com[^>]+>', src).group(0)
+    header = header.replace("<header ", "<div ").replace("</header>", "</div>")
+    main = main.replace("<main>", '<div class="main">').replace("</main>", "</div>")
+    return '<div class="page">' + header + main + "</div>"
+
+
+def fonts_url():
+    src = (HERE / "index.html").read_text(encoding="utf-8")
+    return re.search(r'<link href="(https://fonts\.googleapis\.com[^"]+)"', src).group(1).replace("&amp;", "&")
+
+
+def build_html():
     return (
-        fonts + "\n"
-        + "<style>\n" + build_css() + "</style>\n"
-        + '<div id="itamBc" class="itam-bc">\n<div class="page">\n'
-        + header + "\n" + main + "\n</div>\n</div>\n"
-        + '<script src="https://cdn.jsdelivr.net/gh/katerinazaber/itman@%s/itam-business-case/taptop-embed.js"></script>\n'
-        % JS_COMMIT
+        '<div id="itamBc" class="itam-bc" style="min-height:200px;padding:24px;font:16px Arial,sans-serif;color:#52616b">'
+        "Калькулятор загрузится на опубликованной странице</div>\n"
+        + SCRIPT_TAG % JS_COMMIT + "\n"
     )
 
 
@@ -115,7 +126,27 @@ def build_js():
         '(function () {\n  "use strict";\n\n  var root = null;\n',
         1,
     )
-    boot = (
+    assets = (
+        "  var FONTS_URL = %s;\n"
+        "  var CSS = %s;\n"
+        "  var HTML = %s;\n\n"
+        "  function mount() {\n"
+        '    if (!document.getElementById("itamBcStyle")) {\n'
+        '      var link = document.createElement("link");\n'
+        '      link.rel = "stylesheet";\n'
+        "      link.href = FONTS_URL;\n"
+        "      document.head.appendChild(link);\n"
+        '      var style = document.createElement("style");\n'
+        '      style.id = "itamBcStyle";\n'
+        "      style.textContent = CSS;\n"
+        "      document.head.appendChild(style);\n"
+        "    }\n"
+        '    root.removeAttribute("style");\n'
+        "    root.innerHTML = HTML;\n"
+        "  }\n\n"
+    ) % (json.dumps(fonts_url()), json.dumps(build_css(), ensure_ascii=False),
+         json.dumps(build_inner_html(), ensure_ascii=False))
+    boot = assets + (
         "  function boot(attempt) {\n"
         '    root = document.getElementById("itamBc");\n'
         "    if (!root) {\n"
@@ -124,6 +155,7 @@ def build_js():
         "    }\n"
         "    if (root.dataset.ready === \"1\") return;\n"
         "    root.dataset.ready = \"1\";\n"
+        "    mount();\n"
         "    if (window.self === window.top) {\n"
         "      document.body.appendChild(root);\n"
         '      document.documentElement.classList.add("itam-bc-full");\n'
