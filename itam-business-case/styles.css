@@ -214,3 +214,97 @@ a { color: inherit; }
   .hero-left { padding:29px 20px; }
   .hero-bottom { flex-direction:column; gap:5px; padding:12px 20px; }
 }
+
+
+/* ITAM poster hero: use the supplied bear artwork as the first-screen background */
+:root {
+  --paper: #f7e6c8;
+  --paper-light: #fff3dc;
+  --paper-dark: #e5c89e;
+  --ink: #132737;
+  --ink-soft: #d7d9d7;
+  --red: #e04424;
+  --red-dark: #a92d1a;
+  --line: #c99b72;
+  --shadow: 5px 5px 0 rgba(0,0,0,.3);
+}
+body {
+  background: #101e29;
+  color: var(--paper-light);
+}
+.page { max-width: 1440px; }
+.topbar-note { color: var(--paper-light); }
+.hero-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 590px;
+  color: var(--paper-light);
+  background-color: #101e29;
+  background-image: url("assets/itam-hero-bg.webp");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  border: 2px solid #e04424;
+  box-shadow: 7px 7px 0 rgba(0,0,0,.35);
+}
+.hero-grid { grid-template-columns: 1fr; min-height: 560px; }
+.hero-left {
+  width: 64%;
+  max-width: 760px;
+  min-height: 560px;
+  padding: 44px 42px 36px;
+  gap: 20px;
+  background: linear-gradient(90deg, rgba(12,27,38,.94) 0%, rgba(12,27,38,.87) 70%, rgba(12,27,38,0) 100%);
+}
+.hero-left h1 { color: var(--paper-light); text-shadow: 1px 2px 0 rgba(0,0,0,.22); }
+.hero-left h1 span { color: #f04a2a; }
+.hero-left .lead { color: #f3e5ce; }
+.features li { color: var(--paper-light); }
+.feat-icon {
+  background: var(--red);
+  border: 1px solid #ffad80;
+  color: #fff4de;
+}
+.hero-bottom {
+  color: var(--paper-light);
+  background: rgba(10,25,36,.86);
+  border-top: 1px solid rgba(255,239,210,.4);
+}
+.btn-primary {
+  background: #e04424;
+  color: #fff4de;
+  border-color: #a92d1a;
+  box-shadow: 3px 3px 0 #08131b;
+}
+.btn-primary:hover { background: #f0522c; }
+.wizard-card {
+  color: #132737;
+  background: #fff3dc;
+  border-color: #132737;
+}
+.wizard-card h2 { color: #132737; }
+.wizard-card .sub, .progress-head { color: #52616b; }
+.progress-bar { background: #ead7b8; }
+.progress-bar span { background: #e04424; }
+.field input, .field select, .field textarea { border-color: #c99b72; }
+.audience-card { border-color: #c99b72; }
+.audience-card.selected { border-color: #e04424; background: #fff0d8; }
+@media (max-width: 900px) {
+  .hero-card { min-height: 570px; background-position: 61% center; }
+  .hero-grid { min-height: 540px; }
+  .hero-left { width: 76%; min-height: 540px; padding: 34px 28px; }
+}
+@media (max-width: 620px) {
+  .hero-card { min-height: 640px; background-position: 63% center; }
+  .hero-grid { min-height: 600px; }
+  .hero-left {
+    width: 100%;
+    min-height: 600px;
+    padding: 29px 20px;
+    gap: 17px;
+    background: linear-gradient(90deg, rgba(12,27,38,.92), rgba(12,27,38,.76));
+  }
+  .hero-left h1 { font-size: clamp(36px, 10vw, 42px); }
+  .hero-left .lead { font-size: 17px; }
+  .hero-bottom { flex-direction: column; gap: 5px; padding: 12px 20px; }
+}
