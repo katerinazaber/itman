@@ -197,7 +197,7 @@
         return;
       }
       var value = Number(raw);
-      state[key] = isFinite(value) ? value : null;
+      state[key] = isFinite(value) ? Math.max(0, value) : null;
     });
     if (state.unusedPct !== null) state.unusedPct = Math.min(100, Math.max(0, state.unusedPct));
     if (state.riskProbability !== null) state.riskProbability = Math.min(100, Math.max(0, state.riskProbability));
