@@ -208,10 +208,17 @@
 #itamBc .hero-bottom { flex-direction:column; gap:5px; padding:12px 20px; }
 }
 #itamBc { min-height: 0; width: 100%; line-height: normal; text-align: left; box-shadow: 0 0 0 100vmax var(--paper); clip-path: inset(0 -100vmax); }
-#itamBc .page { padding-top: 32px; }
+html.itam-bc-full, html.itam-bc-full body { overflow: hidden !important; }
+html.itam-bc-full #itamBc { position: fixed !important; inset: 0; z-index: 2147483000; min-height: 100vh; overflow-y: auto; -webkit-overflow-scrolling: touch; box-shadow: none; clip-path: none; }
 </style>
 <div id="itamBc" class="itam-bc">
 <div class="page">
+<header class="topbar">
+      <a class="logo" href="https://itman.ru/" aria-label="Инферит ИТМен">
+        <img src="https://katerinazaber.github.io/itman/itam-business-case/assets/brand.svg" alt="Инферит ИТМен" />
+      </a>
+      <div class="topbar-note">ITAMDAY 2026</div>
+    </header>
 <main>
       <section class="screen active" id="ibc-screen-0">
         <div class="hero-card">
@@ -429,4 +436,4 @@
     </main>
 </div>
 </div>
-<script src="https://cdn.jsdelivr.net/gh/katerinazaber/itman@703e042/itam-business-case/taptop-embed.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/katerinazaber/itman@d0139c1/itam-business-case/taptop-embed.js"></script>
