@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20261009-3" />
+  <link rel="stylesheet" href="styles.css?v=20261009-4" />
 </head>
 <body>
   <div class="page">
@@ -16,7 +16,7 @@
       <a class="logo" href="https://itman.ru/" aria-label="Инферит ИТМен">
         <img src="assets/brand.svg" alt="Инферит ИТМен" />
       </a>
-      <div class="topbar-note">УПРАВЛЕНИЕ ИТ-АКТИВАМИ</div>
+      <div class="topbar-note">ПРАКТИЧЕСКИЙ ИНСТРУМЕНТ</div>
     </header>
 
     <main>
@@ -24,8 +24,8 @@
         <div class="hero-card">
           <div class="hero-grid">
             <div class="hero-left">
-              <p class="eyebrow red">ИТАМ / РАСЧЕТ БИЗНЕС-ЭФФЕКТА</p>
-              <h1>Как обосновать<br><span>внедрение ITAM</span></h1>
+              <p class="eyebrow red">БЕСПЛАТНЫЙ КАЛЬКУЛЯТОР</p>
+              <h1>Как обосновать<br><span>внедрение решения<br>перед руководством</span></h1>
               <p class="lead">Посчитайте расходы, оцените потери и подготовьте аргументы для руководителя.</p>
               <ul class="features">
                 <li><span class="feat-icon">01</span><span>Расходы на лицензии и поддержку</span></li>
@@ -51,7 +51,7 @@
           <div class="progress-head"><span data-step-label>Шаг 1 из 6</span><span>Инфраструктура</span></div>
           <div class="progress-bar"><span data-progress style="width:16.6%"></span></div>
           <p class="section-kicker">РАЗДЕЛ 01 / ИСХОДНЫЕ ДАННЫЕ</p>
-          <h2>Размер ИТ-инфраструктуры</h2>
+          <h2>Сначала определим масштаб ИТ-инфраструктуры</h2>
           <p class="sub">Укажите актуальные оценки. Если точных значений нет, оставьте поле пустым и заполните известные данные.</p>
           <div class="fields fields-2">
             <div class="field"><label for="workstations">Рабочие места, шт.</label><input id="workstations" data-state type="number" min="0" step="1" placeholder="Например, 5000" /></div>
@@ -70,7 +70,7 @@
           <div class="progress-bar"><span data-progress style="width:33.3%"></span></div>
           <p class="section-kicker">РАЗДЕЛ 02 / РАСХОДЫ НА ПО</p>
           <h2>Сколько стоит неиспользуемое ПО?</h2>
-          <p class="sub">Оцените расходы на лицензии, которые оплачиваются, но не используются. Если фактическая доля неизвестна, лучше сначала проверить ее по отчетам использования.</p>
+          <p class="sub">Введите число оплачиваемых лицензий, их среднюю годовую стоимость и примерную долю неиспользуемых лицензий. Расчет произведен по формуле: число лицензий × годовая цена × доля неиспользуемых лицензий.</p>
           <div class="fields">
             <div class="field"><label for="licenseCount">Количество оплачиваемых лицензий, шт.</label><input id="licenseCount" data-state type="number" min="0" step="1" placeholder="Количество лицензий" /></div>
             <div class="field"><label for="licensePrice">Средняя стоимость лицензии за год, ₽</label><input id="licensePrice" data-state type="number" min="0" step="100" placeholder="Рублей в год за одну лицензию" /></div>
@@ -87,14 +87,13 @@
           <div class="progress-bar"><span data-progress style="width:50%"></span></div>
           <p class="section-kicker">РАЗДЕЛ 03 / ТРУДОЗАТРАТЫ</p>
           <h2>Сколько времени уходит на учет активов?</h2>
-          <p class="sub">Сравните трудозатраты до и после автоматизации. Результат показывает стоимость высвобождаемого времени, а не гарантированное сокращение зарплат.</p>
+          <p class="sub">Расчет произведен по формуле: разница часов × стоимость часа × число специалистов × 12 месяцев. Это примерная оценка стоимости высвобождаемого времени, а не точная цифра сокращения зарплатных расходов.</p>
           <div class="fields fields-2">
             <div class="field"><label for="specialists">Специалисты, чел.</label><input id="specialists" data-state type="number" min="0" step="1" placeholder="Количество сотрудников" /></div>
             <div class="field"><label for="hourRate">Стоимость рабочего часа, ₽</label><input id="hourRate" data-state type="number" min="0" step="50" placeholder="Затраты на один час" /></div>
             <div class="field"><label for="hoursMonth">Часов на одного специалиста сейчас, в месяц</label><input id="hoursMonth" data-state type="number" min="0" step="0.5" placeholder="Часы в месяц" /></div>
             <div class="field"><label for="hoursAfter">Часов на одного специалиста после изменений, в месяц</label><input id="hoursAfter" data-state type="number" min="0" step="0.5" placeholder="Оставшиеся часы" /></div>
           </div>
-          <div class="formula-strip"><strong>Расчет:</strong> (текущие часы − часы после изменений) × стоимость часа × специалисты × 12 месяцев.</div>
           <div class="live-box navy"><div><span class="live-label">Стоимость высвобождаемого времени</span><small>В год, при указанных трудозатратах</small></div><strong id="liveManual">Заполните поля</strong></div>
           <div class="nav-row"><button type="button" class="btn btn-ghost" data-go="2">← Назад</button><button type="button" class="btn btn-primary" data-go="4">К потерям и риску →</button></div>
         </div>
@@ -154,8 +153,8 @@
           <div class="progress-head"><span data-step-label>Шаг 5 из 6</span><span>Адресат</span></div>
           <div class="progress-bar"><span data-progress style="width:83.3%"></span></div>
           <p class="section-kicker">РАЗДЕЛ 05 / АРГУМЕНТЫ</p>
-          <h2>Перед кем предстоит защищать проект?</h2>
-          <p class="sub">Выберите руководителя, который принимает решение или согласует бюджет. Расчеты останутся прежними, изменятся акценты итогового документа.</p>
+          <h2>Перед кем предстоит защищать внедрение решения?</h2>
+          <p class="sub">Выберите руководителя подразделения. Расчеты останутся прежними, а рекомендации и аргументы изменятся с учетом его KPI и задач.</p>
           <div class="audience-grid">
             <button type="button" class="audience-card active" data-audience="ceo" aria-pressed="true">
               <span class="audience-number">01</span><div class="ico">CEO</div><h3>Генеральный директор</h3><p>Результат для бизнеса и потери, которых можно избежать</p>
@@ -216,8 +215,8 @@
 
           <div class="doc-preview">
             <div class="doc-cover">
-              <p class="eyebrow">ИНФЕРИТ ИТМЕН / ITAM</p>
-              <h3>Обоснование внедрения</h3>
+              <p class="eyebrow">ШАБЛОН БИЗНЕС-ОБОСНОВАНИЯ</p>
+              <h3>Обоснование внедрения решения</h3>
               <p id="docMeta">—</p>
               <div class="cover-total"><span>Потенциал сокращения расходов</span><strong id="docTotal">—</strong></div>
             </div>
@@ -231,10 +230,8 @@
                 <li><span>05</span> Следующие действия</li>
               </ol>
               <div class="download-row">
-                <button type="button" class="btn btn-primary" id="btnDownloadPpt">Скачать PPTX</button>
-                <button type="button" class="btn btn-ghost" id="btnDownloadDoc">Скачать DOC</button>
+                <button type="button" class="btn btn-primary" id="btnDownloadDoc">Скачать DOC</button>
               </div>
-              <p class="note">Расчет ориентировочный. Перед защитой проекта проверьте исходные значения, договорные расходы и принятые допущения.</p>
             </div>
           </div>
 
@@ -243,7 +240,6 @@
       </section>
     </main>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
-  <script src="app.js?v=20261009-3"></script>
+  <script src="app.js?v=20261009-4"></script>
 </body>
 </html>
