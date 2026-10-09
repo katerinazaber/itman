@@ -40,7 +40,7 @@ a { color: inherit; }
 .eyebrow,.section-kicker { font:600 13px var(--heading); letter-spacing:.09em; text-transform:uppercase; }
 .eyebrow.red,.section-kicker { color:var(--red); }
 .hero-left h1 { max-width:760px; font:700 clamp(38px,5vw,64px)/1.08 var(--heading); text-transform:uppercase; letter-spacing:.005em; }
-.hero-left h1 span { color:var(--red); }
+.hero-left h1 span { color:var(--ink); }
 .hero-left .lead { max-width:48ch; color:var(--ink-soft); font-size:19px; line-height:1.45; }
 .features { list-style:none; display:grid; gap:12px; width:100%; max-width:620px; margin:2px 0 4px; }
 .features li { display:flex; align-items:center; gap:13px; font-size:16px; font-weight:700; }
