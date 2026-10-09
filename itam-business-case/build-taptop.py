@@ -12,7 +12,7 @@ from pathlib import Path
 HERE = Path(__file__).parent
 ROOT = "#itamBc"
 ID_PREFIX = "ibc-"
-JS_COMMIT = "d0139c1"
+JS_COMMIT = "600574b"
 LOGO_URL = "https://katerinazaber.github.io/itman/itam-business-case/assets/brand.svg"
 
 
