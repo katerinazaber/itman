@@ -18,297 +18,358 @@
     retiredCost: null,
     downtimeHours: null,
     downtimeRate: null,
+    riskAssets: null,
     riskProbability: null,
     riskImpact: null,
+    implementationCost: null,
+    annualSupportCost: null,
     audience: "ceo"
   };
 
-  var INPUTS = [
-    "workstations", "assets", "licensesTotal", "products", "licenseCount",
-    "licensePrice", "unusedPct", "specialists", "hoursMonth", "hourRate",
-    "hoursAfter", "retiredCount", "retiredCost", "downtimeHours",
-    "downtimeRate", "riskProbability", "riskImpact"
+  var NUMERIC_FIELDS = [
+    "workstations", "assets", "licensesTotal", "products",
+    "licenseCount", "licensePrice", "unusedPct",
+    "specialists", "hoursMonth", "hourRate", "hoursAfter",
+    "retiredCount", "retiredCost", "downtimeHours", "downtimeRate",
+    "riskAssets", "riskProbability", "riskImpact",
+    "implementationCost", "annualSupportCost"
   ];
 
   var AUDIENCE = {
     ceo: {
       title: "CEO",
+      roleName: "Генеральный директор",
       short: "Результат для бизнеса",
       question: "Что изменится для компании?",
-      main: "Руководителю важно понять, как ИТ влияет на бизнес-результат, какие расходы можно предотвратить и какие ресурсы освободить для задач развития.",
-      focus: [
-        "Расходы, которых можно избежать без ущерба для работы компании.",
-        "Потери бизнеса из-за недоступности критичных ИТ-систем.",
-        "Возможность высвободить ресурсы для других задач.",
-        "Предсказуемость будущих закупок, продлений и замен."
+      main: "Покажите, какие расходы можно предотвратить, как ИТ влияет на непрерывность работы и какие ресурсы можно направить на задачи развития.",
+      points: [
+        "Расходы на лицензии и поддержку, от которых можно отказаться после проверки",
+        "Потери бизнеса из-за простоя критичных систем",
+        "Возможность повторно использовать имеющиеся активы вместо новой закупки",
+        "Предсказуемость будущих расходов на замену и продление"
       ],
-      proof: [
-        "Показать связь ИТ-расходов с конкретными бизнес-процессами.",
-        "Отделить подтвержденное сокращение расходов от расчетных потерь и высвобождаемого времени.",
-        "Указать, что компания сможет сделать с высвобожденными ресурсами."
+      proof: "Покажите размер эффекта и период расчета. Отдельно обозначьте подтвержденные суммы, предотвращаемые расходы и возможные потери.",
+      say: [
+        "Сначала оценим, какие ИТ-ресурсы используются неэффективно и какие расходы можно предотвратить.",
+        "Отдельно покажем, во что бизнесу обходится простой критичных систем.",
+        "Сопоставим возможный эффект со стоимостью проекта, когда будут известны затраты на внедрение."
       ],
-      say: "Проект позволит проверить, какие ИТ-ресурсы используются неэффективно, какие расходы можно предотвратить и как сократить потери бизнеса из-за недоступности критичных систем.",
-      verify: "Согласовать с владельцами бизнес-процессов критичные системы, последствия простоя и направления, куда можно перенаправить высвобожденные ресурсы."
+      avoid: "Не начинайте разговор с числа устройств или перечня функций. Покажите, как учет активов помогает принимать решения о расходах и снижает потери бизнеса."
     },
     cfo: {
       title: "CFO",
-      short: "Деньги и бюджет",
-      question: "Сколько потратим и что получим?",
-      main: "Финансовому директору нужны сумма и структура расходов, потенциальный эффект в рублях, стоимость проекта и понятный период, за который этот эффект ожидается.",
-      focus: [
-        "Сокращение затрат на неиспользуемые лицензии, ненужные продления и поддержку списанных активов.",
-        "Стоимость ручных операций и потенциальных потерь от простоя.",
-        "Стоимость внедрения и дальнейшего использования решения.",
-        "Срок окупаемости и ROI, если собраны все необходимые данные."
+      roleName: "Финансовый директор",
+      short: "Расходы и бюджет",
+      question: "Сколько потратим и что сможем сократить?",
+      main: "Сведите к понятным суммам потенциальные расходы на неиспользуемые лицензии и поддержку списанных активов. Сопоставьте их со стоимостью внедрения и дальнейшего использования решения.",
+      points: [
+        "Количество и стоимость лицензий, которые можно не продлевать",
+        "Платежи по поддержке списанного оборудования",
+        "Разовые затраты на внедрение и ежегодные расходы на решение",
+        "Срок окупаемости на основе подтвержденного сокращения расходов"
       ],
-      proof: [
-        "Показывать ежегодные и разовые затраты раздельно.",
-        "Сравнить потенциальный эффект со стоимостью проекта и владения.",
-        "Не включать предотвращенный ущерб в гарантированную экономию."
+      proof: "Покажите суммы в рублях за год, разовые затраты и ежегодные платежи. Срок окупаемости считайте только при заполненных данных о затратах и потенциальном сокращении расходов.",
+      say: [
+        "Разберем расходы на лицензии и поддержку, по которым есть основания пересмотреть закупки или продления.",
+        "Покажем отдельно разовую стоимость проекта и будущие ежегодные расходы.",
+        "После проверки исходных данных рассчитаем срок окупаемости на основе потенциального сокращения денежных расходов."
       ],
-      say: "Расчет показывает потенциальные расходы, которые можно сократить, и стоимость времени, которое высвободится. Для оценки окупаемости сопоставим эти показатели со стоимостью внедрения и последующей эксплуатации.",
-      verify: "Подтвердить цены по договорам и закупкам, методику оценки рабочего часа, стоимость внедрения, регулярные платежи и период получения эффекта."
+      avoid: "Не складывайте высвобождаемое рабочее время и стоимость простоя с прямой экономией. Не указывайте ROI без стоимости проекта и ежегодных расходов."
     },
     fin: {
       title: "Финансовый контролер",
+      roleName: "Финансовый контролер",
       short: "Проверяемость расчетов",
       question: "Откуда взялась каждая цифра?",
-      main: "Контролеру важно проследить путь от первичных данных до итогового показателя, повторить расчет и убедиться, что одна и та же выгода не учтена дважды.",
-      focus: [
-        "Источник каждого исходного значения: учетная система, договор, счет или замер времени.",
-        "Формула, единицы измерения и период расчета.",
-        "Разделение фактических данных и допущений.",
-        "Отсутствие двойного учета экономии и предотвращенных потерь."
+      main: "Для каждого показателя укажите исходные значения, период, формулу и источник данных. Оценки и неподтвержденные предположения должны быть заметно отделены от фактических расходов.",
+      points: [
+        "Число лицензий, факт использования и цена по договору",
+        "Список списанных активов и платежи за поддержку",
+        "Трудозатраты, частота операций и стоимость рабочего часа",
+        "Формула расчета и объяснение, откуда взяты исходные цифры"
       ],
-      proof: [
-        "Добавить к каждой метрике формулу и перечень исходных данных.",
-        "Сверить количество лицензий и факт использования, а расходы — с договорами.",
-        "Показать, какие значения еще требуется подтвердить."
+      proof: "Перед согласованием сверьте расчет с выгрузками из учетных систем, договорами, счетами и замерами времени. Проверьте, что один и тот же эффект не учтен дважды.",
+      say: [
+        "У каждого показателя будет источник данных и понятная формула. Сначала сверим данные учета с фактическим использованием и договорными расходами, затем зафиксируем расчет.",
+        "Отделим подтвержденные расходы от предварительной оценки и потенциальных потерь.",
+        "Сверим расчет с первичными данными до того, как включать эффект в бюджет."
       ],
-      say: "Каждый показатель должен иметь источник, формулу и список допущений. Сначала сверим данные учета с фактическим использованием и договорными расходами, затем зафиксируем расчет.",
-      verify: "Проверить источники данных, актуальность периода, договорные суммы, фактическое использование и то, не учтен ли один эффект одновременно в нескольких показателях."
+      avoid: "Не представляйте оценочный процент как подтвержденный факт. Не оставляйте итоговую сумму без формулы и источника данных."
     },
     ib: {
       title: "Руководитель ИБ",
+      roleName: "Руководитель информационной безопасности",
       short: "Активы и риски",
-      question: "Какие активы под угрозой и что нужно сделать?",
-      main: "Руководителю ИБ нужно видеть, какие конкретно активы затронуты проблемой, насколько она существенна, какие меры снизят риск и сколько эти меры будут стоить.",
-      focus: [
-        "Полнота перечня активов и контроль версий программного обеспечения.",
-        "Уязвимости, запрещенное ПО и несоответствие требованиям.",
-        "Приоритеты устранения и сроки выполнения мер.",
-        "Стоимость устранения риска и обоснованная оценка возможного ущерба."
+      question: "Какие активы под угрозой и что с этим делать?",
+      main: "Свяжите активы и программные версии с конкретными уязвимостями, возможным ущербом и мерами устранения. Финансовая оценка риска должна опираться на понятные исходные данные.",
+      points: [
+        "Активы, затронутые риском, и критичность этих активов",
+        "Уязвимости, устаревшие версии ПО и запрещенное ПО",
+        "Приоритет и стоимость обновления, замены или другой меры",
+        "Вероятность инцидента и возможный финансовый ущерб"
       ],
-      proof: [
-        "Связать риск с конкретным активом, версией или уязвимостью.",
-        "Указать действие: обновление, замена, ограничение доступа или другая мера.",
-        "Отдельно показать стоимость меры и ожидаемый ущерб при инциденте."
+      proof: "Свяжите конкретный актив, риск, действие по снижению риска, срок и стоимость. Укажите источник оценки вероятности и размера ущерба.",
+      say: [
+        "Начнем с активов, которые затронуты риском, и проверим актуальность сведений о них.",
+        "Определим, какие меры требуются и сколько будет стоить устранение выявленных проблем.",
+        "Отдельно оценим возможный ущерб; эту сумму не будем считать гарантированной экономией."
       ],
-      say: "Обоснование связывает ИТ-активы с выявленными уязвимостями, мерами устранения и их стоимостью. Это поможет определить приоритеты и обосновать бюджет на снижение наиболее существенных рисков.",
-      verify: "Сверить перечень активов и версий, подтвердить критичность и вероятность инцидента, оценить возможный ущерб и согласовать стоимость мер с ответственными за ИБ и ИТ."
+      avoid: "Не ограничивайтесь общим обещанием повысить безопасность. Нужны активы, описание риска, мера реагирования и обоснование ее приоритета."
     }
   };
 
   function $(id) { return document.getElementById(id); }
 
-  function escapeHtml(value) {
-    return String(value == null ? "" : value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
-  }
-
-  function fmt(value) {
-    if (value === null || value === undefined || value === "" || !Number.isFinite(value)) return "—";
+  function money(value) {
+    if (value === null || value === undefined || !isFinite(value)) return "Не рассчитано";
     return Math.round(value).toLocaleString("ru-RU") + " ₽";
   }
 
-  function fmtNumber(value) {
-    if (value === null || value === undefined || value === "" || !Number.isFinite(value)) return "не указано";
-    return value.toLocaleString("ru-RU");
+  function moneyPerYear(value) {
+    return value === null || value === undefined ? "Заполните поля" : money(value) + " / год";
+  }
+
+  function numberText(value) {
+    return value === null || value === undefined || !isFinite(value) ? "не указано" : Number(value).toLocaleString("ru-RU");
+  }
+
+  function hasValues(keys) {
+    return keys.every(function (key) {
+      return state[key] !== null && state[key] !== undefined && isFinite(Number(state[key]));
+    });
   }
 
   function calc() {
-    var lic = state.licenseCount !== null && state.licensePrice !== null && state.unusedPct !== null
-      ? state.licenseCount * state.licensePrice * (state.unusedPct / 100) : null;
-    var manual = state.hoursMonth !== null && state.hoursAfter !== null && state.hourRate !== null && state.specialists !== null
-      ? Math.max(0, state.hoursMonth - state.hoursAfter) * state.hourRate * state.specialists * 12 : null;
-    var retired = state.retiredCount !== null && state.retiredCost !== null
-      ? state.retiredCount * state.retiredCost : null;
-    var downtime = state.downtimeHours !== null && state.downtimeRate !== null
-      ? state.downtimeHours * state.downtimeRate : null;
-    var risk = state.riskProbability !== null && state.riskImpact !== null
-      ? state.riskImpact * (state.riskProbability / 100) : null;
-    return { lic: lic, manual: manual, retired: retired, downtime: downtime, risk: risk };
-  }
-
-  function readInputs() {
-    INPUTS.forEach(function (id) {
-      var el = $(id);
-      if (!el) return;
-      var raw = String(el.value || "").trim();
-      if (!raw) { state[id] = null; return; }
-      var value = Number(raw.replace(/\s/g, "").replace(",", "."));
-      state[id] = Number.isFinite(value) && value >= 0 ? value : null;
-    });
+    var lic = hasValues(["licenseCount", "licensePrice", "unusedPct"])
+      ? Math.max(0, state.licenseCount) * Math.max(0, state.licensePrice) * (Math.min(100, Math.max(0, state.unusedPct)) / 100)
+      : null;
+    var manual = hasValues(["specialists", "hoursMonth", "hourRate", "hoursAfter"])
+      ? Math.max(0, state.hoursMonth - state.hoursAfter) * Math.max(0, state.hourRate) * Math.max(0, state.specialists) * 12
+      : null;
+    var retired = hasValues(["retiredCount", "retiredCost"])
+      ? Math.max(0, state.retiredCount) * Math.max(0, state.retiredCost)
+      : null;
+    var downtime = hasValues(["downtimeHours", "downtimeRate"])
+      ? Math.max(0, state.downtimeHours) * Math.max(0, state.downtimeRate)
+      : null;
+    var risk = hasValues(["riskProbability", "riskImpact"])
+      ? (Math.min(100, Math.max(0, state.riskProbability)) / 100) * Math.max(0, state.riskImpact)
+      : null;
+    var savingsParts = [lic, retired].filter(function (v) { return v !== null; });
+    var cashSavings = savingsParts.length ? savingsParts.reduce(function (sum, v) { return sum + v; }, 0) : null;
+    var netAnnualCashEffect = cashSavings !== null && state.annualSupportCost !== null
+      ? cashSavings - Math.max(0, state.annualSupportCost)
+      : null;
+    var paybackMonths = state.implementationCost !== null && state.implementationCost > 0 && netAnnualCashEffect > 0
+      ? (state.implementationCost / netAnnualCashEffect) * 12
+      : null;
+    var firstYearRoi = state.implementationCost !== null && state.implementationCost > 0 && netAnnualCashEffect !== null
+      ? ((netAnnualCashEffect - state.implementationCost) / state.implementationCost) * 100
+      : null;
+    return {
+      lic: lic,
+      manual: manual,
+      retired: retired,
+      downtime: downtime,
+      risk: risk,
+      cashSavings: cashSavings,
+      savingsParts: savingsParts.length,
+      netAnnualCashEffect: netAnnualCashEffect,
+      paybackMonths: paybackMonths,
+      firstYearRoi: firstYearRoi
+    };
   }
 
   function syncInputs() {
-    INPUTS.forEach(function (id) {
-      var el = $(id);
-      if (el) el.value = state[id] === null ? "" : state[id];
+    NUMERIC_FIELDS.forEach(function (key) {
+      var el = $(key);
+      if (el) el.value = state[key] === null ? "" : state[key];
     });
+  }
+
+  function readInputs() {
+    NUMERIC_FIELDS.forEach(function (key) {
+      var el = $(key);
+      if (!el) return;
+      var raw = String(el.value).trim().replace(/\s/g, "").replace(",", ".");
+      if (raw === "") {
+        state[key] = null;
+        return;
+      }
+      var value = Number(raw);
+      state[key] = isFinite(value) ? Math.max(0, value) : null;
+    });
+    if (state.unusedPct !== null) state.unusedPct = Math.min(100, Math.max(0, state.unusedPct));
+    if (state.riskProbability !== null) state.riskProbability = Math.min(100, Math.max(0, state.riskProbability));
+  }
+
+  function setText(id, value) {
+    var el = $(id);
+    if (el) el.textContent = value;
   }
 
   function renderLive() {
     var c = calc();
-    var bindings = [
-      ["liveLicenses", c.lic],
-      ["liveManual", c.manual],
-      ["liveRetired", c.retired],
-      ["liveDowntime", c.downtime],
-      ["liveRisk", c.risk]
-    ];
-    bindings.forEach(function (pair) {
-      var el = $(pair[0]);
-      if (el) el.textContent = pair[1] === null ? "Заполните данные" : fmt(pair[1]) + " / год";
-    });
+    setText("liveLicenses", moneyPerYear(c.lic));
+    setText("liveManual", moneyPerYear(c.manual));
+    setText("liveRetired", moneyPerYear(c.retired));
+    setText("liveDowntime", moneyPerYear(c.downtime));
+    setText("liveRisk", moneyPerYear(c.risk));
   }
 
   function listHtml(items) {
-    return "<ul>" + items.map(function (item) { return "<li>" + escapeHtml(item) + "</li>"; }).join("") + "</ul>";
+    return "<ul>" + items.map(function (item) { return "<li>" + item + "</li>"; }).join("") + "</ul>";
+  }
+
+  function roleHtml(a, label) {
+    return '<div class="label">' + label + '</div>' +
+      '<h3>«' + a.question + '»</h3>' +
+      '<p class="role-intro">' + a.main + '</p>' +
+      '<div class="arg-columns">' +
+        '<div><h4>Что важно показать</h4>' + listHtml(a.points) + '</div>' +
+        '<div><h4>Что подтвердить</h4><p class="role-intro">' + a.proof + '</p></div>' +
+      '</div>' +
+      '<div class="role-quote"><strong>Пример формулировки для обсуждения:</strong> ' + a.say[0] + '</div>' +
+      '<div class="role-quote"><strong>Чего избегать:</strong> ' + a.avoid + '</div>';
   }
 
   function renderAudience() {
-    var audience = AUDIENCE[state.audience];
-    if (!audience) return;
+    var a = AUDIENCE[state.audience];
     document.querySelectorAll(".audience-card").forEach(function (card) {
       var active = card.dataset.audience === state.audience;
       card.classList.toggle("active", active);
       card.setAttribute("aria-pressed", active ? "true" : "false");
     });
     var box = $("audienceArg");
-    if (!box) return;
-    box.innerHTML =
-      '<div class="label">Главный вопрос · ' + escapeHtml(audience.title) + "</div>" +
-      "<h3>«" + escapeHtml(audience.question) + "»</h3>" +
-      '<p class="arg-intro">' + escapeHtml(audience.main) + "</p>" +
-      '<div class="arg-columns">' +
-        '<div><p class="arg-subhead">Что важно руководителю</p>' + listHtml(audience.focus) + "</div>" +
-        '<div><p class="arg-subhead">Что показать в обосновании</p>' + listHtml(audience.proof) + "</div>" +
-      "</div>" +
-      '<div class="arg-quote"><strong>Формулировка для обсуждения</strong><br>' + escapeHtml(audience.say) + "</div>" +
-      '<p class="arg-check"><strong>Перед защитой проверить:</strong> ' + escapeHtml(audience.verify) + "</p>";
+    if (box && a) box.innerHTML = roleHtml(a, a.title);
+  }
+
+  function renderPayback(c) {
+    var panel = $("paybackPanel");
+    if (!panel) return;
+    if (state.implementationCost === null || state.annualSupportCost === null || c.cashSavings === null) {
+      panel.innerHTML = "<h3>Окупаемость проекта</h3><p>Для расчета нужны три значения: потенциальное сокращение расходов, стоимость внедрения и ежегодные расходы на решение. Стоимость высвобождаемого времени и возможные потери в окупаемость не включены.</p>";
+      return;
+    }
+    if (c.netAnnualCashEffect <= 0) {
+      panel.innerHTML = "<h3>Окупаемость проекта</h3><p>По введенным данным потенциальное сокращение расходов не превышает ежегодные расходы на решение. Уточните исходные значения или оцените дополнительные подтвержденные источники сокращения расходов.</p>";
+      return;
+    }
+    var roi = c.firstYearRoi === null ? "Не рассчитан" : c.firstYearRoi.toFixed(1).replace(".", ",") + "%";
+    var payback = c.paybackMonths === null ? "Не рассчитан" : c.paybackMonths.toFixed(1).replace(".", ",") + " мес.";
+    panel.innerHTML = '<h3>Окупаемость по сокращаемым расходам</h3>' +
+      '<p>Предварительная оценка. В расчет включены только потенциальные расходы на лицензии и поддержку списанных активов, за вычетом ежегодных расходов на решение.</p>' +
+      '<div class="payback-values"><div><strong>' + payback + '</strong><span>Ориентировочный срок окупаемости</span></div>' +
+      '<div><strong>' + roi + '</strong><span>Расчетный ROI первого года</span></div>' +
+      '<div><strong>' + money(c.netAnnualCashEffect) + '</strong><span>Годовой эффект после текущих ежегодных расходов</span></div></div>';
   }
 
   function renderResult() {
     var c = calc();
-    var audience = AUDIENCE[state.audience];
-    var values = [
-      ["resultLic", c.lic],
-      ["resultManual", c.manual],
-      ["resultRetired", c.retired],
-      ["resultDowntime", c.downtime],
-      ["resultRisk", c.risk]
-    ];
-    values.forEach(function (pair) {
-      var el = $(pair[0]);
-      if (el) el.textContent = pair[1] === null ? "Нет данных" : fmt(pair[1]);
-    });
+    var a = AUDIENCE[state.audience];
+    setText("totalValue", c.cashSavings === null ? "Заполните данные" : money(c.cashSavings) + " / год");
+    var caveat = "В сумму входят только лицензии и поддержка списанных активов. Все значения требуют проверки.";
+    if (c.savingsParts === 1) caveat = "Сумма рассчитана только по одному заполненному разделу. Заполните данные по лицензиям и поддержке, если хотите учесть оба источника.";
+    if (c.savingsParts === 0) caveat = "Заполните данные по лицензиям и/или поддержке списанных активов, чтобы рассчитать потенциальное сокращение расходов.";
+    setText("totalCaveat", caveat);
+    setText("resultLic", moneyPerYear(c.lic));
+    setText("resultRetired", moneyPerYear(c.retired));
+    setText("resultManual", moneyPerYear(c.manual));
+    setText("resultDowntime", moneyPerYear(c.downtime));
+    setText("resultRisk", moneyPerYear(c.risk));
+    setText("resultImplementation", state.implementationCost === null ? "Не указана" : money(state.implementationCost));
+    setText("resultSupportCost", "Ежегодные расходы: " + (state.annualSupportCost === null ? "не указаны" : money(state.annualSupportCost)));
+    renderPayback(c);
 
     document.querySelectorAll(".tab").forEach(function (tab) {
       var active = tab.dataset.audience === state.audience;
       tab.classList.toggle("active", active);
       tab.setAttribute("aria-pressed", active ? "true" : "false");
     });
-
+    setText("resultRoleTitle", a.roleName);
     var detail = $("resultArgs");
-    if (detail && audience) {
-      detail.innerHTML =
-        '<div class="label">Аргументы для ' + escapeHtml(audience.title) + "</div>" +
-        "<h3>«" + escapeHtml(audience.question) + "»</h3>" +
-        '<p class="arg-intro">' + escapeHtml(audience.main) + "</p>" +
-        '<div class="arg-columns">' +
-          '<div><p class="arg-subhead">На чем сделать акцент</p>' + listHtml(audience.focus) + "</div>" +
-          '<div><p class="arg-subhead">Что подтвердить</p>' + listHtml(audience.proof) + "</div>" +
-        "</div>" +
-        '<div class="arg-quote"><strong>Формулировка для обсуждения</strong><br>' + escapeHtml(audience.say) + "</div>" +
-        '<p class="arg-check"><strong>Перед защитой проверить:</strong> ' + escapeHtml(audience.verify) + "</p>";
-    }
+    if (detail) detail.innerHTML = roleHtml(a, a.title);
 
-    var meta = $("docMeta");
-    if (meta && audience) {
-      meta.textContent = "Адресат: " + audience.title +
-        " · Рабочие места: " + fmtNumber(state.workstations) +
-        " · ИТ-активы: " + fmtNumber(state.assets);
-    }
-    renderLive();
+    setText("docMeta",
+      numberText(state.workstations) + " рабочих мест · " +
+      numberText(state.assets) + " ИТ-активов · адресат: " + a.roleName);
+    setText("docTotal", c.cashSavings === null ? "Не рассчитано" : money(c.cashSavings) + " / год");
   }
 
-  function showStep(number) {
+  function showStep(n) {
     readInputs();
-    state.step = number;
-    document.querySelectorAll(".screen").forEach(function (screen) { screen.classList.remove("active"); });
-    var active = $("screen-" + number);
-    if (active) active.classList.add("active");
-    if (number >= 1 && number <= 6) {
-      document.querySelectorAll("[data-progress]").forEach(function (el) { el.style.width = (number / 6 * 100) + "%"; });
-      document.querySelectorAll("[data-step-label]").forEach(function (el) { el.textContent = "Шаг " + number + " из 6"; });
+    state.step = n;
+    document.querySelectorAll(".screen").forEach(function (screen) {
+      screen.classList.remove("active");
+    });
+    var screen = $("screen-" + n);
+    if (screen) screen.classList.add("active");
+    if (n >= 1 && n <= 6) {
+      var pct = (n / 6) * 100;
+      document.querySelectorAll("[data-progress]").forEach(function (el) { el.style.width = pct + "%"; });
+      document.querySelectorAll("[data-step-label]").forEach(function (el) { el.textContent = "Шаг " + n + " из 6"; });
     }
-    if (number >= 2 && number <= 4) renderLive();
-    if (number === 5) renderAudience();
-    if (number === 6) renderResult();
+    if (n === 2 || n === 3 || n === 4) renderLive();
+    if (n === 5) renderAudience();
+    if (n === 6) renderResult();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  function reportTableRow(label, value, formula, type) {
-    return "<tr><td>" + escapeHtml(label) + "</td><td>" + escapeHtml(value === null ? "Нет данных" : fmt(value)) +
-      "</td><td>" + escapeHtml(formula) + "</td><td>" + escapeHtml(type) + "</td></tr>";
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"]/g, function (char) {
+      return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[char];
+    });
+  }
+
+  function valueOrMissing(value, suffix) {
+    return value === null ? "Не рассчитано: не заполнены исходные данные" : money(value) + (suffix || "");
   }
 
   function buildReportHtml() {
     var c = calc();
-    var audience = AUDIENCE[state.audience];
-    var metrics = [
-      reportTableRow("Неиспользуемые лицензии", c.lic, "Количество × годовая цена × доля неиспользуемых", "Потенциал сокращения расходов"),
-      reportTableRow("Ручные операции", c.manual, "Разница часов × стоимость часа × специалисты × 12", "Стоимость высвобождаемого времени"),
-      reportTableRow("Поддержка списанных активов", c.retired, "Количество активов × годовая стоимость поддержки", "Расходы, которые можно проверить и прекратить"),
-      reportTableRow("Простой ИТ-систем", c.downtime, "Часы простоя за год × оценка потерь за час", "Потенциальные потери бизнеса"),
-      reportTableRow("ИТ-риск", c.risk, "Вероятность инцидента за год × потенциальный ущерб", "Ожидаемый ущерб, не экономия")
-    ].join("");
-    var infra = "<ul>" +
-      "<li>Рабочие места: " + escapeHtml(fmtNumber(state.workstations)) + "</li>" +
-      "<li>ИТ-активы: " + escapeHtml(fmtNumber(state.assets)) + "</li>" +
-      "<li>Лицензии ПО по масштабу: " + escapeHtml(fmtNumber(state.licensesTotal)) + "</li>" +
-      "<li>Программные продукты: " + escapeHtml(fmtNumber(state.products)) + "</li></ul>";
+    var a = AUDIENCE[state.audience];
+    var rows = [
+      ["Потенциал сокращения расходов на лицензии", valueOrMissing(c.lic, " в год"), "Возможное сокращение расходов"],
+      ["Поддержка списанных активов", valueOrMissing(c.retired, " в год"), "Расходы, которых можно избежать"],
+      ["Стоимость высвобождаемого времени", valueOrMissing(c.manual, " в год"), "Стоимость рабочего времени; не прямая экономия"],
+      ["Потенциальные потери от простоя", valueOrMissing(c.downtime, " в год"), "Возможные потери; не прибавляются к экономии"],
+      ["Ожидаемая стоимость ИТ-риска", valueOrMissing(c.risk, " в год"), "Вероятность инцидента × возможный ущерб"]
+    ];
+    var tableRows = rows.map(function (row) {
+      return "<tr><td>" + escapeHtml(row[0]) + "</td><td>" + escapeHtml(row[1]) + "</td><td>" + escapeHtml(row[2]) + "</td></tr>";
+    }).join("");
+    var metricList = listHtml(a.points);
+    var quotes = listHtml(a.say);
+    var checks = [
+      "Сверить число оплачиваемых лицензий, факт использования и цены с отчетами и договорами.",
+      "Проверить списанные активы и действующие договоры поддержки.",
+      "Подтвердить трудозатраты и стоимость рабочего часа у владельцев процесса.",
+      "Оценить стоимость простоя по критичным бизнес-процессам.",
+      "Зафиксировать источник оценки вероятности инцидента и возможного ущерба.",
+      "Уточнить разовую стоимость внедрения и ежегодные расходы на решение.",
+      "Проверить, что один и тот же эффект не учтен в нескольких строках."
+    ];
+    var projectCosts = "<p>Стоимость внедрения: " + (state.implementationCost === null ? "не указана" : escapeHtml(money(state.implementationCost))) +
+      ". Ежегодные расходы на лицензии и сопровождение: " + (state.annualSupportCost === null ? "не указаны" : escapeHtml(money(state.annualSupportCost))) + ".</p>";
+    var paybackText = c.paybackMonths === null
+      ? "Срок окупаемости не рассчитан: не хватает исходных данных или годовой эффект после ежегодных расходов не положительный."
+      : "Ориентировочный срок окупаемости: " + c.paybackMonths.toFixed(1).replace(".", ",") + " месяца. Расчет учитывает только потенциальное сокращение денежных расходов.";
     return "<!DOCTYPE html><html lang=\"ru\"><head><meta charset=\"UTF-8\"><title>Обоснование внедрения ITAM</title>" +
-      "<style>body{font-family:Arial,sans-serif;max-width:920px;margin:34px auto;padding:0 22px;color:#202A31;line-height:1.55}" +
-      "h1,h2,h3{color:#19344A}h1{font-size:30px;text-transform:uppercase}h2{margin-top:30px;font-size:20px}h3{font-size:16px}" +
-      ".kicker{font-weight:bold;color:#C43C27;text-transform:uppercase;letter-spacing:2px}.lead{font-size:18px}" +
-      "table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}th{background:#19344A;color:#FFFDF7}" +
-      "td,th{border:1px solid #D4C4A8;padding:10px;text-align:left;vertical-align:top}tr:nth-child(even){background:#F8F0E2}" +
-      ".panel{background:#F4E9D3;border-left:5px solid #C43C27;padding:16px 18px;margin:18px 0}.note{font-size:12px;color:#65717A}</style></head><body>" +
-      '<p class="kicker">Инферит ИТМен · ITAM</p><h1>Обоснование внедрения ITAM</h1>' +
-      "<p class=\"lead\">Для адресата: <strong>" + escapeHtml(audience.title) + "</strong></p>" +
-      "<p><strong>Главный вопрос:</strong> " + escapeHtml(audience.question) + "</p>" +
-      "<h2>1. Масштаб и текущая ситуация</h2>" + infra +
-      "<h2>2. Расчетные показатели</h2>" +
-      "<p>Показатели не складываются в общий итог: они описывают разные типы эффекта и риска.</p>" +
-      "<table><thead><tr><th>Показатель</th><th>Расчет за год</th><th>Формула</th><th>Как трактовать</th></tr></thead><tbody>" + metrics + "</tbody></table>" +
-      "<h2>3. Аргументы для руководителя</h2><div class=\"panel\"><h3>Что важно</h3>" + listHtml(audience.focus) +
-      "<h3>Что показать</h3>" + listHtml(audience.proof) + "<h3>Формулировка для обсуждения</h3><p>" + escapeHtml(audience.say) + "</p></div>" +
-      "<h2>4. Что подтвердить перед защитой</h2>" + listHtml([
-        "Сверить число лицензий, их фактическое использование и даты продления.",
-        "Проверить стоимость поддержки по действующим договорам и статусы активов.",
-        "Подтвердить трудозатраты и стоимость часа с руководителями ИТ и финансов.",
-        "Согласовать оценку потерь от простоя с владельцами бизнес-процессов.",
-        "Подтвердить вероятность инцидента и потенциальный ущерб по данным службы ИБ.",
-        "Добавить стоимость внедрения и эксплуатации решения до расчета срока окупаемости и ROI."
-      ]) +
-      "<h2>5. Следующий шаг</h2><p>Выбрать участок инфраструктуры, зафиксировать исходные показатели, сверить источники данных с ИТ, финансами, закупками и ИБ, затем уточнить расчеты.</p>" +
-      "<p class=\"note\">Оценка предварительная. Потенциальные расходы, стоимость высвобождаемого времени, потери от простоя и ожидаемый ущерб от риска не являются взаимозаменяемыми показателями. Подтвердите исходные значения перед принятием решения.</p>" +
+      "<style>body{font-family:Arial,sans-serif;max-width:920px;margin:32px auto;padding:0 20px;color:#19344a;line-height:1.55;background:#fffdf7}h1,h2,h3{font-family:Arial,sans-serif;text-transform:uppercase}h1{font-size:31px;line-height:1.2;border-bottom:8px solid #c43c27;padding-bottom:15px}h2{font-size:20px;margin-top:28px;padding:8px 10px;background:#19344a;color:#fffdf7}h3{font-size:16px;margin-top:18px}p{margin:10px 0}table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}td,th{border:1px solid #c9bba2;padding:9px;text-align:left;vertical-align:top}th{background:#e4d3b5}ul{padding-left:22px}li{margin:6px 0}.sum{padding:16px;border:2px solid #19344a;background:#f4e9d3;font-size:19px;font-weight:bold}.sub{font-size:12px;color:#52616b}</style></head><body>" +
+      "<p style=\"font-size:12px;letter-spacing:2px;color:#c43c27;font-weight:bold\">ИНФЕРИТ ИТМЕН / ITAM</p>" +
+      "<h1>Обоснование внедрения ITAM</h1>" +
+      "<p><strong>Адресат:</strong> " + escapeHtml(a.roleName) + "</p>" +
+      "<p><strong>Масштаб:</strong> " + escapeHtml(numberText(state.workstations)) + " рабочих мест; " + escapeHtml(numberText(state.assets)) + " ИТ-активов; " + escapeHtml(numberText(state.licensesTotal)) + " лицензий по учету; " + escapeHtml(numberText(state.products)) + " программных продуктов.</p>" +
+      "<h2>1. Исходная ситуация</h2><p>" + escapeHtml(a.main) + "</p><p><strong>Вопрос руководителя:</strong> " + escapeHtml(a.question) + "</p>" +
+      "<h2>2. Расчет показателей</h2>" +
+      "<div class=\"sum\">Потенциал сокращения и предотвращения расходов по заполненным разделам: " + escapeHtml(c.cashSavings === null ? "не рассчитан" : money(c.cashSavings) + " в год") + "</div>" +
+      "<p class=\"sub\">Сумма включает только лицензии и поддержку списанных активов. Высвобождаемое время, простой и риск показаны отдельно.</p>" +
+      "<table><thead><tr><th>Показатель</th><th>Значение</th><th>Интерпретация</th></tr></thead><tbody>" + tableRows + "</tbody></table>" +
+      "<h3>Стоимость проекта и окупаемость</h3>" + projectCosts + "<p>" + escapeHtml(paybackText) + "</p>" +
+      "<h2>3. Аргументы для " + escapeHtml(a.roleName) + "</h2><p>" + escapeHtml(a.proof) + "</p>" + metricList + "<h3>Как начать обсуждение</h3>" + quotes +
+      "<h2>4. Что проверить перед согласованием</h2>" + listHtml(checks) +
+      "<h2>5. Следующий шаг</h2><p>Сверить исходные значения с владельцами данных, подтвердить потенциальные расходы и оценить стоимость проекта. После проверки сформировать план пилота на выбранном сегменте инфраструктуры.</p>" +
+      "<p class=\"sub\">Все суммы являются оценкой по введенным данным. Потенциальный ущерб и стоимость высвобождаемого времени не являются гарантированной экономией. Документ не заменяет проверку расчетов и договорных условий.</p>" +
       "</body></html>";
   }
 
@@ -321,99 +382,34 @@
     document.body.appendChild(link);
     link.click();
     link.remove();
-    window.setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
   }
 
   function downloadDoc() {
-    downloadBlob("ITAM-obosnovanie.doc", "application/msword", buildReportHtml());
+    downloadBlob("Obosnovanie-vnedreniya-ITAM.doc", "application/msword", buildReportHtml());
   }
 
-  function downloadPptx() {
-    if (typeof PptxGenJS === "undefined") {
-      downloadBlob("ITAM-obosnovanie.html", "text/html;charset=utf-8", buildReportHtml());
-      window.alert("Библиотека PowerPoint не загрузилась. Вместо презентации скачан отчет HTML, его можно открыть в браузере или Word.");
-      return;
-    }
-
-    var c = calc();
-    var audience = AUDIENCE[state.audience];
-    var pptx = new PptxGenJS();
-    pptx.defineLayout({ name: "ITAM_16_9", width: 13.333, height: 7.5 });
-    pptx.layout = "ITAM_16_9";
-    pptx.author = "Инферит ИТМен";
-    pptx.subject = "Обоснование внедрения ITAM";
-    pptx.title = "Обоснование внедрения ITAM";
-    pptx.company = "Инферит ИТМен";
-
-    var paper = "F4E9D3", light = "FFFDF7", red = "C43C27", navy = "19344A", muted = "65717A", line = "D4C4A8";
-    function addHeader(slide, title) {
-      slide.background = { color: paper };
-      slide.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 0.18, h: 7.5, fill: { color: red }, line: { color: red } });
-      slide.addText("ИНФЕРИТ ИТМЕН  /  ITAM", { x: 0.55, y: 0.32, w: 7.6, h: 0.25, fontFace: "PT Sans", fontSize: 10, bold: true, color: red, charSpacing: 1.2, margin: 0 });
-      slide.addText(title, { x: 0.55, y: 0.72, w: 12, h: 0.6, fontFace: "Oswald", fontSize: 26, bold: true, color: navy, margin: 0.02, breakLine: false });
-      slide.addShape(pptx.ShapeType.line, { x: 0.55, y: 1.42, w: 12.1, h: 0, line: { color: line, width: 1 } });
-    }
-
-    var s1 = pptx.addSlide();
-    s1.background = { color: navy };
-    s1.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 0.25, h: 7.5, fill: { color: red }, line: { color: red } });
-    s1.addText("ИНФЕРИТ ИТМЕН  /  ITAM", { x: 0.85, y: 0.7, w: 8, h: 0.3, fontFace: "PT Sans", fontSize: 12, bold: true, color: "F0C7A8", charSpacing: 1.5, margin: 0 });
-    s1.addText("ОБОСНОВАНИЕ\nВНЕДРЕНИЯ ITAM", { x: 0.85, y: 1.65, w: 11.4, h: 1.8, fontFace: "Oswald", fontSize: 36, bold: true, color: light, margin: 0.02, breakLine: false });
-    s1.addText("Для адресата: " + audience.title, { x: 0.9, y: 3.75, w: 10.8, h: 0.4, fontFace: "PT Sans", fontSize: 20, color: "F0C7A8", margin: 0 });
-    s1.addText("Расчетные показатели по расходам, трудозатратам, простоям и ИТ-рискам", { x: 0.9, y: 4.45, w: 11.1, h: 0.8, fontFace: "PT Sans", fontSize: 17, color: light, breakLine: false, margin: 0 });
-    s1.addShape(pptx.ShapeType.rect, { x: 0.9, y: 6.25, w: 3.2, h: 0.48, fill: { color: red }, line: { color: red } });
-    s1.addText("ДАННЫЕ → РАСЧЕТ → РЕШЕНИЕ", { x: 1.05, y: 6.37, w: 2.9, h: 0.2, fontFace: "Oswald", fontSize: 11, bold: true, color: light, margin: 0 });
-
-    var s2 = pptx.addSlide();
-    addHeader(s2, "Показатели за год");
-    s2.addText("Не складывайте показатели в одну сумму: каждый описывает отдельный вид эффекта.", { x: 0.6, y: 1.62, w: 12, h: 0.38, fontFace: "PT Sans", fontSize: 13, color: muted, margin: 0 });
-    var rows = [
-      [{ text: "Показатель", options: { bold: true, color: light, fill: navy } }, { text: "Расчет", options: { bold: true, color: light, fill: navy } }, { text: "Трактовка", options: { bold: true, color: light, fill: navy } }],
-      ["Лицензии", c.lic === null ? "Нет данных" : fmt(c.lic), "Потенциал сокращения расходов"],
-      ["Ручные операции", c.manual === null ? "Нет данных" : fmt(c.manual), "Стоимость высвобождаемого времени"],
-      ["Поддержка списанных активов", c.retired === null ? "Нет данных" : fmt(c.retired), "Расходы, которые можно проверить и прекратить"],
-      ["Простой", c.downtime === null ? "Нет данных" : fmt(c.downtime), "Потенциальные потери бизнеса"],
-      ["ИТ-риск", c.risk === null ? "Нет данных" : fmt(c.risk), "Ожидаемый ущерб при заданной вероятности"]
-    ];
-    s2.addTable(rows, { x: 0.6, y: 2.12, w: 12, h: 3.7, colW: [3.0, 2.5, 6.5], rowH: 0.6, border: { pt: 0.7, color: line }, fontFace: "PT Sans", fontSize: 13, color: navy, fill: light, margin: 0.08, valign: "mid" });
-    s2.addText("Стоимость внедрения и эксплуатации нужно добавить отдельно, прежде чем рассчитывать окупаемость и ROI.", { x: 0.62, y: 6.15, w: 12, h: 0.55, fontFace: "PT Sans", fontSize: 13, color: red, bold: true, margin: 0 });
-
-    var s3 = pptx.addSlide();
-    addHeader(s3, "Аргументы для " + audience.title);
-    s3.addShape(pptx.ShapeType.rect, { x: 0.6, y: 1.7, w: 12, h: 0.75, fill: { color: "E4D3B5" }, line: { color: "E4D3B5" } });
-    s3.addText("ГЛАВНЫЙ ВОПРОС: " + audience.question, { x: 0.82, y: 1.9, w: 11.5, h: 0.3, fontFace: "Oswald", fontSize: 17, bold: true, color: navy, margin: 0 });
-    s3.addText("ЧТО ВАЖНО", { x: 0.65, y: 2.8, w: 5.7, h: 0.3, fontFace: "Oswald", fontSize: 15, bold: true, color: red, margin: 0 });
-    s3.addText(audience.focus.map(function (v) { return "• " + v; }).join("\n"), { x: 0.7, y: 3.2, w: 5.7, h: 2.8, fontFace: "PT Sans", fontSize: 14, color: navy, breakLine: false, margin: 0.03, paraSpaceAfterPt: 8, valign: "top" });
-    s3.addText("ЧТО ПОКАЗАТЬ В ОБОСНОВАНИИ", { x: 6.8, y: 2.8, w: 5.8, h: 0.3, fontFace: "Oswald", fontSize: 15, bold: true, color: red, margin: 0 });
-    s3.addText(audience.proof.map(function (v) { return "• " + v; }).join("\n"), { x: 6.85, y: 3.2, w: 5.7, h: 2.8, fontFace: "PT Sans", fontSize: 14, color: navy, breakLine: false, margin: 0.03, paraSpaceAfterPt: 8, valign: "top" });
-    s3.addText("Формулировка: " + audience.say, { x: 0.7, y: 6.25, w: 11.9, h: 0.66, fontFace: "PT Sans", fontSize: 12, italic: true, color: navy, margin: 0.02, valign: "mid" });
-
-    var s4 = pptx.addSlide();
-    addHeader(s4, "Что подтвердить перед защитой");
-    var checks = [
-      "Сверить число лицензий, фактическое использование и даты продления.",
-      "Проверить стоимость поддержки и статус списанных активов.",
-      "Подтвердить трудозатраты и стоимость рабочего часа.",
-      "Согласовать потери от простоя с владельцами бизнес-процессов.",
-      "Подтвердить вероятность инцидента и потенциальный ущерб с ИБ.",
-      "Добавить стоимость внедрения и эксплуатации перед расчетом ROI."
-    ];
-    s4.addText(checks.map(function (v, i) { return (i + 1) + ". " + v; }).join("\n\n"), { x: 0.7, y: 1.85, w: 11.8, h: 3.9, fontFace: "PT Sans", fontSize: 16, color: navy, breakLine: false, margin: 0.02, paraSpaceAfterPt: 10, valign: "top" });
-    s4.addShape(pptx.ShapeType.rect, { x: 0.65, y: 6.15, w: 12, h: 0.72, fill: { color: "E4D3B5" }, line: { color: "E4D3B5" } });
-    s4.addText("Следующий шаг: выбрать участок инфраструктуры, зафиксировать исходные показатели и сверить источники данных.", { x: 0.86, y: 6.34, w: 11.55, h: 0.34, fontFace: "PT Sans", fontSize: 13, bold: true, color: navy, margin: 0.01 });
-
-    try {
-      var result = pptx.writeFile({ fileName: "ITAM-obosnovanie.pptx" });
-      if (result && typeof result.catch === "function") result.catch(function () { window.alert("Не удалось создать PPTX. Попробуйте скачать DOC."); });
-    } catch (error) {
-      window.alert("Не удалось создать PPTX. Попробуйте скачать DOC.");
-    }
+  function resetForm() {
+    NUMERIC_FIELDS.forEach(function (key) { state[key] = null; });
+    state.audience = "ceo";
+    syncInputs();
+    renderLive();
+    showStep(0);
   }
 
   function bind() {
     syncInputs();
     document.querySelectorAll("[data-go]").forEach(function (button) {
-      button.addEventListener("click", function () { showStep(Number(button.dataset.go)); });
+      button.addEventListener("click", function () {
+        readInputs();
+        if (state.unusedPct !== null && (state.unusedPct < 0 || state.unusedPct > 100)) {
+          alert("Доля неиспользуемых лицензий должна быть от 0 до 100%."); return;
+        }
+        if (state.riskProbability !== null && (state.riskProbability < 0 || state.riskProbability > 100)) {
+          alert("Вероятность инцидента должна быть от 0 до 100%."); return;
+        }
+        showStep(Number(button.dataset.go));
+      });
     });
     document.querySelectorAll("input[data-state]").forEach(function (input) {
       input.addEventListener("input", function () { readInputs(); renderLive(); });
@@ -430,11 +426,10 @@
         renderResult();
       });
     });
-    var docButton = $("btnDownloadDoc");
-    var pptButton = $("btnDownloadPpt");
-    if (docButton) docButton.addEventListener("click", downloadDoc);
-    if (pptButton) pptButton.addEventListener("click", downloadPptx);
-    renderLive();
+    var btnDoc = $("btnDownloadDoc");
+    var btnReset = $("btnReset");
+    if (btnDoc) btnDoc.addEventListener("click", downloadDoc);
+    if (btnReset) btnReset.addEventListener("click", resetForm);
   }
 
   document.addEventListener("DOMContentLoaded", bind);
