@@ -86,11 +86,11 @@
         "Число лицензий, факт использования и цена по договору",
         "Список списанных активов и платежи за поддержку",
         "Трудозатраты, частота операций и стоимость рабочего часа",
-        "Проверяемая формула и объяснение каждого допущения"
+        "Формула расчета и объяснение, откуда взяты исходные цифры"
       ],
       proof: "Перед согласованием сверьте расчет с выгрузками из учетных систем, договорами, счетами и замерами времени. Проверьте, что один и тот же эффект не учтен дважды.",
       say: [
-        "Для каждой суммы укажем формулу и список исходных данных, которые нужно проверить.",
+        "У каждого показателя будет источник данных и понятная формула. Сначала сверим данные учета с фактическим использованием и договорными расходами, затем зафиксируем расчет.",
         "Отделим подтвержденные расходы от предварительной оценки и потенциальных потерь.",
         "Сверим расчет с первичными данными до того, как включать эффект в бюджет."
       ],
@@ -101,7 +101,7 @@
       roleName: "Руководитель информационной безопасности",
       short: "Активы и риски",
       question: "Какие активы под угрозой и что с этим делать?",
-      main: "Свяжите активы и программные версии с конкретными уязвимостями, возможным ущербом и мерами устранения. Финансовая оценка риска должна опираться на понятные допущения.",
+      main: "Свяжите активы и программные версии с конкретными уязвимостями, возможным ущербом и мерами устранения. Финансовая оценка риска должна опираться на понятные исходные данные.",
       points: [
         "Активы, затронутые риском, и критичность этих активов",
         "Уязвимости, устаревшие версии ПО и запрещенное ПО",
@@ -229,7 +229,7 @@
         '<div><h4>Что важно показать</h4>' + listHtml(a.points) + '</div>' +
         '<div><h4>Что подтвердить</h4><p class="role-intro">' + a.proof + '</p></div>' +
       '</div>' +
-      '<div class="role-quote"><strong>Как начать разговор:</strong> ' + a.say[0] + '</div>' +
+      '<div class="role-quote"><strong>Пример формулировки для обсуждения:</strong> ' + a.say[0] + '</div>' +
       '<div class="role-quote"><strong>Чего избегать:</strong> ' + a.avoid + '</div>';
   }
 
@@ -241,7 +241,7 @@
       card.setAttribute("aria-pressed", active ? "true" : "false");
     });
     var box = $("audienceArg");
-    if (box && a) box.innerHTML = roleHtml(a, "РЕКОМЕНДАЦИИ / " + a.roleName.toUpperCase());
+    if (box && a) box.innerHTML = roleHtml(a, a.title);
   }
 
   function renderPayback(c) {
@@ -288,7 +288,7 @@
     });
     setText("resultRoleTitle", a.roleName);
     var detail = $("resultArgs");
-    if (detail) detail.innerHTML = roleHtml(a, "АРГУМЕНТЫ / " + a.roleName.toUpperCase());
+    if (detail) detail.innerHTML = roleHtml(a, a.title);
 
     setText("docMeta",
       numberText(state.workstations) + " рабочих мест · " +
@@ -389,78 +389,6 @@
     downloadBlob("Obosnovanie-vnedreniya-ITAM.doc", "application/msword", buildReportHtml());
   }
 
-  function downloadPptx() {
-    if (typeof PptxGenJS === "undefined") {
-      downloadBlob("Obosnovanie-vnedreniya-ITAM.html", "text/html;charset=utf-8", buildReportHtml());
-      alert("Не удалось загрузить библиотеку PPTX. Скачан HTML-документ, который можно открыть в браузере или Word.");
-      return;
-    }
-    var c = calc();
-    var a = AUDIENCE[state.audience];
-    var pptx = new PptxGenJS();
-    pptx.defineLayout({ name: "ITAM_16x9", width: 13.333, height: 7.5 });
-    pptx.layout = "ITAM_16x9";
-    pptx.author = "Инферит ИТМен";
-    pptx.subject = "Обоснование внедрения ITAM";
-    pptx.title = "Обоснование внедрения ITAM";
-    var C = { paper: "F4E9D3", white: "FFFDF7", ink: "19344A", red: "C43C27", muted: "52616B", line: "C9BBA2" };
-
-    function baseSlide() {
-      var slide = pptx.addSlide();
-      slide.background = { color: C.paper };
-      slide.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 13.333, h: 0.16, line: { color: C.red, transparency: 100 }, fill: { color: C.red } });
-      slide.addText("ИНФЕРИТ ИТМЕН  /  ITAM", { x: 0.55, y: 0.32, w: 5, h: 0.25, fontFace: "Arial", fontSize: 10, bold: true, charSpacing: 1.5, color: C.red, margin: 0 });
-      return slide;
-    }
-    function addBullets(slide, lines, x, y, w, h) {
-      slide.addText(lines.map(function (t) { return { text: t, options: { bullet: { indent: 12 }, hanging: 3, breakLine: true } }; }), {
-        x: x, y: y, w: w, h: h, fontFace: "Arial", fontSize: 15, color: C.ink, breakLine: false, paraSpaceAfterPt: 8, valign: "top", margin: 0.06
-      });
-    }
-
-    var s1 = baseSlide();
-    s1.addText("ОБОСНОВАНИЕ\nВНЕДРЕНИЯ ITAM", { x: 0.6, y: 1.25, w: 8.8, h: 1.6, fontFace: "Arial", fontSize: 33, bold: true, color: C.ink, breakLine: false, margin: 0 });
-    s1.addShape(pptx.ShapeType.rect, { x: 0.6, y: 3.1, w: 0.12, h: 1.35, line: { color: C.red, transparency: 100 }, fill: { color: C.red } });
-    s1.addText("Адресат: " + a.roleName, { x: 0.9, y: 3.15, w: 8.5, h: 0.45, fontFace: "Arial", fontSize: 19, bold: true, color: C.ink, margin: 0 });
-    s1.addText("Потенциал сокращения расходов", { x: 0.9, y: 3.8, w: 6.2, h: 0.32, fontFace: "Arial", fontSize: 13, color: C.muted, margin: 0 });
-    s1.addText(c.cashSavings === null ? "Не рассчитан" : money(c.cashSavings) + " / год", { x: 0.9, y: 4.16, w: 7.3, h: 0.7, fontFace: "Arial", fontSize: 27, bold: true, color: C.red, margin: 0 });
-    s1.addText("В сумму входят только лицензии и поддержка списанных активов.", { x: 0.9, y: 5.08, w: 8.8, h: 0.5, fontFace: "Arial", fontSize: 13, color: C.muted, margin: 0 });
-    s1.addText("РАСЧЕТЫ / " + new Date().toLocaleDateString("ru-RU"), { x: 0.6, y: 6.8, w: 5, h: 0.25, fontFace: "Arial", fontSize: 10, color: C.muted, margin: 0 });
-
-    var s2 = baseSlide();
-    s2.addText("РАСЧЕТНЫЕ ПОКАЗАТЕЛИ", { x: 0.6, y: 0.85, w: 12, h: 0.55, fontFace: "Arial", fontSize: 26, bold: true, color: C.ink, margin: 0 });
-    s2.addTable([
-      [{ text: "Показатель", options: { bold: true, fill: C.ink, color: C.white } }, { text: "Значение", options: { bold: true, fill: C.ink, color: C.white } }, { text: "Тип показателя", options: { bold: true, fill: C.ink, color: C.white } }],
-      ["Лицензии", c.lic === null ? "Не рассчитано" : money(c.lic) + " / год", "Потенциальное сокращение расходов"],
-      ["Поддержка списанных активов", c.retired === null ? "Не рассчитано" : money(c.retired) + " / год", "Предотвращаемые расходы"],
-      ["Ручные операции", c.manual === null ? "Не рассчитано" : money(c.manual) + " / год", "Стоимость высвобождаемого времени"],
-      ["Простой", c.downtime === null ? "Не рассчитано" : money(c.downtime) + " / год", "Потенциальные потери"],
-      ["ИТ-риск", c.risk === null ? "Не рассчитано" : money(c.risk) + " / год", "Ожидаемый ущерб"]
-    ], { x: 0.6, y: 1.65, w: 12.0, colW: [3.4, 3.1, 5.5], border: { pt: 0.7, color: C.line }, fontFace: "Arial", fontSize: 12, color: C.ink, margin: 0.1, rowH: 0.62 });
-    s2.addText("Не суммируйте стоимость времени, простой и риск с прямым сокращением расходов.", { x: 0.65, y: 5.95, w: 12, h: 0.55, fontFace: "Arial", fontSize: 14, bold: true, color: C.red, margin: 0 });
-
-    var s3 = baseSlide();
-    s3.addText("АРГУМЕНТЫ ДЛЯ РУКОВОДИТЕЛЯ", { x: 0.6, y: 0.85, w: 12, h: 0.55, fontFace: "Arial", fontSize: 25, bold: true, color: C.ink, margin: 0 });
-    s3.addText(a.roleName + "  /  " + a.question, { x: 0.6, y: 1.55, w: 12, h: 0.55, fontFace: "Arial", fontSize: 18, bold: true, color: C.red, margin: 0 });
-    s3.addText(a.main, { x: 0.6, y: 2.2, w: 11.8, h: 1.0, fontFace: "Arial", fontSize: 15, color: C.ink, margin: 0.05, valign: "top", breakLine: false });
-    addBullets(s3, a.points, 0.65, 3.25, 11.8, 2.0);
-    s3.addText("Проверка: " + a.proof, { x: 0.65, y: 5.55, w: 11.9, h: 0.9, fontFace: "Arial", fontSize: 12, color: C.muted, margin: 0.05, valign: "top" });
-
-    var s4 = baseSlide();
-    s4.addText("ПЕРЕД СОГЛАСОВАНИЕМ", { x: 0.6, y: 0.85, w: 12, h: 0.55, fontFace: "Arial", fontSize: 26, bold: true, color: C.ink, margin: 0 });
-    addBullets(s4, [
-      "Сверить количество лицензий, факт использования и договорные цены.",
-      "Подтвердить списанные активы и действующие договоры поддержки.",
-      "Проверить трудозатраты и стоимость рабочего часа.",
-      "Обосновать оценку простоя и вероятность ИТ-инцидента.",
-      "Уточнить стоимость внедрения и ежегодные расходы.",
-      "Не учитывать один и тот же эффект дважды."
-    ], 0.7, 1.65, 11.8, 3.9);
-    s4.addShape(pptx.ShapeType.rect, { x: 0.6, y: 5.9, w: 12, h: 0.9, line: { color: C.ink, width: 1 }, fill: { color: "E4D3B5" } });
-    s4.addText("Следующий шаг: сверить исходные данные с ИТ, финансами, закупками и владельцами бизнес-процессов.", { x: 0.85, y: 6.08, w: 11.5, h: 0.5, fontFace: "Arial", fontSize: 13, bold: true, color: C.ink, margin: 0.02 });
-    pptx.writeFile({ fileName: "Obosnovanie-vnedreniya-ITAM.pptx" });
-  }
-
   function resetForm() {
     NUMERIC_FIELDS.forEach(function (key) { state[key] = null; });
     state.audience = "ceo";
@@ -499,10 +427,8 @@
       });
     });
     var btnDoc = $("btnDownloadDoc");
-    var btnPpt = $("btnDownloadPpt");
     var btnReset = $("btnReset");
     if (btnDoc) btnDoc.addEventListener("click", downloadDoc);
-    if (btnPpt) btnPpt.addEventListener("click", downloadPptx);
     if (btnReset) btnReset.addEventListener("click", resetForm);
   }
 
