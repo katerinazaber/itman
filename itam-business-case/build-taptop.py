@@ -12,6 +12,7 @@ HERE = Path(__file__).parent
 ROOT = "#itamBc"
 ID_PREFIX = "ibc-"
 JS_COMMIT = "703e042"
+LOGO_URL = "https://katerinazaber.github.io/itman/itam-business-case/assets/brand.svg"
 
 
 def scope_selector(sel):
@@ -67,7 +68,10 @@ def build_css():
     overrides = (
         ROOT + " { min-height: 0; width: 100%; line-height: normal; text-align: left;"
         " box-shadow: 0 0 0 100vmax var(--paper); clip-path: inset(0 -100vmax); }\n"
-        + ROOT + " .page { padding-top: 32px; }\n"
+        "html.itam-bc-full, html.itam-bc-full body { overflow: hidden !important; }\n"
+        "html.itam-bc-full " + ROOT + " { position: fixed !important; inset: 0; z-index: 2147483000;"
+        " min-height: 100vh; overflow-y: auto; -webkit-overflow-scrolling: touch;"
+        " box-shadow: none; clip-path: none; }\n"
     )
     return scoped + overrides
 
@@ -77,12 +81,14 @@ def build_html():
     main = re.search(r"<main>.*?</main>", src, flags=re.S).group(0)
     main = re.sub(r'\bid="([^"]+)"', r'id="%s\1"' % ID_PREFIX, main)
     main = re.sub(r'\bfor="([^"]+)"', r'for="%s\1"' % ID_PREFIX, main)
+    header = re.search(r"<header class=\"topbar\">.*?</header>", src, flags=re.S).group(0)
+    header = header.replace('src="assets/brand.svg"', 'src="%s"' % LOGO_URL)
     fonts = re.search(r'<link href="https://fonts\.googleapis\.com[^>]+>', src).group(0)
     return (
         fonts + "\n"
         + "<style>\n" + build_css() + "</style>\n"
         + '<div id="itamBc" class="itam-bc">\n<div class="page">\n'
-        + main + "\n</div>\n</div>\n"
+        + header + "\n" + main + "\n</div>\n</div>\n"
         + '<script src="https://cdn.jsdelivr.net/gh/katerinazaber/itman@%s/itam-business-case/taptop-embed.js"></script>\n'
         % JS_COMMIT
     )
@@ -97,8 +103,12 @@ def build_js():
     js = js.replace("document.querySelectorAll(", "root.querySelectorAll(")
     js = js.replace(
         'window.scrollTo({ top: 0, behavior: "smooth" });',
-        'var top = root.getBoundingClientRect().top;\n'
-        '    if (top < 0) window.scrollTo({ top: window.pageYOffset + top - 80, behavior: "smooth" });',
+        'if (document.documentElement.classList.contains("itam-bc-full")) {\n'
+        '      root.scrollTo({ top: 0, behavior: "smooth" });\n'
+        '    } else {\n'
+        '      var top = root.getBoundingClientRect().top;\n'
+        '      if (top < 0) window.scrollTo({ top: window.pageYOffset + top - 80, behavior: "smooth" });\n'
+        '    }',
     )
     js = js.replace(
         '(function () {\n  "use strict";\n',
@@ -114,6 +124,10 @@ def build_js():
         "    }\n"
         "    if (root.dataset.ready === \"1\") return;\n"
         "    root.dataset.ready = \"1\";\n"
+        "    if (window.self === window.top) {\n"
+        "      document.body.appendChild(root);\n"
+        '      document.documentElement.classList.add("itam-bc-full");\n'
+        "    }\n"
         "    bind();\n"
         "  }\n\n"
         '  if (document.readyState === "loading") {\n'

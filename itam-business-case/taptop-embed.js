@@ -314,8 +314,12 @@
     if (n === 2 || n === 3 || n === 4) renderLive();
     if (n === 5) renderAudience();
     if (n === 6) renderResult();
-    var top = root.getBoundingClientRect().top;
-    if (top < 0) window.scrollTo({ top: window.pageYOffset + top - 80, behavior: "smooth" });
+    if (document.documentElement.classList.contains("itam-bc-full")) {
+      root.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      var top = root.getBoundingClientRect().top;
+      if (top < 0) window.scrollTo({ top: window.pageYOffset + top - 80, behavior: "smooth" });
+    }
   }
 
   function escapeHtml(value) {
@@ -443,6 +447,10 @@
     }
     if (root.dataset.ready === "1") return;
     root.dataset.ready = "1";
+    if (window.self === window.top) {
+      document.body.appendChild(root);
+      document.documentElement.classList.add("itam-bc-full");
+    }
     bind();
   }
 
