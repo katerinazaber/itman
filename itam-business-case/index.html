@@ -4,339 +4,219 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
-  <title>Бизнес-обоснование ITAM — калькулятор для руководства</title>
+  <title>Обоснование внедрения ITAM | ИТМен</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="page">
+  <main class="page">
     <header class="topbar">
       <a class="logo" href="https://itman.ru/" aria-label="Инферит ИТМен">
         <img src="assets/brand.svg" alt="Инферит ИТМен" />
       </a>
+      <div class="topbar-note">ИТ-АКТИВЫ / ЭКОНОМИКА / РЕШЕНИЯ</div>
     </header>
 
-    <!-- INTRO -->
     <section class="screen active" id="screen-0">
       <div class="hero-card">
-        <div class="hero-grid">
-          <div class="hero-left">
-            <h1>Бизнес-обоснование внедрения для руководства</h1>
-            <p class="lead">Заполните данные — получите ключевые метрики и готовый шаблон обоснования ITAM на языке CEO, CFO, финконтроля и ИБ.</p>
-            <ul class="features">
-              <li>
-                <span class="feat-icon" aria-hidden="true">1</span>
-                Простой ввод данных об инфраструктуре
-              </li>
-              <li>
-                <span class="feat-icon" aria-hidden="true">2</span>
-                Автоматический расчет метрик экономии
-              </li>
-              <li>
-                <span class="feat-icon" aria-hidden="true">3</span>
-                Готовый шаблон бизнес-обоснования
-              </li>
-              <li>
-                <span class="feat-icon" aria-hidden="true">4</span>
-                Адаптация аргументов под адресата
-              </li>
-            </ul>
-            <div>
-              <button type="button" class="btn btn-primary btn-lg" data-go="1">Собрать бизнес-обоснование →</button>
-            </div>
+        <div class="hero-stamp">ПРАКТИЧЕСКИЙ ИНСТРУМЕНТ</div>
+        <div class="hero-left">
+          <p class="eyebrow">ITAM · ОБОСНОВАНИЕ ПРОЕКТА</p>
+          <h1>Как обосновать внедрение ITAM</h1>
+          <p class="lead">Соберите расчет для своей компании: оцените расходы на лицензии и поддержку, стоимость ручных операций, потери от простоя и возможный ущерб от ИТ-рисков.</p>
+          <ul class="features">
+            <li><span class="feat-icon">01</span><span>Укажите исходные данные об инфраструктуре</span></li>
+            <li><span class="feat-icon">02</span><span>Рассчитайте отдельные источники эффекта</span></li>
+            <li><span class="feat-icon">03</span><span>Выберите руководителя и подготовьте аргументы</span></li>
+          </ul>
+          <div class="hero-actions">
+            <button type="button" class="btn btn-primary btn-lg" data-go="1">Начать расчет <span aria-hidden="true">→</span></button>
+            <p class="hero-footnote">Заполняйте только те поля, по которым у вас есть данные.</p>
           </div>
+        </div>
+        <div class="hero-bottom">
+          <span>01 / ДАННЫЕ</span><span>02 / РАСЧЕТ</span><span>03 / ОБОСНОВАНИЕ</span>
         </div>
       </div>
     </section>
 
-    <!-- STEP 1 -->
     <section class="screen" id="screen-1">
       <div class="wizard-card">
-        <div class="progress-head">
-          <span data-step-label>Шаг 1 из 6</span>
-          <span>Инфраструктура</span>
-        </div>
+        <div class="progress-head"><span data-step-label>Шаг 1 из 6</span><span>Масштаб инфраструктуры</span></div>
         <div class="progress-bar"><span data-progress style="width:16.6%"></span></div>
-        <h2>Расскажите об ИТ-инфраструктуре</h2>
-        <p class="sub">Эти данные задают масштаб. Их увидит адресат в шапке обоснования.</p>
+        <p class="eyebrow">РАЗДЕЛ 01</p>
+        <h2>Сначала определим масштаб ИТ-хозяйства</h2>
+        <p class="sub">Укажите примерные размеры инфраструктуры. Эти сведения описывают текущую ситуацию, но сами по себе не считаются экономией.</p>
         <div class="fields fields-2">
-          <div class="field">
-            <label for="workstations">Количество рабочих мест</label>
-            <input id="workstations" data-state type="number" min="0" step="1" />
-          </div>
-          <div class="field">
-            <label for="assets">Количество ИТ-активов</label>
-            <input id="assets" data-state type="number" min="0" step="1" />
-          </div>
-          <div class="field">
-            <label for="licensesTotal">Количество лицензий ПО</label>
-            <input id="licensesTotal" data-state type="number" min="0" step="1" />
-          </div>
-          <div class="field">
-            <label for="products">Количество используемых программных продуктов</label>
-            <input id="products" data-state type="number" min="0" step="1" />
-          </div>
+          <div class="field"><label for="workstations">Рабочие места, шт.</label><input id="workstations" data-state type="number" min="0" step="1" placeholder="Например, 5 000" /></div>
+          <div class="field"><label for="assets">ИТ-активы, шт.</label><input id="assets" data-state type="number" min="0" step="1" placeholder="Например, 7 200" /></div>
+          <div class="field"><label for="licensesTotal">Лицензии ПО, шт.</label><input id="licensesTotal" data-state type="number" min="0" step="1" placeholder="Если известно" /></div>
+          <div class="field"><label for="products">Программные продукты, шт.</label><input id="products" data-state type="number" min="0" step="1" placeholder="Если известно" /></div>
         </div>
-        <div class="nav-row">
-          <button type="button" class="btn btn-ghost" data-go="0">Назад</button>
-          <button type="button" class="btn btn-primary" data-go="2">Далее</button>
-        </div>
+        <div class="form-note"><strong>Подсказка.</strong> Можно оставить поле пустым, если точных данных пока нет.</div>
+        <div class="nav-row"><button type="button" class="btn btn-ghost" data-go="0">Назад</button><button type="button" class="btn btn-primary" data-go="2">Далее</button></div>
       </div>
     </section>
 
-    <!-- STEP 2 -->
     <section class="screen" id="screen-2">
       <div class="wizard-card">
-        <div class="progress-head">
-          <span data-step-label>Шаг 2 из 6</span>
-          <span>Лицензии и ПО</span>
-        </div>
-        <div class="progress-bar"><span data-progress style="width:33%"></span></div>
-        <h2>Оцените ситуацию с лицензиями</h2>
-        <p class="sub">Формула: Экономия = количество × средняя цена × доля неиспользуемых.</p>
+        <div class="progress-head"><span data-step-label>Шаг 2 из 6</span><span>Лицензии и ПО</span></div>
+        <div class="progress-bar"><span data-progress style="width:33.3%"></span></div>
+        <p class="eyebrow">РАЗДЕЛ 02</p>
+        <h2>За какое ПО компания платит больше, чем использует?</h2>
+        <p class="sub">Введите число оплачиваемых лицензий, их среднюю годовую стоимость и оценку доли неиспользуемых лицензий.</p>
         <div class="fields">
-          <div class="field">
-            <label for="licenseCount">Количество лицензий</label>
-            <input id="licenseCount" data-state type="number" min="0" step="1" />
-          </div>
-          <div class="field">
-            <label for="licensePrice">Средняя стоимость лицензии (₽ / год)</label>
-            <input id="licensePrice" data-state type="number" min="0" step="100" />
-          </div>
-          <div class="field">
-            <label for="unusedPct">Оценочный % неиспользуемых лицензий</label>
-            <input id="unusedPct" data-state type="number" min="0" max="100" step="1" />
-          </div>
+          <div class="field"><label for="licenseCount">Оплачиваемые лицензии, шт.</label><input id="licenseCount" data-state type="number" min="0" step="1" placeholder="Количество лицензий" /></div>
+          <div class="field"><label for="licensePrice">Средняя стоимость лицензии, ₽ в год</label><input id="licensePrice" data-state type="number" min="0" step="100" placeholder="Годовая стоимость" /></div>
+          <div class="field"><label for="unusedPct">Неиспользуемые лицензии, %</label><input id="unusedPct" data-state type="number" min="0" max="100" step="1" placeholder="От 0 до 100" /></div>
         </div>
-        <div class="live-box green">
-          <span>Потенциал оптимизации ПО</span>
-          <strong id="liveLicenses">—</strong>
-        </div>
-        <div class="nav-row">
-          <button type="button" class="btn btn-ghost" data-go="1">Назад</button>
-          <button type="button" class="btn btn-primary" data-go="3">Далее</button>
-        </div>
+        <div class="live-box"><span>Потенциал сокращения расходов на лицензии</span><strong id="liveLicenses">—</strong></div>
+        <p class="metric-note">Расчет: число лицензий × годовая цена × доля неиспользуемых лицензий.</p>
+        <div class="nav-row"><button type="button" class="btn btn-ghost" data-go="1">Назад</button><button type="button" class="btn btn-primary" data-go="3">Далее</button></div>
       </div>
     </section>
 
-    <!-- STEP 3 -->
     <section class="screen" id="screen-3">
       <div class="wizard-card">
-        <div class="progress-head">
-          <span data-step-label>Шаг 3 из 6</span>
-          <span>Ручное управление</span>
-        </div>
+        <div class="progress-head"><span data-step-label>Шаг 3 из 6</span><span>Ручные операции</span></div>
         <div class="progress-bar"><span data-progress style="width:50%"></span></div>
-        <h2>Сколько времени команда тратит на ручное управление?</h2>
-        <p class="sub">Формула: (часы «как сейчас» − часы «как будет») × ставка × специалисты × 12 мес.</p>
+        <p class="eyebrow">РАЗДЕЛ 03</p>
+        <h2>Сколько времени уходит на ручной учет активов?</h2>
+        <p class="sub">Учитывайте инвентаризацию, сверку данных и подготовку отчетов. Сравните время одного специалиста до и после автоматизации.</p>
         <div class="fields fields-2">
-          <div class="field">
-            <label for="specialists">Количество специалистов</label>
-            <input id="specialists" data-state type="number" min="0" step="1" />
-          </div>
-          <div class="field">
-            <label for="hoursMonth">Часов на специалиста в месяц</label>
-            <input id="hoursMonth" data-state type="number" min="0" step="1" />
-          </div>
-          <div class="field">
-            <label for="hourRate">Стоимость часа специалиста (₽)</label>
-            <input id="hourRate" data-state type="number" min="0" step="50" />
-          </div>
-          <div class="field">
-            <label for="hoursAfter">Останется часов после автоматизации / мес.</label>
-            <input id="hoursAfter" data-state type="number" min="0" step="1" />
-          </div>
+          <div class="field"><label for="specialists">Специалисты, чел.</label><input id="specialists" data-state type="number" min="0" step="1" placeholder="Количество человек" /></div>
+          <div class="field"><label for="hourRate">Стоимость рабочего часа, ₽</label><input id="hourRate" data-state type="number" min="0" step="50" placeholder="Оценка стоимости часа" /></div>
+          <div class="field"><label for="hoursMonth">Часов на специалиста в месяц сейчас</label><input id="hoursMonth" data-state type="number" min="0" step="1" placeholder="Текущее время" /></div>
+          <div class="field"><label for="hoursAfter">Часов на специалиста в месяц после автоматизации</label><input id="hoursAfter" data-state type="number" min="0" step="1" placeholder="Оставшееся время" /></div>
         </div>
-        <div class="live-box blue">
-          <span>Потенциал высвобождения ресурсов</span>
-          <strong id="liveManual">—</strong>
-        </div>
-        <div class="nav-row">
-          <button type="button" class="btn btn-ghost" data-go="2">Назад</button>
-          <button type="button" class="btn btn-primary" data-go="4">Далее</button>
-        </div>
+        <div class="live-box"><span>Стоимость высвобождаемого времени за год</span><strong id="liveManual">—</strong></div>
+        <p class="metric-note">Расчет: разница часов × стоимость часа × число специалистов × 12 месяцев. Это оценка времени, а не обещание сокращения зарплатных расходов.</p>
+        <div class="nav-row"><button type="button" class="btn btn-ghost" data-go="2">Назад</button><button type="button" class="btn btn-primary" data-go="4">Далее</button></div>
       </div>
     </section>
 
-    <!-- STEP 4 -->
     <section class="screen" id="screen-4">
       <div class="wizard-card">
-        <div class="progress-head">
-          <span data-step-label>Шаг 4 из 6</span>
-          <span>Доп. эффекты</span>
-        </div>
-        <div class="progress-bar"><span data-progress style="width:66%"></span></div>
-        <h2>Укажите дополнительные источники эффекта</h2>
-        <p class="sub">Поддержка списанных активов и стоимость простоя критичных систем.</p>
+        <div class="progress-head"><span data-step-label>Шаг 4 из 6</span><span>Потери и риски</span></div>
+        <div class="progress-bar"><span data-progress style="width:66.6%"></span></div>
+        <p class="eyebrow">РАЗДЕЛ 04</p>
+        <h2>Какие расходы и потери можно предотвратить?</h2>
+        <p class="sub">Укажите данные по списанным активам, простоям и ИТ-рискам. Каждый результат будет показан отдельно.</p>
 
         <div class="section-block">
-          <h3>Списанные активы на поддержке</h3>
+          <h3><span class="section-number">А</span> Поддержка списанных активов</h3>
+          <p>Активы уже списаны, но обслуживание по договору еще оплачивается.</p>
           <div class="fields fields-2">
-            <div class="field">
-              <label for="retiredCount">Количество активов</label>
-              <input id="retiredCount" data-state type="number" min="0" step="1" />
-            </div>
-            <div class="field">
-              <label for="retiredCost">Средняя стоимость поддержки (₽ / год)</label>
-              <input id="retiredCost" data-state type="number" min="0" step="100" />
-            </div>
+            <div class="field"><label for="retiredCount">Активы на поддержке после списания, шт.</label><input id="retiredCount" data-state type="number" min="0" step="1" placeholder="Количество активов" /></div>
+            <div class="field"><label for="retiredCost">Поддержка одного актива, ₽ в год</label><input id="retiredCost" data-state type="number" min="0" step="100" placeholder="Годовая стоимость" /></div>
           </div>
-          <div class="live-box green" style="margin-top:14px">
-            <span>Избежанные расходы на поддержку</span>
-            <strong id="liveRetired">—</strong>
-          </div>
+          <div class="live-box"><span>Расходы на поддержку списанных активов</span><strong id="liveRetired">—</strong></div>
         </div>
 
         <div class="section-block">
-          <h3>Простой</h3>
+          <h3><span class="section-number">Б</span> Простой ИТ-систем</h3>
+          <p>Оцените продолжительность простоя и финансовые потери бизнеса за один час.</p>
           <div class="fields fields-2">
-            <div class="field">
-              <label for="downtimeHours">Часов простоя в год</label>
-              <input id="downtimeHours" data-state type="number" min="0" step="1" />
-            </div>
-            <div class="field">
-              <label for="downtimeRate">Стоимость часа простоя (₽)</label>
-              <input id="downtimeRate" data-state type="number" min="0" step="1000" />
-            </div>
+            <div class="field"><label for="downtimeHours">Часов простоя в год</label><input id="downtimeHours" data-state type="number" min="0" step="1" placeholder="Суммарно за год" /></div>
+            <div class="field"><label for="downtimeRate">Потери за час простоя, ₽</label><input id="downtimeRate" data-state type="number" min="0" step="1000" placeholder="Оценка для бизнеса" /></div>
           </div>
-          <div class="live-box blue" style="margin-top:14px">
-            <span>Потенциальная стоимость простоя</span>
-            <strong id="liveDowntime">—</strong>
-          </div>
+          <div class="live-box"><span>Потенциальные потери от простоя за год</span><strong id="liveDowntime">—</strong></div>
         </div>
 
-        <div class="nav-row">
-          <button type="button" class="btn btn-ghost" data-go="3">Назад</button>
-          <button type="button" class="btn btn-primary" data-go="5">Далее</button>
+        <div class="section-block">
+          <h3><span class="section-number">В</span> ИТ-риск</h3>
+          <p>Оцените вероятность инцидента в течение года и возможный финансовый ущерб при его наступлении.</p>
+          <div class="fields fields-2">
+            <div class="field"><label for="riskProbability">Вероятность инцидента за год, %</label><input id="riskProbability" data-state type="number" min="0" max="100" step="1" placeholder="От 0 до 100" /></div>
+            <div class="field"><label for="riskImpact">Потенциальный ущерб при инциденте, ₽</label><input id="riskImpact" data-state type="number" min="0" step="1000" placeholder="Оценка ущерба" /></div>
+          </div>
+          <div class="live-box"><span>Ожидаемый ущерб от ИТ-риска за год</span><strong id="liveRisk">—</strong></div>
+          <p class="metric-note">Расчет: вероятность инцидента × потенциальный ущерб. Используйте обоснованную оценку, а не случайный процент.</p>
         </div>
+
+        <div class="nav-row"><button type="button" class="btn btn-ghost" data-go="3">Назад</button><button type="button" class="btn btn-primary" data-go="5">Далее</button></div>
       </div>
     </section>
 
-    <!-- STEP 5 -->
     <section class="screen" id="screen-5">
       <div class="wizard-card">
-        <div class="progress-head">
-          <span data-step-label>Шаг 5 из 6</span>
-          <span>Адресат</span>
-        </div>
-        <div class="progress-bar"><span data-progress style="width:83%"></span></div>
-        <h2>Выберите главного адресата обоснования</h2>
-        <p class="sub">Один ITAM-проект — четыре языка. Аргументы подстроятся под выбранного руководителя.</p>
-
+        <div class="progress-head"><span data-step-label>Шаг 5 из 6</span><span>Адресат</span></div>
+        <div class="progress-bar"><span data-progress style="width:83.3%"></span></div>
+        <p class="eyebrow">РАЗДЕЛ 05</p>
+        <h2>Перед кем предстоит защищать проект?</h2>
+        <p class="sub">Выберите руководителя. Расчеты останутся прежними, а рекомендации и порядок аргументов изменятся с учетом его задач.</p>
         <div class="audience-grid">
-          <button type="button" class="audience-card active" data-audience="ceo">
-            <div class="ico">CEO</div>
-            <h4>CEO</h4>
-            <p>Эффективность и результат для бизнеса</p>
-          </button>
-          <button type="button" class="audience-card" data-audience="cfo">
-            <div class="ico">₽</div>
-            <h4>CFO</h4>
-            <p>Финансовый эффект и ROI</p>
-          </button>
-          <button type="button" class="audience-card" data-audience="fin">
-            <div class="ico">✓</div>
-            <h4>Финконтроль</h4>
-            <p>Доказательная база расчетов</p>
-          </button>
-          <button type="button" class="audience-card" data-audience="ib">
-            <div class="ico">ИБ</div>
-            <h4>ИБ</h4>
-            <p>Снижение рисков и контроль активов</p>
-          </button>
+          <button type="button" class="audience-card active" data-audience="ceo" aria-pressed="true"><span class="audience-code">01</span><h3>CEO</h3><p>Результат для бизнеса</p></button>
+          <button type="button" class="audience-card" data-audience="cfo" aria-pressed="false"><span class="audience-code">02</span><h3>CFO</h3><p>Деньги и бюджет</p></button>
+          <button type="button" class="audience-card" data-audience="fin" aria-pressed="false"><span class="audience-code">03</span><h3>Финансовый контролер</h3><p>Проверяемость расчетов</p></button>
+          <button type="button" class="audience-card" data-audience="ib" aria-pressed="false"><span class="audience-code">04</span><h3>Руководитель ИБ</h3><p>Активы и риски</p></button>
         </div>
-
-        <div class="arg-box" id="audienceArg"></div>
-
-        <div class="nav-row">
-          <button type="button" class="btn btn-ghost" data-go="4">Назад</button>
-          <button type="button" class="btn btn-primary" data-go="6">К результату</button>
-        </div>
+        <div class="arg-box" id="audienceArg" aria-live="polite"></div>
+        <div class="nav-row"><button type="button" class="btn btn-ghost" data-go="4">Назад</button><button type="button" class="btn btn-primary" data-go="6">К результату</button></div>
       </div>
     </section>
 
-    <!-- STEP 6 -->
     <section class="screen" id="screen-6">
-      <div class="wizard-card result-card" style="padding:32px 36px">
-        <div class="progress-head">
-          <span data-step-label>Шаг 6 из 6</span>
-          <span>Результат</span>
-        </div>
+      <div class="wizard-card result-card">
+        <div class="progress-head"><span data-step-label>Шаг 6 из 6</span><span>Обоснование</span></div>
         <div class="progress-bar"><span data-progress style="width:100%"></span></div>
-        <h2>Ваше бизнес-обоснование ITAM</h2>
-        <p class="sub">Потенциал эффекта на основе введенных данных. Можно скачать и адаптировать под компанию.</p>
+        <p class="eyebrow">РАЗДЕЛ 06</p>
+        <h2>Обоснование внедрения ITAM</h2>
+        <p class="sub">Проверьте показатели, аргументы для руководителя и данные, которые нужно подтвердить перед защитой проекта.</p>
 
-        <div class="total-hero">
-          <span>Потенциальный экономический эффект</span>
-          <strong id="totalValue">—</strong>
+        <div class="result-intro">
+          <div class="result-intro-label">ПРИНЦИП РАСЧЕТА</div>
+          <h3>Каждый показатель рассматривается отдельно</h3>
+          <p>Экономию расходов, стоимость высвобождаемого времени, потери от простоя и ожидаемый ущерб от риска нельзя складывать в одну сумму: они описывают разные виды эффекта.</p>
         </div>
 
-        <div class="bars">
-          <div class="bar-row">
-            <div class="name">Оптимизация лицензий</div>
-            <div class="bar-track"><span id="barLic"></span></div>
-            <div class="val" id="barLicVal">—</div>
-          </div>
-          <div class="bar-row">
-            <div class="name">Ручное управление</div>
-            <div class="bar-track"><span id="barMan"></span></div>
-            <div class="val" id="barManVal">—</div>
-          </div>
-          <div class="bar-row">
-            <div class="name">Поддержка списанных</div>
-            <div class="bar-track"><span id="barRet"></span></div>
-            <div class="val" id="barRetVal">—</div>
-          </div>
-          <div class="bar-row">
-            <div class="name">Стоимость простоя</div>
-            <div class="bar-track"><span id="barDown"></span></div>
-            <div class="val" id="barDownVal">—</div>
-          </div>
+        <div class="metrics-grid">
+          <article class="metric-card"><span class="metric-index">01</span><h3>Лицензии</h3><p>Потенциал сокращения расходов за год</p><strong id="resultLic">—</strong><small>Лицензии × цена × доля неиспользуемых</small></article>
+          <article class="metric-card"><span class="metric-index">02</span><h3>Ручные операции</h3><p>Стоимость высвобождаемого времени за год</p><strong id="resultManual">—</strong><small>Разница часов × ставка × специалисты × 12</small></article>
+          <article class="metric-card"><span class="metric-index">03</span><h3>Поддержка</h3><p>Расходы на списанные активы за год</p><strong id="resultRetired">—</strong><small>Количество активов × цена поддержки</small></article>
+          <article class="metric-card"><span class="metric-index">04</span><h3>Простой</h3><p>Потенциальные потери за год</p><strong id="resultDowntime">—</strong><small>Часы простоя × потери за час</small></article>
+          <article class="metric-card metric-card-wide"><span class="metric-index">05</span><h3>ИТ-риск</h3><p>Ожидаемый ущерб за год при заданной вероятности</p><strong id="resultRisk">—</strong><small>Вероятность инцидента × потенциальный ущерб</small></article>
         </div>
 
-        <div class="tabs">
-          <button type="button" class="tab active" data-audience="ceo">CEO</button>
-          <button type="button" class="tab" data-audience="cfo">CFO</button>
-          <button type="button" class="tab" data-audience="fin">Финконтроль</button>
-          <button type="button" class="tab" data-audience="ib">ИБ</button>
+        <div class="result-section">
+          <p class="eyebrow">АРГУМЕНТЫ ДЛЯ РУКОВОДСТВА</p>
+          <div class="tabs" role="group" aria-label="Выбрать адресата">
+            <button type="button" class="tab active" data-audience="ceo" aria-pressed="true">CEO</button>
+            <button type="button" class="tab" data-audience="cfo" aria-pressed="false">CFO</button>
+            <button type="button" class="tab" data-audience="fin" aria-pressed="false">Финансовый контролер</button>
+            <button type="button" class="tab" data-audience="ib" aria-pressed="false">ИБ</button>
+          </div>
+          <div class="arg-box" id="resultArgs" aria-live="polite"></div>
         </div>
-        <div class="arg-box" id="resultArgs"></div>
 
         <div class="doc-preview">
           <div class="doc-cover">
-            <div class="eyebrow">Готовый документ</div>
-            <h3>Бизнес-обоснование ITAM</h3>
+            <p class="eyebrow">ИТМЕН / ITAM</p>
+            <h3>Обоснование внедрения</h3>
             <p id="docMeta">—</p>
-            <p><strong id="docTotal">—</strong></p>
           </div>
           <div class="doc-body">
+            <h3>В документ войдут</h3>
             <ul class="doc-toc">
-              <li><span>01</span> Задача и адресат</li>
-              <li><span>02</span> Текущая ситуация</li>
-              <li><span>03</span> Потенциальный эффект по метрикам</li>
-              <li><span>04</span> Аргументы для руководства</li>
-              <li><span>05</span> Логика расчета и следующий шаг</li>
+              <li><span>01</span> Масштаб инфраструктуры и текущая ситуация</li>
+              <li><span>02</span> Расчеты по пяти показателям</li>
+              <li><span>03</span> Аргументы для выбранного руководителя</li>
+              <li><span>04</span> Формулы и допущения</li>
+              <li><span>05</span> Что подтвердить перед защитой проекта</li>
             </ul>
             <div class="download-row">
               <button type="button" class="btn btn-primary" id="btnDownloadPpt">Скачать в PPTX</button>
               <button type="button" class="btn btn-ghost" id="btnDownloadDoc">Скачать в DOC</button>
-              <button type="button" class="btn btn-primary" id="btnDownloadMain" style="display:none">Скачать бизнес-обоснование</button>
             </div>
-            <p class="note">Расчет ориентировочный и не является офертой. Формулы соответствуют методологии доклада «Перевод с языка ITAM на язык денег».</p>
+            <p class="note">Расчет предварительный. Перед принятием решения сверьте исходные данные с ИТ, финансами, закупками и службой безопасности. Для оценки окупаемости отдельно добавьте стоимость внедрения и дальнейшего использования решения.</p>
           </div>
         </div>
-
-        <div class="nav-row">
-          <button type="button" class="btn btn-ghost" data-go="5">Назад</button>
-          <button type="button" class="btn btn-ghost" data-go="0">Собрать заново</button>
-        </div>
+        <div class="nav-row"><button type="button" class="btn btn-ghost" data-go="5">Назад</button><button type="button" class="btn btn-ghost" data-go="0">Начать заново</button></div>
       </div>
     </section>
-
-  </div>
-
+  </main>
   <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
   <script src="app.js"></script>
 </body>
