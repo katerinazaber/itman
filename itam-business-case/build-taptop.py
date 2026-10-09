@@ -77,8 +77,7 @@ def build_html():
     main = re.sub(r'\bfor="([^"]+)"', r'for="%s\1"' % ID_PREFIX, main)
     fonts = re.search(r'<link href="https://fonts\.googleapis\.com[^>]+>', src).group(0)
     return (
-        "<!-- ITAM business case · Taptop Embed -->\n"
-        + fonts + "\n"
+        fonts + "\n"
         + "<style>\n" + build_css() + "</style>\n"
         + '<div id="itamBc" class="itam-bc">\n<div class="page">\n'
         + main + "\n</div>\n</div>\n"
