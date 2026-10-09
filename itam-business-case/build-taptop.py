@@ -11,6 +11,7 @@ from pathlib import Path
 HERE = Path(__file__).parent
 ROOT = "#itamBc"
 ID_PREFIX = "ibc-"
+JS_COMMIT = "703e042"
 
 
 def scope_selector(sel):
@@ -64,7 +65,8 @@ def build_css():
     )
     scoped = guard + scoped
     overrides = (
-        ROOT + " { min-height: 0; width: 100%; line-height: normal; text-align: left; }\n"
+        ROOT + " { min-height: 0; width: 100%; line-height: normal; text-align: left;"
+        " box-shadow: 0 0 0 100vmax var(--paper); clip-path: inset(0 -100vmax); }\n"
         + ROOT + " .page { padding-top: 32px; }\n"
     )
     return scoped + overrides
@@ -81,6 +83,8 @@ def build_html():
         + "<style>\n" + build_css() + "</style>\n"
         + '<div id="itamBc" class="itam-bc">\n<div class="page">\n'
         + main + "\n</div>\n</div>\n"
+        + '<script src="https://cdn.jsdelivr.net/gh/katerinazaber/itman@%s/itam-business-case/taptop-embed.js"></script>\n'
+        % JS_COMMIT
     )
 
 
