@@ -448,14 +448,42 @@
   function sendToSheet(action) {
     if (!SHEETS_ENDPOINT) return;
     try {
-      var body = JSON.stringify(buildSheetPayload(action));
-      if (typeof navigator !== "undefined" && navigator.sendBeacon) {
-        var blob = new Blob([body], { type: "text/plain;charset=utf-8" });
-        if (navigator.sendBeacon(SHEETS_ENDPOINT, blob)) return;
+      var payload = JSON.stringify(buildSheetPayload(action));
+      // Form POST надёжнее для Google Apps Script (тело не теряется на редиректе).
+      var iframe = document.getElementById("itamBcSheetFrame");
+      if (!iframe) {
+        iframe = document.createElement("iframe");
+        iframe.name = "itamBcSheetFrame";
+        iframe.id = "itamBcSheetFrame";
+        iframe.style.display = "none";
+        document.body.appendChild(iframe);
       }
-      fetch(SHEETS_ENDPOINT, { method: "POST", mode: "no-cors", body: body }).catch(function () {});
+      var form = document.createElement("form");
+      form.method = "POST";
+      form.action = SHEETS_ENDPOINT;
+      form.target = "itamBcSheetFrame";
+      form.style.display = "none";
+      var input = document.createElement("input");
+      input.type = "hidden";
+      input.name = "payload";
+      input.value = payload;
+      form.appendChild(input);
+      document.body.appendChild(form);
+      form.submit();
+      setTimeout(function () {
+        if (form.parentNode) form.parentNode.removeChild(form);
+      }, 2000);
     } catch (err) {
-      /* silent */
+      try {
+        fetch(SHEETS_ENDPOINT, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(buildSheetPayload(action))
+        }).catch(function () {});
+      } catch (err2) {
+        /* silent */
+      }
     }
   }
 
