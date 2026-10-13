@@ -146,3 +146,20 @@ function ensureHeader_(sheet) {
   ]);
   sheet.setFrozenRows(1);
 }
+
+
+/** Запусти вручную: Выполнить → testWrite_ — должна появиться тестовая строка в таблице */
+function testWrite_() {
+  doPost({
+    postData: {
+      contents: JSON.stringify({
+        ts: new Date().toISOString(),
+        action: "manual-test",
+        source: "apps-script-editor",
+        audience: "ceo",
+        audienceTitle: "Тест",
+        workstations: 1
+      })
+    }
+  });
+}
