@@ -2,8 +2,8 @@
   "use strict";
 
   // URL веб-приложения Apps Script (см. google-apps-script.gs / GOOGLE-SHEETS.md).
-  // Пока пусто — запись в таблицу выключена. После деплоя вставь .../exec сюда.
-  var SHEETS_ENDPOINT = "";
+  var SHEETS_ENDPOINT =
+    "https://script.google.com/macros/s/AKfycbwHUCo3tZ2oiJX6hFbD7t6j5iaK71m5KFfljf4vGSWlVD2Cfii79G-fdBRkE3kutLDi/exec";
 
   var sentResult = false;
 
