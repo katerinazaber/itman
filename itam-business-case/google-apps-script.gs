@@ -1,100 +1,109 @@
-/**
- * Бизнес-обоснование ITAM → Google Sheets
- *
- * 1. Создай таблицу: https://sheets.google.com → Пустой файл
- *    Название, например: «ITAM business case — ответы»
- * 2. Расширения → Apps Script → удали код по умолчанию → вставь этот файл целиком
- * 3. Сохранить (Ctrl/Cmd+S)
- * 4. Развернуть → Новое развертывание → тип «Веб-приложение»
- *    - Описание: itam-business-case
- *    - Запуск от имени: Меня
- *    - У кого есть доступ: Все
- * 5. Развернуть → скопировать URL вида
- *    https://script.google.com/macros/s/XXXX/exec
- * 6. Пришли этот URL — вставим в калькулятор
- *
- * Заголовки первой строки создаются сами при первой записи.
- */
-
 var SHEET_NAME = "Ответы";
-
-// ID таблицы из ссылки:
-// https://docs.google.com/spreadsheets/d/ ВОТ_ЭТОТ_ID /edit
-// Если скрипт открыт через «Расширения → Apps Script» из таблицы — можно оставить "".
 var SPREADSHEET_ID = "1poH4m4GV32ypu0bm9qZGH-uKhZLObhyyHuZ2tKbJpH8";
 
 function getSpreadsheet_() {
-  if (SPREADSHEET_ID) {
-    return SpreadsheetApp.openById(SPREADSHEET_ID);
+  return SpreadsheetApp.openById(SPREADSHEET_ID);
+}
+
+function parsePayload_(e) {
+  if (e && e.parameter && e.parameter.payload) {
+    return JSON.parse(e.parameter.payload);
   }
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  if (!ss) {
-    throw new Error("Укажи SPREADSHEET_ID в скрипте (ID таблицы из ссылки)");
+  if (e && e.postData && e.postData.contents) {
+    var raw = String(e.postData.contents);
+    try {
+      return JSON.parse(raw);
+    } catch (err1) {
+      // application/x-www-form-urlencoded: payload=...
+      var m = raw.match(/(?:^|&)payload=([^&]*)/);
+      if (m) return JSON.parse(decodeURIComponent(m[1].replace(/\+/g, " ")));
+      throw err1;
+    }
   }
-  return ss;
+  if (e && e.parameter && e.parameter.test === "1") {
+    return {
+      ts: new Date().toISOString(),
+      action: "url-test",
+      source: "doGet-test",
+      audience: "ceo",
+      audienceTitle: "Тест по ссылке",
+      workstations: 1
+    };
+  }
+  return null;
+}
+
+function writeRow_(data) {
+  var ss = getSpreadsheet_();
+  var sheet = ss.getSheetByName(SHEET_NAME);
+  if (!sheet) sheet = ss.insertSheet(SHEET_NAME);
+  ensureHeader_(sheet);
+  sheet.appendRow([
+    data.ts || new Date().toISOString(),
+    data.action || "",
+    data.source || "",
+    data.url || "",
+    data.audience || "",
+    data.audienceTitle || "",
+    num_(data.workstations),
+    num_(data.assets),
+    num_(data.licensesTotal),
+    num_(data.products),
+    num_(data.licenseCount),
+    num_(data.licensePrice),
+    num_(data.unusedPct),
+    num_(data.specialists),
+    num_(data.hoursMonth),
+    num_(data.hourRate),
+    num_(data.hoursAfter),
+    num_(data.retiredCount),
+    num_(data.retiredCost),
+    num_(data.downtimeHours),
+    num_(data.downtimeRate),
+    num_(data.riskAssets),
+    num_(data.riskProbability),
+    num_(data.riskImpact),
+    num_(data.implementationCost),
+    num_(data.annualSupportCost),
+    num_(data.lic),
+    num_(data.retired),
+    num_(data.manual),
+    num_(data.downtime),
+    num_(data.risk),
+    num_(data.cashSavings),
+    num_(data.netAnnualCashEffect),
+    num_(data.paybackMonths),
+    num_(data.firstYearRoi),
+    data.userAgent || ""
+  ]);
 }
 
 function doPost(e) {
   try {
-    var raw = (e && e.postData && e.postData.contents) || "{}";
-    var data = JSON.parse(raw);
-    var ss = getSpreadsheet_();
-    var sheet = ss.getSheetByName(SHEET_NAME);
-    if (!sheet) {
-      sheet = ss.insertSheet(SHEET_NAME);
-    }
-    ensureHeader_(sheet);
-    sheet.appendRow([
-      data.ts || new Date().toISOString(),
-      data.action || "",
-      data.source || "",
-      data.url || "",
-      data.audience || "",
-      data.audienceTitle || "",
-      num_(data.workstations),
-      num_(data.assets),
-      num_(data.licensesTotal),
-      num_(data.products),
-      num_(data.licenseCount),
-      num_(data.licensePrice),
-      num_(data.unusedPct),
-      num_(data.specialists),
-      num_(data.hoursMonth),
-      num_(data.hourRate),
-      num_(data.hoursAfter),
-      num_(data.retiredCount),
-      num_(data.retiredCost),
-      num_(data.downtimeHours),
-      num_(data.downtimeRate),
-      num_(data.riskAssets),
-      num_(data.riskProbability),
-      num_(data.riskImpact),
-      num_(data.implementationCost),
-      num_(data.annualSupportCost),
-      num_(data.lic),
-      num_(data.retired),
-      num_(data.manual),
-      num_(data.downtime),
-      num_(data.risk),
-      num_(data.cashSavings),
-      num_(data.netAnnualCashEffect),
-      num_(data.paybackMonths),
-      num_(data.firstYearRoi),
-      data.userAgent || ""
-    ]);
-    return ContentService
-      .createTextOutput(JSON.stringify({ ok: true }))
-      .setMimeType(ContentService.MimeType.JSON);
+    var data = parsePayload_(e);
+    if (!data) throw new Error("Пустой payload");
+    writeRow_(data);
+    return json_({ ok: true });
   } catch (err) {
-    return ContentService
-      .createTextOutput(JSON.stringify({ ok: false, error: String(err) }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return json_({ ok: false, error: String(err) });
   }
 }
 
-function doGet() {
+function doGet(e) {
+  try {
+    if (e && e.parameter && e.parameter.test === "1") {
+      writeRow_(parsePayload_(e));
+      return json_({ ok: true, wrote: "url-test" });
+    }
+    return json_({ ok: true, service: "itam-business-case" });
+  } catch (err) {
+    return json_({ ok: false, error: String(err) });
+  }
+}
+
+function json_(obj) {
   return ContentService
-    .createTextOutput(JSON.stringify({ ok: true, service: "itam-business-case" }))
+    .createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
 }
 
@@ -147,19 +156,13 @@ function ensureHeader_(sheet) {
   sheet.setFrozenRows(1);
 }
 
-
-/** Запусти вручную: Выполнить → testWrite_ — должна появиться тестовая строка в таблице */
 function testWrite_() {
-  doPost({
-    postData: {
-      contents: JSON.stringify({
-        ts: new Date().toISOString(),
-        action: "manual-test",
-        source: "apps-script-editor",
-        audience: "ceo",
-        audienceTitle: "Тест",
-        workstations: 1
-      })
-    }
+  writeRow_({
+    ts: new Date().toISOString(),
+    action: "manual-test",
+    source: "apps-script-editor",
+    audience: "ceo",
+    audienceTitle: "Тест",
+    workstations: 1
   });
 }
