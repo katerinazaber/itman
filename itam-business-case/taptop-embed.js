@@ -3,6 +3,12 @@
 
   var root = null;
 
+  // URL веб-приложения Apps Script (см. google-apps-script.gs / GOOGLE-SHEETS.md).
+  var SHEETS_ENDPOINT =
+    "https://script.google.com/macros/s/AKfycbwHUCo3tZ2oiJX6hFbD7t6j5iaK71m5KFfljf4vGSWlVD2Cfii79G-fdBRkE3kutLDi/exec";
+
+  var sentResult = false;
+
   var state = {
     step: 0,
     workstations: null,
@@ -313,7 +319,13 @@
     }
     if (n === 2 || n === 3 || n === 4) renderLive();
     if (n === 5) renderAudience();
-    if (n === 6) renderResult();
+    if (n === 6) {
+      renderResult();
+      if (!sentResult) {
+        sentResult = true;
+        sendToSheet("result");
+      }
+    }
     if (document.documentElement.classList.contains("itam-bc-full")) {
       root.scrollTo({ top: 0, behavior: "smooth" });
     } else {
@@ -394,14 +406,57 @@
 
   function downloadDoc() {
     downloadBlob("Obosnovanie-vnedreniya-ITAM.doc", "application/msword", buildReportHtml());
+    sendToSheet("doc_download");
   }
 
   function resetForm() {
     NUMERIC_FIELDS.forEach(function (key) { state[key] = null; });
     state.audience = "ceo";
+    sentResult = false;
     syncInputs();
     renderLive();
     showStep(0);
+  }
+
+  function buildSheetPayload(action) {
+    var c = calc();
+    var a = AUDIENCE[state.audience] || {};
+    var payload = {
+      ts: new Date().toISOString(),
+      action: action || "result",
+      source: "itam-business-case",
+      url: typeof location !== "undefined" ? location.href : "",
+      audience: state.audience,
+      audienceTitle: a.roleName || "",
+      userAgent: typeof navigator !== "undefined" ? navigator.userAgent : "",
+      lic: c.lic,
+      retired: c.retired,
+      manual: c.manual,
+      downtime: c.downtime,
+      risk: c.risk,
+      cashSavings: c.cashSavings,
+      netAnnualCashEffect: c.netAnnualCashEffect,
+      paybackMonths: c.paybackMonths,
+      firstYearRoi: c.firstYearRoi
+    };
+    NUMERIC_FIELDS.forEach(function (key) {
+      payload[key] = state[key];
+    });
+    return payload;
+  }
+
+  function sendToSheet(action) {
+    if (!SHEETS_ENDPOINT) return;
+    try {
+      var body = JSON.stringify(buildSheetPayload(action));
+      if (typeof navigator !== "undefined" && navigator.sendBeacon) {
+        var blob = new Blob([body], { type: "text/plain;charset=utf-8" });
+        if (navigator.sendBeacon(SHEETS_ENDPOINT, blob)) return;
+      }
+      fetch(SHEETS_ENDPOINT, { method: "POST", mode: "no-cors", body: body }).catch(function () {});
+    } catch (err) {
+      /* silent */
+    }
   }
 
   function bind() {
