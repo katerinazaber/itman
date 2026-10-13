@@ -18,11 +18,27 @@
 
 var SHEET_NAME = "Ответы";
 
+// ID таблицы из ссылки:
+// https://docs.google.com/spreadsheets/d/ ВОТ_ЭТОТ_ID /edit
+// Если скрипт открыт через «Расширения → Apps Script» из таблицы — можно оставить "".
+var SPREADSHEET_ID = "1poH4m4GV32ypu0bm9qZGH-uKhZLObhyyHuZ2tKbJpH8";
+
+function getSpreadsheet_() {
+  if (SPREADSHEET_ID) {
+    return SpreadsheetApp.openById(SPREADSHEET_ID);
+  }
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  if (!ss) {
+    throw new Error("Укажи SPREADSHEET_ID в скрипте (ID таблицы из ссылки)");
+  }
+  return ss;
+}
+
 function doPost(e) {
   try {
     var raw = (e && e.postData && e.postData.contents) || "{}";
     var data = JSON.parse(raw);
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var ss = getSpreadsheet_();
     var sheet = ss.getSheetByName(SHEET_NAME);
     if (!sheet) {
       sheet = ss.insertSheet(SHEET_NAME);
