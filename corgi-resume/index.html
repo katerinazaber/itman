@@ -1,109 +1,372 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#b94727">
-<title>Коди ищет работу маме | Екатерина Каменская</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#8f290e">
+<meta name="description" content="Екатерина Каменская — продуктовый и B2B-маркетолог в IT. Стратегия, позиционирование, лидогенерация и аналитика.">
+<title>Екатерина Каменская — B2B-маркетолог | Коди ищет работу маме</title>
 <style>
-:root{--cream:#fff8ef;--paper:#fffdf9;--ink:#321810;--rust:#bc4e2d;--orange:#ef7845;--peach:#f8e2cf;--muted:#876555;--line:#ecd7c5;--dark:#512719}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:78px}body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}a{color:inherit}button{font:inherit}.shell{max-width:1160px;margin:auto;padding:0 28px}.nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:22px;border-bottom:1px solid var(--line)}.logo{font-weight:850;text-decoration:none;letter-spacing:-.04em;white-space:nowrap}.logo b{color:var(--rust)}.navlinks{display:flex;gap:24px;font-size:13px}.navlinks a{text-decoration:none}.navlinks a:hover{color:var(--rust)}.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--rust);color:#fff;text-decoration:none;border:0;border-radius:999px;padding:14px 20px;font-size:14px;font-weight:800;transition:transform .2s,background .2s}.btn:hover{transform:translateY(-2px);background:#a93d21}.btn.light{background:#fff7ef;color:var(--dark)}.btn.outline{background:transparent;color:var(--rust);border:1px solid #dba58b}.hero{position:relative;display:grid;grid-template-columns:.9fr 1.1fr;align-items:center;min-height:610px;gap:20px;padding-top:35px;padding-bottom:42px;overflow:hidden;background:radial-gradient(ellipse at 76% 47%,#f7d3ad 0%,#fff8ef 62%)}.hero:before{content:"";position:absolute;top:0;left:-5%;width:110%;height:80px;background:var(--dark);border-radius:0 0 50% 20%;opacity:.98}.hero-copy,.hero-visual{position:relative;z-index:1}.eyebrow{font-size:11px;font-weight:850;text-transform:uppercase;letter-spacing:.14em;color:var(--rust);margin-bottom:18px}.hero h1{font-size:clamp(49px,6.5vw,82px);line-height:.94;letter-spacing:-.075em;margin:0 0 22px;font-weight:950}.hero h1 .accent{color:var(--rust)}.hero p{max-width:450px;color:#755344;font-size:17px;line-height:1.65;margin:0 0 25px}.micro{font-size:12px;color:var(--muted);margin-top:14px}.hero-visual{min-width:0}.hero-dog{display:block;width:100%;max-width:540px;margin:10px auto 0;filter:drop-shadow(0 18px 18px #813c2220);overflow:visible}.sticky-note{position:absolute;right:0;top:30px;transform:rotate(5deg);background:#fffdf8;border:1px solid var(--line);border-radius:13px;padding:13px 16px;font-size:12px;line-height:1.7;box-shadow:0 8px 24px #4e261215}.cursor-hint{position:absolute;bottom:12px;right:10px;background:#fffdf9dd;border:1px dashed #d79b79;border-radius:99px;padding:9px 13px;font-size:11px;color:#895238}.section{padding:68px 0;border-top:1px solid var(--line)}.section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:25px}.section h2,.contact h2{font-size:clamp(30px,4vw,44px);line-height:1.05;letter-spacing:-.055em;margin:0 0 10px}.sub{color:var(--muted);margin:0;line-height:1.6}.paw-stamp{font-size:32px;color:var(--orange)}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.card{width:100%;text-align:left;border:1px solid var(--line);background:var(--paper);border-radius:22px;padding:23px;color:var(--ink);box-shadow:0 7px 24px #64301806;transition:transform .2s,border-color .2s}.card:hover{transform:translateY(-3px);border-color:#d9a184}.card-button{cursor:pointer}.card-top{display:flex;justify-content:space-between;gap:15px;align-items:flex-start}.meta{font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#a36d50;font-weight:800;margin-bottom:8px}.card h3{font-size:20px;letter-spacing:-.035em;margin:0 0 5px}.period{font-size:12px;color:#997b6b}.card p{font-size:14px;color:#725444;line-height:1.65;margin:15px 0}.arrow{width:35px;height:35px;flex:0 0 35px;display:grid;place-items:center;border-radius:50%;background:var(--peach);color:var(--rust);transition:transform .2s}.card.open .arrow{transform:rotate(90deg);background:var(--rust);color:white}.tags{display:flex;flex-wrap:wrap;gap:7px}.tag{background:var(--peach);color:#77472f;border-radius:999px;padding:7px 10px;font-size:11px}.details{display:none;border-top:1px solid var(--line);margin-top:16px;padding-top:15px;font-size:13px;line-height:1.8;color:#6e4b3b}.card.open .details{display:block}.details a{color:var(--rust);font-weight:750}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.stat{padding:24px;border-radius:22px;background:#ffead8;border:1px solid #f5dcc5}.stat strong{display:block;font-size:clamp(35px,5vw,55px);letter-spacing:-.075em;color:var(--rust);line-height:1}.stat b{display:block;margin-top:11px;font-size:14px}.stat p{font-size:12px;color:#795847;line-height:1.6;margin:8px 0 0}.case-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.case-card{min-height:210px}.case-card .case-icon{font-size:28px;margin-bottom:17px}.skills{display:flex;flex-wrap:wrap;gap:9px}.skill{border:1px solid var(--line);border-radius:999px;padding:12px 15px;background:#fffdf9;font-size:13px}.contact{position:relative;overflow:hidden;background:var(--rust);color:#fff8ef;padding:55px 0 35px}.contact:before{content:"";position:absolute;right:-60px;top:-150px;width:440px;height:440px;border:1px solid #ffffff25;border-radius:50%;box-shadow:0 0 0 40px #ffffff08,0 0 0 80px #ffffff05}.contact .sub{color:#ffe1cf;max-width:600px}.contact-layout{position:relative;display:grid;grid-template-columns:1fr .7fr;gap:30px;align-items:center}.contact-dog{width:100%;max-width:350px;justify-self:center}.contact-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.footer-note{font-size:11px;opacity:.72;margin-top:30px}.paw-cursor{position:fixed;top:0;left:0;z-index:10000;pointer-events:none;font-size:24px;display:none;filter:drop-shadow(0 3px 3px #46201140);transform:translate(-5px,-5px)}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:10001;background:var(--dark);color:white;border-radius:99px;padding:12px 18px;font-size:13px;display:none;max-width:90%;text-align:center}.heart-doodle{color:var(--orange);font-size:30px;position:absolute;top:32%;left:46%}.case-link{display:inline-block;margin-top:5px}@media(max-width:760px){.shell{padding:0 18px}.nav{height:auto;min-height:68px;flex-wrap:wrap;padding:14px 0}.navlinks{order:3;width:100%;justify-content:space-between;gap:9px;font-size:11px}.nav>.btn{padding:10px 12px;font-size:11px}.hero{grid-template-columns:1fr;padding-top:110px;min-height:auto;gap:0}.hero:before{height:75px}.hero h1{font-size:clamp(50px,13vw,76px)}.hero p{font-size:15px}.hero-visual{max-width:500px;margin:0 auto;width:100%}.sticky-note{right:0;top:10px}.section{padding:45px 0}.cards,.case-grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.stat{display:grid;grid-template-columns:110px 1fr;align-items:center;column-gap:12px}.stat strong{grid-row:span 2}.stat b{margin-top:0}.stat p{margin-top:5px}.contact-layout{grid-template-columns:1fr}.contact-dog{max-width:260px;order:-1;margin-bottom:-12px}.contact-buttons{display:grid;grid-template-columns:1fr}.contact-buttons .btn{width:100%}.cursor-hint{bottom:0}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
-
-/* Reference-inspired visual: vivid orange hero, dark pill navigation, oversized type */
-:root{--cream:#fff2df;--paper:#fffaf1;--ink:#35150d;--rust:#b83b16;--orange:#ff6b22;--peach:#ffd2a8;--muted:#87503a;--line:#efc29f;--dark:#32140c}
-body{background:#fff5e9}
-.shell:has(.nav){position:absolute;z-index:20;top:12px;left:0;right:0;max-width:1240px}
-.nav{height:auto;min-height:58px;padding:9px 12px 9px 20px;background:#32140ce8;color:#fff4e5;border:1px solid #ffb26a55;border-radius:999px;box-shadow:0 10px 35px #4d180b30;backdrop-filter:blur(12px)}
-.logo{color:#fff4e5;font-size:12px;line-height:1.15;max-width:110px;white-space:normal}
-.logo b{color:#ffb76b}
-.navlinks{gap:22px;font-size:12px;color:#fce5d0}
-.navlinks a:hover{color:#ffba7c}
-.nav>.btn{background:#ffe7c9;color:#4a1c0e;padding:12px 17px;font-size:12px}
-.hero.shell{max-width:none;width:100%;min-height:690px;grid-template-columns:.88fr 1.12fr;gap:0;padding:124px max(28px,calc((100vw - 1160px)/2)) 35px;background:radial-gradient(ellipse at 76% 48%,#ffb75f 0%,#ff812d 29%,#f45a1e 61%,#dc3d12 100%);color:#fff4e5;overflow:hidden;position:relative}
-.hero:before{content:"";position:absolute;inset:0;width:100%;height:100%;border-radius:0;background:linear-gradient(110deg,#b92f10aa 0%,transparent 53%,#ffb14a30 100%);opacity:1;pointer-events:none}
-.hero:after{content:"✳  ♡  ·  ✦";position:absolute;right:8%;top:25%;color:#ffe8bd;font-size:30px;letter-spacing:20px;transform:rotate(-14deg);opacity:.9;pointer-events:none}
-.hero-copy{padding:0 0 24px;z-index:2}
-.hero .eyebrow{color:#ffe1ba;font-size:10px;letter-spacing:.12em}
-.hero h1{font-size:clamp(54px,6.5vw,86px);line-height:.91;letter-spacing:-.065em;color:#fff2df;text-shadow:0 3px 0 #a9311350;margin-bottom:18px}
-.hero h1 .accent{color:#fff0cf}
-.hero p{color:#fff0df;font-size:17px;line-height:1.48;max-width:410px}
-.hero .btn{background:#fff0d8;color:#b83b16;border:1px solid #fff9ee;padding:15px 23px;box-shadow:0 7px 18px #8e260c30}
-.hero .btn:hover{background:white}
-.hero .micro{color:#ffe1c5;font-size:11px}
-.hero-visual{z-index:2;align-self:end;position:relative;min-width:0;margin-left:-20px}
-.hero-dog{max-width:670px;width:115%;margin:0 0 -20px -4%;filter:drop-shadow(0 22px 23px #7e260e45)}
-.sticky-note{display:none}
-.cursor-hint{bottom:14px;right:12px;background:#9f300d40;color:#fff5e8;border:1px dashed #ffe4c1;border-radius:999px}
-.section{background:#fff7ec}
-.section:nth-of-type(even){background:#ffead5}
-.card{background:#fffaf3;border-color:#f0c9a9}
-.card:hover{border-color:#e9844f}
-.tag{background:#ffe0c2;color:#74351e}
-.stat{background:#ffdfbf;border-color:#f3c59e}
-.stat strong{color:#b83b16}
-.skill{background:#fffaf3}
-.contact{background:linear-gradient(120deg,#c83a13,#f05a1b 68%,#ff7929)}
-@media(max-width:760px){
- .shell:has(.nav){top:8px;padding:0 12px}
- .nav{border-radius:24px;padding:11px 13px;gap:10px}
- .navlinks{gap:8px}
- .hero.shell{padding:116px 18px 25px;min-height:0;grid-template-columns:1fr;background:radial-gradient(ellipse at 70% 70%,#ffb85f 0%,#ff7729 42%,#e74417 100%)}
- .hero:after{top:54%;right:4%;font-size:23px;letter-spacing:10px}
- .hero h1{font-size:clamp(54px,13vw,78px)}
- .hero-copy{padding-bottom:0}
- .hero p{font-size:15px;max-width:390px}
- .hero-visual{width:100%;max-width:560px;margin:-2px auto -2px}
- .hero-dog{width:110%;max-width:570px;margin:0 0 -10px -5%}
- .cursor-hint{display:none}
+:root{--cream:#fff4e7;--paper:#fffaf3;--ink:#32170e;--rust:#b93612;--orange:#ff5a22;--peach:#ffe2c4;--sand:#f7d1ae;--muted:#876958;--line:#efcfb5;--dark:#35150b;--white:#fffaf2;--shadow:0 12px 30px #6c260e0b}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+a{color:inherit}img{max-width:100%}button{font:inherit}
+.wrap{width:min(1240px,calc(100% - 48px));margin:0 auto}
+.hero{min-height:650px;position:relative;isolation:isolate;overflow:hidden;background:#c73a12;color:var(--white);display:flex;flex-direction:column}
+.hero-photo,.hero-shade{position:absolute;inset:0;width:100%;height:100%}
+.hero-photo{z-index:-2;object-fit:cover;object-position:center 52%}
+.hero-shade{z-index:-1;background:linear-gradient(90deg,rgba(110,25,5,.84) 0%,rgba(155,35,6,.7) 31%,rgba(189,49,10,.28) 56%,rgba(30,13,7,.02) 100%),linear-gradient(180deg,rgba(35,14,6,.43),transparent 28%,rgba(99,30,6,.03))}
+.nav-wrap{padding-top:17px}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:10px 12px 10px 20px;border:1px solid #ffcf9a3b;border-radius:999px;background:#32140cdd;box-shadow:0 10px 28px #31130930;backdrop-filter:blur(12px)}
+.brand{text-decoration:none;color:#fff2df;font-weight:850;font-size:13px;letter-spacing:-.025em;line-height:1.1;display:flex;gap:10px;align-items:center;min-width:170px}
+.brand-mark{display:grid;place-items:center;border:1px solid #ffddbd85;border-radius:13px;width:34px;height:34px;color:#ffd0a0;font-size:17px}
+.brand small{display:block;font-size:10px;font-weight:500;color:#ffd7b8;letter-spacing:.02em;margin-top:4px}
+.nav-links{display:flex;gap:clamp(10px,2vw,27px);align-items:center;font-size:12px;color:#ffe8d6}
+.nav-links a{text-decoration:none;white-space:nowrap;transition:color .2s}
+.nav-links a:hover{color:#ffb47d}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:1px solid transparent;border-radius:999px;padding:13px 20px;background:var(--orange);color:white;text-decoration:none;font-size:13px;font-weight:800;box-shadow:0 8px 18px #651e0f1b;transition:transform .2s,background .2s,border-color .2s}
+.btn:hover{transform:translateY(-2px);background:#f04415}
+.btn-light{background:#ffe2bf;color:#481d0d;border-color:#ffcf9b}
+.btn-light:hover{background:#fff0da}
+.btn-ghost{background:transparent;border-color:#ffbf8e70;color:#fff5e9;box-shadow:none}
+.btn-ghost:hover{background:#ffffff13}
+.hero-content{flex:1;display:grid;grid-template-columns:minmax(360px,.85fr) minmax(250px,1.15fr);align-items:center;gap:26px;padding-top:55px;padding-bottom:52px}
+.hero-copy{max-width:520px}
+.kicker{color:#ffd2a8;text-transform:uppercase;letter-spacing:.15em;font-size:10px;font-weight:850;margin-bottom:19px}
+h1{font-size:clamp(56px,6.5vw,86px);letter-spacing:-.075em;line-height:.91;margin:0 0 22px;font-weight:950;text-shadow:0 3px 0 #71200e37}
+h1 span{color:#ffdab0}
+.hero-copy p{max-width:435px;font-size:16px;line-height:1.55;color:#ffeddd;margin:0 0 25px}
+.hero-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.hero-caption{font-size:11px;color:#ffd2b0;margin-top:15px;letter-spacing:.035em}
+.content{overflow:hidden}
+.section{padding:68px 0;border-top:1px solid var(--line);background:var(--cream)}
+.section.alt{background:#ffead5}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:25px}
+.section-head h2,.contact h2{font-size:clamp(30px,4vw,44px);letter-spacing:-.06em;line-height:1.02;margin:0 0 9px}
+.lead{font-size:14px;line-height:1.7;color:var(--muted);margin:0;max-width:690px}
+.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--rust);font-weight:850;margin-bottom:10px}
+.intro-grid{display:grid;grid-template-columns:.95fr 1.25fr;gap:48px;align-items:center}
+.intro-panel{padding:10px 0}
+.intro-panel h2{font-size:clamp(32px,4vw,47px);line-height:.98;letter-spacing:-.065em;margin:0 0 15px}
+.intro-panel h2 span{color:var(--rust)}
+.intro-panel p{color:#755546;font-size:14px;line-height:1.75;max-width:550px;margin:0 0 18px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;background:#ffe1c2;color:#6b351f;border:1px solid #f3d1b2;border-radius:999px;padding:8px 11px;font-size:11px;line-height:1.15}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.stat{border-radius:23px;background:linear-gradient(145deg,#fff0df,#ffdfc0);border:1px solid #f4d4b8;padding:22px 20px;min-height:172px;box-shadow:var(--shadow)}
+.stat .symbol{font-size:20px;color:var(--rust);margin-bottom:14px;font-weight:900}
+.stat strong{font-size:clamp(34px,4vw,51px);line-height:.95;letter-spacing:-.07em;color:var(--rust);display:block}
+.stat b{display:block;margin-top:11px;font-size:13px;line-height:1.35}
+.stat p{font-size:11px;line-height:1.55;color:#876653;margin:7px 0 0}
+.section-bar{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:18px}
+.section-bar h2{font-size:clamp(27px,3.3vw,38px);letter-spacing:-.06em;line-height:1.04;margin:0}
+.text-link{font-size:12px;font-weight:800;color:var(--rust);text-decoration:none;white-space:nowrap}
+.text-link:hover{text-decoration:underline}
+.jobs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.job{border:1px solid #edc8a8;background:var(--paper);border-radius:20px;box-shadow:var(--shadow);overflow:hidden;transition:border-color .2s,transform .2s}
+.job:hover{border-color:#eb9868}
+.job[open]{border-color:#de572b}
+.job summary{list-style:none;cursor:pointer;padding:19px 20px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start}
+.job summary::-webkit-details-marker{display:none}
+.job-top{display:flex;gap:14px;align-items:center;min-width:0}
+.company-mark{height:42px;min-width:70px;max-width:96px;padding:0 5px;border-radius:10px;display:grid;place-items:center;background:#fff0e0;color:var(--rust);font-size:13px;font-weight:950;letter-spacing:-.05em;text-align:center;line-height:1.05}
+.company-mark.softline{font-size:15px;color:#a51d45;background:#fff4ef}
+.company-mark.crm{color:#192e57;font-size:12px}
+.company-mark.mcr{color:#326b89}
+.job h3{font-size:16px;letter-spacing:-.025em;margin:0 0 5px}
+.job .role{font-size:12px;color:#6d4b39;margin:0;line-height:1.45}
+.job .date{font-size:11px;color:#9a7867;margin-top:4px;line-height:1.4}
+.open-icon{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#ffe2c6;color:var(--rust);font-size:17px;transition:transform .25s,background .25s;flex-shrink:0}
+.job[open] .open-icon{transform:rotate(45deg);background:var(--rust);color:white}
+.job-summary{padding:0 20px 17px;color:#785847;font-size:12px;line-height:1.6}
+.job-details{border-top:1px solid #f0d7c2;padding:18px 20px 20px;display:grid;grid-template-columns:1.25fr .85fr;gap:22px}
+.job-details h4{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--rust);margin:0 0 9px}
+.job-details p,.job-details li{font-size:12px;line-height:1.65;color:#6e5142}
+.job-details p{margin:0 0 9px}
+.job-details ul{padding-left:16px;margin:0}
+.job-detail-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.job-detail-tags span{background:#ffead6;border-radius:999px;padding:6px 8px;color:#7a4a31;font-size:10px}
+.early-experience{grid-column:1/-1}
+.early-experience summary{display:flex;align-items:center;justify-content:space-between;font-weight:800;font-size:14px}
+.early-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:0 20px 20px}
+.early-item{padding:13px;border:1px solid #f0d8c3;border-radius:13px;background:#fffaf5}
+.early-item b{display:block;font-size:12px;margin-bottom:4px}
+.early-item span{display:block;color:#8d6f5e;font-size:11px;line-height:1.5}
+.mini-stat-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:19px;color:#8b6856;font-size:11px}
+.mini-stat-row span{background:#fff8ef;border:1px solid #f0d4bc;padding:8px 11px;border-radius:999px}
+.cases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.case{border:1px solid #edcfb5;border-radius:20px;overflow:hidden;background:var(--paper);box-shadow:var(--shadow);display:flex;flex-direction:column}
+.case-visual{height:138px;background:linear-gradient(135deg,#4a160b,#9a2d10 60%,#ef6d2a);color:#ffecd9;padding:20px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.case-visual:after{content:"";position:absolute;width:170px;height:170px;border-radius:50%;border:1px solid #ffffff22;right:-35px;bottom:-88px;box-shadow:0 0 0 18px #ffffff09,0 0 0 39px #ffffff06}
+.case-visual .case-no{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#ffcfad}
+.case-visual strong{font-size:22px;letter-spacing:-.05em;line-height:1.02;max-width:260px;z-index:1}
+.case-visual .case-glyph{position:absolute;right:17px;top:19px;font-size:28px;color:#ffbb84}
+.case-content{padding:18px;display:flex;flex-direction:column;align-items:flex-start;flex:1}
+.case-type{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#a56f50;font-weight:850;margin-bottom:9px}
+.case h3{font-size:17px;line-height:1.15;letter-spacing:-.035em;margin:0 0 9px}
+.case p{font-size:12px;line-height:1.65;color:#7b5a48;margin:0 0 14px}
+.case .text-link{margin-top:auto}
+.case:nth-child(2) .case-visual{background:linear-gradient(135deg,#7c2812,#e25221)}
+.case:nth-child(3) .case-visual{background:linear-gradient(135deg,#3f1e16,#9c4a28)}
+.case:nth-child(4) .case-visual{background:linear-gradient(135deg,#8d310e,#ef8a3d)}
+.case:nth-child(5) .case-visual{background:linear-gradient(135deg,#39160d,#c3431a)}
+.case:nth-child(6) .case-visual{background:linear-gradient(135deg,#6a3520,#b96a32)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.panel{padding:25px;border:1px solid #efcfb5;background:#fffaf4;border-radius:22px;box-shadow:var(--shadow)}
+.panel h3{font-size:20px;letter-spacing:-.04em;margin:0 0 14px}
+.skills{display:flex;flex-wrap:wrap;gap:8px}
+.skill{border:1px solid #f0d0b3;background:#ffecd8;color:#71402a;border-radius:999px;padding:9px 12px;font-size:11px}
+.edu-list{display:grid;gap:10px}
+.edu{display:grid;grid-template-columns:54px 1fr;gap:12px;padding:13px 0;border-bottom:1px solid #f0d9c4}
+.edu:last-child{border-bottom:0;padding-bottom:0}
+.edu-year{display:grid;place-items:center;height:42px;background:#ffe4c9;border-radius:12px;color:var(--rust);font-weight:850;font-size:12px}
+.edu b{font-size:13px;display:block;line-height:1.35}
+.edu span{display:block;font-size:11px;line-height:1.55;color:#8a6b57;margin-top:4px}
+.about-me{position:relative;overflow:hidden;padding:44px;border-radius:26px;background:linear-gradient(120deg,#5a1f0b,#a5300c 64%,#da5118);color:#fff4e8;display:grid;grid-template-columns:1fr .55fr;gap:25px;align-items:center}
+.about-me h2{font-size:clamp(30px,4vw,43px);line-height:1;letter-spacing:-.06em;margin:0 0 14px}
+.about-me p{font-size:13px;line-height:1.8;color:#ffdfc8;max-width:720px;margin:0}
+.about-me .years{display:inline-block;margin-top:18px;border:1px solid #ffffff36;background:#ffffff12;border-radius:999px;padding:9px 13px;font-size:11px;color:#ffe4d2}
+.kodi-badge{justify-self:center;width:180px;height:180px;border:1px solid #ffc99a55;background:#ffffff0b;border-radius:50%;display:grid;place-items:center;color:#ffe4c3;font-size:62px;letter-spacing:-.08em;box-shadow:0 0 0 18px #ffffff07}
+.contact{background:#f4ddc7;padding:0}
+.contact-main{padding:50px 0 30px;background:linear-gradient(120deg,#a93210,#d94b17 58%,#f36a28);color:#fff4e8;position:relative;overflow:hidden}
+.contact-main:after{content:"";position:absolute;width:400px;height:400px;right:-120px;top:-240px;border:1px solid #ffffff23;border-radius:50%;box-shadow:0 0 0 35px #ffffff07,0 0 0 72px #ffffff05}
+.contact-layout{display:grid;grid-template-columns:1fr;gap:24px;position:relative;z-index:1}
+.contact h2{margin:0 0 12px}
+.contact-intro{font-size:13px;color:#ffe0c8;line-height:1.7;max-width:720px;margin:0}
+.contact-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:8px}
+.contact-card{display:flex;align-items:center;gap:11px;min-width:0;padding:14px;background:#fff7ed;border:1px solid #fff2e6;border-radius:15px;color:var(--ink);text-decoration:none;transition:transform .2s}
+.contact-card:hover{transform:translateY(-3px)}
+.contact-icon{width:35px;height:35px;flex:0 0 35px;border-radius:11px;background:#ffe2c6;color:var(--rust);display:grid;place-items:center;font-weight:900;font-size:15px}
+.contact-card b{display:block;font-size:11px;overflow-wrap:anywhere}
+.contact-card small{display:block;color:#997968;font-size:10px;margin-top:3px}
+.contact-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:5px}
+.site-footer{background:#32150b;color:#ffe9d6;padding:19px 0}
+.footer-inner{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.footer-brand{font-size:12px;font-weight:850}
+.footer-brand small{display:block;font-size:10px;font-weight:400;color:#cda991;margin-top:4px}
+.footer-links{display:flex;gap:18px;flex-wrap:wrap}
+.footer-links a{font-size:11px;text-decoration:none;color:#f5d7c1}
+.footer-links a:hover{color:white}
+.footer-copy{font-size:10px;color:#c5a18c}
+.print-note{font-size:10px;color:#c5a18c;text-align:center;padding:12px 0;background:#32150b;border-top:1px solid #ffffff10}
+@media(max-width:900px){
+ .wrap{width:min(100% - 32px,740px)}
+ .nav{border-radius:22px;align-items:flex-start}
+ .brand{min-width:145px}
+ .nav-links{gap:11px;flex-wrap:wrap;justify-content:center}
+ .nav>.btn{padding:11px 14px;font-size:11px;white-space:nowrap}
+ .hero{min-height:710px}
+ .hero-content{grid-template-columns:1fr .82fr;gap:10px;padding-top:75px}
+ h1{font-size:clamp(52px,8vw,76px)}
+ .hero-shade{background:linear-gradient(90deg,rgba(103,24,5,.88),rgba(148,34,7,.68) 45%,rgba(165,39,8,.2))}
+ .intro-grid{grid-template-columns:1fr;gap:24px}
+ .cases{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .contact-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-
+@media(max-width:640px){
+ html{scroll-padding-top:16px}
+ .wrap{width:calc(100% - 28px)}
+ .hero{min-height:780px}
+ .hero-photo{object-position:62% center}
+ .hero-shade{background:linear-gradient(180deg,rgba(62,18,7,.67),rgba(122,27,6,.69) 45%,rgba(113,25,5,.2) 78%,rgba(50,18,9,.02))}
+ .nav-wrap{padding-top:10px}
+ .nav{display:grid;grid-template-columns:1fr auto;gap:10px;border-radius:20px;padding:10px}
+ .brand{min-width:0}
+ .brand-mark{width:30px;height:30px}
+ .nav .btn{font-size:10px;padding:10px 12px}
+ .nav-links{grid-column:1/-1;justify-content:space-between;gap:9px;font-size:10px;padding:5px 3px 2px}
+ .hero-content{display:flex;align-items:flex-start;flex-direction:column;justify-content:flex-start;padding-top:47px;padding-bottom:28px;gap:0}
+ .hero-copy{max-width:100%}
+ .kicker{font-size:9px;margin-bottom:13px}
+ h1{font-size:clamp(51px,14vw,72px);margin-bottom:17px}
+ .hero-copy p{font-size:14px;line-height:1.53;max-width:340px}
+ .hero-actions .btn{padding:13px 17px;font-size:12px}
+ .hero-caption{font-size:10px}
+ .section{padding:45px 0}
+ .section-head{display:block;margin-bottom:19px}
+ .section-head h2,.contact h2{font-size:33px}
+ .section-head .lead{font-size:13px}
+ .stats{grid-template-columns:1fr;gap:9px}
+ .stat{min-height:0;padding:17px 18px;display:grid;grid-template-columns:80px 1fr;align-items:center;gap:3px 13px}
+ .stat .symbol{grid-column:1;grid-row:1/3;margin:0;font-size:18px}
+ .stat strong{font-size:35px;grid-column:2;grid-row:1}
+ .stat b{grid-column:2;grid-row:2;margin-top:2px}
+ .stat p{grid-column:2;grid-row:3;margin-top:0}
+ .section-bar{align-items:flex-start;flex-direction:column;gap:10px}
+ .jobs,.cases,.two-col{grid-template-columns:1fr}
+ .job summary{padding:16px}
+ .job-summary{padding:0 16px 15px}
+ .job-details{grid-template-columns:1fr;padding:16px;gap:17px}
+ .early-list{grid-template-columns:1fr;padding:0 16px 16px}
+ .case-visual{height:130px}
+ .panel{padding:20px}
+ .about-me{grid-template-columns:1fr;padding:25px;gap:20px}
+ .kodi-badge{width:100px;height:100px;font-size:35px;justify-self:start;grid-row:1}
+ .about-me-copy{grid-row:2}
+ .contact-main{padding:40px 0 25px}
+ .contact-cards{grid-template-columns:1fr}
+ .contact-card{padding:12px}
+ .contact-actions{display:grid;grid-template-columns:1fr}
+ .contact-actions .btn{width:100%}
+ .footer-inner{display:grid;grid-template-columns:1fr;gap:15px}
+ .footer-links{gap:13px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
 </style>
 </head>
 <body>
-<div class="shell">
-<nav class="nav"><a class="logo" href="#top">Екатерина Каменская <b>✿</b></a><div class="navlinks"><a href="#about">Обо мне</a><a href="#experience">Опыт</a><a href="#skills">Навыки</a><a href="#cases">Кейсы</a><a href="#contacts">Контакты</a></div><a class="btn" href="#contacts">Скачать резюме</a></nav>
-</div>
-<header class="hero shell" id="top">
-<div class="hero-copy"><div class="eyebrow">Приветствие от Коди · кандидат мамы</div><h1>Привет,<br>я Коди!<br><span class="accent">Ищу работу</span><br>для мамы.</h1><p>Она умеет превращать сложные ИТ-продукты в понятные истории, придумывать стратегии и приводить лиды. А я хочу, чтобы у нас всегда были вкусный корм и вкусняшки.</p><a class="btn" href="#experience">Смотреть резюме <span>→</span></a><div class="micro">B2B IT · Продуктовый маркетинг · Стратегия</div></div>
-<div class="hero-visual"><div class="sticky-note">🐾 <b>Мой план</b><br>Найти маме работу<br>Получить вкусняшку</div>
-<svg class="hero-dog" viewBox="0 0 500 420" role="img" aria-label="Мультяшный рыже-белый корги Коди">
-<defs><linearGradient id="fur" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8c180"/><stop offset=".55" stop-color="#d98542"/><stop offset="1" stop-color="#a9582d"/></linearGradient><linearGradient id="cream" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fffdf4"/><stop offset="1" stop-color="#ead8be"/></linearGradient></defs>
-<ellipse cx="250" cy="391" rx="177" ry="17" fill="#743c2220"/><g id="body"><path d="M83 305Q72 233 128 209Q164 192 206 213L303 214Q370 221 386 287L385 352Q367 372 332 366L130 367Q89 361 83 330Z" fill="url(#fur)"/><path d="M112 289Q151 269 195 289Q230 306 257 284Q294 267 342 292L358 348Q343 364 310 365L146 364Q116 357 112 328Z" fill="url(#cream)"/><path d="M144 348Q145 372 178 369L198 366Q204 358 190 341Z" fill="#fff8eb"/><path d="M261 348Q262 372 296 369L316 365Q322 357 306 341Z" fill="#fff8eb"/></g>
-<g id="head">
-<path d="M136 119L91 19Q86 4 105 15L191 79Z" fill="#bd6a36" stroke="#9d552c" stroke-width="3"/><path d="M112 81L103 36L157 83Z" fill="#e9a0a0"/><path d="M298 78L365 14Q379 4 376 24L355 133Z" fill="#bd6a36" stroke="#9d552c" stroke-width="3"/><path d="M329 79L362 33L342 103Z" fill="#e9a0a0"/>
-<path d="M120 111Q149 61 232 68Q315 63 350 130Q382 187 346 254Q314 312 236 313Q155 311 121 251Q86 190 120 111Z" fill="url(#fur)" stroke="#b86d37" stroke-width="3"/>
-<path d="M201 73Q222 97 233 129Q247 98 272 77Q302 97 315 136Q331 178 302 218Q276 255 237 280Q194 254 171 216Q146 177 163 131Q175 95 201 73Z" fill="url(#cream)"/>
-<path d="M113 165Q130 135 166 138Q187 141 198 158Q188 185 160 193Q131 193 113 165Z" fill="#f4b574"/><path d="M269 154Q293 133 324 147Q347 162 333 184Q309 201 280 189Z" fill="#f4b574"/>
-<g id="eyes"><ellipse cx="177" cy="162" rx="20" ry="24" fill="#fffdf7"/><ellipse cx="283" cy="162" rx="20" ry="24" fill="#fffdf7"/><g id="pupils"><ellipse cx="180" cy="165" rx="12" ry="16" fill="#35231b"/><ellipse cx="280" cy="165" rx="12" ry="16" fill="#35231b"/><ellipse cx="184" cy="159" rx="4.5" ry="5.5" fill="white"/><ellipse cx="284" cy="159" rx="4.5" ry="5.5" fill="white"/></g><path d="M155 136Q176 121 196 137M260 137Q282 121 302 138" fill="none" stroke="#9b552f" stroke-width="6" stroke-linecap="round"/></g>
-<path d="M196 204Q218 185 244 200Q268 187 290 205Q281 234 244 239Q210 234 196 204Z" fill="#fffaf1"/><path d="M210 202Q242 186 270 203Q259 220 239 219Q220 219 210 202Z" fill="#302019"/><path d="M239 218Q232 238 253 249Q272 248 276 228Q255 239 239 218Z" fill="#e75e76"/><path d="M247 239Q256 241 262 234" fill="none" stroke="#f9a3ad" stroke-width="3" stroke-linecap="round"/><path d="M130 205l19 3m-12 11l19 1m165-11l18-4" stroke="#fff0da" stroke-width="4" stroke-linecap="round"/>
-</g>
-<g transform="translate(352 315)"><rect width="80" height="55" rx="11" fill="#b9b5ad" stroke="#8a827a" stroke-width="3"/><path d="M10 14H70" stroke="#8a827a" stroke-width="3"/><path d="M29 30Q40 20 51 30Q46 40 40 40Q34 40 29 30Z" fill="#8a827a"/><circle cx="32" cy="26" r="4" fill="#8a827a"/><circle cx="48" cy="26" r="4" fill="#8a827a"/></g>
-<path d="M78 123q-15-13-9-28m22 2q13-9 11-23m291 71l8-15 8 15z" fill="none" stroke="#c95430" stroke-width="4" stroke-linecap="round"/>
-</svg><div class="cursor-hint">✦ Двигай мышкой. Коди смотрит на тебя.</div></div>
+<header class="hero" id="top">
+  <img class="hero-photo" src="assets/kodi-hero.webp" alt="" fetchpriority="high">
+  <div class="hero-shade"></div>
+  <div class="nav-wrap wrap">
+    <nav class="nav" aria-label="Основная навигация">
+      <a class="brand" href="#top"><span class="brand-mark">ЕК</span><span>ЕКАТЕРИНА<br>КАМЕНСКАЯ<small>B2B-маркетолог</small></span></a>
+      <div class="nav-links"><a href="#about">Обо мне</a><a href="#experience">Опыт</a><a href="#cases">Кейсы</a><a href="#skills">Навыки</a><a href="#contacts">Контакты</a></div>
+      <a class="btn btn-light" href="resume.html">↓ Скачать резюме</a>
+    </nav>
+  </div>
+  <div class="hero-content wrap">
+    <div class="hero-copy">
+      <div class="kicker">Технически подкованный хвост и мама-маркетолог</div>
+      <h1>Привет,<br>я Коди!<br><span>Ищу работу<br>для мамы.</span></h1>
+      <p>Она превращает сложные ИТ-продукты в понятные истории, выстраивает стратегии и приводит лиды. А я буду следить, чтобы у нее было побольше поводов для радости.</p>
+      <div class="hero-actions"><a class="btn" href="#experience">Смотреть резюме <span aria-hidden="true">→</span></a><a class="btn btn-ghost" href="#contacts">Связаться</a></div>
+      <div class="hero-caption">B2B IT · Продуктовый маркетинг · Стратегия · Лидогенерация</div>
+    </div>
+  </div>
 </header>
-<section class="section" id="about"><div class="shell"><div class="section-head"><div><h2>Что умеет моя мама</h2><p class="sub">Я заинтересованная сторона, но у меня есть цифры в качестве доказательств.</p></div><div class="paw-stamp">🐾</div></div><div class="cards"><article class="card"><div class="meta">01 · Стратегия</div><h3>Объясняет сложное</h3><p>Упаковывает технические продукты в понятные ценностные предложения для бизнеса, руководителей и ИТ-команд.</p><div class="tags"><span class="tag">Позиционирование</span><span class="tag">Исследования</span><span class="tag">Продукт</span></div></article><article class="card"><div class="meta">02 · Рост</div><h3>Приводит нужных людей</h3><p>Связывает контент, мероприятия, цифровые каналы и партнерские активности в систему привлечения спроса.</p><div class="tags"><span class="tag">B2B-маркетинг</span><span class="tag">Лидогенерация</span><span class="tag">Аналитика</span></div></article></div></div></section>
-<section class="section" id="experience"><div class="shell"><div class="section-head"><div><h2>Где мама работала</h2><p class="sub">Нажми на карточку, чтобы узнать подробности. Я не кусаюсь.</p></div></div><div class="cards">
-<button class="card card-button expandable" aria-expanded="false"><div class="card-top"><div><div class="meta">Продуктовый маркетинг · B2B IT</div><h3>Инферит ИТМен / Softline</h3><div class="period">Июнь 2024 — октябрь 2026 · Ведущий B2B-маркетолог</div></div><span class="arrow">↗</span></div><p>Упаковка и продвижение «Инферит ИТМен» и «Призмы данных»: от исследования рынка и позиционирования до сайта, лидогенерации, PR и отраслевых мероприятий.</p><div class="tags"><span class="tag">Продукт</span><span class="tag">Контент</span><span class="tag">Мероприятия</span></div><div class="details"><b>Что делала:</b><br>• С нуля разработала позиционирование и материалы для продаж и партнеров.<br>• Запустила сайт, SEO-активности, лид-магниты, квизы и онлайн-марафоны.<br>• Организовала участие продукта в 30+ отраслевых мероприятиях, PR и вступление в itSMF России.<br><br><b>Результаты:</b> рост поискового трафика и заявок в 2 раза; 10–15 бесплатных лидов с сайта в месяц; 70+ лидов крупных компаний с мероприятий в 2024–2025 годах.</div></button>
-<button class="card card-button expandable" aria-expanded="false"><div class="card-top"><div><div class="meta">Маркетинг · Цифровые каналы</div><h3>CRMguru</h3><div class="period">Май 2021 — май 2024 · Маркетолог</div></div><span class="arrow">↗</span></div><p>Продвижение российских и американских B2B-продуктов в сфере CRM, автоматизации бизнес-процессов и разработки ПО.</p><div class="tags"><span class="tag">Стратегия</span><span class="tag">SEO</span><span class="tag">Аналитика</span></div><div class="details"><b>Что делала:</b><br>• Разрабатывала маркетинговые стратегии и упаковку новых продуктов и услуг.<br>• Создавала сайты и лендинги, контент и материалы для продвижения.<br>• Организовывала вебинары и мероприятия, работала с SMM и подрядчиком по контекстной рекламе.</div></button>
-</div></div></section>
-<section class="section" id="results"><div class="shell"><div class="section-head"><div><h2>Цифры говорят за маму</h2><p class="sub">Коди умеет считать. Особенно порции корма.</p></div><div class="paw-stamp">✳</div></div><div class="stats"><article class="stat"><strong>×2</strong><b>Рост поискового трафика и заявок</b><p>Результат SEO-работы над сайтом с конца 2025 года.</p></article><article class="stat"><strong>70+</strong><b>Лидов крупных компаний</b><p>Привлечены с отраслевых мероприятий в 2024–2025 годах.</p></article><article class="stat"><strong>175</strong><b>Контактов с онлайн-марафона</b><p>101 участник; общий охват кампании — более 1 млн.</p></article></div></div></section>
-<section class="section" id="cases"><div class="shell"><div class="section-head"><div><h2>Лучшие проекты мамы</h2><p class="sub">Открывай кейсы, изучай детали и переходи к опубликованным материалам.</p></div></div><div class="case-grid">
-<article class="card case-card"><div class="case-icon">↗</div><div class="meta">Сайт · SEO · Контент</div><h3>Призма данных</h3><p>Материал для аудитории, которой важно качество данных об ИТ-активах.</p><div class="details" style="display:block;border:0;padding:0;margin:0"><a href="https://itman.ru/data-prism" target="_blank" rel="noreferrer">Открыть проект ↗</a></div></article>
-<article class="card case-card"><div class="case-icon">◎</div><div class="meta">Мероприятия · Лидогенерация</div><h3>ITSM Forum 2026</h3><p>Работа с отраслевой аудиторией и привлечение квалифицированных контактов.</p><div class="details" style="display:block;border:0;padding:0;margin:0">На ITSM Forum 2026 игровая механика помогла привлечь 70 новых контактов и 23 лида.</div></article>
-<article class="card case-card"><div class="case-icon">✳</div><div class="meta">Образование · Контент</div><h3>Онлайн-марафон</h3><p>Образовательный формат для вовлечения аудитории и сбора лидов.</p><div class="details" style="display:block;border:0;padding:0;margin:0">175 контактов, 101 участник, 28 зрителей вебинара и 6 лидов.</div></article>
-<article class="card case-card"><div class="case-icon">▤</div><div class="meta">Инструмент · Бизнес-кейс</div><h3>Калькулятор для ITAM</h3><p>Инструмент, который помогает объяснить ценность ИТ-решения через деньги.</p><div class="details" style="display:block;border:0;padding:0;margin:0"><a href="https://katerinazaber.github.io/itman/itam-business-case/" target="_blank" rel="noreferrer">Посмотреть прототип ↗</a></div></article>
-</div></div></section>
-<section class="section" id="skills"><div class="shell"><div class="section-head"><div><h2>Мамины суперспособности</h2><p class="sub">Мои суперспособности попроще: приносить мяч и находить крошки.</p></div></div><div class="skills"><span class="skill">Продуктовый маркетинг</span><span class="skill">B2B IT</span><span class="skill">Маркетинговая стратегия</span><span class="skill">Исследования и аналитика</span><span class="skill">Лидогенерация</span><span class="skill">Контент и сайты</span><span class="skill">SEO</span><span class="skill">Мероприятия</span><span class="skill">Email-маркетинг</span><span class="skill">Бизнес-кейсы</span><span class="skill">AI-инструменты</span><span class="skill">Управление проектами</span></div></div></section>
-<footer class="contact" id="contacts"><div class="shell"><div class="contact-layout"><div><div class="eyebrow" style="color:#ffddca">Последний шаг · гав!</div><h2>Наймите мою маму.</h2><p class="sub">Она классный специалист. А я хочу, чтобы у нас дома всегда были вкусный корм и вкусняшки. Договорились?</p><div class="contact-buttons"><a class="btn light" href="https://t.me/katerinakami" target="_blank" rel="noreferrer">✈ Написать в Telegram</a><a class="btn light" href="tel:+79268301710">☎ 8 926 830-17-10</a><a class="btn light" href="mailto:katerinazaber@mail.ru">✉ Написать на почту</a><a class="btn" style="background:#512719" href="#" id="resumeBtn">↓ Скачать резюме PDF</a></div></div>
-<svg class="contact-dog" viewBox="0 0 300 230" role="img" aria-label="Коди просит вкусняшку"><ellipse cx="150" cy="212" rx="112" ry="9" fill="#692b1c40"/><path d="M55 156Q41 102 84 85Q111 73 141 89L210 88Q256 93 263 143L260 185Q243 200 216 195L81 196Q57 190 55 156Z" fill="#d78340"/><path d="M72 150Q105 136 135 151Q164 164 186 148Q216 137 242 155L244 183L83 188Z" fill="#fff0db"/><g id="footerHead"><path d="M91 69L68 8Q65 0 78 7L124 40Z" fill="#c56f37"/><path d="M202 42L247 5Q257 0 254 13L241 80Z" fill="#c56f37"/><path d="M83 68Q109 29 163 39Q220 33 239 81Q261 128 225 160Q196 184 158 183Q111 183 85 148Q63 108 83 68Z" fill="#e49a50"/><path d="M142 43Q157 63 162 82Q174 58 190 45Q214 66 216 99Q218 130 158 161Q102 128 107 96Q112 62 142 43Z" fill="#fff2dd"/><ellipse cx="126" cy="94" rx="11" ry="14" fill="#fff"/><ellipse cx="192" cy="94" rx="11" ry="14" fill="#fff"/><g id="footerPupils"><ellipse cx="129" cy="97" rx="7" ry="10" fill="#302018"/><ellipse cx="190" cy="97" rx="7" ry="10" fill="#302018"/><circle cx="131" cy="93" r="3" fill="#fff"/><circle cx="192" cy="93" r="3" fill="#fff"/></g><path d="M134 124Q157 109 181 125Q173 143 157 143Q142 142 134 124Z" fill="#fff"/><path d="M145 124Q159 116 171 125Q165 133 157 132Q149 132 145 124Z" fill="#302018"/><path d="M157 132Q152 148 168 151Q179 149 181 136Q167 143 157 132Z" fill="#e75e76"/></g><path d="M259 49l5-10 5 10zM43 61l5-10 5 10z" fill="#ffe3b7"/></svg></div><div class="footer-note">Портфолио Екатерины Каменской · Связь: Telegram @katerinakami · Телефон 8 926 830-17-10</div></div></footer>
-</div>
-<div class="paw-cursor" id="pawCursor">🐾</div><div class="toast" id="toast"></div>
+<main class="content">
+<section class="section" id="about">
+ <div class="wrap intro-grid">
+  <div class="intro-panel">
+   <div class="eyebrow">Немного о серьезном</div>
+   <h2>Моя мама —<br><span>Екатерина Каменская</span></h2>
+   <p>Продуктовый B2B-маркетолог с опытом в IT. Исследует рынок и аудиторию, формирует позиционирование, создает сайты и материалы, запускает маркетинговые активности и оценивает их по цифрам. От первой гипотезы до измеримого результата.</p>
+   <div class="chips"><span class="chip">Продуктовый маркетинг</span><span class="chip">B2B IT</span><span class="chip">Стратегия</span><span class="chip">Лидогенерация</span><span class="chip">Контент и сайты</span><span class="chip">SEO</span><span class="chip">Мероприятия</span><span class="chip">Аналитика</span></div>
+  </div>
+  <div>
+   <div class="section-head"><div><div class="eyebrow">Результаты в цифрах</div><h2>Цифры говорят сами за себя</h2><p class="lead">А я, Коди, особенно внимательно слежу за цифрами в миске.</p></div></div>
+   <div class="stats">
+    <article class="stat"><div class="symbol">↗</div><strong>×2</strong><b>Рост поискового трафика и заявок</b><p>После запуска SEO-работы для сайта itman.ru.</p></article>
+    <article class="stat"><div class="symbol">◎</div><strong>70+</strong><b>Лидов крупных компаний</b><p>С отраслевых мероприятий в 2024–2025 годах.</p></article>
+    <article class="stat"><div class="symbol">175</div><strong>1 млн+</strong><b>Охват и контакты кампании</b><p>175 контактов и 101 участник онлайн-марафона.</p></article>
+   </div>
+  </div>
+ </div>
+</section>
+<section class="section alt" id="experience">
+ <div class="wrap">
+  <div class="section-bar"><div><div class="eyebrow">Профессиональный путь</div><h2>Где мама работала</h2></div><span class="chip">Маркетинг — с 2013 года · В работе с 2010 года</span></div>
+  <p class="lead" style="margin-bottom:22px">Нажми на карточку, чтобы раскрыть задачи, инструменты и результаты. В опыте есть и стратегия, и конкретная работа руками.</p>
+  <div class="jobs">
+   <details class="job" open>
+    <summary><div class="job-top"><div class="company-mark softline">softline</div><div><h3>Softline · «Инферит ИТМен»</h3><p class="role">Ведущий B2B-маркетолог</p><div class="date">Июнь 2024 — октябрь 2026 · 2 года 5 месяцев</div></div></div><span class="open-icon">+</span></summary>
+    <div class="job-summary">Продвижение системы учета ИТ-инфраструктуры «Инферит ИТМен» и запуск направления «Призма данных».</div>
+    <div class="job-details"><div><h4>Ключевые задачи</h4><ul><li>С нуля разработала позиционирование, презентации, одностраничники и материалы для продаж и партнеров.</li><li>Исследовала рынок и целевую аудиторию, проводила интервью, конкурентный анализ и формировала маркетинговые гипотезы.</li><li>Запустила сайт itman.ru, развивала контент, SEO, посадочные страницы и лид-магниты.</li><li>Организовывала вебинары, марафоны и участие в 30+ отраслевых мероприятиях.</li><li>Работала с PR, отраслевыми сообществами, публикациями и аналитикой воронки.</li></ul></div><div><h4>Результаты</h4><p><b>×2</b> — рост поискового трафика и заявок с сайта.</p><p><b>10–15</b> бесплатных лидов в месяц с сайта.</p><p><b>70+</b> лидов крупных компаний с мероприятий в 2024–2025 годах.</p><p>Продукт получил 1-е место в рейтинге «Компьютерры» и 2-е место в конкурсе «ПРОФ-IT.Инновация» в 2025 году.</p><div class="job-detail-tags"><span>Продуктовый маркетинг</span><span>SEO</span><span>PR</span><span>Лидогенерация</span></div></div></div>
+   </details>
+   <details class="job">
+    <summary><div class="job-top"><div class="company-mark crm">CRMguru</div><div><h3>IT-интегратор CRMguru</h3><p class="role">Маркетолог</p><div class="date">Май 2021 — май 2024 · 3 года 1 месяц</div></div></div><span class="open-icon">+</span></summary>
+    <div class="job-summary">Продвижение российских и американских B2B-продуктов в CRM, автоматизации бизнес-процессов и разработке ПО.</div>
+    <div class="job-details"><div><h4>Ключевые задачи</h4><ul><li>Разрабатывала стратегии продвижения для разных направлений бизнеса.</li><li>Упаковывала продукты и услуги: позиционирование, презентации, рекламные материалы и макеты.</li><li>Анализировала рынок и конкурентов, создавала сайты и лендинги.</li><li>Организовывала вебинары, работала с SMM и подрядчиком по контекстной рекламе.</li></ul></div><div><h4>Фокус работы</h4><p>Продуктовый маркетинг, контент, лидогенерация, аналитика сайта и маркетинговых активностей.</p><div class="job-detail-tags"><span>CRM</span><span>Стратегия</span><span>Контент</span><span>Вебинары</span></div></div></div>
+   </details>
+   <details class="job">
+    <summary><div class="job-top"><div class="company-mark mcr">МЦР</div><div><h3>Мастерская цифровых решений</h3><p class="role">Ведущий маркетолог</p><div class="date">Апрель 2020 — май 2021 · 1 год 2 месяца</div></div></div><span class="open-icon">+</span></summary>
+    <div class="job-summary">Упаковка IT-решений для электроэнергетической отрасли и привлечение первых клиентов.</div>
+    <div class="job-details"><div><h4>Ключевые задачи</h4><ul><li>Упаковка продуктов с нуля: слоганы, материалы, стратегия продвижения.</li><li>Customer Development, интервью и исследования по Jobs To Be Done.</li><li>Конкурентный анализ, сайты, PR, SMM и рекламные кампании.</li><li>Организация участия в конференциях, взаимодействие со Сколково и Технополисом Москва.</li></ul></div><div><h4>Результаты</h4><p>Создан сайт компании с конверсией 1,5%.</p><p>Упакованы два продукта и подготовлено более 10 вариантов презентаций для разных сегментов.</p></div></div>
+   </details>
+   <details class="job">
+    <summary><div class="job-top"><div class="company-mark">A2is</div><div><h3>A2is.ru</h3><p class="role">Руководитель маркетинга и продаж</p><div class="date">Ноябрь 2019 — октябрь 2020 · удаленно, частичная занятость</div></div></div><span class="open-icon">+</span></summary>
+    <div class="job-summary">Управление маркетингом и продажами в IT-стартапе: бизнес-план, контент и первые клиенты.</div>
+    <div class="job-details"><div><h4>Задачи</h4><ul><li>Совместно с создателем сервиса разрабатывала бизнес-план и планирование по методике Ганта.</li><li>Строила стратегию маркетинга и продаж, составляла скрипты.</li><li>Нанимала и обучала копирайтеров, выстраивала контент-маркетинг.</li></ul></div><div><h4>Фокус работы</h4><p>Стратегия, организация работы команды, редакционные процессы и продажи.</p></div></div>
+   </details>
+   <details class="job">
+    <summary><div class="job-top"><div class="company-mark">БИТ</div><div><h3>Первый БИТ</h3><p class="role">Ведущий специалист по маркетингу</p><div class="date">Ноябрь 2017 — март 2020 · 2 года 5 месяцев</div></div></div><span class="open-icon">+</span></summary>
+    <div class="job-summary">B2B-маркетинг для направлений 1С, CRM, фармы, розницы, корпоративных сетей и отраслевых решений.</div>
+    <div class="job-details"><div><h4>Задачи</h4><ul><li>Стратегии, продвижение, планирование по каналам и аналитика продаж.</li><li>Исследования аудитории и глубинные интервью по Jobs To Be Done.</li><li>Организация вебинаров и семинаров, контент- и email-маркетинг.</li><li>Работа с сайтами, рекламой, мероприятиями и материалами для новых продуктов.</li></ul></div><div><h4>Результаты</h4><p>Рост лидов на 30% в летние месяцы.</p><p>Проверка гипотезы с лонгридами вместо обычных email-писем.</p></div></div>
+   </details>
+   <details class="job">
+    <summary><div class="job-top"><div class="company-mark">RR</div><div><h3>Richness Realty</h3><p class="role">Маркетолог</p><div class="date">Март 2017 — октябрь 2017 · 8 месяцев</div></div></div><span class="open-icon">+</span></summary>
+    <div class="job-summary">Продвижение премиального агентства Richness Realty и направления массового сегмента «Фонд Квартир».</div>
+    <div class="job-details"><div><h4>Задачи</h4><ul><li>Стратегии и медиапланы для двух направлений недвижимости.</li><li>Сегментация аудитории, изучение конкурентов, формирование рекламного бюджета.</li><li>Сайты, SEO, SMM, PR, акции, спецпроекты и партнерства.</li></ul></div><div><h4>Фокус работы</h4><p>Бренд, лидогенерация, digital-маркетинг и взаимодействие с продажами.</p></div></div>
+   </details>
+   <details class="job">
+    <summary><div class="job-top"><div class="company-mark">АП</div><div><h3>Рекламное агентство «Апельсин»</h3><p class="role">Интернет-маркетолог</p><div class="date">Сентябрь 2016 — март 2017 · 7 месяцев</div></div></div><span class="open-icon">+</span></summary>
+    <div class="job-summary">Продвижение услуг рекламного агентства и сервиса Seos24.ru.</div>
+    <div class="job-details"><div><h4>Задачи</h4><ul><li>Email-маркетинг и сегментирование базы.</li><li>Контекстная реклама, SEO и крауд-маркетинг.</li><li>Стратегия продвижения, PR-активности и тексты для блога.</li><li>SMM, контент-планы, работа с аудиторией и аналитика.</li></ul></div><div><h4>Фокус работы</h4><p>Интернет-маркетинг, привлечение аудитории, рекламные кампании и контент.</p></div></div>
+   </details>
+   <details class="job">
+    <summary><div class="job-top"><div class="company-mark">ХР</div><div><h3>Центр инвестирования «Хейвордс Ромфорд»</h3><p class="role">SMM-менеджер</p><div class="date">Август 2015 — сентябрь 2016 · 1 год 2 месяца</div></div></div><span class="open-icon">+</span></summary>
+    <div class="job-summary">Социальные сети финансовой компании и привлечение новых клиентов.</div>
+    <div class="job-details"><div><h4>Задачи</h4><ul><li>Контент-планы и публикации в социальных сетях.</li><li>Технические задания на графический и видеоконтент.</li><li>Общение с аудиторией, аналитика, отчеты и обработка входящих заявок.</li></ul></div><div><h4>Результаты</h4><p>Почти каждый месяц выполняла план по привлеченным клиентам на 100%; конверсия из холодного звонка в обращение составляла от 50%.</p></div></div>
+   </details>
+   <details class="job">
+    <summary><div class="job-top"><div class="company-mark">F</div><div><h3>Группа компаний «Фаворит»</h3><p class="role">Маркетинг, реклама и PR</p><div class="date">Июль 2014 — август 2015 · 1 год 2 месяца</div></div></div><span class="open-icon">+</span></summary>
+    <div class="job-summary">Два направления: туристическая компания «Фаворит» и свадебное агентство Favorit Wedding.</div>
+    <div class="job-details"><div><h4>Задачи</h4><ul><li>Маркетинговые инициативы и материалы для сайта и печати.</li><li>Пресс-релизы, рассылки, SMM, полиграфия и рекламные кампании.</li><li>Анализ рынка и конкурентов, работа с дизайнерами, типографиями и отделом продаж.</li></ul></div><div><h4>Фокус работы</h4><p>Лидогенерация, PR, контент и упаковка услуг.</p></div></div>
+   </details>
+   <details class="job">
+    <summary><div class="job-top"><div class="company-mark">НВ</div><div><h3>Журналистика и коммуникации</h3><p class="role">«Невское время» · «Эхо Петербурга» · «Росбалт»</p><div class="date">Август 2012 — июль 2014 · разные периоды</div></div></div><span class="open-icon">+</span></summary>
+    <div class="job-summary">Журналистские стажировки и работа корреспондентом: интервью, информационные заметки, пресс-конференции и редактура.</div>
+    <div class="job-details"><div><h4>Что сформировало подход</h4><ul><li>Работа с источниками и экспертами, поиск фактуры.</li><li>Интервью, расшифровка и редактирование комментариев.</li><li>Умение ясно объяснять сложное и быстро разбираться в теме.</li></ul></div><div><h4>Компании</h4><p>Газета «Невское время», радиостанция «Эхо Петербурга», информационное агентство «Росбалт».</p></div></div>
+   </details>
+   <details class="job early-experience">
+    <summary><span>Ранний опыт: маркетинг, PR, социальные сети и мероприятия · 2010–2013</span><span class="open-icon">+</span></summary>
+    <div class="early-list">
+      <div class="early-item"><b>ОАО «Экспофорум»</b><span>Сентябрь 2010 — август 2012<br>Интервьюер / ассистент маркетолога: опросы посетителей выставок, базы данных, анализ и отчетность.</span></div>
+      <div class="early-item"><b>Studio NW</b><span>Октябрь 2010 — ноябрь 2012<br>Администратор социальных сетей и PR: контент, медиапланы, кампании и работа с отзывами.</span></div>
+      <div class="early-item"><b>Банк «Русский Стандарт»</b><span>Август 2012 — август 2013<br>Администратор: консультации клиентов, выявление потребностей и помощь в выборе сервисов.</span></div>
+    </div>
+   </details>
+  </div>
+ </div>
+</section>
+<section class="section" id="cases">
+ <div class="wrap">
+  <div class="section-bar"><div><div class="eyebrow">Что сделала мама</div><h2>Кейсы и проекты</h2></div><a class="text-link" href="https://cloud.mail.ru/public/3G31/PQNpYMbeJ" target="_blank" rel="noreferrer">Больше материалов ↗</a></div>
+  <div class="cases">
+   <article class="case"><div class="case-visual"><span class="case-no">01 · Сайт · SEO</span><span class="case-glyph">↗</span><strong>Запуск сайта itman.ru</strong></div><div class="case-content"><div class="case-type">Сайт · Лидогенерация</div><h3>От структуры до заявок</h3><p>Структура, контент, SEO и посадочные страницы. Поисковый трафик и количество заявок выросли в 2 раза; сайт приносит 10–15 бесплатных лидов в месяц.</p><a class="text-link" href="https://itman.ru/" target="_blank" rel="noreferrer">Открыть сайт ↗</a><p><a class="text-link" href="https://cloud.mail.ru/public/hxhW/11UxsWuNd" target="_blank" rel="noreferrer">Кейс о запуске ↗</a></p></div></article>
+   <article class="case"><div class="case-visual"><span class="case-no">02 · Событийный маркетинг</span><span class="case-glyph">30+</span><strong>Отраслевые мероприятия</strong></div><div class="case-content"><div class="case-type">Мероприятия · B2B</div><h3>30+ отраслевых событий</h3><p>Выступления, презентации, демонстрации продукта, квест на ITAMday и игровая механика ITSM Forum. 70+ лидов крупных компаний с мероприятий за 2024–2025 годы.</p><a class="text-link" href="https://cloud.mail.ru/public/goUo/RDZMXsYiD" target="_blank" rel="noreferrer">Кейс ITAMday ↗</a><p><a class="text-link" href="https://cloud.mail.ru/public/yDoU/9PGzWzp9r" target="_blank" rel="noreferrer">Кейс ITSM Forum ↗</a></p></div></article>
+   <article class="case"><div class="case-visual"><span class="case-no">03 · Контент · Обучение</span><span class="case-glyph">175</span><strong>«Защитите бизнес от хаоса»</strong></div><div class="case-content"><div class="case-type">Онлайн-марафон</div><h3>Воронка на базе квиза и Telegram-бота</h3><p>Охват кампании превысил 1 млн. Получено 175 контактов и 101 участник. Квиз для регистрации сделала самостоятельно.</p><a class="text-link" href="https://cloud.mail.ru/public/WRnW/EEBBB4VsY" target="_blank" rel="noreferrer">Разбор активности ↗</a></div></article>
+   <article class="case"><div class="case-visual"><span class="case-no">04 · Продукт · Данные</span><span class="case-glyph">◈</span><strong>«Призма данных»</strong></div><div class="case-content"><div class="case-type">Продуктовый маркетинг</div><h3>Упаковка нового продукта</h3><p>Материалы и контент для интеллектуальной базы знаний о программном обеспечении и лицензиях.</p><a class="text-link" href="https://itman.ru/data-prism" target="_blank" rel="noreferrer">Открыть проект ↗</a></div></article>
+   <article class="case"><div class="case-visual"><span class="case-no">05 · Инструмент</span><span class="case-glyph">₽</span><strong>Бизнес-кейс для ITAM</strong></div><div class="case-content"><div class="case-type">Калькулятор · Контент</div><h3>Перевод маркетинга на язык денег</h3><p>Прототип инструмента для расчета бизнес-ценности и аргументации внедрения ITAM-решения для руководителей.</p><a class="text-link" href="https://katerinazaber.github.io/itman/itam-business-case/" target="_blank" rel="noreferrer">Посмотреть инструмент ↗</a></div></article>
+   <article class="case"><div class="case-visual"><span class="case-no">06 · PR · Экспертиза</span><span class="case-glyph">✦</span><strong>Позиционирование в ITAM</strong></div><div class="case-content"><div class="case-type">PR · Профессиональное сообщество</div><h3>Отраслевое присутствие</h3><p>Вступление в itSMF России, экспертные материалы и продвижение темы обнаружения и инвентаризации ИТ-активов.</p><a class="text-link" href="https://www.cnews.ru/news/line/2025-09-10_razrabotchik_po_inferit" target="_blank" rel="noreferrer">Публикация о вступлении ↗</a></div></article>
+  </div>
+ </div>
+</section>
+<section class="section alt" id="skills">
+ <div class="wrap two-col">
+  <article class="panel"><div class="eyebrow">Суперспособности мамы</div><h3>Навыки и инструменты</h3><div class="skills">
+   <span class="skill">B2B-маркетинг</span><span class="skill">Продуктовый маркетинг</span><span class="skill">Маркетинговая стратегия</span><span class="skill">Позиционирование</span><span class="skill">Лидогенерация</span><span class="skill">Маркетинговые исследования</span><span class="skill">Customer Development</span><span class="skill">Jobs To Be Done</span><span class="skill">Анализ конкурентов</span><span class="skill">SEO</span><span class="skill">Контент-маркетинг</span><span class="skill">Сайты и лендинги</span><span class="skill">Email-маркетинг</span><span class="skill">SMM</span><span class="skill">Контекстная реклама</span><span class="skill">PR</span><span class="skill">Организация мероприятий</span><span class="skill">Аналитика и ROI</span><span class="skill">Планирование бюджета</span><span class="skill">AI-инструменты</span>
+  </div></article>
+  <article class="panel"><div class="eyebrow">Образование</div><h3>Училась разбираться в сложном</h3><div class="edu-list">
+   <div class="edu"><div class="edu-year">2017</div><div><b>Санкт-Петербургский государственный экономический университет</b><span>Высшая экономическая школа · Маркетинг</span></div></div>
+   <div class="edu"><div class="edu-year">2015</div><div><b>Санкт-Петербургский государственный университет</b><span>Высшая школа журналистики и массовых коммуникаций · Международная журналистика</span></div></div>
+   <div class="edu"><div class="edu-year">2024</div><div><b>Школа ИКРА</b><span>Консультационный курс «Креатив в контент-маркетинге»</span></div></div>
+  </div></article>
+ </div>
+</section>
+<section class="section">
+ <div class="wrap">
+  <div class="about-me"><div class="about-me-copy"><div class="eyebrow" style="color:#ffc49e">За пределами должностной инструкции</div><h2>Немного о нас</h2><p>Я работаю с 2010 года: начинала в журналистике, а с 2013 года развиваюсь в маркетинге. Мой сильный навык — соединять исследования и цифры с ясным текстом, креативом и пониманием людей. Люблю разбираться в непростых продуктах и находить способ объяснить их ценность без лишнего шума.</p><span class="years">16 лет опыта в работе и коммуникациях</span></div><div class="kodi-badge" aria-hidden="true">К.</div></div>
+ </div>
+</section>
+</main>
+<footer class="contact" id="contacts">
+ <div class="contact-main"><div class="wrap contact-layout">
+  <div><div class="eyebrow" style="color:#ffd0ac">Следующий шаг</div><h2>Связаться с мамой</h2><p class="contact-intro">Если вам нужен маркетолог, который умеет разбираться в сложных задачах и превращать идеи в результаты, давайте знакомиться.</p></div>
+  <div class="contact-cards">
+   <a class="contact-card" href="tel:+79268301710"><span class="contact-icon">☎</span><span><b>8 926 830-17-10</b><small>Телефон</small></span></a>
+   <a class="contact-card" href="https://t.me/katerinakami" target="_blank" rel="noreferrer"><span class="contact-icon">↗</span><span><b>@katerinakami</b><small>Telegram</small></span></a>
+   <a class="contact-card" href="mailto:katerinazaber@mail.ru"><span class="contact-icon">✉</span><span><b>katerinazaber@mail.ru</b><small>Электронная почта</small></span></a>
+   <a class="contact-card" href="https://vk.com/kz_digital" target="_blank" rel="noreferrer"><span class="contact-icon">vk</span><span><b>vk.com/kz_digital</b><small>ВКонтакте</small></span></a>
+  </div>
+  <div class="contact-actions"><a class="btn" href="https://t.me/katerinakami" target="_blank" rel="noreferrer">Написать в Telegram →</a><a class="btn btn-ghost" href="resume.html">↓ Открыть резюме для печати</a><a class="btn btn-ghost" href="mailto:katerinazaber@mail.ru">Отправить письмо</a></div>
+ </div></div>
+ <div class="site-footer"><div class="wrap footer-inner"><a class="brand" href="#top"><span class="brand-mark">ЕК</span><span>ЕКАТЕРИНА КАМЕНСКАЯ<small>B2B-маркетолог</small></span></a><nav class="footer-links" aria-label="Навигация в подвале"><a href="#about">Обо мне</a><a href="#experience">Опыт</a><a href="#cases">Кейсы</a><a href="#skills">Навыки</a><a href="#contacts">Контакты</a></nav><div class="footer-copy">© 2026 · Москва</div></div></div>
+</footer>
 <script>
-(function(){
-const head=document.getElementById('head'), pupils=document.getElementById('pupils'), paw=document.getElementById('pawCursor');
-document.addEventListener('pointermove',function(e){if(e.pointerType==='touch')return;const x=e.clientX/window.innerWidth,y=e.clientY/window.innerHeight;if(head){head.style.transformOrigin='235px 180px';head.style.transform='rotate('+Math.max(-7,Math.min(7,(x-.72)*16))+'deg) translateY('+Math.max(-3,Math.min(3,(y-.4)*8))+'px)'}if(pupils){pupils.style.transformOrigin='235px 160px';pupils.style.transform='translate('+Math.max(-5,Math.min(5,(x-.5)*12))+'px,'+Math.max(-3,Math.min(3,(y-.4)*7))+'px)'}if(paw){paw.style.display='block';paw.style.left=e.clientX+'px';paw.style.top=e.clientY+'px'}});
-document.addEventListener('pointerleave',function(){if(head)head.style.transform='';if(pupils)pupils.style.transform='';if(paw)paw.style.display='none'});
-document.querySelectorAll('.expandable').forEach(function(card){card.addEventListener('click',function(){const open=card.classList.toggle('open');card.setAttribute('aria-expanded',String(open))})});
-document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){const href=a.getAttribute('href');if(href==='#')return;const target=document.querySelector(href);if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth'})}})});
-const resume=document.getElementById('resumeBtn');resume.addEventListener('click',function(e){e.preventDefault();const t=document.getElementById('toast');t.textContent='PDF-резюме пока не прикреплено. Напиши Коди в Telegram — пришлет мамину версию!';t.style.display='block';setTimeout(()=>t.style.display='none',3000)});
-})();
+document.querySelectorAll('.job').forEach((item)=>{item.addEventListener('toggle',()=>{if(item.open){document.querySelectorAll('.job[open]').forEach((other)=>{if(other!==item && !other.classList.contains('early-experience'))other.open=false;});}});});
 </script>
-</body></html>
+</body>
+</html>
