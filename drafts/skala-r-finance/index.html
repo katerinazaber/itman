@@ -154,61 +154,46 @@
       font-size: 16px;
     }
     .header-mail img { width: 22px; }
-    .header-menu {
-      background: var(--blue-dark);
-      color: #fff;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-    .header-menu .container {
-      display: flex;
-      align-items: center;
-      min-height: 66px;
-      gap: 4px;
-      overflow-x: auto;
-    }
-    .header-menu a {
-      padding: 10px 14px;
-      font-size: 16px;
-      white-space: nowrap;
-      opacity: .92;
-    }
-    .header-menu a:hover,
-    .header-menu a.is-active { opacity: 1; }
-
-    /* ===== banner / hero: как на skala — стойка целиком, плашки ниже, без overflow-обрезки ===== */
+    /* ===== banner / hero ===== */
     .banner {
       background: var(--blue-dark);
       color: #fff;
       position: relative;
       overflow: visible;
-      padding: 56px 0 48px;
+      padding: 72px 0 64px;
+      min-height: calc(100vh - 80px);
     }
     .banner > .container {
       display: flex;
       flex-direction: column;
-      gap: 40px;
+      gap: 56px;
       width: 100%;
+      min-height: calc(100vh - 80px - 136px);
+      justify-content: center;
     }
     .banner__inner {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
       align-items: center;
-      gap: 32px 48px;
+      gap: 40px 32px;
     }
-    .banner__content { max-width: 700px; min-width: 0; }
+    .banner__content { max-width: 720px; min-width: 0; }
     .banner__title {
-      font-size: clamp(28px, 2.6vw, 48px);
+      font-size: clamp(30px, 2.8vw, 50px);
       font-weight: 500;
-      line-height: 1.08;
+      line-height: 1.12;
       margin-bottom: .7em;
       color: #fff;
+      hyphens: none;
+      -webkit-hyphens: none;
+      word-break: normal;
+      overflow-wrap: normal;
     }
+    .banner__title .nbsp { white-space: nowrap; }
     .banner__text {
-      font-size: clamp(16px, 1.3vw, 22px);
-      line-height: 1.35;
-      margin-bottom: 28px;
+      font-size: clamp(17px, 1.35vw, 24px);
+      line-height: 1.4;
+      margin-bottom: 32px;
       color: #fff;
       font-weight: 400;
     }
@@ -218,51 +203,48 @@
       align-items: center;
       justify-content: center;
       min-width: 0;
-      padding: 0 8px;
+      padding: 0;
     }
     .banner__picture img {
       display: block;
       width: auto;
       height: auto;
-      max-width: min(100%, 520px);
-      max-height: 520px;
+      max-width: 100%;
+      max-height: min(680px, 68vh);
       object-fit: contain;
     }
 
-    /* плашки ниже стойки — отдельный ряд, ничего не перекрывают */
-    .trust-plates {
-      margin-top: 0;
-    }
+    .trust-plates { margin-top: 0; }
     .trust-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
+      gap: 20px;
     }
     .trust-plate {
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.2);
       border-radius: var(--radius);
       height: 100%;
-      min-height: 0;
+      min-height: 168px;
     }
     .trust-plate__inner {
       height: 100%;
       border-radius: 3px;
-      padding: 16px 14px;
+      padding: 28px 24px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 12px;
     }
     .trust-plate__title {
       color: #fff;
-      font-size: 15px;
+      font-size: 20px;
       font-weight: 600;
       line-height: 1.25;
     }
     .trust-plate__text {
-      color: rgba(255,255,255,.78);
-      font-size: 13px;
-      line-height: 1.35;
+      color: rgba(255,255,255,.82);
+      font-size: 16px;
+      line-height: 1.4;
     }
 
     /* clients */
@@ -694,13 +676,16 @@
     }
     @media (max-width: 900px) {
       .search, .header-mail { display: none; }
-      .header-menu { display: none; }
       .banner__inner, .trust-grid, .tasks-grid, .products-grid,
       .benefits-grid, .cases-slider, .registry-grid, .form-grid,
       .poly-grid, .foot-grid, .metrics { grid-template-columns: 1fr; }
-      .banner { min-height: 0; padding: 28px 0 36px; }
-      .banner__picture img { max-height: 300px; }
-      .trust-plates { margin-top: 8px; }
+      .banner { min-height: 0; padding: 36px 0 40px; }
+      .banner > .container { min-height: 0; gap: 32px; }
+      .banner__picture img { max-height: 360px; }
+      .trust-plate { min-height: 0; }
+      .trust-plate__inner { padding: 20px 18px; }
+      .trust-plate__title { font-size: 18px; }
+      .trust-plate__text { font-size: 15px; }
       .cases-slider-item { padding: 24px 20px; min-height: auto; }
       .btn { width: 100%; }
       .banner__actions { width: 100%; }
@@ -720,24 +705,13 @@
       <a class="btn btn-turquoise" href="#form">Связаться с нами</a>
     </div>
   </header>
-  <nav class="header-menu" aria-label="Разделы">
-    <div class="container">
-      <a href="#products">Продукты</a>
-      <a href="https://www.skala-r.ru/about/" rel="noopener">О нас</a>
-      <a href="https://www.skala-r.ru/partners/" rel="noopener">Партнёры</a>
-      <a href="https://www.skala-r.ru/" rel="noopener">Поддержка</a>
-      <a class="is-active" href="#top">Решения для финсектора</a>
-      <a href="#polygon">Отраслевой полигон ИЦК «Финансы»</a>
-    </div>
-  </nav>
-
   <main>
     <!-- 1. Первый экран -->
     <section class="banner" id="top">
       <div class="container">
         <div class="banner__inner">
           <div class="banner__content">
-            <h1 class="banner__title">Построение надежной ИТ-инфраструктуры для бесперебойной работы высоконагруженных банковских систем</h1>
+            <h1 class="banner__title">Построение надежной <span class="nbsp">ИТ-инфраструктуры</span> для бесперебойной работы высоконагруженных банковских систем</h1>
             <p class="banner__text">Скала^р — российский разработчик программно-аппаратных комплексов и инфраструктурных решений для непрерывной работы банковских сервисов 24/7 без потери скорости и качества обслуживания клиентов</p>
             <div class="banner__actions">
               <a class="btn btn-turquoise" href="#form">Протестировать на полигоне</a>
