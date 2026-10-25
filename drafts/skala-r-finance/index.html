@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
-  <!-- build:20261025-1405 -->
+  <!-- build:20261025-1600 -->
   <title>Скала^р — ИТ-инфраструктура для банков</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,16 +12,19 @@
   <style>
     :root {
       --blue-dark: #102145;
+      --blue-deep: #0b1833;
       --blue: #0082b4;
       --blue-light: #32cddc;
       --text: #454f59;
       --gray: #8ca0b4;
-      --line: #d1daef;
-      --soft: #fafafa;
+      --line: #dfe6f1;
+      --soft: #f5f7fa;
       --white: #fff;
       --container: 1472px;
       --gutter: 16px;
       --radius: 5px;
+      --shadow: 0 1px 4px rgba(16,33,69,.1);
+      --shadow-lg: 0 12px 32px rgba(16,33,69,.12);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -32,10 +35,12 @@
       font-size: 16px;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
     img { max-width: 100%; display: block; }
     a { color: inherit; text-decoration: none; }
     ul { list-style: none; }
+    button, input, textarea { font: inherit; }
     .container {
       width: 100%;
       max-width: var(--container);
@@ -43,44 +48,71 @@
       padding-left: var(--gutter);
       padding-right: var(--gutter);
     }
-    .section { padding: 80px 0; }
-    .section-sm { padding: 40px 0; }
-    .bg-blue-dark { background: var(--blue-dark); }
+    .section { padding: 96px 0; }
+    .bg-blue-dark { background: var(--blue-dark); color: #fff; }
     .bg-blue { background: var(--blue); color: #fff; }
     .bg-soft { background: var(--soft); }
-    .text-white { color: #fff !important; }
+    .caret { color: var(--blue-light); }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 16px;
+    }
+    .eyebrow::before { content: ""; width: 24px; height: 2px; background: var(--blue-light); }
+    .bg-blue-dark .eyebrow, .bg-blue .eyebrow { color: var(--blue-light); }
     .h2 {
-      font-size: clamp(28px, 2.6vw, 40px);
+      font-size: clamp(28px, 2.7vw, 44px);
       font-weight: 500;
       line-height: 1.15;
       color: var(--blue-dark);
       letter-spacing: -.01em;
     }
-    .bg-blue .h2, .bg-blue-dark .h2 { color: #fff; }
+    .bg-blue .h2, .bg-blue-dark .h2, .form-section .h2 { color: #fff; }
+    .lead {
+      max-width: 880px;
+      font-size: clamp(17px, 1.3vw, 20px);
+      line-height: 1.5;
+      margin-top: 20px;
+    }
     .section-head {
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
       gap: 24px;
-      margin-bottom: 40px;
+      margin-bottom: 48px;
     }
     .link-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
       color: var(--blue-dark);
       font-size: 20px;
-      font-weight: 400;
-      padding-right: 26px;
-      background: url(assets/icon-arrow.svg) no-repeat right center / 18px auto;
       white-space: nowrap;
+      transition: color .2s;
     }
-    .bg-blue-dark .link-arrow { color: #fff; filter: brightness(10); }
+    .link-arrow::after {
+      content: "";
+      width: 18px; height: 12px;
+      background: url(assets/icon-arrow.svg) no-repeat center / contain;
+      transition: transform .2s;
+    }
+    .link-arrow:hover { color: var(--blue); }
+    .link-arrow:hover::after { transform: translateX(4px); }
 
-    /* ===== buttons — как на skala-r.ru: .btn.btn-lg ===== */
+    /* ===== buttons — как .btn.btn-lg на skala-r.ru ===== */
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: .8em 2.37em;
-      font-size: 1.25rem;
+      gap: 12px;
+      padding: .8em 2em;
+      font-size: 1.125rem;
       font-weight: 500;
       line-height: 1.2;
       border-radius: var(--radius);
@@ -88,693 +120,704 @@
       cursor: pointer;
       transition: filter .2s, background-color .2s, color .2s, border-color .2s;
       text-align: center;
-      white-space: nowrap;
     }
-    .btn-turquoise {
-      background: #32cddc;
-      border-color: #32cddc;
-      color: #fff;
-    }
-    .btn-turquoise:hover { filter: brightness(.95); color: #fff; }
-    .btn-outline-white {
-      background: transparent;
-      border-color: #fff;
-      color: #fff;
-    }
-    .btn-outline-white:hover {
-      background: #32cddc;
-      border-color: #32cddc;
-      color: #fff;
-    }
-    .btn-outline-blue-dark {
-      background: transparent;
-      border-color: #102145;
-      color: #102145;
-    }
-    .btn-outline-blue-dark:hover {
-      background: #102145;
-      border-color: #102145;
-      color: #fff;
-    }
+    .btn-turquoise { background: var(--blue-light); border-color: var(--blue-light); color: #fff; }
+    .btn-turquoise:hover { filter: brightness(.93); }
+    .btn-outline-white { background: transparent; border-color: rgba(255,255,255,.7); color: #fff; }
+    .btn-outline-white:hover { background: var(--blue-light); border-color: var(--blue-light); }
+    .btn-outline-blue-dark { background: transparent; border-color: var(--blue-dark); color: var(--blue-dark); }
+    .btn-outline-blue-dark:hover { background: var(--blue-dark); color: #fff; }
 
     /* ===== header ===== */
     .header-top {
-      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(8px);
       border-bottom: 1px solid #edf1f6;
     }
-    .header-top .container {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      min-height: 80px;
-    }
-    .logo img { height: 36px; width: auto; }
-    .search {
-      flex: 1;
-      max-width: 420px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      background: #f4f6f9;
-      border-radius: var(--radius);
-      padding: 0 16px;
-      gap: 10px;
-    }
-    .search input {
-      border: 0; background: transparent; width: 100%;
-      outline: none; font-size: 16px; color: var(--text);
-    }
-    .search img { width: 18px; opacity: .55; }
+    .header-top .container { display: flex; align-items: center; gap: 32px; min-height: 76px; }
+    .logo img { height: 34px; width: auto; }
+    .nav { display: flex; gap: 28px; font-size: 15px; color: var(--blue-dark); }
+    .nav a:hover { color: var(--blue); }
     .header-mail {
       margin-left: auto;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--blue-dark);
-      font-weight: 500;
-      font-size: 16px;
+      display: flex; align-items: center; gap: 8px;
+      color: var(--blue-dark); font-weight: 500; font-size: 15px;
     }
-    .header-mail img { width: 22px; }
-    /* ===== banner / hero ===== */
+    .header-mail img { width: 20px; }
+    .header-top .btn { font-size: 16px; padding: .7em 1.5em; }
+
+    /* ===== 1. hero ===== */
     .banner {
-      background: var(--blue-dark);
-      color: #fff;
       position: relative;
-      overflow: visible;
-      padding: 72px 0 64px;
-      min-height: calc(100vh - 80px);
+      overflow: hidden;
+      background:
+        radial-gradient(900px 520px at 78% 38%, rgba(50,205,220,.22), transparent 62%),
+        radial-gradient(700px 500px at 10% 110%, rgba(0,130,180,.35), transparent 60%),
+        var(--blue-dark);
+      color: #fff;
+      padding: 72px 0 56px;
     }
-    .banner > .container {
-      display: flex;
-      flex-direction: column;
-      gap: 56px;
-      width: 100%;
-      min-height: calc(100vh - 80px - 136px);
-      justify-content: center;
+    .banner::before {
+      content: "";
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: linear-gradient(180deg, transparent, #000 25%, #000 70%, transparent);
+      pointer-events: none;
     }
+    .banner .container { position: relative; }
     .banner__inner {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr);
       align-items: center;
-      gap: 40px 32px;
+      gap: 40px;
     }
-    .banner__content { max-width: 720px; min-width: 0; }
+    .banner__kicker {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 8px 14px;
+      border: 1px solid rgba(50,205,220,.45);
+      border-radius: 40px;
+      font-size: 14px;
+      color: var(--blue-light);
+      margin-bottom: 28px;
+    }
+    .banner__kicker::before {
+      content: ""; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--blue-light);
+      box-shadow: 0 0 0 4px rgba(50,205,220,.2);
+    }
     .banner__title {
-      font-size: clamp(30px, 2.8vw, 50px);
+      font-size: clamp(30px, 3.3vw, 56px);
       font-weight: 500;
-      line-height: 1.12;
-      margin-bottom: .7em;
-      color: #fff;
+      line-height: 1.1;
+      letter-spacing: -.015em;
+      margin-bottom: 28px;
       hyphens: none;
-      -webkit-hyphens: none;
-      word-break: normal;
-      overflow-wrap: normal;
     }
-    .banner__title .nbsp { white-space: nowrap; }
+    .banner__title em { font-style: normal; color: var(--blue-light); }
+    .nowrap { white-space: nowrap; }
     .banner__text {
-      font-size: clamp(17px, 1.35vw, 24px);
-      line-height: 1.4;
-      margin-bottom: 32px;
-      color: #fff;
-      font-weight: 400;
+      font-size: clamp(17px, 1.3vw, 21px);
+      line-height: 1.5;
+      color: rgba(255,255,255,.85);
+      max-width: 720px;
+      margin-bottom: 40px;
     }
     .banner__actions { display: flex; flex-wrap: wrap; gap: 16px; }
-    .banner__picture {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 0;
-      padding: 0;
+    .banner__picture { position: relative; display: flex; justify-content: center; }
+    .banner__picture::after {
+      content: "";
+      position: absolute; left: 50%; bottom: -8px;
+      width: 70%; height: 40px;
+      transform: translateX(-50%);
+      background: radial-gradient(closest-side, rgba(50,205,220,.45), transparent);
+      filter: blur(6px);
     }
-    .banner__picture img {
-      display: block;
-      width: auto;
-      height: auto;
-      max-width: 100%;
-      max-height: min(680px, 68vh);
-      object-fit: contain;
+    .banner__picture img { position: relative; z-index: 1; height: min(560px, 62vh); width: auto; }
+    .rack-tag {
+      position: absolute; z-index: 2;
+      background: rgba(16,33,69,.82);
+      border: 1px solid rgba(50,205,220,.4);
+      backdrop-filter: blur(6px);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      font-size: 13px;
+      line-height: 1.3;
+      color: rgba(255,255,255,.8);
+      white-space: nowrap;
     }
+    .rack-tag b { display: block; color: #fff; font-size: 20px; font-weight: 600; }
+    .rack-tag--1 { top: 14%; left: 0; }
+    .rack-tag--2 { top: 46%; right: 0; }
+    .rack-tag--3 { bottom: 12%; left: 4%; }
 
-    .trust-plates { margin-top: 0; }
     .trust-grid {
+      margin-top: 64px;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-    }
-    .trust-plate {
-      background: rgba(255,255,255,.07);
-      border: 1px solid rgba(255,255,255,.2);
+      border: 1px solid rgba(255,255,255,.16);
       border-radius: var(--radius);
-      height: 100%;
-      min-height: 168px;
+      background: rgba(255,255,255,.04);
     }
-    .trust-plate__inner {
-      height: 100%;
-      border-radius: 3px;
-      padding: 28px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+    .trust-plate { padding: 28px 28px 30px; position: relative; }
+    .trust-plate + .trust-plate { border-left: 1px solid rgba(255,255,255,.16); }
+    .trust-plate__icon {
+      width: 40px; height: 40px;
+      display: grid; place-items: center;
+      border-radius: var(--radius);
+      background: rgba(50,205,220,.14);
+      color: var(--blue-light);
+      margin-bottom: 18px;
     }
-    .trust-plate__title {
-      color: #fff;
-      font-size: 20px;
-      font-weight: 600;
-      line-height: 1.25;
-    }
-    .trust-plate__text {
-      color: rgba(255,255,255,.82);
-      font-size: 16px;
-      line-height: 1.4;
-    }
+    .trust-plate__icon svg { width: 22px; height: 22px; }
+    .trust-plate__title { color: #fff; font-size: 19px; font-weight: 600; line-height: 1.25; margin-bottom: 8px; }
+    .trust-plate__text { color: rgba(255,255,255,.72); font-size: 15px; line-height: 1.45; }
 
-    /* clients */
-    .home-clients__track {
-      display: flex;
-      gap: 48px;
-      align-items: center;
-      width: max-content;
-      animation: clients 32s linear infinite;
-    }
-    .home-clients__item {
-      width: 226px;
-      height: 134px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex: 0 0 auto;
-    }
-    .home-clients__item img {
-      max-width: 226px;
-      max-height: 134px;
-      object-fit: contain;
-      filter: grayscale(1);
-      opacity: .85;
-    }
+    /* ===== 2. clients ===== */
+    .clients { padding: 64px 0; border-bottom: 1px solid var(--line); }
+    .clients .section-head { margin-bottom: 32px; }
     .home-clients__slider {
       overflow: hidden;
-      mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
     }
-    @keyframes clients {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
+    .home-clients__track {
+      display: flex; gap: 40px; width: max-content;
+      animation: clients 36s linear infinite;
     }
+    .home-clients__slider:hover .home-clients__track { animation-play-state: paused; }
+    .home-clients__item { width: 200px; height: 118px; display: grid; place-items: center; flex: 0 0 auto; }
+    .home-clients__item img {
+      max-width: 200px; max-height: 118px; object-fit: contain;
+      filter: grayscale(1); opacity: .75; transition: filter .3s, opacity .3s;
+    }
+    .home-clients__item:hover img { filter: none; opacity: 1; }
+    @keyframes clients { to { transform: translateX(calc(-50% - 20px)); } }
 
-    /* tasks */
-    .tasks-lead {
-      max-width: 920px;
-      font-size: 20px;
-      line-height: 1.45;
-      color: var(--text);
-      margin: 20px 0 36px;
-    }
+    /* ===== 3. tasks ===== */
     .tasks-grid {
+      margin-top: 48px;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
     }
-    .task-plate {
+    .task {
       background: #fff;
-      padding: 2px;
       border-radius: var(--radius);
-      box-shadow: 0 1px 4px rgba(0,0,0,.1);
-      min-height: 140px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+      display: flex; flex-direction: column; gap: 22px;
+      transition: box-shadow .25s, transform .25s;
     }
-    .task-plate__inner {
-      height: 100%;
-      background: #fff;
-      border-radius: 3px;
-      padding: 24px;
-      font-size: 18px;
-      line-height: 1.35;
-      color: var(--blue-dark);
-      font-weight: 500;
+    .task:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+    .task__top { display: flex; align-items: center; justify-content: space-between; }
+    .task__icon {
+      width: 48px; height: 48px; border-radius: var(--radius);
+      background: rgba(0,130,180,.08); color: var(--blue);
+      display: grid; place-items: center;
     }
+    .task__icon svg { width: 26px; height: 26px; }
+    .task__num { font-size: 14px; font-weight: 600; color: var(--gray); }
+    .task p { font-size: 19px; line-height: 1.35; font-weight: 500; color: var(--blue-dark); }
+
     .metrics {
       margin-top: 32px;
       display: grid;
-      grid-template-columns: 1.2fr repeat(3, 1fr);
-      gap: 16px;
+      grid-template-columns: 1.1fr repeat(3, 1fr);
       background: var(--blue-dark);
-      color: #fff;
       border-radius: var(--radius);
-      padding: 28px 32px;
+      overflow: hidden;
+      color: #fff;
     }
-    .metrics__label { font-size: 18px; font-weight: 500; }
-    .metrics__label span { display: block; color: #b8c4d6; font-size: 14px; font-weight: 400; margin-top: 6px; }
-    .metrics b { display: block; color: var(--blue-light); font-size: 28px; font-weight: 600; line-height: 1.1; }
-    .metrics small { display: block; color: #c5d0e0; font-size: 14px; margin-top: 4px; }
+    .metrics > div { padding: 32px; }
+    .metrics > div + div { border-left: 1px solid rgba(255,255,255,.12); }
+    .metrics__label { font-size: 20px; font-weight: 600; display: flex; flex-direction: column; justify-content: center; }
+    .metrics__label span { color: rgba(255,255,255,.6); font-size: 14px; font-weight: 400; margin-top: 6px; }
+    .metrics b { display: block; color: var(--blue-light); font-size: clamp(32px, 3vw, 48px); font-weight: 600; line-height: 1; }
+    .metrics small { display: block; color: rgba(255,255,255,.75); font-size: 15px; margin-top: 10px; }
 
-    /* products — плашки как home-product-thumb 336×304 */
-    .products-intro {
-      max-width: 920px;
-      margin-bottom: 40px;
-    }
+    /* ===== 4. products ===== */
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1.15fr 1fr;
+      grid-template-rows: 1fr 1fr;
       gap: 24px;
-      align-items: stretch;
     }
-    .home-product-thumb {
-      min-height: 304px;
-    }
-    .home-product-thumb__animation {
-      height: 100%;
-      min-height: 304px;
+    .prod {
       background: #fff;
-      padding: 2px;
       border-radius: var(--radius);
-      box-shadow: 0 1px 4px rgba(0,0,0,.1);
+      box-shadow: var(--shadow);
+      padding: 32px;
+      display: grid;
+      grid-template-columns: 1fr 120px;
+      gap: 8px 24px;
+      align-content: start;
+      transition: box-shadow .25s;
     }
-    .home-product-thumb.is-active .home-product-thumb__animation {
-      background-image:
-        linear-gradient(#32cddc,#32cddc),
-        linear-gradient(#32cddc,#32cddc),
-        linear-gradient(#32cddc,#32cddc),
-        linear-gradient(#32cddc,#32cddc);
-      background-size: 100% 3px, 3px 100%, 100% 3px, 3px 100%;
-      background-position: 0 0, 100% 0, 0 100%, 0 0;
-      background-repeat: no-repeat;
+    .prod:hover { box-shadow: var(--shadow-lg); }
+    .prod__pic { grid-column: 2; grid-row: 1 / span 3; align-self: start; }
+    .prod__pic img { max-height: 150px; margin-left: auto; }
+    .prod h3 { font-size: 24px; font-weight: 600; color: var(--blue-dark); line-height: 1.2; }
+    .prod p { font-size: 16px; line-height: 1.5; }
+    .prod .btn { justify-self: start; margin-top: 16px; font-size: 16px; padding: .7em 1.6em; }
+    .prod--main {
+      grid-row: span 2;
+      grid-template-columns: 1fr;
+      background:
+        radial-gradient(520px 320px at 85% 0%, rgba(50,205,220,.25), transparent 65%),
+        var(--blue-dark);
+      color: rgba(255,255,255,.85);
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
     }
-    .home-product-thumb__inner {
-      height: 100%;
-      min-height: 300px;
-      background: #fff;
-      border-radius: 3px;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      text-align: left;
+    .prod--main .prod__badge {
+      justify-self: start;
+      font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+      color: var(--blue-dark); background: var(--blue-light);
+      border-radius: 3px; padding: 5px 10px; margin-bottom: 12px;
     }
-    .home-product-thumb__picture {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 140px;
-      margin-bottom: 12px;
-    }
-    .home-product-thumb__picture img {
-      max-width: 137px;
-      max-height: 140px;
-      object-fit: contain;
-    }
-    .home-product-thumb h3 {
-      font-size: 20px;
-      font-weight: 600;
-      color: var(--blue-dark);
-      margin-bottom: 8px;
-      line-height: 1.25;
-    }
-    .home-product-thumb p {
-      font-size: 15px;
-      line-height: 1.4;
-      color: var(--text);
-      margin-bottom: 14px;
-      flex: 1;
-    }
+    .prod--main h3 { color: #fff; font-size: clamp(28px, 2.4vw, 38px); }
+    .prod--main p { max-width: 520px; font-size: 18px; }
+    .prod--main .prod__pic { position: absolute; right: 32px; top: 40px; grid-column: auto; grid-row: auto; }
+    .prod--main .prod__pic img { max-height: 220px; }
+    .prod--main h3, .prod--main p, .prod--main .prod__badge { margin-right: 170px; }
     .prod-stats {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px 12px;
-      margin-bottom: 16px;
+      gap: 1px;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 28px;
     }
-    .prod-stats b { display: block; color: var(--blue-dark); font-size: 16px; }
-    .prod-stats span { color: var(--gray); font-size: 12px; }
-    .home-product-thumb .btn {
-      width: 100%;
-      padding: .65em 1.2em;
-      font-size: 1rem;
-    }
+    .prod-stats > div { background: var(--blue-dark); padding: 20px 22px; }
+    .prod-stats b { display: block; color: var(--blue-light); font-size: clamp(22px, 2vw, 30px); font-weight: 600; line-height: 1.1; }
+    .prod-stats span { display: block; color: rgba(255,255,255,.72); font-size: 14px; margin-top: 6px; line-height: 1.35; }
+    .prod--main .btn { margin-top: 28px; }
 
-    /* registry */
-    .registry { color: #fff; }
-    .registry-note {
-      color: #b8c4d6;
-      font-size: 18px;
-      max-width: 560px;
-      margin: 16px 0 28px;
-    }
+    /* ===== 5. registry ===== */
     .registry-grid {
       display: grid;
-      grid-template-columns: 1fr .9fr;
-      gap: 48px;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 64px;
       align-items: start;
+      margin-top: 48px;
     }
-    .registry-block + .registry-block {
-      margin-top: 28px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255,255,255,.18);
+    .reg-group + .reg-group { margin-top: 28px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.14); }
+    .reg-group h3 { font-size: 24px; font-weight: 500; color: #fff; margin-bottom: 8px; }
+    .reg-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      width: 100%;
+      text-align: left;
+      background: none; border: 0;
+      padding: 12px 14px 12px 0;
+      color: rgba(255,255,255,.7);
+      font-size: 17px; line-height: 1.4;
+      cursor: pointer;
+      transition: color .2s;
     }
-    .registry-block h3 {
-      font-size: 28px;
-      font-weight: 500;
-      margin-bottom: 12px;
+    .reg-item::before {
+      content: ""; flex: 0 0 8px; height: 8px; margin-top: 8px;
+      border-radius: 50%; border: 1px solid rgba(255,255,255,.4);
+      transition: background .2s, border-color .2s;
     }
-    .registry-thumb {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      padding: 14px 0 14px 24px;
-      font-size: 18px;
-      color: #e8eef6;
-      background: url(assets/icon-arrow.svg) no-repeat left 0 center / 14px auto;
-      filter: brightness(10);
-      opacity: .85;
-    }
-    .registry-thumb:hover { opacity: 1; }
-    .registry-preview {
+    .reg-item:hover { color: #fff; }
+    .reg-item.is-active { color: #fff; }
+    .reg-item.is-active::before { background: var(--blue-light); border-color: var(--blue-light); box-shadow: 0 0 0 4px rgba(50,205,220,.2); }
+    .reg-preview { position: sticky; top: 108px; }
+    .reg-preview__frame {
       background: #fff;
       border-radius: var(--radius);
-      padding: 12px;
-      box-shadow: 0 1px 4px rgba(0,0,0,.15);
+      padding: 16px;
+      aspect-ratio: 703 / 564;
+      display: grid; place-items: center;
     }
+    .reg-preview__frame img { max-height: 100%; width: auto; object-fit: contain; }
+    .reg-preview__caption { margin-top: 20px; font-size: 17px; color: rgba(255,255,255,.85); min-height: 3em; }
+    .reg-preview .btn { margin-top: 16px; }
 
-    /* polygon */
-    .poly-grid {
+    /* ===== 6. polygon ===== */
+    .poly-top {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 64px;
+      align-items: end;
+    }
+    .poly-top .lead { margin-top: 0; }
+    .poly-grid {
+      margin-top: 56px;
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1fr;
+      grid-template-rows: auto auto;
       gap: 24px;
-      margin-top: 36px;
     }
     .poly-card {
       background: #fff;
-      padding: 2px;
-      border-radius: var(--radius);
-      box-shadow: 0 1px 4px rgba(0,0,0,.1);
-    }
-    .poly-card__inner {
-      background: var(--soft);
-      border-radius: 3px;
-      padding: 28px 24px;
-      min-height: 180px;
-    }
-    .poly-card h3 {
-      color: var(--blue-dark);
-      font-size: 22px;
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
-    .poly-card p { font-size: 16px; line-height: 1.45; color: var(--text); }
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin: 28px 0 24px;
-    }
-    .chip {
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 12px 18px;
-      color: var(--blue-dark);
-      font-weight: 600;
-      background: #fff;
-      font-size: 16px;
+      padding: 32px;
     }
-
-    /* benefits */
-    .home-benefits { padding: 55px 0 70px; }
-    .home-benefits .h2 { margin-bottom: 40px; }
-    .benefits-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 40px 32px;
-    }
-    .benefit-item h3 {
-      font-size: 22px;
-      font-weight: 600;
-      margin: 12px 0;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      color: #fff;
-    }
-    .benefit-item img { width: 48px; height: 48px; }
-    .benefit-item p {
-      color: rgba(255,255,255,.92);
-      font-size: 16px;
-      line-height: 1.45;
-    }
-
-    /* cases — padding 56×64, radius 5, shadow */
-    .cases-slider {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-    .cases-slider-item {
-      background: #fff;
-      border-radius: var(--radius);
-      box-shadow: 0 0 10px rgba(51,51,51,.15);
-      padding: 56px 40px 32px;
-      min-height: 360px;
-      display: flex;
-      flex-direction: column;
-    }
-    .cases-slider-item h3 {
-      font-size: 24px;
-      font-weight: 600;
-      color: var(--blue-dark);
-      margin-bottom: 16px;
-      line-height: 1.25;
-    }
-    .cases-slider-item .sub {
-      color: var(--blue-dark);
-      font-size: 18px;
-      font-weight: 600;
+    .poly-card__icon {
+      width: 48px; height: 48px; border-radius: var(--radius);
+      display: grid; place-items: center;
+      background: rgba(0,130,180,.08); color: var(--blue);
       margin-bottom: 20px;
     }
-    .cases-slider-item ul { padding-left: 18px; list-style: disc; color: var(--text); }
-    .cases-slider-item li { margin: 8px 0; font-size: 16px; }
-    .cases-slider-item__progress {
-      margin-top: auto;
-      height: 2px;
-      background: #e2e2e2;
-      position: relative;
+    .poly-card__icon svg { width: 26px; height: 26px; }
+    .poly-card h3 { color: var(--blue-dark); font-size: 22px; font-weight: 600; margin-bottom: 12px; }
+    .poly-card p { font-size: 16px; line-height: 1.55; }
+    .poly-card--role {
+      grid-row: span 2;
+      background: var(--blue-dark);
+      border-color: var(--blue-dark);
+      color: rgba(255,255,255,.82);
+      display: flex; flex-direction: column;
     }
-    .cases-slider-item__progress-inner {
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 40%;
-      background: #32cddc;
+    .poly-card--role h3 { color: #fff; font-size: 26px; }
+    .poly-card--role p { font-size: 18px; }
+    .poly-card--role .poly-card__icon { background: rgba(50,205,220,.14); color: var(--blue-light); }
+    .poly-card--role .role-facts { margin-top: auto; padding-top: 32px; display: grid; gap: 12px; }
+    .role-facts li { display: flex; gap: 12px; font-size: 15px; color: #fff; }
+    .role-facts li::before { content: ""; flex: 0 0 18px; height: 18px; margin-top: 2px; background: var(--blue-light); mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center / contain no-repeat; }
+    .poly-card--wide { grid-column: span 2; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .tags-label { margin-top: 16px; font-size: 14px; color: var(--gray); }
+    .tags-label + .tags { margin-top: 8px; }
+    .tags span { font-size: 14px; color: var(--blue-dark); background: var(--soft); border-radius: 3px; padding: 6px 10px; }
+    .poly-bottom {
+      margin-top: 48px;
+      padding-top: 40px;
+      border-top: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap;
     }
+    .poly-partners { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+    .poly-partners__label { font-size: 15px; color: var(--gray); }
+    .poly-logo {
+      height: 64px; min-width: 150px; padding: 0 22px;
+      display: grid; place-items: center;
+      border: 1px dashed var(--line);
+      border-radius: var(--radius);
+      font-weight: 700; font-size: 18px; letter-spacing: .02em;
+      color: #6b7a8c;
+      filter: grayscale(1);
+    }
+    .poly-logo img { max-height: 40px; width: auto; }
+
+    /* ===== 7. benefits ===== */
+    .benefits-grid {
+      margin-top: 48px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,.2);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .benefit-item { background: var(--blue); padding: 36px 32px; transition: background .25s; }
+    .benefit-item:hover { background: #0a8cbe; }
+    .benefit-item img { width: 54px; height: 54px; margin-bottom: 22px; }
+    .benefit-item h3 { font-size: 22px; font-weight: 600; color: #fff; margin-bottom: 12px; }
+    .benefit-item p { color: rgba(255,255,255,.88); font-size: 16px; line-height: 1.5; }
+
+    /* ===== 8. cases ===== */
     .case-nav { display: flex; gap: 8px; }
     .case-nav button {
-      width: 44px; height: 44px;
+      width: 48px; height: 48px;
       border-radius: var(--radius);
       border: 1px solid var(--line);
       background: #fff;
       cursor: pointer;
-      font-size: 18px;
+      display: grid; place-items: center;
       color: var(--blue-dark);
+      transition: background .2s, color .2s, border-color .2s;
     }
-
-    /* partners */
-    .partners-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 32px 48px;
-      align-items: center;
-    }
-    .partners-grid img {
-      height: 56px;
-      width: auto;
-      max-width: 180px;
-      object-fit: contain;
-      filter: grayscale(1);
-      opacity: .85;
-    }
-
-    /* form */
-    .form-grid {
+    .case-nav button:hover { background: var(--blue-dark); border-color: var(--blue-dark); color: #fff; }
+    .case-nav svg { width: 20px; height: 20px; }
+    .cases-track {
       display: grid;
-      grid-template-columns: 1fr .95fr;
-      gap: 56px;
-      align-items: start;
+      grid-auto-flow: column;
+      grid-auto-columns: calc((100% - 48px) / 3);
+      gap: 24px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding: 8px 4px 24px;
+      margin: -8px -4px 0;
+      scrollbar-width: none;
     }
-    .form-lead {
-      color: #c5d0e0;
-      font-size: 20px;
-      line-height: 1.45;
-      margin-top: 18px;
-      max-width: 560px;
+    .cases-track::-webkit-scrollbar { display: none; }
+    .case {
+      scroll-snap-align: start;
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: 0 0 10px rgba(51,51,51,.12);
+      padding: 40px 36px 32px;
+      display: flex; flex-direction: column;
     }
-    .form-contacts {
-      margin-top: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      font-size: 20px;
+    .case__tag { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--blue); margin-bottom: 16px; }
+    .case h3 { font-size: 24px; font-weight: 600; color: var(--blue-dark); margin-bottom: 14px; line-height: 1.25; }
+    .case .sub { color: var(--blue-dark); font-size: 17px; font-weight: 500; margin-bottom: 20px; opacity: .8; }
+    .case ul { display: grid; gap: 10px; margin-bottom: 28px; }
+    .case li { position: relative; padding-left: 20px; font-size: 16px; line-height: 1.45; }
+    .case li::before { content: ""; position: absolute; left: 0; top: 9px; width: 8px; height: 2px; background: var(--blue-light); }
+    .case__progress { margin-top: auto; height: 2px; background: #e6e9ee; }
+    .case__progress i { display: block; height: 100%; background: var(--blue-light); }
+    .cases-dots { display: flex; gap: 8px; justify-content: center; margin-top: 8px; }
+    .cases-dots button { width: 8px; height: 8px; padding: 0; border-radius: 50%; border: 0; background: #cdd5e0; cursor: pointer; transition: width .2s, background .2s; }
+    .cases-dots button.is-active { width: 28px; border-radius: 4px; background: var(--blue-light); }
+
+    /* ===== 9. partners ===== */
+    .partners-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 24px;
+    }
+    .partner {
+      height: 132px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      display: grid; place-items: center;
+      padding: 16px;
+      transition: border-color .25s, box-shadow .25s;
+    }
+    .partner img { max-height: 90px; width: auto; object-fit: contain; filter: grayscale(1); opacity: .8; transition: filter .3s, opacity .3s; }
+    .partner:hover { border-color: transparent; box-shadow: var(--shadow-lg); }
+    .partner:hover img { filter: none; opacity: 1; }
+
+    /* ===== 10. form ===== */
+    .form-section {
+      background:
+        radial-gradient(700px 420px at 100% 0%, rgba(50,205,220,.18), transparent 60%),
+        var(--blue-dark);
       color: #fff;
     }
-    .form-contacts a:hover { color: var(--blue-light); }
-    form { display: grid; gap: 12px; }
-    form input, form textarea {
-      width: 100%;
-      height: 56px;
-      border-radius: var(--radius);
-      border: 0;
-      padding: 0 18px;
-      font-size: 16px;
-      color: var(--text);
-    }
-    form textarea { height: 120px; padding: 16px 18px; resize: vertical; }
-    .check {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      font-size: 13px;
-      color: #c5d0e0;
-    }
-    .check input { margin-top: 3px; }
-    .form-ok {
-      display: none;
-      background: #fff;
-      color: var(--blue-dark);
-      border-radius: var(--radius);
-      padding: 28px;
-    }
-    .form-ok.is-on { display: block; }
-
-    /* footer */
-    footer {
-      background: #0c1a36;
-      color: #c5d0e0;
-      padding: 48px 0 28px;
-      font-size: 14px;
-    }
-    .foot-grid {
+    .form-grid {
       display: grid;
-      grid-template-columns: 1.2fr 1fr 1fr 1fr;
-      gap: 28px;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 72px;
+      align-items: start;
     }
+    .form-lead { color: rgba(255,255,255,.78); font-size: 19px; line-height: 1.5; margin-top: 20px; max-width: 600px; }
+    .form-steps { margin-top: 36px; display: grid; gap: 16px; counter-reset: step; }
+    .form-steps li { display: flex; gap: 16px; align-items: center; font-size: 17px; color: rgba(255,255,255,.9); }
+    .form-steps li::before {
+      counter-increment: step; content: counter(step);
+      flex: 0 0 36px; height: 36px; border-radius: 50%;
+      display: grid; place-items: center;
+      border: 1px solid rgba(50,205,220,.5); color: var(--blue-light); font-weight: 600; font-size: 15px;
+    }
+    .form-contacts { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 12px 32px; font-size: 20px; }
+    .form-contacts a { display: inline-flex; align-items: center; gap: 10px; }
+    .form-contacts a:hover { color: var(--blue-light); }
+    .form-card { background: #fff; border-radius: var(--radius); padding: 40px; color: var(--text); }
+    .form-card h3 { color: var(--blue-dark); font-size: 24px; font-weight: 600; margin-bottom: 24px; }
+    form { display: grid; gap: 16px; }
+    .field { display: grid; gap: 6px; }
+    .field label { font-size: 14px; color: var(--blue-dark); font-weight: 500; }
+    .field label span { color: var(--gray); font-weight: 400; }
+    .field input, .field textarea {
+      width: 100%;
+      height: 52px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--soft);
+      padding: 0 16px;
+      font-size: 16px;
+      color: var(--blue-dark);
+      outline: none;
+      transition: border-color .2s, background .2s;
+    }
+    .field textarea { height: 112px; padding: 14px 16px; resize: vertical; }
+    .field input:focus, .field textarea:focus { border-color: var(--blue-light); background: #fff; }
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .check { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; line-height: 1.4; cursor: pointer; }
+    .check input { flex: 0 0 18px; width: 18px; height: 18px; margin-top: 1px; accent-color: var(--blue-light); }
+    .check a { color: var(--blue); text-decoration: underline; }
+    form .btn { width: 100%; margin-top: 4px; }
+    .form-ok { display: none; text-align: center; padding: 40px 8px; }
+    .form-ok.is-on { display: block; }
+    .form-ok b { display: block; color: var(--blue-dark); font-size: 24px; margin: 16px 0 8px; }
+    .form-ok svg { width: 56px; height: 56px; color: var(--blue-light); margin: 0 auto; }
+
+    /* ===== footer ===== */
+    footer { background: var(--blue-deep); color: #b9c4d6; padding: 56px 0 28px; font-size: 14px; }
+    .foot-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 32px; }
     footer h4 { color: #fff; font-size: 16px; font-weight: 600; margin-bottom: 14px; }
     footer a { display: block; padding: 4px 0; }
     footer a:hover { color: var(--blue-light); }
-    .socials { display: flex; gap: 10px; margin-top: 16px; }
-    .socials a {
-      width: 36px; height: 36px;
-      background: rgba(255,255,255,.08);
-      border-radius: var(--radius);
-      display: grid; place-items: center;
-    }
+    .foot-contacts { margin-top: 20px; display: grid; gap: 4px; font-size: 15px; color: #fff; }
+    .socials { display: flex; gap: 10px; margin-top: 18px; }
+    .socials a { width: 36px; height: 36px; padding: 0; background: rgba(255,255,255,.08); border-radius: var(--radius); display: grid; place-items: center; }
+    .socials a:hover { background: rgba(50,205,220,.25); }
     .socials img { width: 18px; height: 18px; filter: brightness(0) invert(1); }
     .foot-bottom {
       border-top: 1px solid rgba(255,255,255,.12);
-      margin-top: 32px;
-      padding-top: 18px;
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      color: #8b97ab;
+      margin-top: 40px; padding-top: 20px;
+      display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+      color: #7f8ba0;
     }
+    .foot-bottom a { display: inline; padding: 0; }
 
-    @media (max-width: 1200px) {
-      .trust-grid, .tasks-grid, .products-grid, .benefits-grid, .cases-slider { grid-template-columns: 1fr 1fr; }
-      .banner__inner, .registry-grid, .form-grid, .poly-grid, .foot-grid { grid-template-columns: 1fr 1fr; }
-      .metrics { grid-template-columns: 1fr 1fr; }
+    /* ===== responsive ===== */
+    @media (max-width: 1280px) {
+      .nav { display: none; }
+      .trust-grid { grid-template-columns: 1fr 1fr; }
+      .trust-plate:nth-child(3) { border-left: 0; }
+      .trust-plate:nth-child(n+3) { border-top: 1px solid rgba(255,255,255,.16); }
+      .poly-grid { grid-template-columns: 1fr 1fr; }
+      .poly-card--role { grid-row: auto; grid-column: span 2; }
+      .partners-grid { grid-template-columns: repeat(3, 1fr); }
+      .cases-track { grid-auto-columns: calc((100% - 24px) / 2); }
     }
-    @media (max-width: 900px) {
-      .search, .header-mail { display: none; }
-      .banner__inner, .trust-grid, .tasks-grid, .products-grid,
-      .benefits-grid, .cases-slider, .registry-grid, .form-grid,
-      .poly-grid, .foot-grid, .metrics { grid-template-columns: 1fr; }
-      .banner { min-height: 0; padding: 36px 0 40px; }
-      .banner > .container { min-height: 0; gap: 32px; }
-      .banner__picture img { max-height: 360px; }
-      .trust-plate { min-height: 0; }
-      .trust-plate__inner { padding: 20px 18px; }
-      .trust-plate__title { font-size: 18px; }
-      .trust-plate__text { font-size: 15px; }
-      .cases-slider-item { padding: 24px 20px; min-height: auto; }
-      .btn { width: 100%; }
-      .banner__actions { width: 100%; }
-      .section { padding: 48px 0; }
+    @media (max-width: 1024px) {
+      .banner__inner, .products-grid, .registry-grid, .poly-top, .form-grid { grid-template-columns: 1fr; }
+      .banner__picture { display: none; }
+      .tasks-grid, .benefits-grid { grid-template-columns: 1fr 1fr; }
+      .metrics { grid-template-columns: repeat(3, 1fr); }
+      .metrics__label { grid-column: span 3; border-bottom: 1px solid rgba(255,255,255,.12); }
+      .metrics > div:nth-child(2) { border-left: 0; }
+      .prod--main { grid-row: auto; }
+      .products-grid { grid-template-rows: none; }
+      .reg-preview { position: static; }
+      .poly-top { gap: 20px; }
+      .foot-grid { grid-template-columns: 1fr 1fr; }
+      .form-grid { gap: 40px; }
+    }
+    @media (max-width: 720px) {
+      .section { padding: 64px 0; }
+      .header-mail { display: none; }
+      .header-top .container { min-height: 64px; justify-content: space-between; }
+      .header-top .btn { font-size: 14px; padding: .65em 1em; }
+      .logo img { height: 28px; }
+      .banner { padding: 40px 0 40px; }
+      .banner__kicker { font-size: 12px; margin-bottom: 20px; }
+      .banner__actions .btn { width: 100%; }
+      .trust-grid { grid-template-columns: 1fr; margin-top: 40px; }
+      .trust-plate + .trust-plate { border-left: 0; border-top: 1px solid rgba(255,255,255,.16); }
+      .trust-plate { padding: 22px 20px; }
+      .section-head { flex-direction: column; align-items: flex-start; margin-bottom: 32px; }
+      .link-arrow { font-size: 17px; }
+      .tasks-grid, .benefits-grid, .poly-grid, .partners-grid { grid-template-columns: 1fr; }
+      .partners-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .partner { height: 100px; }
+      .poly-card--role, .poly-card--wide { grid-column: auto; }
+      .metrics { grid-template-columns: 1fr; }
+      .metrics__label { grid-column: auto; }
+      .metrics > div + div { border-left: 0; border-top: 1px solid rgba(255,255,255,.12); }
+      .metrics > div { padding: 22px 24px; }
+      .prod, .prod--main { padding: 24px; grid-template-columns: 1fr; }
+      .prod__pic { grid-column: auto; grid-row: auto; }
+      .prod__pic img { margin: 0; max-height: 110px; }
+      .prod--main .prod__pic { position: static; }
+      .prod--main .prod__pic img { max-height: 150px; }
+      .prod--main h3, .prod--main p, .prod--main .prod__badge { margin-right: 0; }
+      .prod .btn, .prod--main .btn { width: 100%; }
+      .prod-stats { grid-template-columns: 1fr; }
+      .prod-stats > div { padding: 16px; }
+      .prod__pic { display: none; }
+      .h2 br { display: none; }
+      .registry-grid { gap: 32px; margin-top: 32px; }
+      .cases-track { grid-auto-columns: 88%; gap: 16px; }
+      .case { padding: 28px 22px 24px; }
+      .case h3 { font-size: 20px; }
+      .row-2 { grid-template-columns: 1fr; }
+      .form-card { padding: 24px 20px; }
+      .form-contacts { font-size: 17px; }
+      .poly-logo { min-width: 0; flex: 1 1 40%; }
+      .foot-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-stack" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 7.5 12 12l9-4.5L12 3Z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/></symbol>
+      <symbol id="i-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-6 4 12 2-6h6"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></symbol>
+      <symbol id="i-puzzle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 17.5h7M17.5 14v7"/></symbol>
+      <symbol id="i-db" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.5"/><path d="M4.5 5.5v6c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5v-6"/><path d="M4.5 11.5v7c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5v-7"/></symbol>
+      <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15c-1.5 1.3-2 4-2 6 2 0 4.7-.5 6-2"/><path d="M9 15 6.5 12.5C8 7 12 3.5 20.5 3.5 20.5 12 17 16 11.5 17.5L9 15Z"/><circle cx="15" cy="9" r="1.6"/></symbol>
+      <symbol id="i-group" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><path d="M10 6.5h4.5a3 3 0 0 1 3 3V14"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+      <symbol id="i-bank" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 4l9 5.5"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8"/><path d="M3 20.5h18"/></symbol>
+      <symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6.5A1.5 1.5 0 0 0 5 4.5v15A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V8l-5-5Z"/><path d="M14 3v5h5M8.5 13h7M8.5 17h5"/></symbol>
+      <symbol id="i-gauge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18a8 8 0 1 1 16 0"/><path d="m12 14 4-5"/><circle cx="12" cy="14" r="1.3"/></symbol>
+      <symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5.5 9.5A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.5-2.5L14 9V3"/><path d="M7.5 15h9"/></symbol>
+      <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></symbol>
+    </defs>
+  </svg>
+
   <header class="header-top">
     <div class="container">
       <a class="logo" href="https://www.skala-r.ru/" rel="noopener"><img src="assets/logo-dark.svg" alt="Скала^р" /></a>
-      <div class="search">
-        <input type="search" placeholder="Поиск по сайту" aria-label="Поиск по сайту" />
-        <img src="assets/icon-search.svg" alt="" />
-      </div>
+      <nav class="nav" aria-label="Разделы страницы">
+        <a href="#tasks">Задачи банка</a>
+        <a href="#products">Решения</a>
+        <a href="#polygon">Полигон ИЦК «Финансы»</a>
+        <a href="#cases">Проекты</a>
+      </nav>
       <a class="header-mail" href="mailto:info@skala-r.ru"><img src="assets/icon-mail.svg" alt="" /> info@skala-r.ru</a>
       <a class="btn btn-turquoise" href="#form">Связаться с нами</a>
     </div>
   </header>
+
   <main>
     <!-- 1. Первый экран -->
     <section class="banner" id="top">
       <div class="container">
         <div class="banner__inner">
-          <div class="banner__content">
-            <h1 class="banner__title">Построение надежной <span class="nbsp">ИТ-инфраструктуры</span> для бесперебойной работы высоконагруженных банковских систем</h1>
-            <p class="banner__text">Скала^р — российский разработчик программно-аппаратных комплексов и инфраструктурных решений для непрерывной работы банковских сервисов 24/7 без потери скорости и качества обслуживания клиентов</p>
+          <div>
+            <div class="banner__kicker">Решения для финансового сектора</div>
+            <h1 class="banner__title">Построение надежной <span class="nowrap">ИТ-инфраструктуры</span> для бесперебойной работы <em>высоконагруженных банковских систем</em></h1>
+            <p class="banner__text">Скала<span class="caret">^</span>р — российский разработчик программно-аппаратных комплексов и инфраструктурных решений для непрерывной работы банковских сервисов 24/7 без потери скорости и качества обслуживания клиентов</p>
             <div class="banner__actions">
               <a class="btn btn-turquoise" href="#form">Протестировать на полигоне</a>
               <a class="btn btn-outline-white" href="#products">Смотреть решения</a>
             </div>
           </div>
           <div class="banner__picture">
-            <img src="assets/hero-rack.png" alt="Модульная платформа Скала^р" />
+            <img src="assets/hero-rack-crop.png" alt="Программно-аппаратный комплекс Скала^р" />
+            <div class="rack-tag rack-tag--1"><b>24/7</b>непрерывная работа</div>
+            <div class="rack-tag rack-tag--2"><b>99,99%</b>доступность</div>
+            <div class="rack-tag rack-tag--3"><b>КИИ</b>требования регуляторов</div>
           </div>
         </div>
-        <div class="trust-plates">
-          <div class="trust-grid">
-            <article class="trust-plate">
-              <div class="trust-plate__inner">
-                <div class="trust-plate__title">Входит в Группу Rubytech</div>
-                <div class="trust-plate__text">Разработчика технологий для высоконагруженных ИТ-инфраструктур</div>
-              </div>
-            </article>
-            <article class="trust-plate">
-              <div class="trust-plate__inner">
-                <div class="trust-plate__title">10+ лет на рынке</div>
-                <div class="trust-plate__text">Своя линейка ПАК с 2015 года</div>
-              </div>
-            </article>
-            <article class="trust-plate">
-              <div class="trust-plate__inner">
-                <div class="trust-plate__title">Оператор полигона ИЦК «Финансы»</div>
-                <div class="trust-plate__text">Проект при поддержке Банка России. Тестовые стенды работают на платформе Скала^р</div>
-              </div>
-            </article>
-            <article class="trust-plate">
-              <div class="trust-plate__inner">
-                <div class="trust-plate__title">В реестрах Минпромторга и Минцифры</div>
-                <div class="trust-plate__text">Соответствуют требованиям регуляторов и подходят для объектов КИИ</div>
-              </div>
-            </article>
+
+        <div class="trust-grid">
+          <div class="trust-plate">
+            <div class="trust-plate__icon"><svg><use href="#i-group"/></svg></div>
+            <div class="trust-plate__title">Входит в Группу Rubytech</div>
+            <div class="trust-plate__text">Разработчика технологий для высоконагруженных ИТ-инфраструктур</div>
+          </div>
+          <div class="trust-plate">
+            <div class="trust-plate__icon"><svg><use href="#i-clock"/></svg></div>
+            <div class="trust-plate__title">10+ лет на рынке</div>
+            <div class="trust-plate__text">Своя линейка ПАК с 2015 года</div>
+          </div>
+          <div class="trust-plate">
+            <div class="trust-plate__icon"><svg><use href="#i-bank"/></svg></div>
+            <div class="trust-plate__title">Оператор полигона ИЦК «Финансы»</div>
+            <div class="trust-plate__text">Проект при поддержке Банка России. Тестовые стенды работают на платформе Скала^р</div>
+          </div>
+          <div class="trust-plate">
+            <div class="trust-plate__icon"><svg><use href="#i-doc"/></svg></div>
+            <div class="trust-plate__title">В реестрах Минпромторга и Минцифры</div>
+            <div class="trust-plate__text">Соответствуют требованиям регуляторов и подходят для объектов КИИ</div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- 2. Нам доверяют -->
-    <section class="section-sm" id="trust">
+    <section class="clients" id="trust">
       <div class="container">
         <div class="section-head">
           <h2 class="h2">Нам доверяют</h2>
-          <a class="link-arrow" href="https://www.skala-r.ru/" rel="noopener">Все заказчики</a>
+          <a class="link-arrow" href="https://www.skala-r.ru/about/cases/" rel="noopener">Все заказчики</a>
         </div>
-        <div class="home-clients__slider" aria-hidden="true">
+        <div class="home-clients__slider">
           <div class="home-clients__track">
-            <div class="home-clients__item"><img src="assets/trust-1.png" alt="" /></div>
-            <div class="home-clients__item"><img src="assets/trust-2.png" alt="" /></div>
-            <div class="home-clients__item"><img src="assets/trust-3.png" alt="" /></div>
-            <div class="home-clients__item"><img src="assets/trust-4.png" alt="" /></div>
-            <div class="home-clients__item"><img src="assets/trust-5.png" alt="" /></div>
-            <div class="home-clients__item"><img src="assets/trust-6.png" alt="" /></div>
-            <div class="home-clients__item"><img src="assets/trust-1.png" alt="" /></div>
-            <div class="home-clients__item"><img src="assets/trust-2.png" alt="" /></div>
-            <div class="home-clients__item"><img src="assets/trust-3.png" alt="" /></div>
-            <div class="home-clients__item"><img src="assets/trust-4.png" alt="" /></div>
-            <div class="home-clients__item"><img src="assets/trust-5.png" alt="" /></div>
-            <div class="home-clients__item"><img src="assets/trust-6.png" alt="" /></div>
+            <div class="home-clients__item"><img src="assets/trust-1.png" alt="ВТБ" /></div>
+            <div class="home-clients__item"><img src="assets/trust-2.png" alt="Администрация города Перми" /></div>
+            <div class="home-clients__item"><img src="assets/trust-3.png" alt="Федеральная налоговая служба" /></div>
+            <div class="home-clients__item"><img src="assets/trust-4.png" alt="Газпромбанк" /></div>
+            <div class="home-clients__item"><img src="assets/trust-5.png" alt="Пенсионный фонд России" /></div>
+            <div class="home-clients__item"><img src="assets/trust-6.png" alt="Почта России" /></div>
+            <div class="home-clients__item" aria-hidden="true"><img src="assets/trust-1.png" alt="" /></div>
+            <div class="home-clients__item" aria-hidden="true"><img src="assets/trust-2.png" alt="" /></div>
+            <div class="home-clients__item" aria-hidden="true"><img src="assets/trust-3.png" alt="" /></div>
+            <div class="home-clients__item" aria-hidden="true"><img src="assets/trust-4.png" alt="" /></div>
+            <div class="home-clients__item" aria-hidden="true"><img src="assets/trust-5.png" alt="" /></div>
+            <div class="home-clients__item" aria-hidden="true"><img src="assets/trust-6.png" alt="" /></div>
           </div>
         </div>
       </div>
@@ -783,15 +826,16 @@
     <!-- 3. Задачи банка -->
     <section class="section bg-soft" id="tasks">
       <div class="container">
-        <h2 class="h2">Задачи банка при развитии высоконагруженной ИТ-инфраструктуры</h2>
-        <p class="tasks-lead">Банку нужна гибкая и безопасная инфраструктура, которая обеспечивает бесперебойную работу сервисов 24/7 и позволяет развиваться с минимальными рисками. Для этого необходимо:</p>
+        <div class="eyebrow">Задачи</div>
+        <h2 class="h2">Задачи банка при развитии высоконагруженной <span class="nowrap">ИТ-инфраструктуры</span></h2>
+        <p class="lead">Банку нужна гибкая и безопасная инфраструктура, которая обеспечивает бесперебойную работу сервисов 24/7 и позволяет развиваться с минимальными рисками. Для этого необходимо:</p>
         <div class="tasks-grid">
-          <div class="task-plate"><div class="task-plate__inner">Перейти на российский стек без остановки бизнес-процессов</div></div>
-          <div class="task-plate"><div class="task-plate__inner">Обеспечить непрерывность бизнес-процессов при пиковых нагрузках</div></div>
-          <div class="task-plate"><div class="task-plate__inner">Выполнить требования ИБ и регуляторов к объектам КИИ</div></div>
-          <div class="task-plate"><div class="task-plate__inner">Обеспечить совместимость оборудования, системного ПО и прикладных систем в сложной инфраструктуре</div></div>
-          <div class="task-plate"><div class="task-plate__inner">Сохранить критически важные данные при авариях</div></div>
-          <div class="task-plate"><div class="task-plate__inner">Быстро запускать новые сервисы и масштабироваться</div></div>
+          <div class="task"><div class="task__top"><div class="task__icon"><svg><use href="#i-stack"/></svg></div><span class="task__num">01</span></div><p>Перейти на российский стек без остановки бизнес-процессов</p></div>
+          <div class="task"><div class="task__top"><div class="task__icon"><svg><use href="#i-pulse"/></svg></div><span class="task__num">02</span></div><p>Обеспечить непрерывность бизнес-процессов при пиковых нагрузках</p></div>
+          <div class="task"><div class="task__top"><div class="task__icon"><svg><use href="#i-shield"/></svg></div><span class="task__num">03</span></div><p>Выполнить требования ИБ и регуляторов к объектам КИИ</p></div>
+          <div class="task"><div class="task__top"><div class="task__icon"><svg><use href="#i-puzzle"/></svg></div><span class="task__num">04</span></div><p>Обеспечить совместимость оборудования, системного ПО и прикладных систем в сложной инфраструктуре</p></div>
+          <div class="task"><div class="task__top"><div class="task__icon"><svg><use href="#i-db"/></svg></div><span class="task__num">05</span></div><p>Сохранить критически важные данные при авариях</p></div>
+          <div class="task"><div class="task__top"><div class="task__icon"><svg><use href="#i-rocket"/></svg></div><span class="task__num">06</span></div><p>Быстро запускать новые сервисы и масштабироваться</p></div>
         </div>
         <div class="metrics">
           <div class="metrics__label">Требования к процессингу<span>ориентиры нагрузки для банковских систем</span></div>
@@ -805,141 +849,171 @@
     <!-- 4. Продукты -->
     <section class="section" id="products">
       <div class="container">
-        <h2 class="h2 products-intro">Российские ПАК и инфраструктурные решения для проектов любого уровня сложности</h2>
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Решения</div>
+            <h2 class="h2">Российские ПАК и инфраструктурные решения <br />для проектов любого уровня сложности</h2>
+          </div>
+        </div>
         <div class="products-grid">
-          <article class="home-product-thumb is-active">
-            <div class="home-product-thumb__animation">
-              <div class="home-product-thumb__inner">
-                <div class="home-product-thumb__picture"><img src="assets/thumb-db.png" alt="" /></div>
-                <h3>Скала^р МСП.БС</h3>
-                <p>Готовый ПАК под ключ для транзакционных нагрузок с предустановленной СУБД и прикладным ПО для специализированных банковских систем.</p>
-                <div class="prod-stats">
-                  <div><b>до 135 000</b><span>транзакций/сек</span></div>
-                  <div><b>до 160 ТБ</b><span>данных</span></div>
-                  <div><b>1 час</b><span>восстановление</span></div>
-                  <div><b>несколько ЦОД</b><span>геораспределение</span></div>
-                </div>
-                <a class="btn btn-outline-blue-dark" href="https://www.skala-r.ru/products/" rel="noopener">Подробнее о МСП.БС</a>
-              </div>
+          <article class="prod prod--main">
+            <div class="prod__badge">Для банковских систем</div>
+            <h3>Скала<span class="caret">^</span>р МСП.БС</h3>
+            <p>Готовый ПАК под ключ для транзакционных нагрузок с предустановленной СУБД и прикладным ПО для специализированных банковских систем.</p>
+            <div class="prod__pic"><img src="assets/thumb-db.png" alt="" /></div>
+            <div class="prod-stats">
+              <div><b>до 135 000</b><span>транзакций в секунду</span></div>
+              <div><b>до 160 ТБ</b><span>данных под высокой нагрузкой</span></div>
+              <div><b>1 час</b><span>восстановление данных</span></div>
+              <div><b>Геораспределение</b><span>между несколькими ЦОД</span></div>
             </div>
+            <a class="btn btn-turquoise" href="https://www.skala-r.ru/products/pac-for-banking-system/" rel="noopener">Подробнее о МСП.БС</a>
           </article>
-          <article class="home-product-thumb">
-            <div class="home-product-thumb__animation">
-              <div class="home-product-thumb__inner">
-                <div class="home-product-thumb__picture"><img src="assets/thumb-mdi.png" alt="" /></div>
-                <h3>Линейка ПАК</h3>
-                <p>Готовые решения для СУБД, виртуализации, резервного копирования и работы с большими данными.</p>
-                <a class="btn btn-outline-blue-dark" href="https://www.skala-r.ru/products/" rel="noopener">Смотреть все ПАК</a>
-              </div>
-            </div>
+          <article class="prod">
+            <h3>Линейка ПАК</h3>
+            <p>Готовые решения для СУБД, виртуализации, резервного копирования и работы с большими данными.</p>
+            <div class="prod__pic"><img src="assets/thumb-mdi.png" alt="" /></div>
+            <a class="btn btn-outline-blue-dark" href="https://www.skala-r.ru/products/" rel="noopener">Смотреть все ПАК</a>
           </article>
-          <article class="home-product-thumb">
-            <div class="home-product-thumb__animation">
-              <div class="home-product-thumb__inner">
-                <div class="home-product-thumb__picture"><img src="assets/thumb-store.png" alt="" /></div>
-                <h3>Инфраструктурные решения под задачи заказчика</h3>
-                <p>Бесшовный переход на российский стек, катастрофоустойчивые метро- и геокластеры для сохранности критически важных данных.</p>
-                <a class="btn btn-outline-blue-dark" href="#form">Подобрать решение</a>
-              </div>
-            </div>
+          <article class="prod">
+            <h3>Инфраструктурные решения под задачи заказчика</h3>
+            <p>Бесшовный переход на российский стек, катастрофоустойчивые метро- и геокластеры для сохранности критически важных данных.</p>
+            <div class="prod__pic"><img src="assets/thumb-store.png" alt="" /></div>
+            <a class="btn btn-outline-blue-dark" href="#form">Подобрать решение</a>
           </article>
         </div>
       </div>
     </section>
 
     <!-- 5. Реестр -->
-    <section class="section bg-blue-dark registry" id="registry">
+    <section class="section bg-blue-dark" id="registry">
       <div class="container">
+        <div class="eyebrow">Соответствие требованиям</div>
         <h2 class="h2">Реестр РФ</h2>
         <div class="registry-grid">
           <div>
-            <p class="registry-note">Реестр организаций, осуществляющих деятельность в сфере радиоэлектронной промышленности</p>
-            <div class="registry-block">
+            <div class="reg-group">
+              <h3>Скала<span class="caret">^</span>р</h3>
+              <button class="reg-item is-active" type="button" data-img="assets/cert-extract.png" data-link="https://gisp.gov.ru/company-catalog/company/75" data-label="Перейти по ссылке">Реестр организаций, осуществляющих деятельность в сфере радиоэлектронной промышленности</button>
+            </div>
+            <div class="reg-group">
               <h3>Продукты</h3>
-              <div class="registry-thumb">Заключение о подтверждении производства промышленной продукции на территории РФ № 719 Модули Скала^р (80336)</div>
-              <div class="registry-thumb">Заключение о подтверждении производства промышленной продукции на территории РФ № 719 Модули Скала^р (35154)</div>
+              <button class="reg-item" type="button" data-img="assets/extra-logo-1.png" data-link="https://www.skala-r.ru/upload/iblock/8c1/uoh90h4nrtfr02e0dlx9h7hvr1tw3m33/Заключение о подтверждении производства промышленной продукции на территории РФ № 719 Модули (80336).pdf">Заключение о подтверждении производства промышленной продукции на территории РФ № 719 Модули Скала^р (80336)</button>
+              <button class="reg-item" type="button" data-img="assets/extra-logo-2.png" data-link="https://www.skala-r.ru/upload/iblock/ffe/uun94npx0cmz8kue6jgi2ewb082rplcs/Заключение о подтверждении производства промышленной продукции на территории РФ № 719 Модули (35154).pdf">Заключение о подтверждении производства промышленной продукции на территории РФ № 719 Модули Скала^р (35154)</button>
             </div>
-            <div class="registry-block">
+            <div class="reg-group">
               <h3>Свидетельство</h3>
-              <div class="registry-thumb">Свидетельство о государственной регистрации программы для ЭВМ Скала^р Спектр</div>
-              <div class="registry-thumb">Свидетельство о государственной регистрации программы для ЭВМ Скала^р Геном</div>
-              <div class="registry-thumb">Свидетельство о государственной регистрации программы для ЭВМ Скала^р Визион</div>
+              <button class="reg-item" type="button" data-img="assets/cert-spektr.jpg" data-link="https://www.skala-r.ru/upload/iblock/09a/jldaiu17k7ppdvm9zqt8ckzik8unxrwg/Svidetelstvo_o_registratsii_Skala_r_Spektr-_1_.pdf">Свидетельство о государственной регистрации программы для ЭВМ Скала^р Спектр</button>
+              <button class="reg-item" type="button" data-img="https://www.skala-r.ru/upload/resize_cache/iblock/19b/rk2j9zn5syp3tqp8j8t1theudv1uc6td/703_564_1/Сведетельство о государственной регистрации программы для ЭВМ Скала^р Геном.png" data-link="https://www.skala-r.ru/upload/iblock/c58/ow641sokb0ktq082e0tgc65usdy9un5a/Свидетельство о государственной регистрации программы для ЭВМ Скала^р Геном.pdf">Свидетельство о государственной регистрации программы для ЭВМ Скала^р Геном</button>
+              <button class="reg-item" type="button" data-img="https://www.skala-r.ru/upload/resize_cache/iblock/c5c/703_564_1/ex4w94b3778qxl3001pub1yb3os6prn9.png" data-link="https://www.skala-r.ru/upload/iblock/d4b/m1x3qc3p7pbc1ywupmhka4oopbe75ahr/Свидетельство о государственной регистрации программы для ЭВМ Скала^р Визион.pdf">Свидетельство о государственной регистрации программы для ЭВМ Скала^р Визион</button>
             </div>
-            <div class="registry-block">
+            <div class="reg-group">
               <h3>Лицензии</h3>
-              <div class="registry-thumb">Скала^р Геном</div>
-              <div class="registry-thumb">Скала^р Визион</div>
-              <div class="registry-thumb">Скала^р Спектр S3</div>
+              <button class="reg-item" type="button" data-img="https://www.skala-r.ru/upload/resize_cache/iblock/c6a/a6kupmbvnlln6hrxcw2o2p8259pukpf4/703_564_1/Skala_r_Genom.jpg" data-link="https://www.skala-r.ru/upload/iblock/f65/oeoicdid2je3ug3nfmo0qhxsjj7lku10/skala_r_genom.pdf">Скала^р Геном</button>
+              <button class="reg-item" type="button" data-img="https://www.skala-r.ru/upload/resize_cache/iblock/bad/y4bhsta1tr2ej0f1sw5z3yrus9ze2rt7/703_564_1/Skala_r_Spektr.jpg" data-link="https://www.skala-r.ru/upload/iblock/6a4/nxyblk1prl1vdhgtthvod6uzqh0tsbny/skala_r_spektr.pdf">Скала^р Спектр</button>
+              <button class="reg-item" type="button" data-img="https://www.skala-r.ru/upload/resize_cache/iblock/056/71hi1f467ojrinubw9te3kxocf14m0vp/703_564_1/Skala_r_Vizion.jpg" data-link="https://www.skala-r.ru/upload/iblock/82f/w19ehtq05zmv6nufugz56gzdvcx1vmix/skala_r_vizion.pdf">Скала^р Визион</button>
+              <button class="reg-item" type="button" data-img="https://www.skala-r.ru/upload/resize_cache/iblock/316/f5tzzgxmihw0nexeqean1aeuig0ucob2/703_564_1/c41a1200_daf3_4298_8228_1b6122736f5c.jpg" data-link="https://www.skala-r.ru/upload/iblock/14e/n0349z0dppfifnrnceeqpnm32l3lcpq6/skala_r_spektr_s3.pdf">Скала^р Спектр S3</button>
             </div>
           </div>
-          <div class="registry-preview">
-            <img src="assets/cert-spektr.jpg" alt="Свидетельство о государственной регистрации Скала^р Спектр" />
+          <div class="reg-preview">
+            <div class="reg-preview__frame"><img id="regImg" src="assets/cert-extract.png" alt="" /></div>
+            <p class="reg-preview__caption" id="regCaption">Реестр организаций, осуществляющих деятельность в сфере радиоэлектронной промышленности</p>
+            <a class="btn btn-outline-white" id="regLink" href="https://gisp.gov.ru/company-catalog/company/75" target="_blank" rel="noopener">Перейти по ссылке <svg width="20" height="20"><use href="#i-arrow"/></svg></a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 6. Полигон -->
+    <!-- 6. Полигон ИЦК «Финансы» -->
     <section class="section" id="polygon">
       <div class="container">
-        <h2 class="h2">Отраслевая экспертиза и особый подход, проверенные на полигоне ИЦК «Финансы»</h2>
-        <p class="tasks-lead">Полигон ИЦК «Финансы» — проект при поддержке Банка России, где проверяют российские решения для высоконагруженных систем финансового сектора в условиях, близких к реальным.</p>
+        <div class="poly-top">
+          <div>
+            <div class="eyebrow">Полигон ИЦК «Финансы»</div>
+            <h2 class="h2">Отраслевая экспертиза и особый подход, проверенные на полигоне ИЦК «Финансы»</h2>
+          </div>
+          <p class="lead">Полигон ИЦК «Финансы» — проект при поддержке Банка России, где проверяют российские решения для высоконагруженных систем финансового сектора в условиях, близких к реальным.</p>
+        </div>
         <div class="poly-grid">
-          <div class="poly-card"><div class="poly-card__inner">
-            <h3>Роль Скала^р</h3>
+          <div class="poly-card poly-card--role">
+            <div class="poly-card__icon"><svg><use href="#i-bank"/></svg></div>
+            <h3>Роль Скала<span class="caret">^</span>р</h3>
             <p>Мы являемся оператором площадки: стенды для тестирования АБС и процессинга работают на Модульной платформе Скала^р. Эксперты компании входят в рабочие группы ИЦК «Финансы» и участвуют в выработке единых подходов к построению высоконагруженных систем.</p>
-          </div></div>
-          <div class="poly-card"><div class="poly-card__inner">
+            <ul class="role-facts">
+              <li>Оператор площадки полигона</li>
+              <li>Стенды АБС и процессинга на Модульной платформе Скала^р</li>
+              <li>Эксперты в рабочих группах ИЦК «Финансы»</li>
+            </ul>
+          </div>
+          <div class="poly-card">
+            <div class="poly-card__icon"><svg><use href="#i-gauge"/></svg></div>
             <h3>Как проходят испытания</h3>
             <p>В зависимости от целей тестирования: от ежедневных операций до стресс-тестов. Проверяются совместимость, производительность и надежность решений для значимых объектов КИИ.</p>
-          </div></div>
-          <div class="poly-card"><div class="poly-card__inner">
+          </div>
+          <div class="poly-card">
+            <div class="poly-card__icon"><svg><use href="#i-flask"/></svg></div>
             <h3>Что тестируют</h3>
-            <p>АБС, процессинг, ДБО, учетные системы НПФ, микросервисные платформы: контейнеризация, виртуализация, СУБД, low-code.</p>
-          </div></div>
-          <div class="poly-card"><div class="poly-card__inner">
+            <div class="tags">
+              <span>АБС</span><span>Процессинг</span><span>ДБО</span><span>Учетные системы НПФ</span>
+            </div>
+            <p class="tags-label">Микросервисные платформы:</p>
+            <div class="tags">
+              <span>Контейнеризация</span><span>Виртуализация</span><span>СУБД</span><span>Low-code</span>
+            </div>
+          </div>
+          <div class="poly-card poly-card--wide">
+            <div class="poly-card__icon"><svg><use href="#i-target"/></svg></div>
             <h3>Результат для заказчика</h3>
             <p>Подтвержденная совместимость ПАК Скала^р с прикладным ПО участников полигона. Вы можете проверить на полигоне свои банковские системы, а по результатам мы подберем инфраструктурное решение под ваши задачи.</p>
-          </div></div>
+          </div>
         </div>
-        <p style="margin-top:28px;color:var(--blue-dark);font-weight:600;font-size:18px">Партнеры проекта</p>
-        <div class="chips">
-          <span class="chip">ЦФТ</span>
-          <span class="chip">Компас Плюс</span>
-          <span class="chip">БПС</span>
-          <span class="chip">Лектон Сигма</span>
+        <div class="poly-bottom">
+          <div class="poly-partners">
+            <span class="poly-partners__label">Партнеры проекта</span>
+            <!-- Заглушки: заменить на логотипы ЦФТ, Компас Плюс, БПС, Лектон Сигма -->
+            <div class="poly-logo">ЦФТ</div>
+            <div class="poly-logo">Компас Плюс</div>
+            <div class="poly-logo">БПС</div>
+            <div class="poly-logo">Лектон Сигма</div>
+          </div>
+          <a class="btn btn-turquoise" href="#form">Протестировать на полигоне</a>
         </div>
-        <a class="btn btn-turquoise" href="#form">Протестировать на полигоне</a>
       </div>
     </section>
 
-    <!-- 7. Почему заказчики -->
-    <section class="home-benefits bg-blue" id="why">
+    <!-- 7. Почему заказчики выбирают Скала^р -->
+    <section class="section bg-blue" id="why">
       <div class="container">
-        <h2 class="h2">Почему заказчики выбирают Скала^р</h2>
+        <h2 class="h2">Почему заказчики выбирают Скала<span class="caret">^</span>р</h2>
         <div class="benefits-grid">
           <div class="benefit-item">
-            <h3><img src="assets/benefits-1.svg" alt="" /> Исключительная надежность</h3>
+            <img src="assets/benefits-1.svg" alt="" />
+            <h3>Исключительная надежность</h3>
             <p>Безусловное соблюдение принципов отказоустойчивости и масштабируемости на уровне архитектуры соответствует требованиям для использования в критичных и высоконагруженных корпоративных и государственных информационных системах</p>
           </div>
           <div class="benefit-item">
-            <h3><img src="assets/benefits-2.svg" alt="" /> Скорость развертывания</h3>
+            <img src="assets/benefits-2.svg" alt="" />
+            <h3>Скорость развертывания</h3>
             <p>Продукты Скала^р являются преднастроенными Машинами и позволяют осуществлять быстрое развертывание и ввод в эксплуатацию</p>
           </div>
           <div class="benefit-item">
-            <h3><img src="assets/benefits-3.svg" alt="" /> Экономическая эффективность</h3>
+            <img src="assets/benefits-3.svg" alt="" />
+            <h3>Экономическая эффективность</h3>
             <p>Снижение совокупной стоимости владения (TCO)</p>
           </div>
           <div class="benefit-item">
-            <h3><img src="assets/benefits-4.svg" alt="" /> Удобство расширения</h3>
+            <img src="assets/benefits-4.svg" alt="" />
+            <h3>Удобство расширения</h3>
             <p>Использование унифицированных модулей позволяет гибко расширять инфраструктуру в соответствии с изменяющимися требованиями бизнеса при изменении нагрузки</p>
           </div>
           <div class="benefit-item">
-            <h3><img src="assets/benefits-5.svg" alt="" /> Простая интеграция</h3>
+            <img src="assets/benefits-5.svg" alt="" />
+            <h3>Простая интеграция</h3>
             <p>Модульный принцип обеспечивает интеграцию разнородных компонентов ИТ-инфраструктуры в единую платформу предприятий, корпораций и ведомств</p>
           </div>
           <div class="benefit-item">
-            <h3><img src="assets/benefits-6.svg" alt="" /> Поддержка 24/7</h3>
+            <img src="assets/benefits-6.svg" alt="" />
+            <h3>Поддержка 24/7</h3>
             <p>Единые поддержка и сервисное обслуживание для всех продуктов линейки Скала^р от производителя обеспечивают оперативное разрешение инцидентов на стыке технологий</p>
           </div>
         </div>
@@ -951,16 +1025,17 @@
       <div class="container">
         <div class="section-head">
           <h2 class="h2">Примеры реализованных проектов</h2>
-          <div style="display:flex;gap:16px;align-items:center">
+          <div style="display:flex;gap:24px;align-items:center">
             <a class="link-arrow" href="https://www.skala-r.ru/about/cases/" rel="noopener">Все проекты</a>
             <div class="case-nav">
-              <button type="button" id="prevCase" aria-label="Назад">←</button>
-              <button type="button" id="nextCase" aria-label="Вперёд">→</button>
+              <button type="button" id="prevCase" aria-label="Назад"><svg style="transform:scaleX(-1)"><use href="#i-arrow"/></svg></button>
+              <button type="button" id="nextCase" aria-label="Вперёд"><svg><use href="#i-arrow"/></svg></button>
             </div>
           </div>
         </div>
-        <div class="cases-slider" id="casesTrack">
-          <article class="cases-slider-item">
+        <div class="cases-track" id="casesTrack">
+          <article class="case">
+            <div class="case__tag">Госсектор</div>
             <h3>Инфраструктура для высоконагруженной базы данных в рамках Гособлака</h3>
             <div class="sub">Миграция высоконагруженной БД с СУБД Oracle на СУБД Postgres Pro</div>
             <ul>
@@ -968,9 +1043,10 @@
               <li>Работа с базой данных размером более 20 ТБ</li>
               <li>Производительность до 3 000 транзакций в секунду и до 12 000 запросов в секунду</li>
             </ul>
-            <div class="cases-slider-item__progress"><div class="cases-slider-item__progress-inner" style="width:45%"></div></div>
+            <div class="case__progress"><i style="width:45%"></i></div>
           </article>
-          <article class="cases-slider-item">
+          <article class="case">
+            <div class="case__tag">Банк</div>
             <h3>Инфраструктура для единого аналитического хранилища банка</h3>
             <div class="sub">Модернизация платформы данных и создание целевого единого хранилища</div>
             <ul>
@@ -979,9 +1055,10 @@
               <li>Сокращение time-to-market в 2 раза</li>
               <li>Сокращение сроков формирования управленческой отчётности с 6 дней до 1 дня</li>
             </ul>
-            <div class="cases-slider-item__progress"><div class="cases-slider-item__progress-inner" style="width:62%"></div></div>
+            <div class="case__progress"><i style="width:62%"></i></div>
           </article>
-          <article class="cases-slider-item">
+          <article class="case">
+            <div class="case__tag">Хранение данных</div>
             <h3>Электронный архив — объектное S3 хранилище</h3>
             <div class="sub">Построение катастрофоустойчивой инфраструктуры объектного хранилища</div>
             <ul>
@@ -989,9 +1066,10 @@
               <li>Сохранность данных и штатная работа в условиях потери одного ЦОД</li>
               <li>Сохранность данных обеспечивается за счет наличия механизма георепликации</li>
             </ul>
-            <div class="cases-slider-item__progress"><div class="cases-slider-item__progress-inner" style="width:48%"></div></div>
+            <div class="case__progress"><i style="width:48%"></i></div>
           </article>
-          <article class="cases-slider-item">
+          <article class="case">
+            <div class="case__tag">Распределенная сеть</div>
             <h3>Комплексная инфраструктура 2 ЦОДа, 4000 отделений</h3>
             <div class="sub">Создание единой отказоустойчивой системы</div>
             <ul>
@@ -999,9 +1077,10 @@
               <li>Сохранность и защищенность данных всех физических лиц РФ</li>
               <li>Катастрофоустойчивое решение</li>
             </ul>
-            <div class="cases-slider-item__progress"><div class="cases-slider-item__progress-inner" style="width:74%"></div></div>
+            <div class="case__progress"><i style="width:74%"></i></div>
           </article>
-          <article class="cases-slider-item">
+          <article class="case">
+            <div class="case__tag">Социальная сфера</div>
             <h3>Единая цифровая платформа в социальной сфере</h3>
             <div class="sub">Создание единой отказоустойчивой системы</div>
             <ul>
@@ -1009,13 +1088,14 @@
               <li>Модернизация действующих систем</li>
               <li>Глубокая переработка системы «Прямые выплаты страхового обеспечения» и «Электронный листок нетрудоспособности»</li>
             </ul>
-            <div class="cases-slider-item__progress"><div class="cases-slider-item__progress-inner" style="width:33%"></div></div>
+            <div class="case__progress"><i style="width:33%"></i></div>
           </article>
         </div>
+        <div class="cases-dots" id="casesDots"></div>
       </div>
     </section>
 
-    <!-- 9. Техпартнеры -->
+    <!-- 9. Технологические партнеры -->
     <section class="section" id="partners">
       <div class="container">
         <div class="section-head">
@@ -1023,38 +1103,49 @@
           <a class="link-arrow" href="https://www.skala-r.ru/partners/" rel="noopener">Все партнеры</a>
         </div>
         <div class="partners-grid">
-          <img src="assets/partner-1.png" alt="" />
-          <img src="assets/partner-2.png" alt="" />
-          <img src="assets/partner-3.png" alt="" />
-          <img src="assets/partner-4.png" alt="" />
-          <img src="assets/partner-5.png" alt="" />
-          <img src="assets/extra-logo-1.png" alt="" />
-          <img src="assets/extra-logo-2.png" alt="" />
+          <div class="partner"><img src="assets/partner-1.png" alt="Альт Линукс" /></div>
+          <div class="partner"><img src="assets/partner-2.png" alt="Arenadata DB" /></div>
+          <div class="partner"><img src="assets/partner-3.png" alt="Лаборатория Касперского" /></div>
+          <div class="partner"><img src="assets/partner-4.png" alt="РедСофт" /></div>
+          <div class="partner"><img src="assets/partner-5.png" alt="Postgres Pro" /></div>
         </div>
       </div>
     </section>
 
     <!-- 10. Форма -->
-    <section class="section bg-blue-dark" id="form">
+    <section class="section form-section" id="form">
       <div class="container form-grid">
         <div>
-          <h2 class="h2">Протестируйте свои системы и решения Скала^р на полигоне ИЦК «Финансы»</h2>
+          <div class="eyebrow">Заявка на тестирование</div>
+          <h2 class="h2">Протестируйте свои системы и решения Скала<span class="caret">^</span>р на полигоне ИЦК «Финансы»</h2>
           <p class="form-lead">Бесплатно проведем испытания под высокими нагрузками в условиях, близких к боевым. По результатам эксперты подберут решение под ваши бизнес-задачи.</p>
+          <ol class="form-steps">
+            <li>Оставьте заявку — эксперт свяжется с вами</li>
+            <li>Испытания ваших систем на стендах полигона</li>
+            <li>Подбор инфраструктурного решения по результатам</li>
+          </ol>
           <div class="form-contacts">
             <a href="mailto:info@skala-r.ru">info@skala-r.ru</a>
             <a href="tel:+74952342222">+7 495 234 2222</a>
           </div>
         </div>
-        <div>
+        <div class="form-card">
           <form id="leadForm">
-            <input name="name" required placeholder="Имя *" />
-            <input name="phone" type="tel" placeholder="Телефон" />
-            <input name="email" type="email" required placeholder="Email *" />
-            <textarea name="message" placeholder="Ваше сообщение (необязательно)"></textarea>
-            <label class="check"><input type="checkbox" required /> Я даю согласие на обработку персональных данных</label>
+            <h3>Оставить заявку</h3>
+            <div class="field"><label for="f-name">Имя</label><input id="f-name" name="name" required autocomplete="name" /></div>
+            <div class="row-2">
+              <div class="field"><label for="f-phone">Телефон</label><input id="f-phone" name="phone" type="tel" required autocomplete="tel" placeholder="+7" /></div>
+              <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" required autocomplete="email" /></div>
+            </div>
+            <div class="field"><label for="f-msg">Ваше сообщение <span>(необязательно)</span></label><textarea id="f-msg" name="message"></textarea></div>
+            <label class="check"><input type="checkbox" required /> <span>Я даю согласие на <a href="https://www.skala-r.ru/" rel="noopener">обработку персональных данных</a></span></label>
             <button class="btn btn-turquoise" type="submit">Отправить заявку</button>
           </form>
-          <div class="form-ok" id="formOk">Заявка принята. Это черновик страницы: форма не отправляется на сервер Скала^р.</div>
+          <div class="form-ok" id="formOk">
+            <svg><use href="#i-check"/></svg>
+            <b>Заявка отправлена</b>
+            <p>Эксперт свяжется с вами в течение рабочего дня. (Черновик: форма не отправляется на сервер.)</p>
+          </div>
         </div>
       </div>
     </section>
@@ -1064,10 +1155,10 @@
     <div class="container foot-grid">
       <div>
         <a class="logo" href="https://www.skala-r.ru/" rel="noopener"><img src="assets/logo-light.svg" alt="Скала^р" /></a>
-        <div class="form-contacts" style="font-size:15px;margin-top:18px">
+        <div class="foot-contacts">
           <a href="tel:+74952342222">+7 495 234 2222</a>
           <a href="mailto:info@skala-r.ru">info@skala-r.ru</a>
-          <span>129085, Москва, ул. Годовикова, д. 9, стр. 17</span>
+          <span style="color:#b9c4d6">129085, Москва, ул. Годовикова, д. 9, стр. 17</span>
         </div>
         <div class="socials">
           <a href="https://t.me" rel="noopener"><img src="assets/telegram.svg" alt="Telegram" /></a>
@@ -1078,50 +1169,81 @@
       </div>
       <div>
         <h4>Продукты</h4>
-        <a href="https://www.skala-r.ru/products/" rel="noopener">Скала^р МИИ</a>
-        <a href="https://www.skala-r.ru/products/" rel="noopener">Скала^р МДИ</a>
-        <a href="https://www.skala-r.ru/products/" rel="noopener">Скала^р МБД</a>
-        <a href="https://www.skala-r.ru/products/" rel="noopener">Скала^р МБД.8</a>
-        <a href="https://www.skala-r.ru/products/" rel="noopener">Скала^р МХД</a>
+        <a href="https://www.skala-r.ru/products/pac-for-banking-system/" rel="noopener">Скала^р МСП.БС</a>
+        <a href="https://www.skala-r.ru/products/db-station/" rel="noopener">Скала^р МБД</a>
+        <a href="https://www.skala-r.ru/products/bigdata/" rel="noopener">Скала^р МБД.8</a>
+        <a href="https://www.skala-r.ru/products/vm/" rel="noopener">Скала^р МДИ</a>
+        <a href="https://www.skala-r.ru/products/data-storage/" rel="noopener">Скала^р МХД</a>
       </div>
       <div>
-        <h4>О нас</h4>
-        <a href="https://www.skala-r.ru/about/" rel="noopener">О компании</a>
-        <a href="https://www.skala-r.ru/about/cases/" rel="noopener">Нам доверяют</a>
-        <a href="#registry">Реестровость</a>
+        <h4>О компании</h4>
+        <a href="https://www.skala-r.ru/about/" rel="noopener">О нас</a>
+        <a href="https://www.skala-r.ru/about/cases/" rel="noopener">Проекты</a>
+        <a href="#registry">Реестр РФ</a>
         <a href="#polygon">Полигон ИЦК «Финансы»</a>
       </div>
       <div>
-        <h4>Партнёрам</h4>
-        <a href="https://www.skala-r.ru/partners/" rel="noopener">О партнёрах</a>
-        <a href="https://www.skala-r.ru/partners/tech/" rel="noopener">Технологические партнёры</a>
-        <a href="#form">Стать партнёром</a>
+        <h4>Партнерам</h4>
+        <a href="https://www.skala-r.ru/partners/" rel="noopener">О партнерах</a>
+        <a href="https://www.skala-r.ru/partners/" rel="noopener">Технологические партнеры</a>
+        <a href="#form">Стать партнером</a>
       </div>
     </div>
     <div class="container foot-bottom">
-      <span>© Скала^р, продукт Группы Rubytech. Черновик страницы, не для индексации.</span>
-      <span>Cookie</span>
+      <span>© Скала^р (Продукт Группы Rubytech). ИНН 9717098243 · ОГРН 1217700023782</span>
+      <span>Черновик страницы, не для индексации</span>
     </div>
   </footer>
 
   <script>
+    // форма
     const form = document.getElementById('leadForm');
-    const ok = document.getElementById('formOk');
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       form.style.display = 'none';
-      ok.classList.add('is-on');
+      document.getElementById('formOk').classList.add('is-on');
     });
-    const cards = [...document.querySelectorAll('#casesTrack .cases-slider-item')];
-    let i = 0;
-    const show = () => {
-      const vis = window.innerWidth > 1200 ? 3 : window.innerWidth > 900 ? 2 : 1;
-      cards.forEach((c, n) => { c.style.display = (n >= i && n < i + vis) ? '' : 'none'; });
+
+    // реестр: переключение превью
+    const regImg = document.getElementById('regImg');
+    const regCaption = document.getElementById('regCaption');
+    const regLink = document.getElementById('regLink');
+    document.querySelectorAll('.reg-item').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelector('.reg-item.is-active')?.classList.remove('is-active');
+        btn.classList.add('is-active');
+        regImg.src = btn.dataset.img;
+        regCaption.textContent = btn.textContent;
+        regLink.href = btn.dataset.link;
+        regLink.firstChild.textContent = (btn.dataset.label || 'Открыть документ') + ' ';
+      });
+    });
+
+    // кейсы: слайдер на scroll-snap
+    const track = document.getElementById('casesTrack');
+    const cards = [...track.children];
+    const dots = document.getElementById('casesDots');
+    const step = () => cards[1].offsetLeft - cards[0].offsetLeft;
+    cards.forEach((_, n) => {
+      const d = document.createElement('button');
+      d.type = 'button';
+      d.setAttribute('aria-label', 'Проект ' + (n + 1));
+      d.onclick = () => track.scrollTo({ left: n * step() });
+      dots.appendChild(d);
+    });
+    const sync = () => {
+      const n = Math.round(track.scrollLeft / step());
+      [...dots.children].forEach((d, k) => d.classList.toggle('is-active', k === n));
     };
-    document.getElementById('nextCase').onclick = () => { i = (i + 1) % cards.length; show(); };
-    document.getElementById('prevCase').onclick = () => { i = (i - 1 + cards.length) % cards.length; show(); };
-    show();
-    addEventListener('resize', show);
+    track.addEventListener('scroll', () => requestAnimationFrame(sync));
+    document.getElementById('nextCase').onclick = () => {
+      const end = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+      track.scrollTo({ left: end ? 0 : track.scrollLeft + step() });
+    };
+    document.getElementById('prevCase').onclick = () => {
+      track.scrollTo({ left: track.scrollLeft <= 4 ? track.scrollWidth : track.scrollLeft - step() });
+    };
+    sync();
   </script>
 </body>
 </html>
