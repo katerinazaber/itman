@@ -39,3 +39,6 @@ Disallow: /itam-business-case/
 Disallow: /webinar-informatika/
 
 Disallow: /site-mirror/
+
+User-agent: *
+Disallow: /drafts/
