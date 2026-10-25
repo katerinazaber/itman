@@ -177,88 +177,87 @@
     .header-menu a:hover,
     .header-menu a.is-active { opacity: 1; }
 
-    /* ===== banner / hero ===== */
+    /* ===== banner / hero — как на skala-r.ru: текст + стойка целиком, без обрезки ===== */
     .banner {
       background: var(--blue-dark);
       color: #fff;
       position: relative;
-      overflow: hidden;
-      min-height: 640px;
+      overflow: visible;
+      padding: 48px 0 56px;
     }
     .banner__inner {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       align-items: center;
-      min-height: 640px;
-      gap: 24px;
+      gap: 32px 40px;
     }
-    .banner__content { padding: 64px 0 48px; max-width: 704px; }
+    .banner__content { max-width: 704px; padding: 24px 0 8px; }
     .banner__title {
-      font-size: clamp(28px, 2.9vw, 52px);
+      font-size: clamp(28px, 2.7vw, 48px);
       font-weight: 500;
-      line-height: 1;
-      margin-bottom: .85em;
+      line-height: 1.05;
+      margin-bottom: .75em;
       color: #fff;
     }
     .banner__text {
-      font-size: clamp(16px, 1.5vw, 26px);
-      line-height: 1.3;
-      margin-bottom: 32px;
+      font-size: clamp(16px, 1.35vw, 24px);
+      line-height: 1.35;
+      margin-bottom: 28px;
       color: #fff;
       font-weight: 400;
     }
     .banner__actions { display: flex; flex-wrap: wrap; gap: 16px; }
     .banner__picture {
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       justify-content: center;
-      height: 100%;
-      min-height: 480px;
+      min-height: 420px;
+      overflow: visible;
     }
     .banner__picture img {
-      max-height: 560px;
       width: auto;
-      margin: 0 auto;
+      height: auto;
+      max-width: 100%;
+      max-height: min(560px, 62vh);
+      object-fit: contain;
+      object-position: center bottom;
     }
 
-    /* trust plates under hero — как home-product-thumb: белая карточка 5px + тень */
+    /* плашки внутри первого экрана, ПОД стойкой — без отрицательного margin */
     .trust-plates {
-      margin-top: -48px;
+      margin-top: 40px;
       position: relative;
-      z-index: 2;
-      padding-bottom: 24px;
+      z-index: 1;
     }
     .trust-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
+      gap: 16px;
     }
     .trust-plate {
-      background: #fff;
-      padding: 2px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.16);
       border-radius: var(--radius);
-      box-shadow: 0 1px 4px rgba(0,0,0,.1);
       height: 100%;
-      min-height: 168px;
+      min-height: 0;
     }
     .trust-plate__inner {
       height: 100%;
-      background: #fff;
       border-radius: 3px;
-      padding: 24px 20px;
+      padding: 20px 18px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
     .trust-plate__title {
-      color: var(--blue-dark);
-      font-size: 18px;
+      color: #fff;
+      font-size: 17px;
       font-weight: 600;
       line-height: 1.25;
     }
     .trust-plate__text {
-      color: var(--text);
-      font-size: 15px;
+      color: rgba(255,255,255,.78);
+      font-size: 14px;
       line-height: 1.4;
     }
 
@@ -695,9 +694,10 @@
       .banner__inner, .trust-grid, .tasks-grid, .products-grid,
       .benefits-grid, .cases-slider, .registry-grid, .form-grid,
       .poly-grid, .foot-grid, .metrics { grid-template-columns: 1fr; }
-      .banner__picture { min-height: 280px; }
-      .banner__picture img { max-height: 320px; }
-      .trust-plates { margin-top: 24px; }
+      .banner { padding: 32px 0 40px; }
+      .banner__picture { min-height: 260px; }
+      .banner__picture img { max-height: 340px; }
+      .trust-plates { margin-top: 28px; }
       .cases-slider-item { padding: 24px 20px; min-height: auto; }
       .btn { width: 100%; }
       .banner__actions { width: 100%; }
@@ -731,49 +731,50 @@
   <main>
     <!-- 1. Первый экран -->
     <section class="banner" id="top">
-      <div class="container banner__inner">
-        <div class="banner__content">
-          <h1 class="banner__title">Построение надежной ИТ-инфраструктуры для бесперебойной работы высоконагруженных банковских систем</h1>
-          <p class="banner__text">Скала^р — российский разработчик программно-аппаратных комплексов и инфраструктурных решений для непрерывной работы банковских сервисов 24/7 без потери скорости и качества обслуживания клиентов</p>
-          <div class="banner__actions">
-            <a class="btn btn-turquoise" href="#form">Протестировать на полигоне</a>
-            <a class="btn btn-outline-white" href="#products">Смотреть решения</a>
+      <div class="container">
+        <div class="banner__inner">
+          <div class="banner__content">
+            <h1 class="banner__title">Построение надежной ИТ-инфраструктуры для бесперебойной работы высоконагруженных банковских систем</h1>
+            <p class="banner__text">Скала^р — российский разработчик программно-аппаратных комплексов и инфраструктурных решений для непрерывной работы банковских сервисов 24/7 без потери скорости и качества обслуживания клиентов</p>
+            <div class="banner__actions">
+              <a class="btn btn-turquoise" href="#form">Протестировать на полигоне</a>
+              <a class="btn btn-outline-white" href="#products">Смотреть решения</a>
+            </div>
+          </div>
+          <div class="banner__picture">
+            <img src="assets/hero-rack.png" alt="Модульная платформа Скала^р" />
           </div>
         </div>
-        <div class="banner__picture">
-          <img src="assets/hero-rack.png" alt="Модульная платформа Скала^р" />
+        <div class="trust-plates">
+          <div class="trust-grid">
+            <article class="trust-plate">
+              <div class="trust-plate__inner">
+                <div class="trust-plate__title">Входит в Группу Rubytech</div>
+                <div class="trust-plate__text">Разработчика технологий для высоконагруженных ИТ-инфраструктур</div>
+              </div>
+            </article>
+            <article class="trust-plate">
+              <div class="trust-plate__inner">
+                <div class="trust-plate__title">10+ лет на рынке</div>
+                <div class="trust-plate__text">Своя линейка ПАК с 2015 года</div>
+              </div>
+            </article>
+            <article class="trust-plate">
+              <div class="trust-plate__inner">
+                <div class="trust-plate__title">Оператор полигона ИЦК «Финансы»</div>
+                <div class="trust-plate__text">Проект при поддержке Банка России. Тестовые стенды работают на платформе Скала^р</div>
+              </div>
+            </article>
+            <article class="trust-plate">
+              <div class="trust-plate__inner">
+                <div class="trust-plate__title">В реестрах Минпромторга и Минцифры</div>
+                <div class="trust-plate__text">Соответствуют требованиям регуляторов и подходят для объектов КИИ</div>
+              </div>
+            </article>
+          </div>
         </div>
       </div>
     </section>
-
-    <div class="container trust-plates">
-      <div class="trust-grid">
-        <article class="trust-plate">
-          <div class="trust-plate__inner">
-            <div class="trust-plate__title">Входит в Группу Rubytech</div>
-            <div class="trust-plate__text">Разработчика технологий для высоконагруженных ИТ-инфраструктур</div>
-          </div>
-        </article>
-        <article class="trust-plate">
-          <div class="trust-plate__inner">
-            <div class="trust-plate__title">10+ лет на рынке</div>
-            <div class="trust-plate__text">Своя линейка ПАК с 2015 года</div>
-          </div>
-        </article>
-        <article class="trust-plate">
-          <div class="trust-plate__inner">
-            <div class="trust-plate__title">Оператор полигона ИЦК «Финансы»</div>
-            <div class="trust-plate__text">Проект при поддержке Банка России. Тестовые стенды работают на платформе Скала^р</div>
-          </div>
-        </article>
-        <article class="trust-plate">
-          <div class="trust-plate__inner">
-            <div class="trust-plate__title">В реестрах Минпромторга и Минцифры</div>
-            <div class="trust-plate__text">Соответствуют требованиям регуляторов и подходят для объектов КИИ</div>
-          </div>
-        </article>
-      </div>
-    </div>
 
     <!-- 2. Нам доверяют -->
     <section class="section-sm" id="trust">
