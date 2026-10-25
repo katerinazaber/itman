@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
-  <!-- build:20261025-1600 -->
+  <!-- build: poly-logos-20261025 -->
   <title>Скала^р — ИТ-инфраструктура для банков</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -479,15 +479,10 @@
     .poly-partners { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
     .poly-partners__label { font-size: 15px; color: var(--gray); }
     .poly-logo {
-      height: 64px; min-width: 150px; padding: 0 22px;
+      height: 64px; min-width: 140px; padding: 0 12px;
       display: grid; place-items: center;
-      border: 1px dashed var(--line);
-      border-radius: var(--radius);
-      font-weight: 700; font-size: 18px; letter-spacing: .02em;
-      color: #6b7a8c;
-      filter: grayscale(1);
     }
-    .poly-logo img { max-height: 40px; width: auto; }
+    .poly-logo img { max-height: 48px; max-width: 160px; width: auto; object-fit: contain; }
 
     /* ===== 7. benefits ===== */
     .benefits-grid {
@@ -970,11 +965,10 @@
         <div class="poly-bottom">
           <div class="poly-partners">
             <span class="poly-partners__label">Партнеры проекта</span>
-            <!-- Заглушки: заменить на логотипы ЦФТ, Компас Плюс, БПС, Лектон Сигма -->
-            <div class="poly-logo">ЦФТ</div>
-            <div class="poly-logo">Компас Плюс</div>
-            <div class="poly-logo">БПС</div>
-            <div class="poly-logo">Лектон Сигма</div>
+            <div class="poly-logo"><img src="assets/poly-cft.png" alt="ЦФТ" /></div>
+            <div class="poly-logo"><img src="assets/poly-kompas.png" alt="Компас Плюс" /></div>
+            <div class="poly-logo"><img src="assets/poly-bps.png" alt="БПС" /></div>
+            <div class="poly-logo"><img src="assets/poly-lekton.png" alt="Лектон Сигма" /></div>
           </div>
           <a class="btn btn-turquoise" href="#form">Протестировать на полигоне</a>
         </div>
